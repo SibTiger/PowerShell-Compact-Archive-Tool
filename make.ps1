@@ -47,7 +47,7 @@ Set-Variable -Name "SCRIPTFILENAME" -Value "compile.ps1" `
 Set-Variable -Name "SCRIPTSDIRECTORY" -Value "$($SCRIPTPATH)\Scripts\" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Output Compiler Directory
-Set-Variable -Name "OUTPUTDIRECTORY" -Value "$(Resolve-Path "$($PSScriptRoot)\..\..\" | select -ExpandProperty Path)" `
+Set-Variable -Name "OUTPUTDIRECTORY" -Value "$(Resolve-Path "$($PSScriptRoot)\" | select -ExpandProperty Path)" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Output Script File
 Set-Variable -Name "OUTPUTFILE" -Value "$($OUTPUTDIRECTORY)$($SCRIPTFILENAME)" `
