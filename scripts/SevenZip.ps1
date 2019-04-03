@@ -1560,7 +1560,7 @@ class SevenZip
                                                                     #  get to that file, extension is kept.
         [string] $sourceDir = "$($(Get-Item $file).DirectoryName)"; # Working Directory when executing the
                                                                     #  extCMD.
-        [string] $extCMDArgs = "e $($file)";                        # Arguments for the external command
+        [string] $extCMDArgs = "x $($file)";                        # Arguments for the external command
                                                                     #  This will get 7zip to list all of
                                                                     #  the files within the requested
                                                                     #  archive datafile.
