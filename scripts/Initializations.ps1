@@ -38,6 +38,10 @@ function InitalizationProgramData()
     Set-Variable -Name "_PROGRAMNAME_" -Value "PowerShell Compact-Archive Tool" `
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 
+    # Program Name (Abbrivated)
+    Set-Variable -Name "_PROGRAMNAMESHORT_" -Value "PSCAT" `
+        -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+
     # Version
     Set-Variable -Name "_VERSION_" -Value "0.000001-Alpha" `
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
