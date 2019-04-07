@@ -128,16 +128,10 @@
     #>
     [bool] SetConfigPath([string] $newVal)
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
-        # ----------------------------------------
-
-
         # Before we can use the newly requested directory, we
         #  must first create it to assure that we can use that
         #  requested path.
-        if (($io.MakeDirectory("$($newVal)")) -eq $true)
+        if (([IOCommon]::MakeDirectory("$($newVal)")) -eq $true)
         {
             # Directory was successfully created, we will now
             #  use that path as requested.
@@ -206,12 +200,6 @@
     #>
     Hidden [bool] __CreateDirectories()
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
-        # ----------------------------------------
-
-
         # First, check if the directories already exist?
         if(($this.__CheckRequiredDirectories())-eq $true)
         {
@@ -227,10 +215,10 @@
         #  check which directory does not exist and then try to create it.
 
         # User Configuration Path
-        if(($io.CheckPathExists("$($this.__configPath)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($this.__configPath)")) -eq $false)
         {
             # The User Configuration Directory does not exist, try to create it.
-            if (($io.MakeDirectory("$($this.__configPath)")) -eq $false)
+            if (([IOCommon]::MakeDirectory("$($this.__configPath)")) -eq $false)
             {
                 # Failure occurred.
                 return $false;
@@ -275,14 +263,8 @@
     #>
     Hidden [bool] __CheckRequiredDirectories()
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
-        # ----------------------------------------
-
-
         # Check Configuration Path
-        if ($io.CheckPathExists("$($this.__configPath)") -eq $true)
+        if ([IOCommon]::CheckPathExists("$($this.__configPath)") -eq $true)
         {
             # Required directories exists
             return $true;
@@ -437,7 +419,6 @@
     {
         # Declarations and Initializations
         # -----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();     # Using functions from IO Common
         [bool] $exitCode = $false;              # Operation status of the execution performed.
         [Object[]] $cacheUserConfig = $null;    # This will hold the deserialized XML data
                                                 #  containing the user's preferred settings and
@@ -467,7 +448,7 @@
         # ---------------------------
 
         # Make sure that the file exists at the given location.
-        if ($io.CheckPathExists("$($this.__configPath)\$($this.__configFileName)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($this.__configPath)\$($this.__configFileName)") -eq $false)
         {
             # Because either the file or directory does not exist
             #  at the provided location, we simply can not load

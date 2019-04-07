@@ -36,11 +36,6 @@
  #>
 function CreateDirectories()
 {
-    # Declarations and Initializations
-    # ----------------------------------------
-    [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
-    # ----------------------------------------
-
     # First, check if the special directories exists.
     if((CheckSpecialDirectories) -eq $false)
     {
@@ -80,7 +75,7 @@ function CreateDirectories()
 
 
     # Program Root Directory
-    if(($io.MakeDirectory("$($_USERDATA_ROOT_PATH_)")) -eq $false)
+    if(([IOCommon]::MakeDirectory("$($_USERDATA_ROOT_PATH_)")) -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -89,7 +84,7 @@ function CreateDirectories()
     # ----
 
     # Program Output Builds Directory
-    if(($io.MakeDirectory("$($_USERDATA_BUILDS_PATH_)")) -eq $false)
+    if(([IOCommon]::MakeDirectory("$($_USERDATA_BUILDS_PATH_)")) -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -98,7 +93,7 @@ function CreateDirectories()
     # ----
 
     # Program Output Release Builds Directory
-    if(($io.MakeDirectory("$($_USERDATA_RELEASEBUILDS_PATH_)")) -eq $false)
+    if(([IOCommon]::MakeDirectory("$($_USERDATA_RELEASEBUILDS_PATH_)")) -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -107,7 +102,7 @@ function CreateDirectories()
     # ----
 
     # Program Output Dev. Builds Directory
-    if(($io.MakeDirectory("$($_USERDATA_DEVBUILDS_PATH_)")) -eq $false)
+    if(([IOCommon]::MakeDirectory("$($_USERDATA_DEVBUILDS_PATH_)")) -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -121,7 +116,7 @@ function CreateDirectories()
 
 
     # Program Data Root [Local]
-    if(($io.MakeDirectory("$($_PROGRAMDATA_ROOT_LOCAL_PATH_)")) -eq $false)
+    if(([IOCommon]::MakeDirectory("$($_PROGRAMDATA_ROOT_LOCAL_PATH_)")) -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -130,7 +125,7 @@ function CreateDirectories()
     # ----
 
     # Program Data Logs [Local]
-    if(($io.MakeDirectory("$($_PROGRAMDATA_LOGS_PATH_)")) -eq $false)
+    if(([IOCommon]::MakeDirectory("$($_PROGRAMDATA_LOGS_PATH_)")) -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -139,7 +134,7 @@ function CreateDirectories()
     # ----
 
     # Program Data Root [Roaming]
-    if(($io.MakeDirectory("$($_PROGRAMADATA_ROOT_ROAMING_PATH_)")) -eq $false)
+    if(([IOCommon]::MakeDirectory("$($_PROGRAMADATA_ROOT_ROAMING_PATH_)")) -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -148,7 +143,7 @@ function CreateDirectories()
     # ----
 
     # Program Data Configs [Roaming]
-    if(($io.MakeDirectory("$($_PROGRAMDATA_CONFIGS_PATH_)")) -eq $false)
+    if(([IOCommon]::MakeDirectory("$($_PROGRAMDATA_CONFIGS_PATH_)")) -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -193,18 +188,13 @@ function CreateDirectories()
  #>
 function CheckProgramDirectories()
 {
-    # Declarations and Initializations
-    # ----------------------------------------
-    [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
-    # ----------------------------------------
-
     # User-Data Directories
     # -----
 
-    if ((($io.CheckPathExists("$($_USERDATA_ROOT_PATH_)")) -eq $true) -and `
-        (($io.CheckPathExists("$($_USERDATA_BUILDS_PATH_)")) -eq $true) -and `
-        (($io.CheckPathExists("$($_USERDATA_RELEASEBUILDS_PATH_)")) -eq $true) -and `
-        (($io.CheckPathExists("$($_USERDATA_DEVBUILDS_PATH_)")) -eq $true))
+    if ((([IOCommon]::CheckPathExists("$($_USERDATA_ROOT_PATH_)")) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($_USERDATA_BUILDS_PATH_)")) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($_USERDATA_RELEASEBUILDS_PATH_)")) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($_USERDATA_DEVBUILDS_PATH_)")) -eq $true))
     {
         # The directories exists.
         #  Nothing to do.
@@ -227,10 +217,10 @@ function CheckProgramDirectories()
     # Program-Data Directories
     # ----
 
-    if ((($io.CheckPathExists("$($_PROGRAMDATA_ROOT_LOCAL_PATH_)")) -eq $true) -and `
-        (($io.CheckPathExists("$($_PROGRAMDATA_LOGS_PATH_)")) -eq $true) -and `
-        (($io.CheckPathExists("$($_PROGRAMADATA_ROOT_ROAMING_PATH_)")) -eq $true) -and `
-        (($io.CheckPathExists("$($_PROGRAMDATA_CONFIGS_PATH_)")) -eq $true))
+    if ((([IOCommon]::CheckPathExists("$($_PROGRAMDATA_ROOT_LOCAL_PATH_)")) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($_PROGRAMDATA_LOGS_PATH_)")) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($_PROGRAMADATA_ROOT_ROAMING_PATH_)")) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($_PROGRAMDATA_CONFIGS_PATH_)")) -eq $true))
     {
         # The directories exists.
         #  Nothing to do.
@@ -279,7 +269,6 @@ function CheckSpecialDirectories()
 {
     # Declarations and Initializations
     # ----------------------------------------
-    [IOCommon] $io = [IOCommon]::new();                         # Using functions from IO Common
     [string] $pathMyDocuments = "$(FetchPathUserDocuments)";    # My Documents
     [string] $pathLocalAppData = "$(FetchPathAppDataLocal)";    # Local AppData
     [string] $pathRoamingAppData = "$(FetchPathAppDataRoaming)";# Roaming AppData
@@ -288,7 +277,7 @@ function CheckSpecialDirectories()
 
     # Check the following:
     # My Documents
-    if (($io.CheckPathExists("$($pathMyDocuments)")) -eq $false)
+    if (([IOCommon]::CheckPathExists("$($pathMyDocuments)")) -eq $false)
     {
         return $false;
     } # If : My Documents
@@ -298,7 +287,7 @@ function CheckSpecialDirectories()
 
 
     # Local AppData
-    if (($io.CheckPathExists("$($pathLocalAppData)")) -eq $false)
+    if (([IOCommon]::CheckPathExists("$($pathLocalAppData)")) -eq $false)
     {
         return $false;
     } # If : Local AppData
@@ -308,7 +297,7 @@ function CheckSpecialDirectories()
 
 
     # Roaming AppData
-    if (($io.CheckPathExists("$($pathRoamingAppData)")) -eq $false)
+    if (([IOCommon]::CheckPathExists("$($pathRoamingAppData)")) -eq $false)
     {
         return $false;
     } # If : Roaming AppData

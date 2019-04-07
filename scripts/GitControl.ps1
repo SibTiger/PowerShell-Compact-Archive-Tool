@@ -96,7 +96,7 @@ class GitControl
     
 
     #region Constructor Functions
-    
+
     # Default Constructor
     GitControl()
     {
@@ -187,7 +187,6 @@ class GitControl
         # Create the necessary directories
         $this.__CreateDirectories() | Out-Null;
     } # User Preference : On-Load
-
     #endregion
 
 
@@ -391,15 +390,10 @@ class GitControl
     #>
     [bool] SetExecutablePath([string] $newVal)
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
-        # ----------------------------------------
-
         # Because we are testing for an actual file,
         #  we have to assure that the file really exists
         #  within the host's filesystem.
-        if(($io.DetectCommand("$($newVal)", "Application")) -eq $false)
+        if(([IOCommon]::DetectCommand("$($newVal)", "Application")) -eq $false)
         {
             # Could not find the executable.
             return $false;
@@ -701,20 +695,14 @@ class GitControl
     #>
     Hidden [bool] __CheckRequiredDirectories()
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
-        # ----------------------------------------
-
-
         # Check Root Log Directory
-        if ((($io.CheckPathExists("$($this.__rootLogPath)")) -eq $true) -and `
+        if ((([IOCommon]::CheckPathExists("$($this.__rootLogPath)")) -eq $true) -and `
 
         # Check Report Path
-        (($io.CheckPathExists("$($this.__reportPath)")) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($this.__reportPath)")) -eq $true) -and `
 
         # Check Log Path
-        (($io.CheckPathExists("$($this.__logPath)") -eq $true)))
+        (([IOCommon]::CheckPathExists("$($this.__logPath)") -eq $true)))
         {
             # All of the directories exists
             return $true;
@@ -757,12 +745,6 @@ class GitControl
     #>
     Hidden [bool] __CreateDirectories()
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
-        # ----------------------------------------
-
-
         # First, check if the directories already exist?
         if(($this.__CheckRequiredDirectories())-eq $true)
         {
@@ -778,10 +760,10 @@ class GitControl
         #  check which directory does not exist and then try to create it.
 
         # Root Log Directory
-        if(($io.CheckPathExists("$($this.__rootLogPath)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($this.__rootLogPath)")) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (($io.MakeDirectory("$($this.__rootLogPath)")) -eq $false)
+            if (([IOCommon]::MakeDirectory("$($this.__rootLogPath)")) -eq $false)
             {
                 # Failure occurred.
                 return $false;
@@ -793,10 +775,10 @@ class GitControl
 
 
         # Log Directory
-        if(($io.CheckPathExists("$($this.__logPath)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($this.__logPath)")) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (($io.MakeDirectory("$($this.__logPath)")) -eq $false)
+            if (([IOCommon]::MakeDirectory("$($this.__logPath)")) -eq $false)
             {
                 # Failure occurred.
                 return $false;
@@ -808,10 +790,10 @@ class GitControl
 
 
         # Report Directory
-        if(($io.CheckPathExists("$($this.__reportPath)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($this.__reportPath)")) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (($io.MakeDirectory("$($this.__reportPath)")) -eq $false)
+            if (([IOCommon]::MakeDirectory("$($this.__reportPath)")) -eq $false)
             {
                 # Failure occurred.
                 return $false;
@@ -857,13 +839,8 @@ class GitControl
     #>
     [bool] DetectGitExist()
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
-        # ----------------------------------------
-
         # Check if the git executable was found
-        if (($io.DetectCommand("$($this.__executablePath)", "Application")) -eq $true)
+        if (([IOCommon]::DetectCommand("$($this.__executablePath)", "Application")) -eq $true)
         {
             return $true;
         } # If : Detected
@@ -906,7 +883,6 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();     # Using functions from IO Common
         [string] $extCMDArgs = "pull";          # Arguments for the external command
                                                 #  Fetch updates from the remote repository.
         [string] $execReason = "Update LWC";    # Description; used for logging
@@ -929,7 +905,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($($io.CheckPathExists("$($projectPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
         {
             # Project Path does not exist, return an error.
             return $false;
@@ -948,7 +924,7 @@ class GitControl
 
 
         # Try to update the LWC
-        if ($io.ExecuteCommand("$($this.__executablePath)", `
+        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `
                                 "$($extCMDArgs)", `
                                 "$($projectPath)", `
                                 "$($this.__logPath)", `
@@ -1003,7 +979,6 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();                     # Using functions from IO Common
         [string] $extCMDArgs = "checkout $($requestedBranch)";  # Arguments for the external command
                                                                 #  This will allow us to switch to
                                                                 #  another branch.
@@ -1027,7 +1002,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($($io.CheckPathExists("$($projectPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
         {
             # Project Path does not exist, return an error.
             return $false;
@@ -1038,7 +1013,7 @@ class GitControl
 
 
         # Execute the command
-        if ($io.ExecuteCommand("$($this.__executablePath)", `
+        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `
                             "$($extCMDArgs)", `
                             "$($projectPath)", `
                             "$($this.__logPath)", `
@@ -1098,7 +1073,6 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();         # Using functions from IO Common
         [string] $commitID = $null;                 # This will hold the commit ID
                                                     #  This will also be returned.
         [string] $extCMDArgs = $null;               # Arguments for the external command
@@ -1125,7 +1099,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($($io.CheckPathExists("$($projectPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
         {
             # Project Path does not exist, return the default
             #  message instead.
@@ -1160,7 +1134,7 @@ class GitControl
 
 
         # Execute the command
-        $io.ExecuteCommand("$($this.__executablePath)", `
+        [IOCommon]::ExecuteCommand("$($this.__executablePath)", `
                             "$($extCMDArgs)", `
                             "$($projectPath)", `
                             "$($this.__logPath)", `
@@ -1225,7 +1199,6 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();                     # Using functions from IO Common
         [string] $fileName = "Changelog.txt"                    # The filename of the commit history (changelog)
         [string] $changelogSize = $null;                        # The size of the changelog
         [string] $changelogPath = "$($outputPath)\$($fileName)";# Location of the commit history (changelog)
@@ -1255,7 +1228,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($($io.CheckPathExists("$($projectPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
         {
             # Project Path does not exist, return an error.
             return $false;
@@ -1322,7 +1295,7 @@ class GitControl
 
 
         # Execute the command
-        if($io.ExecuteCommand("$($this.__executablePath)", `
+        if([IOCommon]::ExecuteCommand("$($this.__executablePath)", `
                             "$($extCMDArgs)", `
                             "$($projectPath)", `
                             "$($this.__logPath)", `
@@ -1374,7 +1347,6 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();                     # Using functions from IO Common
         [string] $extCMDArgs = "rev-parse --abbrev-ref HEAD";   # Arguments for the external command
                                                                 #  This will only show the selected
                                                                 #  branch.
@@ -1400,7 +1372,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($($io.CheckPathExists("$($projectPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
         {
             # Project Path does not exist, return the default
             #  message instead.
@@ -1412,7 +1384,7 @@ class GitControl
 
 
         # Execute the command
-        $io.ExecuteCommand("$($this.__executablePath)", `
+        [IOCommon]::ExecuteCommand("$($this.__executablePath)", `
                             "$($extCMDArgs)", `
                             "$($projectPath)", `
                             "$($this.__logPath)", `
@@ -1475,7 +1447,6 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();             # Using functions from IO Common
         [string] $extCMDArgs = "branch";                # Arguments for the external command
                                                         #  This will display all the branches
                                                         #  available in the local repository.
@@ -1501,7 +1472,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($($io.CheckPathExists("$($projectPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
         {
             # Project Path does not exist, return the default
             #  error message instead.
@@ -1513,7 +1484,7 @@ class GitControl
 
 
         # Execute the command
-        $io.ExecuteCommand("$($this.__executablePath)", `
+        [IOCommon]::ExecuteCommand("$($this.__executablePath)", `
                             "$($extCMDArgs)", `
                             "$($projectPath)", `
                             "$($this.__logPath)", `
@@ -1588,7 +1559,6 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();             # Using functions from IO Common
         [string] $extCMDArgs = $null;                   # Arguments for the external command
                                                         #  This will display all the branches
                                                         #  available in the local repository,
@@ -1615,7 +1585,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($($io.CheckPathExists("$($projectPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
         {
             # Project Path does not exist, return an error
             #  message instead.
@@ -1644,7 +1614,7 @@ class GitControl
 
 
         # Execute the command
-        $io.ExecuteCommand("$($this.__executablePath)", `
+        [IOCommon]::ExecuteCommand("$($this.__executablePath)", `
                             "$($extCMDArgs)", `
                             "$($projectPath)", `
                             "$($this.__logPath)", `
@@ -1709,7 +1679,6 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();             # Using functions from IO Common
         [string] $extCMDArgs = `                        # Arguments for the external command
                 "shortlog --summary --email";           #  This will provide all contributors
                                                         #  with a valid email address.
@@ -1736,7 +1705,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($($io.CheckPathExists("$($projectPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
         {
             # Project Path does not exist, return an error message instead.
             return "ERR";
@@ -1747,7 +1716,7 @@ class GitControl
 
 
         # Execute the command
-        $io.ExecuteCommand("$($this.__executablePath)", `
+        [IOCommon]::ExecuteCommand("$($this.__executablePath)", `
                             "$($extCMDArgs)", `
                             "$($projectPath)", `
                             "$($this.__logPath)", `
@@ -1806,7 +1775,6 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();             # Using functions from IO Common
         [string] $extCMDArgs = $null;                   # Arguments for the external command
                                                         #  This will display the graph and the
                                                         #  commit information once it has been
@@ -1834,7 +1802,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($($io.CheckPathExists("$($projectPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
         {
             # Project Path does not exist, return an error message instead.
             return "ERR";
@@ -1871,7 +1839,7 @@ class GitControl
 
 
         # Execute the command
-        $io.ExecuteCommand("$($this.__executablePath)", `
+        [IOCommon]::ExecuteCommand("$($this.__executablePath)", `
                             "$($extCMDArgs)", `
                             "$($projectPath)", `
                             "$($this.__logPath)", `
@@ -1939,9 +1907,6 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Using functions from IO Common
-        [IOCommon] $io = [IOCommon]::new();
-
         # This variable will hold the current date and
         #  time from the host system.  With this, it'll be accessed
         #  for the filename and inside the report.
@@ -2019,7 +1984,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($($io.CheckPathExists("$($projectPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
         {
             # Project Path does not exist, return an error.
             return $false;
@@ -2072,7 +2037,7 @@ class GitControl
 
 
                     # Write to file
-                    if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Failure occurred while writing to the file.
                         return $false;
@@ -2102,7 +2067,7 @@ class GitControl
 
 
                     # Write to file
-                    if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Failure occurred while writing to the file.
                         return $false;
@@ -2141,7 +2106,7 @@ class GitControl
 
 
                     # Write to file
-                    if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Failure occurred while writing to the file.
                         return $false;
@@ -2170,7 +2135,7 @@ class GitControl
 
 
                     # Write to file
-                    if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Failure occurred while writing to the file.
                         return $false;
@@ -2199,7 +2164,7 @@ class GitControl
 
 
                     # Write to file
-                    if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Failure occurred while writing to the file.
                         return $false;
@@ -2228,7 +2193,7 @@ class GitControl
 
 
                     # Write to file
-                    if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Failure occurred while writing to the file.
                         return $false;
@@ -2262,7 +2227,7 @@ class GitControl
         if ($makePDF -eq $true)
         {
             # Create the PDF file
-            if(($io.CreatePDFFile("$($fileNameTXT)", "$($fileNamePDF)")) -eq $false)
+            if(([IOCommon]::CreatePDFFile("$($fileNameTXT)", "$($fileNamePDF)")) -eq $false)
             {
                 # Failure occurred while creating the PDF document.
                 return $false;
@@ -2300,7 +2265,6 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();          # Using functions from IO Common
         [string[]] $extLogs = @('*.err', '*.out');   # Array of log extensions
         [string[]] $extReports = @('*.txt');         # Array of report extensions
         # ----------------------------------------
@@ -2318,7 +2282,7 @@ class GitControl
 
 
         # Because the directories exists, lets try to thrash the logs.
-        if(($io.DeleteFile("$($this.__logPath)", $extLogs)) -eq $false)
+        if(([IOCommon]::DeleteFile("$($this.__logPath)", $extLogs)) -eq $false)
         {
             # Failure to remove the requested files
             return $false;
@@ -2330,7 +2294,7 @@ class GitControl
 
         # Did the user also wanted to thrash the reports?
         if (($($expungeReports) -eq $true) -and `
-        ($io.DeleteFile("$($this.__reportPath)", $extReports)) -eq $false)
+        ([IOCommon]::DeleteFile("$($this.__reportPath)", $extReports)) -eq $false)
         {
             # Failure to remove the requested files
             return $false;
