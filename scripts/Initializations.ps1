@@ -61,6 +61,10 @@ function InitalizationProgramData()
     # PowerShell Version Requirement
     Set-Variable -Name "_POWERSHELLVERSION_" -Value 3 `
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+
+    # Event Handler - Source Identifier
+    Set-Variable -Name "_EVENTSOURCEID_" -Value "$($Global:_PROGRAMNAMESHORT_)_ver$($GLOBAL:_VERSION_)-EventHandler" `
+        -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 } # InitalizationProgramData()
 
 
