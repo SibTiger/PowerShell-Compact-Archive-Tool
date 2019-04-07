@@ -50,7 +50,7 @@ class IOCommon
     #    Returns the user's request.
     # -------------------------------
     #>
-    [string] FetchUserInput()
+    static [string] FetchUserInput()
     {
         # Because I love Python's input prompt, we will emulate it here.
         #  I find this to be easier on the user to unify an action from the end-user.
@@ -92,7 +92,7 @@ class IOCommon
     #    $true  = Successfully detected the external executable.
     # -------------------------------
     #>
-    [bool] DetectCommand([string] $command, [string] $type)
+    static [bool] DetectCommand([string] $command, [string] $type)
     {
         if ((Get-Command -Name "$($command)" -CommandType $($type) -ErrorAction SilentlyContinue) -eq $null)
         {
@@ -182,7 +182,7 @@ class IOCommon
     #    Standard Error Path was not detected.
     # -------------------------------
     #>
-    [int] ExecuteCommand([string] $command, `
+    static [int] ExecuteCommand([string] $command, `
                         [string] $arguments, `
                         [string] $projectPath, `
                         [string] $stdOutLogPath, `
@@ -213,7 +213,7 @@ class IOCommon
         # ---------------------------
 
         # Make sure that the executable exists before trying to use it.
-        if ($($this.DetectCommand("$($command)", "Application")) -eq $false)
+        if ($([IOCommon]::DetectCommand("$($command)", "Application")) -eq $false)
         {
             # Executable was not detected.
             return -254;
@@ -221,7 +221,7 @@ class IOCommon
 
 
         # Make sure that the Project path exists
-        if ($($this.CheckPathExists("$($projectPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
         {
             # Project Path does not exist, return an error.
             return -253;
@@ -229,7 +229,7 @@ class IOCommon
 
 
         # Make sure that the Standard Output Path exists
-        if ($($this.CheckPathExists("$($stdOutLogPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($stdOutLogPath)")) -eq $false)
         {
             # Standard Output Path does not exist, return an error.
             return -252;
@@ -237,7 +237,7 @@ class IOCommon
 
 
         # Make sure that the Standard Error path exists
-        if ($($this.CheckPathExists("$($stdErrLogPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($stdErrLogPath)")) -eq $false)
         {
             # Standard Error Path does not exist, return an error.
             return -251;
@@ -260,7 +260,7 @@ class IOCommon
 
 
         # Execute the Command
-        $externalCommandReturnCode = $this.__ExecuteCommandRun($command, `
+        $externalCommandReturnCode = [IOCommon]::__ExecuteCommandRun($command, `
                                                        $arguments, `
                                                        $projectPath, `
                                                        [ref] $containerStdOut, `
@@ -268,7 +268,7 @@ class IOCommon
 
 
         # Create the necessary logfiles or capture a specific input
-        $this.__ExecuteCommandLog($stdOutLogPath, `
+        [IOCommon]::__ExecuteCommandLog($stdOutLogPath, `
                                 $stdErrLogPath, `
                                 $reportPath, `
                                 $logging, `
@@ -341,7 +341,7 @@ class IOCommon
     #            Output can be at maximum of 2GB of space. (Defined by CLR)
     # -------------------------------
     #>
-    Hidden [void] __ExecuteCommandLog([string] $stdOutLogPath, `
+    Static Hidden [void] __ExecuteCommandLog([string] $stdOutLogPath, `
                                     [string] $stdErrLogPath, `
                                     [string] $reportPath, `
                                     [bool] $logging, `
@@ -391,7 +391,7 @@ class IOCommon
             ElseIf ($isReport -eq $true)
             {
                 # Write the data to the report file.
-                $this.WriteToFile("$($reportPath)", "$($outputResultOut.Value)") | Out-Null;
+                [IOCommon]::WriteToFile("$($reportPath)", "$($outputResultOut.Value)") | Out-Null;
             } # If : Generating a Report
 
 
@@ -399,7 +399,7 @@ class IOCommon
             ElseIf ($logging -eq $true)
             {
                 # Store the information to a text file.
-                $this.WriteToFile("$($logStdOut)", "$($outputResultOut.Value)") | Out-Null;
+                [IOCommon]::WriteToFile("$($logStdOut)", "$($outputResultOut.Value)") | Out-Null;
             } # Else : Stored in a specific file
         } # If : STDOUT contains data
         
@@ -414,7 +414,7 @@ class IOCommon
         If (($logging -eq $true) -and ("$($outputResultErr.Value)" -ne ""))
         {
             # Write the STDERR to a file
-            $this.WriteToFile("$($logStdErr)", "$($outputResultErr.Value)") | Out-Null;
+            [IOCommon]::WriteToFile("$($logStdErr)", "$($outputResultErr.Value)") | Out-Null;
         } # If : Log the STDERR
     } # ExecuteCommandLog()
 
@@ -460,7 +460,7 @@ class IOCommon
     #    Command was not detected.
     # -------------------------------
     #>
-    Hidden [int] __ExecuteCommandRun([string] $command, `
+    Static Hidden [int] __ExecuteCommandRun([string] $command, `
                                     [string] $arguments, `
                                     [string] $projectPath, `
                                     [ref] $captureStdOut, `
@@ -491,7 +491,7 @@ class IOCommon
 
 
         # Check to see if the external command exists; if not - leave this function immediately.
-        if(($this.DetectCommand("$($command)", "Application")) -eq $false)
+        if(([IOCommon]::DetectCommand("$($command)", "Application")) -eq $false)
         {
             return -254;
         } # If : Command does not exist
@@ -608,7 +608,7 @@ class IOCommon
     #            Output can be at maximum of 2GB of space. (Defined by CLR)
     # -------------------------------
     #>
-    [void] PSCMDLetLogging([string] $stdOutLogPath, `
+    static [void] PSCMDLetLogging([string] $stdOutLogPath, `
                         [string] $stdErrLogPath, `
                         [string] $reportPath, `
                         [bool] $logging, `
@@ -638,7 +638,7 @@ class IOCommon
         #  because the functionality already exists and works as
         #  intended.  Instead of simply just copying and pasting
         #  the same code, we will merely use the function.
-        $this.__ExecuteCommandLog($stdOutLogPath, `
+        [IOCommon]::__ExecuteCommandLog($stdOutLogPath, `
                                 $stdErrLogPath, `
                                 $reportPath, `
                                 $logging, `
@@ -685,7 +685,7 @@ class IOCommon
     #    $true = Successfully wrote to the file.
     # -------------------------------
     #>
-    [bool] WriteToFile([string] $file, [ref] $contents)
+    static [bool] WriteToFile([string] $file, [ref] $contents)
     {
         # Try to write contents to the file.
         try
@@ -710,7 +710,7 @@ class IOCommon
 
         # Assurance Fail-Safe; make sure that the file
         #  was successfully created on the filesystem.
-        if ($this.CheckPathExists("$($file)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($file)") -eq $false)
         {
             # Operation failed because the file does not
             #  exist on the secondary storage.
@@ -766,7 +766,7 @@ class IOCommon
     #    $true = Successfully created the PDF file.
     # -------------------------------
     #>
-    [bool] CreatePDFFile([string] $sourceFile, [string] $destinationFile)
+    Static [bool] CreatePDFFile([string] $sourceFile, [string] $destinationFile)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -791,7 +791,7 @@ class IOCommon
         # ---------------------------
 
         # Check to make sure that the source file actually exists.
-        if ($this.CheckPathExists("$($sourceFile)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($sourceFile)") -eq $false)
         {
             # The source file does not exist.
             return $false;
@@ -909,7 +909,7 @@ class IOCommon
 
 
         # Check to make sure that the PDF file was saved properly.
-        if ($this.CheckPathExists("$($destinationFile)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($destinationFile)") -eq $false)
         {
             # The PDF file was not found
             return $false;
@@ -997,7 +997,7 @@ class IOCommon
     #    $true = Successfully created the directory.
     # -------------------------------
     #>
-    [bool] MakeTempDirectory([string] $keyTerm, [ref] $directoryPath)
+    static [bool] MakeTempDirectory([string] $keyTerm, [ref] $directoryPath)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1071,10 +1071,10 @@ class IOCommon
 
 
         # First, does the directory already exist?
-        if ($($this.CheckPathExists("$($tempDirectoryPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($tempDirectoryPath)")) -eq $false)
         {
             # Because the directory does not exist, try to create it.
-            if ($($this.MakeDirectory("$($tempDirectoryPath)")) -eq $false)
+            if ($([IOCommon]::MakeDirectory("$($tempDirectoryPath)")) -eq $false)
             {
                 # We couldn't create the parent directory.  It might be
                 #  possible that the User's LocalAppData\Temp is locked.
@@ -1104,7 +1104,7 @@ class IOCommon
 
         # First, we should check if the directory already exists.
         #  If the directory exists, try to make it unique.
-        if ($($this.CheckPathExists("$($finalDirectoryPath)")) -eq $true)
+        if ($([IOCommon]::CheckPathExists("$($finalDirectoryPath)")) -eq $true)
         {
             # This variable will help us break out of the loop
             #  if we can successfully find a unique name.  Otherwise,
@@ -1114,7 +1114,7 @@ class IOCommon
             # Find a unique name
             while($status)
             {
-                if($($this.CheckPathExists("$($finalDirectoryPath).$($repetitionCount)")) -eq $false)
+                if($([IOCommon]::CheckPathExists("$($finalDirectoryPath).$($repetitionCount)")) -eq $false)
                 {
                     # We found a unique name, now record it
                     $finalDirectoryPath = "$($finalDirectoryPath).$($repetitionCount)";
@@ -1139,7 +1139,7 @@ class IOCommon
 
 
         # Now that we have the name, create the directory
-        if ($($this.MakeDirectory("$($finalDirectoryPath)")) -eq $false)
+        if ($([IOCommon]::MakeDirectory("$($finalDirectoryPath)")) -eq $false)
         {
             # There was a failure while creating the directory.
             return $false;
@@ -1148,7 +1148,7 @@ class IOCommon
 
 
         # Just for assurance sakes, does the directory exist?
-        if ($($this.CheckPathExists("$($finalDirectoryPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($finalDirectoryPath)")) -eq $false)
         {
             # Because the directory does not exist, we cannot
             #  simply use something that isn't there.
@@ -1196,7 +1196,7 @@ class IOCommon
     #            Directory already exists; nothing to do.
     # -------------------------------
     #>
-    [bool] MakeDirectory([string] $path)
+    static [bool] MakeDirectory([string] $path)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1207,7 +1207,7 @@ class IOCommon
         # Check to see if the path already exists;
         #  if it already exists - then nothing to do.
         #  If it does not exist, then try to create it.
-        if (($this.CheckPathExists("$($path)")) -eq $false)
+        if (([IOCommon]::CheckPathExists("$($path)")) -eq $false)
         {
             # The requested path does not exist, try to create it.
             try
@@ -1248,7 +1248,7 @@ class IOCommon
     #    $true = Directory exist
     # -------------------------------
     #>
-    [bool] CheckPathExists([string] $path)
+    static [bool] CheckPathExists([string] $path)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1295,11 +1295,11 @@ class IOCommon
     #    $true = Successfully deleted directory
     # -------------------------------
     #>
-    [bool] DeleteDirectory([string] $path)
+    static [bool] DeleteDirectory([string] $path)
     {
         # First check to see if the directory actually exists,
         #  if not, then there is nothing to do.
-        if(($this.CheckPathExists("$($path)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($path)")) -eq $false)
         {
             # The directory does not exist, there's nothing to do.
             return $true;
@@ -1356,11 +1356,11 @@ class IOCommon
     #    $true = Successfully deleted directory
     # -------------------------------
     #>
-    [bool] DeleteFile([string] $path, [string[]] $includes)
+    static [bool] DeleteFile([string] $path, [string[]] $includes)
     {
         # First check to see if the directory actually exists,
         #  if not, then there is nothing to do.
-        if(($this.CheckPathExists("$($path)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($path)")) -eq $false)
         {
             # The directory does not exist, there's nothing to do.
             return $true;
@@ -1408,7 +1408,7 @@ class IOCommon
     #    All other values will be the hash code.
     # -------------------------------
     #>
-    [string] FileHash([string] $path, [string] $hashAlgorithm)
+    static [string] FileHash([string] $path, [string] $hashAlgorithm)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1423,7 +1423,7 @@ class IOCommon
 
 
         # First, check if the file actually exists within the user's filesystem
-        if ($this.CheckPathExists("$($path)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($path)") -eq $false)
         {
             # Because the file was not on the user's filesystem at the specified
             #  path, return null to signify an error.
@@ -1433,7 +1433,7 @@ class IOCommon
 
         # Second, check to make sure that the requested hash algorithm is supported by
         #  the .NET Framework.
-        if ($this.__SupportedHashAlgorithms($hashAlgorithm) -eq $false)
+        if ([IOCommon]::__SupportedHashAlgorithms($hashAlgorithm) -eq $false)
         {
             # The hash algorithm requested was not supported.
             return $null;
@@ -1489,7 +1489,7 @@ class IOCommon
     #    $true  = The hash algorithm requested is supported.
     # -------------------------------
     #>
-    hidden [bool] __SupportedHashAlgorithms([string] $hashAlgo)
+    Static Hidden [bool] __SupportedHashAlgorithms([string] $hashAlgo)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1541,7 +1541,7 @@ class IOCommon
     #    $true = Successfully accessed webpage.
     # -------------------------------
     #>
-    [bool] AccessWebpage([string] $URLAddress)
+    static [bool] AccessWebpage([string] $URLAddress)
     {
         # Declarations and Initializations
         # ----------------------------------------
