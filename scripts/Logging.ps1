@@ -22,50 +22,25 @@ class Logging
     # =================================================
 
 
-    #region Private Variables (emulated)
-
-
-    # Log Root Path
-    # ---------------
-    # This will hold the main log directory; where all
-    #  logs are to be centralized.
-    Hidden [string] $__logRootPath;
-
-
-    # Buffer Log Path
-    # ---------------
-    # This will hold the path in which the log files of
-    #  the buffer history is stored.
-    Hidden [string] $__logBufferPath;
+    #region Variables
 
 
     # Program Log Path
     # ---------------
-    # This will hold the path of the log file of the
-    #  program's activity.
-    Hidden [string] $__logProgramPath;
+    # The centralized location of where the program's logfiles will be located.
+    Static [string] $ProgramLogPath = "$($GLOBAL:_PROGRAMDATA_LOGS_PATH_)\Program";
 
 
-    # File Timestamp
+    # Program Log Filename
     # ---------------
-    # This will hold the timestamp of the current session;
-    #  must be formatted in such a way that it is acceptable
-    #  to the host's filesystem.
-    Hidden [string] $__fileTimestamp;
+    # The filename of the program's log
+    Static [string] $ProgramLogFileName = "$($GLOBAL:_PROGRAMNAMESHORT_).log";
 
 
-    # File Name: Buffer History
+    # Buffer log Filename
     # ---------------
-    # This will hold the file name that will contain the session's
-    #  buffer history.
-    Hidden [string] $__fileNameBufferHistory;
-
-
-    # File Name: Program Activity
-    # ---------------
-    # This will hold the file name that will contain the program's
-    #  activity during the current session.
-    Hidden [string] $__fileNameProgramActivity;
+    # The filename of the terminal's buffer log
+    Static [string] $BufferLogFileName = "BufferHistory.log";
 
     #endregion
 
@@ -74,316 +49,6 @@ class Logging
     # Member Functions :: Methods
     # =================================================
     # =================================================
-
-
-    #region Constructors
-
-
-    # Logging Functionality : On-Load
-    Logging([string] $logRootPath)
-    {
-        # Log Root Path
-        $this.__logRootPath = "$($logRootPath)";
-
-        # Buffer History Log Path
-        $this.__logBufferPath = "$($this.__logRootPath)\Buffer";
-
-        # Program Activity Log Path
-        $this.__logProgramPath = "$($this.__logRootPath)\Program";
-
-        # Session Timestamp
-        $this.__fileTimestamp = "$($this.__GenerateSessionTimestamp())";
-
-        # Program Activity Log Filename
-        $this.__fileNameProgramActivity = "$($this.__fileTimestamp)-Program Log.txt";
-
-        # Buffer History Log Filename
-        $this.__fileNameBufferHistory = "$($this.__fileTimestamp)-Buffer History.txt";
-
-
-        # ==================
-        # Functions
-
-        # Create the necessary directories
-        $this.__CreateDirectories() | Out-Null;
-    } # Logging Functionality : On-Load
-
-
-    #endregion
-
-
-
-    #region Getter Functions
-
-
-   <# Get Log Root Path
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the Log Root Path variable.
-    # -------------------------------
-    # Output:
-    #  [string] Log Root Path
-    #   Returns the value of the Log Root Path.
-    # -------------------------------
-    #>
-    [string] GetLogRootPath()
-    {
-        return $this.__logRootPath;
-    } # GetLogRootPath()
-
-
-
-
-   <# Get Log Buffer Path
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the Log Buffer Path variable.
-    # -------------------------------
-    # Output:
-    #  [string] Log Buffer Path
-    #   Returns the value of the Log Buffer History Path.
-    # -------------------------------
-    #>
-    [string] GetLogBufferPath()
-    {
-        return $this.__logBufferPath;
-    } # GetLogBufferPath()
-
-
-
-
-   <# Get Log Program Activity Path
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the Log Program Activity Path variable.
-    # -------------------------------
-    # Output:
-    #  [string] Log Program Act. Path
-    #   Returns the value of the Log Program Activity Path.
-    # -------------------------------
-    #>
-    [string] GetLogProgramPath()
-    {
-        return $this.__logProgramPath;
-    } # GetLogProgramPath()
-
-
-
-
-   <# Get File Timestamp
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the File Timestamp variable.
-    # -------------------------------
-    # Output:
-    #  [string] File Timestamp
-    #   Returns the value of the File Timestamp.
-    # -------------------------------
-    #>
-    [string] GetFileTimestamp()
-    {
-        return $this.__fileTimestamp;
-    } # GetFileTimestamp()
-
-
-
-
-   <# Get Buffer History Filename
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the Buffer History Filename variable.
-    # -------------------------------
-    # Output:
-    #  [string] Buffer History Filename
-    #   Returns the value of the Buffer History filename.
-    # -------------------------------
-    #>
-    [string] GetFileNameBufferHistory()
-    {
-        return $this.__fileNameBufferHistory;
-    } # GetFileNameBufferHistory()
-
-
-
-
-   <# Get Program Activity Filename
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the Program Activity Filename variable.
-    # -------------------------------
-    # Output:
-    #  [string] Program Activity Filename
-    #   Returns the value of the Program Activity filename.
-    # -------------------------------
-    #>
-    [string] GetFileNameProgramActivity()
-    {
-        return $this.__fileNameProgramActivity;
-    } # GetFileNameProgramActivity()
-
-
-    #endregion Getter Functions
-
-
-
-    #region Setter Functions
-
-
-   <# Set Log Root Path
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the Log Root Path variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetLogRootPath([string] $newVal)
-    {
-        # Inspect to see if the path exists
-        if (Test-Path $newVal.trim())
-        {
-            # Path exists; use it as requested
-            $this.__logRootPath = $newVal;
-            return $true;
-        } # IF: Path Exists
-
-        # Failure; Path does not exist.
-        return $false;
-    } # SetExecutablePath()
-
-
-
-
-   <# Set Log Buffer Path
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the Log Buffer Path variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetLogBufferPath([string] $newVal)
-    {
-        # Inspect to see if the path exists
-        if (Test-Path $newVal.trim())
-        {
-            # Path exists; use it as requested
-            $this.__logBufferPath = $newVal;
-            return $true;
-        } # IF: Path Exists
-
-        # Failure; Path does not exist.
-        return $false;
-    } # SetLogBufferPath()
-
-
-
-
-   <# Set Log Program Activity Path
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the Log Program Activity Path variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetLogProgramPath([string] $newVal)
-    {
-        # Inspect to see if the path exists
-        if (Test-Path $newVal.trim())
-        {
-            # Path exists; use it as requested
-            $this.__logProgramPath = $newVal;
-            return $true;
-        } # IF: Path Exists
-
-        # Failure; Path does not exist.
-        return $false;
-    } # SetLogProgramPath()
-
-
-
-
-   <# Set File Timestamp
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the File Timestamp variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetFileTimestamp([string] $newVal)
-    {
-        # Because there is overly an abundance of date and
-        #  time formatting options, it is just best to
-        #  blindly accept whatever is requested.
-        $this.__fileTimestamp;
-
-        # Successfully changed
-        return $false;
-    } # SetFileTimestamp()
-
-
-
-
-   <# Set Buffer History Filename
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the Buffer History Filename variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetFileNameBufferHistory([string] $newVal)
-    {
-        # Accept what was requested
-        $this.__fileNameBufferHistory;
-
-        # Successfully changed
-        return $false;
-    } # SetFileNameBufferHistory()
-
-
-
-
-   <# Set Program Activity Filename
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the Program Activity Filename variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetFileNameProgramActivity([string] $newVal)
-    {
-        # Accept what was requested
-        $this.__fileNameProgramActivity;
-
-        # Successfully changed
-        return $false;
-    } # SetFileNameProgramActivity()
-
-
-    #endregion Setter Functions
-
 
 
     #region Private Functions
@@ -403,7 +68,7 @@ class Logging
     #   The generated timestamp usable for filenames.
     # -------------------------------
     #>
-    Hidden [string] __GenerateSessionTimestamp()
+    Static Hidden [string] __GenerateSessionTimestamp()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -425,7 +90,7 @@ class Logging
 
         # Return the timestamp
         return "$($timestamp)";
-    } # __GenerateSessionTimestamp()    
+    } # __GenerateSessionTimestamp()
 
 
 
@@ -439,8 +104,7 @@ class Logging
     # ----
     #
     #  Directories to Check:
-    #   - \Buffer
-    #   - \Program
+    #   - \Logs\Program
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -448,19 +112,10 @@ class Logging
     #    $true = Directories exist
     # -------------------------------
     #>
-    Hidden [bool] __CheckRequiredDirectories()
+    Static Hidden [bool] __CheckRequiredDirectories()
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
-        # ----------------------------------------
-
-
         # Check Program Log Directory
-        if ((($io.CheckPathExists("$($this.__logProgramPath)")) -eq $true) -and `
-
-        # Check Buffer Log Directory
-        (($io.CheckPathExists("$($this.__logBufferPath)")) -eq $true))
+        if (([IOCommon]::CheckPathExists("$([Logging]::ProgramLogPath)")) -eq $true)
         {
             # All of the directories exists
             return $true;
@@ -489,8 +144,7 @@ class Logging
     # ----
     #
     #  Directories to be created:
-    #   - \Buffer
-    #   - \Program
+    #   - \Logs\Program
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -500,16 +154,10 @@ class Logging
     #             Directories already existed, nothing to do.
     # -------------------------------
     #>
-    Hidden [bool] __CreateDirectories()
+    Static Hidden [bool] __CreateDirectories()
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
-        # ----------------------------------------
-
-
         # First, check if the directories already exist?
-        if(($this.__CheckRequiredDirectories())-eq $true)
+        if(([Logging]::__CheckRequiredDirectories())-eq $true)
         {
             # The directories exist, no action is required.
             return $true;
@@ -519,14 +167,14 @@ class Logging
         # ----
 
 
-        # Because one or all of the directories does not exist, we must first
-        #  check which directory does not exist and then try to create it.
+        # Because the directory was not detected, we must create it before we
+        #  can use it within the program.
 
         # Program Log Directory
-        if(($io.CheckPathExists("$($this.__logProgramPath)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$([Logging].ProgramLogPath)")) -eq $false)
         {
-            # Root Log Directory does not exist, try to create it.
-            if (($io.MakeDirectory("$($this.__logProgramPath)")) -eq $false)
+            # Program Log Directory does not exist, try to create it.
+            if (([IOCommon]::MakeDirectory("$([Logging]::ProgramLogPath)")) -eq $false)
             {
                 # Failure occurred.
                 return $false;
@@ -537,23 +185,8 @@ class Logging
         # ----
 
 
-        # Buffer History Log Directory
-        if(($io.CheckPathExists("$($this.__logBufferPath)")) -eq $false)
-        {
-            # Root Log Directory does not exist, try to create it.
-            if (($io.MakeDirectory("$($this.__logBufferPath)")) -eq $false)
-            {
-                # Failure occurred.
-                return $false;
-            } # If : Failed to Create Directory
-        } # Buffer History Log Directory
-
-
-        # ----
-
-
         # Fail-safe; final assurance that the directories have been created successfully.
-        if(($this.__CheckRequiredDirectories())-eq $true)
+        if(([Logging]::__CheckRequiredDirectories())-eq $true)
         {
             # The directories exist
             return $true;
@@ -587,19 +220,18 @@ class Logging
     #           Directories were not found
     # -------------------------------
     #>
-    [bool] ThrashLogs()
+    Static [bool] ThrashLogs()
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();     # Using functions from IO Common
-        [string[]] $extLogs = @('*.txt');       # Array of log extensions
+        [string[]] $extLogs = @('*.log');       # Array of log extensions
         # ----------------------------------------
 
 
         # First, make sure that the directories exist.
         #  If the directories are not available, than there
         #  is nothing that can be done.
-        if (($this.__CheckRequiredDirectories()) -eq $false)
+        if(([Logging]::__CheckRequiredDirectories())-eq $true)
         {
             # This is not really an error, however the directories simply
             #  does not exist -- nothing can be done.
@@ -607,24 +239,12 @@ class Logging
         } # IF : Required Directories Exists
 
 
-        # Because the directories exists, lets try to thrash the logs.
-        # Program Logs
-        if (($io.DeleteFile("$($this.__logProgramPath)", $extLogs)) -eq $false)
+        # Because the directories exists, lets try to thrash the log files.
+        if (([IOCommon]::DeleteFile("$([Logging]::ProgramLogPath)", $extLogs)) -eq $false)
         {
             # Failure to remove the requested files
             return $false;
         } # If : Failure to delete Program Logs
-
-
-        # ----
-
-
-        # Buffer History Logs
-        if ((($io.DeleteFile("$($this.__logBufferPath)", $extLogs))) -eq $false)
-        {
-            # Failure to remove the requested files
-            return $false;
-        } # If : Failure to delete Buffer History Logs
 
 
 
@@ -647,7 +267,7 @@ class Logging
     #    $true  = Operation was successful 
     # -------------------------------
     #>
-    [bool] CaptureBuffer()
+    Static [bool] CaptureBuffer()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -655,11 +275,23 @@ class Logging
         # ----------------------------------------
 
 
+
+        # Make sure that the required directory exists, if
+        #  not - it'll be automatically created.
+        if ([Logging]::__CreateDirectories() -eq $false)
+        {
+            # The directory does not exist and could not
+            #  be created successfully, we can not create
+            #  a logfile.
+            return $false;
+        } # Make sure that the director
+
+
         # Try to capture the terminal's buffer activity
         try
         {
             # Capture all activity provided within the buffer
-            Start-Transcript -Path "$($this.__logBufferPath)\$($this.__fileNameBufferHistory)" `
+            Start-Transcript -Path "$([Logging]::ProgramLogPath)\$([Logging]::BufferLogFileName)" `
                              -NoClobber `
                              -ErrorAction Stop;
 
@@ -698,7 +330,7 @@ class Logging
     #    $true  = Operation was successful 
     # -------------------------------
     #>
-    [bool] CaptureBufferStop()
+    Static [bool] CaptureBufferStop()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -742,13 +374,7 @@ class Logging
     # -------------------------------
     # Input:
     #  [string] Message
-    #   The readable message that will be sent to the logfile.
-    #  [bool] User Preferences - Logging
-    #   This merely holds the user's setting if they wish for
-    #   the activity to be logged or not.
-    #  [bool] Force Writing (Override Switch)
-    #   When true, the provided information will be recorded
-    #    - regardless of the user's logging preferences.
+    #   The readable message that will be written to the logfile.
     # -------------------------------
     # Output:
     #  [bool] Status Code
@@ -756,35 +382,24 @@ class Logging
     #    $true  = Operation was successful 
     # -------------------------------
     #>
-    [bool] WriteLogFile([string] $message, [bool] $userPrefLog, [bool] $forceWrite)
+    Static [bool] WriteLogFile([string] $message)
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();     # Using functions from IO Common
         [string] $timestamp = $null;            # Timestamp of the message
         [string] $messageToWrite = $null;       # Message with added information
         # ----------------------------------------
 
 
-        # Did the user want the information logged?
-        if (($userPrefLog -eq $false) -and ($forceWrite -eq $false))
-        {
-            # As requested, nothing is to be written on file.
-            #  Return as successful, because there really was no error.
-            return $true;
-        } # If : User Requests not Logging
-
-
-
         # Get the timestamp
-        $timestamp = "$($this.__GenerateSessionTimestamp())";
+        $timestamp = "$([Logging]::__GenerateSessionTimestamp())";
 
         # Apply the timestamp to the message
         $messageToWrite = "[$($timestamp)] $($message)";
 
 
         # Write the readable data to the logfile.
-        if (($io.WriteToFile("$($this.__logProgramPath)\$($this.__fileNameProgramActivity)", "$($messageToWrite)")) -eq $false)
+        if (([IOCommon]::WriteToFile("$([Logging]::ProgramLogPath)\$([Logging]::ProgramLogFileName)", "$($messageToWrite)")) -eq $false)
         {
             # The message failed to be written to file,
             #  return false to signify failure.
