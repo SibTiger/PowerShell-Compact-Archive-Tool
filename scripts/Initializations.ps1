@@ -9,18 +9,11 @@
  #>
 function Initializations()
 {
-    # Parameters for this function
-    Param
-    (
-        [Parameter(Mandatory = $true, Position=0)]
-        [ProjectInformation] $projectInformation
-    ); # Function Parameters
-
     # Program Information
     InitalizationProgramData;
 
     # Directory Locations
-    InitalizationDirectory $projectInformation;
+    InitalizationDirectory
 } # Initializations()
 
 
@@ -79,14 +72,6 @@ function InitalizationProgramData()
  #>
 function InitalizationDirectory()
 {
-    # Parameters for this function
-    Param
-    (
-        [Parameter(Mandatory = $true, Position=0)]
-        [ProjectInformation] $projectInformation
-    ); # Function Parameters
-
-
     # Script Absolute Script Path
     # ---------------
     # The path that this script currently resides from.
@@ -106,7 +91,7 @@ function InitalizationDirectory()
     # User-Data Parent Directory Path
     # ---------------
     # The root directory where user-data will be stored.
-    Set-Variable -Name "_USERDATA_ROOT_PATH_" -Value "$(FetchPathUserDocuments)\$($_PROGRAMNAME_)\$($projectInformation.__projectName)" `
+    Set-Variable -Name "_USERDATA_ROOT_PATH_" -Value "$(FetchPathUserDocuments)\$($_PROGRAMNAME_)\$([ProjectInformation]::projectName)" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
 
@@ -138,7 +123,7 @@ function InitalizationDirectory()
     # Program-Data Parent Directory Path
     # ---------------
     # The root directory where program-data will be stored.
-    Set-Variable -Name "_PROGRAMDATA_ROOT_LOCAL_PATH_" -Value "$(FetchPathAppDataLocal)\$($_PROGRAMNAME_)\$($projectInformation.__projectName)" `
+    Set-Variable -Name "_PROGRAMDATA_ROOT_LOCAL_PATH_" -Value "$(FetchPathAppDataLocal)\$($_PROGRAMNAME_)\$([ProjectInformation]::projectName)" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
 

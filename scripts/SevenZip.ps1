@@ -2053,9 +2053,6 @@ class SevenZip
     #    When true, the program will log the
     #    operations performed.
     #   - Does not effect main program logging.
-    #  [ProjectInformation] Project Info
-    #   This project's information, such as
-    #   project name, project website, and much more.
     #  [bool] Create a PDF File
     #   When true, this will allow the ability to create
     #    a PDF document along with the textfile
@@ -2069,7 +2066,6 @@ class SevenZip
     #>
     [bool] CreateNewReport([string] $ArchiveFile, `
                            [bool] $logging, `
-                           [ProjectInformation] $projectInfo, `
                            [bool] $makePDF)
     {
         # Declarations and Initializations
@@ -2260,17 +2256,17 @@ class SevenZip
                                      "$($sectionBorder)`r`n`r`n" + `
                                      "Provided below is information regarding the project itself.`r`n`r`n" + `
                                      "Project Name:`r`n" + `
-                                     "`t$($projectInfo.GetProjectName())`r`n`r`n" + `
+                                     "`t$([ProjectInformation]::projectName)`r`n`r`n" + `
                                      "Project Code Name:`r`n" + `
-                                     "`t$($projectInfo.GetCodeName())`r`n`r`n" + `
+                                     "`t$([ProjectInformation]::codeName)`r`n`r`n" + `
                                      "Filename:`r`n" + `
-                                     "`t$($projectInfo.GetFilename())`r`n`r`n" + `
+                                     "`t$([ProjectInformation]::fileName)`r`n`r`n" + `
                                      "Project Website:`r`n" + `
-                                     "`t$($projectInfo.GetProjectWebsite())`r`n`r`n" + `
+                                     "`t$([ProjectInformation]::urlWebsite)`r`n`r`n" + `
                                      "Project's Documentation:`r`n" + `
-                                     "`t$($projectInfo.GetProjectWiki())`r`n`r`n" + `
+                                     "`t$([ProjectInformation]::urlWiki)`r`n`r`n" + `
                                      "Project's Repository:`r`n" + `
-                                     "`t$($projectInfo.GetProjectSource())`r`n" + `
+                                     "`t$([ProjectInformation]::urlSource)`r`n" + `
                                      "`r`n`r`n";
 
 

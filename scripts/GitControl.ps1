@@ -1886,9 +1886,6 @@ class GitControl
     #    When true, the program will log the
     #    operations performed.
     #   - Does not effect main program logging.
-    #  [ProjectInformation] Project Info
-    #   This project's information, such as
-    #   project name, project website, and much more.
     #  [bool] Create a PDF File
     #   When true, this will allow the ability to create
     #    a PDF document along with the textfile
@@ -1902,7 +1899,6 @@ class GitControl
     #>
     [bool] CreateNewReport([string] $projectPath, `
                            [bool] $logging, `
-                           [ProjectInformation] $projectInfo, `
                            [bool] $makePDF)
     {
         # Declarations and Initializations
@@ -1920,10 +1916,10 @@ class GitControl
         # This will hold the report's filename.
         # - - - -
         # >> Standard Textfile
-        [string] $fileNameTXT = "$($this.__reportPath)\$($projectInfo.GetProjectName()) - $($dateTime).txt";
+        [string] $fileNameTXT = "$($this.__reportPath)\$([ProjectInformation]::projectName) - $($dateTime).txt";
         
         # >> Portable Document File (PDF)
-        [string] $fileNamePDF = "$($this.__reportPath)\$($projectInfo.GetProjectName()) - $($dateTime).pdf";
+        [string] $fileNamePDF = "$($this.__reportPath)\$([ProjectInformation]::projectName) - $($dateTime).pdf";
         # - - - -
 
         # This variable will hold the output
@@ -2027,7 +2023,7 @@ class GitControl
                                      "Synopsis`r`n" + `
                                      "----------`r`n" + `
                                      "This report was generated on $($dateNow) at $($timeNow) for the" + `
-                                     " $($projectInfo.GetProjectName()) project.  This report contains" + `
+                                     " $([ProjectInformation]::projectName) project.  This report contains" + `
                                      " an overview of the project's activity and work flow." + `
                                      "  However, all information is based on the local repository -" + `
                                      " not directly from the remote repository.  If the local repository is caught" + `
@@ -2091,17 +2087,17 @@ class GitControl
                                      "$($sectionBorder)`r`n`r`n" + `
                                      "Provided below is information regarding the project itself.`r`n`r`n" + `
                                      "Project Name:`r`n" + `
-                                     "`t$($projectInfo.GetProjectName())`r`n`r`n" + `
+                                     "`t$([ProjectInformation]::projectName)`r`n`r`n" + `
                                      "Project Code Name:`r`n" + `
-                                     "`t$($projectInfo.GetCodeName())`r`n`r`n" + `
+                                     "`t$([ProjectInformation]::codeName)`r`n`r`n" + `
                                      "Filename:`r`n" + `
-                                     "`t$($projectInfo.GetFilename())`r`n`r`n" + `
+                                     "`t$([ProjectInformation]::fileName)`r`n`r`n" + `
                                      "Project Website:`r`n" + `
-                                     "`t$($projectInfo.GetProjectWebsite())`r`n`r`n" + `
+                                     "`t$([ProjectInformation]::urlWebsite)`r`n`r`n" + `
                                      "Project's Documentation:`r`n" + `
-                                     "`t$($projectInfo.GetProjectWiki())`r`n`r`n" + `
+                                     "`t$([ProjectInformation]::urlWiki)`r`n`r`n" + `
                                      "Project's Repository:`r`n" + `
-                                     "`t$($projectInfo.GetProjectSource())`r`n" + `
+                                     "`t$([ProjectInformation]::urlSource)`r`n" + `
                                      "`r`n`r`n";
 
 
