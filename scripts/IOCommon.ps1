@@ -66,6 +66,130 @@ class IOCommon
     #endregion
 
 
+    #region Write-to-Buffer Functions
+
+
+   <# Write to Buffer (Terminal Screen)
+    # -------------------------------
+    # Documentation:
+    #  This function will present the requested message
+    #   on the screen with its appriopriate formatting,
+    #   determined by its message level (or logged level).
+    # -------------------------------
+    # Input:
+    #  [string] Message
+    #   The message that is to be presented on the screen.
+    #  [IOCommonMessageLevel] Message Level
+    #   The level of the message that is to be presented
+    #    or formatted.
+    # -------------------------------
+    #>
+    static [void] WriteToBuffer([string] $msg, [IOCommonMessageLevel] $msgLevel)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [string] $textColourBackground = $null; # Text background color
+        [string] $textColourForeground = $null; # Text foreground color
+        # ----------------------------------------
+
+        # Determine the level of the message; text presentation
+        switch ($msgLevel)
+        {
+            # Regular or standard messages
+            "Standard"
+            {
+                # Text Colour
+                $textColourForeground = "White";
+
+                # Text Background Colour
+                $textColourBackground = "Black";                
+            } # Standard MSG
+
+
+            # Confirmation messages
+            "Attention"
+            {
+                # Text Colour
+                $textColourForeground = "Black";
+
+                # Text Background Colour
+                $textColourBackground = "White";
+            } # Confirmation MSG
+
+            
+            # Informational messages
+            "Information"
+            {
+                # Text Colour
+                $textColourForeground = "DarkGray";
+
+                # Text Background Colour
+                $textColourBackground = "Black";
+            } # Information MSG
+
+
+            # Warning messages
+            "Warning"
+            {
+                # Text Colour
+                $textColourForeground = "Cyan";
+
+                # Text Background Colour
+                $textColourBackground = "Black";
+            } # Warning MSG
+
+
+            # Error messages
+            "Error"
+            {
+                # Text Colour
+                $textColourForeground = "Red";
+
+                # Text Background Colour
+                $textColourBackground = "Black";
+            } # Error MSG
+
+
+            # Critical error or very fatal messages
+            "Fatal"
+            {
+                # Text Colour
+                $textColourForeground = "White";
+
+                # Text Background Colour
+                $textColourBackground = "Red";
+            } # Fatal MSG
+
+
+            # Verbose or debug messages
+            "Verbose"
+            {
+                # Text Colour
+                $textColourForeground = "White";
+
+                # Text Background Colour
+                $textColourBackground = "DarkBlue";
+            } # Verbose MSG
+        } # switch
+
+
+        # Display the message with the formatting specified
+        # If there is no background specified, then do not use the background parameter.
+        if ($textColourBackground -eq $null)
+        {
+            Write-Host -Object $msg -ForegroundColor $textColourForeground;
+        } # if : No Text Background
+
+        # Background was specified
+        else
+        {
+            Write-Host -Object $msg -ForegroundColor $textColourForeground -BackgroundColor $textColourBackground;
+        } # else : Text Background
+    } # WriteToBuffer
+
+    #endregion
+
+
     #region External Command Functions
 
    <# Detect Command [Test]
@@ -1587,3 +1711,24 @@ class IOCommon
     } # AccessWebpage()
     #endregion
 } # IOCommon
+
+
+
+
+<# Message Level [ENUM]
+ # -------------------------------
+ # The level of the message that is about to be
+ #  presented to the screen or how the information
+ #  is to be logged for future references.
+ # -------------------------------
+ #>
+enum IOCommonMessageLevel
+{
+    Standard = 0;   # Regular messages
+    Attention = 1;  # Confirmation messages
+    Information = 2;# Informational messages
+    Warning = 3;    # Warning messages
+    Error = 4;      # Error messages
+    Fatal = 5;      # Program death messages
+    Verbose = 6;    # Debug or detailed messages.
+} # IOCommonBufferMessageLevel
