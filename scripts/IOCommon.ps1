@@ -186,7 +186,7 @@ class IOCommon
 
         # Display the message with the formatting specified
         # If there is no background specified, then do not use the background parameter.
-        if ($textColourBackground -eq $null)
+        if ("$($textColourBackground)" -eq "$($null)")
         {
             Write-Host -Object $msg -ForegroundColor $textColourForeground;
         } # if : No Text Background
