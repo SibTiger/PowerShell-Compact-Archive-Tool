@@ -170,6 +170,17 @@ class IOCommon
                 # Text Background Colour
                 $textColourBackground = "DarkBlue";
             } # Verbose MSG
+
+
+            # Default (Level not registered or recognized)
+            Default
+            {
+                # Text Colour
+                $textColourForeground = "White";
+
+                # Text Background Colour
+                $textColourBackground = $null;
+            } # Default
         } # switch
 
 
