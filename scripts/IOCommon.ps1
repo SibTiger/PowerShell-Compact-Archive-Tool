@@ -73,7 +73,7 @@ class IOCommon
     # -------------------------------
     # Documentation:
     #  This function will present the requested message
-    #   on the screen with its appriopriate formatting,
+    #   on the screen with its appropriate formatting,
     #   determined by its message level (or logged level).
     # -------------------------------
     # Input:
@@ -102,7 +102,7 @@ class IOCommon
                 $textColourForeground = "White";
 
                 # Text Background Colour
-                $textColourBackground = "Black";                
+                $textColourBackground = "Black";
             } # Standard MSG
 
 
