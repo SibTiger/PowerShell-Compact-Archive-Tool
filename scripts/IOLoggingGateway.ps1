@@ -45,6 +45,6 @@
         [IOCommon]::WriteToBuffer("$($msg)", "$($msgLevel)");
 
         # Log the message
-        # << NOT READY >>
+        [Logging]::WriteLogFile("$($msg)");
     } # DisplayMessage()
  } # IOLoggingGateway
