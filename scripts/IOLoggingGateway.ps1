@@ -20,6 +20,9 @@
 
  class IOLoggingGateway
  {
+    #region Display Message
+
+
    <# Display Message
     # -------------------------------
     # Documentation:
@@ -76,6 +79,7 @@
         [IOLoggingGateway]::DisplayMessage("$($msg)", "Standard");
     } # DisplayMessage()
 
+    #endregion
 
 
 
