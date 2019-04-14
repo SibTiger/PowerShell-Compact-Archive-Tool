@@ -47,4 +47,39 @@
         # Log the message
         [Logging]::WriteLogFile("$($msg)");
     } # DisplayMessage()
+
+
+
+
+   <# Get User Input
+    # -------------------------------
+    # Documentation:
+    #  This function will provide a gateway into both
+    #   retrieving the user's input for a desired request
+    #   and also logging that request.
+    # -------------------------------
+    # Output:
+    #  [string] User's Input Request
+    #    Returns the user's request.
+    # -------------------------------
+    #>
+    static [string] GetUserInput()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [string] $userInput = $null;    # This will hold the user's feedback
+        [string] $prompt = ">>>>> ";    # The prompt message that will be
+                                        #  recorded in the logfile.
+        # ----------------------------------------
+
+
+        # Fetch user input
+        $userInput = [IOCommon]::FetchUserInput();
+
+        # Log the user's input
+        [Logging]::WriteLogFile("$($prompt)$($userInput)");
+
+        # Return the user's request
+        return "$($userInput)";
+    } # GetUserInput()
  } # IOLoggingGateway
