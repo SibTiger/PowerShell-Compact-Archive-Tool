@@ -51,6 +51,34 @@
 
 
 
+   <# Display Message (Short-Hand\Standard MSGs)
+    # -------------------------------
+    # Documentation:
+    #  This function is merely a quick accessor to the
+    #   DisplayMessage() function for 'Standard Messages'.
+    #   Because PowerShell does not allow default
+    #   arguments to be set, at least at the time of
+    #   writing this statement, this function will
+    #   allow overflowing of the arguments.
+    # NOTE:
+    #  Any messages coming through this function will be
+    #   treated as a Standard Message!
+    # -------------------------------
+    # Input:
+    #  [string] Message
+    #   The message that is to be presented on the screen.
+    # -------------------------------
+    #>
+    static [void] DisplayMessage([string] $msg)
+    {
+        # Access the standard DisplayMessage() with MSG Level
+        #  set to standard.
+        [IOLoggingGateway]::DisplayMessage("$($msg)", "Standard");
+    } # DisplayMessage()
+
+
+
+
    <# Get User Input
     # -------------------------------
     # Documentation:
