@@ -255,11 +255,64 @@ class Logging
 
 
 
+   <# Write to Logfile [Program Activity]
+    # -------------------------------
+    # Documentation:
+    #  This function will provide the ability to write
+    #   readable data to the Program's Activity logfile.
+    # -------------------------------
+    # Input:
+    #  [string] Message
+    #   The readable message that will be written to the logfile.
+    # -------------------------------
+    # Output:
+    #  [bool] Status Code
+    #    $false = Operation failed
+    #    $true  = Operation was successful 
+    # -------------------------------
+    #>
+    Static [bool] WriteLogFile([string] $message)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [string] $timestamp = $null;            # Timestamp of the message
+        [string] $messageToWrite = $null;       # Message with added information
+        # ----------------------------------------
+
+
+        # Get the timestamp
+        $timestamp = "$([Logging]::__GenerateSessionTimestamp())";
+
+        # Apply the timestamp to the message
+        $messageToWrite = "[$($timestamp)] $($message)";
+
+
+        # Write the readable data to the logfile.
+        if (([IOCommon]::WriteToFile("$([Logging]::ProgramLogPath)\$([Logging]::ProgramLogFileName)", "$($messageToWrite)")) -eq $false)
+        {
+            # The message failed to be written to file,
+            #  return false to signify failure.
+            return $false;
+        } # If : Operation Failed
+        
+
+        # If we made it here, everything was successful.
+        return $true;
+    } # WriteLogFile()
+
+    #endregion
+
+
+    #region DEPRECATED FUNCTIONS
+
+
    <# Capture Buffer
     # -------------------------------
     # Documentation:
     #  This function will log all output and input that
     #   is provided in the console's or terminal's buffer.
+    #
+    # DEPRECATED FUNCTION
     # -------------------------------
     # Output:
     #  [bool] Status Code
@@ -323,6 +376,8 @@ class Logging
     #  This function will close the transcripting service
     #   that was previously enabled to capture all activity
     #   from the buffer screen.
+    #
+    # DEPRECATED FUNCTION
     # -------------------------------
     # Output:
     #  [bool] Status Code
@@ -363,52 +418,5 @@ class Logging
         return $exitCode;
     } # CaptureBufferStop()
 
-
-
-
-   <# Write to Logfile [Program Activity]
-    # -------------------------------
-    # Documentation:
-    #  This function will provide the ability to write
-    #   readable data to the Program's Activity logfile.
-    # -------------------------------
-    # Input:
-    #  [string] Message
-    #   The readable message that will be written to the logfile.
-    # -------------------------------
-    # Output:
-    #  [bool] Status Code
-    #    $false = Operation failed
-    #    $true  = Operation was successful 
-    # -------------------------------
-    #>
-    Static [bool] WriteLogFile([string] $message)
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [string] $timestamp = $null;            # Timestamp of the message
-        [string] $messageToWrite = $null;       # Message with added information
-        # ----------------------------------------
-
-
-        # Get the timestamp
-        $timestamp = "$([Logging]::__GenerateSessionTimestamp())";
-
-        # Apply the timestamp to the message
-        $messageToWrite = "[$($timestamp)] $($message)";
-
-
-        # Write the readable data to the logfile.
-        if (([IOCommon]::WriteToFile("$([Logging]::ProgramLogPath)\$([Logging]::ProgramLogFileName)", "$($messageToWrite)")) -eq $false)
-        {
-            # The message failed to be written to file,
-            #  return false to signify failure.
-            return $false;
-        } # If : Operation Failed
-        
-
-        # If we made it here, everything was successful.
-        return $true;
-    } # WriteLogFile()
     #endregion
 } # Logging
