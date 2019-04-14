@@ -1702,8 +1702,6 @@ class IOCommon
 
             catch
             {
-                # Operation failed.
-                Write-Host "Catch: Failed"
                 # Update the exit code status.
                 $exitCode = $false;
             } # Catch : Error
