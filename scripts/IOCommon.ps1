@@ -18,6 +18,90 @@
 
 class IOCommon
 {
+    # Constructor and Internal Functions
+    # =================================================
+    # =================================================
+
+
+    # Default Constructor
+    IOCommon()
+    {
+        # Register logging events
+        [IOCommon]::EventLoggingRegister();
+    } # Default Constructor
+
+
+
+    <# Destroy (Destructor)
+    # -------------------------------
+    # Documentation:
+    #  This function will remove, unregister, or destroy
+    #   any open instances that is associated with this class.
+    #
+    # NOTE:
+    #  PowerShell does not have any support for Destructors
+    #   (Unless I missed it by mistake?).  Instead, this function
+    #   will do what the destructor is supposed to do - though
+    #   this requires that the owner of this object to call this
+    #   particular function.  Failure to call this function can result
+    #   in zombie-hanging instances or instances that are just generally
+    #   remaining open to the system or the PowerShell engine (if the shell
+    #   has not been terminated).
+    # -------------------------------
+    #>
+    [void] Destroy()
+    {
+        # Remove the Custom Event for Logging
+        try
+        {
+            # Unregister the custom event
+            Unregister-Event -Force -SourceIdentifier "LogEvent-IOCommon";
+
+            Write-Host "Successfully unregistered the custom event [Logging] in IOCommon!";
+        } # Try
+
+        # Failure to unregister
+        catch
+        {
+            Write-Host "Failed to unregister the custom event [Logging] in IOCommon!";
+        } # Failure
+    } # Destroy()
+
+
+
+
+   <# Register Event: Logging
+    # -------------------------------
+    # Documentation:
+    #  This function will register the logging custom event
+    #   to the Powershell engine.  This will allow functions
+    #   to properly log their activities and provide
+    #   informational or verbose details regarding the operation
+    #   or status of a specific action that took place.
+    # -------------------------------
+    #>
+    hidden static [void] EventLoggingRegister()
+    {
+        Write-Host "Trying to register the custom event [Logging] in IOCommon. . .";
+        try
+        {
+            # Register the custom event
+            Register-EngineEvent -SourceIdentifier "LogEvent-IOCommon" -Action {
+            Write-Host "Log Event Triggered by: IOCommon";
+            } # Register-EngineEvent :: Action
+
+            Write-Host "Successfully registered the custom event [Logging] in IOCommon!";
+        } # Try
+
+        # Failure occurred
+        Catch
+        {
+            Write-Host "Failed to register custom event [Logging] in IOCommon!";
+        } # Failure
+    } # EventLoggingRegister()
+
+
+
     # Member Functions :: Methods
     # =================================================
     # =================================================
@@ -52,6 +136,7 @@ class IOCommon
     #>
     static [string] FetchUserInput()
     {
+        $null = New-Event -SourceIdentifier "LogEvent-IOCommon";
         # Because I love Python's input prompt, we will emulate it here.
         #  I find this to be easier on the user to unify an action from the end-user.
         Write-Host ">>>>> " -NoNewline;
@@ -229,6 +314,10 @@ class IOCommon
     #>
     static [bool] DetectCommand([string] $command, [string] $type)
     {
+        # Debug Message
+        #[Logging]::WriteLogFile("Trying to find $($type) named $($command)");
+
+        # Try to detect the requested command
         if ((Get-Command -Name "$($command)" -CommandType $($type) -ErrorAction SilentlyContinue) -eq $null)
         {
             # Command was not detected.
