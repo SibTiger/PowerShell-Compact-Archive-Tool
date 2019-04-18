@@ -470,6 +470,16 @@ class IOCommon
         [string] $callBack = $null;               # Allocate memory address if the stdout
                                                   #  needs to be relocated, this is our
                                                   #  medium in order to accomplish this.
+        # * * * * * * * * * * * * * * * * * * *
+        # Event Logging
+        [LogMessageLevel] $logMSGLevel = "Verbose";    # The logged message level
+        [string] $logAdditionalInfo = $null;           # Additional information provided by
+                                                       #  the PowerShell engine, such as
+                                                       #  error messages.
+        # Object containing arguments to be passed.
+        $logEventArguments = New-Object `
+                                -TypeName Object[] `
+                                -ArgumentList 2;
         # ----------------------------------------
 
 
@@ -483,6 +493,21 @@ class IOCommon
         # Make sure that the executable exists before trying to use it.
         if ($([IOCommon]::DetectCommand("$($command)", "Application")) -eq $false)
         {
+            # * * * * * * * * * * * * * * * * * * *
+            # Event Logging
+            # --------------
+
+            # Put the arguments together in a package
+            $logEventArguments[0] = "Error";
+            $logEventArguments[1] = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tReason to use command: $($description)";
+
+            # Send an event regarding this failure; this will be logged.
+            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                              -MessageData "Failed to execute the external command $($command) because it was not registered as an Application!" `
+                              -EventArguments $logEventArguments | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
+
             # Executable was not detected.
             return -254;
         } # if : Executable was not detected
@@ -491,6 +516,21 @@ class IOCommon
         # Make sure that the Project path exists
         if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
         {
+            # * * * * * * * * * * * * * * * * * * *
+            # Event Logging
+            # --------------
+
+            # Put the arguments together in a package
+            $logEventArguments[0] = "Error";
+            $logEventArguments[1] = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tReason to use command: $($description)`r`n`tProject Path: $($projectPath)";
+
+            # Send an event regarding this failure; this will be logged.
+            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                              -MessageData "Failed to execute the external command $($command) because the project path does not exist!" `
+                              -EventArguments $logEventArguments | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
+
             # Project Path does not exist, return an error.
             return -253;
         } # if : The Project Path does not exist
@@ -499,6 +539,21 @@ class IOCommon
         # Make sure that the Standard Output Path exists
         if ($([IOCommon]::CheckPathExists("$($stdOutLogPath)")) -eq $false)
         {
+            # * * * * * * * * * * * * * * * * * * *
+            # Event Logging
+            # --------------
+
+            # Put the arguments together in a package
+            $logEventArguments[0] = "Error";
+            $logEventArguments[1] = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tReason to use command: $($description)`r`n`tSTDOUT Directory: $($stdOutLogPath)";
+
+            # Send an event regarding this failure; this will be logged.
+            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                              -MessageData "Failed to execute the external command $($command) because the STDOUT Directory does not exist!" `
+                              -EventArguments $logEventArguments | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
+
             # Standard Output Path does not exist, return an error.
             return -252;
         } # if : The Standard Output Path does not exist
@@ -507,6 +562,21 @@ class IOCommon
         # Make sure that the Standard Error path exists
         if ($([IOCommon]::CheckPathExists("$($stdErrLogPath)")) -eq $false)
         {
+            # * * * * * * * * * * * * * * * * * * *
+            # Event Logging
+            # --------------
+
+            # Put the arguments together in a package
+            $logEventArguments[0] = "Error";
+            $logEventArguments[1] = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tReason to use command: $($description)`r`n`tSTDERR Directory: $($stdErrLogPath)";
+
+            # Send an event regarding this failure; this will be logged.
+            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                              -MessageData "Failed to execute the external command $($command) because the STDERR Directory does not exist!" `
+                              -EventArguments $logEventArguments | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
+
             # Standard Error Path does not exist, return an error.
             return -251;
         } # if : The Standard Error Path does not exist
@@ -521,6 +591,21 @@ class IOCommon
             #  by either: using illegal characters or long chars.
             #  To avoid this from happening, please use a valid description!
             $description = "$($command) $($arguments)";
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Event Logging
+            # --------------
+
+            # Put the arguments together in a package
+            $logEventArguments[0] = "Warning";
+            $logEventArguments[1] = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)";
+
+            # Send an event regarding this change; this will be logged.
+            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                              -MessageData "The description field was missing while serving the request to execute the external command $($command)!  The description will be automatically filled for this instance." `
+                              -EventArguments $logEventArguments | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
         } # if : Description was not populated
 
         # ---------------------------
@@ -556,6 +641,21 @@ class IOCommon
             $stringOutput.Value = $callBack;
         } # If : Redirect STDOUT to Pointer
 
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Event Logging
+        # --------------
+
+        # Put the arguments together in a package
+        $logEventArguments[0] = "Standard";
+        $logEventArguments[1] = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tReason to use command: $($description)`r`n`tExtCMD Exit Code: $($externalCommandReturnCode)";
+
+        # Send an event regarding the status of the operation's results; this will be logged.
+        $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                            -MessageData "Successfully executed the external command $($command)!" `
+                            -EventArguments $logEventArguments | Out-Null;
+
+        # * * * * * * * * * * * * * * * * * * *
 
         # Return the ExtCMD's exit code
         return $externalCommandReturnCode;
