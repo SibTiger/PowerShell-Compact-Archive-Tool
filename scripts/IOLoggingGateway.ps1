@@ -172,7 +172,7 @@
         {
             # There exists some additional information; format
             #  it in a way that it works in the final message form.
-            $messageAdditional = "Additional Information:`r`n`t$($eventMessageObj.SourceArgs[1])";
+            $messageAdditional = "Additional Information:`r`n`t$($eventMessageObj.SourceArgs[1])`r`n";
         } # Else: Additional Information was Provided
 
         # - - - -
