@@ -94,7 +94,7 @@ class IOCommon
         {
             # Register the custom event
             Register-EngineEvent -SourceIdentifier "$([IOCommon]::eventNameLog)" -Action {
-            Write-Host "Log Event Triggered by: IOCommon";
+                [IOLoggingGateway]::CaptureLogEvent($event);
             } # Register-EngineEvent :: Action
 
             Write-Host "Successfully registered the custom event [Logging] in IOCommon!";
