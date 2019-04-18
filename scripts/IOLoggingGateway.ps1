@@ -95,6 +95,11 @@
     #  [PSEventArgs] Event Message Object
     #   The event object that contains the log message and other information.
     #    The archive file contents that will be extracted.
+    # NOTE:
+    #  SourceArguments MUST Provide The Following:
+    #  - Datatype: Object[]
+    #  - Index[0]: Message Level {IOCommonMessageLevel}
+    #  - Index[1]: Additional Information (Provided by the POSH Engine) {String}
     # -------------------------------
     #>
     static [void] CaptureLogEvent([System.Management.Automation.PSEventArgs] $eventMessageObj)
@@ -105,15 +110,18 @@
         [string] $sourceID = $null;         # The source identifer; who sent the message.
         [string] $messageLevel = $null;     # The level of the message 
         [string] $finalMessage = $null;     # The final message that will be logged.
+        [string] $messageAdditional = $null;# Additional information; usually contains
+                                            #  readable data from the Powershell engine.
         # ----------------------------------------
 
         # Fetch the data from the event object.
         $message = $eventMessageObj.MessageData;
         $sourceID = $eventMessageObj.SourceIdentifier;
-        $messageLevel = $eventMessageObj.SourceArgs;
+        $messageLevel = $eventMessageObj.SourceArgs[0];
+        $messageAdditional = $eventMessageObj.SourceArgs[1];
 
         # Put everything together in a final message form
-        $finalMessage = "{$($sourceID)}-($($messageLevel))`r`n$($message)`r`n";
+        $finalMessage = "{$($sourceID)}-($($messageLevel))`r`n$($message)`r`nAdditional Information:`r`n$($messageAdditional)";
 
         # Write the message to the logfile.
         [Logging]::WriteLogFile("$($finalMessage)");
