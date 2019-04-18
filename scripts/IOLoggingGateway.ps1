@@ -114,14 +114,73 @@
                                             #  readable data from the Powershell engine.
         # ----------------------------------------
 
-        # Fetch the data from the event object.
-        $message = $eventMessageObj.MessageData;
-        $sourceID = $eventMessageObj.SourceIdentifier;
-        $messageLevel = $eventMessageObj.SourceArgs[0];
-        $messageAdditional = $eventMessageObj.SourceArgs[1];
+        # Fetch the data from the event object; if any value was not properly provided - insert
+        #  an error message.  Avoid blank entries.
+
+        # Source Identifier
+        if ("$($eventMessageObj.SourceIdentifier)" -eq "$($null)")
+        {
+            # The Source ID is unknown
+            $sourceID = "UNKNOWN SOURCEID";
+        } # If: Unknown Source Identifier
+        
+        else
+        {
+            # The Source ID was provided
+            $sourceID = $eventMessageObj.SourceIdentifier;
+        } # Else: Source Identifier Information Provided
+
+        # - - - -
+
+        # Message Data
+        if ("$($eventMessageObj.MessageData)" -eq "$($null)")
+        {
+            # There does not exist any message
+            $message = "<<UNKNOWN OR BLANK MESSAGE>>";
+        } # If: Unknown or Blank Message
+
+        else
+        {
+            # The Message was provided
+            $message = $eventMessageObj.MessageData;
+        } # Else: Message Data was Provided
+        
+        # - - - -
+
+        # Message Level
+        if ("$($eventMessageObj.SourceArgs[0])" -eq "$($null)")
+        {
+            # The message level is unknown
+            $messageLevel = "UNKNOWN";
+        } # If: Unknown Message Level
+
+        else
+        {
+            # The Message Level was provided
+            $messageLevel = $eventMessageObj.SourceArgs[0];
+        } # Else: Message Level was Provided
+
+        # - - - -
+
+        # Additional Information
+        if ("$($eventMessageObj.SourceArgs[1])" -eq "$($null)")
+        {
+            # No additional information was provided
+            $messageAdditional = "$($null)";
+        } # If: No Additional Information was Provided
+        else
+        {
+            # There exists some additional information; format
+            #  it in a way that it works in the final message form.
+            $messageAdditional = "Additional Information:`r`n$($eventMessageObj.SourceArgs[1])";
+        } # Else: Additional Information was Provided
+
+        # - - - -
 
         # Put everything together in a final message form
-        $finalMessage = "{$($sourceID)}-($($messageLevel))`r`n$($message)`r`nAdditional Information:`r`n$($messageAdditional)";
+        $finalMessage = "{$($sourceID)}-($($messageLevel))`r`n$($message)`r`n$($messageAdditional)";
+
+        # - - - -
 
         # Write the message to the logfile.
         [Logging]::WriteLogFile("$($finalMessage)");
