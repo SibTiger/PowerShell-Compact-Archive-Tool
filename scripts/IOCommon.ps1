@@ -143,7 +143,6 @@ class IOCommon
     #>
     static [string] FetchUserInput()
     {
-        $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)";
         # Because I love Python's input prompt, we will emulate it here.
         #  I find this to be easier on the user to unify an action from the end-user.
         Write-Host ">>>>> " -NoNewline;
