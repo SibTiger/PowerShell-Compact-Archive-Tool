@@ -143,13 +143,15 @@ class IOCommon
     #>
     static [string] FetchUserInput()
     {
-        $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)";
         # Because I love Python's input prompt, we will emulate it here.
         #  I find this to be easier on the user to unify an action from the end-user.
         Write-Host ">>>>> " -NoNewline;
 
         # Get input from the user.
         [string] $stdInput = (Get-Host).UI.ReadLine();
+
+        # Send an event based on the user's feedback
+        $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" -MessageData "Input: $($stdInput)" -EventArguments "Standard";
 
         # Return the value as a string
         return [string]$stdInput;
