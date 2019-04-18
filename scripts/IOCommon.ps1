@@ -170,12 +170,12 @@ class IOCommon
     # Input:
     #  [string] Message
     #   The message that is to be presented on the screen.
-    #  [IOCommonMessageLevel] Message Level
+    #  [LogMessageLevel] Message Level
     #   The level of the message that is to be presented
     #    or formatted.
     # -------------------------------
     #>
-    static [void] WriteToBuffer([string] $msg, [IOCommonMessageLevel] $msgLevel)
+    static [void] WriteToBuffer([string] $msg, [LogMessageLevel] $msgLevel)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -327,7 +327,7 @@ class IOCommon
                                             #  on the results; if the command was found or not.
         # * * * * * * * * * * * * * * * * * * *
         # Event Logging
-        [IOCommonMessageLevel] $logMSGLevel = "Verbose";    # The logged message level
+        [LogMessageLevel] $logMSGLevel = "Verbose";    # The logged message level
         [string] $logAdditionalInfo = $null;                # Additional information provided by
                                                             #  the PowerShell engine, such as
                                                             #  error messages.
@@ -1853,24 +1853,3 @@ class IOCommon
     } # AccessWebpage()
     #endregion
 } # IOCommon
-
-
-
-
-<# Message Level [ENUM]
- # -------------------------------
- # The level of the message that is about to be
- #  presented to the screen or how the information
- #  is to be logged for future references.
- # -------------------------------
- #>
-enum IOCommonMessageLevel
-{
-    Standard = 0;   # Regular messages
-    Attention = 1;  # Confirmation messages
-    Information = 2;# Informational messages
-    Warning = 3;    # Warning messages
-    Error = 4;      # Error messages
-    Fatal = 5;      # Program death messages
-    Verbose = 6;    # Debug or detailed messages.
-} # IOCommonBufferMessageLevel

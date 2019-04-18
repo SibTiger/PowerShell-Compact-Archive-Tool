@@ -37,12 +37,12 @@
     # Input:
     #  [string] Message
     #   The message that is to be presented on the screen.
-    #  [IOCommonMessageLevel] Message Level
+    #  [LogMessageLevel] Message Level
     #   The level of the message that is to be presented
     #    or formatted.
     # -------------------------------
     #>
-    static [void] DisplayMessage([string] $msg, [IOCommonMessageLevel] $msgLevel)
+    static [void] DisplayMessage([string] $msg, [LogMessageLevel] $msgLevel)
     {
         # Display the message to the terminal screen
         [IOCommon]::WriteToBuffer("$($msg)", "$($msgLevel)");
@@ -98,7 +98,7 @@
     # NOTE:
     #  SourceArguments MUST Provide The Following:
     #  - Datatype: Object[]
-    #  - Index[0]: Message Level {IOCommonMessageLevel}
+    #  - Index[0]: Message Level {LogMessageLevel}
     #  - Index[1]: Additional Information (Provided by the POSH Engine) {String}
     # -------------------------------
     #>
@@ -221,3 +221,24 @@
         return "$($userInput)";
     } # GetUserInput()
  } # IOLoggingGateway
+
+
+
+
+<# Message Level [ENUM]
+ # -------------------------------
+ # The level of the message that is about to be
+ #  presented to the screen or how the information
+ #  is to be logged for future references.
+ # -------------------------------
+ #>
+enum LogMessageLevel
+{
+    Standard = 0;   # Regular messages
+    Attention = 1;  # Confirmation messages
+    Information = 2;# Informational messages
+    Warning = 3;    # Warning messages
+    Error = 4;      # Error messages
+    Fatal = 5;      # Program death messages
+    Verbose = 6;    # Debug or detailed messages.
+} # IOCommonBufferMessageLevel
