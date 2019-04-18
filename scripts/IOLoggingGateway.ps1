@@ -83,6 +83,45 @@
 
 
 
+
+   <# Capture Log Events
+    # -------------------------------
+    # Documentation:
+    #  This function will provide a gateway for log
+    #   based messages to be properly log with its
+    #   appropriate log level.
+    # -------------------------------
+    # Input:
+    #  [PSEventArgs] Event Message Object
+    #   The event object that contains the log message and other information.
+    #    The archive file contents that will be extracted.
+    # -------------------------------
+    #>
+    static [void] CaptureLogEvent([System.Management.Automation.PSEventArgs] $eventMessageObj)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [string] $message = $null;          # The main message that will be logged.
+        [string] $sourceID = $null;         # The source identifer; who sent the message.
+        [string] $messageLevel = $null;     # The level of the message 
+        [string] $finalMessage = $null;     # The final message that will be logged.
+        # ----------------------------------------
+
+        # Fetch the data from the event object.
+        $message = $eventMessageObj.MessageData;
+        $sourceID = $eventMessageObj.SourceIdentifier;
+        $messageLevel = $eventMessageObj.SourceArgs;
+
+        # Put everything together in a final message form
+        $finalMessage = "{$($sourceID)}-($($messageLevel))`r`n$($message)`r`n";
+
+        # Write the message to the logfile.
+        [Logging]::WriteLogFile("$($finalMessage)");
+    } # CaptureLogEvent()
+
+
+
+
    <# Get User Input
     # -------------------------------
     # Documentation:
