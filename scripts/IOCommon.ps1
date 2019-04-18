@@ -331,11 +331,10 @@ class IOCommon
         [string] $logAdditionalInfo = $null;                # Additional information provided by
                                                             #  the PowerShell engine, such as
                                                             #  error messages.
+        # Object containing arguments to be passed.
         $logEventArguments = New-Object `
                                 -TypeName Object[] `
                                 -ArgumentList 2;
-        #[object[]] $logEventArguments = @();                   # Object containing arguments to be
-                                                            #  passed.
         # ----------------------------------------
 
         # Try to detect the requested command
@@ -361,8 +360,6 @@ class IOCommon
         # Put the arguments together in a package
         $logEventArguments[0] = "$($logMSGLevel)";
         $logEventArguments[1] = "$($logAdditionalInfo)";
-        #$logEventArguments.Add("$($logMSGLevel)");
-        #$logEventArguments.Add("$($logAdditionalInfo)");
 
         # Send an event regarding the status of the operation's results; this will be logged.
         $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
