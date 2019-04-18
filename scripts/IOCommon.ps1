@@ -320,18 +320,59 @@ class IOCommon
     #>
     static [bool] DetectCommand([string] $command, [string] $type)
     {
-        # Debug Message
-        #[Logging]::WriteLogFile("Trying to find $($type) named $($command)");
+        # Declarations and Initializations
+        # ----------------------------------------
+        [string] $eventLogMessage = $null;  # Message that will be sent to the program's log.
+        [bool] $exitCode = $false;          # The detection code that will be returned based
+                                            #  on the results; if the command was found or not.
+        # * * * * * * * * * * * * * * * * * * *
+        # Event Logging
+        [IOCommonMessageLevel] $logMSGLevel = "Verbose";    # The logged message level
+        [string] $logAdditionalInfo = $null;                # Additional information provided by
+                                                            #  the PowerShell engine, such as
+                                                            #  error messages.
+        $logEventArguments = New-Object `
+                                -TypeName Object[] `
+                                -ArgumentList 2;
+        #[object[]] $logEventArguments = @();                   # Object containing arguments to be
+                                                            #  passed.
+        # ----------------------------------------
 
         # Try to detect the requested command
         if ((Get-Command -Name "$($command)" -CommandType $($type) -ErrorAction SilentlyContinue) -eq $null)
         {
             # Command was not detected.
-            return $false;
+            $exitCode = $false;
         } # If : Command Not Detected
 
-        # Command was found
-        return $true;
+        else
+        {
+            # Command was detected.
+            $exitCode = $true;
+        } # Else : Command Detected
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Event Logging
+        # --------------
+
+        # Capture any additional information
+        $logAdditionalInfo = "$($_)";
+
+        # Put the arguments together in a package
+        $logEventArguments[0] = "$($logMSGLevel)";
+        $logEventArguments[1] = "$($logAdditionalInfo)";
+        #$logEventArguments.Add("$($logMSGLevel)");
+        #$logEventArguments.Add("$($logAdditionalInfo)");
+
+        # Send an event regarding the status of the operation's results; this will be logged.
+        $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                          -MessageData "Tried to find the $($type) named $($command); detected result was $($exitCode)" `
+                          -EventArguments $logEventArguments | Out-Null;
+
+        # * * * * * * * * * * * * * * * * * * *
+
+        # Return the results
+        return $exitCode;
     } # DetectCommand()
 
 
