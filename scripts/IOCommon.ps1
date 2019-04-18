@@ -18,6 +18,13 @@
 
 class IOCommon
 {
+    # Member Variables :: Properties
+    # =================================================
+    # =================================================
+    hidden static [string] $eventNameLog = "EventLog_IOCommon";
+
+
+
     # Constructor and Internal Functions
     # =================================================
     # =================================================
@@ -55,7 +62,7 @@ class IOCommon
         try
         {
             # Unregister the custom event
-            Unregister-Event -Force -SourceIdentifier "LogEvent-IOCommon";
+            Unregister-Event -Force -SourceIdentifier "$([IOCommon]::eventNameLog)";
 
             Write-Host "Successfully unregistered the custom event [Logging] in IOCommon!";
         } # Try
@@ -86,7 +93,7 @@ class IOCommon
         try
         {
             # Register the custom event
-            Register-EngineEvent -SourceIdentifier "LogEvent-IOCommon" -Action {
+            Register-EngineEvent -SourceIdentifier "$([IOCommon]::eventNameLog)" -Action {
             Write-Host "Log Event Triggered by: IOCommon";
             } # Register-EngineEvent :: Action
 
@@ -136,7 +143,7 @@ class IOCommon
     #>
     static [string] FetchUserInput()
     {
-        $null = New-Event -SourceIdentifier "LogEvent-IOCommon";
+        $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)";
         # Because I love Python's input prompt, we will emulate it here.
         #  I find this to be easier on the user to unify an action from the end-user.
         Write-Host ">>>>> " -NoNewline;
