@@ -328,9 +328,9 @@ class IOCommon
         # * * * * * * * * * * * * * * * * * * *
         # Event Logging
         [LogMessageLevel] $logMSGLevel = "Verbose";    # The logged message level
-        [string] $logAdditionalInfo = $null;                # Additional information provided by
-                                                            #  the PowerShell engine, such as
-                                                            #  error messages.
+        [string] $logAdditionalInfo = $null;           # Additional information provided by
+                                                       #  the PowerShell engine, such as
+                                                       #  error messages.
         # Object containing arguments to be passed.
         $logEventArguments = New-Object `
                                 -TypeName Object[] `
