@@ -1143,6 +1143,24 @@ class IOCommon
     #>
     static [bool] WriteToFile([string] $file, [ref] $contents)
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [string] $executeFailureMessage = $null;       # If the command fails to properly
+                                                       #  execute, the reason for the failure
+                                                       #  might be available from the PowerShell
+                                                       #  engine.
+        # * * * * * * * * * * * * * * * * * * *
+        # Event Logging
+        [string] $logAdditionalInfo = $null;           # Additional information provided by
+                                                       #  the PowerShell engine, such as
+                                                       #  error messages.
+        # Object containing arguments to be passed.
+        $logEventArguments = New-Object `
+                                -TypeName Object[] `
+                                -ArgumentList 2;
+        # ----------------------------------------
+
+
         # Try to write contents to the file.
         try
         {
@@ -1156,8 +1174,26 @@ class IOCommon
 
         catch
         {
-            # Operation failed
-            Write-Host "Operation Failed: $_";
+            # Immediately cache the reason why the command failed.
+            $executeFailureMessage = "$($_)";
+
+            # Display error to the user
+            [IOLoggingGateway]::DisplayMessage("Failed to write data to file!`r`nFailure reason: $($executeFailureMessage)", "Error");
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Event Logging
+            # --------------
+
+            # Put the arguments together in a package
+            $logEventArguments[0] = "Error";
+            $logEventArguments[1] = "File to write: $($file)`r`n`tContents to write: $($contents.Value.ToString())`r`n`tFailed to execute reason: $($executeFailureMessage)";
+
+            # Send an event regarding this failure; this will be logged.
+            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                              -MessageData "A failure has occurred upon writing data to file!" `
+                              -EventArguments $logEventArguments | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
 
             # Operation failed
             return $false;
