@@ -472,7 +472,6 @@ class IOCommon
                                                   #  medium in order to accomplish this.
         # * * * * * * * * * * * * * * * * * * *
         # Event Logging
-        [LogMessageLevel] $logMSGLevel = "Verbose";    # The logged message level
         [string] $logAdditionalInfo = $null;           # Additional information provided by
                                                        #  the PowerShell engine, such as
                                                        #  error messages.
