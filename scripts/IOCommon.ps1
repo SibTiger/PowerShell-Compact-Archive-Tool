@@ -879,6 +879,21 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
+        [string] $executeFailureMessage = $null;       # If the command fails to properly
+                                                       #  execute, the reason for the failure
+                                                       #  might be available from the PowerShell
+                                                       #  engine.
+        # * * * * * * * * * * * * * * * * * * *
+        # Event Logging
+        [LogMessageLevel] $logMSGLevel = "Verbose";    # The logged message level
+        [string] $logAdditionalInfo = $null;           # Additional information provided by
+                                                       #  the PowerShell engine, such as
+                                                       #  error messages.
+        # Object containing arguments to be passed.
+        $logEventArguments = New-Object `
+                                -TypeName Object[] `
+                                -ArgumentList 2;
+        # - - - - - - - - - - - - - - - - - - - -
         # .NET Special Objects
         # - - - -
         # Because Start-Process CMDLet does NOT redirect to a variable, but only to files.
@@ -904,6 +919,21 @@ class IOCommon
         # Check to see if the external command exists; if not - leave this function immediately.
         if(([IOCommon]::DetectCommand("$($command)", "Application")) -eq $false)
         {
+            # * * * * * * * * * * * * * * * * * * *
+            # Event Logging
+            # --------------
+
+            # Put the arguments together in a package
+            $logEventArguments[0] = "Error";
+            $logEventArguments[1] = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)";
+
+            # Send an event regarding this failure; this will be logged.
+            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                              -MessageData "Failed to execute the external command $($command) because it was not registered as an Application!" `
+                              -EventArguments $logEventArguments | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
+
             return -254;
         } # If : Command does not exist
 
@@ -953,8 +983,26 @@ class IOCommon
         # An error occurred while trying to execute the command
         catch
         {
+            # Immediately cache the reason why the command failed.
+            $executeFailureMessage = "$($_)";
+
             # The command failed to be executed
-            Write-Host "Failure to execute command upon request!`n`r$($_)";
+            Write-Host "Failure to execute command upon request!`n`r$($executeFailureMessage)";
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Event Logging
+            # --------------
+
+            # Put the arguments together in a package
+            $logEventArguments[0] = "Error";
+            $logEventArguments[1] = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tFailed to execute reason: $($executeFailureMessage)";
+
+            # Send an event regarding this failure; this will be logged.
+            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                              -MessageData "A failure occurred upon executing the external command $($command)!" `
+                              -EventArguments $logEventArguments | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
 
             # Return an error
             return -255;
