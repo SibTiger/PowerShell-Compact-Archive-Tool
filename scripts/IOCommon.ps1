@@ -1272,6 +1272,19 @@ class IOCommon
         [int] $wordPDFCode = 17;            # The code to export a document in
                                             #  PDF format.
             # https://docs.microsoft.com/en-us/office/vba/api/word.wdexportformat
+        [string] $executeFailureMessage = $null;       # If the command fails to properly
+                                                       #  execute, the reason for the failure
+                                                       #  might be available from the PowerShell
+                                                       #  engine.
+        # * * * * * * * * * * * * * * * * * * *
+        # Event Logging
+        [string] $logAdditionalInfo = $null;           # Additional information provided by
+                                                       #  the PowerShell engine, such as
+                                                       #  error messages.
+        # Object containing arguments to be passed.
+        $logEventArguments = New-Object `
+                                -TypeName Object[] `
+                                -ArgumentList 2;
         # ----------------------------------------
 
 
@@ -1285,6 +1298,9 @@ class IOCommon
         # Check to make sure that the source file actually exists.
         if ([IOCommon]::CheckPathExists("$($sourceFile)") -eq $false)
         {
+            # Display error to the user
+            [IOLoggingGateway]::DisplayMessage("Unable to create a PDF file; source file does not exist!`r`nSource file: $($sourceFile)", "Error");
+
             # The source file does not exist.
             return $false;
         } # if : source file didn't exist
@@ -1316,6 +1332,28 @@ class IOCommon
                 # The host system may not have Microsoft Word ready to be
                 #  use or has a Microsoft Word version that is not
                 #  compatible with PowerShell integration.
+
+                # Immediately cache the reason why the command failed.
+                $executeFailureMessage = "$($_)";
+
+                # Provide the error message to the user
+                [IOLoggingGateway]::DisplayMessage("Unable to create a new instance of Microsoft Word.");
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Event Logging
+                # --------------
+
+                # Put the arguments together in a package
+                $logEventArguments[0] = "Error";
+                $logEventArguments[1] = "Unable to create a new instance of Microsoft Word.`r`n`tSource File: $($sourceFile)`r`n`tAdditional Error Message: $($executeFailureMessage)";
+
+                # Send an event regarding this failure; this will be logged.
+                $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                                  -MessageData "Unable to create a new instance of Microsoft Word." `
+                                  -EventArguments $logEventArguments | Out-Null;
+
+                # * * * * * * * * * * * * * * * * * * *
+
                 return $false;
             } # Catch : Failure to create MS Word Instance
         } # If : Microsoft Word Installed \ Ready
@@ -1324,6 +1362,27 @@ class IOCommon
         #  integration.
         else
         {
+                # Immediately cache the reason why the command failed.
+                $executeFailureMessage = "$($_)";
+
+                # Provide the error message to the user
+                [IOLoggingGateway]::DisplayMessage("Unable to find a modern version Microsoft Word; unable to create a PDF.");
+
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Event Logging
+                # --------------
+
+                # Put the arguments together in a package
+                $logEventArguments[0] = "Error";
+                $logEventArguments[1] = "The host system does not have (or unable to detect) a modern version of Microsoft Word.`r`n`tSource File: $($sourceFile)`r`n`tAdditional Error Message: $($executeFailureMessage)";
+
+                # Send an event regarding this failure; this will be logged.
+                $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                                  -MessageData "Unable to find a modern version of Microsoft Word!" `
+                                  -EventArguments $logEventArguments | Out-Null;
+
+                # * * * * * * * * * * * * * * * * * * *
             return $false;
         } # Else : Failure to find Microsoft Word
 
