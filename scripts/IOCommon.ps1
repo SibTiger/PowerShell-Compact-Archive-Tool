@@ -987,7 +987,7 @@ class IOCommon
             $executeFailureMessage = "$($_)";
 
             # The command failed to be executed
-            Write-Host "Failure to execute command upon request!`n`r$($executeFailureMessage)";
+            [IOLoggingGateway]::DisplayMessage("Failure to execute command upon request!`n`rFailure reason: $($executeFailureMessage)", "Error");
 
             # * * * * * * * * * * * * * * * * * * *
             # Event Logging
