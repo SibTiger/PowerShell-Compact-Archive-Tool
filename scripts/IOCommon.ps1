@@ -729,6 +729,16 @@ class IOCommon
                                    {"$($reportPath)"} else {"$($LogStdOut)"};
         [string] $redirectStdOut = $null;                   # When STDOUT redirection to variable is
                                                             #  requested, this will be our buffer.
+        # * * * * * * * * * * * * * * * * * * *
+        # Event Logging
+        [LogMessageLevel] $logMSGLevel = "Verbose";    # The logged message level
+        [string] $logAdditionalInfo = $null;           # Additional information provided by
+                                                       #  the PowerShell engine, such as
+                                                       #  error messages.
+        # Object containing arguments to be passed.
+        $logEventArguments = New-Object `
+                                -TypeName Object[] `
+                                -ArgumentList 2;
         # ----------------------------------------
 
         
@@ -769,6 +779,23 @@ class IOCommon
                 # Store the information to a text file.
                 [IOCommon]::WriteToFile("$($logStdOut)", "$($outputResultOut.Value)") | Out-Null;
             } # Else : Stored in a specific file
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Event Logging
+            # --------------
+
+            # Put the arguments together in a package
+            $logEventArguments[0] = "Standard";
+            $logEventArguments[1] = "Description: $($description)`r`n`tSTDOUT Log Path: $($logStdOut)`r`n`tSTDOUT Output:`r`n`t$($outputResultOut.Value)";
+
+            # Send an event regarding the status of the operation's results; this will be logged.
+            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                              -MessageData "External command returned successfully with additional output." `
+                              -EventArguments $logEventArguments | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
+
         } # If : STDOUT contains data
         
 
@@ -783,6 +810,22 @@ class IOCommon
         {
             # Write the STDERR to a file
             [IOCommon]::WriteToFile("$($logStdErr)", "$($outputResultErr.Value)") | Out-Null;
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Event Logging
+            # --------------
+
+            # Put the arguments together in a package
+            $logEventArguments[0] = "Warning";
+            $logEventArguments[1] = "Description: $($description)`r`n`tSTDERR Log Path: $($logStdErr)`r`n`tSTDERR Output:`r`n`t$($outputResultErr.Value)";
+
+            # Send an event regarding the status of the operation's results; this will be logged.
+            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                              -MessageData "External command returned with an error or error messages exists!" `
+                              -EventArguments $logEventArguments | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
         } # If : Log the STDERR
     } # ExecuteCommandLog()
 
