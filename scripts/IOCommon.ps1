@@ -597,7 +597,7 @@ class IOCommon
 
             # Put the arguments together in a package
             $logEventArguments[0] = "Warning";
-            $logEventArguments[1] = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)";
+            $logEventArguments[1] = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tDescription is now: $($description)";
 
             # Send an event regarding this change; this will be logged.
             $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
