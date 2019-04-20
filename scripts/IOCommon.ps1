@@ -1478,6 +1478,24 @@ class IOCommon
         # Check to make sure that the PDF file was saved properly.
         if ([IOCommon]::CheckPathExists("$($destinationFile)") -eq $false)
         {
+            # Display error to the user
+            [IOLoggingGateway]::DisplayMessage("Created a PDF file as requested but unable find it....")
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Event Logging
+            # --------------
+
+            # Put the arguments together in a package
+            $logEventArguments[0] = "Error";
+            $logEventArguments[1] = "Source file: $($sourceFile)`r`n`tDestination file: $($destinationFile)";
+
+            # Send an event regarding this failure; this will be logged.
+            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                              -MessageData "The PDF file was created successfully but unable to find the PDF file at the destination path!" `
+                              -EventArguments $logEventArguments | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
+
             # The PDF file was not found
             return $false;
         } # if : file didn't exist
