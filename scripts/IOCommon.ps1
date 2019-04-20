@@ -926,7 +926,7 @@ class IOCommon
 
             # Send an event regarding this failure; this will be logged.
             $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                              -MessageData "Failed to execute the external command $($command) because it was not registered as an Application!" `
+                              -MessageData "Failed to execute the external command $($command) because it was not found or is not an application!" `
                               -EventArguments $logEventArguments | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
