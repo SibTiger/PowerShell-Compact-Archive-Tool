@@ -646,7 +646,7 @@ class IOCommon
         # --------------
 
         # Put the arguments together in a package
-        $logEventArguments[0] = "Standard";
+        $logEventArguments[0] = "Verbose";
         $logEventArguments[1] = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tReason to use command: $($description)`r`n`tExtCMD Exit Code: $($externalCommandReturnCode)";
 
         # Send an event regarding the status of the operation's results; this will be logged.
