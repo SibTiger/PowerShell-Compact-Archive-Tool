@@ -1301,6 +1301,22 @@ class IOCommon
             # Display error to the user
             [IOLoggingGateway]::DisplayMessage("Unable to create a PDF file; source file does not exist!`r`nSource file: $($sourceFile)", "Error");
 
+            # * * * * * * * * * * * * * * * * * * *
+            # Event Logging
+            # --------------
+
+            # Put the arguments together in a package
+            $logEventArguments[0] = "Error";
+            $logEventArguments[1] = "Source file: $($sourceFile)`r`n`tDestination file: $($destinationFile)";
+            #File to write: $($file)`r`n`tContents to write: $($contents.Value.ToString())`r`n`tFailed to execute reason: $($executeFailureMessage)";
+
+            # Send an event regarding this failure; this will be logged.
+            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                              -MessageData "Unable to create a PDF file as the source file does not exist!" `
+                              -EventArguments $logEventArguments | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
+
             # The source file does not exist.
             return $false;
         } # if : source file didn't exist
