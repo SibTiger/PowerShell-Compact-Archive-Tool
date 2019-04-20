@@ -784,7 +784,7 @@ class IOCommon
             # --------------
 
             # Put the arguments together in a package
-            $logEventArguments[0] = "Standard";
+            $logEventArguments[0] = "Verbose";
             $logEventArguments[1] = "Description: $($description)`r`n`tSTDOUT Log Path: $($logStdOut)`r`n`tSTDOUT Output:`r`n`t$($outputResultOut.Value)";
 
             # Send an event regarding the status of the operation's results; this will be logged.
