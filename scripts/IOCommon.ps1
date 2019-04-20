@@ -1603,6 +1603,15 @@ class IOCommon
         [int] $repetitionCount = 0;            # The repetition counter; this will be
                                                #  incremented to help assure uniqueness for
                                                #  the directory name.
+        # * * * * * * * * * * * * * * * * * * *
+        # Event Logging
+        [string] $logAdditionalInfo = $null;           # Additional information provided by
+                                                       #  the PowerShell engine, such as
+                                                       #  error messages.
+        # Object containing arguments to be passed.
+        $logEventArguments = New-Object `
+                                -TypeName Object[] `
+                                -ArgumentList 2;
         # ----------------------------------------
 
         
@@ -1661,6 +1670,24 @@ class IOCommon
             # Because the directory does not exist, try to create it.
             if ($([IOCommon]::MakeDirectory("$($tempDirectoryPath)")) -eq $false)
             {
+                # Display the message to the user
+                [IOLoggingGateway]::DisplayMessage("Unable to create a temporary directory!", "Error");
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Event Logging
+                # --------------
+
+                # Put the arguments together in a package
+                $logEventArguments[0] = "Error";
+                $logEventArguments[1] = "Path of the parent temporary directory: $($tempDirectoryPath)";
+
+                # Send an event regarding this failure; this will be logged.
+                $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                                  -MessageData "Unable to create a parent temporary directory!" `
+                                  -EventArguments $logEventArguments | Out-Null;
+
+                # * * * * * * * * * * * * * * * * * * *
+
                 # We couldn't create the parent directory.  It might be
                 #  possible that the User's LocalAppData\Temp is locked.
                 return $false;
@@ -1726,6 +1753,24 @@ class IOCommon
         # Now that we have the name, create the directory
         if ($([IOCommon]::MakeDirectory("$($finalDirectoryPath)")) -eq $false)
         {
+            # Display the message to the user
+            [IOLoggingGateway]::DisplayMessage("Unable to create a temporary directory!", "Error");
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Event Logging
+            # --------------
+
+            # Put the arguments together in a package
+            $logEventArguments[0] = "Error";
+            $logEventArguments[1] = "Path of the temporary directory: $($finalDirectoryPath)";
+
+            # Send an event regarding this failure; this will be logged.
+            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                                -MessageData "Unable to create a temporary directory!" `
+                                -EventArguments $logEventArguments | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
+
             # There was a failure while creating the directory.
             return $false;
         } # if : Failure Creating Directory
@@ -1735,6 +1780,24 @@ class IOCommon
         # Just for assurance sakes, does the directory exist?
         if ($([IOCommon]::CheckPathExists("$($finalDirectoryPath)")) -eq $false)
         {
+            # Display the message to the user
+            [IOLoggingGateway]::DisplayMessage("Created the temporary directory but unable to found it....", "Error");
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Event Logging
+            # --------------
+
+            # Put the arguments together in a package
+            $logEventArguments[0] = "Error";
+            $logEventArguments[1] = "Path of the temporary directory: $($finalDirectoryPath)";
+
+            # Send an event regarding this failure; this will be logged.
+            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                                -MessageData "Successfully created the temporary directory but it was not found in the final destination path!" `
+                                -EventArguments $logEventArguments | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
+
             # Because the directory does not exist, we cannot
             #  simply use something that isn't there.
             return $false;
