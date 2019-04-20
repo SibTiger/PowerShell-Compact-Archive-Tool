@@ -1849,6 +1849,15 @@ class IOCommon
         # Declarations and Initializations
         # ----------------------------------------
         [bool] $exitCode = $true;    # Exit code that will be returned.
+        # * * * * * * * * * * * * * * * * * * *
+        # Event Logging
+        [string] $logAdditionalInfo = $null;           # Additional information provided by
+                                                       #  the PowerShell engine, such as
+                                                       #  error messages.
+        # Object containing arguments to be passed.
+        $logEventArguments = New-Object `
+                                -TypeName Object[] `
+                                -ArgumentList 2;
         # ----------------------------------------
 
 
@@ -1862,9 +1871,46 @@ class IOCommon
             {
                 # Try to create the directory; if failure - stop.
                 New-Item -Path "$($path)" -ItemType Directory -ErrorAction Stop;
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Event Logging
+                # --------------
+
+                # Put the arguments together in a package
+                $logEventArguments[0] = "Verbose";
+                $logEventArguments[1] = "Directory Path: $($path)";
+                #Path of the temporary directory: $($finalDirectoryPath)";
+
+                # Send an event regarding this failure; this will be logged.
+                $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                                    -MessageData "Successfully created the directory!" `
+                                    -EventArguments $logEventArguments | Out-Null;
+
+                # * * * * * * * * * * * * * * * * * * *
             } # try : Create directory.
             catch
             {
+                # Immediately cache the reason why the command failed.
+                $executeFailureMessage = "$($_)";
+
+                # Display the message to the user
+                [IOLoggingGateway]::DisplayMessage("Failed to create the required directory!`r`nReason for failure: $($executeFailureMessage)", "Error");
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Event Logging
+                # --------------
+
+                # Put the arguments together in a package
+                $logEventArguments[0] = "Error";
+                $logEventArguments[1] = "Directory Path: $($path)`r`n`tAdditional Error Message: $($executeFailureMessage)";
+                #Path of the temporary directory: $($finalDirectoryPath)";
+
+                # Send an event regarding this failure; this will be logged.
+                $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                                    -MessageData "Failed to create the directory by request!" `
+                                    -EventArguments $logEventArguments | Out-Null;
+
+                # * * * * * * * * * * * * * * * * * * *
                 # Failure occurred.
                 $exitCode = $false;
             } # Catch : Failed to Create Directory
