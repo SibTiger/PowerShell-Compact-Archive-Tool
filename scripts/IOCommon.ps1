@@ -92,7 +92,9 @@ class IOCommon
     #>
     hidden static [void] EventLoggingRegister()
     {
+        # Display a message on the screen that the logging event is being registered.
         Write-Host "Trying to register the custom event [Logging] in IOCommon. . .";
+
         try
         {
             # Register the custom event
