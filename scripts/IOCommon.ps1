@@ -58,6 +58,9 @@ class IOCommon
     #>
     [void] Destroy()
     {
+        # Display a message on the screen that the logging event is being unregistered
+        Write-Host "Trying to unregister the custom event [Logging] in IOCommon. . .";
+
         # Remove the Custom Event for Logging
         try
         {
