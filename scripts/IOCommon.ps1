@@ -2123,6 +2123,12 @@ class IOCommon
     #>
     static [bool] DeleteFile([string] $path, [string[]] $includes)
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [bool] $exitCode = $false;    # Exit code that will be returned.
+        # ----------------------------------------
+
+
         # First check to see if the directory actually exists,
         #  if not, then there is nothing to do.
         if(([IOCommon]::CheckPathExists("$($path)")) -eq $false)
@@ -2131,21 +2137,26 @@ class IOCommon
             return $true;
         } # Check if Directory Exists.
 
+
         # Try to delete the requested files from specific directory.
         try
         {
             # Remove the requested files.
             Remove-Item -Path "$($path)\*" -Include $($includes) -Force -ErrorAction Stop;
+
+            # Successfully deleted the file(s)
+            $exitCode = $true;
         } # Try : Delete Files
 
         catch
         {
-            return $false;
+            # Failure occurred while deleting the requested file(s).
+            $exitCode = $false;
         } # Catch : Error Deleting Files
 
 
-        # Successfully deleted the files.
-        return $true;
+        # Return with exit code
+        return $exitCode;
     } # DeleteFile
 
     #endregion
