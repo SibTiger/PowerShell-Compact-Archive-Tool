@@ -2024,6 +2024,12 @@ class IOCommon
     #>
     static [bool] DeleteDirectory([string] $path)
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [bool] $exitCode = $false;    # Exit code that will be returned.
+        # ----------------------------------------
+
+
         # First check to see if the directory actually exists,
         #  if not, then there is nothing to do.
         if(([IOCommon]::CheckPathExists("$($path)")) -eq $false)
@@ -2038,16 +2044,20 @@ class IOCommon
         {
             # Remove the directory.
             Remove-Item -LiteralPath "$($path)" -Force -Recurse -ErrorAction Stop;
+
+            # Successfully deleted the requested directory.
+            $exitCode = $true;
         } # Try : Delete Directory
 
         catch
         {
-            return $false;
+            # Failure occurred while deleting the requested directory.
+            $exitCode = $false;
         } # Catch : Error Deleting Directory
 
 
-        # Successfully deleted the directory.
-        return $true;
+        # Return with exit code
+        return $exitCode;
     } # DeleteDirectory()
 
 
