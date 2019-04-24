@@ -1952,6 +1952,16 @@ class IOCommon
         # Declarations and Initializations
         # ----------------------------------------
         [bool] $exitCode = $false;    # Exit code that will be returned.
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Event Logging
+        [string] $logAdditionalInfo = $null;           # Additional information provided by
+                                                       #  the PowerShell engine, such as
+                                                       #  error messages.
+        # Object containing arguments to be passed.
+        $logEventArguments = New-Object `
+                                -TypeName Object[] `
+                                -ArgumentList 2;
         # ----------------------------------------
 
 
@@ -1962,6 +1972,24 @@ class IOCommon
             $exitCode = $true;
         } # If : Directory exists
 
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Event Logging
+        # --------------
+
+        # Capture any additional information
+        $logAdditionalInfo = "$($_)";
+
+        # Put the arguments together in a package
+        $logEventArguments[0] = "Verbose";
+        $logEventArguments[1] = "$($logAdditionalInfo)";
+
+        # Send an event regarding the status of the operation's results; this will be logged.
+        $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                          -MessageData "Tried to find the path named $($path), detected result was $($exitCode)" `
+                          -EventArguments $logEventArguments | Out-Null;
+
+        # * * * * * * * * * * * * * * * * * * *
 
         # Return with exit code
         return $exitCode;
