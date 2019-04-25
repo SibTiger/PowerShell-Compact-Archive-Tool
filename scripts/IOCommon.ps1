@@ -2410,7 +2410,7 @@ class IOCommon
             try
             {
                 # Open the webpage
-                Start-Process -FilePath "$($URLAddress)";
+                Start-Process -FilePath "$($URLAddress)" -ErrorAction Stop;
             
                 # Update the exit code status
                 $exitCode = $true;
