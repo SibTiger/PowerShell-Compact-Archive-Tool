@@ -2223,6 +2223,16 @@ class IOCommon
 
         # FileHashInfo; used for capturing the hash information from a specific data file.
         $hashInfo = New-Object -TypeName Microsoft.PowerShell.Commands.FileHashInfo;
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Event Logging
+        [string] $logAdditionalInfo = $null;           # Additional information provided by
+                                                       #  the PowerShell engine, such as
+                                                       #  error messages.
+        # Object containing arguments to be passed.
+        $logEventArguments = New-Object `
+                                -TypeName Object[] `
+                                -ArgumentList 2;
         # ----------------------------------------
 
 
@@ -2240,6 +2250,23 @@ class IOCommon
         if ([IOCommon]::__SupportedHashAlgorithms($hashAlgorithm) -eq $false)
         {
             # The hash algorithm requested was not supported.
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Event Logging
+            # --------------
+
+            # Put the arguments together in a package
+            $logEventArguments[0] = "Error";
+            $logEventArguments[1] = "Requested file: $($path)`r`n`tRequested Hash Algorithm: $($hashAlgorithm)";
+
+            # Send an event regarding the status of the operation's results; this will be logged.
+            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                              -MessageData "The requested hash algorithm is not supported!" `
+                              -EventArguments $logEventArguments | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
+
+            # Return null as the requested hash algorithm does not exist or is not supported.
             return $null;
         } # if : Unsupported Hash Algorithm
 
@@ -2260,6 +2287,26 @@ class IOCommon
         catch
         {
             # Failure to obtain the hash value.
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Event Logging
+            # --------------
+
+            # Capture any additional information
+            $logAdditionalInfo = "$($_)";
+
+            # Put the arguments together in a package
+            $logEventArguments[0] = "Error";
+            $logEventArguments[1] = "Requested file: $($path)`r`n`tRequested Hash Algorithm: $($hashAlgorithm)`r`n`tAdditional Information: $($logAdditionalInfo)";
+
+            # Send an event regarding the status of the operation's results; this will be logged.
+            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                              -MessageData "A failure occurred while trying to get the hash value!" `
+                              -EventArguments $logEventArguments | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
+
+            # Return null as an error occurred.
             $hashValue = $null;
         } # Catch : Failure to fetch value
 
