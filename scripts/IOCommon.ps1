@@ -2397,6 +2397,16 @@ class IOCommon
         # Declarations and Initializations
         # ----------------------------------------
         [bool] $exitCode = $false;  # The operation exit code.
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Event Logging
+        [string] $logAdditionalInfo = $null;           # Additional information provided by
+                                                       #  the PowerShell engine, such as
+                                                       #  error messages.
+        # Object containing arguments to be passed.
+        $logEventArguments = New-Object `
+                                -TypeName Object[] `
+                                -ArgumentList 2;
         # ----------------------------------------
 
 
@@ -2418,6 +2428,26 @@ class IOCommon
 
             catch
             {
+                # Error occurred while trying to open the requested web-page
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Event Logging
+                # --------------
+
+                # Capture any additional information
+                $logAdditionalInfo = "$($_)";
+
+                # Put the arguments together in a package
+                $logEventArguments[0] = "Error";
+                $logEventArguments[1] = "Tried to open webpage: $($URLAddress)`r`n`tAdditional Information: $($logAdditionalInfo)";
+
+                # Send an event regarding the status of the operation's results; this will be logged.
+                $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                                  -MessageData "Failure occurred while accessing the requested webpage!" `
+                                  -EventArguments $logEventArguments | Out-Null;
+
+                # * * * * * * * * * * * * * * * * * * *
+
                 # Update the exit code status.
                 $exitCode = $false;
             } # Catch : Error
@@ -2426,6 +2456,23 @@ class IOCommon
         else
         {
             # The address is not legal
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Event Logging
+            # --------------
+
+            # Put the arguments together in a package
+            $logEventArguments[0] = "Error";
+            $logEventArguments[1] = "Tried to open webpage: $($URLAddress)";
+
+            # Send an event regarding the status of the operation's results; this will be logged.
+            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
+                                -MessageData "The requested webpage is not valid!" `
+                                -EventArguments $logEventArguments | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
+
+            # Update the exit code status.
             $exitCode = $false;
         } # Else : URL Address is NOT Legitimate
 
