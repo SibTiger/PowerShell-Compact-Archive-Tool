@@ -1060,14 +1060,14 @@ class SevenZip
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $sourceDir = "$($(Get-Item $file).DirectoryName)"  # Working Directory when executing the
-                                                                    #  extCMD.
-        [string] $extCMDArgs = "h -scrc$($hashAlgorithm) $($file)"; # Arguments for the external command
-                                                                    #  This will get 7zip to generate the
-                                                                    #  requested hash value.
-        [string] $outputResult = $null;                             # Holds the hash value provided by the
-                                                                    #  extCMD 7z
-        [string] $execReason = "Generate $($hashAlgorithm) Hash";   # Description; used for logging
+        [string] $sourceDir = "$($(Get-Item $file).DirectoryName)"      # Working Directory when executing the
+                                                                        #  extCMD.
+        [string] $extCMDArgs = "h -scrc$($hashAlgorithm) `"$($file)`""; # Arguments for the external command
+                                                                        #  This will get 7zip to generate the
+                                                                        #  requested hash value.
+        [string] $outputResult = $null;                                 # Holds the hash value provided by the
+                                                                        #  extCMD 7z
+        [string] $execReason = "Generate $($hashAlgorithm) Hash";       # Description; used for logging
         # ----------------------------------------
 
 
@@ -1230,7 +1230,7 @@ class SevenZip
                                                                     #  get to that file.
         [string] $sourceDir = "$($(Get-Item $file).DirectoryName)"; # Working Directory when executing the
                                                                     #  extCMD.
-        [string] $extCMDArgs = "t $($file)";                        # Arguments for the external command
+        [string] $extCMDArgs = "t `"$($file)`"";                    # Arguments for the external command
                                                                     #  This will get 7zip to test the
                                                                     #  requested archive datafile.
         [string] $execReason = "Verifying $($fileName)";            # Description; used for logging
@@ -1298,7 +1298,7 @@ class SevenZip
 
 
 
-    <# Fetch Hash Information
+   <# Fetch Hash Information
     # -------------------------------
     # Documentation:
     #  This function will retrieve and return
@@ -1395,7 +1395,7 @@ class SevenZip
                                                                     #  get to that file.
         [string] $sourceDir = "$($(Get-Item $file).DirectoryName)"; # Working Directory when executing the
                                                                     #  extCMD.
-        [string] $extCMDArgs = "l $($file)";                        # Arguments for the external command
+        [string] $extCMDArgs = "l `"$($file)`"";                    # Arguments for the external command
                                                                     #  This will get 7zip to list all of
                                                                     #  the files within the requested
                                                                     #  archive datafile.
@@ -1532,7 +1532,7 @@ class SevenZip
                                                                     #  get to that file, extension is kept.
         [string] $sourceDir = "$($(Get-Item $file).DirectoryName)"; # Working Directory when executing the
                                                                     #  extCMD.
-        [string] $extCMDArgs = "x $($file)";                        # Arguments for the external command
+        [string] $extCMDArgs = "x `"$($file)`"";                    # Arguments for the external command
                                                                     #  This will get 7zip to list all of
                                                                     #  the files within the requested
                                                                     #  archive datafile.
@@ -1901,11 +1901,11 @@ class SevenZip
 
 
         # Attach the archive file name
-        $extCMDArgs = "$($extCMDArgs) $($finalArchiveFileName)";
+        $extCMDArgs = "$($extCMDArgs) `"$($finalArchiveFileName)`"";
 
 
         # Attach the target directory
-        $extCMDArgs = "$($extCMDArgs) $($targetDirectory)\*";
+        $extCMDArgs = "$($extCMDArgs) `"$($targetDirectory)`"\*";
         
 
         # Now determine the compression method
