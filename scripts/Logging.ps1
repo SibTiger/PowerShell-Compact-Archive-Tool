@@ -273,6 +273,8 @@ class Logging
         [string] $messageToWrite = $null;       # Message with added information
         # ----------------------------------------
 
+        # Make sure that the required directories exists for logging, if not - try to create it.
+        [Logging]::__CreateDirectories() | Out-Null;
 
         # Get the timestamp
         $timestamp = "$([Logging]::__GenerateSessionTimestamp())";
