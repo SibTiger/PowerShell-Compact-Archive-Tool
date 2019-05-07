@@ -274,7 +274,15 @@ class Logging
         # ----------------------------------------
 
         # Make sure that the required directories exists for logging, if not - try to create it.
-        [Logging]::__CreateDirectories() | Out-Null;
+        if ([Logging]::__CreateDirectories() -eq $false)
+        {
+            # Because the directory could not be created, there's no point in
+            #  trying to write information to a log file - when the directory
+            #  does not exist.
+            Write-Output "ERR! Program Log Directory failed to be created!";
+            return $false;
+        } # If : Program Log Dir. does not exist.
+
 
         # Get the timestamp
         $timestamp = "$([Logging]::__GenerateSessionTimestamp())";
