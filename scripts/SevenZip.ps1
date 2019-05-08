@@ -1643,7 +1643,7 @@ class SevenZip
         # -----------------------------
 
         # Attach the output directory to the extCMD Arguments
-        $extCMDArgs = "$($extCMDArgs) -o$($finalOutputPath)";
+        $extCMDArgs = "$($extCMDArgs) -o`"$($finalOutputPath)`"";
         
 
         # Execute the command
