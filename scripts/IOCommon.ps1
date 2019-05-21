@@ -34,7 +34,7 @@ class IOCommon
     IOCommon()
     {
         # Register logging events
-        [IOCommon]::EventLoggingRegister();
+        [IOCommon]::RegisterEventLogging("IOCommon", "$([IOCommon]::eventNameLog)");
     } # Default Constructor
 
 
@@ -89,28 +89,52 @@ class IOCommon
     #   informational or verbose details regarding the operation
     #   or status of a specific action that took place.
     # -------------------------------
+    # Inputs:
+    #  [string] Nice Source Name
+    #   The source name that is being registered; ideally this
+    #    can be the name of the object - which might be displayed
+    #    to the user or logged for future references.
+    #  [string] Source Identifier
+    #   The Source Identifier that will be registered to the
+    #    Powershell's engine.
+    #   NOTE: All Source Identifiers _MUST_ be unique to the
+    #    Powershell engine.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit Code
+    #    $false = Failure to create the custom event.
+    #    $true = Successfully created the custom event.
+    # -------------------------------
     #>
-    hidden static [void] EventLoggingRegister()
+    static [bool] RegisterEventLogging([string] $niceSourceName, [string] $sourceIdent)
     {
         # Display a message on the screen that the logging event is being registered.
-        Write-Host "Trying to register the custom event [Logging] in IOCommon. . .";
+        Write-Host "Trying to register the custom event [Logging] for the source name: $($niceSourceName). . .";
 
         try
         {
-            # Register the custom event
-            Register-EngineEvent -SourceIdentifier "$([IOCommon]::eventNameLog)" -Action {
+            # Try to register the custom event
+            Register-EngineEvent -SourceIdentifier "$($sourceIdent)" -Action {
                 [IOLoggingGateway]::CaptureLogEvent($event);
             } # Register-EngineEvent :: Action
 
-            Write-Host "Successfully registered the custom event [Logging] in IOCommon!";
+            # Display a message on the terminal screen that the event has been created successfully.
+            Write-Host "Successfully registered the custom event [Logging] for the source name: $($niceSourceName)!";
+        
+            # Return successfully
+            return $true;
         } # Try
 
-        # Failure occurred
+        # A failure occurred
         Catch
         {
-            Write-Host "Failed to register custom event [Logging] in IOCommon!";
+            # Display a message on the terminal screen that the event could not be successfully created.
+            Write-Host "Failed to register custom event [Logging] for the source name: $($niceSourceName)!";
+        
+            # Return an error
+            return $false;
         } # Failure
-    } # EventLoggingRegister()
+    } # RegisterEventLogging()
 
 
 
