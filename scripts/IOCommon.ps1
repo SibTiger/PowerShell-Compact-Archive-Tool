@@ -70,7 +70,6 @@ class IOCommon
 
     #region User Input Functions
 
-
    <# Fetch User Input
     # -------------------------------
     # Documentation:
@@ -112,7 +111,6 @@ class IOCommon
 
 
     #region Write-to-Buffer Functions
-
 
    <# Write to Buffer (Terminal Screen)
     # -------------------------------
