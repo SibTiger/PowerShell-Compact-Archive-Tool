@@ -34,7 +34,7 @@ class IOCommon
     IOCommon()
     {
         # Register logging events
-        [IOCommon]::RegisterEventLogging("IOCommon", "$([IOCommon]::eventNameLog)");
+        [IOCommon]::RegisterEventLogging("IOCommon", "$([IOCommon]::eventNameLog)") | Out-Null;
     } # Default Constructor
 
 
