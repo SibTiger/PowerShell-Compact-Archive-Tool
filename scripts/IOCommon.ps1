@@ -58,23 +58,7 @@ class IOCommon
     #>
     [void] Destroy()
     {
-        # Display a message on the screen that the logging event is being unregistered
-        Write-Host "Trying to unregister the custom event [Logging] in IOCommon. . .";
-
-        # Remove the Custom Event for Logging
-        try
-        {
-            # Unregister the custom event
-            Unregister-Event -Force -SourceIdentifier "$([IOCommon]::eventNameLog)";
-
-            Write-Host "Successfully unregistered the custom event [Logging] in IOCommon!";
-        } # Try
-
-        # Failure to unregister
-        catch
-        {
-            Write-Host "Failed to unregister the custom event [Logging] in IOCommon!";
-        } # Failure
+        [IOCommon]::UnregisterEvent("IOCommon", "$([IOCommon]::eventNameLog)");
     } # Destroy()
 
 
@@ -135,6 +119,59 @@ class IOCommon
             return $false;
         } # Failure
     } # RegisterEventLogging()
+
+
+
+
+   <# Unregister Events
+    # -------------------------------
+    # Documentation:
+    #  This function will unregister a specific custom event that
+    #   was previously registered to the Powershell engine.
+    # -------------------------------
+    # Inputs:
+    #  [string] Nice Source Name
+    #   The source name that is being unregistered; ideally this
+    #    can be the name of the object - which might be displayed
+    #    to the user or logged for future references.
+    #  [string] Source Identifier
+    #   The Source Identifier that will be unregistered from the
+    #    Powershell's engine.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit Code
+    #    $false = Failure to create the custom event.
+    #    $true = Successfully created the custom event.
+    # -------------------------------
+    #>
+    static [bool] UnregisterEvent([string] $niceSourceName, [string] $sourceIdent)
+    {
+        # Display a message on the screen that the logging event is being unregistered
+        Write-Host "Trying to unregister the custom event [Logging] for the source name: $($niceSourceName). . .";
+
+        # Remove the Custom Event for Logging
+        try
+        {
+            # Try unregister the custom event
+            Unregister-Event -Force -SourceIdentifier "$($sourceIdent)";
+
+            # Display a message on the terminal screen that the event was unregistered successfully.
+            Write-Host "Successfully unregistered the custom event [Logging] for the source name: $($niceSourceName)!";
+    
+            # Return successfully
+            return $true;
+        } # Try
+
+        # Failure to unregister
+        catch
+        {
+            # Display a message on the terminal screen that the event could not be successfully unregistered.
+            Write-Host "Failed to unregister custom event [Logging] for the source name: $($niceSourceName)!";
+    
+            # Return an error
+            return $false;
+        } # Failure
+    } # UnregisterEvent()
 
 
 
