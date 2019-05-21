@@ -58,7 +58,7 @@ class IOCommon
     #>
     [void] Destroy()
     {
-        [IOCommon]::UnregisterEvent("IOCommon", "$([IOCommon]::eventNameLog)");
+        [IOCommon]::UnregisterEvent("IOCommon", "$([IOCommon]::eventNameLog)") | Out-Null;
     } # Destroy()
 
 
