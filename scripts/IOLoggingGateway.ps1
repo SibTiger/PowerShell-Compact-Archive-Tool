@@ -114,14 +114,23 @@
                                             #  readable data from the Powershell engine.
         # ----------------------------------------
 
-        # Fetch the data from the event object; if any value was not properly provided - insert
-        #  an error message.  Avoid blank entries.
 
-        # Source Identifier
+        # Evaluate the data provided from the event object.  If any of the values from
+        #  the event object are not provided, including the message array, then we will
+        #  provide an error or default message instead - we must try to avoid blank entries.
+
+
+
+        # First: Source Identifier
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+        # Try to fetch the source identifier; who or what object that sent the message.
+        
+        # The Source Ident. is unknown or unobtainable.
         if ("$($eventMessageObj.SourceIdentifier)" -eq "$($null)")
         {
-            # The Source ID is unknown
-            $sourceID = "UNKNOWN SOURCEID";
+            # The Source Ident. is unknown
+            $sourceID = "SOURCE IDENTIFIER IS UNKNOWN";
         } # If: Unknown Source Identifier
         
         else
@@ -130,12 +139,21 @@
             $sourceID = $eventMessageObj.SourceIdentifier;
         } # Else: Source Identifier Information Provided
 
-        # - - - -
 
-        # Message Data
+
+        # - - - - - - - - - - - - - -
+
+
+
+        # Second: Message Data
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+        # Try to fetch the initial message; the reason why the event was triggered.
+
+        # There was no initial message provided
         if ("$($eventMessageObj.MessageData)" -eq "$($null)")
         {
-            # There does not exist any message
+            # There does not exist any message.
             $message = "<<UNKNOWN OR BLANK MESSAGE>>";
         } # If: Unknown or Blank Message
 
@@ -145,9 +163,19 @@
             $message = $eventMessageObj.MessageData;
         } # Else: Message Data was Provided
         
-        # - - - -
 
-        # Message Level
+
+        # - - - - - - - - - - - - - -
+
+
+
+        # Third: Message Level
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+        # Try to fetch the message level; the severity or what kind of message
+        #  that is provided in the event object.
+
+        # The message level was not provided or is not obtainable.
         if ("$($eventMessageObj.SourceArgs[0])" -eq "$($null)")
         {
             # The message level is unknown
@@ -160,9 +188,18 @@
             $messageLevel = $eventMessageObj.SourceArgs[0];
         } # Else: Message Level was Provided
 
-        # - - - -
 
-        # Additional Information
+
+        # - - - - - - - - - - - - - -
+
+
+
+        # Fourth: Additional Message Information
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+        # Any additional information provided; optional field.
+
+        # No additional information provided
         if ("$($eventMessageObj.SourceArgs[1])" -eq "$($null)")
         {
             # No additional information was provided
@@ -175,12 +212,20 @@
             $messageAdditional = "Additional Information:`r`n`t$($eventMessageObj.SourceArgs[1])`r`n";
         } # Else: Additional Information was Provided
 
-        # - - - -
 
-        # Put everything together in a final message form
+
+        # = = = = = = = = = = = = = =
+        # - - - - - - - - - - - - - -
+        # = = = = = = = = = = = = = =
+
+
+
+        # Now to put everything in the final form, how the message is going to presented in the logfile.
         $finalMessage = "{$($sourceID)}-($($messageLevel))`r`n$($message)`r`n$($messageAdditional)";
 
+
         # - - - -
+
 
         # Write the message to the logfile.
         [Logging]::WriteLogFile("$($finalMessage)");
