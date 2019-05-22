@@ -2542,5 +2542,43 @@ class IOCommon
         } # Failure
     } # UnregisterEvent()
 
+
+
+
+   <# Trigger Event
+    # -------------------------------
+    # Documentation:
+    #  This function will allow a centralized way of triggering an event for
+    #   objects within this software.  This type of event trigger focuses on
+    #   custom Powershell events that has already been registered to the POSH
+    #   engine.
+    # -------------------------------
+    # Inputs:
+    #  [string] Source Identifier
+    #   The source identifier that has been registered and defines what
+    #    object or source is triggering the event.
+    #  [string] Message Data
+    #   The primary reason for the event being triggered; the message
+    #    containing some sort of data or information that will be carried
+    #    over to a listening function as defined by the action of the
+    #    source identifier that has been registered to the PowerShell engine.
+    #  [string[]] Event Arguments
+    #   Object of arguments that is to be carried over to the listening
+    #    function that was defined by the action of the source identifier
+    #    that has been registered to the PowerShell engine.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit Code
+    #    $false = Failure to trigger the custom event.
+    #    $true = Successfully triggered the custom event.
+    # -------------------------------
+    #>
+    static [bool] TriggerEvent ([string] $sourceIdent, [string] $msgData, [string[]] $eventArgs)
+    {
+        New-Event -SourceIdentifier "$($sourceIdent)" `
+                  -MessageData "$($msgData)" `
+                  -EventArguments $eventArgs;
+        return $true;
+    } # TriggerEvent()
     #endregion
 } # IOCommon
