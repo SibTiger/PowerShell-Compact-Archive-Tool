@@ -2503,6 +2503,8 @@ class IOCommon
     #   The source name that is being unregistered; ideally this
     #    can be the name of the object - which might be displayed
     #    to the user or logged for future references.
+    #  [string] Nice Event Purpose
+    #   A short noun or verb for the purpose for the event.
     #  [string] Source Identifier
     #   The Source Identifier that will be unregistered from the
     #    Powershell's engine.
@@ -2513,10 +2515,12 @@ class IOCommon
     #    $true = Successfully created the custom event.
     # -------------------------------
     #>
-    static [bool] UnregisterEvent([string] $niceSourceName, [string] $sourceIdent)
+    static [bool] UnregisterEvent([string] $niceSourceName,
+                                [string] $niceEventPurpose,
+                                [string] $sourceIdent)
     {
         # Display a message on the screen that the logging event is being unregistered
-        Write-Host "Trying to unregister the custom event [Logging] for the source name: $($niceSourceName). . .";
+        Write-Host "Trying to unregister the custom event [$($niceEventPurpose)] for the source name: $($niceSourceName). . .";
 
         # Remove the Custom Event for Logging
         try
@@ -2525,7 +2529,7 @@ class IOCommon
             Unregister-Event -Force -SourceIdentifier "$($sourceIdent)";
 
             # Display a message on the terminal screen that the event was unregistered successfully.
-            Write-Host "Successfully unregistered the custom event [Logging] for the source name: $($niceSourceName)!";
+            Write-Host "Successfully unregistered the custom event [$($niceEventPurpose)] for the source name: $($niceSourceName)!";
     
             # Return successfully
             return $true;
@@ -2535,7 +2539,7 @@ class IOCommon
         catch
         {
             # Display a message on the terminal screen that the event could not be successfully unregistered.
-            Write-Host "Failed to unregister custom event [Logging] for the source name: $($niceSourceName)!";
+            Write-Host "Failed to unregister custom event [$($niceEventPurpose)] for the source name: $($niceSourceName)!";
     
             # Return an error
             return $false;
