@@ -2575,10 +2575,26 @@ class IOCommon
     #>
     static [bool] TriggerEvent ([string] $sourceIdent, [string] $msgData, [string[]] $eventArgs)
     {
-        New-Event -SourceIdentifier "$($sourceIdent)" `
-                  -MessageData "$($msgData)" `
-                  -EventArguments $eventArgs;
-        return $true;
+        # Try to trigger the event to the PowerShell's engine.
+        try
+        {
+            # Trigger the event
+            New-Event -SourceIdentifier "$($sourceIdent)" `
+                      -MessageData "$($msgData)" `
+                      -EventArguments $eventArgs `
+                      -ErrorAction Stop;
+
+            # Successfully triggered the event.
+            return $true;
+        } # Try
+
+        # Error occurred while triggering the event
+        catch
+        {
+            # Failed to trigger the event.
+            return $false;
+        } # Failure
     } # TriggerEvent()
+
     #endregion
 } # IOCommon
