@@ -107,7 +107,7 @@
         # Declarations and Initializations
         # ----------------------------------------
         [string] $message = $null;          # The main message that will be logged.
-        [string] $sourceID = $null;         # The source identifer; who sent the message.
+        [string] $sourceID = $null;         # The source identifier; who sent the message.
         [string] $messageLevel = $null;     # The level of the message 
         [string] $finalMessage = $null;     # The final message that will be logged.
         [string] $messageAdditional = $null;# Additional information; usually contains
