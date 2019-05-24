@@ -2601,5 +2601,71 @@ class IOCommon
         } # Failure
     } # TriggerEvent()
 
+
+
+
+   <# Trigger Event [For Logging | Gateway Accessor]
+    # -------------------------------
+    # Documentation:
+    #  This function allows the possibility of organizing how the log messages
+    #   should be structured and sent to the Event Trigger parent function.
+    #   This function was designed to help automatically provide a structured
+    #   way handling how messages should be organized and packaged for the Event
+    #   Trigger function.  Thus, in future means, when a new feature is added
+    #   for logged messages - only this function is updated with minor alterations
+    #   that require this function.
+    # -------------------------------
+    # Inputs:
+    #  [string] Source Identifier
+    #   The source identifier that has been registered and defines what
+    #    object or source is triggering the event.
+    #  [LogMessageLevel] The Message Level
+    #   The level of the message that is about to be logged.  The level
+    #    can be informational (or verbose), error, warning, etc.  This
+    #    is only needed to help identify the severity of the message that
+    #    is being logged.
+    #  [string] Initial Message (Primary feedback or response)
+    #   The primary reason for the event being triggered; the message
+    #    containing some sort of data or information that will be carried
+    #    over to a listening function as defined by the action of the
+    #    source identifier that has been registered to the PowerShell engine.
+    #  [string] Additional Information
+    #   Additional information that is relating to the primary or the initial
+    #    message that is being logged.  Additional information may contain
+    #    readable data from PowerShell's engine as output, though some detailed
+    #    messages may just contain verbose information.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit Code
+    #    $false = Failure to trigger the custom event.
+    #    $true = Successfully triggered the custom event.
+    # -------------------------------
+    #>
+    static [bool] TriggerEventLogging ([string] $sourceIdent,
+                                    [LogMessageLevel] $levelMSG,
+                                    [string] $initialMSG,
+                                    [string] $additionalInfo)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Helps to organize how the object is to be structured for logging purposes.
+        #  We need this object as we will pass additional data in the event system.
+        $logEventArguments = New-Object `
+                                -TypeName Object[] `
+                                -ArgumentList 2;
+        # ----------------------------------------
+
+        # Setup the object-array to work with the specifications:
+        #  Array Index Structure:
+        #  [0] = Message Level
+        #  [1] = Additional Information (Optional)
+        $logEventArguments[0] = "$($levelMSG)";         # Log Message Level
+        $logEventArguments[1] = "$($additionalInfo)";   # Log Additional Information
+
+        # - - - -
+
+        # Trigger the event and return the status code.
+        return ([IOCommon]::TriggerEvent("$($sourceIdent)", "$($initialMSG)", $logEventArguments));
+    } # TriggerEventLogging()
     #endregion
 } # IOCommon
