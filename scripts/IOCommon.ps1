@@ -2,7 +2,7 @@
  # ------------------------------
  # ==============================
  # ==============================
- # This function is designed to centralize common
+ # This class is designed to centralize common
  #  input\output and to provide minimal maintenance.
  # Functions housed in this class are based on
  #  common Input\Output tasks, such as: checking for
