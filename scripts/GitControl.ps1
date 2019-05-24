@@ -637,7 +637,7 @@ class GitControl
 
 
 
-    <# Set Report Path
+   <# Set Report Path
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Report Path variable.

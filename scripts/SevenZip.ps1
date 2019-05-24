@@ -213,7 +213,7 @@ class SevenZip
 
     #region Getter Functions
 
-    <# Get Executable Path
+   <# Get Executable Path
     # -------------------------------
     # Documentation:
     #  Returns the value of the Executable Path variable.
@@ -698,7 +698,7 @@ class SevenZip
 
 
 
-    <# Set Report Path
+   <# Set Report Path
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Report Path variable.
