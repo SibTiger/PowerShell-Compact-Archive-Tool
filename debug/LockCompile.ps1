@@ -15,7 +15,7 @@
 .NOTES
     Author: Nicholas Gautier
     Email: Nicholas.Gautier.Tiger@GMail.com
-    Project Website: https://github.com/SibTiger/Alphecca
+    Project Website: https://github.com/SibTiger/PowerShell-Compact-Archive-Tool
 
 .INPUTS
     Nothing is to be given or to be provided from a command\pipe.
@@ -29,7 +29,7 @@
     .\LockCompile.ps1
 
 .LINK
-    https://github.com/SibTiger/Alphecca
+    https://github.com/SibTiger/PowerShell-Compact-Archive-Tool
 #>
 
 
