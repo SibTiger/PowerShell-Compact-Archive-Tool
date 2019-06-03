@@ -226,7 +226,6 @@ function MakeCompilerDriver()
                         "LoadSaveUserConfigs.ps1", `
                         "Logging.ps1", `
                         "IOLoggingGateway.ps1", `
-                        "Events.ps1", `
                         "main.ps1");
 
     # Loop through each index in the array
