@@ -48,21 +48,23 @@ class Logging
     #region Private Functions
 
 
-   <# Get Session Timestamp
+   <# Generate Timestamp
     # -------------------------------
     # Documentation:
     #  This function will generate a timestamp that
-    #   can be used for the logfiles generated within
-    #   this class.  The timestamps must be formatted
-    #   in such a way that it is acceptable to the
-    #   host's filesystem.
+    #   can be used for the information that will
+    #   be stored in the logfile.  The timestamp will
+    #   help to provide a depiction of when an event
+    #   or activity occurred within the program's
+    #   run-time.
     # -------------------------------
     # Output:
     #  [string] Session Timestamp
-    #   The generated timestamp usable for filenames.
+    #   The generated timestamp for information being
+    #    written in a logfile.
     # -------------------------------
     #>
-    Static Hidden [string] __GenerateSessionTimestamp()
+    Static Hidden [string] __GenerateTimestamp()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -72,10 +74,10 @@ class Logging
         # ----------------------------------------
 
 
-        # Generate the current time
+        # Get the current time
         $cacheTime = "$(Get-Date -UFormat "%H.%M.%S")";
 
-        # Generate the current date
+        # Get the current date
         $cacheDate = "$(Get-Date -UFormat "%d-%b-%y")";
 
         # Now put it all together
@@ -84,7 +86,7 @@ class Logging
 
         # Return the timestamp
         return "$($timestamp)";
-    } # __GenerateSessionTimestamp()
+    } # __GenerateTimestamp()
 
 
 
