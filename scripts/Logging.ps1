@@ -341,7 +341,7 @@ class Logging
         [IOCommon]::WriteToBuffer("$($msg)", "$($msgLevel)");
 
         # Log the message to the logfile.
-        [Logging]::WriteLogFile("$($msg)");
+        [Logging]::FormatLogMessage("$($msgLevel)", "$($msg)", "$($null)");
     } # DisplayMessage()
 
 
