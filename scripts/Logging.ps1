@@ -317,9 +317,11 @@ class Logging
    <# Display Message
     # -------------------------------
     # Documentation:
-    #  This function will provide a gateway into both
-    #   displaying the desired message to the user's
-    #   screen and also logging the same message.
+    #  This function will provide information to be
+    #   displayed to the end-user while also capturing
+    #   the message to a logfile.  This will help to
+    #   capture all of the output that is displayed to
+    #   the end-user for debugging purposes.
     # NOTE:
     #  The formatting and specifications of the message
     #   will be evaluated in the inner-specific functions
