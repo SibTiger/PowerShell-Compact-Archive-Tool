@@ -501,7 +501,7 @@ class Logging
         [IOCommon]::WriteToBuffer("$($msg)", "$($msgLevel)");
 
         # Log the message to the logfile.
-        [Logging]::__FormatLogMessage("$($msgLevel)", "$($msg)", "$($null)");
+        [Logging]::__FormatLogMessage("$($msgLevel)", "$($msg)", "$($null)") | Out-Null;
     } # DisplayMessage()
 
 
@@ -561,7 +561,7 @@ class Logging
 
 
         # Provide the user's input into the logfile and record it.
-        [Logging]::__FormatLogMessage(7, "$($userInput)", "$($null)");
+        [Logging]::__FormatLogMessage(7, "$($userInput)", "$($null)") | Out-Null;
 
         # Return the user's request
         return "$($userInput)";
@@ -601,7 +601,7 @@ class Logging
         #  to properly record it in the logfile.
         [Logging]::__FormatLogMessage($messageLevel, `
                                     "$($message)", `
-                                    "$($additionalInformation)");
+                                    "$($additionalInformation)") | Out-Null;
 
     } # LogProgramActivity()
 
