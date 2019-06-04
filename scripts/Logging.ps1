@@ -194,61 +194,6 @@ class Logging
     } # __CreateDirectories()
 
 
-    #endregion
-
-
-
-    #region Public Functions
-
-
-   <# Thrash Logs and Reports
-    # -------------------------------
-    # Documentation:
-    #  This function will expunge the log files that
-    #   are present in directories that are managed
-    #   within the class.
-    # -------------------------------
-    # Output:
-    #  [bool] Exit code
-    #   $false = One or more operations failed
-    #   $true = Successfully expunged the files.
-    #           OR
-    #           Directories were not found
-    # -------------------------------
-    #>
-    Static [bool] ThrashLogs()
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [string[]] $extLogs = @('*.log');       # Array of log extensions
-        # ----------------------------------------
-
-
-        # First, make sure that the directories exist.
-        #  If the directories are not available, than there
-        #  is nothing that can be done.
-        if(([Logging]::__CheckRequiredDirectories())-eq $true)
-        {
-            # This is not really an error, however the directories simply
-            #  does not exist -- nothing can be done.
-            return $true;
-        } # IF : Required Directories Exists
-
-
-        # Because the directories exists, lets try to thrash the log files.
-        if (([IOCommon]::DeleteFile("$([Logging]::ProgramLogPath)", $extLogs)) -eq $false)
-        {
-            # Failure to remove the requested files
-            return $false;
-        } # If : Failure to delete Program Logs
-
-
-
-        # If we made it here, then everything went okay!
-        return $true;
-    } # ThrashLogs()
-
-
 
 
    <# Write to Logfile [Write File]
@@ -269,7 +214,7 @@ class Logging
     #    $true  = Operation was successful 
     # -------------------------------
     #>
-    Static [bool] WriteLogFile([string] $message)
+    Static Hidden [bool] __WriteLogFile([string] $message)
     {
         # Make sure that the required directories exists for logging, if not - try to create it.
         if ([Logging]::__CreateDirectories() -eq $false)
@@ -305,74 +250,7 @@ class Logging
 
         # If we made it here, everything was successful.
         return $true;
-    } # WriteLogFile()
-
-    #endregion
-
-
-
-    #region Display Message
-
-
-   <# Display Message
-    # -------------------------------
-    # Documentation:
-    #  This function will provide information to be
-    #   displayed to the end-user while also capturing
-    #   the message to a logfile.  This will help to
-    #   capture all of the output that is displayed to
-    #   the end-user for debugging purposes.
-    # NOTE:
-    #  The formatting and specifications of the message
-    #   will be evaluated in the inner-specific functions
-    #   that are called within this function.
-    # -------------------------------
-    # Input:
-    #  [string] Message
-    #   The message that is to be presented on the screen.
-    #  [LogMessageLevel] Message Level
-    #   The level of the message that is to be presented
-    #    or formatted.
-    # -------------------------------
-    #>
-    static [void] DisplayMessage([string] $msg, [LogMessageLevel] $msgLevel)
-    {
-        # Display the message to the end-user's screen.
-        [IOCommon]::WriteToBuffer("$($msg)", "$($msgLevel)");
-
-        # Log the message to the logfile.
-        [Logging]::FormatLogMessage("$($msgLevel)", "$($msg)", "$($null)");
-    } # DisplayMessage()
-
-
-
-
-   <# Display Message (Short-Hand\Standard MSGs)
-    # -------------------------------
-    # Documentation:
-    #  This function is merely a quick accessor to the
-    #   DisplayMessage() function for 'Standard Messages'.
-    #   Because PowerShell does not allow default
-    #   arguments to be set, at least at the time of
-    #   writing this statement, this function will
-    #   allow overflowing of the arguments.
-    # NOTE:
-    #  Any messages coming through this function will be
-    #   treated as a Standard Message!
-    # -------------------------------
-    # Input:
-    #  [string] Message
-    #   The message that is to be presented on the screen.
-    # -------------------------------
-    #>
-    static [void] DisplayMessage([string] $msg)
-    {
-        # Access the standard DisplayMessage() with MSG Level
-        #  set to standard.
-        [IOLoggingGateway]::DisplayMessage("$($msg)", "Standard");
-    } # DisplayMessage()
-
-    #endregion
+    } # __WriteLogFile()
 
 
 
@@ -402,7 +280,7 @@ class Logging
     #    $true  = Operation was successful 
     # -------------------------------
     #>
-    static [bool] FormatLogMessage([LogMessageLevel] $msgLevel, `
+    static Hidden [bool] __FormatLogMessage([LogMessageLevel] $msgLevel, `
                                     [String] $msg, `
                                     [String] $additionalMsg)
     {
@@ -536,8 +414,139 @@ class Logging
 
 
         # Write the message to the logfile.
-        return [Logging]::WriteLogFile("$($finalMessage)");
-    } # FormatLogMessage()
+        return [Logging]::__WriteLogFile("$($finalMessage)");
+    } # __FormatLogMessage()
+
+    #endregion
+
+
+
+    #region Public Functions
+
+
+   <# Thrash Logs and Reports
+    # -------------------------------
+    # Documentation:
+    #  This function will expunge the log files that
+    #   are present in directories that are managed
+    #   within the class.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #   $false = One or more operations failed
+    #   $true = Successfully expunged the files.
+    #           OR
+    #           Directories were not found
+    # -------------------------------
+    #>
+    Static [bool] ThrashLogs()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [string[]] $extLogs = @('*.log');       # Array of log extensions
+        # ----------------------------------------
+
+
+        # First, make sure that the directories exist.
+        #  If the directories are not available, than there
+        #  is nothing that can be done.
+        if(([Logging]::__CheckRequiredDirectories())-eq $true)
+        {
+            # This is not really an error, however the directories simply
+            #  does not exist -- nothing can be done.
+            return $true;
+        } # IF : Required Directories Exists
+
+
+        # Because the directories exists, lets try to thrash the log files.
+        if (([IOCommon]::DeleteFile("$([Logging]::ProgramLogPath)", $extLogs)) -eq $false)
+        {
+            # Failure to remove the requested files
+            return $false;
+        } # If : Failure to delete Program Logs
+
+
+
+        # If we made it here, then everything went okay!
+        return $true;
+    } # ThrashLogs()
+
+
+
+
+
+
+    #endregion
+
+
+
+    #region Display Message
+
+
+   <# Display Message
+    # -------------------------------
+    # Documentation:
+    #  This function will provide information to be
+    #   displayed to the end-user while also capturing
+    #   the message to a logfile.  This will help to
+    #   capture all of the output that is displayed to
+    #   the end-user for debugging purposes.
+    # NOTE:
+    #  The formatting and specifications of the message
+    #   will be evaluated in the inner-specific functions
+    #   that are called within this function.
+    # -------------------------------
+    # Input:
+    #  [string] Message
+    #   The message that is to be presented on the screen.
+    #  [LogMessageLevel] Message Level
+    #   The level of the message that is to be presented
+    #    or formatted.
+    # -------------------------------
+    #>
+    static [void] DisplayMessage([string] $msg, [LogMessageLevel] $msgLevel)
+    {
+        # Display the message to the end-user's screen.
+        [IOCommon]::WriteToBuffer("$($msg)", "$($msgLevel)");
+
+        # Log the message to the logfile.
+        [Logging]::__FormatLogMessage("$($msgLevel)", "$($msg)", "$($null)");
+    } # DisplayMessage()
+
+
+
+
+   <# Display Message (Short-Hand\Standard MSGs)
+    # -------------------------------
+    # Documentation:
+    #  This function is merely a quick accessor to the
+    #   DisplayMessage() function for 'Standard Messages'.
+    #   Because PowerShell does not allow default
+    #   arguments to be set, at least at the time of
+    #   writing this statement, this function will
+    #   allow overflowing of the arguments.
+    # NOTE:
+    #  Any messages coming through this function will be
+    #   treated as a Standard Message!
+    # -------------------------------
+    # Input:
+    #  [string] Message
+    #   The message that is to be presented on the screen.
+    # -------------------------------
+    #>
+    static [void] DisplayMessage([string] $msg)
+    {
+        # Access the standard DisplayMessage() with MSG Level
+        #  set to standard.
+        [IOLoggingGateway]::DisplayMessage("$($msg)", "Standard");
+    } # DisplayMessage()
+
+    #endregion
+
+
+
+
+
 
 
 
@@ -568,7 +577,7 @@ class Logging
 
 
         # Provide the user's input into the logfile and record it.
-        [Logging]::FormatLogMessage(7, "$($userInput)", "$($null)");
+        [Logging]::__FormatLogMessage(7, "$($userInput)", "$($null)");
 
         # Return the user's request
         return "$($userInput)";
