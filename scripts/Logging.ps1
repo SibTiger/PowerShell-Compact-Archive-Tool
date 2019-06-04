@@ -399,7 +399,9 @@ class Logging
     #    $true  = Operation was successful 
     # -------------------------------
     #>
-    static [bool] FormatLogMessage([LogMessageLevel] $msgLevel, [String] $msg, [String] $additionalMsg)
+    static [bool] FormatLogMessage([LogMessageLevel] $msgLevel, `
+                                    [String] $msg, `
+                                    [String] $additionalMsg)
     {
         # Declarations and Initializations
         # ----------------------------------------
