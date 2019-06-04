@@ -540,7 +540,7 @@ class Logging
     # Documentation:
     #  This function will allow the ability to fetch for
     #   user-input (STDIN) and also capture the result
-    #   in the logfile aswell.  This will help with
+    #   in the logfile as well.  This will help with
     #   debugging purposes.
     # -------------------------------
     # Output:
