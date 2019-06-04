@@ -205,8 +205,8 @@ class Logging
     # -------------------------------
     # Documentation:
     #  This function will expunge the log files that
-    #   are present in sub-directories that are
-    #   managed within the class.
+    #   are present in directories that are managed
+    #   within the class.
     # -------------------------------
     # Output:
     #  [bool] Exit code
