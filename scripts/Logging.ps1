@@ -560,16 +560,15 @@ class Logging
         # Declarations and Initializations
         # ----------------------------------------
         [string] $userInput = $null;    # This will hold the user's feedback
-        [string] $prompt = ">>>>> ";    # The prompt message that will be
-                                        #  recorded in the logfile.
         # ----------------------------------------
 
 
-        # Fetch user input
+        # Fetch user input, normally.
         $userInput = [IOCommon]::FetchUserInput();
 
-        # Log the user's input
-        [Logging]::WriteLogFile("$($prompt)$($userInput)");
+
+        # Provide the user's input into the logfile and record it.
+        [Logging]::FormatLogMessage(7, "$($userInput)", "$($null)");
 
         # Return the user's request
         return "$($userInput)";
