@@ -251,11 +251,13 @@ class Logging
 
 
 
-   <# Write to Logfile [Program Activity]
+   <# Write to Logfile [Write File]
     # -------------------------------
     # Documentation:
-    #  This function will provide the ability to write
-    #   readable data to the Program's Activity logfile.
+    #  This function will take the provided message and
+    #   write it to the specific logfile.  Additionally,
+    #   this function will assure that the logfile can
+    #   be created to the host's filesystem.
     # -------------------------------
     # Input:
     #  [string] Message
@@ -269,12 +271,6 @@ class Logging
     #>
     Static [bool] WriteLogFile([string] $message)
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [string] $timestamp = $null;            # Timestamp of the message
-        [string] $messageToWrite = $null;       # Message with added information
-        # ----------------------------------------
-
         # Make sure that the required directories exists for logging, if not - try to create it.
         if ([Logging]::__CreateDirectories() -eq $false)
         {
@@ -286,15 +282,8 @@ class Logging
         } # If : Program Log Dir. does not exist.
 
 
-        # Get the timestamp
-        $timestamp = "$([Logging]::__GenerateSessionTimestamp())";
-
-        # Apply the timestamp to the message
-        $messageToWrite = "[$($timestamp)] $($message)";
-
-
         # Write the readable data to the logfile.
-        if (([IOCommon]::WriteToFile("$([Logging]::ProgramLogPath)\$([Logging]::ProgramLogFileName)", "$($messageToWrite)")) -eq $false)
+        if (([IOCommon]::WriteToFile("$([Logging]::ProgramLogPath)\$([Logging]::ProgramLogFileName)", "$($message)")) -eq $false)
         {
             # The message failed to be written to file,
             #  return false to signify failure.
