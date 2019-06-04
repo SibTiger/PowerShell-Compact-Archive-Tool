@@ -545,9 +545,10 @@ class Logging
    <# Get User Input
     # -------------------------------
     # Documentation:
-    #  This function will provide a gateway into both
-    #   retrieving the user's input for a desired request
-    #   and also logging that request.
+    #  This function will allow the ability to fetch for
+    #   user-input (STDIN) and also capture the result
+    #   in the logfile aswell.  This will help with
+    #   debugging purposes.
     # -------------------------------
     # Output:
     #  [string] User's Input Request
