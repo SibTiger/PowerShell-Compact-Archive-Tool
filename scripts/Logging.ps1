@@ -337,10 +337,10 @@ class Logging
     #>
     static [void] DisplayMessage([string] $msg, [LogMessageLevel] $msgLevel)
     {
-        # Display the message to the terminal screen
+        # Display the message to the end-user's screen.
         [IOCommon]::WriteToBuffer("$($msg)", "$($msgLevel)");
 
-        # Log the message
+        # Log the message to the logfile.
         [Logging]::WriteLogFile("$($msg)");
     } # DisplayMessage()
 
