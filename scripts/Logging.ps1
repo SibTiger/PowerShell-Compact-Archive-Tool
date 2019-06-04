@@ -374,74 +374,70 @@ class Logging
 
 
 
-   <# Capture Log Events
+   <# Format Log Message
     # -------------------------------
     # Documentation:
-    #  This function will provide a gateway for log
-    #   based messages to be properly log with its
-    #   appropriate log level.
+    #  This function will format the information that
+    #   is passed into this function.  From this function,
+    #   once the information has been formatted in a
+    #   unified form, will pass the data to another
+    #   function that will write to the log file.
+    #  In order to write to the log file, it is recommended
+    #   to pass to this function.
     # -------------------------------
     # Input:
-    #  [PSEventArgs] Event Message Object
-    #   The event object that contains the log message and other information.
-    #    The archive file contents that will be extracted.
-    # NOTE:
-    #  SourceArguments MUST Provide The Following:
-    #  - Datatype: Object[]
-    #  - Index[0]: Message Level {LogMessageLevel}
-    #  - Index[1]: Additional Information (Provided by the POSH Engine) {String}
+    #  [LogMessageLevel] Message Level
+    #    The message level severity of the information provided.
+    #  [String] Initial Message
+    #    The message that will be recorded in the logfile.
+    #  [String] Additional Information (Nullable)
+    #    Additional information that relates to the initial message.
+    # -------------------------------
+    # Output:
+    #  [bool] Status Code
+    #    $false = Operation failed
+    #    $true  = Operation was successful 
     # -------------------------------
     #>
-    static [void] CaptureLogEvent([System.Management.Automation.PSEventArgs] $eventMessageObj)
+    static [bool] FormatLogMessage([LogMessageLevel] $msgLevel, [String] $msg, [String] $additionalMsg)
     {
         # Declarations and Initializations
         # ----------------------------------------
+        [string] $currentTimeStamp = $null; # The current time of when the message has
+                                            #  been captured.
         [string] $message = $null;          # The main message that will be logged.
-        [string] $sourceID = $null;         # The source identifier; who sent the message.
         [string] $messageLevel = $null;     # The level of the message 
-        [string] $finalMessage = $null;     # The final message that will be logged.
         [string] $messageAdditional = $null;# Additional information; usually contains
                                             #  readable data from the Powershell engine.
+        [string] $borderLine = $null;       # This will provide a horizontal line that
+                                            #  will help separate the header and the
+                                            #  message.
+        [string] $finalMessage = $null;     # The final message that will be logged.
         # ----------------------------------------
 
 
-        # Evaluate the data provided from the event object.  If any of the values from
-        #  the event object are not provided, including the message array, then we will
-        #  provide an error or default message instead - we must try to avoid blank entries.
+        # Provide a horizontal border to separate the header and the initial message.
+        $borderLine = "- - - - - - - - - - - - - - - - - - - - -";
 
 
 
-        # First: Source Identifier
+        # - - - - - - -
+
+
+
+        # Evaluate the information passed to this function.  If any of the values are
+        #  not provided, then we will provide a default or error message instead
+        #  -- must avoid blank entries in the logfile.
+
+
+
+        # First: Message Data
         # ---------------------------
         # - - - - - - - - - - - - - -
-        # Try to fetch the source identifier; who or what object that sent the message.
-        
-        # The Source Ident. is unknown or unobtainable.
-        if ("$($eventMessageObj.SourceIdentifier)" -eq "$($null)")
-        {
-            # The Source Ident. is unknown
-            $sourceID = "SOURCE IDENTIFIER IS UNKNOWN";
-        } # If: Unknown Source Identifier
-        
-        else
-        {
-            # The Source ID was provided
-            $sourceID = $eventMessageObj.SourceIdentifier;
-        } # Else: Source Identifier Information Provided
-
-
-
-        # - - - - - - - - - - - - - -
-
-
-
-        # Second: Message Data
-        # ---------------------------
-        # - - - - - - - - - - - - - -
-        # Try to fetch the initial message; the reason why the event was triggered.
+        # Try to fetch the initial message; the reason why for the entry to be logged.
 
         # There was no initial message provided
-        if ("$($eventMessageObj.MessageData)" -eq "$($null)")
+        if ("$($msg)" -eq "$($null)")
         {
             # There does not exist any message.
             $message = "<<UNKNOWN OR BLANK MESSAGE>>";
@@ -450,7 +446,7 @@ class Logging
         else
         {
             # The Message was provided
-            $message = $eventMessageObj.MessageData;
+            $message = $msg;
         } # Else: Message Data was Provided
         
 
@@ -459,14 +455,14 @@ class Logging
 
 
 
-        # Third: Message Level
+        # Second: Message Level
         # ---------------------------
         # - - - - - - - - - - - - - -
         # Try to fetch the message level; the severity or what kind of message
-        #  that is provided in the event object.
+        #  that is provided with the data.
 
         # The message level was not provided or is not obtainable.
-        if ("$($eventMessageObj.SourceArgs[0])" -eq "$($null)")
+        if ("$($msgLevel)" -eq "$($null)")
         {
             # The message level is unknown
             $messageLevel = "UNKNOWN";
@@ -475,7 +471,7 @@ class Logging
         else
         {
             # The Message Level was provided
-            $messageLevel = $eventMessageObj.SourceArgs[0];
+            $messageLevel = $msgLevel;
         } # Else: Message Level was Provided
 
 
@@ -484,13 +480,13 @@ class Logging
 
 
 
-        # Fourth: Additional Message Information
+        # Third: Additional Information
         # ---------------------------
         # - - - - - - - - - - - - - -
         # Any additional information provided; optional field.
 
         # No additional information provided
-        if ("$($eventMessageObj.SourceArgs[1])" -eq "$($null)")
+        if ("$($additionalMsg)" -eq "$($null)")
         {
             # No additional information was provided
             $messageAdditional = "$($null)";
@@ -499,8 +495,22 @@ class Logging
         {
             # There exists some additional information; format
             #  it in a way that it works in the final message form.
-            $messageAdditional = "Additional Information:`r`n`t$($eventMessageObj.SourceArgs[1])`r`n";
+            $messageAdditional = "Additional Information:`r`n`t$($additionalMsg)";
         } # Else: Additional Information was Provided
+
+
+
+        # - - - - - - - - - - - - - -
+
+
+
+        # Fourth: Timestamp
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+        # Get the timestamp for when the message was captured.
+
+        # Fetch the timestamp and cache it.
+        $currentTimeStamp = [Logging]::__GenerateTimestamp();
 
 
 
@@ -510,16 +520,19 @@ class Logging
 
 
 
-        # Now to put everything in the final form, how the message is going to presented in the logfile.
-        $finalMessage = "{$($sourceID)}-($($messageLevel))`r`n$($message)`r`n$($messageAdditional)";
+        # Fifth: Final Form
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+        # Put the message in the final form that will be in the logfile.
+        $finalMessage = "{$($currentTimeStamp)}-($($messageLevel))`r`n$($borderLine)`r`n$($message)`r`n`r$($messageAdditional)`r`n`r`n";
 
 
         # - - - -
 
 
         # Write the message to the logfile.
-        [Logging]::WriteLogFile("$($finalMessage)");
-    } # CaptureLogEvent()
+        return [Logging]::WriteLogFile("$($finalMessage)");
+    } # FormatLogMessage()
 
 
 
@@ -576,4 +589,5 @@ enum LogMessageLevel
     Error = 4;      # Error messages
     Fatal = 5;      # Program death messages
     Verbose = 6;    # Debug or detailed messages.
+    UserInput = 7;  # User Feedback\Input (STDIN\Keyboard)
 } # IOCommonBufferMessageLevel
