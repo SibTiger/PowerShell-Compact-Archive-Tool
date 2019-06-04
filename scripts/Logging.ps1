@@ -281,6 +281,18 @@ class Logging
             return $false;
         } # If : Program Log Dir. does not exist.
 
+        
+        # Make sure that there is something to actually write, if there is no message - then
+        #  there is no point in trying to write to the host's filesystem.
+        if ("$($message)" -eq "$($null)")
+        {
+            # Because the message is empty, there is really nothing that can be written to
+            #  the logfile.
+            Write-Output "ERR! Message can not be recorded as it is null!";
+            return $false;
+        } # If : Message is empty
+
+
 
         # Write the readable data to the logfile.
         if (([IOCommon]::WriteToFile("$([Logging]::ProgramLogPath)\$([Logging]::ProgramLogFileName)", "$($message)")) -eq $false)
