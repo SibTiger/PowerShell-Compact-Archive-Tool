@@ -566,6 +566,45 @@ class Logging
         # Return the user's request
         return "$($userInput)";
     } # GetUserInput()
+
+
+
+
+   <# Log Program Activity
+    # -------------------------------
+    # Documentation:
+    #  This function will allow provide the ability for
+    #   the internal program activity to be recorded in
+    #   the logfile.  Information provided here may or
+    #   may not be visible to the end-user via terminal
+    #   buffer, but the information can be useful for
+    #   debugging and understanding what actions are
+    #   taking place under the hood of the software.
+    # -------------------------------
+    # Input:
+    #  [string] Message
+    #   The initial message that will be recorded.
+    #  [string] Additional Information
+    #   Additional information relating to the initial
+    #    message.
+    #  [LogMessageLevel] Message Level
+    #   The severity or level of the message that is
+    #   about to be recorded in the logfile.
+    # -------------------------------
+    #>
+    static [void] LogProgramActivity([string] $message, `
+                                    [string] $additionalInformation, `
+                                    [LogMessageLevel] $messageLevel)
+    {
+        # Because we have the information already provided for us,
+        #  we will merely pass the data to the appropriate functions
+        #  to properly record it in the logfile.
+        [Logging]::__FormatLogMessage($messageLevel, `
+                                    "$($message)", `
+                                    "$($additionalInformation)");
+
+    } # LogProgramActivity()
+
 } # Logging
 
 
