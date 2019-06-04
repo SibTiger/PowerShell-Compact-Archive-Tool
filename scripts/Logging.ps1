@@ -132,8 +132,8 @@ class Logging
     # Documentation:
     #  This function will create the necessary directories
     #   required for this class to operate successfully.
-    #  If the directories do not exist, then the directories
-    #   are to be created on the user's filesystem.
+    #  If the directories does not exist, then the directories
+    #   are to be created in the host's filesystem.
     #  If the directories does exist, then nothing will be
     #   created nor changed.
     #
