@@ -474,15 +474,6 @@ class Logging
 
 
 
-
-
-    #endregion
-
-
-
-    #region Display Message
-
-
    <# Display Message
     # -------------------------------
     # Documentation:
@@ -540,13 +531,6 @@ class Logging
         #  set to standard.
         [IOLoggingGateway]::DisplayMessage("$($msg)", "Standard");
     } # DisplayMessage()
-
-    #endregion
-
-
-
-
-
 
 
 
