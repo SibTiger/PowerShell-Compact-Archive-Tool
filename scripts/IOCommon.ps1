@@ -25,44 +25,6 @@ class IOCommon
 
 
 
-    # Constructor and Internal Functions
-    # =================================================
-    # =================================================
-
-
-    # Default Constructor
-    IOCommon()
-    {
-        # Register logging events
-        [Events]::RegisterEventLogging("IOCommon", "$([IOCommon]::eventNameLog)") | Out-Null;
-    } # Default Constructor
-
-
-
-   <# Destroy (Destructor)
-    # -------------------------------
-    # Documentation:
-    #  This function will remove, unregister, or destroy
-    #   any open instances that is associated with this class.
-    #
-    # NOTE:
-    #  PowerShell does not have any support for Destructors
-    #   (Unless I missed it by mistake?).  Instead, this function
-    #   will do what the destructor is supposed to do - though
-    #   this requires that the owner of this object to call this
-    #   particular function.  Failure to call this function can result
-    #   in zombie-hanging instances or instances that are just generally
-    #   remaining open to the system or the PowerShell engine (if the shell
-    #   has not been terminated).
-    # -------------------------------
-    #>
-    [void] Destroy()
-    {
-        # Unregister custom event - Logging
-        [Events]::UnregisterEvent("IOCommon", "Logging", "$([IOCommon]::eventNameLog)") | Out-Null;
-    } # Destroy()
-
-
 
     # Member Functions :: Methods
     # =================================================
