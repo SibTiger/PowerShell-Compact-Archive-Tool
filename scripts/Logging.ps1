@@ -281,8 +281,8 @@ class Logging
     # -------------------------------
     #>
     static Hidden [bool] __FormatLogMessage([LogMessageLevel] $msgLevel, `
-                                    [String] $msg, `
-                                    [String] $additionalMsg)
+                                            [String] $msg, `
+                                            [String] $additionalMsg)
     {
         # Declarations and Initializations
         # ----------------------------------------
