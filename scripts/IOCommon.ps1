@@ -18,14 +18,6 @@
 
 class IOCommon
 {
-    # Member Variables :: Properties
-    # =================================================
-    # =================================================
-    hidden static [string] $eventNameLog = "EventLog_IOCommon";
-
-
-
-
     # Member Functions :: Methods
     # =================================================
     # =================================================
