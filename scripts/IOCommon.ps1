@@ -880,7 +880,7 @@ class IOCommon
             $executeFailureMessage = "$($_)";
 
             # The command failed to be executed
-            [IOLoggingGateway]::DisplayMessage("Failure to execute command upon request!`n`rFailure reason: $($executeFailureMessage)", "Error");
+            [Logging]::DisplayMessage("Failure to execute command upon request!`n`rFailure reason: $($executeFailureMessage)", "Error");
 
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -1069,7 +1069,7 @@ class IOCommon
             $executeFailureMessage = "$($_)";
 
             # Display error to the user
-            [IOLoggingGateway]::DisplayMessage("Failed to write data to file!`r`nFailure reason: $($executeFailureMessage)", "Error");
+            [Logging]::DisplayMessage("Failed to write data to file!`r`nFailure reason: $($executeFailureMessage)", "Error");
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1186,7 +1186,7 @@ class IOCommon
         if ([IOCommon]::CheckPathExists("$($sourceFile)") -eq $false)
         {
             # Display error to the user
-            [IOLoggingGateway]::DisplayMessage("Unable to create a PDF file; source file does not exist!`r`nSource file: $($sourceFile)", "Error");
+            [Logging]::DisplayMessage("Unable to create a PDF file; source file does not exist!`r`nSource file: $($sourceFile)", "Error");
 
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -1239,7 +1239,7 @@ class IOCommon
                 $executeFailureMessage = "$($_)";
 
                 # Provide the error message to the user
-                [IOLoggingGateway]::DisplayMessage("Unable to create a new instance of Microsoft Word.");
+                [Logging]::DisplayMessage("Unable to create a new instance of Microsoft Word.");
 
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -1268,7 +1268,7 @@ class IOCommon
                 $executeFailureMessage = "$($_)";
 
                 # Provide the error message to the user
-                [IOLoggingGateway]::DisplayMessage("Unable to find a modern version Microsoft Word; unable to create a PDF.");
+                [Logging]::DisplayMessage("Unable to find a modern version Microsoft Word; unable to create a PDF.");
 
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -1366,7 +1366,7 @@ class IOCommon
         if ([IOCommon]::CheckPathExists("$($destinationFile)") -eq $false)
         {
             # Display error to the user
-            [IOLoggingGateway]::DisplayMessage("Created a PDF file as requested but unable find it....")
+            [Logging]::DisplayMessage("Created a PDF file as requested but unable find it....")
 
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -1553,7 +1553,7 @@ class IOCommon
             if ($([IOCommon]::MakeDirectory("$($tempDirectoryPath)")) -eq $false)
             {
                 # Display the message to the user
-                [IOLoggingGateway]::DisplayMessage("Unable to create a temporary directory!", "Error");
+                [Logging]::DisplayMessage("Unable to create a temporary directory!", "Error");
 
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -1636,7 +1636,7 @@ class IOCommon
         if ($([IOCommon]::MakeDirectory("$($finalDirectoryPath)")) -eq $false)
         {
             # Display the message to the user
-            [IOLoggingGateway]::DisplayMessage("Unable to create a temporary directory!", "Error");
+            [Logging]::DisplayMessage("Unable to create a temporary directory!", "Error");
 
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -1663,7 +1663,7 @@ class IOCommon
         if ($([IOCommon]::CheckPathExists("$($finalDirectoryPath)")) -eq $false)
         {
             # Display the message to the user
-            [IOLoggingGateway]::DisplayMessage("Created the temporary directory but unable to found it....", "Error");
+            [Logging]::DisplayMessage("Created the temporary directory but unable to found it....", "Error");
 
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -1771,7 +1771,7 @@ class IOCommon
                 $executeFailureMessage = "$($_)";
 
                 # Display the message to the user
-                [IOLoggingGateway]::DisplayMessage("Failed to create the required directory!`r`nReason for failure: $($executeFailureMessage)", "Error");
+                [Logging]::DisplayMessage("Failed to create the required directory!`r`nReason for failure: $($executeFailureMessage)", "Error");
 
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging

@@ -529,7 +529,7 @@ class Logging
     {
         # Access the standard DisplayMessage() with MSG Level
         #  set to standard.
-        [IOLoggingGateway]::DisplayMessage("$($msg)", "Standard");
+        [Logging]::DisplayMessage("$($msg)", "Standard");
     } # DisplayMessage()
 
 
