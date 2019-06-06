@@ -93,6 +93,18 @@ class IOCommon
         # Determine the level of the message; text presentation
         switch ($msgLevel)
         {
+            # If in case: User Input was provided - leave from this
+            #  function without displaying the information.
+            "UserInput"
+            {
+                # Because this function was called with a message level
+                #  of 'UserInput' (Only usable for capturing or evaluating
+                #  the user's input elsewhere), there's no point of having
+                #  this display what the user has already provided.
+                return;
+            } # UserInput
+
+
             # Regular or standard messages
             "Standard"
             {
