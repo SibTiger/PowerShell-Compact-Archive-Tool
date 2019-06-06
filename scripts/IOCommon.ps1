@@ -233,15 +233,9 @@ class IOCommon
         [bool] $exitCode = $false;          # The detection code that will be returned based
                                             #  on the results; if the command was found or not.
         # * * * * * * * * * * * * * * * * * * *
-        # Event Logging
-        [LogMessageLevel] $logMSGLevel = "Verbose";    # The logged message level
-        [string] $logAdditionalInfo = $null;           # Additional information provided by
-                                                       #  the PowerShell engine, such as
-                                                       #  error messages.
-        # Object containing arguments to be passed.
-        $logEventArguments = New-Object `
-                                -TypeName Object[] `
-                                -ArgumentList 2;
+        # Debugging [Logging]
+        [string] $logMessage = $null;       # The initial message to be logged.
+        [string] $logAdditionalMSG = $null; # Additional information provided.
         # ----------------------------------------
 
         # Try to detect the requested command
@@ -258,20 +252,17 @@ class IOCommon
         } # Else : Command Detected
 
         # * * * * * * * * * * * * * * * * * * *
-        # Event Logging
+        # Debugging
         # --------------
 
         # Capture any additional information
-        $logAdditionalInfo = "$($_)";
+        $logAdditionalMSG = "$($_)";
 
-        # Put the arguments together in a package
-        $logEventArguments[0] = "$($logMSGLevel)";
-        $logEventArguments[1] = "$($logAdditionalInfo)";
+        # Generate the message
+        $logMessage = "Tried to find the $($type) named $($command); detected result was $($exitCode)";
 
-        # Send an event regarding the status of the operation's results; this will be logged.
-        $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                          -MessageData "Tried to find the $($type) named $($command); detected result was $($exitCode)" `
-                          -EventArguments $logEventArguments | Out-Null;
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Verbose");
 
         # * * * * * * * * * * * * * * * * * * *
 
@@ -378,14 +369,9 @@ class IOCommon
                                                   #  needs to be relocated, this is our
                                                   #  medium in order to accomplish this.
         # * * * * * * * * * * * * * * * * * * *
-        # Event Logging
-        [string] $logAdditionalInfo = $null;           # Additional information provided by
-                                                       #  the PowerShell engine, such as
-                                                       #  error messages.
-        # Object containing arguments to be passed.
-        $logEventArguments = New-Object `
-                                -TypeName Object[] `
-                                -ArgumentList 2;
+        # Debugging [Logging]
+        [string] $logMessage = $null;             # The initial message to be logged.
+        [string] $logAdditionalMSG = $null;       # Additional information provided.
         # ----------------------------------------
 
 
@@ -400,17 +386,17 @@ class IOCommon
         if ($([IOCommon]::DetectCommand("$($command)", "Application")) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
-            # Event Logging
+            # Debugging
             # --------------
 
-            # Put the arguments together in a package
-            $logEventArguments[0] = "Error";
-            $logEventArguments[1] = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tReason to use command: $($description)";
+            # Capture any additional information
+            $logAdditionalMSG = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tReason to use command: $($description)";
 
-            # Send an event regarding this failure; this will be logged.
-            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                              -MessageData "Failed to execute the external command $($command) because it was not found or is not an application!" `
-                              -EventArguments $logEventArguments | Out-Null;
+            # Generate the message
+            $logMessage = "Failed to execute the external command $($command) because it was not found or is not an application!";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -423,17 +409,17 @@ class IOCommon
         if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
-            # Event Logging
+            # Debugging
             # --------------
 
-            # Put the arguments together in a package
-            $logEventArguments[0] = "Error";
-            $logEventArguments[1] = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tReason to use command: $($description)`r`n`tProject Path: $($projectPath)";
+            # Capture any additional information
+            $logAdditionalMSG = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tReason to use command: $($description)`r`n`tProject Path: $($projectPath)";
 
-            # Send an event regarding this failure; this will be logged.
-            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                              -MessageData "Failed to execute the external command $($command) because the project path does not exist!" `
-                              -EventArguments $logEventArguments | Out-Null;
+            # Generate the message
+            $logMessage = "Failed to execute the external command $($command) because the project path does not exist!";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -446,17 +432,17 @@ class IOCommon
         if ($([IOCommon]::CheckPathExists("$($stdOutLogPath)")) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
-            # Event Logging
+            # Debugging
             # --------------
 
-            # Put the arguments together in a package
-            $logEventArguments[0] = "Error";
-            $logEventArguments[1] = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tReason to use command: $($description)`r`n`tSTDOUT Directory: $($stdOutLogPath)";
+            # Capture any additional information
+            $logAdditionalMSG = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tReason to use command: $($description)`r`n`tSTDOUT Directory: $($stdOutLogPath)";
 
-            # Send an event regarding this failure; this will be logged.
-            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                              -MessageData "Failed to execute the external command $($command) because the STDOUT Directory does not exist!" `
-                              -EventArguments $logEventArguments | Out-Null;
+            # Generate the message
+            $logMessage = "Failed to execute the external command $($command) because the STDOUT Directory does not exist!";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -469,17 +455,17 @@ class IOCommon
         if ($([IOCommon]::CheckPathExists("$($stdErrLogPath)")) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
-            # Event Logging
+            # Debugging
             # --------------
 
-            # Put the arguments together in a package
-            $logEventArguments[0] = "Error";
-            $logEventArguments[1] = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tReason to use command: $($description)`r`n`tSTDERR Directory: $($stdErrLogPath)";
+            # Capture any additional information
+            $logAdditionalMSG = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tReason to use command: $($description)`r`n`tSTDERR Directory: $($stdErrLogPath)";
 
-            # Send an event regarding this failure; this will be logged.
-            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                              -MessageData "Failed to execute the external command $($command) because the STDERR Directory does not exist!" `
-                              -EventArguments $logEventArguments | Out-Null;
+            # Generate the message
+            $logMessage = "Failed to execute the external command $($command) because the STDERR Directory does not exist!";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -499,19 +485,20 @@ class IOCommon
             $description = "$($command) $($arguments)";
 
             # * * * * * * * * * * * * * * * * * * *
-            # Event Logging
+            # Debugging
             # --------------
 
-            # Put the arguments together in a package
-            $logEventArguments[0] = "Warning";
-            $logEventArguments[1] = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tDescription is now: $($description)";
+            # Capture any additional information
+            $logAdditionalMSG = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tDescription is now: $($description)";
 
-            # Send an event regarding this change; this will be logged.
-            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                              -MessageData "The description field was missing while serving the request to execute the external command $($command)!  The description will be automatically filled for this instance." `
-                              -EventArguments $logEventArguments | Out-Null;
+            # Generate the message
+            $logMessage = "The description field was missing while serving the request to execute the external command $($command)!  The description will be automatically filled for this instance.";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Warning");
 
             # * * * * * * * * * * * * * * * * * * *
+
         } # if : Description was not populated
 
         # ---------------------------
@@ -549,17 +536,17 @@ class IOCommon
 
 
         # * * * * * * * * * * * * * * * * * * *
-        # Event Logging
+        # Debugging
         # --------------
 
-        # Put the arguments together in a package
-        $logEventArguments[0] = "Verbose";
-        $logEventArguments[1] = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tReason to use command: $($description)`r`n`tExtCMD Exit Code: $($externalCommandReturnCode)";
+        # Capture any additional information
+        $logAdditionalMSG = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tReason to use command: $($description)`r`n`tExtCMD Exit Code: $($externalCommandReturnCode)";
 
-        # Send an event regarding the status of the operation's results; this will be logged.
-        $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                            -MessageData "Successfully executed the external command $($command)!" `
-                            -EventArguments $logEventArguments | Out-Null;
+        # Generate the message
+        $logMessage = "Successfully executed the external command $($command)!";
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Verbose");
 
         # * * * * * * * * * * * * * * * * * * *
 
@@ -636,14 +623,9 @@ class IOCommon
         [string] $redirectStdOut = $null;                   # When STDOUT redirection to variable is
                                                             #  requested, this will be our buffer.
         # * * * * * * * * * * * * * * * * * * *
-        # Event Logging
-        [string] $logAdditionalInfo = $null;           # Additional information provided by
-                                                       #  the PowerShell engine, such as
-                                                       #  error messages.
-        # Object containing arguments to be passed.
-        $logEventArguments = New-Object `
-                                -TypeName Object[] `
-                                -ArgumentList 2;
+        # Debugging [Logging]
+        [string] $logMessage = $null;                       # The initial message to be logged.
+        [string] $logAdditionalMSG = $null;                 # Additional information provided.
         # ----------------------------------------
 
         
@@ -687,17 +669,17 @@ class IOCommon
 
 
             # * * * * * * * * * * * * * * * * * * *
-            # Event Logging
+            # Debugging
             # --------------
 
-            # Put the arguments together in a package
-            $logEventArguments[0] = "Verbose";
-            $logEventArguments[1] = "Description: $($description)`r`n`tSTDOUT Log Path: $($logStdOut)`r`n`tSTDOUT Output:`r`n`t$($outputResultOut.Value)";
+            # Capture any additional information
+            $logAdditionalMSG = "Description: $($description)`r`n`tSTDOUT Log Path: $($logStdOut)`r`n`tSTDOUT Output:`r`n`t$($outputResultOut.Value)";
 
-            # Send an event regarding the status of the operation's results; this will be logged.
-            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                              -MessageData "External command returned successfully with additional output." `
-                              -EventArguments $logEventArguments | Out-Null;
+            # Generate the message
+            $logMessage = "External command returned successfully with additional output.";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Verbose");
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -718,17 +700,17 @@ class IOCommon
 
 
             # * * * * * * * * * * * * * * * * * * *
-            # Event Logging
+            # Debugging
             # --------------
 
-            # Put the arguments together in a package
-            $logEventArguments[0] = "Warning";
-            $logEventArguments[1] = "Description: $($description)`r`n`tSTDERR Log Path: $($logStdErr)`r`n`tSTDERR Output:`r`n`t$($outputResultErr.Value)";
+            # Capture any additional information
+            $logAdditionalMSG = "Description: $($description)`r`n`tSTDERR Log Path: $($logStdErr)`r`n`tSTDERR Output:`r`n`t$($outputResultErr.Value)";
 
-            # Send an event regarding the status of the operation's results; this will be logged.
-            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                              -MessageData "External command returned with an error or error messages exists!" `
-                              -EventArguments $logEventArguments | Out-Null;
+            # Generate the message
+            $logMessage = "External command returned with an error or error messages exists!";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Warning");
 
             # * * * * * * * * * * * * * * * * * * *
         } # If : Log the STDERR
@@ -789,14 +771,9 @@ class IOCommon
                                                        #  might be available from the PowerShell
                                                        #  engine.
         # * * * * * * * * * * * * * * * * * * *
-        # Event Logging
-        [string] $logAdditionalInfo = $null;           # Additional information provided by
-                                                       #  the PowerShell engine, such as
-                                                       #  error messages.
-        # Object containing arguments to be passed.
-        $logEventArguments = New-Object `
-                                -TypeName Object[] `
-                                -ArgumentList 2;
+        # Debugging [Logging]
+        [string] $logMessage = $null;                  # The initial message to be logged.
+        [string] $logAdditionalMSG = $null;            # Additional information provided.
         # - - - - - - - - - - - - - - - - - - - -
         # .NET Special Objects
         # - - - -
@@ -824,17 +801,17 @@ class IOCommon
         if(([IOCommon]::DetectCommand("$($command)", "Application")) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
-            # Event Logging
+            # Debugging
             # --------------
 
-            # Put the arguments together in a package
-            $logEventArguments[0] = "Error";
-            $logEventArguments[1] = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)";
+            # Capture any additional information
+            $logAdditionalMSG = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)";
 
-            # Send an event regarding this failure; this will be logged.
-            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                              -MessageData "Failed to execute the external command $($command) because it was not found or is not an application!" `
-                              -EventArguments $logEventArguments | Out-Null;
+            # Generate the message
+            $logMessage = "Failed to execute the external command $($command) because it was not found or is not an application!";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -894,17 +871,17 @@ class IOCommon
             [IOLoggingGateway]::DisplayMessage("Failure to execute command upon request!`n`rFailure reason: $($executeFailureMessage)", "Error");
 
             # * * * * * * * * * * * * * * * * * * *
-            # Event Logging
+            # Debugging
             # --------------
 
-            # Put the arguments together in a package
-            $logEventArguments[0] = "Error";
-            $logEventArguments[1] = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tFailed to execute reason: $($executeFailureMessage)";
+            # Capture any additional information
+            $logAdditionalMSG = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tFailed to execute reason: $($executeFailureMessage)";
 
-            # Send an event regarding this failure; this will be logged.
-            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                              -MessageData "A failure occurred upon executing the external command $($command)!" `
-                              -EventArguments $logEventArguments | Out-Null;
+            # Generate the message
+            $logMessage = "A failure occurred upon executing the external command $($command)!";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1057,14 +1034,9 @@ class IOCommon
                                                        #  might be available from the PowerShell
                                                        #  engine.
         # * * * * * * * * * * * * * * * * * * *
-        # Event Logging
-        [string] $logAdditionalInfo = $null;           # Additional information provided by
-                                                       #  the PowerShell engine, such as
-                                                       #  error messages.
-        # Object containing arguments to be passed.
-        $logEventArguments = New-Object `
-                                -TypeName Object[] `
-                                -ArgumentList 2;
+        # Debugging [Logging]
+        [string] $logMessage = $null;                  # The initial message to be logged.
+        [string] $logAdditionalMSG = $null;            # Additional information provided.
         # ----------------------------------------
 
 
@@ -1087,18 +1059,19 @@ class IOCommon
             # Display error to the user
             [IOLoggingGateway]::DisplayMessage("Failed to write data to file!`r`nFailure reason: $($executeFailureMessage)", "Error");
 
+
             # * * * * * * * * * * * * * * * * * * *
-            # Event Logging
+            # Debugging
             # --------------
 
-            # Put the arguments together in a package
-            $logEventArguments[0] = "Error";
-            $logEventArguments[1] = "File to write: $($file)`r`n`tContents to write: $($contents.Value.ToString())`r`n`tFailed to execute reason: $($executeFailureMessage)";
+            # Capture any additional information
+            $logAdditionalMSG = "File to write: $($file)`r`n`tContents to write: $($contents.Value.ToString())`r`n`tFailed to execute reason: $($executeFailureMessage)";
 
-            # Send an event regarding this failure; this will be logged.
-            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                              -MessageData "A failure has occurred upon writing data to file!" `
-                              -EventArguments $logEventArguments | Out-Null;
+            # Generate the message
+            $logMessage = "A failure has occurred upon writing data to file!";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1184,14 +1157,9 @@ class IOCommon
                                                        #  might be available from the PowerShell
                                                        #  engine.
         # * * * * * * * * * * * * * * * * * * *
-        # Event Logging
-        [string] $logAdditionalInfo = $null;           # Additional information provided by
-                                                       #  the PowerShell engine, such as
-                                                       #  error messages.
-        # Object containing arguments to be passed.
-        $logEventArguments = New-Object `
-                                -TypeName Object[] `
-                                -ArgumentList 2;
+        # Debugging [Logging]
+        [string] $logMessage = $null;       # The initial message to be logged.
+        [string] $logAdditionalMSG = $null; # Additional information provided.
         # ----------------------------------------
 
 
@@ -1209,18 +1177,17 @@ class IOCommon
             [IOLoggingGateway]::DisplayMessage("Unable to create a PDF file; source file does not exist!`r`nSource file: $($sourceFile)", "Error");
 
             # * * * * * * * * * * * * * * * * * * *
-            # Event Logging
+            # Debugging
             # --------------
 
-            # Put the arguments together in a package
-            $logEventArguments[0] = "Error";
-            $logEventArguments[1] = "Source file: $($sourceFile)`r`n`tDestination file: $($destinationFile)";
-            #File to write: $($file)`r`n`tContents to write: $($contents.Value.ToString())`r`n`tFailed to execute reason: $($executeFailureMessage)";
+            # Capture any additional information
+            $logAdditionalMSG = "Source file: $($sourceFile)`r`n`tDestination file: $($destinationFile)";
 
-            # Send an event regarding this failure; this will be logged.
-            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                              -MessageData "Unable to create a PDF file as the source file does not exist!" `
-                              -EventArguments $logEventArguments | Out-Null;
+            # Generate the message
+            $logMessage = "Unable to create a PDF file as the source file does not exist!";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1263,17 +1230,17 @@ class IOCommon
                 [IOLoggingGateway]::DisplayMessage("Unable to create a new instance of Microsoft Word.");
 
                 # * * * * * * * * * * * * * * * * * * *
-                # Event Logging
+                # Debugging
                 # --------------
 
-                # Put the arguments together in a package
-                $logEventArguments[0] = "Error";
-                $logEventArguments[1] = "Unable to create a new instance of Microsoft Word.`r`n`tSource File: $($sourceFile)`r`n`tAdditional Error Message: $($executeFailureMessage)";
+                # Capture any additional information
+                $logAdditionalMSG = "Unable to create a new instance of Microsoft Word.`r`n`tSource File: $($sourceFile)`r`n`tAdditional Error Message: $($executeFailureMessage)";
 
-                # Send an event regarding this failure; this will be logged.
-                $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                                  -MessageData "Unable to create a new instance of Microsoft Word." `
-                                  -EventArguments $logEventArguments | Out-Null;
+                # Generate the message
+                $logMessage = "Unable to create a new instance of Microsoft Word.";
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -1293,19 +1260,20 @@ class IOCommon
 
 
                 # * * * * * * * * * * * * * * * * * * *
-                # Event Logging
+                # Debugging
                 # --------------
 
-                # Put the arguments together in a package
-                $logEventArguments[0] = "Error";
-                $logEventArguments[1] = "The host system does not have (or unable to detect) a modern version of Microsoft Word.`r`n`tSource File: $($sourceFile)`r`n`tAdditional Error Message: $($executeFailureMessage)";
+                # Capture any additional information
+                $logAdditionalMSG = "The host system does not have (or unable to detect) a modern version of Microsoft Word.`r`n`tSource File: $($sourceFile)`r`n`tAdditional Error Message: $($executeFailureMessage)";
 
-                # Send an event regarding this failure; this will be logged.
-                $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                                  -MessageData "Unable to find a modern version of Microsoft Word!" `
-                                  -EventArguments $logEventArguments | Out-Null;
+                # Generate the message
+                $logMessage = "Unable to find a modern version of Microsoft Word!";
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
 
                 # * * * * * * * * * * * * * * * * * * *
+
             return $false;
         } # Else : Failure to find Microsoft Word
 
@@ -1389,17 +1357,17 @@ class IOCommon
             [IOLoggingGateway]::DisplayMessage("Created a PDF file as requested but unable find it....")
 
             # * * * * * * * * * * * * * * * * * * *
-            # Event Logging
+            # Debugging
             # --------------
 
-            # Put the arguments together in a package
-            $logEventArguments[0] = "Error";
-            $logEventArguments[1] = "Source file: $($sourceFile)`r`n`tDestination file: $($destinationFile)";
+            # Capture any additional information
+            $logAdditionalMSG = "Source file: $($sourceFile)`r`n`tDestination file: $($destinationFile)";
 
-            # Send an event regarding this failure; this will be logged.
-            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                              -MessageData "The PDF file was created successfully but unable to find the PDF file at the destination path!" `
-                              -EventArguments $logEventArguments | Out-Null;
+            # Generate the message
+            $logMessage = "The PDF file was created successfully but unable to find the PDF file at the destination path!";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1511,14 +1479,9 @@ class IOCommon
                                                #  incremented to help assure uniqueness for
                                                #  the directory name.
         # * * * * * * * * * * * * * * * * * * *
-        # Event Logging
-        [string] $logAdditionalInfo = $null;           # Additional information provided by
-                                                       #  the PowerShell engine, such as
-                                                       #  error messages.
-        # Object containing arguments to be passed.
-        $logEventArguments = New-Object `
-                                -TypeName Object[] `
-                                -ArgumentList 2;
+        # Debugging [Logging]
+        [string] $logMessage = $null;          # The initial message to be logged.
+        [string] $logAdditionalMSG = $null;    # Additional information provided.
         # ----------------------------------------
 
         
@@ -1581,17 +1544,17 @@ class IOCommon
                 [IOLoggingGateway]::DisplayMessage("Unable to create a temporary directory!", "Error");
 
                 # * * * * * * * * * * * * * * * * * * *
-                # Event Logging
+                # Debugging
                 # --------------
 
-                # Put the arguments together in a package
-                $logEventArguments[0] = "Error";
-                $logEventArguments[1] = "Path of the parent temporary directory: $($tempDirectoryPath)";
+                # Capture any additional information
+                $logAdditionalMSG = "Path of the parent temporary directory: $($tempDirectoryPath)";
 
-                # Send an event regarding this failure; this will be logged.
-                $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                                  -MessageData "Unable to create a parent temporary directory!" `
-                                  -EventArguments $logEventArguments | Out-Null;
+                # Generate the message
+                $logMessage = "Unable to create a parent temporary directory!";
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -1664,17 +1627,17 @@ class IOCommon
             [IOLoggingGateway]::DisplayMessage("Unable to create a temporary directory!", "Error");
 
             # * * * * * * * * * * * * * * * * * * *
-            # Event Logging
+            # Debugging
             # --------------
 
-            # Put the arguments together in a package
-            $logEventArguments[0] = "Error";
-            $logEventArguments[1] = "Path of the temporary directory: $($finalDirectoryPath)";
+            # Capture any additional information
+            $logAdditionalMSG = "Path of the temporary directory: $($finalDirectoryPath)";
 
-            # Send an event regarding this failure; this will be logged.
-            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                                -MessageData "Unable to create a temporary directory!" `
-                                -EventArguments $logEventArguments | Out-Null;
+            # Generate the message
+            $logMessage = "Unable to create a temporary directory!";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1691,17 +1654,17 @@ class IOCommon
             [IOLoggingGateway]::DisplayMessage("Created the temporary directory but unable to found it....", "Error");
 
             # * * * * * * * * * * * * * * * * * * *
-            # Event Logging
+            # Debugging
             # --------------
 
-            # Put the arguments together in a package
-            $logEventArguments[0] = "Error";
-            $logEventArguments[1] = "Path of the temporary directory: $($finalDirectoryPath)";
+            # Capture any additional information
+            $logAdditionalMSG = "Path of the temporary directory: $($finalDirectoryPath)";
 
-            # Send an event regarding this failure; this will be logged.
-            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                                -MessageData "Successfully created the temporary directory but it was not found in the final destination path!" `
-                                -EventArguments $logEventArguments | Out-Null;
+            # Generate the message
+            $logMessage = "Successfully created the temporary directory but it was not found in the final destination path!";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1755,16 +1718,11 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode = $true;    # Exit code that will be returned.
+        [bool] $exitCode = $true;           # Exit code that will be returned.
         # * * * * * * * * * * * * * * * * * * *
-        # Event Logging
-        [string] $logAdditionalInfo = $null;           # Additional information provided by
-                                                       #  the PowerShell engine, such as
-                                                       #  error messages.
-        # Object containing arguments to be passed.
-        $logEventArguments = New-Object `
-                                -TypeName Object[] `
-                                -ArgumentList 2;
+        # Debugging [Logging]
+        [string] $logMessage = $null;       # The initial message to be logged.
+        [string] $logAdditionalMSG = $null; # Additional information provided.
         # ----------------------------------------
 
 
@@ -1780,20 +1738,20 @@ class IOCommon
                 New-Item -Path "$($path)" -ItemType Directory -ErrorAction Stop;
 
                 # * * * * * * * * * * * * * * * * * * *
-                # Event Logging
+                # Debugging
                 # --------------
 
-                # Put the arguments together in a package
-                $logEventArguments[0] = "Verbose";
-                $logEventArguments[1] = "Directory Path: $($path)";
-                #Path of the temporary directory: $($finalDirectoryPath)";
+                # Capture any additional information
+                $logAdditionalMSG = "Directory Path: $($path)";
 
-                # Send an event regarding this failure; this will be logged.
-                $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                                    -MessageData "Successfully created the directory!" `
-                                    -EventArguments $logEventArguments | Out-Null;
+                # Generate the message
+                $logMessage = "Successfully created the directory!";
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Verbose");
 
                 # * * * * * * * * * * * * * * * * * * *
+
             } # try : Create directory.
             catch
             {
@@ -1804,20 +1762,20 @@ class IOCommon
                 [IOLoggingGateway]::DisplayMessage("Failed to create the required directory!`r`nReason for failure: $($executeFailureMessage)", "Error");
 
                 # * * * * * * * * * * * * * * * * * * *
-                # Event Logging
+                # Debugging
                 # --------------
 
-                # Put the arguments together in a package
-                $logEventArguments[0] = "Error";
-                $logEventArguments[1] = "Directory Path: $($path)`r`n`tAdditional Error Message: $($executeFailureMessage)";
-                #Path of the temporary directory: $($finalDirectoryPath)";
+                # Capture any additional information
+                $logAdditionalMSG = "Directory Path: $($path)`r`n`tAdditional Error Message: $($executeFailureMessage)";
 
-                # Send an event regarding this failure; this will be logged.
-                $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                                    -MessageData "Failed to create the directory by request!" `
-                                    -EventArguments $logEventArguments | Out-Null;
+                # Generate the message
+                $logMessage = "Failed to create the directory by request!";
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
 
                 # * * * * * * * * * * * * * * * * * * *
+
                 # Failure occurred.
                 $exitCode = $false;
             } # Catch : Failed to Create Directory
@@ -1856,14 +1814,9 @@ class IOCommon
         [bool] $exitCode = $false;    # Exit code that will be returned.
 
         # * * * * * * * * * * * * * * * * * * *
-        # Event Logging
-        [string] $logAdditionalInfo = $null;           # Additional information provided by
-                                                       #  the PowerShell engine, such as
-                                                       #  error messages.
-        # Object containing arguments to be passed.
-        $logEventArguments = New-Object `
-                                -TypeName Object[] `
-                                -ArgumentList 2;
+        # Debugging [Logging]
+        [string] $logMessage = $null;       # The initial message to be logged.
+        [string] $logAdditionalMSG = $null; # Additional information provided.
         # ----------------------------------------
 
 
@@ -1876,20 +1829,17 @@ class IOCommon
 
 
         # * * * * * * * * * * * * * * * * * * *
-        # Event Logging
+        # Debugging
         # --------------
 
         # Capture any additional information
-        $logAdditionalInfo = "$($_)";
+        $logAdditionalMSG = "$($_)";
 
-        # Put the arguments together in a package
-        $logEventArguments[0] = "Verbose";
-        $logEventArguments[1] = "$($logAdditionalInfo)";
+        # Generate the message
+        $logMessage = "Tried to find the path named $($path), detected result was $($exitCode)";
 
-        # Send an event regarding the status of the operation's results; this will be logged.
-        $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                          -MessageData "Tried to find the path named $($path), detected result was $($exitCode)" `
-                          -EventArguments $logEventArguments | Out-Null;
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Verbose");
 
         # * * * * * * * * * * * * * * * * * * *
 
@@ -1931,14 +1881,9 @@ class IOCommon
         [bool] $exitCode = $false;    # Exit code that will be returned.
 
         # * * * * * * * * * * * * * * * * * * *
-        # Event Logging
-        [string] $logAdditionalInfo = $null;           # Additional information provided by
-                                                       #  the PowerShell engine, such as
-                                                       #  error messages.
-        # Object containing arguments to be passed.
-        $logEventArguments = New-Object `
-                                -TypeName Object[] `
-                                -ArgumentList 2;
+        # Debugging [Logging]
+        [string] $logMessage = $null;       # The initial message to be logged.
+        [string] $logAdditionalMSG = $null; # Additional information provided.
         # ----------------------------------------
 
 
@@ -1969,20 +1914,17 @@ class IOCommon
 
 
         # * * * * * * * * * * * * * * * * * * *
-        # Event Logging
+        # Debugging
         # --------------
 
         # Capture any additional information
-        $logAdditionalInfo = "$($_)";
+        $logAdditionalMSG = "$($_)";
 
-        # Put the arguments together in a package
-        $logEventArguments[0] = "Verbose";
-        $logEventArguments[1] = "$($logAdditionalInfo)";
+        # Generate the message
+        $logMessage = "Tried to thrash the directory named $($path), operation result was $($exitCode)";
 
-        # Send an event regarding the status of the operation's results; this will be logged.
-        $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                          -MessageData "Tried to thrash the directory named $($path), operation result was $($exitCode)" `
-                          -EventArguments $logEventArguments | Out-Null;
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Verbose");
 
         # * * * * * * * * * * * * * * * * * * *
 
@@ -2030,14 +1972,9 @@ class IOCommon
         [bool] $exitCode = $false;    # Exit code that will be returned.
 
         # * * * * * * * * * * * * * * * * * * *
-        # Event Logging
-        [string] $logAdditionalInfo = $null;           # Additional information provided by
-                                                       #  the PowerShell engine, such as
-                                                       #  error messages.
-        # Object containing arguments to be passed.
-        $logEventArguments = New-Object `
-                                -TypeName Object[] `
-                                -ArgumentList 2;
+        # Debugging [Logging]
+        [string] $logMessage = $null;       # The initial message to be logged.
+        [string] $logAdditionalMSG = $null; # Additional information provided.
         # ----------------------------------------
 
 
@@ -2068,20 +2005,17 @@ class IOCommon
 
 
         # * * * * * * * * * * * * * * * * * * *
-        # Event Logging
+        # Debugging
         # --------------
 
         # Capture any additional information
-        $logAdditionalInfo = "$($_)";
+        $logAdditionalMSG = "$($_)";
 
-        # Put the arguments together in a package
-        $logEventArguments[0] = "Verbose";
-        $logEventArguments[1] = "$($logAdditionalInfo)";
+        # Generate the message
+        $logMessage = "Tried to thrash the requested files $($includes.ToString()) from the path named $($path), operation result was $($exitCode)";
 
-        # Send an event regarding the status of the operation's results; this will be logged.
-        $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                          -MessageData "Tried to thrash the requested files $($includes.ToString()) from the path named $($path), operation result was $($exitCode)" `
-                          -EventArguments $logEventArguments | Out-Null;
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Verbose");
 
         # * * * * * * * * * * * * * * * * * * *
 
@@ -2127,14 +2061,9 @@ class IOCommon
         $hashInfo = New-Object -TypeName Microsoft.PowerShell.Commands.FileHashInfo;
 
         # * * * * * * * * * * * * * * * * * * *
-        # Event Logging
-        [string] $logAdditionalInfo = $null;           # Additional information provided by
-                                                       #  the PowerShell engine, such as
-                                                       #  error messages.
-        # Object containing arguments to be passed.
-        $logEventArguments = New-Object `
-                                -TypeName Object[] `
-                                -ArgumentList 2;
+        # Debugging [Logging]
+        [string] $logMessage = $null;       # The initial message to be logged.
+        [string] $logAdditionalMSG = $null; # Additional information provided.
         # ----------------------------------------
 
 
@@ -2154,17 +2083,17 @@ class IOCommon
             # The hash algorithm requested was not supported.
 
             # * * * * * * * * * * * * * * * * * * *
-            # Event Logging
+            # Debugging
             # --------------
 
-            # Put the arguments together in a package
-            $logEventArguments[0] = "Error";
-            $logEventArguments[1] = "Requested file: $($path)`r`n`tRequested Hash Algorithm: $($hashAlgorithm)";
+            # Capture any additional information
+            $logAdditionalMSG = "Requested file: $($path)`r`n`tRequested Hash Algorithm: $($hashAlgorithm)";
 
-            # Send an event regarding the status of the operation's results; this will be logged.
-            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                              -MessageData "The requested hash algorithm is not supported!" `
-                              -EventArguments $logEventArguments | Out-Null;
+            # Generate the message
+            $logMessage = "The requested hash algorithm is not supported!";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2191,20 +2120,17 @@ class IOCommon
             # Failure to obtain the hash value.
 
             # * * * * * * * * * * * * * * * * * * *
-            # Event Logging
+            # Debugging
             # --------------
 
             # Capture any additional information
-            $logAdditionalInfo = "$($_)";
+            $logAdditionalMSG = "Requested file: $($path)`r`n`tRequested Hash Algorithm: $($hashAlgorithm)`r`n`tAdditional Information: $($_)";
 
-            # Put the arguments together in a package
-            $logEventArguments[0] = "Error";
-            $logEventArguments[1] = "Requested file: $($path)`r`n`tRequested Hash Algorithm: $($hashAlgorithm)`r`n`tAdditional Information: $($logAdditionalInfo)";
+            # Generate the message
+            $logMessage = "A failure occurred while trying to get the hash value!";
 
-            # Send an event regarding the status of the operation's results; this will be logged.
-            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                              -MessageData "A failure occurred while trying to get the hash value!" `
-                              -EventArguments $logEventArguments | Out-Null;
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2301,14 +2227,9 @@ class IOCommon
         [bool] $exitCode = $false;  # The operation exit code.
 
         # * * * * * * * * * * * * * * * * * * *
-        # Event Logging
-        [string] $logAdditionalInfo = $null;           # Additional information provided by
-                                                       #  the PowerShell engine, such as
-                                                       #  error messages.
-        # Object containing arguments to be passed.
-        $logEventArguments = New-Object `
-                                -TypeName Object[] `
-                                -ArgumentList 2;
+        # Debugging [Logging]
+        [string] $logMessage = $null;       # The initial message to be logged.
+        [string] $logAdditionalMSG = $null; # Additional information provided.
         # ----------------------------------------
 
 
@@ -2333,20 +2254,17 @@ class IOCommon
                 # Error occurred while trying to open the requested web-page
 
                 # * * * * * * * * * * * * * * * * * * *
-                # Event Logging
+                # Debugging
                 # --------------
 
                 # Capture any additional information
-                $logAdditionalInfo = "$($_)";
+                $logAdditionalMSG = "Tried to open webpage: $($URLAddress)`r`n`tAdditional Information: $($_)";
 
-                # Put the arguments together in a package
-                $logEventArguments[0] = "Error";
-                $logEventArguments[1] = "Tried to open webpage: $($URLAddress)`r`n`tAdditional Information: $($logAdditionalInfo)";
+                # Generate the message
+                $logMessage = "Failure occurred while accessing the requested webpage!";
 
-                # Send an event regarding the status of the operation's results; this will be logged.
-                $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                                  -MessageData "Failure occurred while accessing the requested webpage!" `
-                                  -EventArguments $logEventArguments | Out-Null;
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -2360,17 +2278,17 @@ class IOCommon
             # The address is not legal
 
             # * * * * * * * * * * * * * * * * * * *
-            # Event Logging
+            # Debugging
             # --------------
 
-            # Put the arguments together in a package
-            $logEventArguments[0] = "Error";
-            $logEventArguments[1] = "Tried to open webpage: $($URLAddress)";
+            # Capture any additional information
+            $logAdditionalMSG = "Tried to open webpage: $($URLAddress)";
 
-            # Send an event regarding the status of the operation's results; this will be logged.
-            $null = New-Event -SourceIdentifier "$([IOCommon]::eventNameLog)" `
-                                -MessageData "The requested webpage is not valid!" `
-                                -EventArguments $logEventArguments | Out-Null;
+            # Generate the message
+            $logMessage = "The requested webpage is not valid!";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
 
             # * * * * * * * * * * * * * * * * * * *
 
