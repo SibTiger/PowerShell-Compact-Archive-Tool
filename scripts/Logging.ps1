@@ -605,6 +605,7 @@ class Logging
 
     } # LogProgramActivity()
 
+    #endregion
 } # Logging
 
 
