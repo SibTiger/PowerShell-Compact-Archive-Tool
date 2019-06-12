@@ -27,6 +27,62 @@ class UserPreferences
     # =================================================
 
 
+    #region Singleton Instance
+
+    hidden static [UserPreferences] $_instance = $null;
+
+    # Get the instance of this singleton object (Default)
+    static [UserPreferences] GetInstance()
+    {
+        # if there was no previous instance of the object - then create one.
+        if ([UserPreferences]::_instance -eq $null)
+        {
+            # Create a new instance of the singleton object.
+            [UserPreferences]::_instance = [UserPreferences]::new();
+        }
+
+        # Provide an instance of the object.
+        return [UserPreferences]::_instance;
+    } # GetInstance()
+
+
+
+
+    # Get the instance of this singleton object (With Args)
+    #  Useful if we already know that we have to instantiate
+    #  a new instance of this particular object.
+    static [UserPreferences] GetInstance([UserPreferencesCompressTool] $compressionTool,
+                                        [string] $projectPath,
+                                        [string] $outputBuildsPath,
+                                        [bool] $useGitFeatures,
+                                        [bool] $useWindowsExplorer,
+                                        [bool] $logging,
+                                        [bool] $useBell,
+                                        [UserPreferencesEventAlarm] $notificationType)
+    {
+        # if there was no previous instance of the object - then create one.
+        if ([UserPreferences]::_instance -eq $null)
+        {
+            # Create a new instance of the singleton object.
+            [UserPreferences]::_instance = [UserPreferences]::new([UserPreferencesCompressTool] $compressionTool,
+                                                                [string] $projectPath,
+                                                                [string] $outputBuildsPath,
+                                                                [bool] $useGitFeatures,
+                                                                [bool] $useWindowsExplorer,
+                                                                [bool] $logging,
+                                                                [bool] $useBell,
+                                                                [UserPreferencesEventAlarm] $notificationType);
+        }
+
+        # Provide an instance of the object.
+        return [UserPreferences]::_instance;
+    } # GetInstance()
+
+    #endregion
+
+
+
+
     #region Private Variables (emulated)
 
     # Compression Choice
@@ -83,6 +139,14 @@ class UserPreferences
     #  audible notification.
     Hidden [UserPreferencesEventAlarm] $__notificationType;
 
+
+    # Object GUID
+    # ---------------
+    # Provides a unique identifier to the object, useful to
+    #  make sure that we are using the right object within
+    #  the software.
+    Hidden [GUID] $__objectGUID;
+
     #endregion
 
 
@@ -120,6 +184,9 @@ class UserPreferences
 
         # Bell Events
         $this.__notificationType = 0;
+
+        # Object Identifier (GUID)
+        $this.__objectGUID = [GUID]::NewGuid();
     } # Default Constructor
 
 
@@ -158,6 +225,9 @@ class UserPreferences
 
         # Bell Events
         $this.__notificationType = $notificationType;
+
+        # Object Identifier (GUID)
+        $this.__objectGUID = [GUID]::NewGuid();
     } # User Preference : On-Load
 
     #endregion
@@ -305,6 +375,24 @@ class UserPreferences
     {
         return $this.__notificationType;
     } # GetBellEvents()
+
+
+
+
+   <# Get Object GUID
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the object's Global Unique ID variable.
+    # -------------------------------
+    # Output:
+    #  [GUID] Global Unique Idenifier (GUID)
+    #   The value of the object's GUID.
+    # -------------------------------
+    #>
+    [GUID] GetObjectGUID()
+    {
+        return $this.__objectGUID;
+    } # GetObjectGUID()
 
     #endregion
 
