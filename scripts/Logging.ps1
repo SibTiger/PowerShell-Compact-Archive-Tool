@@ -111,7 +111,7 @@ class Logging
     Static Hidden [bool] __CheckRequiredDirectories()
     {
         # Check Program Log Directory
-        if (([IOCommon]::CheckPathExists("$([Logging]::ProgramLogPath)")) -eq $true)
+        if (([IOCommon]::CheckPathExists("$([Logging]::ProgramLogPath)", $false)) -eq $true)
         {
             # All of the directories exists
             return $true;
@@ -167,10 +167,10 @@ class Logging
         #  can use it within the program.
 
         # Program Log Directory
-        if(([IOCommon]::CheckPathExists("$([Logging].ProgramLogPath)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$([Logging].ProgramLogPath)", $false)) -eq $false)
         {
             # Program Log Directory does not exist, try to create it.
-            if (([IOCommon]::MakeDirectory("$([Logging]::ProgramLogPath)")) -eq $false)
+            if (([IOCommon]::MakeDirectory("$([Logging]::ProgramLogPath)", $false)) -eq $false)
             {
                 # Failure occurred.
                 return $false;
@@ -226,7 +226,7 @@ class Logging
             return $false;
         } # If : Program Log Dir. does not exist.
 
-        
+
         # Make sure that there is something to actually write, if there is no message - then
         #  there is no point in trying to write to the host's filesystem.
         if ("$($message)" -eq "$($null)")
@@ -238,15 +238,13 @@ class Logging
         } # If : Message is empty
 
 
-
         # Write the readable data to the logfile.
-        if (([IOCommon]::WriteToFile("$([Logging]::ProgramLogPath)\$([Logging]::ProgramLogFileName)", "$($message)")) -eq $false)
+        if (([IOCommon]::WriteToFile("$([Logging]::ProgramLogPath)\$([Logging]::ProgramLogFileName)", "$($message)", $false)) -eq $false)
         {
             # The message failed to be written to file,
             #  return false to signify failure.
             return $false;
         } # If : Operation Failed
-        
 
         # If we made it here, everything was successful.
         return $true;
@@ -459,7 +457,7 @@ class Logging
 
 
         # Because the directories exists, lets try to thrash the log files.
-        if (([IOCommon]::DeleteFile("$([Logging]::ProgramLogPath)", $extLogs)) -eq $false)
+        if (([IOCommon]::DeleteFile("$([Logging]::ProgramLogPath)", $extLogs, $false)) -eq $false)
         {
             # Failure to remove the requested files
             return $false;
