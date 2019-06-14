@@ -71,9 +71,9 @@ class DefaultCompress
     # =================================================
 
 
-    
+
     #region Constructor Functions
-    
+
     # Default Constructor
     DefaultCompress()
     {
@@ -94,13 +94,6 @@ class DefaultCompress
 
         # Log Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
-        
-
-        # ==================
-        # Functions
-
-        # Create the necessary directories
-        $this.__CreateDirectories() | Out-Null;
     } # Default Constructor
 
 
@@ -128,13 +121,6 @@ class DefaultCompress
 
         # Log Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
-        
-
-        # ==================
-        # Functions
-
-        # Create the necessary directories
-        $this.__CreateDirectories() | Out-Null;
     } # Default Constructor
 
     #endregion
@@ -452,6 +438,13 @@ class DefaultCompress
     #   - \PSArchive\logs
     #   - \PSArchive\reports
     # -------------------------------
+    # Input:
+    #  [bool] Logging [Debugging]
+    #   When true, the logging functionality will be enabled.
+    #    The logging functionality merely captures any detailed
+    #    information, which is then placed in a log file that
+    #    is specified in the Logging implementation.
+    # -------------------------------
     # Output:
     #  [bool] Exit code
     #    $false = Failure creating the new directories.
@@ -460,10 +453,10 @@ class DefaultCompress
     #             Directories already existed, nothing to do.
     # -------------------------------
     #>
-    Hidden [bool] __CreateDirectories()
+    Hidden [bool] __CreateDirectories([bool] $logging)
     {
         # First, check if the directories already exist?
-        if(($this.__CheckRequiredDirectories())-eq $true)
+        if(($this.__CheckRequiredDirectories($logging))-eq $true)
         {
             # The directories exist, no action is required.
             return $true;
@@ -477,10 +470,10 @@ class DefaultCompress
         #  check which directory does not exist and then try to create it.
 
         # Root Log Directory
-        if(([IOCommon]::CheckPathExists("$($this.__rootLogPath)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($this.__rootLogPath)", $logging)) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (([IOCommon]::MakeDirectory("$($this.__rootLogPath)")) -eq $false)
+            if (([IOCommon]::MakeDirectory("$($this.__rootLogPath)", $logging)) -eq $false)
             {
                 # Failure occurred.
                 return $false;
@@ -492,10 +485,10 @@ class DefaultCompress
 
 
         # Log Directory
-        if(([IOCommon]::CheckPathExists("$($this.__logPath)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($this.__logPath)", $logging)) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (([IOCommon]::MakeDirectory("$($this.__logPath)")) -eq $false)
+            if (([IOCommon]::MakeDirectory("$($this.__logPath)", $logging)) -eq $false)
             {
                 # Failure occurred.
                 return $false;
@@ -507,10 +500,10 @@ class DefaultCompress
 
 
         # Report Directory
-        if(([IOCommon]::CheckPathExists("$($this.__reportPath)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($this.__reportPath)", $logging)) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (([IOCommon]::MakeDirectory("$($this.__reportPath)")) -eq $false)
+            if (([IOCommon]::MakeDirectory("$($this.__reportPath)", $logging)) -eq $false)
             {
                 # Failure occurred.
                 return $false;
@@ -522,7 +515,7 @@ class DefaultCompress
 
 
         # Fail-safe; final assurance that the directories have been created successfully.
-        if(($this.__CheckRequiredDirectories())-eq $true)
+        if(($this.__CheckRequiredDirectories($logging))-eq $true)
         {
             # The directories exist
             return $true;
@@ -549,22 +542,29 @@ class DefaultCompress
     #   - \PSArchive\logs
     #   - \PSArchive\reports
     # -------------------------------
+    # Input:
+    #  [bool] Logging [Debugging]
+    #   When true, the logging functionality will be enabled.
+    #    The logging functionality merely captures any detailed
+    #    information, which is then placed in a log file that
+    #    is specified in the Logging implementation.
+    # -------------------------------
     # Output:
     #  [bool] Exit code
     #    $false = One or more directories does not exist.
     #    $true = Directories exist
     # -------------------------------
     #>
-    Hidden [bool] __CheckRequiredDirectories()
+    Hidden [bool] __CheckRequiredDirectories([bool] $logging)
     {
         # Check Root Log Directory
-        if ((([IOCommon]::CheckPathExists("$($this.__rootLogPath)")) -eq $true) -and `
+        if ((([IOCommon]::CheckPathExists("$($this.__rootLogPath)", $logging)) -eq $true) -and `
 
         # Check Report Path
-        (([IOCommon]::CheckPathExists("$($this.__reportPath)")) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($this.__reportPath)", $logging)) -eq $true) -and `
 
         # Check Log Path
-        (([IOCommon]::CheckPathExists("$($this.__logPath)") -eq $true)))
+        (([IOCommon]::CheckPathExists("$($this.__logPath)", $logging) -eq $true)))
         {
             # All of the directories exists
             return $true;
@@ -639,6 +639,11 @@ class DefaultCompress
     #   The archive file that will be inspected.
     #    The path provided should be in absolute
     #    form.
+    #  [bool] Logging [Debugging]
+    #   When true, the logging functionality will be enabled.
+    #    The logging functionality merely captures any detailed
+    #    information, which is then placed in a log file that
+    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [string] Hash Values
@@ -647,7 +652,7 @@ class DefaultCompress
     #    file.
     # -------------------------------
     #>
-    [string] FetchHashInformation([string] $file)
+    [string] FetchHashInformation([string] $file, [bool] $logging)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -657,13 +662,13 @@ class DefaultCompress
         # Get all of the hash values that is associated with the archive file.
         $archiveInfo =
                 "SHA256:`r`n" + `
-                "  $([IOCommon]::FileHash("$($file)", "sha256"))`r`n`r`n" + `
+                "  $([IOCommon]::FileHash("$($file)", "sha256", $logging))`r`n`r`n" + `
                 "SHA384:`r`n" + `
-                "  $([IOCommon]::FileHash("$($file)", "sha384"))`r`n`r`n" + `
+                "  $([IOCommon]::FileHash("$($file)", "sha384", $logging))`r`n`r`n" + `
                 "SHA512:`r`n" + `
-                "  $([IOCommon]::FileHash("$($file)", "sha512"))`r`n`r`n" + `
+                "  $([IOCommon]::FileHash("$($file)", "sha512", $logging))`r`n`r`n" + `
                 "MD5:`r`n" + `
-                "  $([IOCommon]::FileHash("$($file)", "md5"))`r`n`r`n";
+                "  $([IOCommon]::FileHash("$($file)", "md5", $logging))`r`n`r`n";
 
 
         # Return all of the hash values
@@ -696,14 +701,15 @@ class DefaultCompress
     # Extract Information:
     #    https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive/Expand-Archive
     # -------------------------------
+    # Input:
     #  [string] Target File
     #   The archive file that will be tested upon through the
     #    verification process.
-    #  [bool] Logging
-    #   User's preference in logging information.
-    #    When true, the program will log the
-    #    operations performed.
-    #   - Does not effect main program logging.
+    #  [bool] Logging [Debugging]
+    #   When true, the logging functionality will be enabled.
+    #    The logging functionality merely captures any detailed
+    #    information, which is then placed in a log file that
+    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -752,6 +758,15 @@ class DefaultCompress
         #   This check is to make sure that nothing goes horribly wrong.
         # ---------------------------
 
+        # Make sure that the .NET Compress Archive Logging directories are ready for use (if required)
+        if ($logging -and ($this.__CreateDirectories($logging) -eq $false))
+        {
+            # Because the logging directories could not be created, we can not log.
+            #  Because the logging features are required, we can not run the operation.
+            return $false;
+        } # If : .NET Archive Logging Directories
+
+
         # Check to make sure that the host-system support the archive functionality.
         if ($this.DetectCompressModule() -eq $false)
         {
@@ -762,7 +777,7 @@ class DefaultCompress
 
 
         # Make sure that the target file actually exists
-        if ($([IOCommon]::CheckPathExists("$($targetFile)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($targetFile)", $logging)) -eq $false)
         {
             # The archive data file does not exist, we can not
             #  test something that simply doesn't exist.  Return
@@ -778,7 +793,7 @@ class DefaultCompress
         # First, lets request a new directory in the %TEMP%;
         #  this is necessary to extract the contents from the
         #  archive file.
-        if ($([IOCommon]::MakeTempDirectory("Verify", [ref] $tmpDirectory)) -eq $false)
+        if ($([IOCommon]::MakeTempDirectory("Verify", [ref] $tmpDirectory, $logging)) -eq $false)
         {
             # Because we couldn't make a temporary directory, we
             #  cannot test the archive data file.
@@ -813,7 +828,7 @@ class DefaultCompress
         finally
         {
             # Thrash the temporary directory, we no longer need it.
-            [IOCommon]::DeleteDirectory("$($tmpDirectory)") | Out-Null;
+            [IOCommon]::DeleteDirectory("$($tmpDirectory)", $logging) | Out-Null;
         } # Final : Delete the temporary data
 
 
@@ -930,11 +945,11 @@ class DefaultCompress
     #    - Compressed Size
     #    - Size
     #    - Last Write-Time
-    #  [bool] Logging
-    #   User's preference in logging information.
-    #    When true, the program will log the
-    #    operations performed.
-    #   - Does not effect main program logging.
+    #  [bool] Logging [Debugging]
+    #   When true, the logging functionality will be enabled.
+    #    The logging functionality merely captures any detailed
+    #    information, which is then placed in a log file that
+    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [string] File List
@@ -959,6 +974,15 @@ class DefaultCompress
         #   This check is to make sure that nothing goes horribly wrong.
         # ---------------------------
 
+        # Make sure that the .NET Compress Archive Logging directories are ready for use (if required)
+        if ($logging -and ($this.__CreateDirectories($logging) -eq $false))
+        {
+            # Because the logging directories could not be created, we can not log.
+            #  Because the logging features are required, we can not run the operation.
+            return $false;
+        } # If : .NET Archive Logging Directories
+
+
         # Check to make sure that the host-system support the archive functionality.
         if ($this.DetectCompressModule() -eq $false)
         {
@@ -969,7 +993,7 @@ class DefaultCompress
 
 
         # Make sure that the archive file actually exists
-        if ($([IOCommon]::CheckPathExists("$($file)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($file)", $logging)) -eq $false)
         {
             # The archive data file does not exist, we can not
             #  examine something that simply doesn't exist.  Return
@@ -1047,11 +1071,11 @@ class DefaultCompress
     #   The directory in which the data was extracted to within
     #   the filesystem.  This will hold the absolute path to the
     #   extracted directory.
-    #  [bool] Logging
-    #   User's preference in logging information.
-    #    When true, the program will log the
-    #    operations performed.
-    #   - Does not effect main program logging.
+    #  [bool] Logging [Debugging]
+    #   When true, the logging functionality will be enabled.
+    #    The logging functionality merely captures any detailed
+    #    information, which is then placed in a log file that
+    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [bool] Status Code
@@ -1107,6 +1131,15 @@ class DefaultCompress
         #   This check is to make sure that nothing goes horribly wrong.
         # ---------------------------
 
+        # Make sure that the .NET Compress Archive Logging directories are ready for use (if required)
+        if ($logging -and ($this.__CreateDirectories($logging) -eq $false))
+        {
+            # Because the logging directories could not be created, we can not log.
+            #  Because the logging features are required, we can not run the operation.
+            return $false;
+        } # If : .NET Archive Logging Directories
+
+
         # Check to make sure that the host-system support the archive functionality.
         if ($this.DetectCompressModule() -eq $false)
         {
@@ -1117,7 +1150,7 @@ class DefaultCompress
 
 
         # Make sure that the archive file actually exists
-        if ($([IOCommon]::CheckPathExists("$($file)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($file)", $logging)) -eq $false)
         {
             # The archive data file does not exist, we can not
             #  extract the archive that simply doesn't exist.
@@ -1126,7 +1159,7 @@ class DefaultCompress
 
 
         # Make sure that the output path exists
-        if ($([IOCommon]::CheckPathExists("$($outputPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($outputPath)", $logging)) -eq $false)
         {
             # The output path does not exist, we can not extract the contents.
             return $false;
@@ -1150,13 +1183,13 @@ class DefaultCompress
 
 
         # Does the output directory already exists?
-        if ([IOCommon]::CheckPathExists("$($cacheOutputPath)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($cacheOutputPath)", $logging) -eq $false)
         {
             # Because it is a unique directory, this is our final output destination.
             $finalOutputPath = $cacheOutputPath;
 
             # Create the new directory
-            if([IOCommon]::MakeDirectory("$($finalOutputPath)") -eq $false)
+            if([IOCommon]::MakeDirectory("$($finalOutputPath)", $logging) -eq $false)
             {
                 # A failure occurred when trying to make the directory,
                 #  we can not continue as the output is not available.
@@ -1178,7 +1211,7 @@ class DefaultCompress
             $finalOutputPath = "$($cacheOutputPath)_$($getDateTime)";
 
             # Now try to make the directory, if this fails - we can't do anything more.
-            if([IOCommon]::MakeDirectory("$($finalOutputPath)") -eq $false)
+            if([IOCommon]::MakeDirectory("$($finalOutputPath)", $logging) -eq $false)
             {
                 # A failure occurred when trying to make the directory,
                 #  we can not continue as the output is not available.
@@ -1316,11 +1349,11 @@ class DefaultCompress
     #   This will hold the newly created archive file's absolute
     #   path and file name.  This will be returned to the calling
     #   function.
-    #  [bool] Logging
-    #   User's preference in logging information.
-    #    When true, the program will log the
-    #    operations performed.
-    #   - Does not effect main program logging.
+    #  [bool] Logging [Debugging]
+    #   When true, the logging functionality will be enabled.
+    #    The logging functionality merely captures any detailed
+    #    information, which is then placed in a log file that
+    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [bool] Status Code
@@ -1387,6 +1420,15 @@ class DefaultCompress
         #   This check is to make sure that nothing goes horribly wrong.
         # ---------------------------
 
+        # Make sure that the .NET Compress Archive Logging directories are ready for use (if required)
+        if ($logging -and ($this.__CreateDirectories($logging) -eq $false))
+        {
+            # Because the logging directories could not be created, we can not log.
+            #  Because the logging features are required, we can not run the operation.
+            return $false;
+        } # If : .NET Archive Logging Directories
+
+
         # Check to make sure that the host-system support the archive functionality.
         if ($this.DetectCompressModule() -eq $false)
         {
@@ -1397,7 +1439,7 @@ class DefaultCompress
 
 
         # Make sure that the output directory exists
-        if ($([IOCommon]::CheckPathExists("$($outputPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($outputPath)", $logging)) -eq $false)
         {
             # The output directory does not exist;
             #  we need a valid location to output this archive file.
@@ -1407,7 +1449,7 @@ class DefaultCompress
 
         # Make sure that the target directory (the contents that will be
         #  in our newly created archive file) exists.
-        if ($([IOCommon]::CheckPathExists("$($targetDirectoryFiltered)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($targetDirectoryFiltered)", $logging)) -eq $false)
         {
             # The target directory does not exist, we
             #  can not create an archive if the directory
@@ -1432,7 +1474,7 @@ class DefaultCompress
 
 
         # Setup the base name and check it
-        if ([IOCommon]::CheckPathExists("$($outputPath)\$($archiveFileName).$($archiveFileExtension)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($outputPath)\$($archiveFileName).$($archiveFileExtension)", $logging) -eq $false)
         {
             # Because the file does not exist, use it!
             $finalArchiveFileName = "$($outputPath)\$($archiveFileName).$($archiveFileExtension)";
@@ -1456,7 +1498,7 @@ class DefaultCompress
             # Update the cache name for coding simplicity
             $cacheArchiveFileName = "$($archiveFileName)_$($getDateTime)";
 
-            if ([IOCommon]::CheckPathExists("$($outputPath)\$($cacheArchiveFileName).$($archiveFileExtension)") -eq $false)
+            if ([IOCommon]::CheckPathExists("$($outputPath)\$($cacheArchiveFileName).$($archiveFileExtension)", $logging) -eq $false)
             {
                 # Because the archive file is now unique, we can use that new name.
                 $finalArchiveFileName = "$($outputPath)\$($cacheArchiveFileName).$($archiveFileExtension)";
@@ -1592,11 +1634,11 @@ class DefaultCompress
     #  [string] Archive File
     #   The archive file that we are going to generate
     #    a report on.
-    #  [bool] Logging
-    #   User's preference in logging information.
-    #    When true, the program will log the
-    #    operations performed.
-    #   - Does not effect main program logging.
+    #  [bool] Logging [Debugging]
+    #   When true, the logging functionality will be enabled.
+    #    The logging functionality merely captures any detailed
+    #    information, which is then placed in a log file that
+    #    is specified in the Logging implementation.
     #  [bool] Create a PDF File
     #   When true, this will allow the ability to create
     #    a PDF document along with the textfile
@@ -1688,6 +1730,15 @@ class DefaultCompress
         #   This check is to make sure that nothing goes horribly wrong.
         # ---------------------------
 
+        # Make sure that the .NET Compress Archive Logging directories are ready for use (if required)
+        if ($logging -and ($this.__CreateDirectories($logging) -eq $false))
+        {
+            # Because the logging directories could not be created, we can not log.
+            #  Because the logging features are required, we can not run the operation.
+            return $false;
+        } # If : .NET Archive Logging Directories
+
+
         # Check to make sure that the host-system support the archive functionality.
         if ($this.DetectCompressModule() -eq $false)
         {
@@ -1698,7 +1749,7 @@ class DefaultCompress
 
 
         # Make sure that the path exists
-        if ($([IOCommon]::CheckPathExists("$($ArchiveFile)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($ArchiveFile)", $logging)) -eq $false)
         {
             # Project Path does not exist, return an error.
             return $false;
@@ -1749,7 +1800,7 @@ class DefaultCompress
 
 
                     # Write to file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)", $logging) -eq $false)
                     {
                         # Failure occurred while writing to the file.
                         return $false;
@@ -1779,7 +1830,7 @@ class DefaultCompress
 
 
                     # Write to file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)", $logging) -eq $false)
                     {
                         # Failure occurred while writing to the file.
                         return $false;
@@ -1818,7 +1869,7 @@ class DefaultCompress
 
 
                     # Write to file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)", $logging) -eq $false)
                     {
                         # Failure occurred while writing to the file.
                         return $false;
@@ -1860,7 +1911,7 @@ class DefaultCompress
 
 
                     # Write to file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)", $logging) -eq $false)
                     {
                         # Failure occurred while writing to the file.
                         return $false;
@@ -1897,7 +1948,7 @@ class DefaultCompress
 
 
                     # Write to file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)", $logging) -eq $false)
                     {
                         # Failure occurred while writing to the file.
                         return $false;
@@ -1927,7 +1978,7 @@ class DefaultCompress
 
 
                     # Write to file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)", $logging) -eq $false)
                     {
                         # Failure occurred while writing to the file.
                         return $false;
@@ -1961,7 +2012,7 @@ class DefaultCompress
         if ($makePDF -eq $true)
         {
             # Create the PDF file
-            if(([IOCommon]::CreatePDFFile("$($fileNameTXT)", "$($fileNamePDF)")) -eq $false)
+            if(([IOCommon]::CreatePDFFile("$($fileNameTXT)", "$($fileNamePDF)", $logging)) -eq $false)
             {
                 # Failure occurred while creating the PDF document.
                 return $false;
@@ -1988,6 +2039,11 @@ class DefaultCompress
     # Input:
     #  [bool] Expunge reports
     #   When true, the reports will be thrashed.
+    #  [bool] Logging [Debugging]
+    #   When true, the logging functionality will be enabled.
+    #    The logging functionality merely captures any detailed
+    #    information, which is then placed in a log file that
+    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -1997,7 +2053,7 @@ class DefaultCompress
     #           Directories were not found
     # -------------------------------
     #>
-    [bool] ThrashLogs([bool] $expungeReports)
+    [bool] ThrashLogs([bool] $expungeReports, [bool] $logging)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2006,10 +2062,19 @@ class DefaultCompress
         # ----------------------------------------
 
 
+        # Make sure that the .NET Compress Archive Logging directories are ready for use (if required)
+        if ($logging -and ($this.__CreateDirectories($logging) -eq $false))
+        {
+            # Because the logging directories could not be created, we can not log.
+            #  Because the logging features are required, we can not run the operation.
+            return $false;
+        } # If : .NET Archive Logging Directories
+
+
         # First, make sure that the directories exist.
         #  If the directories are not available, than there
         #  is nothing that can be done.
-        if (($this.__CheckRequiredDirectories()) -eq $false)
+        if (($this.__CheckRequiredDirectories($logging)) -eq $false)
         {
             # This is not really an error, however the directories simply
             #  does not exist -- nothing can be done.
@@ -2018,7 +2083,7 @@ class DefaultCompress
 
 
         # Because the directories exists, lets try to thrash the logs.
-        if(([IOCommon]::DeleteFile("$($this.__logPath)", $extLogs)) -eq $false)
+        if(([IOCommon]::DeleteFile("$($this.__logPath)", $extLogs, $logging)) -eq $false)
         {
             # Failure to remove the requested files
             return $false;
@@ -2030,7 +2095,7 @@ class DefaultCompress
 
         # Did the user also wanted to thrash the reports?
         if (($($expungeReports) -eq $true) -and `
-        ([IOCommon]::DeleteFile("$($this.__reportPath)", $extReports)) -eq $false)
+        ([IOCommon]::DeleteFile("$($this.__reportPath)", $extReports, $logging)) -eq $false)
         {
             # Failure to remove the requested files
             return $false;
