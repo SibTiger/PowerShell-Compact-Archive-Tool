@@ -144,13 +144,6 @@ class SevenZip
 
         # Log Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
-
-
-        # ==================
-        # Functions
-
-        # Create the necessary directories
-        $this.__CreateDirectories() | Out-Null;
     } # Default Constructor
 
 
@@ -198,13 +191,6 @@ class SevenZip
 
         # Log Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
-
-
-        # ==================
-        # Functions
-
-        # Create the necessary directories
-        $this.__CreateDirectories() | Out-Null;
     } # User Preference : On-Load
 
     #endregion
@@ -748,22 +734,29 @@ class SevenZip
     #   - \7Zip\logs
     #   - \7Zip\reports
     # -------------------------------
+    # Input:
+    #  [bool] Logging [Debugging]
+    #   When true, the logging functionality will be enabled.
+    #    The logging functionality merely captures any detailed
+    #    information, which is then placed in a log file that
+    #    is specified in the Logging implementation.
+    # -------------------------------
     # Output:
     #  [bool] Exit code
     #    $false = One or more directories does not exist.
     #    $true = Directories exist
     # -------------------------------
     #>
-    Hidden [bool] __CheckRequiredDirectories()
+    Hidden [bool] __CheckRequiredDirectories([bool] $logging)
     {
         # Check Root Log Directory
-        if ((([IOCommon]::CheckPathExists("$($this.__rootLogPath)")) -eq $true) -and `
+        if ((([IOCommon]::CheckPathExists("$($this.__rootLogPath)", $logging)) -eq $true) -and `
 
         # Check Report Path
-        (([IOCommon]::CheckPathExists("$($this.__reportPath)")) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($this.__reportPath)", $logging)) -eq $true) -and `
 
         # Check Log Path
-        (([IOCommon]::CheckPathExists("$($this.__logPath)") -eq $true)))
+        (([IOCommon]::CheckPathExists("$($this.__logPath)", $logging) -eq $true)))
         {
             # All of the directories exists
             return $true;
@@ -796,6 +789,13 @@ class SevenZip
     #   - \7Zip\logs
     #   - \7Zip\reports
     # -------------------------------
+    # Input:
+    #  [bool] Logging [Debugging]
+    #   When true, the logging functionality will be enabled.
+    #    The logging functionality merely captures any detailed
+    #    information, which is then placed in a log file that
+    #    is specified in the Logging implementation.
+    # -------------------------------
     # Output:
     #  [bool] Exit code
     #    $false = Failure creating the new directories.
@@ -804,10 +804,10 @@ class SevenZip
     #             Directories already existed, nothing to do.
     # -------------------------------
     #>
-    Hidden [bool] __CreateDirectories()
+    Hidden [bool] __CreateDirectories([bool] $logging)
     {
         # First, check if the directories already exist?
-        if(($this.__CheckRequiredDirectories())-eq $true)
+        if(($this.__CheckRequiredDirectories($logging))-eq $true)
         {
             # The directories exist, no action is required.
             return $true;
@@ -821,10 +821,10 @@ class SevenZip
         #  check which directory does not exist and then try to create it.
 
         # Root Log Directory
-        if(([IOCommon]::CheckPathExists("$($this.__rootLogPath)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($this.__rootLogPath)", $logging)) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (([IOCommon]::MakeDirectory("$($this.__rootLogPath)")) -eq $false)
+            if (([IOCommon]::MakeDirectory("$($this.__rootLogPath)", $logging)) -eq $false)
             {
                 # Failure occurred.
                 return $false;
@@ -836,10 +836,10 @@ class SevenZip
 
 
         # Log Directory
-        if(([IOCommon]::CheckPathExists("$($this.__logPath)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($this.__logPath)", $logging)) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (([IOCommon]::MakeDirectory("$($this.__logPath)")) -eq $false)
+            if (([IOCommon]::MakeDirectory("$($this.__logPath)", $logging)) -eq $false)
             {
                 # Failure occurred.
                 return $false;
@@ -851,10 +851,10 @@ class SevenZip
 
 
         # Report Directory
-        if(([IOCommon]::CheckPathExists("$($this.__reportPath)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($this.__reportPath)", $logging)) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (([IOCommon]::MakeDirectory("$($this.__reportPath)")) -eq $false)
+            if (([IOCommon]::MakeDirectory("$($this.__reportPath)", $logging)) -eq $false)
             {
                 # Failure occurred.
                 return $false;
@@ -866,7 +866,7 @@ class SevenZip
 
 
         # Fail-safe; final assurance that the directories have been created successfully.
-        if(($this.__CheckRequiredDirectories())-eq $true)
+        if(($this.__CheckRequiredDirectories($logging))-eq $true)
         {
             # The directories exist
             return $true;
@@ -946,13 +946,20 @@ class SevenZip
     #   contains the path and determine if the path
     #   is valid or not.
     # -------------------------------
+    # Input:
+    #  [bool] Logging [Debugging]
+    #   When true, the logging functionality will be enabled.
+    #    The logging functionality merely captures any detailed
+    #    information, which is then placed in a log file that
+    #    is specified in the Logging implementation.
+    # -------------------------------
     # Output:
     #  [bool] Detected Code
     #    $false = Failure to detect the external executable.
     #    $true  = Successfully detected the external executable.
     # -------------------------------
     #>
-    [bool] Detect7ZipExist()
+    [bool] Detect7ZipExist([bool] $logging)
     {
         # Make sure that it is not null
         if ($this.__executablePath -eq $null)
@@ -964,7 +971,7 @@ class SevenZip
         
         
         # Check if the 7Zip executable was found
-        if (([IOCommon]::DetectCommand("$($this.__executablePath)", "Application")) -eq $true)
+        if (([IOCommon]::DetectCommand("$($this.__executablePath)", "Application", $logging)) -eq $true)
         {
             return $true;
         } # If : Detected
@@ -984,13 +991,20 @@ class SevenZip
     #   checking the common locations within the host's
     #   filesystem.
     # -------------------------------
+    # Input:
+    #  [bool] Logging [Debugging]
+    #   When true, the logging functionality will be enabled.
+    #    The logging functionality merely captures any detailed
+    #    information, which is then placed in a log file that
+    #    is specified in the Logging implementation.
+    # -------------------------------
     # Output:
     #  [string] 7Zip.exe Absolute Path
     #    $null = When the path was not discoverable,
     #             then '$null' will be returned.
     # -------------------------------
     #>
-    [string] Find7Zip()
+    [string] Find7Zip([bool] $logging)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1005,7 +1019,7 @@ class SevenZip
         foreach ($index in $path)
         {
             # Test if the executable exists at the given path
-            if([IOCommon]::DetectCommand("$($index)", "Application") -eq $true)
+            if([IOCommon]::DetectCommand("$($index)", "Application", $logging) -eq $true)
             {
                 # We found the executable, return its location.
                 return "$($index)";
@@ -1044,11 +1058,11 @@ class SevenZip
     #   The supported Hash Algorithm that will be used in 7Zip.
     #    NOTE: For a list of supported algorithms, please check this website:
     #          https://sevenzip.osdn.jp/chm/cmdline/commands/hash.htm
-    #  [bool] Logging
-    #   User's preference in logging information.
-    #    When true, the program will log the
-    #    operations performed.
-    #   - Does not effect main program logging.
+    #  [bool] Logging [Debugging]
+    #   When true, the logging functionality will be enabled.
+    #    The logging functionality merely captures any detailed
+    #    information, which is then placed in a log file that
+    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [string] Hash Value
@@ -1078,8 +1092,17 @@ class SevenZip
         #   This check is to make sure that nothing goes horribly wrong.
         # ---------------------------
 
+        # Make sure that the 7Zip Logging directories are ready for use (if required)
+        if ($logging -and ($this.__CreateDirectories($logging) -eq $false))
+        {
+            # Because the logging directories could not be created, we can not log.
+            #  Because the logging features are required, we can not run the operation.
+            return $false;
+        } # If : 7Zip Logging Directories
+
+
         # Make sure that the 7Zip executable was detected.
-        if ($($this.Detect7ZipExist()) -eq $false)
+        if ($($this.Detect7ZipExist($logging)) -eq $false)
         {
             # 7Zip was not detected.
             return "ERR";
@@ -1207,11 +1230,11 @@ class SevenZip
     #  [string] Target File
     #   The archive file that will be tested upon through the
     #    verification process.
-    #  [bool] Logging
-    #   User's preference in logging information.
-    #    When true, the program will log the
-    #    operations performed.
-    #   - Does not effect main program logging.
+    #  [bool] Logging [Debugging]
+    #   When true, the logging functionality will be enabled.
+    #    The logging functionality merely captures any detailed
+    #    information, which is then placed in a log file that
+    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -1252,8 +1275,17 @@ class SevenZip
         #   This check is to make sure that nothing goes horribly wrong.
         # ---------------------------
 
+        # Make sure that the 7Zip Logging directories are ready for use (if required)
+        if ($logging -and ($this.__CreateDirectories($logging) -eq $false))
+        {
+            # Because the logging directories could not be created, we can not log.
+            #  Because the logging features are required, we can not run the operation.
+            return $false;
+        } # If : 7Zip Logging Directories
+
+
         # Make sure that the 7Zip executable was detected.
-        if ($($this.Detect7ZipExist()) -eq $false)
+        if ($($this.Detect7ZipExist($logging)) -eq $false)
         {
             # 7Zip was not detected.
             return $false;
@@ -1261,7 +1293,7 @@ class SevenZip
 
 
         # Make sure that the target file actually exists
-        if ($([IOCommon]::CheckPathExists("$($file)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($file)", $logging)) -eq $false)
         {
             # The archive data file does not exist, we can not
             #  test something that simply doesn't exist.  Return
@@ -1315,11 +1347,11 @@ class SevenZip
     #   The archive file that will be inspected.
     #    The path provided should be in absolute
     #    form.
-    #  [bool] Logging
-    #   User's preference in logging information.
-    #    When true, the program will log the
-    #    operations performed.
-    #   - Does not effect main program logging.
+    #  [bool] Logging [Debugging]
+    #   When true, the logging functionality will be enabled.
+    #    The logging functionality merely captures any detailed
+    #    information, which is then placed in a log file that
+    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [string] Hash Values
@@ -1348,7 +1380,7 @@ class SevenZip
                 "BLAKE2sp:`r`n" + `
                 "  $($this.ArchiveHash("$($file)", "blake2sp", "$($logging)"))`r`n`r`n" + `
                 "MD5:`r`n" + `
-                "   $([IOCommon]::FileHash("$($file)", "md5"))`r`n`r`n";
+                "   $([IOCommon]::FileHash("$($file)", "md5", $logging))`r`n`r`n";
 
 
         # Return all of the hash values
@@ -1375,11 +1407,11 @@ class SevenZip
     #   When true, this will show All Technical Infomation.
     #    This uses the '-slt' argument when listing all of
     #    the files within the archive file.
-    #  [bool] Logging
-    #   User's preference in logging information.
-    #    When true, the program will log the
-    #    operations performed.
-    #   - Does not effect main program logging.
+    #  [bool] Logging [Debugging]
+    #   When true, the logging functionality will be enabled.
+    #    The logging functionality merely captures any detailed
+    #    information, which is then placed in a log file that
+    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [string] File List
@@ -1412,8 +1444,17 @@ class SevenZip
         #   This check is to make sure that nothing goes horribly wrong.
         # ---------------------------
 
+        # Make sure that the 7Zip Logging directories are ready for use (if required)
+        if ($logging -and ($this.__CreateDirectories($logging) -eq $false))
+        {
+            # Because the logging directories could not be created, we can not log.
+            #  Because the logging features are required, we can not run the operation.
+            return $false;
+        } # If : 7Zip Logging Directories
+
+
         # Make sure that the 7Zip executable was detected.
-        if ($($this.Detect7ZipExist()) -eq $false)
+        if ($($this.Detect7ZipExist($logging)) -eq $false)
         {
             # 7Zip was not detected.
             return "ERR";
@@ -1421,7 +1462,7 @@ class SevenZip
 
 
         # Make sure that the target file actually exists
-        if ($([IOCommon]::CheckPathExists("$($file)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($file)", $logging)) -eq $false)
         {
             # The archive data file does not exist, we can not
             #  test something that simply doesn't exist.  Return
@@ -1500,11 +1541,11 @@ class SevenZip
     #   The directory in which the data was extracted to within
     #   the filesystem.  This will hold the absolute path to the
     #   extracted directory.
-    #  [bool] Logging
-    #   User's preference in logging information.
-    #    When true, the program will log the
-    #    operations performed.
-    #   - Does not effect main program logging.
+    #  [bool] Logging [Debugging]
+    #   When true, the logging functionality will be enabled.
+    #    The logging functionality merely captures any detailed
+    #    information, which is then placed in a log file that
+    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [bool] Status Code
@@ -1538,7 +1579,7 @@ class SevenZip
                                                                     #  archive datafile.
         [string] $execReason = "Extracting $($fileNameExt)";        # Description; used for logging
         # ----------------------------------------
-        
+
 
         # Dependency Check
         # - - - - - - - - - - - - - -
@@ -1546,8 +1587,17 @@ class SevenZip
         #   This check is to make sure that nothing goes horribly wrong.
         # ---------------------------
 
+        # Make sure that the 7Zip Logging directories are ready for use (if required)
+        if ($logging -and ($this.__CreateDirectories($logging) -eq $false))
+        {
+            # Because the logging directories could not be created, we can not log.
+            #  Because the logging features are required, we can not run the operation.
+            return $false;
+        } # If : 7Zip Logging Directories
+
+
         # Make sure that the 7Zip executable was detected.
-        if ($($this.Detect7ZipExist()) -eq $false)
+        if ($($this.Detect7ZipExist($logging)) -eq $false)
         {
             # 7Zip was not detected.
             return $false;
@@ -1555,7 +1605,7 @@ class SevenZip
 
 
         # Make sure that the target file actually exists
-        if ($([IOCommon]::CheckPathExists("$($file)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($file)", $logging)) -eq $false)
         {
             # The archive data file does not exist, we can not
             #  test something that simply doesn't exist.  Return
@@ -1565,7 +1615,7 @@ class SevenZip
 
 
         # Make sure that the output path exists
-        if ($([IOCommon]::CheckPathExists("$($outputPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($outputPath)", $logging)) -eq $false)
         {
             # The output path does not exist, we can not extract the contents.
             return $false;
@@ -1589,13 +1639,13 @@ class SevenZip
 
 
         # Does the output directory already exists?
-        if ([IOCommon]::CheckPathExists("$($cacheOutputPath)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($cacheOutputPath)", $logging) -eq $false)
         {
             # Because it is a unique directory, this is our final output destination.
             $finalOutputPath = $cacheOutputPath;
 
             # Create the new directory
-            if([IOCommon]::MakeDirectory("$($finalOutputPath)") -eq $false)
+            if([IOCommon]::MakeDirectory("$($finalOutputPath)", $logging) -eq $false)
             {
                 # A failure occurred when trying to make the directory,
                 #  we can not continue as the output is not available.
@@ -1617,7 +1667,7 @@ class SevenZip
             $finalOutputPath = "$($cacheOutputPath)_$($getDateTime)";
 
             # Now try to make the directory, if this fails - we can't do anything more.
-            if([IOCommon]::MakeDirectory("$($finalOutputPath)") -eq $false)
+            if([IOCommon]::MakeDirectory("$($finalOutputPath)", $logging) -eq $false)
             {
                 # A failure occurred when trying to make the directory,
                 #  we can not continue as the output is not available.
@@ -1701,11 +1751,11 @@ class SevenZip
     #   This will hold the newly created archive file's absolute
     #   path and file name.  This will be returned to the calling
     #   function.
-    #  [bool] Logging
-    #   User's preference in logging information.
-    #    When true, the program will log the
-    #    operations performed.
-    #   - Does not effect main program logging.
+    #  [bool] Logging [Debugging]
+    #   When true, the logging functionality will be enabled.
+    #    The logging functionality merely captures any detailed
+    #    information, which is then placed in a log file that
+    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [bool] Status Code
@@ -1753,8 +1803,17 @@ class SevenZip
         #   This check is to make sure that nothing goes horribly wrong.
         # ---------------------------
 
+        # Make sure that the 7Zip Logging directories are ready for use (if required)
+        if ($logging -and ($this.__CreateDirectories($logging) -eq $false))
+        {
+            # Because the logging directories could not be created, we can not log.
+            #  Because the logging features are required, we can not run the operation.
+            return $false;
+        } # If : 7Zip Logging Directories
+
+
         # Make sure that the 7Zip executable was detected.
-        if ($($this.Detect7ZipExist()) -eq $false)
+        if ($($this.Detect7ZipExist($logging)) -eq $false)
         {
             # 7Zip was not detected.
             return $false;
@@ -1762,7 +1821,7 @@ class SevenZip
 
 
         # Make sure that the output directory exists
-        if ($([IOCommon]::CheckPathExists("$($outputPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($outputPath)", $logging)) -eq $false)
         {
             # The output directory does not exist;
             #  we need a valid location to output this archive file.
@@ -1772,7 +1831,7 @@ class SevenZip
 
         # Make sure that the target directory (the contents that will be
         #  in our newly created archive file) exists.
-        if ($([IOCommon]::CheckPathExists("$($targetDirectory)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($targetDirectory)", $logging)) -eq $false)
         {
             # The target directory does not exist, we
             #  can not create an archive if the directory
@@ -1837,7 +1896,7 @@ class SevenZip
 
 
         # Setup the base name and check it
-        if ([IOCommon]::CheckPathExists("$($outputPath)\$($archiveFileName).$($archiveFileExtension)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($outputPath)\$($archiveFileName).$($archiveFileExtension)", $logging) -eq $false)
         {
             # Because the file does not exist, use it!
             $finalArchiveFileName = "$($outputPath)\$($archiveFileName).$($archiveFileExtension)";
@@ -1861,7 +1920,7 @@ class SevenZip
             # Update the cache name for coding simplicity
             $cacheArchiveFileName = "$($archiveFileName)_$($getDateTime)";
 
-            if ([IOCommon]::CheckPathExists("$($outputPath)\$($cacheArchiveFileName).$($archiveFileExtension)") -eq $false)
+            if ([IOCommon]::CheckPathExists("$($outputPath)\$($cacheArchiveFileName).$($archiveFileExtension)", $logging) -eq $false)
             {
                 # Because the archive file is now unique, we can use that new name.
                 $finalArchiveFileName = "$($outputPath)\$($cacheArchiveFileName).$($archiveFileExtension)";
@@ -2048,11 +2107,11 @@ class SevenZip
     #  [string] Archive File
     #   The archive file that we are going to generate
     #    a report on.
-    #  [bool] Logging
-    #   User's preference in logging information.
-    #    When true, the program will log the
-    #    operations performed.
-    #   - Does not effect main program logging.
+    #  [bool] Logging [Debugging]
+    #   When true, the logging functionality will be enabled.
+    #    The logging functionality merely captures any detailed
+    #    information, which is then placed in a log file that
+    #    is specified in the Logging implementation.
     #  [bool] Create a PDF File
     #   When true, this will allow the ability to create
     #    a PDF document along with the textfile
@@ -2144,8 +2203,17 @@ class SevenZip
         #   This check is to make sure that nothing goes horribly wrong.
         # ---------------------------
 
+        # Make sure that the 7Zip Logging directories are ready for use (if required)
+        if ($logging -and ($this.__CreateDirectories($logging) -eq $false))
+        {
+            # Because the logging directories could not be created, we can not log.
+            #  Because the logging features are required, we can not run the operation.
+            return $false;
+        } # If : 7Zip Logging Directories
+
+
         # Make sure that the 7Zip executable was detected.
-        if ($($this.Detect7ZipExist()) -eq $false)
+        if ($($this.Detect7ZipExist($logging)) -eq $false)
         {
             # 7Zip was not detected.
             return $false;
@@ -2153,7 +2221,7 @@ class SevenZip
 
 
         # Make sure that the path exists
-        if ($([IOCommon]::CheckPathExists("$($ArchiveFile)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($ArchiveFile)", $logging)) -eq $false)
         {
             # Project Path does not exist, return an error.
             return $false;
@@ -2202,7 +2270,7 @@ class SevenZip
 
 
                     # Write to file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)", $logging) -eq $false)
                     {
                         # Failure occurred while writing to the file.
                         return $false;
@@ -2232,7 +2300,7 @@ class SevenZip
 
 
                     # Write to file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)", $logging) -eq $false)
                     {
                         # Failure occurred while writing to the file.
                         return $false;
@@ -2271,7 +2339,7 @@ class SevenZip
 
 
                     # Write to file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)", $logging) -eq $false)
                     {
                         # Failure occurred while writing to the file.
                         return $false;
@@ -2313,7 +2381,7 @@ class SevenZip
 
 
                     # Write to file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)", $logging) -eq $false)
                     {
                         # Failure occurred while writing to the file.
                         return $false;
@@ -2350,7 +2418,7 @@ class SevenZip
 
 
                     # Write to file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)", $logging) -eq $false)
                     {
                         # Failure occurred while writing to the file.
                         return $false;
@@ -2380,7 +2448,7 @@ class SevenZip
 
 
                     # Write to file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)", $logging) -eq $false)
                     {
                         # Failure occurred while writing to the file.
                         return $false;
@@ -2414,7 +2482,7 @@ class SevenZip
         if ($makePDF -eq $true)
         {
             # Create the PDF file
-            if(([IOCommon]::CreatePDFFile("$($fileNameTXT)", "$($fileNamePDF)")) -eq $false)
+            if(([IOCommon]::CreatePDFFile("$($fileNameTXT)", "$($fileNamePDF)", $logging)) -eq $false)
             {
                 # Failure occurred while creating the PDF document.
                 return $false;
@@ -2441,6 +2509,11 @@ class SevenZip
     # Input:
     #  [bool] Expunge reports
     #   When true, the reports will be thrashed.
+    #  [bool] Logging [Debugging]
+    #   When true, the logging functionality will be enabled.
+    #    The logging functionality merely captures any detailed
+    #    information, which is then placed in a log file that
+    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -2450,7 +2523,7 @@ class SevenZip
     #           Directories were not found
     # -------------------------------
     #>
-    [bool] ThrashLogs([bool] $expungeReports)
+    [bool] ThrashLogs([bool] $expungeReports, [bool] $logging)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2458,11 +2531,10 @@ class SevenZip
         [string[]] $extReports = @('*.txt');         # Array of report extensions
         # ----------------------------------------
 
-
         # First, make sure that the directories exist.
         #  If the directories are not available, than there
         #  is nothing that can be done.
-        if (($this.__CheckRequiredDirectories()) -eq $false)
+        if (($this.__CheckRequiredDirectories($logging)) -eq $false)
         {
             # This is not really an error, however the directories simply
             #  does not exist -- nothing can be done.
@@ -2471,7 +2543,7 @@ class SevenZip
 
 
         # Because the directories exists, lets try to thrash the logs.
-        if(([IOCommon]::DeleteFile("$($this.__logPath)", $extLogs)) -eq $false)
+        if(([IOCommon]::DeleteFile("$($this.__logPath)", $extLogs, $logging)) -eq $false)
         {
             # Failure to remove the requested files
             return $false;
@@ -2483,7 +2555,7 @@ class SevenZip
 
         # Did the user also wanted to thrash the reports?
         if (($($expungeReports) -eq $true) -and `
-        ([IOCommon]::DeleteFile("$($this.__reportPath)", $extReports)) -eq $false)
+        ([IOCommon]::DeleteFile("$($this.__reportPath)", $extReports, $logging)) -eq $false)
         {
             # Failure to remove the requested files
             return $false;
