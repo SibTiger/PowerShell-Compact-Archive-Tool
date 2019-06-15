@@ -1944,7 +1944,7 @@ class DefaultCompress
                                      "Provided below is the list of Hash values regarding $($fileNameExt).`r`n`r`n" + `
                                      "File Hash Information:`r`n" + `
 
-                                     "$($this.FetchHashInformation("$($ArchiveFile)"))";
+                                     "$($this.FetchHashInformation("$($ArchiveFile)", $logging))";
 
 
                     # Write to file
