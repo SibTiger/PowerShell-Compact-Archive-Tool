@@ -2062,15 +2062,6 @@ class DefaultCompress
         # ----------------------------------------
 
 
-        # Make sure that the .NET Compress Archive Logging directories are ready for use (if required)
-        if ($logging -and ($this.__CreateDirectories($logging) -eq $false))
-        {
-            # Because the logging directories could not be created, we can not log.
-            #  Because the logging features are required, we can not run the operation.
-            return $false;
-        } # If : .NET Archive Logging Directories
-
-
         # First, make sure that the directories exist.
         #  If the directories are not available, than there
         #  is nothing that can be done.
