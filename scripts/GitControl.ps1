@@ -368,18 +368,25 @@ class GitControl
     # Documentation:
     #  Sets a new value for the Executable Path variable.
     # -------------------------------
+    # Input:
+    #  [bool] Logging [Debugging]
+    #   When true, the logging functionality will be enabled.
+    #    The logging functionality merely captures any detailed
+    #    information, which is then placed in a log file that
+    #    is specified in the Logging implementation.
+    # -------------------------------
     # Output:
     #  [bool] Status
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
     #>
-    [bool] SetExecutablePath([string] $newVal)
+    [bool] SetExecutablePath([string] $newVal, [bool] $logging)
     {
         # Because we are testing for an actual file,
         #  we have to assure that the file really exists
         #  within the host's filesystem.
-        if(([IOCommon]::DetectCommand("$($newVal)", "Application")) -eq $false)
+        if(([IOCommon]::DetectCommand("$($newVal)", "Application", $logging)) -eq $false)
         {
             # Could not find the executable.
             return $false;
