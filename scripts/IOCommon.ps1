@@ -2,15 +2,24 @@
  # ------------------------------
  # ==============================
  # ==============================
- # This class is designed to centralize common
- #  input\output and to provide minimal maintenance.
- # Functions housed in this class are based on
- #  common Input\Output tasks, such as: checking for
- #  a specific directory\file\executable, executing
- #  a specific command while providing return code,
- #  executing a specific command to return a literal
- #  string, browsing for specific directory, and
- #  much more.
+ # This class is designed to house all of the common
+ #  input and output functionality that will be used
+ #  within the software.  Because all of the I\O
+ #  functions are held within this class, we can
+ #  focus on minimizing code redundancy and assure
+ #  that the functionality is refined.  Though, using
+ #  this class requires a tightening class-coupling
+ #  and a lower-cohesion -- A cost that is required
+ #  to help avoid code redundancies and using well-refined
+ #  functions within this class.
+ # - -
+ # Functionality that is supported in this class:
+ #  - Get user input (keyboard)
+ #  - Display a message on the screen
+ #  - Running an external command
+ #  - File and directory management
+ #  - Create a PDF file
+ #  - Hash information
  #>
 
 
