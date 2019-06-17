@@ -291,9 +291,6 @@ class IOCommon
         # If Logging is enabled, obtain the additional information.
         if ($logging)
         {
-            # Capture any additional information
-            $logAdditionalMSG = "$($_)";
-
             # Generate the message
             $logMessage = "Tried to find the $($type) named $($command); detected result was $($exitCode)";
 
