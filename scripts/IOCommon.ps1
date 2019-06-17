@@ -226,16 +226,19 @@ class IOCommon
    <# Detect Command [Test]
     # -------------------------------
     # Documentation:
-    #  This function will help to test if the executable could
-    #   run successfully.  This can be helpful to determine if
-    #   the program can detect the executable or if the executable
-    #   is usable.  This function is merely for testing if the
-    #   external software will run properly, do not use this
-    #   function for major operations.
+    #  This function will help to determine if the external
+    #   command or command (in general terms) could be
+    #   detected with the given path and if the command is
+    #   a supported command type.  If the file or command
+    #   we want to ultimately execute is not detected in
+    #   the filesystem or the file we want to use is not
+    #   the proper executable type, then the detection
+    #   will return false - indicating that the command
+    #   cannot be used.
     # -------------------------------
     # Inputs:
     #  [string] Command
-    #   The external executable to run by request.
+    #   The external executable or command to test.
     #  [string] Type
     #   The type of command that will be executed.
     #    See Get-Command "CommandType"
@@ -248,7 +251,8 @@ class IOCommon
     # -------------------------------
     # Output:
     #  [bool] Detected Code
-    #    $false = Failure to detect the external executable.
+    #    $false = Failure to detect the external executable or
+    #              was not the proper command type.
     #    $true  = Successfully detected the external executable.
     # -------------------------------
     #>
@@ -259,7 +263,7 @@ class IOCommon
         [string] $eventLogMessage = $null;  # Message that will be sent to the program's log.
         [bool] $exitCode = $false;          # The detection code that will be returned based
                                             #  on the results; if the command was found or not.
-        
+
         # * * * * * * * * * * * * * * * * * * *
         # Debugging [Logging]
         [string] $logMessage = $null;       # The initial message to be logged.
