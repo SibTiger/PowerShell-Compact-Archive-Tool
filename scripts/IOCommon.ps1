@@ -80,8 +80,9 @@ class IOCommon
     # -------------------------------
     # Documentation:
     #  This function will present the requested message
-    #   on the screen with its appropriate formatting,
-    #   determined by its message level (or logged level).
+    #   on the screen with its appropriate formatting.  The
+    #   formatting of the message is determined by its
+    #   message level (or logged level).
     # -------------------------------
     # Input:
     #  [string] Message
@@ -135,7 +136,7 @@ class IOCommon
                 $textColourBackground = "White";
             } # Confirmation MSG
 
-            
+
             # Informational messages
             "Information"
             {
