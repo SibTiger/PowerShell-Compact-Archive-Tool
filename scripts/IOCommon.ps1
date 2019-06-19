@@ -586,24 +586,24 @@ class IOCommon
         #        -255 = Failure to execute the extCMD or Command (May not exist or general error)
         #        -254 = Could not find the extCMD or Command
         $externalCommandReturnCode = [IOCommon]::__ExecuteCommandRun($command, `
-                                                       $arguments, `
-                                                       $projectPath, `
-                                                       [ref] $containerStdOut, `
-                                                       [ref] $containerStdErr, `
-                                                       $logging)
+                                                                    $arguments, `
+                                                                    $projectPath, `
+                                                                    [ref] $containerStdOut, `
+                                                                    [ref] $containerStdErr, `
+                                                                    $logging)
 
 
         # Create the necessary logfiles or capture a specific input
         [IOCommon]::__ExecuteCommandLog($stdOutLogPath, `
-                                $stdErrLogPath, `
-                                $reportPath, `
-                                $logging, `
-                                $isReport, `
-                                $captureSTDOUT, `
-                                $description, `
-                                [ref] $callBack, `
-                                [ref] $containerStdOut, `
-                                [ref] $containerStdErr)
+                                        $stdErrLogPath, `
+                                        $reportPath, `
+                                        $logging, `
+                                        $isReport, `
+                                        $captureSTDOUT, `
+                                        $description, `
+                                        [ref] $callBack, `
+                                        [ref] $containerStdOut, `
+                                        [ref] $containerStdErr)
 
 
         # Do we need to copy the STDOUT to the pointer?
