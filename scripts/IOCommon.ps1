@@ -314,7 +314,7 @@ class IOCommon
     #  This function will provide the ability to execute the
     #   requested external command and help to manage how the
     #   logging or redirection of output should be handled.
-    #  This function will use several functions in order to
+    #  This function depends on other methods in order to
     #   preform the operation, this function is made to help
     #   simplify the operation and keep data organized
     #   efficiently.
@@ -330,22 +330,29 @@ class IOCommon
     #  [string] Command
     #   The external executable to run by request.
     #  [string] Arguments
-    #   Arguments to be used when executing the binary.
+    #   Arguments to be used when executing the binary or the extCMD.
     #  [string] Project Path
     #   The absolute path of the project directory.
     #  [string] STDOUT Log Path
     #   Absolute path to store the log file containing
     #    the program's STDOUT output.
-    #   - NOTE: Filename is provided by this function.
+    #   - NOTE: Filename will be provided by this function.
     #  [string] STDERR Log Path
     #   Absolute path to store the log file containing
     #    the program's STDERR output.
-    #   - NOTE: Filename is provided by this function.
+    #   - NOTE: Filename will be provided by this function.
     #  [string] Report Path
     #   Absolute path and filename to store the report file.
-    #   - NOTE: Filename MUST BE INCLUDED!
+    #   - NOTE: The filename of the report __MUST_BE_INCLUDED!___
     #  [string] Description
     #   Used for logging and for information purposes only.
+    #   - NOTE: A description can provide a reason for executing the
+    #            executable or an operation that is being performed
+    #            by the executable.  For example: "Using the Tree
+    #            extCMD will provide an overview of the filesystem's
+    #            directory hiearachy - as well as the depth of the
+    #            directories."
+    #            Just remember, this is only shown in the log file.
     #  [bool] Logging [Debugging]
     #   When true, the logging functionality will be enabled.
     #    The logging functionality merely captures any detailed
@@ -357,7 +364,8 @@ class IOCommon
     #  [bool] Capture STDOUT
     #   When true, the STDOUT will not be logged in a
     #    text file, instead it will be captured into
-    #    a reference string.
+    #    a reference string.  Useful for processing the STDOUT
+    #    internally - within the program.
     #  [string] (REFERENCE) stringOutput
     #   When Capture STDOUT is true, this parameter will
     #   carry the STDOUT from the executable.  The
@@ -367,8 +375,11 @@ class IOCommon
     # Output:
     #  [int] Exit Code
     #   The error code provided from the executable.
-    #   This can be helpful to diagnose if the external command
+    #    This can be helpful to diagnose if the external command
     #    reached an error or was successful.
+    #    NOTE: We are using negative values to help avoid a confusion
+    #           from the return code of the binary (or extCMD) that was
+    #           executed in this function.
     #   ERROR VALUES
     #   -255
     #    The executable could not execute; may not exist.
