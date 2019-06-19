@@ -398,16 +398,16 @@ class IOCommon
     # -------------------------------
     #>
     static [int] ExecuteCommand([string] $command, `
-                        [string] $arguments, `
-                        [string] $projectPath, `
-                        [string] $stdOutLogPath, `
-                        [string] $stdErrLogPath, `
-                        [string] $reportPath, `
-                        [string] $description, `
-                        [bool] $logging, `
-                        [bool] $isReport, `
-                        [bool] $captureSTDOUT, `
-                        [ref] $stringOutput)
+                                [string] $arguments, `
+                                [string] $projectPath, `
+                                [string] $stdOutLogPath, `
+                                [string] $stdErrLogPath, `
+                                [string] $reportPath, `
+                                [string] $description, `
+                                [bool] $logging, `
+                                [bool] $isReport, `
+                                [bool] $captureSTDOUT, `
+                                [ref] $stringOutput)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -417,7 +417,7 @@ class IOCommon
         [string] $callBack = $null;               # Allocate memory address if the stdout
                                                   #  needs to be relocated, this is our
                                                   #  medium in order to accomplish this.
-        
+
         # * * * * * * * * * * * * * * * * * * *
         # Debugging [Logging]
         [string] $logMessage = $null;             # The initial message to be logged.
