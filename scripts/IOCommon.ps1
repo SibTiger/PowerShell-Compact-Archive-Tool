@@ -582,6 +582,9 @@ class IOCommon
 
 
         # Execute the Command
+        #  NOTE: This function will return the following if something goes horribly wrong:
+        #        -255 = Failure to execute the extCMD or Command (May not exist or general error)
+        #        -254 = Could not find the extCMD or Command
         $externalCommandReturnCode = [IOCommon]::__ExecuteCommandRun($command, `
                                                        $arguments, `
                                                        $projectPath, `
