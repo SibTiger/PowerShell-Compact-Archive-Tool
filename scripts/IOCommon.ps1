@@ -405,17 +405,17 @@ class IOCommon
     #    Standard Error Path was not detected.
     # -------------------------------
     #>
-    static [int] ExecuteCommand([string] $command, `
-                                [string] $arguments, `
-                                [string] $projectPath, `
-                                [string] $stdOutLogPath, `
-                                [string] $stdErrLogPath, `
-                                [string] $reportPath, `
-                                [string] $description, `
-                                [bool] $logging, `
-                                [bool] $isReport, `
-                                [bool] $captureSTDOUT, `
-                                [ref] $stringOutput)
+    static [int] ExecuteCommand([string] $command, `            # Executable or command to run
+                                [string] $arguments, `          # Parameters for the executable or command
+                                [string] $projectPath, `        # Project file path (ZDoom based project)
+                                [string] $stdOutLogPath, `      # Standard Out (Execution Logging) Path
+                                [string] $stdErrLogPath, `      # Standard Error (Execution Logging) Path
+                                [string] $reportPath, `         # Report path and filename (isReport)
+                                [string] $description, `        # Reason for why we are executing the command
+                                [bool] $logging, `              # Logging features
+                                [bool] $isReport, `             # Output should be in the report file
+                                [bool] $captureSTDOUT, `        # Capture the output from the command to a variable
+                                [ref] $stringOutput)            # Holds the output from the command (captureSTDOUT)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -451,7 +451,9 @@ class IOCommon
             if ($logging)
             {
                 # Capture any additional information
-                $logAdditionalMSG = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tReason to use command: $($description)";
+                $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
+                                    "`tArguments to be used: $($arguments)`r`n" + `
+                                    "`tReason to use command: $($description)");
 
                 # Generate the message
                 $logMessage = "Failed to execute the external command $($command) because it was not found or is not an application!";
@@ -479,7 +481,10 @@ class IOCommon
             if ($logging)
             {
                 # Capture any additional information
-                $logAdditionalMSG = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tReason to use command: $($description)`r`n`tProject Path: $($projectPath)";
+                $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
+                                    "`tArguments to be used: $($arguments)`r`n" + `
+                                    "`tReason to use command: $($description)`r`n" + `
+                                    "`tProject Path: $($projectPath)");
 
                 # Generate the message
                 $logMessage = "Failed to execute the external command $($command) because the project path does not exist!";
@@ -507,7 +512,10 @@ class IOCommon
             if ($logging)
             {
                 # Capture any additional information
-                $logAdditionalMSG = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tReason to use command: $($description)`r`n`tSTDOUT Directory: $($stdOutLogPath)";
+                $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
+                                    "`tArguments to be used: $($arguments)`r`n" + `
+                                    "`tReason to use command: $($description)`r`n" + `
+                                    "`tSTDOUT Directory: $($stdOutLogPath)");
 
                 # Generate the message
                 $logMessage = "Failed to execute the external command $($command) because the STDOUT Directory does not exist!";
@@ -535,7 +543,10 @@ class IOCommon
             if ($logging)
             {
                 # Capture any additional information
-                $logAdditionalMSG = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tReason to use command: $($description)`r`n`tSTDERR Directory: $($stdErrLogPath)";
+                $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
+                                    "`tArguments to be used: $($arguments)`r`n" + `
+                                    "`tReason to use command: $($description)`r`n" + `
+                                    "`tSTDERR Directory: $($stdErrLogPath)");
 
                 # Generate the message
                 $logMessage = "Failed to execute the external command $($command) because the STDERR Directory does not exist!";
@@ -571,10 +582,13 @@ class IOCommon
             if ($logging)
             {
                 # Capture any additional information
-                $logAdditionalMSG = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tDescription is now: $($description)";
+                $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
+                                    "`tArguments to be used: $($arguments)`r`n" + `
+                                    "`tDescription is now: $($description)");
 
                 # Generate the message
-                $logMessage = "The description field was missing while serving the request to execute the external command $($command)!  The description will be automatically filled for this instance.";
+                $logMessage = ("The description field was missing while serving the request to execute the external command $($command)!" + `
+                                "  The description will be automatically filled for this instance.");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Warning");
@@ -593,25 +607,25 @@ class IOCommon
         #  NOTE: This function will return the following if something goes horribly wrong:
         #        -255 = Failure to execute the extCMD or Command (May not exist or general error)
         #        -254 = Could not find the extCMD or Command
-        $externalCommandReturnCode = [IOCommon]::__ExecuteCommandRun($command, `
-                                                                    $arguments, `
-                                                                    $projectPath, `
-                                                                    [ref] $containerStdOut, `
-                                                                    [ref] $containerStdErr, `
-                                                                    $logging)
+        $externalCommandReturnCode = [IOCommon]::__ExecuteCommandRun($command, `                # Executable to run
+                                                                    $arguments, `               # Parameters for the executable
+                                                                    $projectPath, `             # Project path (Working Directory)
+                                                                    [ref] $containerStdOut, `   # Var. holds standard output
+                                                                    [ref] $containerStdErr, `   # Var. holds standard error
+                                                                    $logging)                   # Logging features
 
 
         # Create the necessary logfiles or capture a specific input
-        [IOCommon]::__ExecuteCommandLog($stdOutLogPath, `
-                                        $stdErrLogPath, `
-                                        $reportPath, `
-                                        $logging, `
-                                        $isReport, `
-                                        $captureSTDOUT, `
-                                        $description, `
-                                        [ref] $callBack, `
-                                        [ref] $containerStdOut, `
-                                        [ref] $containerStdErr)
+        [IOCommon]::__ExecuteCommandLog($stdOutLogPath, `           # Path for the Standard Output
+                                        $stdErrLogPath, `           # Path for the Standard Error
+                                        $reportPath, `              # Path for the report (isReport)
+                                        $logging, `                 # Logging features
+                                        $isReport, `                # Output should be in the report file
+                                        $captureSTDOUT, `           # Capture the output from the command to a variable
+                                        $description, `             # Reason for why we are executing the command
+                                        [ref] $callBack, `          # Store the output result in this variable
+                                        [ref] $containerStdOut, `   # Executable STDOUT results provided in this var.
+                                        [ref] $containerStdErr)     # Executable STDERR results provided in this var.
 
 
         # Do we need to copy the STDOUT to the pointer?
@@ -628,7 +642,10 @@ class IOCommon
         # --------------
 
         # Capture any additional information
-        $logAdditionalMSG = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tReason to use command: $($description)`r`n`tExtCMD Exit Code: $($externalCommandReturnCode)";
+        $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
+                            "`tArguments to be used: $($arguments)`r`n" + `
+                            "`tReason to use command: $($description)`r`n" + `
+                            "`tExtCMD Exit Code: $($externalCommandReturnCode)");
 
         # Generate the message
         $logMessage = "Successfully executed the external command $($command)!";
