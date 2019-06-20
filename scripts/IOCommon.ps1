@@ -92,7 +92,8 @@ class IOCommon
     #    or formatted.
     # -------------------------------
     #>
-    static [void] WriteToBuffer([string] $msg, [LogMessageLevel] $msgLevel)
+    static [void] WriteToBuffer([string] $msg,                 # Message
+                                [LogMessageLevel] $msgLevel)   # Message Level
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -208,15 +209,18 @@ class IOCommon
         # If there is no background specified, then do not use the background parameter.
         if ("$($textColourBackground)" -eq "$($null)")
         {
-            Write-Host -Object $msg -ForegroundColor $textColourForeground;
+            Write-Host -Object $msg `
+                    -ForegroundColor $textColourForeground;
         } # if : No Text Background
 
         # Background was specified
         else
         {
-            Write-Host -Object $msg -ForegroundColor $textColourForeground -BackgroundColor $textColourBackground;
+            Write-Host -Object $msg `
+                    -ForegroundColor $textColourForeground `
+                    -BackgroundColor $textColourBackground;
         } # else : Text Background
-    } # WriteToBuffer
+    } # WriteToBuffer()
 
     #endregion
 
