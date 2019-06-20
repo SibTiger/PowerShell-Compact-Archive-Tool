@@ -101,6 +101,7 @@ class IOCommon
         [string] $textColourForeground = $null; # Text foreground color
         # ----------------------------------------
 
+
         # Determine the level of the message; text presentation
         switch ($msgLevel)
         {
@@ -275,6 +276,7 @@ class IOCommon
         [string] $logMessage = $null;       # The initial message to be logged.
         [string] $logAdditionalMSG = $null; # Additional information provided.
         # ----------------------------------------
+
 
         # Try to detect the requested command
         if ((Get-Command -Name "$($command)" `
