@@ -669,8 +669,9 @@ class IOCommon
     # -------------------------------
     # Documentation:
     #  This function will take the outputs provided by the
-    #   extCMD and place them in logfiles or redirect the
-    #   output to a specific reference variable upon request.
+    #   external command or executable file and place them
+    #   in the log files or redirect the output to a specific
+    #   reference variable upon request.
     # -------------------------------
     # Inputs:
     #  [string] STDOUT Log Path
@@ -683,7 +684,7 @@ class IOCommon
     #   - NOTE: Filename is provided by this function.
     #  [string] Report Path
     #   Absolute path and filename to store the report file.
-    #   - NOTE: Filename MUST BE INCLUDED!
+    #   - NOTE: The filename of the report __MUST_BE_INCLUDED!___
     #  [bool] Logging [Debugging]
     #   When true, the logging functionality will be enabled.
     #    The logging functionality merely captures any detailed
@@ -695,9 +696,16 @@ class IOCommon
     #  [bool] Capture STDOUT
     #   When true, the STDOUT will not be logged in a
     #    text file, instead it will be captured into
-    #    a reference string.
+    #    a reference string.  Useful for processing the STDOUT
     #  [string] Description
     #   Used for logging and for information purposes only.
+    #   - NOTE: A description can provide a reason for executing the
+    #            executable or an operation that is being performed
+    #            by the executable.  For example: "Using the Tree
+    #            extCMD will provide an overview of the filesystem's
+    #            directory hiearachy - as well as the depth of the
+    #            directories."
+    #            Just remember, this is only shown in the log file.
     #  [ref] {string} Output String
     #   When Capture STDOUT is true, this parameter will
     #    carry the STDOUT from the executable.  The
@@ -713,34 +721,36 @@ class IOCommon
     #            Output can be at maximum of 2GB of space. (Defined by CLR)
     # -------------------------------
     #>
-    Static Hidden [void] __ExecuteCommandLog([string] $stdOutLogPath, `
-                                    [string] $stdErrLogPath, `
-                                    [string] $reportPath, `
-                                    [bool] $logging, `
-                                    [bool] $isReport, `
-                                    [bool] $captureSTDOUT, `
-                                    [string] $description, `
-                                    [ref] $stringOutput, `
-                                    [ref] $outputResultOut, `
-                                    [ref] $outputResultErr)
+    Static Hidden [void] __ExecuteCommandLog([string] $stdOutLogPath, `     # Standard Out (Execution Logging) Path
+                                            [string] $stdErrLogPath, `      # Standard Error (Execution Logging) Path
+                                            [string] $reportPath, `         # Report path and filename (isReport)
+                                            [bool] $logging, `              # Logging features
+                                            [bool] $isReport, `             # Output should be in the report file
+                                            [bool] $captureSTDOUT, `        # Capture the output from the command to a variable
+                                            [string] $description, `        # Reason for why we are executing the command
+                                            [ref] $stringOutput, `          # Holds the output from the command (captureSTDOUT); used for
+                                                                            #  further processing within the program.
+                                            [ref] $outputResultOut, `       # Contains the STDOUT result from the command or extCMD
+                                            [ref] $outputResultErr)         # Contains the STDERR result from the command or extCMD
     {
         # Declarations and Initializations
         # ----------------------------------------
         [string] $logTime        = $(Get-Date -UFormat "%d-%b-%y %H.%M.%S");             # Capture the current date and time.
-        [string] $logStdErr      = "$($stdErrLogPath)\$($logTime)-$($description).err";  # Log file: Standard Error
-        [string] $logStdOut      = "$($stdOutLogPath)\$($logTime)-$($description).out";  # Log file: Standard Output
+        [string] $logStdErr      = "$($stdErrLogPath)\$($logTime)-$($description).err";  # Standard Error absolute log file path
+        [string] $logStdOut      = "$($stdOutLogPath)\$($logTime)-$($description).out";  # Standard Out absolute log file path
         [string] $fileOutput     = if ($isReport -eq $true)                              # Check if the output is a log or a report.
                                    {"$($reportPath)"} else {"$($LogStdOut)"};
-        [string] $redirectStdOut = $null;                   # When STDOUT redirection to variable is
-                                                            #  requested, this will be our buffer.
-        
+        [string] $redirectStdOut = $null;                                                # When Standard Out redirection to variable is
+                                                                                         #  requested (captureSTDOUT), this will be our
+                                                                                         #  buffer - which will hold the STDOUT data.
+
         # * * * * * * * * * * * * * * * * * * *
         # Debugging [Logging]
-        [string] $logMessage = $null;                       # The initial message to be logged.
-        [string] $logAdditionalMSG = $null;                 # Additional information provided.
+        [string] $logMessage = $null;             # The initial message to be logged.
+        [string] $logAdditionalMSG = $null;       # Additional information provided.
         # ----------------------------------------
 
-        
+
         # Standard Output
         # -------------------
         # +++++++++++++++++++
@@ -772,7 +782,7 @@ class IOCommon
             } # If : Generating a Report
 
 
-            # Store the STDOUT in a file?
+            # Store the STDOUT in a logfile?
             ElseIf ($logging -eq $true)
             {
                 # Store the information to a text file.
@@ -788,7 +798,10 @@ class IOCommon
             if ($logging)
             {
                 # Capture any additional information
-                $logAdditionalMSG = "Description: $($description)`r`n`tSTDOUT Log Path: $($logStdOut)`r`n`tSTDOUT Output:`r`n`t$($outputResultOut.Value)";
+                $logAdditionalMSG = ("Description: $($description)`r`n" + `
+                                    "`tSTDOUT Log Path: $($logStdOut)`r`n" + `
+                                    "`tSTDOUT Output:`r`n" + `
+                                    "`t$($outputResultOut.Value)");
 
                 # Generate the message
                 $logMessage = "External command returned successfully with additional output.";
@@ -801,7 +814,6 @@ class IOCommon
 
 
         } # If : STDOUT contains data
-        
 
 
         # Standard Error
@@ -812,7 +824,7 @@ class IOCommon
         # Store the STDERR in a logfile and is there data?
         If (($logging -eq $true) -and ("$($outputResultErr.Value)" -ne ""))
         {
-            # Write the STDERR to a file
+            # Write the STDERR to a logfile
             [IOCommon]::WriteToFile("$($logStdErr)", "$($outputResultErr.Value)", $logging) | Out-Null;
 
 
@@ -824,7 +836,10 @@ class IOCommon
             if ($logging)
             {
                 # Capture any additional information
-                $logAdditionalMSG = "Description: $($description)`r`n`tSTDERR Log Path: $($logStdErr)`r`n`tSTDERR Output:`r`n`t$($outputResultErr.Value)";
+                $logAdditionalMSG = ("Description: $($description)`r`n" + `
+                                    "`tSTDERR Log Path: $($logStdErr)`r`n" + `
+                                    "`tSTDERR Output:`r`n" + `
+                                    "`t$($outputResultErr.Value)");
 
                 # Generate the message
                 $logMessage = "External command returned with an error or error messages exists!";
