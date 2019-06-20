@@ -738,8 +738,8 @@ class IOCommon
         [string] $logTime        = $(Get-Date -UFormat "%d-%b-%y %H.%M.%S");             # Capture the current date and time.
         [string] $logStdErr      = "$($stdErrLogPath)\$($logTime)-$($description).err";  # Standard Error absolute log file path
         [string] $logStdOut      = "$($stdOutLogPath)\$($logTime)-$($description).out";  # Standard Out absolute log file path
-        [string] $fileOutput     = if ($isReport -eq $true)                              # Check if the output is a log or a report.
-                                   {"$($reportPath)"} else {"$($LogStdOut)"};
+        [string] $fileOutput     = $null;                                                # The absolute path of the file that will contain
+                                                                                         #  the output result from the extCMD or command.
         [string] $redirectStdOut = $null;                                                # When Standard Out redirection to variable is
                                                                                          #  requested (captureSTDOUT), this will be our
                                                                                          #  buffer - which will hold the STDOUT data.
@@ -749,6 +749,21 @@ class IOCommon
         [string] $logMessage = $null;             # The initial message to be logged.
         [string] $logAdditionalMSG = $null;       # Additional information provided.
         # ----------------------------------------
+
+
+        # Determine the file name that will soon contain the output
+        #  information from the extCMD or command.
+        # Is it a report file or a logfile?
+        if ($isReport)
+        {
+            # User is requesting a report file.
+            $fileOutput = "$($reportPath)";
+        } # If: Generating a Report
+        else
+        {
+            # User is requesting a logfile
+            $fileOutput = "$($LogStdOut)";
+        } # Else: Generating a logfile
 
 
         # Standard Output
