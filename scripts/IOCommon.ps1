@@ -260,7 +260,9 @@ class IOCommon
     #    $true  = Successfully detected the external executable.
     # -------------------------------
     #>
-    static [bool] DetectCommand([string] $command, [string] $type, [bool] $logging)
+    static [bool] DetectCommand([string] $command, `        # Executable or command to run
+                                [string] $type, `           # Command type
+                                [bool] $logging)            # Logging features
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -275,7 +277,9 @@ class IOCommon
         # ----------------------------------------
 
         # Try to detect the requested command
-        if ((Get-Command -Name "$($command)" -CommandType $($type) -ErrorAction SilentlyContinue) -eq $null)
+        if ((Get-Command -Name "$($command)" `
+                        -CommandType $($type) `
+                        -ErrorAction SilentlyContinue) -eq $null)
         {
             # Command was not detected.
             $exitCode = $false;
