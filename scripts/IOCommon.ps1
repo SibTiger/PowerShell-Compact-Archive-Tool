@@ -360,7 +360,7 @@ class IOCommon
     #            executable or an operation that is being performed
     #            by the executable.  For example: "Using the Tree
     #            extCMD will provide an overview of the filesystem's
-    #            directory hiearachy - as well as the depth of the
+    #            directory hierarchy - as well as the depth of the
     #            directories."
     #            Just remember, this is only shown in the log file.
     #  [bool] Logging [Debugging]
@@ -703,7 +703,7 @@ class IOCommon
     #            executable or an operation that is being performed
     #            by the executable.  For example: "Using the Tree
     #            extCMD will provide an overview of the filesystem's
-    #            directory hiearachy - as well as the depth of the
+    #            directory hierarchy - as well as the depth of the
     #            directories."
     #            Just remember, this is only shown in the log file.
     #  [ref] {string} Output String
@@ -1284,7 +1284,7 @@ class IOCommon
 
 
 
-   <# Create a Protable Document File (PDF)
+   <# Create a Portable Document File (PDF)
     # -------------------------------
     # Documentation:
     #  This function will provide the ability to
@@ -1640,7 +1640,7 @@ class IOCommon
     #        cases.
     #     - The System Date and System Time configured by the
     #        user originally was changed when the time and date
-    #        was syncronized by the remote server, with that
+    #        was synchronized by the remote server, with that
     #        change - the directory contains the EXACT same
     #        name (combined with date and time). 
     #     - I'm probably thinking too much?
