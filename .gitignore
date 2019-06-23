@@ -7,6 +7,14 @@
 
 
 
+# Text Editors and IDEs
+# ---------------------
+
+# Visual Code
+.vscode
+
+
+
 # Standard GitIgnore:
 # ---------------------
 
