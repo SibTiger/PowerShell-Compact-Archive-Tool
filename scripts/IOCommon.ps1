@@ -875,8 +875,11 @@ class IOCommon
    <# Execute Command - Run [Using .NET API]
     # -------------------------------
     # Documentation:
-    #  This function will allow a specific executable to run
-    #   with the required parameters.
+    #  This function will provide the ability execute the
+    #   command or extCMD with the desired arguments.  This
+    #   function will return the exit code that is provided
+    #   directly from the executable, unless an internal
+    #   conflict occurs - see 'Output:' for more information.
     #
     #  Return Code Notes: After the command has been executed,
     #   this function will only return the exit code provided
@@ -889,15 +892,15 @@ class IOCommon
     #  [string] Command
     #   The external executable to run by request.
     #  [string] Arguments
-    #   Arguments to be used when executing the binary.
+    #   Arguments to be used when executing the binary or the extCMD.
     #  [string] Project Path
     #   The absolute path of the project directory.
-    #  [ref] {string} STDOUT Container
-    #   Placeholder for the STDOUT information
-    #    provided by the extCMD.
-    #  [ref] {string} STDERR Container
-    #   Placeholder for the STDERR information
-    #    provided by the extCMD.
+    #  [ref] {string} Output Result STDOUT
+    #   The STDOUT provided by the extCMD.
+    #   - NOTE: Output can be at maximum of 2GB of space. (Defined by CLR)
+    #  [ref] {string} Output Result STDERR
+    #   The STDOUT provided by the extCMD.
+    #   - NOTE: Output can be at maximum of 2GB of space. (Defined by CLR)
     #  [bool] Logging [Debugging]
     #   When true, the logging functionality will be enabled.
     #    The logging functionality merely captures any detailed
@@ -907,21 +910,25 @@ class IOCommon
     # Output:
     #  [int] Exit Code
     #   The error code provided from the executable.
-    #   This can be helpful to diagnose if the external command
+    #    This can be helpful to diagnose if the external command
     #    reached an error or was successful.
+    #   NOTE: We are using negative values to help avoid a confusion
+    #          from the return code of the binary (or extCMD) that was
+    #          executed in this function.
     #   ERROR VALUES
     #   -255
     #    The executable could not execute; may not exist.
+    #
     #   -254
     #    Command was not detected.
     # -------------------------------
     #>
-    Static Hidden [int] __ExecuteCommandRun([string] $command, `
-                                    [string] $arguments, `
-                                    [string] $projectPath, `
-                                    [ref] $captureStdOut, `
-                                    [ref] $captureStdErr, `
-                                    [bool] $logging)
+    Static Hidden [int] __ExecuteCommandRun([string] $command, `        # Executable or command to run
+                                            [string] $arguments, `      # Parameters for the executable or command
+                                            [string] $projectPath, `    # Project file path (ZDoom based project)
+                                            [ref] $captureStdOut, `     # Will hold the STDOUT result from the command or extCMD
+                                            [ref] $captureStdErr, `     # Will hold the STDERR result from the command or extCMD
+                                            [bool] $logging)            # Logging features
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -934,12 +941,12 @@ class IOCommon
         # Debugging [Logging]
         [string] $logMessage = $null;                  # The initial message to be logged.
         [string] $logAdditionalMSG = $null;            # Additional information provided.
-        
+
         # - - - - - - - - - - - - - - - - - - - -
         # .NET Special Objects
         # - - - -
         # Because Start-Process CMDLet does NOT redirect to a variable, but only to files.
-        #  instead, we will use the 'ProcessStartInfo' class.
+        #  Instead, we will use the 'ProcessStartInfo' class from the dotNET framework.
         #  Helpful Resources
         #  Stackoverflow Help:
         #   https://stackoverflow.com/a/24227234
@@ -969,7 +976,8 @@ class IOCommon
             if ($logging)
             {
                 # Capture any additional information
-                $logAdditionalMSG = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)";
+                $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
+                                    "`tArguments to be used: $($arguments)");
 
                 # Generate the message
                 $logMessage = "Failed to execute the external command $($command) because it was not found or is not an application!";
@@ -981,7 +989,7 @@ class IOCommon
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the extcmd does not exist (or not found), return an error.
+            # Because the extCMD does not exist (or not found), return an error.
             return -254;
         } # If : Command does not exist
 
@@ -1046,7 +1054,9 @@ class IOCommon
             if ($logging)
             {
                 # Capture any additional information
-                $logAdditionalMSG = "Command to execute: $($command)`r`n`tArguments to be used: $($arguments)`r`n`tFailed to execute reason: $($executeFailureMessage)";
+                $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
+                                    "`tArguments to be used: $($arguments)`r`n" + `
+                                    "`tFailed to execute reason: $($executeFailureMessage)");
 
                 # Generate the message
                 $logMessage = "A failure occurred upon executing the external command $($command)!";
