@@ -376,7 +376,7 @@ class IOCommon
     #    text file, instead it will be captured into
     #    a reference string.  Useful for processing the STDOUT
     #    internally - within the program.
-    #  [string] (REFERENCE) stringOutput
+    #  [string] (REFERENCE) String Output
     #   When Capture STDOUT is true, this parameter will
     #   carry the STDOUT from the executable.  The
     #   information provided will be available for use
@@ -706,16 +706,16 @@ class IOCommon
     #            directory hierarchy - as well as the depth of the
     #            directories."
     #            Just remember, this is only shown in the log file.
-    #  [ref] {string} Output String
+    #  [string] (REFERENCE) Output String
     #   When Capture STDOUT is true, this parameter will
     #    carry the STDOUT from the executable.  The
     #    information provided will be available for use
     #    from the calling function.
-    #  [ref] {string} Output Result STDOUT
+    #  [string] (REFERENCE) Output Result STDOUT
     #   The STDOUT provided by the extCMD.
     #   - NOTE: Trying to conserve main memory space by using referencing.
     #            Output can be at maximum of 2GB of space. (Defined by CLR)
-    #  [ref] {string} Output Result STDERR
+    #  [string] (REFERENCE) Output Result STDERR
     #   The STDOUT provided by the extCMD.
     #   - NOTE: Trying to conserve main memory space by using referencing.
     #            Output can be at maximum of 2GB of space. (Defined by CLR)
@@ -895,10 +895,10 @@ class IOCommon
     #   Arguments to be used when executing the binary or the extCMD.
     #  [string] Project Path
     #   The absolute path of the project directory.
-    #  [ref] {string} Output Result STDOUT
+    #  [string] (REFERENCE) Output Result STDOUT
     #   The STDOUT provided by the extCMD.
     #   - NOTE: Output can be at maximum of 2GB of space. (Defined by CLR)
-    #  [ref] {string} Output Result STDERR
+    #  [string] (REFERENCE) Output Result STDERR
     #   The STDOUT provided by the extCMD.
     #   - NOTE: Output can be at maximum of 2GB of space. (Defined by CLR)
     #  [bool] Logging [Debugging]
