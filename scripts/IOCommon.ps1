@@ -1252,7 +1252,11 @@ class IOCommon
                                                        #  execute, the reason for the failure
                                                        #  might be available from the PowerShell
                                                        #  engine.
-
+        [int] $outFilePropertyWidth = 80;              # Width property to be used for the Out-File CMDLet.
+                                                       #  This will only allow the so many characters per-line.
+        [string] $outFilePropertyEncoding = "default"; # Encoding property to be used for the Out-File CMDLet.
+                                                       #  This specifies what encoding the text file should be
+                                                       #  upon creation.
         # * * * * * * * * * * * * * * * * * * *
         # Debugging [Logging]
         [string] $logMessage = $null;                  # The initial message to be logged.
@@ -1265,10 +1269,11 @@ class IOCommon
         {
             # Try to write the information to the file
             Out-File -LiteralPath "$($file)" `
-                     -Encoding default `
+                     -Encoding $outFilePropertyEncoding `
                      -InputObject "$($contents.Value.ToString())" `
                      -NoClobber `
-                     -Append;
+                     -Append `
+                     -Width $outFilePropertyWidth;
         } # Try : Write to file
 
         catch
