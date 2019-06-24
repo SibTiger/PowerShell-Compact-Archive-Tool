@@ -1213,19 +1213,23 @@ class IOCommon
    <# Write to File
     # -------------------------------
     # Documentation:
-    #  This function will write contents to a
-    #  specific file.
+    #  This function will allow the ability to write data given
+    #   to a specific file.
     #
-    #  NOTE: The encoding will be set as Default.
-    #   Default, at the time of writing this, is
-    #   Unicode.
+    #  NOTE: The encoding of the textfile will be set as Default.
+    #   Default, at the time of writing this, is Unicode.
     # -------------------------------
     # Input:
     #  [string] File
-    #   The file to be written.
+    #   The exact file that will be written too.
+    #   - NOTE: This must include the absolute path and the file
+    #            name (including extension).  For example:
+    #           "C:\Fake\Path\NewASCIIFile.txt"
     #  [ref] Contents
-    #   The information (or data) that is to be
-    #   written to a file.
+    #   The information (or data) that will be written to the file
+    #    specified.
+    #   - NOTE: Trying to conserve main memory space by using referencing.
+    #            Size can be at maximum of 2GB of space. (Defined by CLR)
     #  [bool] Logging [Debugging]
     #   When true, the logging functionality will be enabled.
     #    The logging functionality merely captures any detailed
@@ -1238,7 +1242,9 @@ class IOCommon
     #    $true = Successfully wrote to the file.
     # -------------------------------
     #>
-    static [bool] WriteToFile([string] $file, [ref] $contents, [bool] $logging)
+    static [bool] WriteToFile([string] $file, `     # Target file to write
+                            [ref] $contents, `      # Information (or data) to write in file
+                            [bool] $logging)        # Logging features
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1282,7 +1288,9 @@ class IOCommon
             if ($logging)
             {
                 # Capture any additional information
-                $logAdditionalMSG = "File to write: $($file)`r`n`tContents to write: $($contents.Value.ToString())`r`n`tFailed to execute reason: $($executeFailureMessage)";
+                $logAdditionalMSG = ("File to write: $($file)`r`n" + `
+                                    "`tContents to write: $($contents.Value.ToString())`r`n" + `
+                                    "`tFailed to execute reason: $($executeFailureMessage)");
 
                 # Generate the message
                 $logMessage = "A failure has occurred upon writing data to file!";
@@ -1299,8 +1307,7 @@ class IOCommon
         } # Catch : Failure to write
 
 
-        # Assurance Fail-Safe; make sure that the file
-        #  was successfully created on the filesystem.
+        # Assurance Fail-Safe; make sure that the file was successfully created on the filesystem.
         if ([IOCommon]::CheckPathExists("$($file)", $logging) -eq $false)
         {
             # Operation failed because the file does not
