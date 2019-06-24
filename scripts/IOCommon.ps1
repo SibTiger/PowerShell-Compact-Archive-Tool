@@ -1292,8 +1292,8 @@ class IOCommon
             # Immediately cache the reason why the command failed.
             $executeFailureMessage = "$($_)";
 
-            # Display error to the user
-            [Logging]::DisplayMessage("Failed to write data to file!`r`nFailure reason: $($executeFailureMessage)", "Error");
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $tempErrorMessage = "Failed to write data to file!`r`nFailure reason: $($executeFailureMessage)";
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1303,6 +1303,10 @@ class IOCommon
             # If Logging is enabled, obtain the additional information
             if ($logging)
             {
+                # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
+                [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
+
+
                 # Capture any additional information
                 $logAdditionalMSG = ("File to write: $($file)`r`n" + `
                                     "`tContents to write: $($contents.Value.ToString())`r`n" + `
@@ -1314,6 +1318,13 @@ class IOCommon
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
             } # If: Debugging
+
+            # Else - Debugging features are not enabled
+            else
+            {
+                # If logging is disabled, write directly to the user's display.
+                [IOCommon]::WriteToBuffer("$($tempErrorMessage)", "Error");
+            } # Else: Debugging Disabled
 
             # * * * * * * * * * * * * * * * * * * *
 
