@@ -1092,19 +1092,35 @@ class IOCommon
     #   PowerShell's CMDLets and either place the data in
     #   the respected logfiles or redirect the output to
     #   a specific reference variable upon request.
+    #
+    #  NOTE: This function implies that the CMDLet had already
+    #         executed from outside of this function.  This
+    #         function will _NOT_ execute any CMDLets nor execute
+    #         any commands; this function is only designed to help
+    #         push the STDOUT and STDERR to the respected files
+    #         and protocols.
+    #
+    #  EXECUTION NOTE:
+    #   This function should only be called for significant CMDLets only.
+    #    Furthermore, CMDLets do not have a centralized point of execution.
+    #    Unlike the External CMD (extCMD) where there is one centralized
+    #    point of execution, PowerShell's CMDLets can be executed freely
+    #    within this software.  The reason for this is because there is a
+    #    protocol for executing the extCMD and binary files, native CMDLets
+    #    primarily depends on the dotNET Core (or dotNet) foundation.
     # -------------------------------
     # Inputs:
     #  [string] STDOUT Log Path
     #   Absolute path to store the log file containing
-    #    the CMDLet's STDOUT output.
-    #   - NOTE: Filename is provided by this function.
+    #    the program's STDOUT output.
+    #   - NOTE: Filename will be provided by this function.
     #  [string] STDERR Log Path
     #   Absolute path to store the log file containing
-    #    the CMDLet's STDERR output.
-    #   - NOTE: Filename is provided by this function.
+    #    the program's STDERR output.
+    #   - NOTE: Filename will be provided by this function.
     #  [string] Report Path
     #   Absolute path and filename to store the report file.
-    #   - NOTE: Filename MUST BE INCLUDED!
+    #   - NOTE: The filename of the report __MUST_BE_INCLUDED!___
     #  [bool] Logging [Debugging]
     #   When true, the logging functionality will be enabled.
     #    The logging functionality merely captures any detailed
@@ -1116,34 +1132,40 @@ class IOCommon
     #  [bool] Capture STDOUT
     #   When true, the STDOUT will not be logged in a
     #    text file, instead it will be captured into
-    #    a reference string.
+    #    a reference string.  Useful for processing the STDOUT
+    #    internally - within the program.
     #  [string] Description
     #   Used for logging and for information purposes only.
-    #  [ref] {string} Output String
+    #   - NOTE: A description can provide a reason for executing the
+    #            CMDLet or an operation that was performed by the
+    #            CMDLet.  For example; "Using the Get-ChildItem to
+    #            display all files and sub-directories that exists
+    #            within the Working Directory"
+    #            Just remember, this is only shown in the log file.
+    #  [string] (REFERENCE) String Output
     #   When Capture STDOUT is true, this parameter will
-    #    carry the STDOUT from the executable.  The
-    #    information provided will be available for use
-    #    from the calling function.
-    #  [ref] {string} Output Result STDOUT
-    #   The STDOUT provided by the extCMD.
+    #    carry the STDOUT from the CMDLet.  The information provided
+    #    will be available for use from the calling function.
+    #  [string] (REFERENCE) Output Result STDOUT
+    #   The STDOUT provided by the CMDLet.
     #   - NOTE: Trying to conserve main memory space by using referencing.
     #            Output can be at maximum of 2GB of space. (Defined by CLR)
-    #  [ref] {string} Output Result STDERR
-    #   The STDOUT provided by the extCMD.
+    #  [string] (REFERENCE) Output Result STDERR
+    #   The STDOUT provided by the CMDLet.
     #   - NOTE: Trying to conserve main memory space by using referencing.
     #            Output can be at maximum of 2GB of space. (Defined by CLR)
     # -------------------------------
     #>
-    static [void] PSCMDLetLogging([string] $stdOutLogPath, `
-                        [string] $stdErrLogPath, `
-                        [string] $reportPath, `
-                        [bool] $logging, `
-                        [bool] $isReport, `
-                        [bool] $captureSTDOUT, `
-                        [string] $description, `
-                        [ref] $stringOutput, `
-                        [ref] $outputResultOut, `
-                        [ref] $outputResultErr)
+    static [void] PSCMDLetLogging([string] $stdOutLogPath, `    # Standard Out (Execution Logging) Path
+                                [string] $stdErrLogPath, `      # Standard Error (Execution Logging) Path
+                                [string] $reportPath, `         # Report path and filename (isReport)
+                                [bool] $logging, `              # Logging features
+                                [bool] $isReport, `             # Output should be in the report file
+                                [bool] $captureSTDOUT, `        # Capture the output from the command to a variable
+                                [string] $description, `        # Reason for why we are executing the command
+                                [ref] $stringOutput, `          # Holds the output from the command (captureSTDOUT)
+                                [ref] $outputResultOut, `       # Contains the STDOUT result from the CMDLet
+                                [ref] $outputResultErr)         # Contains the STDERR result from the CMDLet
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1163,17 +1185,17 @@ class IOCommon
         # We will use the function named '__ExecuteCommandLog()'
         #  because the functionality already exists and works as
         #  intended.  Instead of simply just copying and pasting
-        #  the same code, we will merely use the function.
-        [IOCommon]::__ExecuteCommandLog($stdOutLogPath, `
-                                $stdErrLogPath, `
-                                $reportPath, `
-                                $logging, `
-                                $isReport, `
-                                $captureSTDOUT, `
-                                $description, `
-                                [ref] $callBack, `
-                                [ref] $cacheSTDOUT, `
-                                [ref] $cacheSTDERR);
+        #  the same code, we will merely use the same function.
+        [IOCommon]::__ExecuteCommandLog($stdOutLogPath, `       # Path for the Standard Output
+                                        $stdErrLogPath, `       # Path for the Standard Error
+                                        $reportPath, `          # Path for the report (isReport)
+                                        $logging, `             # Logging features
+                                        $isReport, `            # Output should be in the report file
+                                        $captureSTDOUT, `       # Capture the output from the CMDLet to a variable
+                                        $description, `         # Reason for why we are executing the CMDLet
+                                        [ref] $callBack, `      # Store the output result in this variable
+                                        [ref] $cacheSTDOUT, `   # CMDLet's STDOUT results provided in this var.
+                                        [ref] $cacheSTDERR);    # CMDLet's STDERR results provided in this var.
 
         # Are we redirecting the output?
         if ($captureSTDOUT -eq $true)
@@ -1184,7 +1206,7 @@ class IOCommon
     } # PSCMDLetLogging()
 
     #endregion
-    
+
 
     #region Writing File Functions
 
