@@ -1293,7 +1293,8 @@ class IOCommon
             $executeFailureMessage = "$($_)";
 
             # Prep a message to display to the user for this error; temporary variable
-            [string] $tempErrorMessage = "Failed to write data to file!`r`nFailure reason: $($executeFailureMessage)";
+            [string] $tempErrorMessage = ("Failed to write data to file!`r`n" + `
+                                        "Failure reason: $($executeFailureMessage)");
 
 
             # * * * * * * * * * * * * * * * * * * *
