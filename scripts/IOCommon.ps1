@@ -1354,37 +1354,41 @@ class IOCommon
    <# Create a Portable Document File (PDF)
     # -------------------------------
     # Documentation:
-    #  This function will provide the ability to
-    #   create a PDF file by taking the existing
-    #   text-document as the main source, the
-    #   output file that will be generated - is
-    #   the PDF file.
+    #  This function will provide the ability to create a PDF
+    #   file by taking the existing text document (*.txt) and
+    #   generating a PDF file as the output.  Thus, a source
+    #   file must already exist and is ready to be read.  If
+    #   the file does not exist or can not be read, it is then
+    #   impossible to create a PDF file.
     #
-    #  NOTE: This function requires Microsoft Word
-    #         to be installed on the host-system.
+    #  - DEPENDENCY NOTE: This function requires Microsoft Word
+    #                      to be installed on the host-system.
     #
-    #  DEV.NOTE: iTextSharp is possible to use
-    #         instead of MSWord, but you'll need
-    #         to use 3rd party API's.  You are
-    #         free to use it, if necessary.
-    #         Please be sure to keep licensing
-    #         in mind when implementing that
-    #         dependency.
+    #  DEV.NOTE: iTextSharp, 3rd party API, is possible to use
+    #             instead of Microsoft Word.  My goal is to keep
+    #             all external dependencies at a minimal as much as
+    #             possible and avoid external conflicts.  Other
+    #             developers are free to change this dependency as
+    #             you (pl) see fit, all I ask is to please keep in
+    #             mind of the licensing when implementing such
+    #             feature.
     #
     #  Resources:
-    #   This help greatly with how to implement
-    #    feature.
+    #   This helps greatly with how to implement this feature.
     #   - https://stackoverflow.com/a/23894977
     #   Microsoft Word API Commands
     #   - https://docs.microsoft.com/en-us/office/vba/api/word.application
     # -------------------------------
     # Input:
     #  [string] Source File
-    #   The source text document that will be
-    #    reflected to the PDF file.
+    #   The source text document that will be reflected to the PDF file.
+    #   - NOTE: This must include the absolute path to the source file.
+    #            For example: "C:\Fake\Path\TargetFile.txt"
     #  [string] Destination File
-    #   The destination path and filename of the
-    #    PDF file.
+    #   The destination path and filename of the PDF file.
+    #   - NOTE: This must include an absolute path and the file
+    #            name (including extension).  For example:
+    #           "C:\Fake\Path\NewReport.pdf"
     #  [bool] Logging [Debugging]
     #   When true, the logging functionality will be enabled.
     #    The logging functionality merely captures any detailed
@@ -1393,28 +1397,26 @@ class IOCommon
     # -------------------------------
     # Output:
     #  [bool] Exit code
-    #    $false = Failure to create the PDF file.
+    #    $false = Failed to create the PDF file.
     #    $true = Successfully created the PDF file.
     # -------------------------------
     #>
-    Static [bool] CreatePDFFile([string] $sourceFile, [string] $destinationFile, [bool] $logging)
+    Static [bool] CreatePDFFile([string] $sourceFile, `         # The target file that contains information to insert in the PDF file.
+                                [string] $destinationFile, `    # The location to save the PDF file.
+                                [bool] $logging)                # Logging features
     {
         # Declarations and Initializations
         # ----------------------------------------
         [float] $wordVersion = 0.0;         # Microsoft Word Version
-                                            #  May not be needed, but in case
-                                            #  differences between versions
-                                            #  causes problems, we can try to
-                                            #  deter that from happening.
         [string] $txtContent = $null;       # This will hold the source text
                                             #  file's contents.
-        [int] $wordPDFCode = 17;            # The code to export a document in
-                                            #  PDF format.
-            # https://docs.microsoft.com/en-us/office/vba/api/word.wdexportformat
-        [string] $executeFailureMessage = $null;       # If the command fails to properly
-                                                       #  execute, the reason for the failure
-                                                       #  might be available from the PowerShell
-                                                       #  engine.
+                                            #  This may not be needed, but just in case if there is
+                                            #  differences in other versions - we can try to deter
+                                            #  conflicts and correct the behavior if possible.
+        [int] $wordPDFCode = 17;            # The code to export a document in PDF format.
+                                            #  https://docs.microsoft.com/en-us/office/vba/api/word.wdexportformat
+        [string] $executeFailureMessage = $null;       # If the command fails to properly execute, the reason for the
+                                                       #  failure might be available from the PowerShell engine.
 
         # * * * * * * * * * * * * * * * * * * *
         # Debugging [Logging]
@@ -1457,10 +1459,11 @@ class IOCommon
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # The source file does not exist.
+            # The source file does not exist; nothing can be done.
             return $false;
         } # if : source file didn't exist
-        
+
+
         # ---------------------------
         # - - - - - - - - - - - - - -
 
@@ -1470,9 +1473,9 @@ class IOCommon
         # +++++++++++++++++++
 
 
-        # First try to see if the user has Microsoft Word installed,
-        #  if so, we can proceed through the rest of this function,
-        #  otherwise - immediately stop.
+        # First try to see if the host system has Microsoft Word installed,
+        #  if so, we can proceed through the rest of this function, otherwise
+        #  we have to immediately stop.
         if ($(Test-Path HKLM:SOFTWARE\Classes\Word.Application) -eq $true)
         {
             # Microsoft Word was detected; try to create a new instance
@@ -1480,7 +1483,7 @@ class IOCommon
             try
             {
                 # Try to create the object instance
-                [System.__ComObject]$msWord = New-Object -ComObject Word.Application;
+                [System.__ComObject] $msWord = New-Object -ComObject Word.Application;
             } # Try : Create MS Word Instance
 
             catch
@@ -1516,6 +1519,8 @@ class IOCommon
 
                 # * * * * * * * * * * * * * * * * * * *
 
+                # Because we couldn't get an instance of
+                #  MS Word, we can not continue any further.
                 return $false;
             } # Catch : Failure to create MS Word Instance
         } # If : Microsoft Word Installed \ Ready
@@ -1551,7 +1556,7 @@ class IOCommon
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because we couldn't find Microsoft Word, return as a failure.
+            # Because we couldn't find Microsoft Word, we can not create a PDF file.
             return $false;
         } # Else : Failure to find Microsoft Word
 
@@ -1589,11 +1594,11 @@ class IOCommon
         # Open the document directly.
         $wordDocument = $msWord.Documents.Open("$($sourceFile)");
 
-        
+
 
         # Resource to change the document's orientation to Landscape.
-        #  > https://blogs.technet.microsoft.com/heyscriptingguy/2006/08/31/how-can-i-set-the-document-orientation-in-microsoft-word-to-landscape/
-        
+        #  https://blogs.technet.microsoft.com/heyscriptingguy/2006/08/31/how-can-i-set-the-document-orientation-in-microsoft-word-to-landscape/
+
         # Set the document's orientation to 'Landscape'.
         $wordDocument.PageSetup.Orientation = 1;
 
@@ -1604,9 +1609,9 @@ class IOCommon
         # +++++++++++++++++++
 
 
-        # Export the document
+        # Export the document; create the PDF file
         $wordDocument.ExportAsFixedFormat($destinationFile, $wordPDFCode);
-        
+
 
 
         # Finishing Up
