@@ -1433,8 +1433,9 @@ class IOCommon
         # Check to make sure that the source file actually exists.
         if ([IOCommon]::CheckPathExists("$($sourceFile)", $logging) -eq $false)
         {
-            # Display error to the user
-            [Logging]::DisplayMessage("Unable to create a PDF file; source file does not exist!`r`nSource file: $($sourceFile)", "Error");
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $tempErrorMessage = ("Unable to create a PDF file; source file does not exist!`r`n" + `
+                                        "Source file: $($sourceFile)");
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1444,8 +1445,13 @@ class IOCommon
             # If Logging is enabled, obtain the additional information.
             if ($logging)
             {
+                # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
+                [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
+
+
                 # Capture any additional information
-                $logAdditionalMSG = "Source file: $($sourceFile)`r`n`tDestination file: $($destinationFile)";
+                $logAdditionalMSG = ("Source file: $($sourceFile)`r`n" + `
+                                    "`tDestination file: $($destinationFile)");
 
                 # Generate the message
                 $logMessage = "Unable to create a PDF file as the source file does not exist!";
@@ -1453,6 +1459,13 @@ class IOCommon
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
             } # If: Debugging
+
+            # Else - Debugging features are not enabled
+            else
+            {
+                # If logging is disabled, write directly to the user's display.
+                [IOCommon]::WriteToBuffer("$($tempErrorMessage)", "Error");
+            } # Else: Debugging Disabled
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1493,8 +1506,9 @@ class IOCommon
                 # Immediately cache the reason why the command failed.
                 $executeFailureMessage = "$($_)";
 
-                # Provide the error message to the user
-                [Logging]::DisplayMessage("Unable to create a new instance of Microsoft Word.");
+                # Prep a message to display to the user for this error; temporary variable
+                [string] $tempErrorMessage = ("Unable to create a new instance of Microsoft Word.`r`n" + `
+                                            "Failure reason: $($executeFailureMessage)");
 
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -1504,8 +1518,14 @@ class IOCommon
                 # If Logging is enabled, obtain the additional information.
                 if ($logging)
                 {
+                    # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
+                    [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
+
+
                     # Capture any additional information
-                    $logAdditionalMSG = "Unable to create a new instance of Microsoft Word.`r`n`tSource File: $($sourceFile)`r`n`tAdditional Error Message: $($executeFailureMessage)";
+                    $logAdditionalMSG = ("Unable to create a new instance of Microsoft Word.`r`n" + `
+                                        "`tSource File: $($sourceFile)`r`n" + `
+                                        "`tAdditional Error Message: $($executeFailureMessage)");
 
                     # Generate the message
                     $logMessage = "Unable to create a new instance of Microsoft Word.";
@@ -1514,6 +1534,12 @@ class IOCommon
                     [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
                 } # If: Debugging
 
+                # Else - Debugging features are not enabled
+                else
+                {
+                    # If logging is disabled, write directly to the user's display.
+                    [IOCommon]::WriteToBuffer("$($tempErrorMessage)", "Error");
+                } # Else: Debugging Disabled
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -1530,8 +1556,9 @@ class IOCommon
             # Immediately cache the reason why the command failed.
             $executeFailureMessage = "$($_)";
 
-            # Provide the error message to the user
-            [Logging]::DisplayMessage("Unable to find a modern version Microsoft Word; unable to create a PDF.");
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $tempErrorMessage = ("Unable to find a modern version Microsoft Word; unable to create a PDF.`r`n" + `
+                                            "Failure reason: $($executeFailureMessage)");
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1541,8 +1568,14 @@ class IOCommon
             # If Logging is enabled, obtain the additional information.
             if ($logging)
             {
+                # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
+                [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
+
+
                 # Capture any additional information
-                $logAdditionalMSG = "The host system does not have (or unable to detect) a modern version of Microsoft Word.`r`n`tSource File: $($sourceFile)`r`n`tAdditional Error Message: $($executeFailureMessage)";
+                $logAdditionalMSG = ("The host system does not have (or unable to detect) a modern version of Microsoft Word.`r`n" + `
+                                    "`tSource File: $($sourceFile)`r`n" + `
+                                    "`tAdditional Error Message: $($executeFailureMessage)");
 
                 # Generate the message
                 $logMessage = "Unable to find a modern version of Microsoft Word!";
@@ -1550,6 +1583,13 @@ class IOCommon
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
             } # If: Debugging
+
+            # Else - Debugging features are not enabled
+            else
+            {
+                # If logging is disabled, write directly to the user's display.
+                [IOCommon]::WriteToBuffer("$($tempErrorMessage)", "Error");
+            } # Else: Debugging Disabled
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1634,8 +1674,9 @@ class IOCommon
         # Check to make sure that the PDF file was saved properly.
         if ([IOCommon]::CheckPathExists("$($destinationFile)", $logging) -eq $false)
         {
-            # Display error to the user
-            [Logging]::DisplayMessage("Created a PDF file as requested but unable find it....")
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $tempErrorMessage = "Successfully created the PDF file as requested, but unable to find it....";
+
 
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -1644,8 +1685,13 @@ class IOCommon
             # If Logging is enabled, obtain the additional information
             if ($logging)
             {
+                # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
+                [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
+
+
                 # Capture any additional information
-                $logAdditionalMSG = "Source file: $($sourceFile)`r`n`tDestination file: $($destinationFile)";
+                $logAdditionalMSG = ("Source file: $($sourceFile)`r`n" + `
+                                    "`tDestination file: $($destinationFile)");
 
                 # Generate the message
                 $logMessage = "The PDF file was created successfully but unable to find the PDF file at the destination path!";
@@ -1653,6 +1699,13 @@ class IOCommon
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
             } # If: Debugging
+
+            # Else - Debugging features are not enabled
+            else
+            {
+                # If logging is disabled, write directly to the user's display.
+                [IOCommon]::WriteToBuffer("$($tempErrorMessage)", "Error");
+            } # Else: Debugging Disabled
 
             # * * * * * * * * * * * * * * * * * * *
 
