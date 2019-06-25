@@ -1408,8 +1408,6 @@ class IOCommon
         # Declarations and Initializations
         # ----------------------------------------
         [float] $wordVersion = 0.0;         # Microsoft Word Version
-        [string] $txtContent = $null;       # This will hold the source text
-                                            #  file's contents.
                                             #  This may not be needed, but just in case if there is
                                             #  differences in other versions - we can try to deter
                                             #  conflicts and correct the behavior if possible.
