@@ -1885,8 +1885,8 @@ class IOCommon
             # Because the directory does not exist, try to create it.
             if ($([IOCommon]::MakeDirectory("$($tempDirectoryPath)", $logging)) -eq $false)
             {
-                # Display the message to the user
-                [Logging]::DisplayMessage("Unable to create a temporary directory!", "Error");
+                # Prep a message to display to the user for this error; temporary variable.
+                [string] $tempErrorMessage = "Unable to create a temporary directory!";
 
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -1896,15 +1896,30 @@ class IOCommon
                 # If Logging is enabled, obtain the additional information
                 if ($logging)
                 {
+                    # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
+                    [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
+
+
                     # Capture any additional information
-                    $logAdditionalMSG = "Path of the parent temporary directory: $($tempDirectoryPath)";
+                    $logAdditionalMSG = ("Possible symptoms:`r`n" + `
+                                        "`t- Directory exceeds Character limit or depth limit (Root -> Leaf)`r`n" + `
+                                        "`t- The user's temporary roaming directory (%TEMP%) could be locked.`r`n" + `
+                                        "`t- Insufficient writing privileges within the temporary roaming directory (%TEMP%).`r`n" + `
+                                        "`tPath of the parent temporary directory: $($tempDirectoryPath)");
 
                     # Generate the message
-                    $logMessage = "Unable to create a parent temporary directory!";
+                    $logMessage = "$($tempErrorMessage)";
 
                     # Pass the information to the logging system
                     [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
                 } # If: Debugging
+
+                # Else - Debugging features are not enabled
+                else
+                {
+                    # If logging is disabled, write directly to the user's display.
+                    [IOCommon]::WriteToBuffer("$($tempErrorMessage)", "Error");
+                } # Else: Debugging Disabled
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -2008,8 +2023,8 @@ class IOCommon
         # Now that we have the name, create the directory
         if ($([IOCommon]::MakeDirectory("$($finalDirectoryPath)", $logging)) -eq $false)
         {
-            # Display the message to the user
-            [Logging]::DisplayMessage("Unable to create a temporary directory!", "Error");
+            # Prep a message to display to the user for this error; temporary variable.
+            [string] $tempErrorMessage = "Unable to create a temporary directory!"
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2019,15 +2034,30 @@ class IOCommon
             # If Logging is enabled, obtain the additional information.
             if ($logging)
             {
+                # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
+                [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
+
+
                 # Capture any additional information
-                $logAdditionalMSG = "Path of the temporary directory: $($finalDirectoryPath)";
+                $logAdditionalMSG = ("Possible Symptoms:`r`n" + `
+                                    "`t- Directory exceeds Character limit or depth limit (Root -> Leaf)`r`n" + `
+                                    "`t- The user's temporary roaming directory (%TEMP%) could be locked.`r`n" + `
+                                    "`t- Insufficient writing privileges within the temporary roaming directory (%TEMP%).`r`n" + `
+                                    "`tPath of the temporary directory: $($finalDirectoryPath)");
 
                 # Generate the message
-                $logMessage = "Unable to create a temporary directory!";
+                $logMessage = "$($tempErrorMessage)";
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
             } # If: Debugging
+
+            # Else - Debugging features are not enabled
+            else
+            {
+                # If logging is disabled, write directly to the user's display.
+                [IOCommon]::WriteToBuffer("$($tempErrorMessage)", "Error");
+            } # Else: Debugging Disabled
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2041,8 +2071,8 @@ class IOCommon
         # Just for assurance sakes, does the directory exist?
         if ($([IOCommon]::CheckPathExists("$($finalDirectoryPath)", $logging)) -eq $false)
         {
-            # Display the message to the user
-            [Logging]::DisplayMessage("Created the temporary directory but unable to found it....", "Error");
+            # Prep a message to display to the user for this error; temporary variable.
+            [string] $tempErrorMessage = "Created the temporary directory but unable to found it....";
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2052,6 +2082,10 @@ class IOCommon
             # If Logging is enabled, obtain the additional information
             if ($logging)
             {
+                # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
+                [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
+
+
                 # Capture any additional information
                 $logAdditionalMSG = "Path of the temporary directory: $($finalDirectoryPath)";
 
@@ -2061,6 +2095,13 @@ class IOCommon
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
             } # If: Debugging
+
+            # Else - Debugging features are not enabled
+            else
+            {
+                # If logging is disabled, write directly to the user's display.
+                [IOCommon]::WriteToBuffer("$($tempErrorMessage)", "Error");
+            } # Else: Debugging Disabled
 
             # * * * * * * * * * * * * * * * * * * *
 
