@@ -1727,23 +1727,30 @@ class IOCommon
    <# Create Temporary Directory (Roaming Profile)
     # -------------------------------
     # Documentation:
-    #  This function will assist in trying to create
-    #   a temporary directory in the user's roaming
-    #   profile region.  With using a temporary directory,
-    #   we can be able to momentarily house within the
-    #   directory for the required operations.  After the
-    #   operation has been successfully completed, ideally
-    #   - we can then discard the data.  Remember, the
-    #   data here is temporary and will be thrashed by
-    #   either this program or Windows cleanmgr or whatever
-    #   the Metro variant is now.
+    #  This function will create a temporary directory in the
+    #   user's roaming profile (%TEMP%) directory.  This
+    #   functionality can be useful for storing temporary
+    #   program data.  When we are finished with this directory,
+    #   we must discard it properly.  If incase the directory
+    #   was never expunged, it is possible that the user can
+    #   remove it using such tools as 'Clean Manager' or the
+    #   Metro variant in Windows 10.
+    #   Examples of usage:
+    #    1 - Organizing data before compacting them in an
+    #         archive data file.
+    #    2 - Extracting the data to a temporary location,
+    #         after completion - ask user where to store
+    #         their data.
+    #    3 - Hold large program generated files for further
+    #         processing (queued) without wasting system's
+    #         main memory resources.
     #
     # Directory Naming Scheme Note:
     #  The directory must be unique, we can NEVER have
-    #   duplicated directories to assure that the data
-    #   is correct.  With that in mind, we will have
-    #   to think future and past tenses.  Meaning, we
-    #   will need to assert the 'What-If' card.
+    #   duplicated directories to assure that the data is
+    #   correct.  With that in mind, we will have to think
+    #   of the future and past tenses.  Meaning, we will need
+    #   to assert the 'What-If' card.
     #    What-If:
     #     - The user added a directory that has the EXACT
     #        same name as to what we are going to add?
@@ -1768,7 +1775,7 @@ class IOCommon
     #        name (combined with date and time). 
     #     - I'm probably thinking too much?
     #   But with this in mind, we must assure that the directory
-    #   name is unique at all costs.
+    #   name is unique at all times.
     #
     # Directory Naming Scheme:
     #  GENERAL FORM:
@@ -1778,7 +1785,7 @@ class IOCommon
     #   OR (if that directory already exists):
     #    Extracting.1-Jan-18.01-00-00.1
     #
-    # 
+    #
     # NOTE: This region is classified as 'Program Data'.
     # -------------------------------
     # Input:
@@ -1797,19 +1804,21 @@ class IOCommon
     # -------------------------------
     # Output:
     #  [bool] Exit code
-    #    $false = Failure to create the directory.
-    #    $true = Successfully created the directory.
+    #    $false = Failed to create the temporary directory.
+    #    $true = Successfully created temporary the directory.
     # -------------------------------
     #>
-    static [bool] MakeTempDirectory([string] $keyTerm, [ref] $directoryPath, [bool] $logging)
+    static [bool] MakeTempDirectory([string] $keyTerm, `    # Operation Key (Noun or Verb)
+                                    [ref] $directoryPath, ` # Absolute path of the newly created directory
+                                    [bool] $logging)        # Logging features
     {
         # Declarations and Initializations
         # ----------------------------------------
         [string] $tempDirectoryPath = $null;   # Absolute Path of the Temporary directory.
-        [string] $tempDirectoryName = $null;   # The name of the directory that we going
+        [string] $tempDirectoryName = $null;   # The name of the directory that we are going
                                                #  to create.
-        [string] $finalDirectoryPath = $null;  # This will hold the absolute path to the
-                                               #  new requested directory.
+        [string] $finalDirectoryPath = $null;  # This will hold the complete absolute path
+                                               #  to the new requested directory.
         [string] $timeNow = $null;             # Holds the current time
         [string] $dateNow = $null;             # Holds the current date
         [string] $dateTime = $null;            # This will hold a time-stamp of when the
@@ -1829,20 +1838,19 @@ class IOCommon
         [string] $logAdditionalMSG = $null;    # Additional information provided.
         # ----------------------------------------
 
-        
+
 
         # Initialize the Variables
         # - - - - - - - - - - - - - -
-        #  Initialize the variables so that
-        #   they can be used in the operations
-        #   later on.
+        #  Initialize the variables so that they can be used
+        #   in the operations later on.
         # ---------------------------
 
 
-        # First, we need to figure out the temporary directory
-        #  To do this, we will use the environment variables
-        #  to lock into the user's roaming profile temporary
-        #  directory.  After that, append the program's name.
+        # First, we are going to build up the destination path.
+        #  We will use an environment variable to get the user's
+        #  %TEMP% directory, then we will attach the program's
+        #  name as part of the directory name.
         $tempDirectoryPath = "$($env:TEMP)\$($Global:_PROGRAMNAME_)";
 
 
@@ -1851,7 +1859,7 @@ class IOCommon
         $dateNow = "$(Get-Date -UFormat "%d-%b-%y")";
         # >> Time
         $timeNow = "$(Get-Date -UFormat "%H.%M.%S")";
-        
+
         # Now put the stamp together
         $dateTime = "$($dateNow).$($timeNow)";
 
@@ -1871,11 +1879,15 @@ class IOCommon
 
         # Setup the Main Directory %TEMP%
         # - - - - - - - - - - - - - -
-        #  Make sure that this program has a directory
-        #   within the user's %TEMP%.  If it does not
-        #   exist - create it, otherwise move forward.
-        #   However, if the %Temp% directory is locked,
-        #   this entire operation will be aborted.
+        #  Make sure that this program has a directory within
+        #   the user's %TEMP%.  If it does not exist - create
+        #   it, otherwise move forward.  However, if the
+        #   %Temp% directory is locked, this entire operation
+        #   will be aborted.
+        #  This directory is important as it will help to keep
+        #   all of the sub-directory temporary directories
+        #   housed in one location -- greatly helps to keep
+        #   everything clean and organized.
         # ---------------------------
 
 
@@ -1929,7 +1941,7 @@ class IOCommon
                 return $false;
             } # inner-if : Create Directory Failed
         } # if : Path does NOT exist
-        
+
 
         # ---------------------------
         # - - - - - - - - - - - - - -
@@ -1938,24 +1950,26 @@ class IOCommon
 
         # Create the Requested Directory in %TEMP%
         # - - - - - - - - - - - - - -
-        # Try to create the requested directory within
-        #  the User's roaming profile %TEMP% directory.
-        #  If in case all else fails, we must abort the
-        #  operation.
+        # Try to create the requested directory within the user's
+        #  roaming profile %TEMP% directory.  If in case all else
+        #  fails, we must abort the operation.
         # Reasons for failure:
-        #  - Directory is locked
+        #  - Directory is locked (write access)
         #  - Depth exceeds NTFS requirements
-        #    (256char from root to leaf)
+        #     (256char from root to leaf)
         #  - Directory and all repetitions exists
-        #    (Something is SERIOUSLY wrong)
+        #     (Something is SERIOUSLY wrong)
         # ---------------------------
 
         # First, we should check if the directory already exists.
-        #  If the directory exists, try to make it unique.
+        #  If the directory already exists, try to make it unique.
         if ($([IOCommon]::CheckPathExists("$($finalDirectoryPath)", $logging)) -eq $true)
         {
-            # This variable will help us break out of the loop
-            #  if we can successfully find a unique name.  Otherwise,
+            # Because the directory already exists, we need to make
+            #  it unique to avoid data conflicts.
+
+            # This variable will help us break out of the loop if
+            #  we can successfully find a unique name.  Otherwise,
             #  we reached a failure.
             [bool] $status = $true;
 
@@ -2010,9 +2024,10 @@ class IOCommon
                     # * * * * * * * * * * * * * * * * * * *
 
 
+                    # Leave this function with an error.
                     return $false;
                 } # Inner-Else : Check if Max Reached
-                
+
                 # Increment the counter
                 $repetitionCount = $repetitionCount + 1;
             } # while : trying to find unique name
@@ -2020,7 +2035,7 @@ class IOCommon
 
 
 
-        # Now that we have the name, create the directory
+        # Now that we have the name of the temporary sub-directory, create it
         if ($([IOCommon]::MakeDirectory("$($finalDirectoryPath)", $logging)) -eq $false)
         {
             # Prep a message to display to the user for this error; temporary variable.
@@ -2115,14 +2130,14 @@ class IOCommon
 
         # Finalizing and Concluding
         # - - - - - - - - - - - - - -
-        # Now that everything was set up and we now have
-        #  the directory ready for general use now, we
-        #  will do the final touches and close this
-        #  function successfully.
+        # Now that everything was set up and we now have the
+        #  directory ready for general use now, we will do the
+        #  final touches and close this function successfully.
         # ---------------------------
-        
 
-        # Record the absolute directory name
+
+        # Record the absolute directory name; so the previous
+        #  function may utilize it.
         $directoryPath.Value = "$($finalDirectoryPath)";
 
 
