@@ -1961,6 +1961,40 @@ class IOCommon
                 {
                     # Because we reached our max, something went horribly wrong.
                     #  We must abort this operation as it was unsuccessful.
+
+                    # Prep a message to display to the user for this error; temporary variable.
+                    [string] $tempErrorMessage = "Failed to create a unique temporary directory!";
+
+
+                    # If logging is enabled, obtain the additional information
+                    if ($logging)
+                    {
+                        # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
+                        [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
+
+
+                        # Capture any additional information
+                        $logAdditionalMSG = ("Reached repetition max threshold!`r`n" + `
+                                            "`tRepetition Max Limit is: $($repetitionMax)" + `
+                                            "`tRepetition Counter is: $($repetitionCount)");
+
+                        # Generate the message
+                        $logMessage = "$($tempErrorMessage)";
+
+                        # Pass the information to the logging system
+                        [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
+                    } # If: Debugging
+
+                    # Else - Debugging features are not enabled
+                    else
+                    {
+                        # If logging is disabled, write directly to the user's display.
+                        [IOCommon]::WriteToBuffer("$($tempErrorMessage)", "Error");
+                    } # Else: Debugging Disabled
+
+                    # * * * * * * * * * * * * * * * * * * *
+
+
                     return $false;
                 } # Inner-Else : Check if Max Reached
                 
