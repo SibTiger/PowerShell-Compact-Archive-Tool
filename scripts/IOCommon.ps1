@@ -2151,13 +2151,13 @@ class IOCommon
    <# Make a New Directory
     # -------------------------------
     # Documentation:
-    #  This function will make a new directory with the
-    #   absolute path provided.
+    #  This function will create a new directory with the
+    #   desired absolute path provided.
     # -------------------------------
     # Input:
     #  [string] Absolute Path
-    #   The absolute path of a directory that is to be
-    #   created by request.
+    #   The absolute path of a directory that is to be created
+    #    within the filesystem.
     #  [bool] Logging [Debugging]
     #   When true, the logging functionality will be enabled.
     #    The logging functionality merely captures any detailed
@@ -2166,28 +2166,33 @@ class IOCommon
     # -------------------------------
     # Output:
     #  [bool] Exit code
-    #    $false = Failure to create the directory.
+    #    $false = Failed to create the directory.
     #    $true = Successfully created the directory.
     #            OR
     #            Directory already exists; nothing to do.
     # -------------------------------
     #>
-    static [bool] MakeDirectory([string] $path, [bool] $logging)
+    static [bool] MakeDirectory([string] $path, `   # Absolute path of the directory to create
+                                [bool] $logging)    # Logging features
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode = $true;           # Exit code that will be returned.
+        [string] $executeFailureMessage = $null;       # If the command fails to properly
+                                                       #  execute, the reason for the failure
+                                                       #  might be available from the PowerShell
+                                                       #  engine.
+        [bool] $exitCode = $true;                      # Exit code that will be returned.
 
         # * * * * * * * * * * * * * * * * * * *
         # Debugging [Logging]
-        [string] $logMessage = $null;       # The initial message to be logged.
-        [string] $logAdditionalMSG = $null; # Additional information provided.
+        [string] $logMessage = $null;                  # The initial message to be logged.
+        [string] $logAdditionalMSG = $null;            # Additional information provided.
         # ----------------------------------------
 
 
-        # Check to see if the path already exists;
-        #  if it already exists - then nothing to do.
-        #  If it does not exist, then try to create it.
+        # Check to see if the path already exists; if it already exists -
+        #  then there's nothing to done.  If it does not exist, however,
+        #  then try to create it.
         if (([IOCommon]::CheckPathExists("$($path)", $logging)) -eq $false)
         {
             # The requested path does not exist, try to create it.
@@ -2218,6 +2223,7 @@ class IOCommon
 
 
             } # try : Create directory.
+
             catch
             {
                 # Immediately cache the reason why the command failed.
