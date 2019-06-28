@@ -2223,8 +2223,9 @@ class IOCommon
                 # Immediately cache the reason why the command failed.
                 $executeFailureMessage = "$($_)";
 
-                # Display the message to the user
-                [Logging]::DisplayMessage("Failed to create the required directory!`r`nReason for failure: $($executeFailureMessage)", "Error");
+                # Prep a message to display to the user for this error; temporary variable
+                [string] $tempErrorMessage = ("Failed to create the required directory!`r`n" + `
+                                            "Reason for failure: $($executeFailureMessage)");
 
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -2234,8 +2235,13 @@ class IOCommon
                 # If Logging is enabled, obtain the additional information
                 if ($logging)
                 {
+                    # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
+                    [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
+
+
                     # Capture any additional information
-                    $logAdditionalMSG = "Directory Path: $($path)`r`n`tAdditional Error Message: $($executeFailureMessage)";
+                    $logAdditionalMSG = ("Directory Path: $($path)`r`n" + `
+                                        "`tAdditional Error Message: $($executeFailureMessage)");
 
                     # Generate the message
                     $logMessage = "Failed to create the directory by request!";
@@ -2243,6 +2249,13 @@ class IOCommon
                     # Pass the information to the logging system
                     [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
                 } # If: Debugging
+
+                # Else - Debugging features are not enabled
+                else
+                {
+                    # If logging is disabled, write directly to the user's display.
+                    [IOCommon]::WriteToBuffer("$($tempErrorMessage)", "Error");
+                } # Else: Debugging Disabled
 
                 # * * * * * * * * * * * * * * * * * * *
 
