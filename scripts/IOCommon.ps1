@@ -2282,14 +2282,12 @@ class IOCommon
    <# Check Path Exists
     # -------------------------------
     # Documentation:
-    #  This function will check if the provided
-    #   directory (absolute path) exists on the
-    #   host's filesystem.
+    #  This function will check if the provided directory's path
+    #   (absolute path) exists within the host's filesystem.
     # -------------------------------
     # Input:
     #  [string] Directory (Absolute Path)
-    #    The path to check if it exists in the
-    #     filesystem.
+    #    The path of the directory to check if it exists.
     #  [bool] Logging [Debugging]
     #   When true, the logging functionality will be enabled.
     #    The logging functionality merely captures any detailed
@@ -2302,7 +2300,8 @@ class IOCommon
     #    $true = Directory exist
     # -------------------------------
     #>
-    static [bool] CheckPathExists([string] $path, [bool] $logging)
+    static [bool] CheckPathExists([string] $path, `     # The absolute path of the directory to check
+                                [bool] $logging)        # Logging features
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2334,7 +2333,7 @@ class IOCommon
             $logAdditionalMSG = "$($_)";
 
             # Generate the message
-            $logMessage = "Tried to find the path named $($path), detected result was $($exitCode)";
+            $logMessage = "Tried to find the path named $($path), the detected result was $($exitCode)";
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Verbose");
