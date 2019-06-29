@@ -2352,20 +2352,20 @@ class IOCommon
    <# Delete Directory
     # -------------------------------
     # Documentation:
-    #  This function will forcefully and recursively
-    #   thrash the target directory and all sub-
-    #   directories following within the hierarchy.
-    #   Thus meaning, anything within the target
-    #   directory - will be expunged.  Use this
-    #   function carefully!
+    #  This function will forcefully expunge a specific directory
+    #   recursively within it's hierarchy.  Meaning that any
+    #   existing data-files or sub-directories - will be thrashed
+    #   without any warning prompted to the end-user.  Please be
+    #   sure you are using this function correctly.
     #
-    #  NOTES:
-    #   - Recursive
-    #   - Forceful
+    #  WARNING NOTES:
+    #   The following flags are enabled in this function:
+    #    - Recursive
+    #    - Forceful
     # -------------------------------
     # Input:
     #  [string] Directory (Absolute Path)
-    #    The directory that we want to delete.
+    #    The absolute path of the directory that we want to delete (and any contents inside).
     #  [bool] Logging [Debugging]
     #   When true, the logging functionality will be enabled.
     #    The logging functionality merely captures any detailed
@@ -2374,15 +2374,18 @@ class IOCommon
     # -------------------------------
     # Output:
     #  [bool] Exit code
-    #    $false = Failed to delete directory.
-    #    $true = Successfully deleted directory
+    #    $false = Failed to delete the directory.
+    #    $true = Successfully deleted the directory
+    #            OR
+    #            Directory does not exist
     # -------------------------------
     #>
-    static [bool] DeleteDirectory([string] $path, [bool] $logging)
+    static [bool] DeleteDirectory([string] $path, ` # The absolute path of the target directory
+                                [bool] $logging)    # Logging features
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode = $false;    # Exit code that will be returned.
+        [bool] $exitCode = $false;          # Exit code that will be returned.
 
         # * * * * * * * * * * * * * * * * * * *
         # Debugging [Logging]
@@ -2396,6 +2399,8 @@ class IOCommon
         if(([IOCommon]::CheckPathExists("$($path)", $logging)) -eq $false)
         {
             # The directory does not exist, there's nothing to do.
+            #  Because the directory does not exist (with the given path),
+            #  there was no real error - just return as successful.
             return $true;
         } # Check if Directory Exists.
 
@@ -2404,7 +2409,10 @@ class IOCommon
         try
         {
             # Remove the directory.
-            Remove-Item -LiteralPath "$($path)" -Force -Recurse -ErrorAction Stop;
+            Remove-Item -LiteralPath "$($path)" `   # Absolute path of the directory
+                        -Force `                    # Try to forcefully expunge protected data files
+                        -Recurse `                  # Recursively thrash any data within the directory's hierarchy
+                        -ErrorAction Stop;          # If something goes horribly wrong - STOP!
 
             # Successfully deleted the requested directory.
             $exitCode = $true;
@@ -2412,7 +2420,7 @@ class IOCommon
 
         catch
         {
-            # Failure occurred while deleting the requested directory.
+            # A failure occurred while deleting the requested directory.
             $exitCode = $false;
         } # Catch : Error Deleting Directory
 
