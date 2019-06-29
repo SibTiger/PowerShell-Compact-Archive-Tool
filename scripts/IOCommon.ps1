@@ -2797,18 +2797,17 @@ class IOCommon
    <# Supported Hash Algorithms
     # -------------------------------
     # Documentation:
-    #  This function will check to make sure
-    #   that requested hash algorithm is supported
-    #   in the .NET Framework.
+    #  This function will check to make sure that the requested
+    #   hash algorithm is supported in the .NET Framework.
     #
     #  List of available Hash Algorithms:
     #   https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-filehash
     # -------------------------------
     # Input:
     #  [string] Requested Hash Algorithm
-    #    This will contain the requested algorithm to be used
-    #     in .NET Framework.  This will be checked against a
-    #     list of available algorithms known to be supported.
+    #    This will contain the requested hash algorithm to be tested
+    #     against the known supported algorithms used in the .NET
+    #     Framework.
     # -------------------------------
     # Output:
     #  [bool] Supported Status
@@ -2828,7 +2827,7 @@ class IOCommon
         # ----------------------------------------
 
 
-        # Scan the list against the requested hash algorithm
+        # Compare the requested hash algo. to the list of supported algorithms.
         foreach ($algo in $knownAlgos)
         {
             # Scan through the list and compare each algorithm
