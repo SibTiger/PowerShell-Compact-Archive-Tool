@@ -2538,12 +2538,17 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode = $false;    # Exit code that will be returned.
+        [string] $executeFailureMessage = $null;            # If the command fails to properly
+                                                            #  execute, the reason for the failure
+                                                            #  might be available from the PowerShell
+                                                            #  engine.
+        [bool] $exitCode = $false;                          # Exit code that will be returned.
 
         # * * * * * * * * * * * * * * * * * * *
         # Debugging [Logging]
-        [string] $logMessage = $null;       # The initial message to be logged.
-        [string] $logAdditionalMSG = $null; # Additional information provided.
+        [string] $logMessage = $null;                       # The initial message to be logged.
+        [string] $logAdditionalMSG = $null;                 # Additional information provided.
+        [LogMessageLevel] $logMessageLevel = "Standard";    # The level of the message.
         # ----------------------------------------
 
 
@@ -2582,17 +2587,53 @@ class IOCommon
         # Debugging
         # --------------
 
-        # If Logging is enabled, obtain the additional information.
+        # If Logging is enabled, obtain the additional information
         if ($logging)
         {
-            # Capture any additional information
-            $logAdditionalMSG = "$($_)";
+            # Immediately cache any useful information left in the pipe.
+            $executeFailureMessage = "$($_)";
 
-            # Generate the message
-            $logMessage = "Tried to thrash the requested files $($includes.ToString()) from the path named $($path), operation result was $($exitCode)";
+            # If the operation was successful; generate the appropriate message
+            if ($exitCode)
+            {
+                # Because the operation was successful, create a successful message
+
+                # Capture any additional information
+                $logAdditionalMSG = ("Directory that was inspected: $($path)" ` +
+                                    "`tFile(s) that were deleted:`r`n" + `
+                                    "`t`t$($includes.ToString())");
+
+                # Generate the message
+                $logMessage = "Successfully deleted the requested file(s)!";
+
+                # Update the Message Level as 'Verbose'
+                $logMessageLevel = "Verbose";
+            } # Inner-If: Operation was successful
+
+            # If the operation failed; generate a failed message
+            else
+            {
+                # Because the operation had failed, create a failure message
+
+                # Capture any additional information
+                $logAdditionalMSG = ("Directory that was inspected: $($path)" ` +
+                                    "`tFile(s) requested to be deleted:`r`n" + `
+                                    "`t`t$($includes.ToString())" + `
+                                    "`tAdditional error information:`r`n" + `
+                                    "`t`t$($executeFailureMessage)");
+
+                # Generate the message
+                $logMessage = "Failed to delete the requested file(s)!";
+
+                # Update the Message Level as 'Error'
+                $logMessageLevel = "Error";
+            } # Inner-Else: Operation had failed
+
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Verbose");
+            [Logging]::LogProgramActivity("$($logMessage)", `       # The initial message
+                                        "$($logAdditionalMSG)", `   # Any additional provided
+                                        "$($logMessageLevel)");     # The Message level
         } # If: Debugging
 
         # * * * * * * * * * * * * * * * * * * *
