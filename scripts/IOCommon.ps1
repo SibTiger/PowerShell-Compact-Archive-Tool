@@ -2409,10 +2409,10 @@ class IOCommon
         try
         {
             # Remove the directory.
-            Remove-Item -LiteralPath "$($path)" `   # Absolute path of the directory
-                        -Force `                    # Try to forcefully expunge protected data files
-                        -Recurse `                  # Recursively thrash any data within the directory's hierarchy
-                        -ErrorAction Stop;          # If something goes horribly wrong - STOP!
+            Remove-Item -LiteralPath "$($path)" `
+                        -Force `
+                        -Recurse `
+                        -ErrorAction Stop;
 
             # Successfully deleted the requested directory.
             $exitCode = $true;
