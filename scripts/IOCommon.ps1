@@ -2651,12 +2651,13 @@ class IOCommon
    <# File Hash
     # -------------------------------
     # Documentation:
-    #  This function will provide the hash value
-    #   in regards to a specific data-file.
+    #  This function will provide a hash value in respect
+    #   to the data-file requested.
     # -------------------------------
     # Input:
-    #  [string] Absolute Path
-    #   The absolute path of a data-file.
+    #  [string] File (Absolute Path)
+    #   The absolute path of the data-file that we want to
+    #    inspect.
     #  [string] Hash Algorithm
     #   Typical values can be: "MD5" or "SHA1".
     #    For a complete list of hash algorithms, please check the documentation:
@@ -2669,11 +2670,16 @@ class IOCommon
     # -------------------------------
     # Output:
     #  [string] Hash Value code
-    #    $null = Error for File does not exist.
-    #    All other values will be the hash code.
+    #    ERROR VALUES:
+    #     $null
+    #     File does not exist
+    #     OR
+    #     Unknown hash algorithm requested
     # -------------------------------
     #>
-    static [string] FileHash([string] $path, [string] $hashAlgorithm, [bool] $logging)
+    static [string] FileHash([string] $path, `          # Absolute path of the target file
+                            [string] $hashAlgorithm, `  # Hash algorithm requested
+                            [bool] $logging)            # Logging features
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2716,7 +2722,8 @@ class IOCommon
             if ($logging)
             {
                 # Capture any additional information
-                $logAdditionalMSG = "Requested file: $($path)`r`n`tRequested Hash Algorithm: $($hashAlgorithm)";
+                $logAdditionalMSG = ("Requested file: $($path)`r`n" + `
+                                    "`tRequested Hash Algorithm: $($hashAlgorithm)");
 
                 # Generate the message
                 $logMessage = "The requested hash algorithm is not supported!";
@@ -2739,7 +2746,9 @@ class IOCommon
             # Try to get the hash of the file and cache it.
             #  NOTE: Do not try to out-right store the 'hash' value explicitly as
             #        this causes a performance degrade when an issue creeps up.
-            $hashInfo = Get-FileHash -LiteralPath "$($path)" -Algorithm "$($hashAlgorithm)" -ErrorAction Stop;
+            $hashInfo = Get-FileHash -LiteralPath "$($path)" `
+                                    -Algorithm "$($hashAlgorithm)" `
+                                    -ErrorAction Stop;
 
             # From the cache data, get the hash and save it.
             $hashValue = $hashInfo.Hash;
@@ -2758,7 +2767,10 @@ class IOCommon
             if ($logging)
             {
                 # Capture any additional information
-                $logAdditionalMSG = "Requested file: $($path)`r`n`tRequested Hash Algorithm: $($hashAlgorithm)`r`n`tAdditional Information: $($_)";
+                $logAdditionalMSG = ("Requested file: $($path)`r`n" + `
+                                    "`tRequested Hash Algorithm: $($hashAlgorithm)`r`n" + `
+                                    "`tAdditional Information:`r`n" + `
+                                    "`t`t$($_)");
 
                 # Generate the message
                 $logMessage = "A failure occurred while trying to get the hash value!";
@@ -2775,7 +2787,7 @@ class IOCommon
         } # Catch : Failure to fetch value
 
 
-        # Return the value of the hash data, if it was present.
+        # Return the hash value of the file - if it was present.
         return "$($hashValue)";
     } # FileHash()
 
