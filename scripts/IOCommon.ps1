@@ -2492,26 +2492,32 @@ class IOCommon
    <# Delete File
     # -------------------------------
     # Documentation:
-    #  This function will forcefully delete an
-    #   individual file or a specific set of
-    #   files given by a specific criteria.
-    #   This function cane be useful to delete
-    #   superfluous log files and the like.
-    #   Use this function carefully!
+    #  This function will forcefully delete an individual
+    #   file or a specific set of files given by a specific
+    #   criteria.  It can be possible to provide a specific
+    #   list of files to delete or provide a generic range,
+    #   such as using a wildcard.  However, all 'included'
+    #   files must be in the same directory.  If the files
+    #   requested to be deleted are in different directories,
+    #   it is not possible to remove them.  The includes
+    #   parameter only allows for the filename(s) or set
+    #   ranges, no path is specified other than the requesting
+    #   directory that we want to inspect.
     #
-    #  NOTES:
+    #  WARNING NOTES:
+    #   The following flags are enabled in this function:
     #   - Forceful
     # -------------------------------
     # Input:
     #  [string] Directory (Absolute Path)
-    #    The directory that we want to inspect
-    #     the file contents.
-    #    - NOTE: DO NOT PUT THE ACTUAL FILE PATH OR
-    #            PATH OF FILES HERE, USE 'Includes'
-    #            FOR THIS!
+    #    The directory that contains the data files that we
+    #     want to expunge.
+    #    - NOTE: DO NOT PUT THE ACTUAL FILE PATH OR PATH OF
+    #            FILES HERE, USE 'Includes' FOR THIS!
     #  [string[]] Includes
-    #    What specific requirements must a file have
-    #     in order to be classified to be deleted.
+    #    What specific requirements must a file have in order
+    #     to be classified to be deleted.  Specific filenames
+    #     are acceptable.
     #  [bool] Logging [Debugging]
     #   When true, the logging functionality will be enabled.
     #    The logging functionality merely captures any detailed
@@ -2520,11 +2526,15 @@ class IOCommon
     # -------------------------------
     # Output:
     #  [bool] Exit code
-    #    $false = Failed to delete directory.
-    #    $true = Successfully deleted directory
+    #    $false = Failed to delete the requested files.
+    #    $true = Successfully deleted the requested files
+    #            OR
+    #            No operation was done
     # -------------------------------
     #>
-    static [bool] DeleteFile([string] $path, [string[]] $includes, [bool] $logging)
+    static [bool] DeleteFile([string] $path,        # Path of the directory to inspect
+                            [string[]] $includes,   # List of files or requirements
+                            [bool] $logging)        # Logging features
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2542,15 +2552,20 @@ class IOCommon
         if(([IOCommon]::CheckPathExists("$($path)", $logging)) -eq $false)
         {
             # The directory does not exist, there's nothing to do.
+            #  Because the directory does not exist (with the provided path),
+            #  there was no real error - just return as successful.
             return $true;
         } # Check if Directory Exists.
 
 
-        # Try to delete the requested files from specific directory.
+        # Try to delete the requested files from the provided directory.
         try
         {
             # Remove the requested files.
-            Remove-Item -Path "$($path)\*" -Include $($includes) -Force -ErrorAction Stop;
+            Remove-Item -Path "$($path)\*" `
+                        -Include $($includes) `
+                        -Force `
+                        -ErrorAction Stop;
 
             # Successfully deleted the file(s)
             $exitCode = $true;
@@ -2558,7 +2573,7 @@ class IOCommon
 
         catch
         {
-            # Failure occurred while deleting the requested file(s).
+            # A failure occurred while deleting the requested file(s).
             $exitCode = $false;
         } # Catch : Error Deleting Files
 
