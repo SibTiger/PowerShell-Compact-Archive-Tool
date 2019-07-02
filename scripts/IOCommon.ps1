@@ -2852,16 +2852,16 @@ class IOCommon
    <# Open Web Page
     # -------------------------------
     # Documentation:
-    #  This function will allow the ability to access
-    #   a specific webpage that was requested.  In
-    #   order to access the webpage, we will merely
-    #   use the default or preferred web browser
-    #   as defined by the user's settings from the
-    #   host system.
+    #  This function will provide the ability to access a specific
+    #   webpage on request.  In order to access the webpage, we will
+    #   merely try to use the default or preferred web browser that
+    #   is set by the host or user settings of the current system
+    #   environment.
     # -------------------------------
     # Input:
-    #  [string] URL Address
-    #   The webpage's URL Address
+    #  [string] Web Site's URL Address
+    #   The webpage that we want to access; URL or IP address of the
+    #    server (or service) we want to access.
     #  [bool] Logging [Debugging]
     #   When true, the logging functionality will be enabled.
     #    The logging functionality merely captures any detailed
@@ -2869,15 +2869,16 @@ class IOCommon
     #    is specified in the Logging implementation.
     # -------------------------------
     #  [bool] Exit code
-    #    $false = Failure to access webpage.
+    #    $false = Failed to access webpage.
     #    $true = Successfully accessed webpage.
     # -------------------------------
     #>
-    static [bool] AccessWebpage([string] $URLAddress, [bool] $logging)
+    static [bool] AccessWebpage([string] $URLAddress, `     # URL or IP Address of the webpage
+                                [bool] $logging)            # Logging features
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode = $false;  # The operation exit code.
+        [bool] $exitCode = $false;          # The operation exit code.
 
         # * * * * * * * * * * * * * * * * * * *
         # Debugging [Logging]
@@ -2886,8 +2887,7 @@ class IOCommon
         # ----------------------------------------
 
 
-        # Make sure that the URL Address provided is actually
-        #  a legitimate URL address.
+        # Make sure that the URL Address provided is an actual legitimate URL address.
         if ((($URLAddress -like 'http://*') -eq $true) -or `
             (($URLAddress -like 'www.*') -eq $true))
         {
@@ -2896,15 +2896,16 @@ class IOCommon
             try
             {
                 # Open the webpage
-                Start-Process -FilePath "$($URLAddress)" -ErrorAction Stop;
-            
+                Start-Process -FilePath "$($URLAddress)" `
+                            -ErrorAction Stop;
+
                 # Update the exit code status
                 $exitCode = $true;
             } # Try : Execute Task
 
             catch
             {
-                # Error occurred while trying to open the requested web-page
+                # An error occurred while trying to open the requested web-page
 
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -2915,13 +2916,18 @@ class IOCommon
                 if ($logging)
                 {
                     # Capture any additional information
-                    $logAdditionalMSG = "Tried to open webpage: $($URLAddress)`r`n`tAdditional Information: $($_)";
+                    $logAdditionalMSG = ("Tried to open requested webpage:`r`n" + `
+                                        "`t`t$($URLAddress)`r`n" + `
+                                        "`tAdditional Information:" + `
+                                        "`t`t$($_)");
 
                     # Generate the message
-                    $logMessage = "Failure occurred while accessing the requested webpage!";
+                    $logMessage = "A failure occurred while trying to access the requested webpage!";
 
                     # Pass the information to the logging system
-                    [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
+                    [Logging]::LogProgramActivity("$($logMessage)", `
+                                                "$($logAdditionalMSG)", `
+                                                "Error");
                 } # If: Debugging
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -2934,7 +2940,7 @@ class IOCommon
 
         else
         {
-            # The address is not legal
+            # The address was not legal
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2945,13 +2951,16 @@ class IOCommon
             if ($logging)
             {
                 # Capture any additional information
-                $logAdditionalMSG = "Tried to open webpage: $($URLAddress)";
+                $logAdditionalMSG = ("Tried to open webpage:`r`n" + `
+                                    "`t`t$($URLAddress)");
 
                 # Generate the message
-                $logMessage = "The requested webpage is not valid!";
+                $logMessage = "The requested webpage is not a valid URL or IP address!";
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
+                [Logging]::LogProgramActivity("$($logMessage)", `
+                                            "$($logAdditionalMSG)", `
+                                            "Error");
             } # If: Debugging
 
             # * * * * * * * * * * * * * * * * * * *
