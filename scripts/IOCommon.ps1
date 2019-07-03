@@ -269,11 +269,6 @@ class IOCommon
         # ----------------------------------------
         [bool] $exitCode = $false;          # The detection code that will be returned based
                                             #  on the results; if the command was found or not.
-
-        # * * * * * * * * * * * * * * * * * * *
-        # Debugging [Logging]
-        [string] $logMessage = $null;       # The initial message to be logged.
-        [string] $logAdditionalMSG = $null; # Additional information provided.
         # ----------------------------------------
 
 
@@ -297,14 +292,19 @@ class IOCommon
         # Debugging
         # --------------
 
-        # If Logging is enabled, obtain the additional information.
+        # If Logging features are enabled, try to log the event.
         if ($logging)
         {
-            # Generate the message
-            $logMessage = "Tried to find the $($type) named $($command); detected result was $($exitCode)";
+            # Generate the initial message
+            [string] $logMessage = "Tried to find the $($type) named $($command); detected result was $($exitCode)";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = $null;
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Verbose");
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional message
+                                        "Verbose");                 # Message level
         } # If: Debugging
 
         # * * * * * * * * * * * * * * * * * * *
