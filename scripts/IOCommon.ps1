@@ -267,7 +267,6 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $eventLogMessage = $null;  # Message that will be sent to the program's log.
         [bool] $exitCode = $false;          # The detection code that will be returned based
                                             #  on the results; if the command was found or not.
 
