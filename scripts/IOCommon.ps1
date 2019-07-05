@@ -652,6 +652,9 @@ class IOCommon
         # Debugging
         # --------------
 
+        # If Logging features are enabled, try to log the event.
+        if ($logging)
+        {
             # Generate the initial message
             [string] $logMessage = "Successfully executed the external command $($command)!";
 
@@ -665,6 +668,7 @@ class IOCommon
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
                                         "Verbose");                 # Message level
+        } # If: Debugging
 
         # * * * * * * * * * * * * * * * * * * *
 
