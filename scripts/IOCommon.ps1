@@ -758,11 +758,6 @@ class IOCommon
         [string] $redirectStdOut = $null;                                                # When Standard Out redirection to variable is
                                                                                          #  requested (captureSTDOUT), this will be our
                                                                                          #  buffer - which will hold the STDOUT data.
-
-        # * * * * * * * * * * * * * * * * * * *
-        # Debugging [Logging]
-        [string] $logMessage = $null;             # The initial message to be logged.
-        [string] $logAdditionalMSG = $null;       # Additional information provided.
         # ----------------------------------------
 
 
@@ -824,20 +819,22 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging is enabled, obtain the additional information.
+            # If Logging features are enabled, try to log the event.
             if ($logging)
             {
-                # Capture any additional information
-                $logAdditionalMSG = ("Description: $($description)`r`n" + `
-                                    "`tSTDOUT Log Path: $($logStdOut)`r`n" + `
-                                    "`tSTDOUT Output:`r`n" + `
-                                    "`t$($outputResultOut.Value)");
+                # Generate the initial message
+                [string] $logMessage = "External command returned successfully with additional output.";
 
-                # Generate the message
-                $logMessage = "External command returned successfully with additional output.";
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Description: $($description)`r`n" + `
+                                            "`tSTDOUT Log Path: $($logStdOut)`r`n" + `
+                                            "`tSTDOUT Output:`r`n" + `
+                                            "`t$($outputResultOut.Value)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Verbose");
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Verbose");                 # Message level
             } # If: Debugging
 
             # * * * * * * * * * * * * * * * * * * *
@@ -862,20 +859,22 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging is enabled, obtain the additional information.
+            # If Logging features are enabled, try to log the event.
             if ($logging)
             {
-                # Capture any additional information
-                $logAdditionalMSG = ("Description: $($description)`r`n" + `
-                                    "`tSTDERR Log Path: $($logStdErr)`r`n" + `
-                                    "`tSTDERR Output:`r`n" + `
-                                    "`t$($outputResultErr.Value)");
+                # Generate the initial message
+                [string] $logMessage = "External command returned with an error or error messages exists!";
 
-                # Generate the message
-                $logMessage = "External command returned with an error or error messages exists!";
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Description: $($description)`r`n" + `
+                                            "`tSTDERR Log Path: $($logStdErr)`r`n" + `
+                                            "`tSTDERR Output:`r`n" + `
+                                            "`t$($outputResultErr.Value)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Warning");
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Warning");                 # Message level
             } # If: Debugging
 
             # * * * * * * * * * * * * * * * * * * *
