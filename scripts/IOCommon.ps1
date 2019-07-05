@@ -881,7 +881,7 @@ class IOCommon
 
 
         } # If : Log the STDERR
-    } # ExecuteCommandLog()
+    } # __ExecuteCommandLog()
 
 
 
@@ -1101,7 +1101,7 @@ class IOCommon
 
         # Return the result
         return $processExec.ExitCode;
-    } # ExecuteCommandRun()
+    } # __ExecuteCommandRun()
 
 
 
