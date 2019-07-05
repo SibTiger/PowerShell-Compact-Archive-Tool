@@ -946,17 +946,6 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $executeFailureMessage = $null;       # If the command fails to properly
-                                                       #  execute, the reason for the failure
-                                                       #  might be available from the PowerShell
-                                                       #  engine.
-
-        # * * * * * * * * * * * * * * * * * * *
-        # Debugging [Logging]
-        [string] $logMessage = $null;                  # The initial message to be logged.
-        [string] $logAdditionalMSG = $null;            # Additional information provided.
-
-        # - - - - - - - - - - - - - - - - - - - -
         # .NET Special Objects
         # - - - -
         # Because Start-Process CMDLet does NOT redirect to a variable, but only to files.
@@ -986,18 +975,21 @@ class IOCommon
             # Debugging
             # --------------
 
-            # if Logging is enabled, obtain the additional information.
+            # If Logging features are enabled, try to log the event.
             if ($logging)
             {
-                # Capture any additional information
-                $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
-                                    "`tArguments to be used: $($arguments)");
+                # Generate the initial message
+                [string] $logMessage = ("Failed to execute the external command $($command)!`r`n" + `
+                                        "It may not have been found or was not a valid application!");
 
-                # Generate the message
-                $logMessage = "Failed to execute the external command $($command) because it was not found or is not an application!";
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
+                                            "`tArguments to be used: $($arguments)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
             } # If: Debugging
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1053,34 +1045,38 @@ class IOCommon
         # An error occurred while trying to execute the command
         catch
         {
-            # Immediately cache the reason why the command failed.
-            $executeFailureMessage = "$($_)";
+            # Obtain any information that is left in the PowerShell's engine pipe,
+            #  this should be an error message directly from the POSH engine.
+            [string] $executeFailureMessage = "$($_)";
 
             # Prep a message to display to the user for this error; temporary variable
-            [string] $tempErrorMessage = "Failure to execute command upon request!`n`rFailure reason: $($executeFailureMessage)";
+            [string] $tempErrorMessage = ("Failure to execute command upon request!`n`r" + `
+                                        "Failure reason: $($executeFailureMessage)");
 
 
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
-            # If Logging is enabled, obtain the additional information.
+            # If Logging features are enabled, try to log the event.
             if ($logging)
             {
                 # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
 
 
-                # Capture any additional information
-                $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
-                                    "`tArguments to be used: $($arguments)`r`n" + `
-                                    "`tFailed to execute reason: $($executeFailureMessage)");
+                # Generate the initial message
+                [string] $logMessage = "A failure occurred upon executing the external command $($command)!";
 
-                # Generate the message
-                $logMessage = "A failure occurred upon executing the external command $($command)!";
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
+                                            "`tArguments to be used: $($arguments)`r`n" + `
+                                            "`tFailed to execute reason: $($executeFailureMessage)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
             } # If: Debugging
 
             # Else - Debugging features are not enabled
