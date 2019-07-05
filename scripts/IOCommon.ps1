@@ -426,11 +426,6 @@ class IOCommon
         [string] $callBack = $null;               # Allocate memory address if the stdout
                                                   #  needs to be relocated, this is our
                                                   #  medium in order to accomplish this.
-
-        # * * * * * * * * * * * * * * * * * * *
-        # Debugging [Logging]
-        [string] $logMessage = $null;             # The initial message to be logged.
-        [string] $logAdditionalMSG = $null;       # Additional information provided.
         # ----------------------------------------
 
 
@@ -448,19 +443,22 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging is enabled, obtain the additional information.
+            # If Logging features are enabled, try to log the event.
             if ($logging)
             {
-                # Capture any additional information
-                $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
-                                    "`tArguments to be used: $($arguments)`r`n" + `
-                                    "`tReason to use command: $($description)");
+                # Generate the initial message
+                [string] $logMessage = ("Failed to execute the external command $($command)!`r`n" + `
+                                        "It may not have been found or was not a valid application!");
 
-                # Generate the message
-                $logMessage = "Failed to execute the external command $($command) because it was not found or is not an application!";
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
+                                            "`tArguments to be used: $($arguments)`r`n" + `
+                                            "`tReason to use command: $($description)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
             } # If: Debugging
 
             # * * * * * * * * * * * * * * * * * * *
@@ -478,20 +476,23 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging is enabled, obtain the additional information.
+            # If Logging features are enabled, try to log the event.
             if ($logging)
             {
-                # Capture any additional information
-                $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
-                                    "`tArguments to be used: $($arguments)`r`n" + `
-                                    "`tReason to use command: $($description)`r`n" + `
-                                    "`tProject Path: $($projectPath)");
+                # Generate the initial message
+                [string] $logMessage = ("Failed to execute the external command $($command)!" + `
+                                        "The project directory does not exist or was not found!");
 
-                # Generate the message
-                $logMessage = "Failed to execute the external command $($command) because the project path does not exist!";
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
+                                            "`tArguments to be used: $($arguments)`r`n" + `
+                                            "`tReason to use command: $($description)`r`n" + `
+                                            "`tProject Path: $($projectPath)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
             } # If: Debugging
 
             # * * * * * * * * * * * * * * * * * * *
@@ -509,20 +510,23 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging is enabled, obtain the additional information.
+            # If Logging features are enabled, try to log the event.
             if ($logging)
             {
-                # Capture any additional information
-                $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
-                                    "`tArguments to be used: $($arguments)`r`n" + `
-                                    "`tReason to use command: $($description)`r`n" + `
-                                    "`tSTDOUT Directory: $($stdOutLogPath)");
+                # Generate the initial message
+                [string] $logMessage = ("Failed to execute the external command $($command)!" + `
+                                        "The Standard Output (or STDOUT) Directory does not exist or was not found!");
 
-                # Generate the message
-                $logMessage = "Failed to execute the external command $($command) because the STDOUT Directory does not exist!";
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
+                                            "`tArguments to be used: $($arguments)`r`n" + `
+                                            "`tReason to use command: $($description)`r`n" + `
+                                            "`tSTDOUT Directory: $($stdOutLogPath)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
             } # If: Debugging
 
             # * * * * * * * * * * * * * * * * * * *
@@ -540,20 +544,23 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging is enabled, obtain the additional information.
+            # If Logging features are enabled, try to log the event.
             if ($logging)
             {
-                # Capture any additional information
-                $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
-                                    "`tArguments to be used: $($arguments)`r`n" + `
-                                    "`tReason to use command: $($description)`r`n" + `
-                                    "`tSTDERR Directory: $($stdErrLogPath)");
+                # Generate the initial message
+                [string] $logMessage = ("Failed to execute the external command $($command)!" + `
+                                        "The Standard Error (or STDERR) Directory does not exist or was not found!");
 
-                # Generate the message
-                $logMessage = "Failed to execute the external command $($command) because the STDERR Directory does not exist!";
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
+                                            "`tArguments to be used: $($arguments)`r`n" + `
+                                            "`tReason to use command: $($description)`r`n" + `
+                                            "`tSTDERR Directory: $($stdErrLogPath)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
             } # If: Debugging
 
             # * * * * * * * * * * * * * * * * * * *
@@ -579,20 +586,23 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging is enabled, obtain the additional information.
+            # If Logging features are enabled, try to log the event.
             if ($logging)
             {
-                # Capture any additional information
-                $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
-                                    "`tArguments to be used: $($arguments)`r`n" + `
-                                    "`tDescription is now: $($description)");
+                # Generate the initial message
+                [string] $logMessage = ("The description field was missing while serving the request to execute the external" + `
+                                        " command $($command)!`r`n" + `
+                                        "The description will be automatically filled for this instance.");
 
-                # Generate the message
-                $logMessage = ("The description field was missing while serving the request to execute the external command $($command)!" + `
-                                "  The description will be automatically filled for this instance.");
+                # Generate any addition information that might be useful
+                [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
+                                            "`tArguments to be used: $($arguments)`r`n" + `
+                                            "`tDescription is now: $($description)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Warning");
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Warning");                 # Message level
             } # If: Debugging
 
             # * * * * * * * * * * * * * * * * * * *
@@ -642,17 +652,19 @@ class IOCommon
         # Debugging
         # --------------
 
-        # Capture any additional information
-        $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
-                            "`tArguments to be used: $($arguments)`r`n" + `
-                            "`tReason to use command: $($description)`r`n" + `
-                            "`tExtCMD Exit Code: $($externalCommandReturnCode)");
+            # Generate the initial message
+            [string] $logMessage = "Successfully executed the external command $($command)!";
 
-        # Generate the message
-        $logMessage = "Successfully executed the external command $($command)!";
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
+                                        "`tArguments to be used: $($arguments)`r`n" + `
+                                        "`tReason to use command: $($description)`r`n" + `
+                                        "`tExtCMD Exit Code: $($externalCommandReturnCode)");
 
-        # Pass the information to the logging system
-        [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Verbose");
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
 
         # * * * * * * * * * * * * * * * * * * *
 
