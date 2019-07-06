@@ -1269,19 +1269,11 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $executeFailureMessage = $null;       # If the command fails to properly
-                                                       #  execute, the reason for the failure
-                                                       #  might be available from the PowerShell
-                                                       #  engine.
         [int] $outFilePropertyWidth = 80;              # Width property to be used for the Out-File CMDLet.
                                                        #  This will only allow the so many characters per-line.
         [string] $outFilePropertyEncoding = "default"; # Encoding property to be used for the Out-File CMDLet.
                                                        #  This specifies what encoding the text file should be
                                                        #  upon creation.
-        # * * * * * * * * * * * * * * * * * * *
-        # Debugging [Logging]
-        [string] $logMessage = $null;                  # The initial message to be logged.
-        [string] $logAdditionalMSG = $null;            # Additional information provided.
         # ----------------------------------------
 
 
@@ -1299,8 +1291,9 @@ class IOCommon
 
         catch
         {
-            # Immediately cache the reason why the command failed.
-            $executeFailureMessage = "$($_)";
+            # Obtain any information that is left in the PowerShell's engine pipe,
+            #  this should be an error message directly from the POSH engine.
+            [string] $executeFailureMessage = "$($_)";
 
             # Prep a message to display to the user for this error; temporary variable
             [string] $tempErrorMessage = ("Failed to write data to file!`r`n" + `
@@ -1311,23 +1304,25 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging is enabled, obtain the additional information
+            # If Logging features are enabled, try to log the event.
             if ($logging)
             {
                 # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
 
 
-                # Capture any additional information
-                $logAdditionalMSG = ("File to write: $($file)`r`n" + `
-                                    "`tContents to write: $($contents.Value.ToString())`r`n" + `
-                                    "`tFailed to execute reason: $($executeFailureMessage)");
+                # Generate the initial message
+                [string] $logMessage = "A failure has occurred upon writing data to file!";
 
-                # Generate the message
-                $logMessage = "A failure has occurred upon writing data to file!";
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("File to write: $($file)`r`n" + `
+                                            "`tContents to write: $($contents.Value.ToString())`r`n" + `
+                                            "`tFailed to execute reason: $($executeFailureMessage)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
             } # If: Debugging
 
             # Else - Debugging features are not enabled
