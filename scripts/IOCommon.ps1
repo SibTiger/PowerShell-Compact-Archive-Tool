@@ -1418,13 +1418,6 @@ class IOCommon
                                             #  conflicts and correct the behavior if possible.
         [int] $wordPDFCode = 17;            # The code to export a document in PDF format.
                                             #  https://docs.microsoft.com/en-us/office/vba/api/word.wdexportformat
-        [string] $executeFailureMessage = $null;       # If the command fails to properly execute, the reason for the
-                                                       #  failure might be available from the PowerShell engine.
-
-        # * * * * * * * * * * * * * * * * * * *
-        # Debugging [Logging]
-        [string] $logMessage = $null;       # The initial message to be logged.
-        [string] $logAdditionalMSG = $null; # Additional information provided.
         # ----------------------------------------
 
 
@@ -1447,22 +1440,24 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging is enabled, obtain the additional information.
+            # If Logging features are enabled, try to log the event.
             if ($logging)
             {
                 # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
 
 
-                # Capture any additional information
-                $logAdditionalMSG = ("Source file: $($sourceFile)`r`n" + `
-                                    "`tDestination file: $($destinationFile)");
+                # Generate the initial message
+                [string] $logMessage = "Unable to create a PDF file as the source file does not exist!";
 
-                # Generate the message
-                $logMessage = "Unable to create a PDF file as the source file does not exist!";
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Source file: $($sourceFile)`r`n" + `
+                                            "`tDestination file: $($destinationFile)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
             } # If: Debugging
 
             # Else - Debugging features are not enabled
@@ -1508,8 +1503,9 @@ class IOCommon
                 #  use or has a Microsoft Word version that is not
                 #  compatible with PowerShell integration.
 
-                # Immediately cache the reason why the command failed.
-                $executeFailureMessage = "$($_)";
+                # Obtain any information that is left in the PowerShell's engine pipe,
+                #  this should be an error message directly from the POSH engine.
+                [string] $executeFailureMessage = "$($_)";
 
                 # Prep a message to display to the user for this error; temporary variable
                 [string] $tempErrorMessage = ("Unable to create a new instance of Microsoft Word.`r`n" + `
@@ -1520,23 +1516,25 @@ class IOCommon
                 # Debugging
                 # --------------
 
-                # If Logging is enabled, obtain the additional information.
+                # If Logging features are enabled, try to log the event.
                 if ($logging)
                 {
                     # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                     [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
 
 
-                    # Capture any additional information
-                    $logAdditionalMSG = ("Unable to create a new instance of Microsoft Word.`r`n" + `
-                                        "`tSource File: $($sourceFile)`r`n" + `
-                                        "`tAdditional Error Message: $($executeFailureMessage)");
+                    # Generate the initial message
+                    [string] $logMessage = "Unable to create a new instance of Microsoft Word.";
 
-                    # Generate the message
-                    $logMessage = "Unable to create a new instance of Microsoft Word.";
+                    # Generate any additional information that might be useful
+                    [string] $logAdditionalMSG = ("Unable to create a new instance of Microsoft Word.`r`n" + `
+                                                "`tSource File: $($sourceFile)`r`n" + `
+                                                "`tAdditional Error Message: $($executeFailureMessage)");
 
                     # Pass the information to the logging system
-                    [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
+                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                "$($logAdditionalMSG)", `   # Additional information
+                                                "Error");                   # Message level
                 } # If: Debugging
 
                 # Else - Debugging features are not enabled
@@ -1558,35 +1556,39 @@ class IOCommon
         #  integration.
         else
         {
-            # Immediately cache the reason why the command failed.
-            $executeFailureMessage = "$($_)";
+            # Obtain any information that is left in the PowerShell's engine pipe,
+            #  this should be an error message directly from the POSH engine.
+            [string] $executeFailureMessage = "$($_)";
 
             # Prep a message to display to the user for this error; temporary variable
             [string] $tempErrorMessage = ("Unable to find a modern version Microsoft Word; unable to create a PDF.`r`n" + `
-                                            "Failure reason: $($executeFailureMessage)");
+                                        "Failure reason: $($executeFailureMessage)");
 
 
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
-            # If Logging is enabled, obtain the additional information.
+            # If Logging features are enabled, try to log the event.
             if ($logging)
             {
                 # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
 
 
-                # Capture any additional information
-                $logAdditionalMSG = ("The host system does not have (or unable to detect) a modern version of Microsoft Word.`r`n" + `
-                                    "`tSource File: $($sourceFile)`r`n" + `
-                                    "`tAdditional Error Message: $($executeFailureMessage)");
+                # Generate the initial message
+                [string] $logMessage = "Unable to find a modern version of Microsoft Word!";
 
-                # Generate the message
-                $logMessage = "Unable to find a modern version of Microsoft Word!";
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("The host system does not have (or unable to detect) a modern version of " + `
+                                            "Microsoft Word.`r`n" + `
+                                            "`tSource File: $($sourceFile)`r`n" + `
+                                            "`tAdditional Error Message: $($executeFailureMessage)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
             } # If: Debugging
 
             # Else - Debugging features are not enabled
@@ -1694,15 +1696,17 @@ class IOCommon
                 [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
 
 
-                # Capture any additional information
-                $logAdditionalMSG = ("Source file: $($sourceFile)`r`n" + `
-                                    "`tDestination file: $($destinationFile)");
+                # Generate the initial message
+                [string] $logMessage = "The PDF file was created successfully but unable to find the PDF file at the destination path!";
 
-                # Generate the message
-                $logMessage = "The PDF file was created successfully but unable to find the PDF file at the destination path!";
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Source file: $($sourceFile)`r`n" + `
+                                            "`tDestination file: $($destinationFile)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
             } # If: Debugging
 
             # Else - Debugging features are not enabled
