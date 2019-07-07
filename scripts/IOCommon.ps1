@@ -2454,12 +2454,12 @@ class IOCommon
             if ($logging)
             {
                 # Generate the initial message
-                $logMessage = "Failed to delete the requested directory!";
+                [string] $logMessage = "Failed to delete the requested directory!";
 
                 # Generate any additional information that might be useful
-                $logAdditionalMSG = ("Directory to delete: $($path)`r`n" + `
-                                    "`tAdditional error information:`r`n" + `
-                                    "`t`t$($_)");
+                [string] $logAdditionalMSG = ("Directory to delete: $($path)`r`n" + `
+                                            "`tAdditional error information:`r`n" + `
+                                            "`t`t$($_)");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
