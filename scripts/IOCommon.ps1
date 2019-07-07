@@ -2190,16 +2190,7 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $executeFailureMessage = $null;       # If the command fails to properly
-                                                       #  execute, the reason for the failure
-                                                       #  might be available from the PowerShell
-                                                       #  engine.
         [bool] $exitCode = $true;                      # Exit code that will be returned.
-
-        # * * * * * * * * * * * * * * * * * * *
-        # Debugging [Logging]
-        [string] $logMessage = $null;                  # The initial message to be logged.
-        [string] $logAdditionalMSG = $null;            # Additional information provided.
         # ----------------------------------------
 
 
@@ -2219,17 +2210,19 @@ class IOCommon
                 # Debugging
                 # --------------
 
-                # If Logging is enabled, obtain the additional information.
+                # If Logging features are enabled, try to log the event.
                 if ($logging)
                 {
-                    # Capture any additional information
-                    $logAdditionalMSG = "Directory Path: $($path)";
+                    # Generate the initial message
+                    [string] $logMessage = "Successfully created the directory!";
 
-                    # Generate the message
-                    $logMessage = "Successfully created the directory!";
+                    # Generate any additional information that might be useful
+                    [string] $logAdditionalMSG = "Directory Path: $($path)";
 
                     # Pass the information to the logging system
-                    [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Verbose");
+                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                "$($logAdditionalMSG)", `   # Additional information
+                                                "Verbose");                 # Message level
                 } # If: Debugging
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -2239,8 +2232,9 @@ class IOCommon
 
             catch
             {
-                # Immediately cache the reason why the command failed.
-                $executeFailureMessage = "$($_)";
+                # Obtain any information that is left in the PowerShell's engine pipe,
+                #  this should be an error message directly from the POSH engine.
+                [string] $executeFailureMessage = "$($_)";
 
                 # Prep a message to display to the user for this error; temporary variable
                 [string] $tempErrorMessage = ("Failed to create the required directory!`r`n" + `
@@ -2251,22 +2245,24 @@ class IOCommon
                 # Debugging
                 # --------------
 
-                # If Logging is enabled, obtain the additional information
+                # If Logging features are enabled, try to log the event.
                 if ($logging)
                 {
                     # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                     [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
 
 
-                    # Capture any additional information
-                    $logAdditionalMSG = ("Directory Path: $($path)`r`n" + `
-                                        "`tAdditional Error Message: $($executeFailureMessage)");
+                    # Generate the initial message
+                    [string] $logMessage = "Failed to create the directory by request!";
 
-                    # Generate the message
-                    $logMessage = "Failed to create the directory by request!";
+                    # Generate any additional information that might be useful
+                    [string] $logAdditionalMSG = ("Directory Path: $($path)`r`n" + `
+                                                "`tAdditional Error Message: $($executeFailureMessage)");
 
                     # Pass the information to the logging system
-                    [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
+                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                "$($logAdditionalMSG)", `   # Additional information
+                                                "Error");                   # Message level
                 } # If: Debugging
 
                 # Else - Debugging features are not enabled
