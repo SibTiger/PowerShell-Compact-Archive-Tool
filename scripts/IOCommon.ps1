@@ -2278,6 +2278,8 @@ class IOCommon
                 # Failure occurred.
                 $exitCode = $false;
             } # Catch : Failed to Create Directory
+
+
         } # If : Directory does not exist
 
 
@@ -2391,17 +2393,7 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $executeFailureMessage = $null;            # If the command fails to properly
-                                                            #  execute, the reason for the failure
-                                                            #  might be available from the PowerShell
-                                                            #  engine.
         [bool] $exitCode = $false;                          # Exit code that will be returned.
-
-        # * * * * * * * * * * * * * * * * * * *
-        # Debugging [Logging]
-        [string] $logMessage = $null;                       # The initial message to be logged.
-        [string] $logAdditionalMSG = $null;                 # Additional information provided.
-        [LogMessageLevel] $logMessageLevel = "Standard";    # The level of the message.
         # ----------------------------------------
 
 
@@ -2425,68 +2417,62 @@ class IOCommon
                         -Recurse `
                         -ErrorAction Stop;
 
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # If Logging features are enabled, try to log the event.
+            if ($logging)
+            {
+                # Generate the initial message
+                [string] $logMessage = "Successfully deleted the requested directory!";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = "Directory that was deleted: $($path)";
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Verbose");                 # Message level
+            } # If: Debugging
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Successfully deleted the requested directory.
             $exitCode = $true;
         } # Try : Delete Directory
 
         catch
         {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # If Logging features are enabled, try to log the event.
+            if ($logging)
+            {
+                # Generate the initial message
+                $logMessage = "Failed to delete the requested directory!";
+
+                # Generate any additional information that might be useful
+                $logAdditionalMSG = ("Directory to delete: $($path)`r`n" + `
+                                    "`tAdditional error information:`r`n" + `
+                                    "`t`t$($_)");
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
+            } # If: Debugging
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # A failure occurred while deleting the requested directory.
             $exitCode = $false;
         } # Catch : Error Deleting Directory
-
-
-        # * * * * * * * * * * * * * * * * * * *
-        # Debugging
-        # --------------
-
-        # If Logging is enabled, obtain the additional information
-        if ($logging)
-        {
-            # Immediately cache any useful information left in the pipe.
-            $executeFailureMessage = "$($_)";
-
-            # If the operation was successful; generate the appropriate message
-            if ($exitCode)
-            {
-                # Because the operation was successful, create a successful message
-
-                # Capture any additional information
-                $logAdditionalMSG = "Directory to delete: $($path)";
-
-                # Generate the message
-                $logMessage = "Successfully deleted the requested directory!";
-
-                # Update the Message Level as 'Verbose'
-                $logMessageLevel = "Verbose";
-            } # Inner-If: Operation was successful
-
-            # If the operation failed; generate a failed message
-            else
-            {
-                # Because the operation had failed, create a failure message
-
-                # Capture any additional information
-                $logAdditionalMSG = ("Directory to delete: $($path)`r`n" + `
-                                    "`tAdditional error information:`r`n" + `
-                                    "`t`t$($executeFailureMessage)");
-
-                # Generate the message
-                $logMessage = "Failed to delete the requested directory!";
-
-                # Update the Message Level as 'Error'
-                $logMessageLevel = "Error";
-            } # Inner-Else: Operation had failed
-
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # The initial message
-                                        "$($logAdditionalMSG)", `   # Any additional provided
-                                        "$($logMessageLevel)");     # The Message level
-        } # If: Debugging
-
-        # * * * * * * * * * * * * * * * * * * *
-
 
         # Return with exit code
         return $exitCode;
