@@ -1840,11 +1840,6 @@ class IOCommon
         [int] $repetitionCount = 0;            # The repetition counter; this will be
                                                #  incremented to help assure uniqueness for
                                                #  the directory name.
-
-        # * * * * * * * * * * * * * * * * * * *
-        # Debugging [Logging]
-        [string] $logMessage = $null;          # The initial message to be logged.
-        [string] $logAdditionalMSG = $null;    # Additional information provided.
         # ----------------------------------------
 
 
@@ -1914,25 +1909,27 @@ class IOCommon
                 # Debugging
                 # --------------
 
-                # If Logging is enabled, obtain the additional information
+                # If Logging features are enabled, try to log the event.
                 if ($logging)
                 {
                     # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                     [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
 
 
-                    # Capture any additional information
-                    $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                        "`t- Directory exceeds Character limit or depth limit (Root -> Leaf)`r`n" + `
-                                        "`t- The user's temporary roaming directory (%TEMP%) could be locked.`r`n" + `
-                                        "`t- Insufficient writing privileges within the temporary roaming directory (%TEMP%).`r`n" + `
-                                        "`tPath of the parent temporary directory: $($tempDirectoryPath)");
+                    # Generate the initial message
+                    [string] $logMessage = "$($tempErrorMessage)";
 
-                    # Generate the message
-                    $logMessage = "$($tempErrorMessage)";
+                    # Generate any additional information that might be useful
+                    [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
+                                            "`t- Directory exceeds Character limit or depth limit (Root -> Leaf)`r`n" + `
+                                            "`t- The user's temporary roaming directory (%TEMP%) could be locked.`r`n" + `
+                                            "`t- Insufficient writing privileges within the temporary roaming directory (%TEMP%).`r`n" + `
+                                            "`tPath of the parent temporary directory: $($tempDirectoryPath)");
 
                     # Pass the information to the logging system
-                    [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
+                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                "$($logAdditionalMSG)", `   # Additional information
+                                                "Error");                   # Message level
                 } # If: Debugging
 
                 # Else - Debugging features are not enabled
@@ -2004,23 +2001,26 @@ class IOCommon
                     [string] $tempErrorMessage = "Failed to create a unique temporary directory!";
 
 
-                    # If logging is enabled, obtain the additional information
+                    # If Logging features are enabled, try to log the event.
                     if ($logging)
                     {
-                        # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
+                        # Display a message to the user that something went horribly wrong and log that same
+                        #  message for referencing purpose.
                         [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
 
 
-                        # Capture any additional information
-                        $logAdditionalMSG = ("Reached repetition max threshold!`r`n" + `
+                        # Generate the initial message
+                        [string] $logMessage = "$($tempErrorMessage)";
+
+                        # Generate any additional information that might be useful
+                        [string] $logAdditionalMSG = ("Reached repetition max threshold!`r`n" + `
                                             "`tRepetition Max Limit is: $($repetitionMax)" + `
                                             "`tRepetition Counter is: $($repetitionCount)");
 
-                        # Generate the message
-                        $logMessage = "$($tempErrorMessage)";
-
                         # Pass the information to the logging system
-                        [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
+                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                    "$($logAdditionalMSG)", `   # Additional information
+                                                    "Error");                   # Message level
                     } # If: Debugging
 
                     # Else - Debugging features are not enabled
@@ -2055,25 +2055,27 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging is enabled, obtain the additional information.
+            # If Logging features are enabled, try to log the event.
             if ($logging)
             {
                 # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
 
 
-                # Capture any additional information
-                $logAdditionalMSG = ("Possible Symptoms:`r`n" + `
-                                    "`t- Directory exceeds Character limit or depth limit (Root -> Leaf)`r`n" + `
-                                    "`t- The user's temporary roaming directory (%TEMP%) could be locked.`r`n" + `
-                                    "`t- Insufficient writing privileges within the temporary roaming directory (%TEMP%).`r`n" + `
-                                    "`tPath of the temporary directory: $($finalDirectoryPath)");
+                # Generate the initial message
+                [string] $logMessage = "$($tempErrorMessage)";
 
-                # Generate the message
-                $logMessage = "$($tempErrorMessage)";
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Possible Symptoms:`r`n" + `
+                                            "`t- Directory exceeds Character limit or depth limit (Root -> Leaf)`r`n" + `
+                                            "`t- The user's temporary roaming directory (%TEMP%) could be locked.`r`n" + `
+                                            "`t- Insufficient writing privileges within the temporary roaming directory (%TEMP%).`r`n" + `
+                                            "`tPath of the temporary directory: $($finalDirectoryPath)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
             } # If: Debugging
 
             # Else - Debugging features are not enabled
@@ -2103,21 +2105,23 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging is enabled, obtain the additional information
+            # If Logging features are enabled, try to log the event.
             if ($logging)
             {
                 # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
 
 
-                # Capture any additional information
-                $logAdditionalMSG = "Path of the temporary directory: $($finalDirectoryPath)";
+                # Generate the initial message
+                [string] $logMessage = "Successfully created the temporary directory but it was not found in the final destination path!";
 
-                # Generate the message
-                $logMessage = "Successfully created the temporary directory but it was not found in the final destination path!";
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = "Path of the temporary directory: $($finalDirectoryPath)";
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
             } # If: Debugging
 
             # Else - Debugging features are not enabled
