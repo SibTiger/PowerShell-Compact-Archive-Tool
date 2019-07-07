@@ -2666,11 +2666,6 @@ class IOCommon
 
         # FileHashInfo; used for capturing the hash information from a specific data file.
         $hashInfo = New-Object -TypeName Microsoft.PowerShell.Commands.FileHashInfo;
-
-        # * * * * * * * * * * * * * * * * * * *
-        # Debugging [Logging]
-        [string] $logMessage = $null;       # The initial message to be logged.
-        [string] $logAdditionalMSG = $null; # Additional information provided.
         # ----------------------------------------
 
 
@@ -2694,18 +2689,20 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging is enabled, obtain the additional information
+            # If Logging features are enabled, try to log the event.
             if ($logging)
             {
-                # Capture any additional information
-                $logAdditionalMSG = ("Requested file: $($path)`r`n" + `
-                                    "`tRequested Hash Algorithm: $($hashAlgorithm)");
+                # Generate the initial message
+                [string] $logMessage = "The requested hash algorithm is not supported!";
 
-                # Generate the message
-                $logMessage = "The requested hash algorithm is not supported!";
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Requested file: $($path)`r`n" + `
+                                            "`tRequested Hash Algorithm: $($hashAlgorithm)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
             } # If: Debugging
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2742,17 +2739,19 @@ class IOCommon
             # If Logging is enabled, obtain the additional information
             if ($logging)
             {
-                # Capture any additional information
-                $logAdditionalMSG = ("Requested file: $($path)`r`n" + `
-                                    "`tRequested Hash Algorithm: $($hashAlgorithm)`r`n" + `
-                                    "`tAdditional Information:`r`n" + `
-                                    "`t`t$($_)");
+                # Generate the initial message
+                [string] $logMessage = "A failure occurred while trying to get the hash value!";
 
-                # Generate the message
-                $logMessage = "A failure occurred while trying to get the hash value!";
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Requested file: $($path)`r`n" + `
+                                            "`tRequested Hash Algorithm: $($hashAlgorithm)`r`n" + `
+                                            "`tAdditional Information:`r`n" + `
+                                            "`t`t$($_)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", "$($logAdditionalMSG)", "Error");
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
             } # If: Debugging
 
             # * * * * * * * * * * * * * * * * * * *
