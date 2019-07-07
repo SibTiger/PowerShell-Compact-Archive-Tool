@@ -2854,11 +2854,6 @@ class IOCommon
         # Declarations and Initializations
         # ----------------------------------------
         [bool] $exitCode = $false;          # The operation exit code.
-
-        # * * * * * * * * * * * * * * * * * * *
-        # Debugging [Logging]
-        [string] $logMessage = $null;       # The initial message to be logged.
-        [string] $logAdditionalMSG = $null; # Additional information provided.
         # ----------------------------------------
 
 
@@ -2887,22 +2882,22 @@ class IOCommon
                 # Debugging
                 # --------------
 
-                # If Logging is enabled, obtain the additional information
+                # If Logging features are enabled, try to log the event.
                 if ($logging)
                 {
-                    # Capture any additional information
-                    $logAdditionalMSG = ("Tried to open requested webpage:`r`n" + `
-                                        "`t`t$($URLAddress)`r`n" + `
-                                        "`tAdditional Information:" + `
-                                        "`t`t$($_)");
+                    # Generate the initial message
+                    [string] $logMessage = "A failure occurred while trying to access the requested webpage!";
 
-                    # Generate the message
-                    $logMessage = "A failure occurred while trying to access the requested webpage!";
+                    # Generate any additional information that might be useful
+                    [string] $logAdditionalMSG = ("Tried to open requested webpage:`r`n" + `
+                                                "`t`t$($URLAddress)`r`n" + `
+                                                "`tAdditional Information:" + `
+                                                "`t`t$($_)");
 
                     # Pass the information to the logging system
-                    [Logging]::LogProgramActivity("$($logMessage)", `
-                                                "$($logAdditionalMSG)", `
-                                                "Error");
+                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                "$($logAdditionalMSG)", `   # Additional information
+                                                "Error");                   # Message level
                 } # If: Debugging
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -2922,20 +2917,20 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging is enabled, obtain the additional information
+            # If Logging features are enabled, try to log the event.
             if ($logging)
             {
-                # Capture any additional information
-                $logAdditionalMSG = ("Tried to open webpage:`r`n" + `
-                                    "`t`t$($URLAddress)");
+                # Generate the initial message
+                [string] $logMessage = "The requested webpage is not a valid URL or IP address!";
 
-                # Generate the message
-                $logMessage = "The requested webpage is not a valid URL or IP address!";
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Tried to open webpage:`r`n" + `
+                                            "`t`t$($URLAddress)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `
-                                            "$($logAdditionalMSG)", `
-                                            "Error");
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
             } # If: Debugging
 
             # * * * * * * * * * * * * * * * * * * *
