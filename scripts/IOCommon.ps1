@@ -2634,7 +2634,7 @@ class IOCommon
     #  [string] File (Absolute Path)
     #   The absolute path of the data-file that we want to
     #    inspect.
-    #  [string] Hash Algorithm
+    #  [FileHashAlgorithmDotNet] Hash Algorithm
     #   Typical values can be: "MD5" or "SHA1".
     #    For a complete list of hash algorithms, please check the documentation:
     #    https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-filehash
@@ -2650,12 +2650,12 @@ class IOCommon
     #     $null
     #     File does not exist
     #     OR
-    #     Unknown hash algorithm requested
+    #     Unknown an error occurred
     # -------------------------------
     #>
-    static [string] FileHash([string] $path, `          # Absolute path of the target file
-                            [string] $hashAlgorithm, `  # Hash algorithm requested
-                            [bool] $logging)            # Logging features
+    static [string] FileHash([string] $path, `                          # Absolute path of the target file
+                            [FileHashAlgorithmDotNet] $hashAlgorithm, ` # Hash algorithm requested
+                            [bool] $logging)                            # Logging features
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2669,7 +2669,7 @@ class IOCommon
         # ----------------------------------------
 
 
-        # First, check if the file actually exists within the user's filesystem
+        # Check if the source file actually exists within the user's filesystem
         if ([IOCommon]::CheckPathExists("$($path)", $logging) -eq $false)
         {
             # Because the file was not on the user's filesystem at the specified
@@ -2677,41 +2677,6 @@ class IOCommon
             return $null;
         } # if : File not found
         
-
-        # Second, check to make sure that the requested hash algorithm is supported by
-        #  the .NET Framework.
-        if ([IOCommon]::__SupportedHashAlgorithms($hashAlgorithm) -eq $false)
-        {
-            # The hash algorithm requested was not supported.
-
-
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # If Logging features are enabled, try to log the event.
-            if ($logging)
-            {
-                # Generate the initial message
-                [string] $logMessage = "The requested hash algorithm is not supported!";
-
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Requested file: $($path)`r`n" + `
-                                            "`tRequested Hash Algorithm: $($hashAlgorithm)");
-
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
-            } # If: Debugging
-
-            # * * * * * * * * * * * * * * * * * * *
-
-
-            # Return null as the requested hash algorithm does not exist or is not supported.
-            return $null;
-        } # if : Unsupported Hash Algorithm
-
 
         # Try to get the hash of the file
         try
@@ -2765,59 +2730,6 @@ class IOCommon
         # Return the hash value of the file - if it was present.
         return "$($hashValue)";
     } # FileHash()
-
-
-
-
-   <# Supported Hash Algorithms
-    # -------------------------------
-    # Documentation:
-    #  This function will check to make sure that the requested
-    #   hash algorithm is supported in the .NET Framework.
-    #
-    #  List of available Hash Algorithms:
-    #   https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-filehash
-    # -------------------------------
-    # Input:
-    #  [string] Requested Hash Algorithm
-    #    This will contain the requested hash algorithm to be tested
-    #     against the known supported algorithms used in the .NET
-    #     Framework.
-    # -------------------------------
-    # Output:
-    #  [bool] Supported Status
-    #    $false = The hash algorithm requested is not supported.
-    #    $true  = The hash algorithm requested is supported.
-    # -------------------------------
-    #>
-    Static Hidden [bool] __SupportedHashAlgorithms([string] $hashAlgo)
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [string[]] $knownAlgos = @("sha1", `
-                                   "sha256", `
-                                   "sha384", `
-                                   "sha512", `
-                                   "md5");
-        # ----------------------------------------
-
-
-        # Compare the requested hash algo. to the list of supported algorithms.
-        foreach ($algo in $knownAlgos)
-        {
-            # Scan through the list and compare each algorithm
-            #  against the requested hash algorithm.
-            if ("$($algo)" -eq "$($hashAlgo)")
-            {
-                # The requested algo is supported.
-                return $true
-            } # if : Algos Matches
-        } # foreach : Compare Algos
-
-
-        # We didn't find a match, return false.
-        return $false;
-    } # __SupportedHashAlgorithms()
 
     #endregion
 
@@ -2947,3 +2859,25 @@ class IOCommon
     } # AccessWebpage()
     #endregion
 } # IOCommon
+
+
+
+
+<# File Hash Algorithm (.NET) [ENUM]
+ # -------------------------------
+ # Contains a list of known and supported hash algorithms
+ #  for the Get-FileHash CMDLet in the PowerShell engine
+ #  or .NET Core.
+ #
+ # List of supported hash algorithms:
+ #  https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-filehash
+ # -------------------------------
+ #>
+enum FileHashAlgorithmDotNet
+{
+    sha1 = 0;
+    sha256 = 1;
+    sha384 = 2;
+    sha512 = 3;
+    md5 = 4;
+} # FileHashAlgorithmDotNet
