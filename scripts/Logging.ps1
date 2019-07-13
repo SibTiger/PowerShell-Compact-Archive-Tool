@@ -167,7 +167,7 @@ class Logging
         #  can use it within the program.
 
         # Program Log Directory
-        if(([IOCommon]::CheckPathExists("$([Logging].ProgramLogPath)", $false)) -eq $false)
+        if(([IOCommon]::CheckPathExists("$([Logging]::ProgramLogPath)", $false)) -eq $false)
         {
             # Program Log Directory does not exist, try to create it.
             if (([IOCommon]::MakeDirectory("$([Logging]::ProgramLogPath)", $false)) -eq $false)
