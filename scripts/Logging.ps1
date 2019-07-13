@@ -600,7 +600,6 @@ class Logging
         [Logging]::__FormatLogMessage($messageLevel, `
                                     "$($message)", `
                                     "$($additionalInformation)") | Out-Null;
-
     } # LogProgramActivity()
 
     #endregion
