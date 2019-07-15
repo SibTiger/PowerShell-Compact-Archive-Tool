@@ -448,7 +448,7 @@ class Logging
         # First, make sure that the directories exist.
         #  If the directories are not available, than there
         #  is nothing that can be done.
-        if(([Logging]::__CheckRequiredDirectories())-eq $true)
+        if(([Logging]::__CheckRequiredDirectories())-eq $false)
         {
             # This is not really an error, however the directories simply
             #  does not exist -- nothing can be done.
