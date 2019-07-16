@@ -26,13 +26,6 @@
  #    - %APPDATA%\<PROG_NAME>
  #    - %LOCALAPPDATA%\<PROG_NAME>\Configs
  # -------------------------------
- # Input:
- #  [bool] Logging [Debugging]
- #   When true, the logging functionality will be enabled.
- #    The logging functionality merely captures any detailed
- #    information, which is then placed in a log file that
- #    is specified in the Logging implementation.
- # -------------------------------
  # Output:
  #  [bool] Exit code
  #    $false = Failure creating the new directories.
@@ -41,7 +34,7 @@
  #             Directories already existed, nothing to do.
  # -------------------------------
  #>
-function CreateDirectories([bool] $logging)
+function CreateDirectories()
 {
     # First, check if the special directories exists.
     if((CheckSpecialDirectories) -eq $false)
@@ -82,7 +75,7 @@ function CreateDirectories([bool] $logging)
 
 
     # Program Root Directory
-    if(([IOCommon]::MakeDirectory("$($_USERDATA_ROOT_PATH_)", $logging)) -eq $false)
+    if(([IOCommon]::MakeDirectory("$($_USERDATA_ROOT_PATH_)")) -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -91,7 +84,7 @@ function CreateDirectories([bool] $logging)
     # ----
 
     # Program Output Builds Directory
-    if(([IOCommon]::MakeDirectory("$($_USERDATA_BUILDS_PATH_)", $logging)) -eq $false)
+    if(([IOCommon]::MakeDirectory("$($_USERDATA_BUILDS_PATH_)")) -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -100,7 +93,7 @@ function CreateDirectories([bool] $logging)
     # ----
 
     # Program Output Release Builds Directory
-    if(([IOCommon]::MakeDirectory("$($_USERDATA_RELEASEBUILDS_PATH_)", $logging)) -eq $false)
+    if(([IOCommon]::MakeDirectory("$($_USERDATA_RELEASEBUILDS_PATH_)")) -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -109,7 +102,7 @@ function CreateDirectories([bool] $logging)
     # ----
 
     # Program Output Dev. Builds Directory
-    if(([IOCommon]::MakeDirectory("$($_USERDATA_DEVBUILDS_PATH_)", $logging)) -eq $false)
+    if(([IOCommon]::MakeDirectory("$($_USERDATA_DEVBUILDS_PATH_)")) -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -123,7 +116,7 @@ function CreateDirectories([bool] $logging)
 
 
     # Program Data Root [Local]
-    if(([IOCommon]::MakeDirectory("$($_PROGRAMDATA_ROOT_LOCAL_PATH_)", $logging)) -eq $false)
+    if(([IOCommon]::MakeDirectory("$($_PROGRAMDATA_ROOT_LOCAL_PATH_)")) -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -132,7 +125,7 @@ function CreateDirectories([bool] $logging)
     # ----
 
     # Program Data Logs [Local]
-    if(([IOCommon]::MakeDirectory("$($_PROGRAMDATA_LOGS_PATH_)", $logging)) -eq $false)
+    if(([IOCommon]::MakeDirectory("$($_PROGRAMDATA_LOGS_PATH_)")) -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -141,7 +134,7 @@ function CreateDirectories([bool] $logging)
     # ----
 
     # Program Data Root [Roaming]
-    if(([IOCommon]::MakeDirectory("$($_PROGRAMADATA_ROOT_ROAMING_PATH_)", $logging)) -eq $false)
+    if(([IOCommon]::MakeDirectory("$($_PROGRAMADATA_ROOT_ROAMING_PATH_)")) -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -150,7 +143,7 @@ function CreateDirectories([bool] $logging)
     # ----
 
     # Program Data Configs [Roaming]
-    if(([IOCommon]::MakeDirectory("$($_PROGRAMDATA_CONFIGS_PATH_)", $logging)) -eq $false)
+    if(([IOCommon]::MakeDirectory("$($_PROGRAMDATA_CONFIGS_PATH_)")) -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -187,28 +180,21 @@ function CreateDirectories([bool] $logging)
  #    - %APPDATA%\<PROG_NAME>
  #    - %LOCALAPPDATA%\<PROG_NAME>\Configs
  # -------------------------------
- # Input:
- #  [bool] Logging [Debugging]
- #   When true, the logging functionality will be enabled.
- #    The logging functionality merely captures any detailed
- #    information, which is then placed in a log file that
- #    is specified in the Logging implementation.
- # -------------------------------
  # Output:
  #  [bool] Exit code
  #    $false = One or more directories does not exist.
  #    $true = Directories exist
  # -------------------------------
  #>
-function CheckProgramDirectories([bool] $logging)
+function CheckProgramDirectories()
 {
     # User-Data Directories
     # -----
 
-    if ((([IOCommon]::CheckPathExists("$($_USERDATA_ROOT_PATH_)", $logging)) -eq $true) -and `
-        (([IOCommon]::CheckPathExists("$($_USERDATA_BUILDS_PATH_)", $logging)) -eq $true) -and `
-        (([IOCommon]::CheckPathExists("$($_USERDATA_RELEASEBUILDS_PATH_)", $logging)) -eq $true) -and `
-        (([IOCommon]::CheckPathExists("$($_USERDATA_DEVBUILDS_PATH_)", $logging)) -eq $true))
+    if ((([IOCommon]::CheckPathExists("$($_USERDATA_ROOT_PATH_)")) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($_USERDATA_BUILDS_PATH_)")) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($_USERDATA_RELEASEBUILDS_PATH_)")) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($_USERDATA_DEVBUILDS_PATH_)")) -eq $true))
     {
         # The directories exists.
         #  Nothing to do.
@@ -231,10 +217,10 @@ function CheckProgramDirectories([bool] $logging)
     # Program-Data Directories
     # ----
 
-    if ((([IOCommon]::CheckPathExists("$($_PROGRAMDATA_ROOT_LOCAL_PATH_)", $logging)) -eq $true) -and `
-        (([IOCommon]::CheckPathExists("$($_PROGRAMDATA_LOGS_PATH_)", $logging)) -eq $true) -and `
-        (([IOCommon]::CheckPathExists("$($_PROGRAMADATA_ROOT_ROAMING_PATH_)", $logging)) -eq $true) -and `
-        (([IOCommon]::CheckPathExists("$($_PROGRAMDATA_CONFIGS_PATH_)", $logging)) -eq $true))
+    if ((([IOCommon]::CheckPathExists("$($_PROGRAMDATA_ROOT_LOCAL_PATH_)")) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($_PROGRAMDATA_LOGS_PATH_)")) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($_PROGRAMADATA_ROOT_ROAMING_PATH_)")) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($_PROGRAMDATA_CONFIGS_PATH_)")) -eq $true))
     {
         # The directories exists.
         #  Nothing to do.
@@ -272,13 +258,6 @@ function CheckProgramDirectories([bool] $logging)
  #   provided by the Operating System and usually
  #   required for the user's profile.
  # -------------------------------
- # Input:
- #  [bool] Logging [Debugging]
- #   When true, the logging functionality will be enabled.
- #    The logging functionality merely captures any detailed
- #    information, which is then placed in a log file that
- #    is specified in the Logging implementation.
- # -------------------------------
  # Output:
  #  [bool] Exit Code
  #    $false = One or more special directories
@@ -286,7 +265,7 @@ function CheckProgramDirectories([bool] $logging)
  #    $true = All special directories exists; no errors. 
  # -------------------------------
  #>
-function CheckSpecialDirectories([bool] $logging)
+function CheckSpecialDirectories()
 {
     # Declarations and Initializations
     # ----------------------------------------
@@ -298,7 +277,7 @@ function CheckSpecialDirectories([bool] $logging)
 
     # Check the following:
     # My Documents
-    if (([IOCommon]::CheckPathExists("$($pathMyDocuments)", $logging)) -eq $false)
+    if (([IOCommon]::CheckPathExists("$($pathMyDocuments)")) -eq $false)
     {
         return $false;
     } # If : My Documents
@@ -308,7 +287,7 @@ function CheckSpecialDirectories([bool] $logging)
 
 
     # Local AppData
-    if (([IOCommon]::CheckPathExists("$($pathLocalAppData)", $logging)) -eq $false)
+    if (([IOCommon]::CheckPathExists("$($pathLocalAppData)")) -eq $false)
     {
         return $false;
     } # If : Local AppData
@@ -318,7 +297,7 @@ function CheckSpecialDirectories([bool] $logging)
 
 
     # Roaming AppData
-    if (([IOCommon]::CheckPathExists("$($pathRoamingAppData)", $logging)) -eq $false)
+    if (([IOCommon]::CheckPathExists("$($pathRoamingAppData)")) -eq $false)
     {
         return $false;
     } # If : Roaming AppData

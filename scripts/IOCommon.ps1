@@ -248,11 +248,6 @@ class IOCommon
     #   The type of command that will be executed.
     #    See Get-Command "CommandType"
     #    https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/get-command
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [bool] Detected Code
@@ -261,16 +256,15 @@ class IOCommon
     #    $true  = Successfully detected the external executable.
     # -------------------------------
     #>
-    static [bool] DetectCommand([string] $command, `        # Executable or command to run
-                                [string] $type, `           # Command type
-                                [bool] $logging)            # Logging features
+    static [bool] DetectCommand([string] $command, `    # Executable or command to run
+                                [string] $type)         # Command type
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode = $false;          # The detection code that will be returned based
-                                            #  on the results; if the command was found or not.
+        [bool] $exitCode            = $false;                               # The detection code that will be returned based
+                                                                            #  on the results; if the command was found or not.
+        [UserPreferences] $userPref = [UserPreferences]::GetInstance();     # Fetch the user's preferences
         # ----------------------------------------
-
 
         # Try to detect the requested command
         if ((Get-Command -Name "$($command)" `
@@ -292,8 +286,8 @@ class IOCommon
         # Debugging
         # --------------
 
-        # If Logging features are enabled, try to log the event.
-        if ($logging)
+        # If user requested logging features to be enabled, try to log the event.
+        if ($userPref.GetLogging())
         {
             # Generate the initial message
             [string] $logMessage = "Tried to find the $($type) named $($command); detected result was $($exitCode)";
@@ -362,11 +356,6 @@ class IOCommon
     #            directory hierarchy - as well as the depth of the
     #            directories."
     #            Just remember, this is only shown in the log file.
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     #  [bool] Is Report
     #   When true, this will assure that the information
     #    is logged as a report.
@@ -413,19 +402,19 @@ class IOCommon
                                 [string] $stdErrLogPath, `      # Standard Error (Execution Logging) Path
                                 [string] $reportPath, `         # Report path and filename (isReport)
                                 [string] $description, `        # Reason for why we are executing the command
-                                [bool] $logging, `              # Logging features
                                 [bool] $isReport, `             # Output should be in the report file
                                 [bool] $captureSTDOUT, `        # Capture the output from the command to a variable
                                 [ref] $stringOutput)            # Holds the output from the command (captureSTDOUT)
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $containerStdOut = $null;        # Used to hold the STDOUT
-        [string] $containerStdErr = $null;        # Used to hold the STDERR
-        [int] $externalCommandReturnCode = $null; # Exit Code from the extCMD.
-        [string] $callBack = $null;               # Allocate memory address if the stdout
-                                                  #  needs to be relocated, this is our
-                                                  #  medium in order to accomplish this.
+        [string] $containerStdOut        = $null;                               # Used to hold the STDOUT
+        [string] $containerStdErr        = $null;                               # Used to hold the STDERR
+        [int] $externalCommandReturnCode = $null;                               # Exit Code from the extCMD.
+        [string] $callBack               = $null;                               # Allocate memory address if the stdout
+                                                                                #  needs to be relocated, this is our
+                                                                                #  medium in order to accomplish this.
+        [UserPreferences] $userPref      = [UserPreferences]::GetInstance();    # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -437,14 +426,14 @@ class IOCommon
         # ---------------------------
 
         # Make sure that the executable exists before trying to use it.
-        if ($([IOCommon]::DetectCommand("$($command)", "Application", $logging)) -eq $false)
+        if ($([IOCommon]::DetectCommand("$($command)", "Application")) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
-            # If Logging features are enabled, try to log the event.
-            if ($logging)
+            # If user requested logging features to be enabled, try to log the event.
+            if ($userPref.GetLogging())
             {
                 # Generate the initial message
                 [string] $logMessage = ("Failed to execute the external command $($command)!`r`n" + `
@@ -470,14 +459,14 @@ class IOCommon
 
 
         # Make sure that the Project path exists
-        if ($([IOCommon]::CheckPathExists("$($projectPath)", $logging)) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
-            # If Logging features are enabled, try to log the event.
-            if ($logging)
+            # If user requested logging features to be enabled, try to log the event.
+            if ($userPref.GetLogging())
             {
                 # Generate the initial message
                 [string] $logMessage = ("Failed to execute the external command $($command)!" + `
@@ -504,14 +493,14 @@ class IOCommon
 
 
         # Make sure that the Standard Output Path exists
-        if ($([IOCommon]::CheckPathExists("$($stdOutLogPath)", $logging)) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($stdOutLogPath)")) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
-            # If Logging features are enabled, try to log the event.
-            if ($logging)
+            # If user requested logging features to be enabled, try to log the event.
+            if ($userPref.GetLogging())
             {
                 # Generate the initial message
                 [string] $logMessage = ("Failed to execute the external command $($command)!" + `
@@ -538,14 +527,14 @@ class IOCommon
 
 
         # Make sure that the Standard Error path exists
-        if ($([IOCommon]::CheckPathExists("$($stdErrLogPath)", $true)) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($stdErrLogPath)")) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
-            # If Logging features are enabled, try to log the event.
-            if ($logging)
+            # If user requested logging features to be enabled, try to log the event.
+            if ($userPref.GetLogging())
             {
                 # Generate the initial message
                 [string] $logMessage = ("Failed to execute the external command $($command)!" + `
@@ -586,8 +575,8 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging features are enabled, try to log the event.
-            if ($logging)
+            # If user requested logging features to be enabled, try to log the event.
+            if ($userPref.GetLogging())
             {
                 # Generate the initial message
                 [string] $logMessage = ("The description field was missing while serving the request to execute the external" + `
@@ -622,15 +611,13 @@ class IOCommon
                                                                     $arguments, `               # Parameters for the executable
                                                                     $projectPath, `             # Project path (Working Directory)
                                                                     [ref] $containerStdOut, `   # Var. holds standard output
-                                                                    [ref] $containerStdErr, `   # Var. holds standard error
-                                                                    $logging)                   # Logging features
+                                                                    [ref] $containerStdErr)     # Var. holds standard error
 
 
         # Create the necessary logfiles or capture a specific input
         [IOCommon]::__ExecuteCommandLog($stdOutLogPath, `           # Path for the Standard Output
                                         $stdErrLogPath, `           # Path for the Standard Error
                                         $reportPath, `              # Path for the report (isReport)
-                                        $logging, `                 # Logging features
                                         $isReport, `                # Output should be in the report file
                                         $captureSTDOUT, `           # Capture the output from the command to a variable
                                         $description, `             # Reason for why we are executing the command
@@ -652,8 +639,8 @@ class IOCommon
         # Debugging
         # --------------
 
-        # If Logging features are enabled, try to log the event.
-        if ($logging)
+        # If user requested logging features to be enabled, try to log the event.
+        if ($userPref.GetLogging())
         {
             # Generate the initial message
             [string] $logMessage = "Successfully executed the external command $($command)!";
@@ -700,11 +687,6 @@ class IOCommon
     #  [string] Report Path
     #   Absolute path and filename to store the report file.
     #   - NOTE: The filename of the report __MUST_BE_INCLUDED!___
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     #  [bool] Is Report
     #   When true, this will assure that the information
     #    is logged as a report.
@@ -739,7 +721,6 @@ class IOCommon
     Static Hidden [void] __ExecuteCommandLog([string] $stdOutLogPath, `     # Standard Out (Execution Logging) Path
                                             [string] $stdErrLogPath, `      # Standard Error (Execution Logging) Path
                                             [string] $reportPath, `         # Report path and filename (isReport)
-                                            [bool] $logging, `              # Logging features
                                             [bool] $isReport, `             # Output should be in the report file
                                             [bool] $captureSTDOUT, `        # Capture the output from the command to a variable
                                             [string] $description, `        # Reason for why we are executing the command
@@ -750,14 +731,16 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $logTime        = $(Get-Date -UFormat "%d-%b-%y %H.%M.%S");             # Capture the current date and time.
-        [string] $logStdErr      = "$($stdErrLogPath)\$($logTime)-$($description).err";  # Standard Error absolute log file path
-        [string] $logStdOut      = "$($stdOutLogPath)\$($logTime)-$($description).out";  # Standard Out absolute log file path
-        [string] $fileOutput     = $null;                                                # The absolute path of the file that will contain
-                                                                                         #  the output result from the extCMD or command.
-        [string] $redirectStdOut = $null;                                                # When Standard Out redirection to variable is
-                                                                                         #  requested (captureSTDOUT), this will be our
-                                                                                         #  buffer - which will hold the STDOUT data.
+        [string] $logTime           = $(Get-Date -UFormat "%d-%b-%y %H.%M.%S");             # Capture the current date and time.
+        [string] $logStdErr         = "$($stdErrLogPath)\$($logTime)-$($description).err";  # Standard Error absolute log file path
+        [string] $logStdOut         = "$($stdOutLogPath)\$($logTime)-$($description).out";  # Standard Out absolute log file path
+        [string] $fileOutput        = $null;                                                # The absolute path of the file that will
+                                                                                            #  contain the output result from the extCMD
+                                                                                            #  or command.
+        [string] $redirectStdOut    = $null;                                                # When Standard Out redirection to variable is
+                                                                                            #  requested (captureSTDOUT), this will be our
+                                                                                            #  buffer - which will hold the STDOUT data
+        [UserPreferences] $userPref = [UserPreferences]::GetInstance();                     # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -803,24 +786,24 @@ class IOCommon
             ElseIf ($isReport -eq $true)
             {
                 # Write the data to the report file.
-                [IOCommon]::WriteToFile("$($reportPath)", "$($outputResultOut.Value)", $logging) | Out-Null;
+                [IOCommon]::WriteToFile("$($reportPath)", "$($outputResultOut.Value)") | Out-Null;
             } # If : Generating a Report
 
 
             # Store the STDOUT in a logfile?
-            ElseIf ($logging -eq $true)
+            ElseIf (($userPref.GetLogging() -eq $true))
             {
                 # Store the information to a text file.
-                [IOCommon]::WriteToFile("$($logStdOut)", "$($outputResultOut.Value)", $logging) | Out-Null;
-            } # Else : Stored in a specific file
+                [IOCommon]::WriteToFile("$($logStdOut)", "$($outputResultOut.Value)") | Out-Null;
+            } # ElseIf : Stored in a specific file
 
 
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
-            # If Logging features are enabled, try to log the event.
-            if ($logging)
+            # If user requested logging features to be enabled, try to log the event.
+            if ($userPref.GetLogging())
             {
                 # Generate the initial message
                 [string] $logMessage = "External command returned successfully with additional output.";
@@ -849,18 +832,18 @@ class IOCommon
 
 
         # Store the STDERR in a logfile and is there data?
-        If (($logging -eq $true) -and ("$($outputResultErr.Value)" -ne ""))
+        If (($userPref.GetLogging() -eq $true) -and ("$($outputResultErr.Value)" -ne ""))
         {
             # Write the STDERR to a logfile
-            [IOCommon]::WriteToFile("$($logStdErr)", "$($outputResultErr.Value)", $logging) | Out-Null;
+            [IOCommon]::WriteToFile("$($logStdErr)", "$($outputResultErr.Value)") | Out-Null;
 
 
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
-            # If Logging features are enabled, try to log the event.
-            if ($logging)
+            # If user requested logging features to be enabled, try to log the event.
+            if ($userPref.GetLogging())
             {
                 # Generate the initial message
                 [string] $logMessage = "External command returned with an error or error messages exists!";
@@ -915,11 +898,6 @@ class IOCommon
     #  [string] (REFERENCE) Output Result STDERR
     #   The STDOUT provided by the extCMD.
     #   - NOTE: Output can be at maximum of 2GB of space. (Defined by CLR)
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [int] Exit Code
@@ -941,11 +919,12 @@ class IOCommon
                                             [string] $arguments, `      # Parameters for the executable or command
                                             [string] $projectPath, `    # Project file path (ZDoom based project)
                                             [ref] $captureStdOut, `     # Will hold the STDOUT result from the command or extCMD
-                                            [ref] $captureStdErr, `     # Will hold the STDERR result from the command or extCMD
-                                            [bool] $logging)            # Logging features
+                                            [ref] $captureStdErr)       # Will hold the STDERR result from the command or extCMD
     {
         # Declarations and Initializations
         # ----------------------------------------
+        [UserPreferences] $userPref = [UserPreferences]::GetInstance();     # Fetch the user's preferences
+
         # .NET Special Objects
         # - - - -
         # Because Start-Process CMDLet does NOT redirect to a variable, but only to files.
@@ -955,10 +934,9 @@ class IOCommon
         #   https://stackoverflow.com/a/24227234
         #  ProcessStartInfo Help:
         #   https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.processstartinfo
-        [System.Diagnostics.ProcessStartInfo] $processInfo = `              # Instantiate Process Start Info Obj.
-                            [System.Diagnostics.ProcessStartInfo]::new();
-        [System.Diagnostics.Process] $processExec = `                       # Instantiate Process Obj.
-                            [System.Diagnostics.Process]::new();
+        [System.Diagnostics.ProcessStartInfo] $processInfo = [System.Diagnostics.ProcessStartInfo]::new();  # Instantiate Process Start
+                                                                                                            #  Information Object.
+        [System.Diagnostics.Process] $processExec = [System.Diagnostics.Process]::new();                    # Instantiate Process Object.
 
         # Redirection Standard Out (Asynchronous)
         $asyncStdOut = New-Object -TypeName System.Runtime.CompilerServices.AsyncTaskMethodBuilder
@@ -969,14 +947,14 @@ class IOCommon
 
 
         # Check to see if the external command exists; if not - leave this function immediately.
-        if(([IOCommon]::DetectCommand("$($command)", "Application", $logging)) -eq $false)
+        if(([IOCommon]::DetectCommand("$($command)", "Application")) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
-            # If Logging features are enabled, try to log the event.
-            if ($logging)
+            # If user requested logging features to be enabled, try to log the event.
+            if ($userPref.GetLogging())
             {
                 # Generate the initial message
                 [string] $logMessage = ("Failed to execute the external command $($command)!`r`n" + `
@@ -1001,13 +979,13 @@ class IOCommon
 
 
         # Setup the ProcessStartInfo Obj.
-        $processInfo.FileName = "$($command)";             # Executable
-        $processInfo.Arguments = "$($arguments)";          # Argument(s)
-        $processInfo.RedirectStandardOutput = $true;       # Maintain STDOUT
-        $processInfo.RedirectStandardError = $true;        # Maintain STDERR
-        $processInfo.UseShellExecute = $false;             # Use the shell
-        $processInfo.CreateNoWindow = $true;               # Use the current console
-        $processInfo.WorkingDirectory = "$($projectPath)"; # Execute in the Working Dir.
+        $processInfo.FileName               = "$($command)";        # Executable
+        $processInfo.Arguments              = "$($arguments)";      # Argument(s)
+        $processInfo.RedirectStandardOutput = $true;                # Maintain STDOUT
+        $processInfo.RedirectStandardError  = $true;                # Maintain STDERR
+        $processInfo.UseShellExecute        = $false;               # Use the shell
+        $processInfo.CreateNoWindow         = $true;                # Use the current console
+        $processInfo.WorkingDirectory       = "$($projectPath)";    # Execute in the Working Dir.
 
 
         # Setup the Process Obj.
@@ -1058,8 +1036,8 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging features are enabled, try to log the event.
-            if ($logging)
+            # If user requested logging features to be enabled, try to log the event.
+            if ($userPref.GetLogging())
             {
                 # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
@@ -1142,11 +1120,6 @@ class IOCommon
     #  [string] Report Path
     #   Absolute path and filename to store the report file.
     #   - NOTE: The filename of the report __MUST_BE_INCLUDED!___
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     #  [bool] Is Report
     #   When true, this will assure that the information
     #    is logged as a report.
@@ -1180,7 +1153,6 @@ class IOCommon
     static [void] PSCMDLetLogging([string] $stdOutLogPath, `    # Standard Out (Execution Logging) Path
                                 [string] $stdErrLogPath, `      # Standard Error (Execution Logging) Path
                                 [string] $reportPath, `         # Report path and filename (isReport)
-                                [bool] $logging, `              # Logging features
                                 [bool] $isReport, `             # Output should be in the report file
                                 [bool] $captureSTDOUT, `        # Capture the output from the command to a variable
                                 [string] $description, `        # Reason for why we are executing the command
@@ -1190,7 +1162,7 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $callBack = $null;                          # Allocate memory address if the stdout
+        [string] $callBack    = $null;                       # Allocate memory address if the stdout
                                                              #  needs to be relocated, this is our
                                                              #  medium in order to accomplish this.
         [string] $cacheSTDOUT = "$($outputResultOut.Value)"; # Cache the STDOUT; because it is a
@@ -1210,7 +1182,6 @@ class IOCommon
         [IOCommon]::__ExecuteCommandLog($stdOutLogPath, `       # Path for the Standard Output
                                         $stdErrLogPath, `       # Path for the Standard Error
                                         $reportPath, `          # Path for the report (isReport)
-                                        $logging, `             # Logging features
                                         $isReport, `            # Output should be in the report file
                                         $captureSTDOUT, `       # Capture the output from the CMDLet to a variable
                                         $description, `         # Reason for why we are executing the CMDLet
@@ -1251,11 +1222,6 @@ class IOCommon
     #    specified.
     #   - NOTE: Trying to conserve main memory space by using referencing.
     #            Size can be at maximum of 2GB of space. (Defined by CLR)
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -1264,16 +1230,16 @@ class IOCommon
     # -------------------------------
     #>
     static [bool] WriteToFile([string] $file, `     # Target file to write
-                            [ref] $contents, `      # Information (or data) to write in file
-                            [bool] $logging)        # Logging features
+                            [ref] $contents)        # Information (or data) to write in file
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [int] $outFilePropertyWidth = 80;              # Width property to be used for the Out-File CMDLet.
-                                                       #  This will only allow the so many characters per-line.
-        [string] $outFilePropertyEncoding = "default"; # Encoding property to be used for the Out-File CMDLet.
-                                                       #  This specifies what encoding the text file should be
-                                                       #  upon creation.
+        [int] $outFilePropertyWidth       = 80;                                 # Width property to be used for the Out-File CMDLet.
+                                                                                #  This will only allow the so many characters per-line.
+        [string] $outFilePropertyEncoding = "default";                          # Encoding property to be used for the Out-File CMDLet.
+                                                                                #  This specifies what encoding the text file should be
+                                                                                #  upon creation.
+        [UserPreferences] $userPref       = [UserPreferences]::GetInstance();   # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -1304,8 +1270,8 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging features are enabled, try to log the event.
-            if ($logging)
+            # If user requested logging features to be enabled, try to log the event.
+            if ($userPref.GetLogging())
             {
                 # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
@@ -1341,7 +1307,7 @@ class IOCommon
 
 
         # Assurance Fail-Safe; make sure that the file was successfully created on the filesystem.
-        if ([IOCommon]::CheckPathExists("$($file)", $logging) -eq $false)
+        if ([IOCommon]::CheckPathExists("$($file)") -eq $false)
         {
             # Operation failed because the file does not
             #  exist on the secondary storage.
@@ -1394,11 +1360,6 @@ class IOCommon
     #   - NOTE: This must include an absolute path and the file
     #            name (including extension).  For example:
     #           "C:\Fake\Path\NewReport.pdf"
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -1407,17 +1368,17 @@ class IOCommon
     # -------------------------------
     #>
     Static [bool] CreatePDFFile([string] $sourceFile, `         # The target file that contains information to insert in the PDF file.
-                                [string] $destinationFile, `    # The location to save the PDF file.
-                                [bool] $logging)                # Logging features
+                                [string] $destinationFile)      # The location to save the PDF file.
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [float] $wordVersion = 0.0;         # Microsoft Word Version
-                                            #  This may not be needed, but just in case if there is
-                                            #  differences in other versions - we can try to deter
-                                            #  conflicts and correct the behavior if possible.
-        [int] $wordPDFCode = 17;            # The code to export a document in PDF format.
-                                            #  https://docs.microsoft.com/en-us/office/vba/api/word.wdexportformat
+        [float] $wordVersion        = 0.0;                                  # Microsoft Word Version
+                                                                            #  This may not be needed, but just in case if there is
+                                                                            #  differences in other versions - we can try to deter
+                                                                            #  conflicts and correct the behavior if possible.
+        [int] $wordPDFCode          = 17;                                   # The code to export a document in PDF format.
+                                                                            #  https://docs.microsoft.com/en-us/office/vba/api/word.wdexportformat
+        [UserPreferences] $userPref = [UserPreferences]::GetInstance();     # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -1429,7 +1390,7 @@ class IOCommon
         # ---------------------------
 
         # Check to make sure that the source file actually exists.
-        if ([IOCommon]::CheckPathExists("$($sourceFile)", $logging) -eq $false)
+        if ([IOCommon]::CheckPathExists("$($sourceFile)") -eq $false)
         {
             # Prep a message to display to the user for this error; temporary variable
             [string] $tempErrorMessage = ("Unable to create a PDF file; source file does not exist!`r`n" + `
@@ -1440,8 +1401,8 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging features are enabled, try to log the event.
-            if ($logging)
+            # If user requested logging features to be enabled, try to log the event.
+            if ($userPref.GetLogging())
             {
                 # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
@@ -1516,8 +1477,8 @@ class IOCommon
                 # Debugging
                 # --------------
 
-                # If Logging features are enabled, try to log the event.
-                if ($logging)
+                # If user requested logging features to be enabled, try to log the event.
+                if ($userPref.GetLogging())
                 {
                     # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                     [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
@@ -1569,8 +1530,8 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging features are enabled, try to log the event.
-            if ($logging)
+            # If user requested logging features to be enabled, try to log the event.
+            if ($userPref.GetLogging())
             {
                 # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
@@ -1679,7 +1640,7 @@ class IOCommon
 
 
         # Check to make sure that the PDF file was saved properly.
-        if ([IOCommon]::CheckPathExists("$($destinationFile)", $logging) -eq $false)
+        if ([IOCommon]::CheckPathExists("$($destinationFile)") -eq $false)
         {
             # Prep a message to display to the user for this error; temporary variable
             [string] $tempErrorMessage = "Successfully created the PDF file as requested, but unable to find it....";
@@ -1689,8 +1650,8 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging is enabled, obtain the additional information
-            if ($logging)
+            # If user requested logging features to be enabled, try to log the event.
+            if ($userPref.GetLogging())
             {
                 # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
@@ -1805,11 +1766,6 @@ class IOCommon
     #   This will contain the newly created directory's
     #    absolute path.  This will be returned along with the
     #    function's status code.
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -1818,28 +1774,28 @@ class IOCommon
     # -------------------------------
     #>
     static [bool] MakeTempDirectory([string] $keyTerm, `    # Operation Key (Noun or Verb)
-                                    [ref] $directoryPath, ` # Absolute path of the newly created directory
-                                    [bool] $logging)        # Logging features
+                                    [ref] $directoryPath)   # Absolute path of the newly created directory
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $tempDirectoryPath = $null;   # Absolute Path of the Temporary directory.
-        [string] $tempDirectoryName = $null;   # The name of the directory that we are going
-                                               #  to create.
-        [string] $finalDirectoryPath = $null;  # This will hold the complete absolute path
-                                               #  to the new requested directory.
-        [string] $timeNow = $null;             # Holds the current time
-        [string] $dateNow = $null;             # Holds the current date
-        [string] $dateTime = $null;            # This will hold a time-stamp of when the
-                                               #  directory was requested to be created.
-        [int] $repetitionMax = 50;             # We should never really need this, but
-                                               #  if in case we do - we have it.
-                                               #  If in case the user needs more than the,
-                                               #  max that is defined - then something is
-                                               #  HORRIBLY wrong.
-        [int] $repetitionCount = 0;            # The repetition counter; this will be
-                                               #  incremented to help assure uniqueness for
-                                               #  the directory name.
+        [string] $tempDirectoryPath  = $null;                               # Absolute Path of the Temporary directory.
+        [string] $tempDirectoryName  = $null;                               # The name of the directory that we are going
+                                                                            #  to create.
+        [string] $finalDirectoryPath = $null;                               # This will hold the complete absolute path
+                                                                            #  to the new requested directory.
+        [string] $timeNow            = $null;                               # Holds the current time
+        [string] $dateNow            = $null;                               # Holds the current date
+        [string] $dateTime           = $null;                               # This will hold a time-stamp of when the
+                                                                            #  directory was requested to be created.
+        [int] $repetitionMax         = 50;                                  # We should never really need this, but
+                                                                            #  if in case we do - we have it.
+                                                                            #  If in case the user needs more than the,
+                                                                            #  max that is defined - then something is
+                                                                            #  HORRIBLY wrong.
+        [int] $repetitionCount       = 0;                                   # The repetition counter; this will be
+                                                                            #  incremented to help assure uniqueness for
+                                                                            #  the directory name.
+        [UserPreferences] $userPref  = [UserPreferences]::GetInstance();    # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -1896,10 +1852,10 @@ class IOCommon
 
 
         # First, does the directory already exist?
-        if ($([IOCommon]::CheckPathExists("$($tempDirectoryPath)", $logging)) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($tempDirectoryPath)")) -eq $false)
         {
             # Because the directory does not exist, try to create it.
-            if ($([IOCommon]::MakeDirectory("$($tempDirectoryPath)", $logging)) -eq $false)
+            if ($([IOCommon]::MakeDirectory("$($tempDirectoryPath)")) -eq $false)
             {
                 # Prep a message to display to the user for this error; temporary variable.
                 [string] $tempErrorMessage = "Unable to create a temporary directory!";
@@ -1909,8 +1865,8 @@ class IOCommon
                 # Debugging
                 # --------------
 
-                # If Logging features are enabled, try to log the event.
-                if ($logging)
+                # If user requested logging features to be enabled, try to log the event.
+                if ($userPref.GetLogging())
                 {
                     # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                     [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
@@ -1969,7 +1925,7 @@ class IOCommon
 
         # First, we should check if the directory already exists.
         #  If the directory already exists, try to make it unique.
-        if ($([IOCommon]::CheckPathExists("$($finalDirectoryPath)", $logging)) -eq $true)
+        if ($([IOCommon]::CheckPathExists("$($finalDirectoryPath)")) -eq $true)
         {
             # Because the directory already exists, we need to make
             #  it unique to avoid data conflicts.
@@ -1982,7 +1938,7 @@ class IOCommon
             # Find a unique name
             while($status)
             {
-                if($([IOCommon]::CheckPathExists("$($finalDirectoryPath).$($repetitionCount)", $logging)) -eq $false)
+                if($([IOCommon]::CheckPathExists("$($finalDirectoryPath).$($repetitionCount)")) -eq $false)
                 {
                     # We found a unique name, now record it
                     $finalDirectoryPath = "$($finalDirectoryPath).$($repetitionCount)";
@@ -2001,8 +1957,8 @@ class IOCommon
                     [string] $tempErrorMessage = "Failed to create a unique temporary directory!";
 
 
-                    # If Logging features are enabled, try to log the event.
-                    if ($logging)
+                    # If user requested logging features to be enabled, try to log the event.
+                    if ($userPref.GetLogging())
                     {
                         # Display a message to the user that something went horribly wrong and log that same
                         #  message for referencing purpose.
@@ -2045,7 +2001,7 @@ class IOCommon
 
 
         # Now that we have the name of the temporary sub-directory, create it
-        if ($([IOCommon]::MakeDirectory("$($finalDirectoryPath)", $logging)) -eq $false)
+        if ($([IOCommon]::MakeDirectory("$($finalDirectoryPath)")) -eq $false)
         {
             # Prep a message to display to the user for this error; temporary variable.
             [string] $tempErrorMessage = "Unable to create a temporary directory!"
@@ -2055,8 +2011,8 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging features are enabled, try to log the event.
-            if ($logging)
+            # If user requested logging features to be enabled, try to log the event.
+            if ($userPref.GetLogging())
             {
                 # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
@@ -2095,7 +2051,7 @@ class IOCommon
 
 
         # Just for assurance sakes, does the directory exist?
-        if ($([IOCommon]::CheckPathExists("$($finalDirectoryPath)", $logging)) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($finalDirectoryPath)")) -eq $false)
         {
             # Prep a message to display to the user for this error; temporary variable.
             [string] $tempErrorMessage = "Created the temporary directory but unable to found it....";
@@ -2105,8 +2061,8 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging features are enabled, try to log the event.
-            if ($logging)
+            # If user requested logging features to be enabled, try to log the event.
+            if ($userPref.GetLogging())
             {
                 # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
@@ -2171,11 +2127,6 @@ class IOCommon
     #  [string] Absolute Path
     #   The absolute path of a directory that is to be created
     #    within the filesystem.
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -2185,19 +2136,19 @@ class IOCommon
     #            Directory already exists; nothing to do.
     # -------------------------------
     #>
-    static [bool] MakeDirectory([string] $path, `   # Absolute path of the directory to create
-                                [bool] $logging)    # Logging features
+    static [bool] MakeDirectory([string] $path)
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode = $true;                      # Exit code that will be returned.
+        [bool] $exitCode            = $true;                                # Exit code that will be returned.
+        [UserPreferences] $userPref = [UserPreferences]::GetInstance();     # Fetch the user's preferences
         # ----------------------------------------
 
 
         # Check to see if the path already exists; if it already exists -
         #  then there's nothing to done.  If it does not exist, however,
         #  then try to create it.
-        if (([IOCommon]::CheckPathExists("$($path)", $logging)) -eq $false)
+        if (([IOCommon]::CheckPathExists("$($path)")) -eq $false)
         {
             # The requested path does not exist, try to create it.
             try
@@ -2210,8 +2161,8 @@ class IOCommon
                 # Debugging
                 # --------------
 
-                # If Logging features are enabled, try to log the event.
-                if ($logging)
+                # If user requested logging features to be enabled, try to log the event.
+                if ($userPref.GetLogging())
                 {
                     # Generate the initial message
                     [string] $logMessage = "Successfully created the directory!";
@@ -2245,8 +2196,8 @@ class IOCommon
                 # Debugging
                 # --------------
 
-                # If Logging features are enabled, try to log the event.
-                if ($logging)
+                # If user requested logging features to be enabled, try to log the event.
+                if ($userPref.GetLogging())
                 {
                     # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                     [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
@@ -2299,11 +2250,6 @@ class IOCommon
     # Input:
     #  [string] Directory (Absolute Path)
     #    The path of the directory to check if it exists.
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -2311,12 +2257,12 @@ class IOCommon
     #    $true = Directory exist
     # -------------------------------
     #>
-    static [bool] CheckPathExists([string] $path, `     # The absolute path of the directory to check
-                                [bool] $logging)        # Logging features
+    static [bool] CheckPathExists([string] $path)
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode = $false;    # Exit code that will be returned.
+        [bool] $exitCode            = $false;                               # Exit code that will be returned.
+        [UserPreferences] $userPref = [UserPreferences]::GetInstance();     # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -2332,8 +2278,8 @@ class IOCommon
         # Debugging
         # --------------
 
-        # If Logging features are enabled, try to log the event.
-        if ($logging)
+        # If user requested logging features to be enabled, try to log the event.
+        if ($userPref.GetLogging())
         {
             # Generate the initial message
             [string] $logMessage = "Tried to find the path named $($path), the detected result was $($exitCode)";
@@ -2374,11 +2320,6 @@ class IOCommon
     # Input:
     #  [string] Directory (Absolute Path)
     #    The absolute path of the directory that we want to delete (and any contents inside).
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -2388,18 +2329,18 @@ class IOCommon
     #            Directory does not exist
     # -------------------------------
     #>
-    static [bool] DeleteDirectory([string] $path, ` # The absolute path of the target directory
-                                [bool] $logging)    # Logging features
+    static [bool] DeleteDirectory([string] $path)
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode = $false;                          # Exit code that will be returned.
+        [bool] $exitCode            = $false;                               # Exit code that will be returned.
+        [UserPreferences] $userPref = [UserPreferences]::GetInstance();     # Fetch the user's preferences
         # ----------------------------------------
 
 
         # First check to see if the directory actually exists,
         #  if not, then there is nothing to do.
-        if(([IOCommon]::CheckPathExists("$($path)", $logging)) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($path)")) -eq $false)
         {
             # The directory does not exist, there's nothing to do.
             #  Because the directory does not exist (with the given path),
@@ -2422,8 +2363,8 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging features are enabled, try to log the event.
-            if ($logging)
+            # If user requested logging features to be enabled, try to log the event.
+            if ($userPref.GetLogging())
             {
                 # Generate the initial message
                 [string] $logMessage = "Successfully deleted the requested directory!";
@@ -2450,8 +2391,8 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging features are enabled, try to log the event.
-            if ($logging)
+            # If user requested logging features to be enabled, try to log the event.
+            if ($userPref.GetLogging())
             {
                 # Generate the initial message
                 [string] $logMessage = "Failed to delete the requested directory!";
@@ -2510,11 +2451,6 @@ class IOCommon
     #    What specific requirements must a file have in order
     #     to be classified to be deleted.  Specific filenames
     #     are acceptable.
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -2524,19 +2460,19 @@ class IOCommon
     #            No operation was done
     # -------------------------------
     #>
-    static [bool] DeleteFile([string] $path,        # Path of the directory to inspect
-                            [string[]] $includes,   # List of files or requirements
-                            [bool] $logging)        # Logging features
+    static [bool] DeleteFile([string] $path, `      # Path of the directory to inspect
+                            [string[]] $includes)   # List of files or requirements
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode = $false;                          # Exit code that will be returned.
+        [bool] $exitCode            = $false;                               # Exit code that will be returned.
+        [UserPreferences] $userPref = [UserPreferences]::GetInstance();     # Fetch the user's preferences
         # ----------------------------------------
 
 
         # First check to see if the directory actually exists,
         #  if not, then there is nothing to do.
-        if(([IOCommon]::CheckPathExists("$($path)", $logging)) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($path)")) -eq $false)
         {
             # The directory does not exist, there's nothing to do.
             #  Because the directory does not exist (with the provided path),
@@ -2559,8 +2495,8 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging features are enabled, try to log the event.
-            if ($logging)
+            # If user requested logging features to be enabled, try to log the event.
+            if ($userPref.GetLogging())
             {
                 # Generate the initial message
                 [string] $logMessage = "Successfully deleted the requested file(s)!";
@@ -2589,8 +2525,8 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging features are enabled, try to log the event.
-            if ($logging)
+            # If user requested logging features to be enabled, try to log the event.
+            if ($userPref.GetLogging())
             {
                 # Generate the initial message
                 [string] $logMessage = "Failed to delete the requested file(s)!";
@@ -2638,11 +2574,6 @@ class IOCommon
     #   Typical values can be: "MD5" or "SHA1".
     #    For a complete list of hash algorithms, please check the documentation:
     #    https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-filehash
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [string] Hash Value code
@@ -2654,12 +2585,12 @@ class IOCommon
     # -------------------------------
     #>
     static [string] FileHash([string] $path, `                          # Absolute path of the target file
-                            [FileHashAlgorithmDotNet] $hashAlgorithm, ` # Hash algorithm requested
-                            [bool] $logging)                            # Logging features
+                            [FileHashAlgorithmDotNet] $hashAlgorithm)   # Hash algorithm requested
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $hashValue = $null;      # The hash value regarding specified file.
+        [string] $hashValue         = $null;                                # The hash value regarding specified file.
+        [UserPreferences] $userPref = [UserPreferences]::GetInstance();     # Fetch the user's preferences
 
         # SPECIAL OBJECTS
         # - - - - - - - -
@@ -2670,7 +2601,7 @@ class IOCommon
 
 
         # Check if the source file actually exists within the user's filesystem
-        if ([IOCommon]::CheckPathExists("$($path)", $logging) -eq $false)
+        if ([IOCommon]::CheckPathExists("$($path)") -eq $false)
         {
             # Because the file was not on the user's filesystem at the specified
             #  path, return null to signify an error.
@@ -2701,8 +2632,8 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging is enabled, obtain the additional information
-            if ($logging)
+            # If user requested logging features to be enabled, try to log the event.
+            if ($userPref.GetLogging())
             {
                 # Generate the initial message
                 [string] $logMessage = "A failure occurred while trying to get the hash value!";
@@ -2749,23 +2680,18 @@ class IOCommon
     #  [string] Web Site's URL Address
     #   The webpage that we want to access; URL or IP address of the
     #    server (or service) we want to access.
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     # -------------------------------
     #  [bool] Exit code
     #    $false = Failed to access webpage.
     #    $true = Successfully accessed webpage.
     # -------------------------------
     #>
-    static [bool] AccessWebpage([string] $URLAddress, `     # URL or IP Address of the webpage
-                                [bool] $logging)            # Logging features
+    static [bool] AccessWebpage([string] $URLAddress)
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode = $false;          # The operation exit code.
+        [bool] $exitCode            = $false;                               # The operation exit code.
+        [UserPreferences] $userPref = [UserPreferences]::GetInstance();     # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -2794,8 +2720,8 @@ class IOCommon
                 # Debugging
                 # --------------
 
-                # If Logging features are enabled, try to log the event.
-                if ($logging)
+                # If user requested logging features to be enabled, try to log the event.
+                if ($userPref.GetLogging())
                 {
                     # Generate the initial message
                     [string] $logMessage = "A failure occurred while trying to access the requested webpage!";
@@ -2829,8 +2755,8 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If Logging features are enabled, try to log the event.
-            if ($logging)
+            # If user requested logging features to be enabled, try to log the event.
+            if ($userPref.GetLogging())
             {
                 # Generate the initial message
                 [string] $logMessage = "The requested webpage is not a valid URL or IP address!";

@@ -368,25 +368,18 @@ class GitControl
     # Documentation:
     #  Sets a new value for the Executable Path variable.
     # -------------------------------
-    # Input:
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
-    # -------------------------------
     # Output:
     #  [bool] Status
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
     #>
-    [bool] SetExecutablePath([string] $newVal, [bool] $logging)
+    [bool] SetExecutablePath([string] $newVal)
     {
         # Because we are testing for an actual file,
         #  we have to assure that the file really exists
         #  within the host's filesystem.
-        if(([IOCommon]::DetectCommand("$($newVal)", "Application", $logging)) -eq $false)
+        if(([IOCommon]::DetectCommand("$($newVal)", "Application")) -eq $false)
         {
             # Could not find the executable.
             return $false;
@@ -680,29 +673,22 @@ class GitControl
     #   - \git\logs
     #   - \git\reports
     # -------------------------------
-    # Input:
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
-    # -------------------------------
     # Output:
     #  [bool] Exit code
     #    $false = One or more directories does not exist.
     #    $true = Directories exist
     # -------------------------------
     #>
-    Hidden [bool] __CheckRequiredDirectories([bool] $logging)
+    Hidden [bool] __CheckRequiredDirectories()
     {
         # Check Root Log Directory
-        if ((([IOCommon]::CheckPathExists("$($this.__rootLogPath)", $logging)) -eq $true) -and `
+        if ((([IOCommon]::CheckPathExists("$($this.__rootLogPath)")) -eq $true) -and `
 
         # Check Report Path
-        (([IOCommon]::CheckPathExists("$($this.__reportPath)", $logging)) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($this.__reportPath)")) -eq $true) -and `
 
         # Check Log Path
-        (([IOCommon]::CheckPathExists("$($this.__logPath)", $logging) -eq $true)))
+        (([IOCommon]::CheckPathExists("$($this.__logPath)") -eq $true)))
         {
             # All of the directories exists
             return $true;
@@ -735,13 +721,6 @@ class GitControl
     #   - \git\logs
     #   - \git\reports
     # -------------------------------
-    # Input:
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
-    # -------------------------------
     # Output:
     #  [bool] Exit code
     #    $false = Failure creating the new directories.
@@ -750,10 +729,10 @@ class GitControl
     #             Directories already existed, nothing to do.
     # -------------------------------
     #>
-    Hidden [bool] __CreateDirectories([bool] $logging)
+    Hidden [bool] __CreateDirectories()
     {
         # First, check if the directories already exist?
-        if(($this.__CheckRequiredDirectories($logging))-eq $true)
+        if(($this.__CheckRequiredDirectories())-eq $true)
         {
             # The directories exist, no action is required.
             return $true;
@@ -767,10 +746,10 @@ class GitControl
         #  check which directory does not exist and then try to create it.
 
         # Root Log Directory
-        if(([IOCommon]::CheckPathExists("$($this.__rootLogPath)", $logging)) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($this.__rootLogPath)")) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (([IOCommon]::MakeDirectory("$($this.__rootLogPath)", $logging)) -eq $false)
+            if (([IOCommon]::MakeDirectory("$($this.__rootLogPath)")) -eq $false)
             {
                 # Failure occurred.
                 return $false;
@@ -782,10 +761,10 @@ class GitControl
 
 
         # Log Directory
-        if(([IOCommon]::CheckPathExists("$($this.__logPath)", $logging)) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($this.__logPath)")) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (([IOCommon]::MakeDirectory("$($this.__logPath)", $logging)) -eq $false)
+            if (([IOCommon]::MakeDirectory("$($this.__logPath)")) -eq $false)
             {
                 # Failure occurred.
                 return $false;
@@ -797,10 +776,10 @@ class GitControl
 
 
         # Report Directory
-        if(([IOCommon]::CheckPathExists("$($this.__reportPath)", $logging)) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($this.__reportPath)")) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (([IOCommon]::MakeDirectory("$($this.__reportPath)", $logging)) -eq $false)
+            if (([IOCommon]::MakeDirectory("$($this.__reportPath)")) -eq $false)
             {
                 # Failure occurred.
                 return $false;
@@ -812,7 +791,7 @@ class GitControl
 
 
         # Fail-safe; final assurance that the directories have been created successfully.
-        if(($this.__CheckRequiredDirectories($logging))-eq $true)
+        if(($this.__CheckRequiredDirectories())-eq $true)
         {
             # The directories exist
             return $true;
@@ -838,23 +817,16 @@ class GitControl
     #   contains the path and determine if the path
     #   is valid or not.
     # -------------------------------
-    # Input:
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
-    # -------------------------------
     # Output:
     #  [bool] Detected Code
     #    $false = Failure to detect the external executable.
     #    $true  = Successfully detected the external executable.
     # -------------------------------
     #>
-    [bool] DetectGitExist([bool] $logging)
+    [bool] DetectGitExist()
     {
         # Check if the git executable was found
-        if (([IOCommon]::DetectCommand("$($this.__executablePath)", "Application", $logging)) -eq $true)
+        if (([IOCommon]::DetectCommand("$($this.__executablePath)", "Application")) -eq $true)
         {
             return $true;
         } # If : Detected
@@ -881,11 +853,6 @@ class GitControl
     #   contains the .git directory.  If that directory
     #   lacks that specific '.git' directory, this
     #   will fail to work.
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -893,13 +860,14 @@ class GitControl
     #    $true  = Successfully detected the external executable.
     # -------------------------------
     #>
-    [bool] UpdateLocalWorkingCopy([string] $projectPath, [bool] $logging)
+    [bool] UpdateLocalWorkingCopy([string] $projectPath)
     {
         # Declarations and Initializations
         # ----------------------------------------
         [string] $extCMDArgs = "pull";          # Arguments for the external command
                                                 #  Fetch updates from the remote repository.
         [string] $execReason = "Update LWC";    # Description; used for logging
+        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -911,7 +879,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if ($logging -and ($this.__CreateDirectories($logging) -eq $false))
+        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -920,7 +888,7 @@ class GitControl
 
 
         # Make sure that the git executable was detected.
-        if ($($this.DetectGitExist($logging)) -eq $false)
+        if ($($this.DetectGitExist()) -eq $false)
         {
             # Git was not detected.
             return $false;
@@ -928,7 +896,7 @@ class GitControl
 
 
         # Make sure that the project path exists
-        if ($([IOCommon]::CheckPathExists("$($projectPath)", $logging)) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
         {
             # Project Path does not exist, return an error.
             return $false;
@@ -954,7 +922,6 @@ class GitControl
                                 "$($this.__logPath)", `
                                 "$($this.__reportPath)", `
                                 "$($execReason)", `
-                                $logging, `
                                 $false, `
                                 $false, `
                                 $null) -eq 0)
@@ -983,11 +950,6 @@ class GitControl
     #   contains the .git directory.  If that directory
     #   lacks that specific '.git' directory, this
     #   will fail to work.
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     #  [string] Requested Branch
     #   The requested branch to switch to in the local
     #    repository.
@@ -998,7 +960,7 @@ class GitControl
     #    $true  = Successfully switched to requested branch.
     # -------------------------------
     #>
-    [bool] SwitchLocalBranch([string] $projectPath, [bool] $logging, [string] $requestedBranch)
+    [bool] SwitchLocalBranch([string] $projectPath, [string] $requestedBranch)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1006,6 +968,7 @@ class GitControl
                                                                 #  This will allow us to switch to
                                                                 #  another branch.
         [string] $execReason = "Switch Branch";                 # Description; used for logging
+        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -1017,7 +980,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if ($logging -and ($this.__CreateDirectories($logging) -eq $false))
+        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -1026,7 +989,7 @@ class GitControl
 
 
         # Make sure that the git executable was detected.
-        if ($($this.DetectGitExist($logging)) -eq $false)
+        if ($($this.DetectGitExist()) -eq $false)
         {
             # Git was not detected.
             return $false;
@@ -1034,7 +997,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($([IOCommon]::CheckPathExists("$($projectPath)", $logging)) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
         {
             # Project Path does not exist, return an error.
             return $false;
@@ -1052,7 +1015,6 @@ class GitControl
                             "$($this.__logPath)", `
                             "$($this.__reportPath)", `
                             "$($execReason)", `
-                            $logging, `
                             $false, `
                             $false, `
                             [ref]$null) -eq 0)
@@ -1085,11 +1047,6 @@ class GitControl
     #   contains the .git directory.  If that directory
     #   lacks that specific '.git' directory, this
     #   will fail to work.
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [string] Commit ID
@@ -1101,7 +1058,7 @@ class GitControl
     #            Failure retrieving the commit ID.
     # -------------------------------
     #>
-    [string] FetchCommitID([string] $projectPath, [bool] $logging)
+    [string] FetchCommitID([string] $projectPath)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1112,6 +1069,7 @@ class GitControl
                                                     #  argument; though determined by
                                                     #  user's request.
         [string] $execReason = "Fetch CommitID";    # Description; used for logging
+        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -1123,7 +1081,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if ($logging -and ($this.__CreateDirectories($logging) -eq $false))
+        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -1132,7 +1090,7 @@ class GitControl
 
 
         # Make sure that the git executable was detected.
-        if ($($this.DetectGitExist($logging)) -eq $false)
+        if ($($this.DetectGitExist()) -eq $false)
         {
             # Git was not detected, throw the default message instead.
             return "DEV";
@@ -1140,7 +1098,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($([IOCommon]::CheckPathExists("$($projectPath)", $logging)) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
         {
             # Project Path does not exist, return the default
             #  message instead.
@@ -1182,7 +1140,6 @@ class GitControl
                             "$($this.__logPath)", `
                             "$($this.__reportPath)", `
                             "$($execReason)", `
-                            $logging, `
                             $false, `
                             $true, `
                             [ref]$commitID) | Out-Null;
@@ -1218,11 +1175,6 @@ class GitControl
     #   contains the .git directory.  If that directory
     #   lacks that specific '.git' directory, this
     #   will fail to work.
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     #  [string] Output Path
     #   The absolute location to place the Commit History.
     #   - NOTE: We will use the Report functionality to
@@ -1236,7 +1188,7 @@ class GitControl
     #    $true  = Successfully created the report.
     # -------------------------------
     #>
-    [bool] FetchCommitHistory([string] $projectPath, [bool] $logging, [string] $outputPath)
+    [bool] FetchCommitHistory([string] $projectPath, [string] $outputPath)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1250,6 +1202,7 @@ class GitControl
                                                                 #  commit history.  This'll be generated
                                                                 #  by user's request.
         [string] $execReason = "Fetch Commit History";          # Description; used for logging
+        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -1261,7 +1214,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if ($logging -and ($this.__CreateDirectories($logging) -eq $false))
+        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -1270,7 +1223,7 @@ class GitControl
 
 
         # Make sure that the git executable was detected.
-        if ($($this.DetectGitExist($logging)) -eq $false)
+        if ($($this.DetectGitExist()) -eq $false)
         {
             # Git was not detected.
             return $false;
@@ -1278,7 +1231,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($([IOCommon]::CheckPathExists("$($projectPath)", $logging)) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
         {
             # Project Path does not exist, return an error.
             return $false;
@@ -1352,7 +1305,6 @@ class GitControl
                             "$($this.__logPath)", `
                             "$($changelogPath)", `
                             "$($execReason)", `
-                            $logging, `
                             $true, `
                             $false, `
                             $null) -eq 0)
@@ -1382,18 +1334,13 @@ class GitControl
     #   contains the .git directory.  If that directory
     #   lacks that specific '.git' directory, this
     #   will fail to work.
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [string] Current and Active Branch
     #    The current branch selected (or active).
     # -------------------------------
     #>
-    [string] FetchCurrentBranch([string] $projectPath, [bool] $logging)
+    [string] FetchCurrentBranch([string] $projectPath)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1403,6 +1350,7 @@ class GitControl
         [string] $outputResult = $null;                         # Holds the value of the current
                                                                 #  branch provided by the extCMD.
         [string] $execReason = "Fetch Current Branch";          # Description; used for logging
+        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -1414,7 +1362,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if ($logging -and ($this.__CreateDirectories($logging) -eq $false))
+        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -1423,7 +1371,7 @@ class GitControl
 
 
         # Make sure that the git executable was detected.
-        if ($($this.DetectGitExist($logging)) -eq $false)
+        if ($($this.DetectGitExist()) -eq $false)
         {
             # Git was not detected, throw the default message instead.
             return "ERR";
@@ -1431,7 +1379,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($([IOCommon]::CheckPathExists("$($projectPath)", $logging)) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
         {
             # Project Path does not exist, return the default
             #  message instead.
@@ -1450,7 +1398,6 @@ class GitControl
                             "$($this.__logPath)", `
                             "$($this.__reportPath)", `
                             "$($execReason)", `
-                            $logging, `
                             $false, `
                             $true, `
                             [ref]$outputResult) | Out-Null;
@@ -1485,11 +1432,6 @@ class GitControl
     #   contains the .git directory.  If that directory
     #   lacks that specific '.git' directory, this
     #   will fail to work.
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [string] Branches
@@ -1502,7 +1444,7 @@ class GitControl
     #            master[CR][LF]The Mega Branch![CR][LF]Lame Branch
     # -------------------------------
     #>
-    [string] FetchAllBranches([string] $projectPath, [bool] $logging)
+    [string] FetchAllBranches([string] $projectPath)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1512,6 +1454,7 @@ class GitControl
         [string] $outputResult = $null;                 # Holds the value of the current
                                                         #  branch provided by the extCMD.
         [string] $execReason = "Fetch All Branches";    # Description; used for logging
+        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -1523,7 +1466,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if ($logging -and ($this.__CreateDirectories($logging) -eq $false))
+        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -1532,7 +1475,7 @@ class GitControl
 
 
         # Make sure that the git executable was detected.
-        if ($($this.DetectGitExist($logging)) -eq $false)
+        if ($($this.DetectGitExist()) -eq $false)
         {
             # Git was not detected, throw the error message instead.
             return "ERR";
@@ -1540,7 +1483,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($([IOCommon]::CheckPathExists("$($projectPath)", $logging)) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
         {
             # Project Path does not exist, return the default
             #  error message instead.
@@ -1559,7 +1502,6 @@ class GitControl
                             "$($this.__logPath)", `
                             "$($this.__reportPath)", `
                             "$($execReason)", `
-                            $logging, `
                             $false, `
                             $true, `
                             [ref]$outputResult) | Out-Null;
@@ -1606,11 +1548,6 @@ class GitControl
     #   contains the .git directory.  If that directory
     #   lacks that specific '.git' directory, this
     #   will fail to work.
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [string] Branches with Last-Known Activity
@@ -1623,7 +1560,7 @@ class GitControl
     #            master[CR][LF]The Mega Branch![CR][LF]Lame Branch
     # -------------------------------
     #>
-    [string] FetchAllBranchesActivity([string] $projectPath, [bool] $logging)
+    [string] FetchAllBranchesActivity([string] $projectPath)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1634,6 +1571,7 @@ class GitControl
         [string] $outputResult = $null;                 # Holds the value of the current
                                                         #  branch provided by the extCMD.
         [string] $execReason = "Fetch Active Branches"  # Description; used for logging
+        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -1645,7 +1583,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if ($logging -and ($this.__CreateDirectories($logging) -eq $false))
+        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -1654,7 +1592,7 @@ class GitControl
 
 
         # Make sure that the git executable was detected.
-        if ($($this.DetectGitExist($logging)) -eq $false)
+        if ($($this.DetectGitExist()) -eq $false)
         {
             # Git was not detected, throw an error message instead.
             return "ERR";
@@ -1662,7 +1600,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($([IOCommon]::CheckPathExists("$($projectPath)", $logging)) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
         {
             # Project Path does not exist, return an error
             #  message instead.
@@ -1698,7 +1636,6 @@ class GitControl
                             "$($this.__logPath)", `
                             "$($this.__reportPath)", `
                             "$($execReason)", `
-                            $logging, `
                             $false, `
                             $true, `
                             [ref]$outputResult) | Out-Null;
@@ -1735,11 +1672,6 @@ class GitControl
     #   contains the .git directory.  If that directory
     #   lacks that specific '.git' directory, this
     #   will fail to work.
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [string] Contributors
@@ -1752,7 +1684,7 @@ class GitControl
     #            John[CR][LF]Amber[CR][LF]Hammingway
     # -------------------------------
     #>
-    [string] FetchAllContributors([string] $projectPath, [bool] $logging)
+    [string] FetchAllContributors([string] $projectPath)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1763,6 +1695,7 @@ class GitControl
                                                         #  that have been involved within the
                                                         #  project.
         [string] $execReason = "Fetch All Contributors";# Description; used for logging
+        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -1774,7 +1707,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if ($logging -and ($this.__CreateDirectories($logging) -eq $false))
+        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -1783,7 +1716,7 @@ class GitControl
 
 
         # Make sure that the git executable was detected.
-        if ($($this.DetectGitExist($logging)) -eq $false)
+        if ($($this.DetectGitExist()) -eq $false)
         {
             # Git was not detected, return an error message instead.
             return "ERR";
@@ -1791,7 +1724,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($([IOCommon]::CheckPathExists("$($projectPath)", $logging)) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
         {
             # Project Path does not exist, return an error message instead.
             return "ERR";
@@ -1809,7 +1742,6 @@ class GitControl
                             "$($this.__logPath)", `
                             "$($this.__reportPath)", `
                             "$($execReason)", `
-                            $logging, `
                             $false, `
                             $true, `
                             [ref]$outputResult) | Out-Null;
@@ -1845,11 +1777,6 @@ class GitControl
     #   contains the .git directory.  If that directory
     #   lacks that specific '.git' directory, this
     #   will fail to work.
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [string] Commit Graph & info
@@ -1857,7 +1784,7 @@ class GitControl
     #    - NOTE: This is a giant string.
     # -------------------------------
     #>
-    [string] MakeCommitGraphInfo([string] $projectPath, [bool] $logging)
+    [string] MakeCommitGraphInfo([string] $projectPath)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1869,6 +1796,7 @@ class GitControl
         [string] $gitArgsFormat = $null;                # Formatting for the commit information args.
         [string] $outputResult = $null;                 # Holds the graph and commit information.
         [string] $execReason = "Graph Log";             # Description; used for logging
+        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -1880,7 +1808,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if ($logging -and ($this.__CreateDirectories($logging) -eq $false))
+        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -1889,7 +1817,7 @@ class GitControl
 
 
         # Make sure that the git executable was detected.
-        if ($($this.DetectGitExist($logging)) -eq $false)
+        if ($($this.DetectGitExist()) -eq $false)
         {
             # Git was not detected, throw an error message instead.
             return "ERR";
@@ -1897,7 +1825,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($([IOCommon]::CheckPathExists("$($projectPath)", $logging)) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
         {
             # Project Path does not exist, return an error message instead.
             return "ERR";
@@ -1941,7 +1869,6 @@ class GitControl
                             "$($this.__logPath)", `
                             "$($this.__reportPath)", `
                             "$($execReason)", `
-                            $logging, `
                             $false, `
                             $true, `
                             [ref]$outputResult) | Out-Null;
@@ -1976,11 +1903,6 @@ class GitControl
     #   contains the .git directory.  If that directory
     #   lacks that specific '.git' directory, this
     #   will fail to work.
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     #  [bool] Create a PDF File
     #   When true, this will allow the ability to create
     #    a PDF document along with the textfile
@@ -1993,7 +1915,6 @@ class GitControl
     # -------------------------------
     #>
     [bool] CreateNewReport([string] $projectPath, `
-                           [bool] $logging, `
                            [bool] $makePDF)
     {
         # Declarations and Initializations
@@ -2046,6 +1967,9 @@ class GitControl
         #  loop.  This assures that the file is being written within
         #  the switch statement inside of the do-while loop.
         [bool] $readyToBreak = $false;
+
+        # Fetch the user's preferences
+        [UserPreferences] $userPref = [UserPreferences]::GetInstance();
         # ----------------------------------------
 
 
@@ -2067,7 +1991,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if ($logging -and ($this.__CreateDirectories($logging) -eq $false))
+        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -2076,7 +2000,7 @@ class GitControl
 
 
         # Make sure that the git executable was detected.
-        if ($($this.DetectGitExist($logging)) -eq $false)
+        if ($($this.DetectGitExist()) -eq $false)
         {
             # Git was not detected.
             return $false;
@@ -2084,7 +2008,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($([IOCommon]::CheckPathExists("$($projectPath)", $logging)) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
         {
             # Project Path does not exist, return an error.
             return $false;
@@ -2137,7 +2061,7 @@ class GitControl
 
 
                     # Write to file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)", $logging) -eq $false)
+                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Failure occurred while writing to the file.
                         return $false;
@@ -2167,7 +2091,7 @@ class GitControl
 
 
                     # Write to file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)", $logging) -eq $false)
+                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Failure occurred while writing to the file.
                         return $false;
@@ -2206,7 +2130,7 @@ class GitControl
 
 
                     # Write to file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)", $logging) -eq $false)
+                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Failure occurred while writing to the file.
                         return $false;
@@ -2231,11 +2155,11 @@ class GitControl
                                      "Provided below is a list of contributors that have" + `
                                      " sent commits to this project's git repository.`r`n`r`n" + `
                                      "List of Contributors:`r`n" + `
-                                     "$($this.FetchAllContributors($projectPath, $logging))`r`n`r`n";
+                                     "$($this.FetchAllContributors($projectPath))`r`n`r`n";
 
 
                     # Write to file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)", $logging) -eq $false)
+                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Failure occurred while writing to the file.
                         return $false;
@@ -2260,11 +2184,11 @@ class GitControl
                                      "Provided below is list of branches that are" + `
                                      " available in this repository.`r`n`r`n" + `
                                      "List of Branches:`r`n" + `
-                                     "$($this.FetchAllBranchesActivity($projectPath, $logging))`r`n`r`n";
+                                     "$($this.FetchAllBranchesActivity($projectPath))`r`n`r`n";
 
 
                     # Write to file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)", $logging) -eq $false)
+                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Failure occurred while writing to the file.
                         return $false;
@@ -2289,11 +2213,11 @@ class GitControl
                                      "Provided below is an overview of commits that" + `
                                      "  have been submitted to this project's repository.`r`n`r`n" + `
                                      "List of Commits:`r`n" + `
-                                     "$($this.MakeCommitGraphInfo($projectPath, $logging))";
+                                     "$($this.MakeCommitGraphInfo($projectPath))";
 
 
                     # Write to file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)", $logging) -eq $false)
+                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Failure occurred while writing to the file.
                         return $false;
@@ -2327,7 +2251,7 @@ class GitControl
         if ($makePDF -eq $true)
         {
             # Create the PDF file
-            if(([IOCommon]::CreatePDFFile("$($fileNameTXT)", "$($fileNamePDF)", $logging)) -eq $false)
+            if(([IOCommon]::CreatePDFFile("$($fileNameTXT)", "$($fileNamePDF)")) -eq $false)
             {
                 # Failure occurred while creating the PDF document.
                 return $false;
@@ -2352,11 +2276,6 @@ class GitControl
     # Input:
     #  [bool] Expunge reports
     #   When true, the reports will be thrashed.
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -2366,7 +2285,7 @@ class GitControl
     #           Directories were not found
     # -------------------------------
     #>
-    [bool] ThrashLogs([bool] $expungeReports, [bool] $logging)
+    [bool] ThrashLogs([bool] $expungeReports)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2378,7 +2297,7 @@ class GitControl
         # First, make sure that the directories exist.
         #  If the directories are not available, than there
         #  is nothing that can be done.
-        if (($this.__CheckRequiredDirectories($logging)) -eq $false)
+        if (($this.__CheckRequiredDirectories()) -eq $false)
         {
             # This is not really an error, however the directories simply
             #  does not exist -- nothing can be done.
@@ -2387,7 +2306,7 @@ class GitControl
 
 
         # Because the directories exists, lets try to thrash the logs.
-        if(([IOCommon]::DeleteFile("$($this.__logPath)", $extLogs, $logging)) -eq $false)
+        if(([IOCommon]::DeleteFile("$($this.__logPath)", $extLogs)) -eq $false)
         {
             # Failure to remove the requested files
             return $false;
@@ -2399,7 +2318,7 @@ class GitControl
 
         # Did the user also wanted to thrash the reports?
         if (($($expungeReports) -eq $true) -and `
-        ([IOCommon]::DeleteFile("$($this.__reportPath)", $extReports, $logging)) -eq $false)
+        ([IOCommon]::DeleteFile("$($this.__reportPath)", $extReports)) -eq $false)
         {
             # Failure to remove the requested files
             return $false;

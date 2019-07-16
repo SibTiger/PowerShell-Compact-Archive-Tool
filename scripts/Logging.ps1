@@ -48,6 +48,56 @@ class Logging
     #region Private Functions
 
 
+   <# Get Logging Lock Key
+    # -------------------------------
+    # Documentation:
+    #  This function will return the value of the logging lock key. This lock
+    #   is important to assure that we do not log recursive information.
+    # -------------------------------
+    # Output:
+    #   [bool] Lock status
+    #       $true = A function requested the logging lock to be enabled.
+    #       $false = No function has the lock placed presently.
+    # -------------------------------
+    #>
+    static Hidden [bool] __GetLoggingLockKey()
+    {
+        return $Global:_LOGGINGLOCKKEY_;
+    } # __GetLoggingLockKey()
+
+
+
+
+   <# Set Logging Lock Key
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the logging functionality to temporarily pause.
+    #   This is used to assure that nothing is logged that could cause recursive
+    #   information - which would ultimately lead to a stack overflow.
+    #   - When setting this true, a function is requesting that the logging
+    #      functionality is temporarily paused.  Do know that the logging
+    #      functionality will still operate as intended, but nothing will be written
+    #      to the user's filesystem.
+    #   - When setting this to false, the logging functionality will resume its entire
+    #      logging protocol - information and data will be written to the user's
+    #      filesystem.
+    # -------------------------------
+    # Input:
+    #  [bool] New Value
+    #   $True = Logging functionality is temporarily paused; nothing is written
+    #             to the filesystem.
+    #   $False = Logging functionality protocol is allowed to execute; data
+    #             and information is written to the filesystem.
+    # -------------------------------
+    #>
+    static Hidden [void] __SetLoggingLockKey([bool] $value)
+    {
+        $Global:_LOGGINGLOCKKEY_ = $value;
+    } # __SetLoggingLockKey()
+
+
+
+
    <# Generate Timestamp
     # -------------------------------
     # Documentation:
@@ -110,18 +160,60 @@ class Logging
     #>
     Static Hidden [bool] __CheckRequiredDirectories()
     {
-        # Check Program Log Directory
-        if (([IOCommon]::CheckPathExists("$([Logging]::ProgramLogPath)", $false)) -eq $true)
+        # Declarations and Initializations
+        # ----------------------------------------
+        [bool] $controlLockKey  = $false;       # This will help to determine the lock status; wither
+                                                #  the 'Logging Lock Key' is being controlled by any of
+                                                #  the outside functions.
+        [bool] $exitCode        = $false;       # Provides the status code if all of the required directories
+                                                #  are present in the host's filesystem.
+        # ----------------------------------------
+
+
+        # Determine if the logging lock key was already set by another function
+        if ([Logging]::__GetLoggingLockKey())
         {
-            # All of the directories exists
-            return $true;
+            # Another function has already placed a logging lock, do not manipulate the main lock.
+            $controlLockKey = $false;
+        } # if : Logging lock key controlled outside
+
+        # The logging lock is presently not locked; this function may control it.
+        else
+        {
+            # This function may control the logging lock.
+            $controlLockKey = $true;
+
+            # Lock the Logging functionality; this is required to avoid recursive calls.
+            [Logging]::__SetLoggingLockKey($true);
+        } # else : Logging lock key is controlled by this function
+
+
+
+        # Check Program Log Directory
+        if (([IOCommon]::CheckPathExists("$([Logging]::ProgramLogPath)")) -eq $true)
+        {
+            # All of the required directories are present in the filesystem
+            $exitCode = $true;
         } # If : Check Directories Exists
 
         else
         {
-            # Directories does not exist.
-            return $false;
+            # One or more of the required directories are missing from the filesystem.
+            $exitCode = $false;
         } # Else : Directories does not exist
+
+
+        # If this function is controlling the Logging Lock Key, unlock it now - before leaving.
+        if($controlLockKey)
+        {
+            # Because this function has the Logging Lock Key controlled, unlock it now to avoid conflicts.
+            #  -- NOTE: If other functions already has it set - do not touch it!
+            [Logging]::__SetLoggingLockKey($false);
+        } # If : This function controls the logging lock key
+
+
+        # Return the status to the calling function
+        return $exitCode;
     } # __CheckRequiredDirectories()
 
 
@@ -152,9 +244,44 @@ class Logging
     #>
     Static Hidden [bool] __CreateDirectories()
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [bool] $controlLockKey  = $false;       # This will help to determine the lock status; wither
+                                                #  the 'Logging Lock Key' is being controlled by any of
+                                                #  the outside functions.
+        # ----------------------------------------
+
+
+        # Determine if the logging lock key was already set by another function
+        if ([Logging]::__GetLoggingLockKey())
+        {
+            # Another function has already placed a logging lock, do not manipulate the main lock.
+            $controlLockKey = $false;
+        } # if : Logging lock key controlled outside
+
+        # The logging lock is presently not locked; this function may control it.
+        else
+        {
+            # This function may control the logging lock.
+            $controlLockKey = $true;
+
+            # Lock the Logging functionality; this is required to avoid recursive calls.
+            [Logging]::__SetLoggingLockKey($true);
+        } # else : Logging lock key is controlled by this function
+
+
+
         # First, check if the directories already exist?
         if(([Logging]::__CheckRequiredDirectories())-eq $true)
         {
+            # If this function is controlling the Logging Lock Key, unlock it now - before leaving.
+            if($controlLockKey)
+            {
+                # Because this function has the Logging Lock Key controlled, unlock it now to avoid conflicts.
+                #  -- NOTE: If other functions already has it set - do not touch it!
+                [Logging]::__SetLoggingLockKey($false);
+            } # If : This function controls the logging lock key
+
             # The directories exist, no action is required.
             return $true;
         } # IF : Check if Directories Exists
@@ -167,11 +294,19 @@ class Logging
         #  can use it within the program.
 
         # Program Log Directory
-        if(([IOCommon]::CheckPathExists("$([Logging]::ProgramLogPath)", $false)) -eq $false)
+        if(([IOCommon]::CheckPathExists("$([Logging]::ProgramLogPath)")) -eq $false)
         {
             # Program Log Directory does not exist, try to create it.
-            if (([IOCommon]::MakeDirectory("$([Logging]::ProgramLogPath)", $false)) -eq $false)
+            if (([IOCommon]::MakeDirectory("$([Logging]::ProgramLogPath)")) -eq $false)
             {
+                # If this function is controlling the Logging Lock Key, unlock it now - before leaving.
+                if($controlLockKey)
+                {
+                    # Because this function has the Logging Lock Key controlled, unlock it now to avoid conflicts.
+                    #  -- NOTE: If other functions already has it set - do not touch it!
+                    [Logging]::__SetLoggingLockKey($false);
+                } # If : This function controls the logging lock key
+
                 # Failure occurred.
                 return $false;
             } # If : Failed to Create Directory
@@ -184,11 +319,27 @@ class Logging
         # Fail-safe; final assurance that the directories have been created successfully.
         if(([Logging]::__CheckRequiredDirectories())-eq $true)
         {
+            # If this function is controlling the Logging Lock Key, unlock it now - before leaving.
+            if($controlLockKey)
+            {
+                # Because this function has the Logging Lock Key controlled, unlock it now to avoid conflicts.
+                #  -- NOTE: If other functions already has it set - do not touch it!
+                [Logging]::__SetLoggingLockKey($false);
+            } # If : This function controls the logging lock key
+
             # The directories exist
             return $true;
         } # IF : Check if Directories Exists
 
-        
+
+        # If this function is controlling the Logging Lock Key, unlock it now - before leaving.
+        if($controlLockKey)
+        {
+            # Because this function has the Logging Lock Key controlled, unlock it now to avoid conflicts.
+            #  -- NOTE: If other functions already has it set - do not touch it!
+            [Logging]::__SetLoggingLockKey($false);
+        } # If : This function controls the logging lock key
+
         # A general error occurred, the directories could not be created.
         return $false;
     } # __CreateDirectories()
@@ -211,11 +362,44 @@ class Logging
     # Output:
     #  [bool] Status Code
     #    $false = Operation failed
+    #             OR
+    #             Is locked; cannot write to secondary storage
+    #              due to Logging Lock Key value.
     #    $true  = Operation was successful 
     # -------------------------------
     #>
     Static Hidden [bool] __WriteLogFile([string] $message)
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [bool] $controlLockKey  = $false;       # This will help to determine the lock status; wither
+                                                #  the 'Logging Lock Key' is being controlled by any of
+                                                #  the outside functions.
+        [bool] $exitCode        = $false;       # Provides the exit code of the operation performed
+                                                #  within the function.
+        # ----------------------------------------
+
+
+        # Determine if the logging lock key was already set by another function
+        if ([Logging]::__GetLoggingLockKey())
+        {
+            # Another function has already placed a logging lock, we can NOT proceed in this function.
+            #  Return immediately.
+            return $false;
+        } # if : Logging lock key controlled outside
+
+        # The logging lock is presently not locked; this function may control it.
+        else
+        {
+            # This function may control the logging lock.
+            $controlLockKey = $true;
+
+            # Lock the Logging functionality; this is required to avoid recursive calls.
+            [Logging]::__SetLoggingLockKey($true);
+        } # else : Logging lock key is controlled by this function
+
+
+
         # Make sure that the required directories exists for logging, if not - try to create it.
         if ([Logging]::__CreateDirectories() -eq $false)
         {
@@ -223,31 +407,52 @@ class Logging
             #  trying to write information to a log file - when the directory
             #  does not exist.
             Write-Output "ERR! Program Log Directory failed to be created!";
-            return $false;
+
+            # Provide an error code
+            $exitCode = $false;
         } # If : Program Log Dir. does not exist.
 
 
         # Make sure that there is something to actually write, if there is no message - then
         #  there is no point in trying to write to the host's filesystem.
-        if ("$($message)" -eq "$($null)")
+        elseif ("$($message)" -eq "$($null)")
         {
             # Because the message is empty, there is really nothing that can be written to
             #  the logfile.
             Write-Output "ERR! Message can not be recorded as it is null!";
-            return $false;
-        } # If : Message is empty
+
+            # Provide an error code
+            $exitCode = $false;
+        } # Else-If : Message is empty
 
 
         # Write the readable data to the logfile.
-        if (([IOCommon]::WriteToFile("$([Logging]::ProgramLogPath)\$([Logging]::ProgramLogFileName)", "$($message)", $false)) -eq $false)
+        elseif (([IOCommon]::WriteToFile("$([Logging]::ProgramLogPath)\$([Logging]::ProgramLogFileName)", "$($message)")) -eq $false)
         {
             # The message failed to be written to file,
-            #  return false to signify failure.
-            return $false;
-        } # If : Operation Failed
+            #  provide an exit code of false to signify failure.
+            $exitCode = $false;
+        } # Else-If : Operation Failed
 
-        # If we made it here, everything was successful.
-        return $true;
+        # Operation was successful
+        else
+        {
+            # Because the operation was successful, set the exit code as successful.
+            $exitCode = $true;
+        } # Else : Successful operation
+
+
+        # If this function is controlling the Logging Lock Key, unlock it now - before leaving.
+        if($controlLockKey)
+        {
+            # Because this function has the Logging Lock Key controlled, unlock it now to avoid conflicts.
+            #  -- NOTE: If other functions already has it set - do not touch it!
+            [Logging]::__SetLoggingLockKey($false);
+        } # If : This function controls the logging lock key
+
+
+        # Return the status to the calling function
+        return $exitCode;
     } # __WriteLogFile()
 
 
@@ -441,32 +646,69 @@ class Logging
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string[]] $extLogs = @('*.log');       # Array of log extensions
+        [string[]] $extLogs     = @('*.log');   # Array of log extensions
+        [bool] $exitCode        = $false;       # Provides the exit code of the operation performed
+                                                #  within the function.
+        [bool] $controlLockKey  = $false;       # This will help to determine the lock status; wither
+                                                #  the 'Logging Lock Key' is being controlled by any of
+                                                #  the outside functions.
         # ----------------------------------------
+
+
+        # Determine if the logging lock key was already set by another function
+        if ([Logging]::__GetLoggingLockKey())
+        {
+            # Another function has already placed a logging lock, do not manipulate the main lock.
+            $controlLockKey = $false;
+        } # if : Logging lock key controlled outside
+
+        # The logging lock is presently not locked; this function may control it.
+        else
+        {
+            # This function may control the logging lock.
+            $controlLockKey = $true;
+
+            # Lock the Logging functionality; this is required to avoid recursive calls.
+            [Logging]::__SetLoggingLockKey($true);
+        } # else : Logging lock key is controlled by this function
 
 
         # First, make sure that the directories exist.
         #  If the directories are not available, than there
         #  is nothing that can be done.
-        if(([Logging]::__CheckRequiredDirectories())-eq $false)
+        if (([Logging]::__CheckRequiredDirectories()) -eq $false)
         {
             # This is not really an error, however the directories simply
             #  does not exist -- nothing can be done.
-            return $true;
+            $exitCode = $false;
         } # IF : Required Directories Exists
 
 
         # Because the directories exists, lets try to thrash the log files.
-        if (([IOCommon]::DeleteFile("$([Logging]::ProgramLogPath)", $extLogs, $false)) -eq $false)
+        elseif (([IOCommon]::DeleteFile("$([Logging]::ProgramLogPath)", $extLogs)) -eq $false)
         {
             # Failure to remove the requested files
-            return $false;
-        } # If : Failure to delete Program Logs
+            $exitCode = $false;
+        } # Else-If : Failure to delete Program Logs
+
+        # The deletion operation was successful
+        else
+        {
+            # If we made it here, then everything went okay!
+            $exitCode = $true;
+        } # Else : Successfully deleted the files
 
 
+        # If this function is controlling the Logging Lock Key, unlock it now - before leaving.
+        if($controlLockKey)
+        {
+            # Because this function has the Logging Lock Key controlled, unlock it now to avoid conflicts.
+            #  -- NOTE: If other functions already has it set - do not touch it!
+            [Logging]::__SetLoggingLockKey($false);
+        } # If : This function controls the logging lock key
 
-        # If we made it here, then everything went okay!
-        return $true;
+
+        return $exitCode;
     } # ThrashLogs()
 
 

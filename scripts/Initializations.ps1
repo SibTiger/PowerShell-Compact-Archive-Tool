@@ -14,6 +14,9 @@ function Initializations()
 
     # Directory Locations
     InitalizationDirectory
+
+    # Program's Working Data
+    InitializationWorkingProgramData;
 } # Initializations()
 
 
@@ -148,6 +151,29 @@ function InitalizationDirectory()
     Set-Variable -Name "_PROGRAMDATA_CONFIGS_PATH_" -Value "$($_PROGRAMADATA_ROOT_ROAMING_PATH_)\Configs" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 } # InitalizationDirectory()
+
+
+
+
+<# Initialization Working Program Data
+ # -------------------------------
+ # Documentation:
+ #  This function will initialize variables that will help assist with
+ #   the operations performed within this program.
+ # -------------------------------
+ #>
+function InitializationWorkingProgramData()
+{
+    # Logging Lock Key
+    #  This will help to avoid recursive function calls when an event is being logged.
+    #  This key, when 'false' will adhere to the user's logging preference.  But when
+    #  'true', the user's logging preference will be ignored (regardless true or false)
+    #  and will disallow events to be logged.
+    # NOTE: This functionality is mainly utilized with the WriteToFile() function in the
+    #  IOCommon object.
+    Set-Variable -Name "_LOGGINGLOCKKEY_" -Value $false `
+        -Scope Global -ErrorAction SilentlyContinue;
+} # InitializationWorkingProgramData()
 
 
 

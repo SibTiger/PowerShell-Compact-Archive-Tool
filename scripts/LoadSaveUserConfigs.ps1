@@ -183,13 +183,6 @@
     #  Directories to be created:
     #   - User Configuration Path <Internal Program Defined>
     # -------------------------------
-    # Input:
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
-    # -------------------------------
     # Output:
     #  [bool] Exit code
     #    $false = Failure creating the new directories.
@@ -198,10 +191,10 @@
     #             Directories already existed, nothing to do.
     # -------------------------------
     #>
-    Hidden [bool] __CreateDirectories([bool] $logging)
+    Hidden [bool] __CreateDirectories()
     {
         # First, check if the directories already exist?
-        if(($this.__CheckRequiredDirectories($logging))-eq $true)
+        if(($this.__CheckRequiredDirectories())-eq $true)
         {
             # The directories exist, no action is required.
             return $true;
@@ -215,10 +208,10 @@
         #  check which directory does not exist and then try to create it.
 
         # User Configuration Path
-        if(([IOCommon]::CheckPathExists("$($this.__configPath)", $logging)) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($this.__configPath)")) -eq $false)
         {
             # The User Configuration Directory does not exist, try to create it.
-            if (([IOCommon]::MakeDirectory("$($this.__configPath)", $logging)) -eq $false)
+            if (([IOCommon]::MakeDirectory("$($this.__configPath)")) -eq $false)
             {
                 # Failure occurred.
                 return $false;
@@ -230,7 +223,7 @@
 
 
         # Fail-safe; final assurance that the directories have been created successfully.
-        if(($this.__CheckRequiredDirectories($logging))-eq $true)
+        if(($this.__CheckRequiredDirectories())-eq $true)
         {
             # The directories exist
             return $true;
@@ -255,23 +248,16 @@
     #  Directories to Check:
     #   - User Configuration Path <Internal Program Defined>
     # -------------------------------
-    # Input:
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
-    # -------------------------------
     # Output:
     #  [bool] Exit code
     #    $false = One or more directories does not exist.
     #    $true = Directories exist
     # -------------------------------
     #>
-    Hidden [bool] __CheckRequiredDirectories([bool] $logging)
+    Hidden [bool] __CheckRequiredDirectories()
     {
         # Check Configuration Path
-        if ([IOCommon]::CheckPathExists("$($this.__configPath)", $logging) -eq $true)
+        if ([IOCommon]::CheckPathExists("$($this.__configPath)") -eq $true)
         {
             # Required directories exists
             return $true;
@@ -314,11 +300,6 @@
     #  [DefaultCompress] PowerShell's Archive Object
     #     User's preferences and settings for using the
     #      PowerShell Archive functionality.
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -329,8 +310,7 @@
     [bool] Save([UserPreferences] $userPref, `
                 [GitControl] $gitObj, `
                 [SevenZip] $sevenZipObj, `
-                [DefaultCompress] $psArchive, `
-                [bool] $logging)
+                [DefaultCompress] $psArchive)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -346,10 +326,10 @@
         # ---------------------------
 
         # Make sure that the user config. directory exists
-        if ($this.__CheckRequiredDirectories($logging) -eq $false)
+        if ($this.__CheckRequiredDirectories() -eq $false)
         {
             # Because the directory does not exist, try to create it.
-            if ($this.__CreateDirectories($logging) -eq $false)
+            if ($this.__CreateDirectories() -eq $false)
             {
                 # Because we could not create the directory, we
                 #  can not save the user's configuration.
@@ -417,11 +397,6 @@
     #  [ref] {DefaultCompress} PowerShell's Archive Object
     #     User's preferences and settings for using the
     #      PowerShell Archive functionality.
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -433,8 +408,7 @@
     [bool] Load([UserPreferences] $userPref, `
                 [GitControl] $gitObj, `
                 [SevenZip] $sevenZipObj, `
-                [DefaultCompress] $psArchive, `
-                [bool] $logging)
+                [DefaultCompress] $psArchive)
     {
         # Declarations and Initializations
         # -----------------------------------------
@@ -467,7 +441,7 @@
         # ---------------------------
 
         # Make sure that the file exists at the given location.
-        if ([IOCommon]::CheckPathExists("$($this.__configPath)\$($this.__configFileName)", $logging) -eq $false)
+        if ([IOCommon]::CheckPathExists("$($this.__configPath)\$($this.__configFileName)") -eq $false)
         {
             # Because either the file or directory does not exist
             #  at the provided location, we simply can not load
@@ -493,8 +467,7 @@
                                    $userPref, `
                                    $gitObj, `
                                    $sevenZipObj, `
-                                   $psArchive, `
-                                   $logging) -eq $true)
+                                   $psArchive) -eq $true)
             {
 
                 # Update the status as successful
@@ -565,11 +538,6 @@
     #  [ref] {DefaultCompress} PowerShell's Archive Object
     #     User's preferences and settings for using the
     #      PowerShell Archive functionality.
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -582,8 +550,7 @@
                         [UserPreferences] $userPref, `
                         [GitControl] $gitObj, `
                         [SevenZip] $sevenZipObj, `
-                        [DefaultCompress] $psArchive, `
-                        [bool] $logging)
+                        [DefaultCompress] $psArchive)
     {
         # STEPWISE ALGORITHM - WITH VALIDATION
         # =====================================
