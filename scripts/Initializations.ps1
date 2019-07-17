@@ -1,34 +1,40 @@
 ﻿<# Initializations Driver
  # -------------------------------
  # Documentation:
- #  This function is essentially the driver to setting up the declarations and
- #   initializations for the heart of the program.  Most of the declarations
- #   housed within this script are global but constant, thus the variables can
- #   be used anywhere within this program but not mutable once initialized.
+ #  This function acts as a simple procedural driver for declaring and initializing
+ #   variables that will be used within this program.  Such variables provide basic
+ #   information regarding the program, such as the software name or version, while
+ #   other variables may contain imperative information which is required for the
+ #   software's internal functionality and basic support.
+ #
+ #  NOTE: All variables defined within the sub-functions - are all global.  While these
+ #         variables are global to the program's environment, some may be flagged as
+ #         constant and others might be mutable.  Please review carefully.
  # -------------------------------
  #>
 function Initializations()
 {
-    # Program Information
-    InitalizationProgramData;
+    # Program Identity
+    InitializationProgramIdentity;
+
+    # Program Data and Internal Mutable Data
+    InitializationProgramData
 
     # Directory Locations
-    InitalizationDirectory
-
-    # Program's Working Data
-    InitializationWorkingProgramData;
+    InitializationDirectory
 } # Initializations()
 
 
 
 
-<# Initialization Program Data
+<# Initialization: Program Identity
  # -------------------------------
  # Documentation:
- #  This function will initialize all variables related to the program.
+ #  This function will initialize variables that provide information to the software's identity.
+ #   Such information will be the program's name, version, code name, etc....
  # -------------------------------
  #>
-function InitalizationProgramData()
+function InitializationProgramIdentity()
 {
     # Program Name
     Set-Variable -Name "_PROGRAMNAME_" -Value "PowerShell Compact-Archive Tool" `
@@ -49,7 +55,22 @@ function InitalizationProgramData()
     # Release Date
     Set-Variable -Name "_RELEASEDATE_" -Value "DD.MM.YYYY" `
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+} # InitializationProgramIdentity()
 
+
+
+
+<# Initialization: Program Data
+ # -------------------------------
+ # Documentation:
+ #  This function will declare and initialize variables that will be used within
+ #   the software - either by further enhancing functionality or to provide technical
+ #   data.  Some variables housed in this function may allow the possibilty to be
+ #   inter-changable at runtime.
+ # -------------------------------
+ #>
+function InitializationProgramData()
+{
     # .NET Framework Requirement
     Set-Variable -Name "_DOTNETFRAMEWORK_" -Value 5 `
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
@@ -57,7 +78,21 @@ function InitalizationProgramData()
     # PowerShell Version Requirement
     Set-Variable -Name "_POWERSHELLVERSION_" -Value 3 `
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
-} # InitalizationProgramData()
+
+    # Debug Logging functionality
+    Set-Variable -Name "_DEBUGLOGGING_" -Value $true `
+        -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+
+    # Logging Lock Key
+    #  This will help to avoid recursive function calls when an event is being logged.
+    #  This key, when 'false' will adhere to the user's logging preference.  But when
+    #  'true', the user's logging preference will be ignored (regardless true or false)
+    #  and will disallow events to be logged.
+    # NOTE: This functionality is mainly utilized with the WriteToFile() function in the
+    #  IOCommon object.
+    Set-Variable -Name "_LOGGINGLOCKKEY_" -Value $false `
+        -Scope Global -ErrorAction SilentlyContinue;
+} # InitializationProgramData()
 
 
 
@@ -65,11 +100,11 @@ function InitalizationProgramData()
 <# Initialization Directory Paths
  # -------------------------------
  # Documentation:
- #  This function will setup the directory paths that will be used
- #   when handling files within this program.
+ #  This function will initialize variables that will provide the directory paths for
+ #   both the User Data and Program Data within the host system.
  # -------------------------------
  #>
-function InitalizationDirectory()
+function InitializationDirectory()
 {
     # Script Absolute Script Path
     # ---------------
@@ -133,7 +168,7 @@ function InitalizationDirectory()
     Set-Variable -Name "_PROGRAMDATA_LOGS_PATH_" -Value "$($_PROGRAMDATA_ROOT_LOCAL_PATH_)\Logs" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
-    
+
     # ----
     # Program Data [Roaming AppData]
 
@@ -150,30 +185,7 @@ function InitalizationDirectory()
     # This directory will hold the user's configurations.
     Set-Variable -Name "_PROGRAMDATA_CONFIGS_PATH_" -Value "$($_PROGRAMADATA_ROOT_ROAMING_PATH_)\Configs" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
-} # InitalizationDirectory()
-
-
-
-
-<# Initialization Working Program Data
- # -------------------------------
- # Documentation:
- #  This function will initialize variables that will help assist with
- #   the operations performed within this program.
- # -------------------------------
- #>
-function InitializationWorkingProgramData()
-{
-    # Logging Lock Key
-    #  This will help to avoid recursive function calls when an event is being logged.
-    #  This key, when 'false' will adhere to the user's logging preference.  But when
-    #  'true', the user's logging preference will be ignored (regardless true or false)
-    #  and will disallow events to be logged.
-    # NOTE: This functionality is mainly utilized with the WriteToFile() function in the
-    #  IOCommon object.
-    Set-Variable -Name "_LOGGINGLOCKKEY_" -Value $false `
-        -Scope Global -ErrorAction SilentlyContinue;
-} # InitializationWorkingProgramData()
+} # InitializationDirectory()
 
 
 
