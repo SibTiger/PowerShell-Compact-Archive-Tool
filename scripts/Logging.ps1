@@ -627,6 +627,26 @@ class Logging
     #region Public Functions
 
 
+   <# Allow Logging
+    # -------------------------------
+    # Documentation:
+    #  This function will provide the status if the logging functionality is
+    #   currently allowed or if logging is not yet available.
+    # -------------------------------
+    # Output:
+    #  [bool] Logging State
+    #   $false = Logging is currently disabled
+    #   $true = Logging is currently enabled
+    # -------------------------------
+    #>
+    static [bool] DebugLoggingState()
+    {
+        return $Global:_DEBUGLOGGING_;
+    } # DebugLoggingState()
+
+
+
+
    <# Thrash Logs and Reports
     # -------------------------------
     # Documentation:

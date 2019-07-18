@@ -867,7 +867,6 @@ class GitControl
         [string] $extCMDArgs = "pull";          # Arguments for the external command
                                                 #  Fetch updates from the remote repository.
         [string] $execReason = "Update LWC";    # Description; used for logging
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -879,7 +878,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
+        if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -968,7 +967,6 @@ class GitControl
                                                                 #  This will allow us to switch to
                                                                 #  another branch.
         [string] $execReason = "Switch Branch";                 # Description; used for logging
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -980,7 +978,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
+        if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -1069,7 +1067,6 @@ class GitControl
                                                     #  argument; though determined by
                                                     #  user's request.
         [string] $execReason = "Fetch CommitID";    # Description; used for logging
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -1081,7 +1078,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
+        if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -1202,7 +1199,6 @@ class GitControl
                                                                 #  commit history.  This'll be generated
                                                                 #  by user's request.
         [string] $execReason = "Fetch Commit History";          # Description; used for logging
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -1214,7 +1210,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
+        if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -1350,7 +1346,6 @@ class GitControl
         [string] $outputResult = $null;                         # Holds the value of the current
                                                                 #  branch provided by the extCMD.
         [string] $execReason = "Fetch Current Branch";          # Description; used for logging
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -1362,7 +1357,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
+        if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -1454,7 +1449,6 @@ class GitControl
         [string] $outputResult = $null;                 # Holds the value of the current
                                                         #  branch provided by the extCMD.
         [string] $execReason = "Fetch All Branches";    # Description; used for logging
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -1466,7 +1460,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
+        if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -1571,7 +1565,6 @@ class GitControl
         [string] $outputResult = $null;                 # Holds the value of the current
                                                         #  branch provided by the extCMD.
         [string] $execReason = "Fetch Active Branches"  # Description; used for logging
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -1583,7 +1576,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
+        if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -1695,7 +1688,6 @@ class GitControl
                                                         #  that have been involved within the
                                                         #  project.
         [string] $execReason = "Fetch All Contributors";# Description; used for logging
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -1707,7 +1699,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
+        if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -1796,7 +1788,6 @@ class GitControl
         [string] $gitArgsFormat = $null;                # Formatting for the commit information args.
         [string] $outputResult = $null;                 # Holds the graph and commit information.
         [string] $execReason = "Graph Log";             # Description; used for logging
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -1808,7 +1799,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
+        if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -1967,9 +1958,6 @@ class GitControl
         #  loop.  This assures that the file is being written within
         #  the switch statement inside of the do-while loop.
         [bool] $readyToBreak = $false;
-
-        # Fetch the user's preferences
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance();
         # ----------------------------------------
 
 
@@ -1991,7 +1979,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
+        if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.

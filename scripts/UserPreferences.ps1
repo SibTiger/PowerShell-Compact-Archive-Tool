@@ -56,7 +56,6 @@ class UserPreferences
                                         [string] $outputBuildsPath,
                                         [bool] $useGitFeatures,
                                         [bool] $useWindowsExplorer,
-                                        [bool] $logging,
                                         [bool] $useBell,
                                         [UserPreferencesEventAlarm] $notificationType)
     {
@@ -69,7 +68,6 @@ class UserPreferences
                                                                 [string] $outputBuildsPath,
                                                                 [bool] $useGitFeatures,
                                                                 [bool] $useWindowsExplorer,
-                                                                [bool] $logging,
                                                                 [bool] $useBell,
                                                                 [UserPreferencesEventAlarm] $notificationType);
         }
@@ -117,14 +115,6 @@ class UserPreferences
     Hidden [bool] $__useWindowsExplorer;
 
 
-    # Logging
-    # ---------------
-    # When true, this will log all activity within the operations
-    #  taken place by the program as well as capturing all messages
-    #  from the tools used by this program.
-    Hidden [bool] $__logging;
-
-
     # Use Bell [Alarm]
     # ---------------
     # When true, this program will send a 'ding' sound when an
@@ -157,7 +147,7 @@ class UserPreferences
 
 
     #region Constructor Functions
-    
+
     # Default Constructor
     UserPreferences()
     {
@@ -175,9 +165,6 @@ class UserPreferences
 
         # Use Windows Explorer
         $this.__useWindowsExplorer = $true;
-
-        # Logging
-        $this.__logging = $true;
 
         # Use Bell
         $this.__ringMyDingaling = $true;
@@ -198,7 +185,6 @@ class UserPreferences
                     [string] $outputBuildsPath,
                     [bool] $useGitFeatures,
                     [bool] $useWindowsExplorer,
-                    [bool] $logging,
                     [bool] $useBell,
                     [UserPreferencesEventAlarm] $notificationType)
     {
@@ -216,9 +202,6 @@ class UserPreferences
 
         # Use Windows Explorer
         $this.__useWindowsExplorer = $useWindowsExplorer;
-
-        # Logging
-        $this.__logging = $logging;
 
         # Use Bell
         $this.__ringMyDingaling = $useBell;
@@ -322,24 +305,6 @@ class UserPreferences
     {
         return $this.__useWindowsExplorer;
     } # GetUseWindowsExplorer()
-
-
-
-
-   <# Get Logging
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the Logging variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Logging
-    #   the value of the Logging.
-    # -------------------------------
-    #>
-    [bool] GetLogging()
-    {
-        return $this.__logging;
-    } # GetLogging()
 
 
 
@@ -531,32 +496,6 @@ class UserPreferences
         # Successfully updated.
         return $true;
     } # SetUseWindowsExplorer()
-
-
-
-
-   <# Set Logging
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the Logging variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetLogging([bool] $newVal)
-    {
-        # Because the value is either true or false, there
-        #  really is no point in checking if the new requested
-        #  value is 'legal'.  Thus, we are going to trust the
-        #  value and automatically return success.
-        $this.__logging = $newVal;
-
-        # Successfully updated.
-        return $true;
-    } # SetLogging()
 
 
 

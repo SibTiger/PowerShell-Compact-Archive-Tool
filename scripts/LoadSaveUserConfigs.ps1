@@ -583,22 +583,6 @@
 
 
 
-        # USER PREFERENCES -- LOGGING
-        try
-        {
-            # Set: Logging
-            $userPref.SetLogging([bool]$cachedUserConfig[0].__logging);
-        } # Try : Load Value from Config
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-            Write-Host "An error occurred while trying to set: __logging FROM User Preferences!`r`n" `
-                       " - Tried to use value [$($[bool]$cachedUserConfig[0].__logging)] using $($userPref.GetLogging()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
-        } # Catch : Unknown Value from Config.
-
-
-
         # USER PREFERENCES -- NOTIFICATION TYPE
         try
         {

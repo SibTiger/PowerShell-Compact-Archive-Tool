@@ -1055,7 +1055,6 @@ class SevenZip
         [string] $outputResult = $null;                                 # Holds the hash value provided by the
                                                                         #  extCMD 7z
         [string] $execReason = "Generate $($hashAlgorithm) Hash";       # Description; used for logging
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -1067,7 +1066,7 @@ class SevenZip
         # ---------------------------
 
         # Make sure that the 7Zip Logging directories are ready for use (if required)
-        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
+        if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -1225,7 +1224,6 @@ class SevenZip
                                                                     #  This will get 7zip to test the
                                                                     #  requested archive datafile.
         [string] $execReason = "Verifying $($fileName)";            # Description; used for logging
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -1245,7 +1243,7 @@ class SevenZip
         # ---------------------------
 
         # Make sure that the 7Zip Logging directories are ready for use (if required)
-        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
+        if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -1393,7 +1391,6 @@ class SevenZip
                                                                     #  the files that are within the archive
                                                                     #  datafile.
         [string] $execReason = "List From $($fileName)";            # Description; used for logging
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -1404,7 +1401,7 @@ class SevenZip
         # ---------------------------
 
         # Make sure that the 7Zip Logging directories are ready for use (if required)
-        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
+        if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -1531,7 +1528,6 @@ class SevenZip
                                                                     #  the files within the requested
                                                                     #  archive datafile.
         [string] $execReason = "Extracting $($fileNameExt)";        # Description; used for logging
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -1542,7 +1538,7 @@ class SevenZip
         # ---------------------------
 
         # Make sure that the 7Zip Logging directories are ready for use (if required)
-        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
+        if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -1742,7 +1738,6 @@ class SevenZip
                                                                     #  version of the archive file name --
                                                                     #  essentially, this will be the archive file
                                                                     #  name.
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # ----------------------------------------
         
 
@@ -1753,7 +1748,7 @@ class SevenZip
         # ---------------------------
 
         # Make sure that the 7Zip Logging directories are ready for use (if required)
-        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
+        if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -2126,9 +2121,6 @@ class SevenZip
         #  loop.  This assures that the file is being written within
         #  the switch statement inside of the do-while loop.
         [bool] $readyToBreak = $false;
-
-        # Fetch the user's preferences
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance();
         # ----------------------------------------
 
 
@@ -2149,7 +2141,7 @@ class SevenZip
         # ---------------------------
 
         # Make sure that the 7Zip Logging directories are ready for use (if required)
-        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
+        if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.

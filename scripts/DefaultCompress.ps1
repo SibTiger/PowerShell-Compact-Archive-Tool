@@ -724,9 +724,6 @@ class DefaultCompress
         # This will hold the STDERR as a normal string datatype;
         #  Converted output result from the STDERR Object.
         [string] $strSTDERR = $null;
-
-        # Fetch the user's preferences
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance();
         # ----------------------------------------
 
 
@@ -738,7 +735,7 @@ class DefaultCompress
         # ---------------------------
 
         # Make sure that the .NET Compress Archive Logging directories are ready for use (if required)
-        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
+        if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -817,7 +814,7 @@ class DefaultCompress
         # - - - - - - - - -
 
         # Did the user wanted logfiles?
-        if ($userPref.GetLogging() -eq $true)
+        if ([Logging]::DebugLoggingState() -eq $true)
         {
             # If the STDOUT contains an array-list, then we will
             #  convert it as a typical string.  If necessary,
@@ -938,7 +935,6 @@ class DefaultCompress
         [string] $strFileList = $null;                                  # This will contain a list of files that is within
                                                                         #  the source archive file, with or without
                                                                         #  technical information.
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -949,7 +945,7 @@ class DefaultCompress
         # ---------------------------
 
         # Make sure that the .NET Compress Archive Logging directories are ready for use (if required)
-        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
+        if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -1076,7 +1072,6 @@ class DefaultCompress
                                                                     #  the operation was successful then
                                                                     #  true will be set, otherwise it'll be
                                                                     #  false to signify an error.
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
         # This will hold the STDOUT Obj. from PowerShell's CMDLet.
@@ -1102,7 +1097,7 @@ class DefaultCompress
         # ---------------------------
 
         # Make sure that the .NET Compress Archive Logging directories are ready for use (if required)
-        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
+        if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -1235,7 +1230,7 @@ class DefaultCompress
         finally
         {
             # Does the user want logfiles?
-            if ($userPref.GetLogging() -eq $true)
+            if ([Logging]::DebugLoggingState() -eq $true)
             {
                 # If the STDOUT contains an array-list, then we will
                 #  convert it as a typical string.  If necessary,
@@ -1358,7 +1353,6 @@ class DefaultCompress
                                                                     #  the operation was successful then
                                                                     #  true will be set, otherwise it'll be
                                                                     #  false to signify an error.
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance(); # Fetch the user's preferences
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
         # This will hold the STDOUT Obj. from PowerShell's CMDLet.
@@ -1385,7 +1379,7 @@ class DefaultCompress
         # ---------------------------
 
         # Make sure that the .NET Compress Archive Logging directories are ready for use (if required)
-        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
+        if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
@@ -1522,7 +1516,7 @@ class DefaultCompress
         finally
         {
             # Does the user want logfiles?
-            if ($userPref.GetLogging() -eq $true)
+            if ([Logging]::DebugLoggingState() -eq $true)
             {
                 # If the STDOUT contains an array-list, then we will
                 #  convert it as a typical string.  If necessary,
@@ -1668,9 +1662,6 @@ class DefaultCompress
         #  loop.  This assures that the file is being written within
         #  the switch statement inside of the do-while loop.
         [bool] $readyToBreak = $false;
-
-        # Fetch the user's preferences
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance();
         # ----------------------------------------
 
 
@@ -1691,7 +1682,7 @@ class DefaultCompress
         # ---------------------------
 
         # Make sure that the .NET Compress Archive Logging directories are ready for use (if required)
-        if ($userPref.GetLogging() -and ($this.__CreateDirectories() -eq $false))
+        if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.

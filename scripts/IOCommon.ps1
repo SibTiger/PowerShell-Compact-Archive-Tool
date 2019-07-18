@@ -263,7 +263,6 @@ class IOCommon
         # ----------------------------------------
         [bool] $exitCode            = $false;                               # The detection code that will be returned based
                                                                             #  on the results; if the command was found or not.
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance();     # Fetch the user's preferences
         # ----------------------------------------
 
         # Try to detect the requested command
@@ -287,7 +286,7 @@ class IOCommon
         # --------------
 
         # If user requested logging features to be enabled, try to log the event.
-        if ($userPref.GetLogging())
+        if ([Logging]::DebugLoggingState())
         {
             # Generate the initial message
             [string] $logMessage = "Tried to find the $($type) named $($command); detected result was $($exitCode)";
@@ -414,7 +413,6 @@ class IOCommon
         [string] $callBack               = $null;                               # Allocate memory address if the stdout
                                                                                 #  needs to be relocated, this is our
                                                                                 #  medium in order to accomplish this.
-        [UserPreferences] $userPref      = [UserPreferences]::GetInstance();    # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -433,7 +431,7 @@ class IOCommon
             # --------------
 
             # If user requested logging features to be enabled, try to log the event.
-            if ($userPref.GetLogging())
+            if ([Logging]::DebugLoggingState())
             {
                 # Generate the initial message
                 [string] $logMessage = ("Failed to execute the external command $($command)!`r`n" + `
@@ -466,7 +464,7 @@ class IOCommon
             # --------------
 
             # If user requested logging features to be enabled, try to log the event.
-            if ($userPref.GetLogging())
+            if ([Logging]::DebugLoggingState())
             {
                 # Generate the initial message
                 [string] $logMessage = ("Failed to execute the external command $($command)!" + `
@@ -500,7 +498,7 @@ class IOCommon
             # --------------
 
             # If user requested logging features to be enabled, try to log the event.
-            if ($userPref.GetLogging())
+            if ([Logging]::DebugLoggingState())
             {
                 # Generate the initial message
                 [string] $logMessage = ("Failed to execute the external command $($command)!" + `
@@ -534,7 +532,7 @@ class IOCommon
             # --------------
 
             # If user requested logging features to be enabled, try to log the event.
-            if ($userPref.GetLogging())
+            if ([Logging]::DebugLoggingState())
             {
                 # Generate the initial message
                 [string] $logMessage = ("Failed to execute the external command $($command)!" + `
@@ -576,7 +574,7 @@ class IOCommon
             # --------------
 
             # If user requested logging features to be enabled, try to log the event.
-            if ($userPref.GetLogging())
+            if ([Logging]::DebugLoggingState())
             {
                 # Generate the initial message
                 [string] $logMessage = ("The description field was missing while serving the request to execute the external" + `
@@ -640,7 +638,7 @@ class IOCommon
         # --------------
 
         # If user requested logging features to be enabled, try to log the event.
-        if ($userPref.GetLogging())
+        if ([Logging]::DebugLoggingState())
         {
             # Generate the initial message
             [string] $logMessage = "Successfully executed the external command $($command)!";
@@ -740,7 +738,6 @@ class IOCommon
         [string] $redirectStdOut    = $null;                                                # When Standard Out redirection to variable is
                                                                                             #  requested (captureSTDOUT), this will be our
                                                                                             #  buffer - which will hold the STDOUT data
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance();                     # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -791,7 +788,7 @@ class IOCommon
 
 
             # Store the STDOUT in a logfile?
-            ElseIf (($userPref.GetLogging() -eq $true))
+            ElseIf (([Logging]::DebugLoggingState() -eq $true))
             {
                 # Store the information to a text file.
                 [IOCommon]::WriteToFile("$($logStdOut)", "$($outputResultOut.Value)") | Out-Null;
@@ -803,7 +800,7 @@ class IOCommon
             # --------------
 
             # If user requested logging features to be enabled, try to log the event.
-            if ($userPref.GetLogging())
+            if ([Logging]::DebugLoggingState())
             {
                 # Generate the initial message
                 [string] $logMessage = "External command returned successfully with additional output.";
@@ -832,7 +829,7 @@ class IOCommon
 
 
         # Store the STDERR in a logfile and is there data?
-        If (($userPref.GetLogging() -eq $true) -and ("$($outputResultErr.Value)" -ne ""))
+        If (([Logging]::DebugLoggingState() -eq $true) -and ("$($outputResultErr.Value)" -ne ""))
         {
             # Write the STDERR to a logfile
             [IOCommon]::WriteToFile("$($logStdErr)", "$($outputResultErr.Value)") | Out-Null;
@@ -843,7 +840,7 @@ class IOCommon
             # --------------
 
             # If user requested logging features to be enabled, try to log the event.
-            if ($userPref.GetLogging())
+            if ([Logging]::DebugLoggingState())
             {
                 # Generate the initial message
                 [string] $logMessage = "External command returned with an error or error messages exists!";
@@ -923,8 +920,6 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance();     # Fetch the user's preferences
-
         # .NET Special Objects
         # - - - -
         # Because Start-Process CMDLet does NOT redirect to a variable, but only to files.
@@ -954,7 +949,7 @@ class IOCommon
             # --------------
 
             # If user requested logging features to be enabled, try to log the event.
-            if ($userPref.GetLogging())
+            if ([Logging]::DebugLoggingState())
             {
                 # Generate the initial message
                 [string] $logMessage = ("Failed to execute the external command $($command)!`r`n" + `
@@ -1037,7 +1032,7 @@ class IOCommon
             # --------------
 
             # If user requested logging features to be enabled, try to log the event.
-            if ($userPref.GetLogging())
+            if ([Logging]::DebugLoggingState())
             {
                 # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
@@ -1239,7 +1234,6 @@ class IOCommon
         [string] $outFilePropertyEncoding = "default";                          # Encoding property to be used for the Out-File CMDLet.
                                                                                 #  This specifies what encoding the text file should be
                                                                                 #  upon creation.
-        [UserPreferences] $userPref       = [UserPreferences]::GetInstance();   # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -1271,7 +1265,7 @@ class IOCommon
             # --------------
 
             # If user requested logging features to be enabled, try to log the event.
-            if ($userPref.GetLogging())
+            if ([Logging]::DebugLoggingState())
             {
                 # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
@@ -1378,7 +1372,6 @@ class IOCommon
                                                                             #  conflicts and correct the behavior if possible.
         [int] $wordPDFCode          = 17;                                   # The code to export a document in PDF format.
                                                                             #  https://docs.microsoft.com/en-us/office/vba/api/word.wdexportformat
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance();     # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -1402,7 +1395,7 @@ class IOCommon
             # --------------
 
             # If user requested logging features to be enabled, try to log the event.
-            if ($userPref.GetLogging())
+            if ([Logging]::DebugLoggingState())
             {
                 # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
@@ -1478,7 +1471,7 @@ class IOCommon
                 # --------------
 
                 # If user requested logging features to be enabled, try to log the event.
-                if ($userPref.GetLogging())
+                if ([Logging]::DebugLoggingState())
                 {
                     # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                     [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
@@ -1531,7 +1524,7 @@ class IOCommon
             # --------------
 
             # If user requested logging features to be enabled, try to log the event.
-            if ($userPref.GetLogging())
+            if ([Logging]::DebugLoggingState())
             {
                 # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
@@ -1651,7 +1644,7 @@ class IOCommon
             # --------------
 
             # If user requested logging features to be enabled, try to log the event.
-            if ($userPref.GetLogging())
+            if ([Logging]::DebugLoggingState())
             {
                 # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
@@ -1795,7 +1788,6 @@ class IOCommon
         [int] $repetitionCount       = 0;                                   # The repetition counter; this will be
                                                                             #  incremented to help assure uniqueness for
                                                                             #  the directory name.
-        [UserPreferences] $userPref  = [UserPreferences]::GetInstance();    # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -1866,7 +1858,7 @@ class IOCommon
                 # --------------
 
                 # If user requested logging features to be enabled, try to log the event.
-                if ($userPref.GetLogging())
+                if ([Logging]::DebugLoggingState())
                 {
                     # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                     [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
@@ -1958,7 +1950,7 @@ class IOCommon
 
 
                     # If user requested logging features to be enabled, try to log the event.
-                    if ($userPref.GetLogging())
+                    if ([Logging]::DebugLoggingState())
                     {
                         # Display a message to the user that something went horribly wrong and log that same
                         #  message for referencing purpose.
@@ -2012,7 +2004,7 @@ class IOCommon
             # --------------
 
             # If user requested logging features to be enabled, try to log the event.
-            if ($userPref.GetLogging())
+            if ([Logging]::DebugLoggingState())
             {
                 # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
@@ -2062,7 +2054,7 @@ class IOCommon
             # --------------
 
             # If user requested logging features to be enabled, try to log the event.
-            if ($userPref.GetLogging())
+            if ([Logging]::DebugLoggingState())
             {
                 # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
@@ -2141,7 +2133,6 @@ class IOCommon
         # Declarations and Initializations
         # ----------------------------------------
         [bool] $exitCode            = $true;                                # Exit code that will be returned.
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance();     # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -2162,7 +2153,7 @@ class IOCommon
                 # --------------
 
                 # If user requested logging features to be enabled, try to log the event.
-                if ($userPref.GetLogging())
+                if ([Logging]::DebugLoggingState())
                 {
                     # Generate the initial message
                     [string] $logMessage = "Successfully created the directory!";
@@ -2197,7 +2188,7 @@ class IOCommon
                 # --------------
 
                 # If user requested logging features to be enabled, try to log the event.
-                if ($userPref.GetLogging())
+                if ([Logging]::DebugLoggingState())
                 {
                     # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
                     [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
@@ -2262,7 +2253,6 @@ class IOCommon
         # Declarations and Initializations
         # ----------------------------------------
         [bool] $exitCode            = $false;                               # Exit code that will be returned.
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance();     # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -2279,7 +2269,7 @@ class IOCommon
         # --------------
 
         # If user requested logging features to be enabled, try to log the event.
-        if ($userPref.GetLogging())
+        if ([Logging]::DebugLoggingState())
         {
             # Generate the initial message
             [string] $logMessage = "Tried to find the path named $($path), the detected result was $($exitCode)";
@@ -2334,7 +2324,6 @@ class IOCommon
         # Declarations and Initializations
         # ----------------------------------------
         [bool] $exitCode            = $false;                               # Exit code that will be returned.
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance();     # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -2364,7 +2353,7 @@ class IOCommon
             # --------------
 
             # If user requested logging features to be enabled, try to log the event.
-            if ($userPref.GetLogging())
+            if ([Logging]::DebugLoggingState())
             {
                 # Generate the initial message
                 [string] $logMessage = "Successfully deleted the requested directory!";
@@ -2392,7 +2381,7 @@ class IOCommon
             # --------------
 
             # If user requested logging features to be enabled, try to log the event.
-            if ($userPref.GetLogging())
+            if ([Logging]::DebugLoggingState())
             {
                 # Generate the initial message
                 [string] $logMessage = "Failed to delete the requested directory!";
@@ -2466,7 +2455,6 @@ class IOCommon
         # Declarations and Initializations
         # ----------------------------------------
         [bool] $exitCode            = $false;                               # Exit code that will be returned.
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance();     # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -2496,7 +2484,7 @@ class IOCommon
             # --------------
 
             # If user requested logging features to be enabled, try to log the event.
-            if ($userPref.GetLogging())
+            if ([Logging]::DebugLoggingState())
             {
                 # Generate the initial message
                 [string] $logMessage = "Successfully deleted the requested file(s)!";
@@ -2526,7 +2514,7 @@ class IOCommon
             # --------------
 
             # If user requested logging features to be enabled, try to log the event.
-            if ($userPref.GetLogging())
+            if ([Logging]::DebugLoggingState())
             {
                 # Generate the initial message
                 [string] $logMessage = "Failed to delete the requested file(s)!";
@@ -2590,7 +2578,6 @@ class IOCommon
         # Declarations and Initializations
         # ----------------------------------------
         [string] $hashValue         = $null;                                # The hash value regarding specified file.
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance();     # Fetch the user's preferences
 
         # SPECIAL OBJECTS
         # - - - - - - - -
@@ -2633,7 +2620,7 @@ class IOCommon
             # --------------
 
             # If user requested logging features to be enabled, try to log the event.
-            if ($userPref.GetLogging())
+            if ([Logging]::DebugLoggingState())
             {
                 # Generate the initial message
                 [string] $logMessage = "A failure occurred while trying to get the hash value!";
@@ -2691,7 +2678,6 @@ class IOCommon
         # Declarations and Initializations
         # ----------------------------------------
         [bool] $exitCode            = $false;                               # The operation exit code.
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance();     # Fetch the user's preferences
         # ----------------------------------------
 
 
@@ -2721,7 +2707,7 @@ class IOCommon
                 # --------------
 
                 # If user requested logging features to be enabled, try to log the event.
-                if ($userPref.GetLogging())
+                if ([Logging]::DebugLoggingState())
                 {
                     # Generate the initial message
                     [string] $logMessage = "A failure occurred while trying to access the requested webpage!";
@@ -2756,7 +2742,7 @@ class IOCommon
             # --------------
 
             # If user requested logging features to be enabled, try to log the event.
-            if ($userPref.GetLogging())
+            if ([Logging]::DebugLoggingState())
             {
                 # Generate the initial message
                 [string] $logMessage = "The requested webpage is not a valid URL or IP address!";
