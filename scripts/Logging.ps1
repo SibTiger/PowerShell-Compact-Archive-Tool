@@ -879,21 +879,20 @@ class Logging
     #  [string] File Path (Absolute Path)
     #   The absolute and complete target path of the logfile that
     #    is about to be generated.
-    #  [string] Message
+    #  [string] (REFERENCE) Message
     #   The message or data that is going to be written to the logfile.
     # -------------------------------
     #>
-    static [void] WriteToLogFile([string] $filePath, [string] $msg)
+    static [void] WriteToLogFile([string] $filePath, [ref] $msg)
     {
         # If the logging functionality is enabled, write the information
         #  as requested
         if ([Logging]::DebugLoggingState())
         {
             # Logging is available presently, write the file as requested.
-            [IOCommon]::WriteToFile("$($filePath)", "$($msg)") | Out-Null;
+            [IOCommon]::WriteToFile("$($filePath)", "$($msg.Value.ToString())") | Out-Null;
         } # If : Logging is enabled & available
     } # WriteToLogFile()
-
     #endregion
 } # Logging
 
