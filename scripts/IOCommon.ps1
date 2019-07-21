@@ -97,8 +97,8 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $textColourBackground = $null; # Text background color
-        [string] $textColourForeground = $null; # Text foreground color
+        [string] $textColourBackground = $null;     # Text background color
+        [string] $textColourForeground = $null;     # Text foreground color
         # ----------------------------------------
 
 
@@ -261,8 +261,8 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode            = $false;                               # The detection code that will be returned based
-                                                                            #  on the results; if the command was found or not.
+        [bool] $exitCode            = $false;           # The detection code that will be returned based
+                                                        #  on the results; if the command was found or not.
         # ----------------------------------------
 
         # Try to detect the requested command
@@ -285,20 +285,16 @@ class IOCommon
         # Debugging
         # --------------
 
-        # If user requested logging features to be enabled, try to log the event.
-        if ([Logging]::DebugLoggingState())
-        {
-            # Generate the initial message
-            [string] $logMessage = "Tried to find the $($type) named $($command); detected result was $($exitCode)";
+        # Generate the initial message
+        [string] $logMessage = "Tried to find the $($type) named $($command); detected result was $($exitCode)";
 
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = $null;
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = $null;
 
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
-        } # If: Debugging
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                    "$($logAdditionalMSG)", `   # Additional information
+                                    "Verbose");                 # Message level
 
         # * * * * * * * * * * * * * * * * * * *
 
@@ -407,12 +403,12 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $containerStdOut        = $null;                               # Used to hold the STDOUT
-        [string] $containerStdErr        = $null;                               # Used to hold the STDERR
-        [int] $externalCommandReturnCode = $null;                               # Exit Code from the extCMD.
-        [string] $callBack               = $null;                               # Allocate memory address if the stdout
-                                                                                #  needs to be relocated, this is our
-                                                                                #  medium in order to accomplish this.
+        [string] $containerStdOut        = $null;       # Used to hold the STDOUT
+        [string] $containerStdErr        = $null;       # Used to hold the STDERR
+        [int] $externalCommandReturnCode = $null;       # Exit Code from the extCMD.
+        [string] $callBack               = $null;       # Allocate memory address if the stdout
+                                                        #  needs to be relocated, this is our
+                                                        #  medium in order to accomplish this.
         # ----------------------------------------
 
 
@@ -430,23 +426,19 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If user requested logging features to be enabled, try to log the event.
-            if ([Logging]::DebugLoggingState())
-            {
-                # Generate the initial message
-                [string] $logMessage = ("Failed to execute the external command $($command)!`r`n" + `
-                                        "It may not have been found or was not a valid application!");
+            # Generate the initial message
+            [string] $logMessage = ("Failed to execute the external command $($command)!`r`n" + `
+                                    "It may not have been found or was not a valid application!");
 
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
-                                            "`tArguments to be used: $($arguments)`r`n" + `
-                                            "`tReason to use command: $($description)");
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
+                                        "`tArguments to be used: $($arguments)`r`n" + `
+                                        "`tReason to use command: $($description)");
 
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
-            } # If: Debugging
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -463,24 +455,20 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If user requested logging features to be enabled, try to log the event.
-            if ([Logging]::DebugLoggingState())
-            {
-                # Generate the initial message
-                [string] $logMessage = ("Failed to execute the external command $($command)!" + `
-                                        "The project directory does not exist or was not found!");
+            # Generate the initial message
+            [string] $logMessage = ("Failed to execute the external command $($command)!" + `
+                                    "The project directory does not exist or was not found!");
 
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
-                                            "`tArguments to be used: $($arguments)`r`n" + `
-                                            "`tReason to use command: $($description)`r`n" + `
-                                            "`tProject Path: $($projectPath)");
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
+                                        "`tArguments to be used: $($arguments)`r`n" + `
+                                        "`tReason to use command: $($description)`r`n" + `
+                                        "`tProject Path: $($projectPath)");
 
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
-            } # If: Debugging
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -497,24 +485,20 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If user requested logging features to be enabled, try to log the event.
-            if ([Logging]::DebugLoggingState())
-            {
-                # Generate the initial message
-                [string] $logMessage = ("Failed to execute the external command $($command)!" + `
-                                        "The Standard Output (or STDOUT) Directory does not exist or was not found!");
+            # Generate the initial message
+            [string] $logMessage = ("Failed to execute the external command $($command)!" + `
+                                    "The Standard Output (or STDOUT) Directory does not exist or was not found!");
 
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
-                                            "`tArguments to be used: $($arguments)`r`n" + `
-                                            "`tReason to use command: $($description)`r`n" + `
-                                            "`tSTDOUT Directory: $($stdOutLogPath)");
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
+                                        "`tArguments to be used: $($arguments)`r`n" + `
+                                        "`tReason to use command: $($description)`r`n" + `
+                                        "`tSTDOUT Directory: $($stdOutLogPath)");
 
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
-            } # If: Debugging
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -531,24 +515,20 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If user requested logging features to be enabled, try to log the event.
-            if ([Logging]::DebugLoggingState())
-            {
-                # Generate the initial message
-                [string] $logMessage = ("Failed to execute the external command $($command)!" + `
-                                        "The Standard Error (or STDERR) Directory does not exist or was not found!");
+            # Generate the initial message
+            [string] $logMessage = ("Failed to execute the external command $($command)!" + `
+                                    "The Standard Error (or STDERR) Directory does not exist or was not found!");
 
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
-                                            "`tArguments to be used: $($arguments)`r`n" + `
-                                            "`tReason to use command: $($description)`r`n" + `
-                                            "`tSTDERR Directory: $($stdErrLogPath)");
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
+                                        "`tArguments to be used: $($arguments)`r`n" + `
+                                        "`tReason to use command: $($description)`r`n" + `
+                                        "`tSTDERR Directory: $($stdErrLogPath)");
 
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
-            } # If: Debugging
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -573,24 +553,20 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If user requested logging features to be enabled, try to log the event.
-            if ([Logging]::DebugLoggingState())
-            {
-                # Generate the initial message
-                [string] $logMessage = ("The description field was missing while serving the request to execute the external" + `
-                                        " command $($command)!`r`n" + `
-                                        "The description will be automatically filled for this instance.");
+            # Generate the initial message
+            [string] $logMessage = ("The description field was missing while serving the request to execute the external" + `
+                                    " command $($command)!`r`n" + `
+                                    "The description will be automatically filled for this instance.");
 
-                # Generate any addition information that might be useful
-                [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
-                                            "`tArguments to be used: $($arguments)`r`n" + `
-                                            "`tDescription is now: $($description)");
+            # Generate any addition information that might be useful
+            [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
+                                        "`tArguments to be used: $($arguments)`r`n" + `
+                                        "`tDescription is now: $($description)");
 
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Warning");                 # Message level
-            } # If: Debugging
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Warning");                 # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -637,23 +613,19 @@ class IOCommon
         # Debugging
         # --------------
 
-        # If user requested logging features to be enabled, try to log the event.
-        if ([Logging]::DebugLoggingState())
-        {
-            # Generate the initial message
-            [string] $logMessage = "Successfully executed the external command $($command)!";
+        # Generate the initial message
+        [string] $logMessage = "Successfully executed the external command $($command)!";
 
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
-                                        "`tArguments to be used: $($arguments)`r`n" + `
-                                        "`tReason to use command: $($description)`r`n" + `
-                                        "`tExtCMD Exit Code: $($externalCommandReturnCode)");
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
+                                    "`tArguments to be used: $($arguments)`r`n" + `
+                                    "`tReason to use command: $($description)`r`n" + `
+                                    "`tExtCMD Exit Code: $($externalCommandReturnCode)");
 
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
-        } # If: Debugging
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                    "$($logAdditionalMSG)", `   # Additional information
+                                    "Verbose");                 # Message level
 
         # * * * * * * * * * * * * * * * * * * *
 
@@ -787,35 +759,27 @@ class IOCommon
             } # If : Generating a Report
 
 
-            # Store the STDOUT in a logfile?
-            ElseIf (([Logging]::DebugLoggingState() -eq $true))
-            {
-                # Store the information to a text file.
-                [IOCommon]::WriteToFile("$($logStdOut)", "$($outputResultOut.Value)") | Out-Null;
-            } # ElseIf : Stored in a specific file
+            # Store the Standard Out data to the logfile
+            [Logging]::WriteToLogFile("$($logStdOut)", "$($outputResultOut.Value)");
 
 
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
-            # If user requested logging features to be enabled, try to log the event.
-            if ([Logging]::DebugLoggingState())
-            {
-                # Generate the initial message
-                [string] $logMessage = "External command returned successfully with additional output.";
+            # Generate the initial message
+            [string] $logMessage = "External command returned successfully with additional output.";
 
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Description: $($description)`r`n" + `
-                                            "`tSTDOUT Log Path: $($logStdOut)`r`n" + `
-                                            "`tSTDOUT Output:`r`n" + `
-                                            "`t$($outputResultOut.Value)");
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Description: $($description)`r`n" + `
+                                        "`tSTDOUT Log Path: $($logStdOut)`r`n" + `
+                                        "`tSTDOUT Output:`r`n" + `
+                                        "`t$($outputResultOut.Value)");
 
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Verbose");                 # Message level
-            } # If: Debugging
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -828,34 +792,30 @@ class IOCommon
         # +++++++++++++++++++
 
 
-        # Store the STDERR in a logfile and is there data?
-        If (([Logging]::DebugLoggingState() -eq $true) -and ("$($outputResultErr.Value)" -ne ""))
+        # Store the Standard Error in a logfile if there is any data at all?
+        If ("$($outputResultErr.Value)" -ne "")
         {
-            # Write the STDERR to a logfile
-            [IOCommon]::WriteToFile("$($logStdErr)", "$($outputResultErr.Value)") | Out-Null;
+            # Write the Standard Error to the logfile
+            [Logging]::WriteToLogFile("$($logStdErr)", "$($outputResultErr.Value)");
 
 
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
-            # If user requested logging features to be enabled, try to log the event.
-            if ([Logging]::DebugLoggingState())
-            {
-                # Generate the initial message
-                [string] $logMessage = "External command returned with an error or error messages exists!";
+            # Generate the initial message
+            [string] $logMessage = "External command returned with an error or error messages exists!";
 
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Description: $($description)`r`n" + `
-                                            "`tSTDERR Log Path: $($logStdErr)`r`n" + `
-                                            "`tSTDERR Output:`r`n" + `
-                                            "`t$($outputResultErr.Value)");
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Description: $($description)`r`n" + `
+                                        "`tSTDERR Log Path: $($logStdErr)`r`n" + `
+                                        "`tSTDERR Output:`r`n" + `
+                                        "`t$($outputResultErr.Value)");
 
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Warning");                 # Message level
-            } # If: Debugging
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Warning");                 # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -948,22 +908,18 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If user requested logging features to be enabled, try to log the event.
-            if ([Logging]::DebugLoggingState())
-            {
-                # Generate the initial message
-                [string] $logMessage = ("Failed to execute the external command $($command)!`r`n" + `
-                                        "It may not have been found or was not a valid application!");
+            # Generate the initial message
+            [string] $logMessage = ("Failed to execute the external command $($command)!`r`n" + `
+                                    "It may not have been found or was not a valid application!");
 
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
-                                            "`tArguments to be used: $($arguments)");
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
+                                        "`tArguments to be used: $($arguments)");
 
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
-            } # If: Debugging
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1018,46 +974,31 @@ class IOCommon
         # An error occurred while trying to execute the command
         catch
         {
-            # Obtain any information that is left in the PowerShell's engine pipe,
-            #  this should be an error message directly from the POSH engine.
-            [string] $executeFailureMessage = "$($_)";
-
-            # Prep a message to display to the user for this error; temporary variable
-            [string] $tempErrorMessage = ("Failure to execute command upon request!`n`r" + `
-                                        "Failure reason: $($executeFailureMessage)");
-
-
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
-            # If user requested logging features to be enabled, try to log the event.
-            if ([Logging]::DebugLoggingState())
-            {
-                # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
-                [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $displayErrorMessage = ("Failure to execute command upon request!`n`r" + `
+                                            "Failure reason: $($_)");
 
+            # Generate the initial message
+            [string] $logMessage = "A failure occurred upon executing the external command $($command)!";
 
-                # Generate the initial message
-                [string] $logMessage = "A failure occurred upon executing the external command $($command)!";
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
+                                        "`tArguments to be used: $($arguments)`r`n" + `
+                                        "`tFailed to execute reason: $($_)");
 
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
-                                            "`tArguments to be used: $($arguments)`r`n" + `
-                                            "`tFailed to execute reason: $($executeFailureMessage)");
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
 
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
-            } # If: Debugging
-
-            # Else - Debugging features are not enabled
-            else
-            {
-                # If logging is disabled, write directly to the user's display.
-                [IOCommon]::WriteToBuffer("$($tempErrorMessage)", "Error");
-            } # Else: Debugging Disabled
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                    "Error");                       # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1157,17 +1098,15 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $callBack    = $null;                       # Allocate memory address if the stdout
-                                                             #  needs to be relocated, this is our
-                                                             #  medium in order to accomplish this.
-        [string] $cacheSTDOUT = "$($outputResultOut.Value)"; # Cache the STDOUT; because it is a
-                                                             #  pointer - we can not directly use
-                                                             #  it as a pointer in another function
-                                                             #  call (At least in PowerShell).
-        [string] $cacheSTDERR = "$($outputResultErr.Value)"; # Cache the STDERR; because it is a
-                                                             #  pointer - we can not directly use
-                                                             #  it as a pointer in another function
-                                                             #  call (At least in PowerShell).
+        [string] $callBack    = $null;                          # Allocate memory address if the stdout needs to
+                                                                #  be relocated, this is our medium in order to
+                                                                #  accomplish this.
+        [string] $cacheSTDOUT = "$($outputResultOut.Value)";    # Cache the STDOUT; because it is a pointer - we
+                                                                #  can not directly use it as a pointer in another
+                                                                #  function call (At least in PowerShell).
+        [string] $cacheSTDERR = "$($outputResultErr.Value)";    # Cache the STDERR; because it is a pointer - we
+                                                                #  can not directly use it as a pointer in another
+                                                                #  function call (At least in PowerShell).
         # ----------------------------------------
 
         # We will use the function named '__ExecuteCommandLog()'
@@ -1212,7 +1151,7 @@ class IOCommon
     #   - NOTE: This must include the absolute path and the file
     #            name (including extension).  For example:
     #           "C:\Fake\Path\NewASCIIFile.txt"
-    #  [ref] Contents
+    #  [string] (REFERENCE) Contents
     #   The information (or data) that will be written to the file
     #    specified.
     #   - NOTE: Trying to conserve main memory space by using referencing.
@@ -1229,11 +1168,11 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [int] $outFilePropertyWidth       = 80;                                 # Width property to be used for the Out-File CMDLet.
-                                                                                #  This will only allow the so many characters per-line.
-        [string] $outFilePropertyEncoding = "default";                          # Encoding property to be used for the Out-File CMDLet.
-                                                                                #  This specifies what encoding the text file should be
-                                                                                #  upon creation.
+        [int] $outFilePropertyWidth       = 80;                 # Width property to be used for the Out-File CMDLet.
+                                                                #  This will only allow the so many characters per-line.
+        [string] $outFilePropertyEncoding = "default";          # Encoding property to be used for the Out-File CMDLet.
+                                                                #  This specifies what encoding the text file should be
+                                                                #  upon creation.
         # ----------------------------------------
 
 
@@ -1251,46 +1190,31 @@ class IOCommon
 
         catch
         {
-            # Obtain any information that is left in the PowerShell's engine pipe,
-            #  this should be an error message directly from the POSH engine.
-            [string] $executeFailureMessage = "$($_)";
-
-            # Prep a message to display to the user for this error; temporary variable
-            [string] $tempErrorMessage = ("Failed to write data to file!`r`n" + `
-                                        "Failure reason: $($executeFailureMessage)");
-
-
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
-            # If user requested logging features to be enabled, try to log the event.
-            if ([Logging]::DebugLoggingState())
-            {
-                # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
-                [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $displayErrorMessage = ("Failed to write data to file!`r`n" + `
+                                            "Failure reason: $($_)");
 
+            # Generate the initial message
+            [string] $logMessage = "A failure has occurred upon writing data to file!";
 
-                # Generate the initial message
-                [string] $logMessage = "A failure has occurred upon writing data to file!";
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("File to write: $($file)`r`n" + `
+                                        "`tContents to write: $($contents.Value.ToString())`r`n" + `
+                                        "`tFailed to execute reason: $($_)");
 
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("File to write: $($file)`r`n" + `
-                                            "`tContents to write: $($contents.Value.ToString())`r`n" + `
-                                            "`tFailed to execute reason: $($executeFailureMessage)");
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
 
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
-            } # If: Debugging
-
-            # Else - Debugging features are not enabled
-            else
-            {
-                # If logging is disabled, write directly to the user's display.
-                [IOCommon]::WriteToBuffer("$($tempErrorMessage)", "Error");
-            } # Else: Debugging Disabled
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                        "Error");                   # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1366,12 +1290,12 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [float] $wordVersion        = 0.0;                                  # Microsoft Word Version
-                                                                            #  This may not be needed, but just in case if there is
-                                                                            #  differences in other versions - we can try to deter
-                                                                            #  conflicts and correct the behavior if possible.
-        [int] $wordPDFCode          = 17;                                   # The code to export a document in PDF format.
-                                                                            #  https://docs.microsoft.com/en-us/office/vba/api/word.wdexportformat
+        [float] $wordVersion        = 0.0;          # Microsoft Word Version
+                                                    #  This may not be needed, but just in case if there is
+                                                    #  differences in other versions - we can try to deter
+                                                    #  conflicts and correct the behavior if possible.
+        [int] $wordPDFCode          = 17;           # The code to export a document in PDF format.
+                                                    #  https://docs.microsoft.com/en-us/office/vba/api/word.wdexportformat
         # ----------------------------------------
 
 
@@ -1385,41 +1309,30 @@ class IOCommon
         # Check to make sure that the source file actually exists.
         if ([IOCommon]::CheckPathExists("$($sourceFile)") -eq $false)
         {
-            # Prep a message to display to the user for this error; temporary variable
-            [string] $tempErrorMessage = ("Unable to create a PDF file; source file does not exist!`r`n" + `
-                                        "Source file: $($sourceFile)");
-
-
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
-            # If user requested logging features to be enabled, try to log the event.
-            if ([Logging]::DebugLoggingState())
-            {
-                # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
-                [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $displayErrorMessage = ("Unable to create a PDF file; source file does not exist!`r`n" + `
+                                            "Source file: $($sourceFile)");
 
+            # Generate the initial message
+            [string] $logMessage = "Unable to create a PDF file as the source file does not exist!";
 
-                # Generate the initial message
-                [string] $logMessage = "Unable to create a PDF file as the source file does not exist!";
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Source file: $($sourceFile)`r`n" + `
+                                        "`tDestination file: $($destinationFile)");
 
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Source file: $($sourceFile)`r`n" + `
-                                            "`tDestination file: $($destinationFile)");
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
 
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
-            } # If: Debugging
-
-            # Else - Debugging features are not enabled
-            else
-            {
-                # If logging is disabled, write directly to the user's display.
-                [IOCommon]::WriteToBuffer("$($tempErrorMessage)", "Error");
-            } # Else: Debugging Disabled
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                    "Error");                       # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1457,46 +1370,32 @@ class IOCommon
                 #  use or has a Microsoft Word version that is not
                 #  compatible with PowerShell integration.
 
-                # Obtain any information that is left in the PowerShell's engine pipe,
-                #  this should be an error message directly from the POSH engine.
-                [string] $executeFailureMessage = "$($_)";
-
-                # Prep a message to display to the user for this error; temporary variable
-                [string] $tempErrorMessage = ("Unable to create a new instance of Microsoft Word.`r`n" + `
-                                            "Failure reason: $($executeFailureMessage)");
-
 
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
                 # --------------
 
-                # If user requested logging features to be enabled, try to log the event.
-                if ([Logging]::DebugLoggingState())
-                {
-                    # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
-                    [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
+                # Prep a message to display to the user for this error; temporary variable
+                [string] $displayErrorMessage = ("Unable to create a new instance of Microsoft Word.`r`n" + `
+                                                "Failure reason: $($_)");
 
+                # Generate the initial message
+                [string] $logMessage = "Unable to create a new instance of Microsoft Word.";
 
-                    # Generate the initial message
-                    [string] $logMessage = "Unable to create a new instance of Microsoft Word.";
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Unable to create a new instance of Microsoft Word.`r`n" + `
+                                            "`tSource File: $($sourceFile)`r`n" + `
+                                            "`tAdditional Error Message: $($_)");
 
-                    # Generate any additional information that might be useful
-                    [string] $logAdditionalMSG = ("Unable to create a new instance of Microsoft Word.`r`n" + `
-                                                "`tSource File: $($sourceFile)`r`n" + `
-                                                "`tAdditional Error Message: $($executeFailureMessage)");
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
 
-                    # Pass the information to the logging system
-                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                "$($logAdditionalMSG)", `   # Additional information
-                                                "Error");                   # Message level
-                } # If: Debugging
-
-                # Else - Debugging features are not enabled
-                else
-                {
-                    # If logging is disabled, write directly to the user's display.
-                    [IOCommon]::WriteToBuffer("$($tempErrorMessage)", "Error");
-                } # Else: Debugging Disabled
+                # Display a message to the user that something went horribly wrong
+                #  and log that same message for referencing purpose.
+                [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                        "Error");                       # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -1510,47 +1409,32 @@ class IOCommon
         #  integration.
         else
         {
-            # Obtain any information that is left in the PowerShell's engine pipe,
-            #  this should be an error message directly from the POSH engine.
-            [string] $executeFailureMessage = "$($_)";
-
-            # Prep a message to display to the user for this error; temporary variable
-            [string] $tempErrorMessage = ("Unable to find a modern version Microsoft Word; unable to create a PDF.`r`n" + `
-                                        "Failure reason: $($executeFailureMessage)");
-
-
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
-            # If user requested logging features to be enabled, try to log the event.
-            if ([Logging]::DebugLoggingState())
-            {
-                # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
-                [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $displayErrorMessage = ("Unable to find a modern version Microsoft Word; unable to create a PDF.`r`n" + `
+                                            "Failure reason: $($_)");
 
+            # Generate the initial message
+            [string] $logMessage = "Unable to find a modern version of Microsoft Word!";
 
-                # Generate the initial message
-                [string] $logMessage = "Unable to find a modern version of Microsoft Word!";
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("The host system does not have (or unable to detect) a modern version of " + `
+                                        "Microsoft Word.`r`n" + `
+                                        "`tSource File: $($sourceFile)`r`n" + `
+                                        "`tAdditional Error Message: $($_)");
 
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("The host system does not have (or unable to detect) a modern version of " + `
-                                            "Microsoft Word.`r`n" + `
-                                            "`tSource File: $($sourceFile)`r`n" + `
-                                            "`tAdditional Error Message: $($executeFailureMessage)");
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
 
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
-            } # If: Debugging
-
-            # Else - Debugging features are not enabled
-            else
-            {
-                # If logging is disabled, write directly to the user's display.
-                [IOCommon]::WriteToBuffer("$($tempErrorMessage)", "Error");
-            } # Else: Debugging Disabled
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                    "Error");                       # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1635,40 +1519,29 @@ class IOCommon
         # Check to make sure that the PDF file was saved properly.
         if ([IOCommon]::CheckPathExists("$($destinationFile)") -eq $false)
         {
-            # Prep a message to display to the user for this error; temporary variable
-            [string] $tempErrorMessage = "Successfully created the PDF file as requested, but unable to find it....";
-
-
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
-            # If user requested logging features to be enabled, try to log the event.
-            if ([Logging]::DebugLoggingState())
-            {
-                # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
-                [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $displayErrorMessage = "Successfully created the PDF file as requested, but unable to find it....";
 
+            # Generate the initial message
+            [string] $logMessage = "The PDF file was created successfully but unable to find the PDF file at the destination path!";
 
-                # Generate the initial message
-                [string] $logMessage = "The PDF file was created successfully but unable to find the PDF file at the destination path!";
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Source file: $($sourceFile)`r`n" + `
+                                        "`tDestination file: $($destinationFile)");
 
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Source file: $($sourceFile)`r`n" + `
-                                            "`tDestination file: $($destinationFile)");
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
 
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
-            } # If: Debugging
-
-            # Else - Debugging features are not enabled
-            else
-            {
-                # If logging is disabled, write directly to the user's display.
-                [IOCommon]::WriteToBuffer("$($tempErrorMessage)", "Error");
-            } # Else: Debugging Disabled
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                    "Error");                       # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1771,23 +1644,19 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $tempDirectoryPath  = $null;                               # Absolute Path of the Temporary directory.
-        [string] $tempDirectoryName  = $null;                               # The name of the directory that we are going
-                                                                            #  to create.
-        [string] $finalDirectoryPath = $null;                               # This will hold the complete absolute path
-                                                                            #  to the new requested directory.
-        [string] $timeNow            = $null;                               # Holds the current time
-        [string] $dateNow            = $null;                               # Holds the current date
-        [string] $dateTime           = $null;                               # This will hold a time-stamp of when the
-                                                                            #  directory was requested to be created.
-        [int] $repetitionMax         = 50;                                  # We should never really need this, but
-                                                                            #  if in case we do - we have it.
-                                                                            #  If in case the user needs more than the,
-                                                                            #  max that is defined - then something is
-                                                                            #  HORRIBLY wrong.
-        [int] $repetitionCount       = 0;                                   # The repetition counter; this will be
-                                                                            #  incremented to help assure uniqueness for
-                                                                            #  the directory name.
+        [string] $tempDirectoryPath  = $null;           # Absolute Path of the Temporary directory.
+        [string] $tempDirectoryName  = $null;           # The name of the directory that we are going to create
+        [string] $finalDirectoryPath = $null;           # This will hold the complete absolute path to the new
+                                                        #  requested directory.
+        [string] $timeNow            = $null;           # Holds the current time
+        [string] $dateNow            = $null;           # Holds the current date
+        [string] $dateTime           = $null;           # This will hold a time-stamp of when the directory was
+                                                        #  requested to be created.
+        [int] $repetitionMax         = 50;              # We should never really need this, but if in case we do
+                                                        #  we have it.  If in case the user needs more than the,
+                                                        #  max that is defined - then something is HORRIBLY wrong.
+        [int] $repetitionCount       = 0;               # The repetition counter; this will be incremented to
+                                                        #  help assure uniqueness for the directory name.
         # ----------------------------------------
 
 
@@ -1849,43 +1718,32 @@ class IOCommon
             # Because the directory does not exist, try to create it.
             if ($([IOCommon]::MakeDirectory("$($tempDirectoryPath)")) -eq $false)
             {
-                # Prep a message to display to the user for this error; temporary variable.
-                [string] $tempErrorMessage = "Unable to create a temporary directory!";
-
-
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
                 # --------------
 
-                # If user requested logging features to be enabled, try to log the event.
-                if ([Logging]::DebugLoggingState())
-                {
-                    # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
-                    [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
+                # Prep a message to display to the user for this error; temporary variable.
+                [string] $displayErrorMessage = "Unable to create a temporary directory!";
 
+                # Generate the initial message
+                [string] $logMessage = "$($displayErrorMessage)";
 
-                    # Generate the initial message
-                    [string] $logMessage = "$($tempErrorMessage)";
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
+                                        "`t- Directory exceeds Character limit or depth limit (Root -> Leaf)`r`n" + `
+                                        "`t- The user's temporary roaming directory (%TEMP%) could be locked.`r`n" + `
+                                        "`t- Insufficient writing privileges within the temporary roaming directory (%TEMP%).`r`n" + `
+                                        "`tPath of the parent temporary directory: $($tempDirectoryPath)");
 
-                    # Generate any additional information that might be useful
-                    [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                            "`t- Directory exceeds Character limit or depth limit (Root -> Leaf)`r`n" + `
-                                            "`t- The user's temporary roaming directory (%TEMP%) could be locked.`r`n" + `
-                                            "`t- Insufficient writing privileges within the temporary roaming directory (%TEMP%).`r`n" + `
-                                            "`tPath of the parent temporary directory: $($tempDirectoryPath)");
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
 
-                    # Pass the information to the logging system
-                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                "$($logAdditionalMSG)", `   # Additional information
-                                                "Error");                   # Message level
-                } # If: Debugging
-
-                # Else - Debugging features are not enabled
-                else
-                {
-                    # If logging is disabled, write directly to the user's display.
-                    [IOCommon]::WriteToBuffer("$($tempErrorMessage)", "Error");
-                } # Else: Debugging Disabled
+                # Display a message to the user that something went horribly wrong
+                #  and log that same message for referencing purpose.
+                [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                        "Error");                       # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -1946,37 +1804,25 @@ class IOCommon
                     #  We must abort this operation as it was unsuccessful.
 
                     # Prep a message to display to the user for this error; temporary variable.
-                    [string] $tempErrorMessage = "Failed to create a unique temporary directory!";
+                    [string] $displayErrorMessage = "Failed to create a unique temporary directory!";
 
+                    # Generate the initial message
+                    [string] $logMessage = "$($displayErrorMessage)";
 
-                    # If user requested logging features to be enabled, try to log the event.
-                    if ([Logging]::DebugLoggingState())
-                    {
-                        # Display a message to the user that something went horribly wrong and log that same
-                        #  message for referencing purpose.
-                        [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
+                    # Generate any additional information that might be useful
+                    [string] $logAdditionalMSG = ("Reached repetition max threshold!`r`n" + `
+                                                "`tRepetition Max Limit is: $($repetitionMax)" + `
+                                                "`tRepetition Counter is: $($repetitionCount)");
 
+                    # Pass the information to the logging system
+                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                "$($logAdditionalMSG)", `   # Additional information
+                                                "Error");                   # Message level
 
-                        # Generate the initial message
-                        [string] $logMessage = "$($tempErrorMessage)";
-
-                        # Generate any additional information that might be useful
-                        [string] $logAdditionalMSG = ("Reached repetition max threshold!`r`n" + `
-                                            "`tRepetition Max Limit is: $($repetitionMax)" + `
-                                            "`tRepetition Counter is: $($repetitionCount)");
-
-                        # Pass the information to the logging system
-                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                    "$($logAdditionalMSG)", `   # Additional information
-                                                    "Error");                   # Message level
-                    } # If: Debugging
-
-                    # Else - Debugging features are not enabled
-                    else
-                    {
-                        # If logging is disabled, write directly to the user's display.
-                        [IOCommon]::WriteToBuffer("$($tempErrorMessage)", "Error");
-                    } # Else: Debugging Disabled
+                    # Display a message to the user that something went horribly wrong
+                    #  and log that same message for referencing purpose.
+                    [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                            "Error");                       # Message level
 
                     # * * * * * * * * * * * * * * * * * * *
 
@@ -1995,43 +1841,32 @@ class IOCommon
         # Now that we have the name of the temporary sub-directory, create it
         if ($([IOCommon]::MakeDirectory("$($finalDirectoryPath)")) -eq $false)
         {
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $tempErrorMessage = "Unable to create a temporary directory!"
-
-
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
-            # If user requested logging features to be enabled, try to log the event.
-            if ([Logging]::DebugLoggingState())
-            {
-                # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
-                [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
+            # Prep a message to display to the user for this error; temporary variable.
+            [string] $displayErrorMessage = "Unable to create a temporary directory!"
 
+            # Generate the initial message
+            [string] $logMessage = "$($displayErrorMessage)";
 
-                # Generate the initial message
-                [string] $logMessage = "$($tempErrorMessage)";
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Possible Symptoms:`r`n" + `
+                                        "`t- Directory exceeds Character limit or depth limit (Root -> Leaf)`r`n" + `
+                                        "`t- The user's temporary roaming directory (%TEMP%) could be locked.`r`n" + `
+                                        "`t- Insufficient writing privileges within the temporary roaming directory (%TEMP%).`r`n" + `
+                                        "`tPath of the temporary directory: $($finalDirectoryPath)");
 
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Possible Symptoms:`r`n" + `
-                                            "`t- Directory exceeds Character limit or depth limit (Root -> Leaf)`r`n" + `
-                                            "`t- The user's temporary roaming directory (%TEMP%) could be locked.`r`n" + `
-                                            "`t- Insufficient writing privileges within the temporary roaming directory (%TEMP%).`r`n" + `
-                                            "`tPath of the temporary directory: $($finalDirectoryPath)");
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
 
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
-            } # If: Debugging
-
-            # Else - Debugging features are not enabled
-            else
-            {
-                # If logging is disabled, write directly to the user's display.
-                [IOCommon]::WriteToBuffer("$($tempErrorMessage)", "Error");
-            } # Else: Debugging Disabled
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                    "Error");                       # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2045,39 +1880,28 @@ class IOCommon
         # Just for assurance sakes, does the directory exist?
         if ($([IOCommon]::CheckPathExists("$($finalDirectoryPath)")) -eq $false)
         {
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $tempErrorMessage = "Created the temporary directory but unable to found it....";
-
-
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
-            # If user requested logging features to be enabled, try to log the event.
-            if ([Logging]::DebugLoggingState())
-            {
-                # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
-                [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
+            # Prep a message to display to the user for this error; temporary variable.
+            [string] $displayErrorMessage = "Created the temporary directory but unable to found it....";
 
+            # Generate the initial message
+            [string] $logMessage = "Successfully created the temporary directory but it was not found in the final destination path!";
 
-                # Generate the initial message
-                [string] $logMessage = "Successfully created the temporary directory but it was not found in the final destination path!";
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "Path of the temporary directory: $($finalDirectoryPath)";
 
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = "Path of the temporary directory: $($finalDirectoryPath)";
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
 
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
-            } # If: Debugging
-
-            # Else - Debugging features are not enabled
-            else
-            {
-                # If logging is disabled, write directly to the user's display.
-                [IOCommon]::WriteToBuffer("$($tempErrorMessage)", "Error");
-            } # Else: Debugging Disabled
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                    "Error");                       # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2132,7 +1956,7 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode            = $true;                                # Exit code that will be returned.
+        [bool] $exitCode            = $true;        # Exit code that will be returned.
         # ----------------------------------------
 
 
@@ -2152,20 +1976,16 @@ class IOCommon
                 # Debugging
                 # --------------
 
-                # If user requested logging features to be enabled, try to log the event.
-                if ([Logging]::DebugLoggingState())
-                {
-                    # Generate the initial message
-                    [string] $logMessage = "Successfully created the directory!";
+                # Generate the initial message
+                [string] $logMessage = "Successfully created the directory!";
 
-                    # Generate any additional information that might be useful
-                    [string] $logAdditionalMSG = "Directory Path: $($path)";
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = "Directory Path: $($path)";
 
-                    # Pass the information to the logging system
-                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                "$($logAdditionalMSG)", `   # Additional information
-                                                "Verbose");                 # Message level
-                } # If: Debugging
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Verbose");                 # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -2174,45 +1994,30 @@ class IOCommon
 
             catch
             {
-                # Obtain any information that is left in the PowerShell's engine pipe,
-                #  this should be an error message directly from the POSH engine.
-                [string] $executeFailureMessage = "$($_)";
-
-                # Prep a message to display to the user for this error; temporary variable
-                [string] $tempErrorMessage = ("Failed to create the required directory!`r`n" + `
-                                            "Reason for failure: $($executeFailureMessage)");
-
-
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
                 # --------------
 
-                # If user requested logging features to be enabled, try to log the event.
-                if ([Logging]::DebugLoggingState())
-                {
-                    # Display a message to the user that something went horribly wrong and log that same message for referencing purpose.
-                    [Logging]::DisplayMessage("$($tempErrorMessage)", "Error");
+                # Prep a message to display to the user for this error; temporary variable
+                [string] $displayErrorMessage = ("Failed to create the required directory!`r`n" + `
+                                                "Reason for failure: $($_)");
 
+                # Generate the initial message
+                [string] $logMessage = "Failed to create the directory by request!";
 
-                    # Generate the initial message
-                    [string] $logMessage = "Failed to create the directory by request!";
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Directory Path: $($path)`r`n" + `
+                                            "`tAdditional Error Message: $($_)");
 
-                    # Generate any additional information that might be useful
-                    [string] $logAdditionalMSG = ("Directory Path: $($path)`r`n" + `
-                                                "`tAdditional Error Message: $($executeFailureMessage)");
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
 
-                    # Pass the information to the logging system
-                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                "$($logAdditionalMSG)", `   # Additional information
-                                                "Error");                   # Message level
-                } # If: Debugging
-
-                # Else - Debugging features are not enabled
-                else
-                {
-                    # If logging is disabled, write directly to the user's display.
-                    [IOCommon]::WriteToBuffer("$($tempErrorMessage)", "Error");
-                } # Else: Debugging Disabled
+                # Display a message to the user that something went horribly wrong
+                #  and log that same message for referencing purpose.
+                [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                        "Error");                       # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -2252,7 +2057,7 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode            = $false;                               # Exit code that will be returned.
+        [bool] $exitCode            = $false;       # Exit code that will be returned.
         # ----------------------------------------
 
 
@@ -2268,20 +2073,16 @@ class IOCommon
         # Debugging
         # --------------
 
-        # If user requested logging features to be enabled, try to log the event.
-        if ([Logging]::DebugLoggingState())
-        {
-            # Generate the initial message
-            [string] $logMessage = "Tried to find the path named $($path), the detected result was $($exitCode)";
+        # Generate the initial message
+        [string] $logMessage = "Tried to find the path named $($path), the detected result was $($exitCode)";
 
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "$($_)";
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = "$($_)";
 
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
-        } # If: Debugging
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                    "$($logAdditionalMSG)", `   # Additional information
+                                    "Verbose");                 # Message level
 
         # * * * * * * * * * * * * * * * * * * *
 
@@ -2323,7 +2124,7 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode            = $false;                               # Exit code that will be returned.
+        [bool] $exitCode            = $false;       # Exit code that will be returned.
         # ----------------------------------------
 
 
@@ -2352,20 +2153,16 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If user requested logging features to be enabled, try to log the event.
-            if ([Logging]::DebugLoggingState())
-            {
-                # Generate the initial message
-                [string] $logMessage = "Successfully deleted the requested directory!";
+            # Generate the initial message
+            [string] $logMessage = "Successfully deleted the requested directory!";
 
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = "Directory that was deleted: $($path)";
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "Directory that was deleted: $($path)";
 
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Verbose");                 # Message level
-            } # If: Debugging
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2380,22 +2177,18 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If user requested logging features to be enabled, try to log the event.
-            if ([Logging]::DebugLoggingState())
-            {
-                # Generate the initial message
-                [string] $logMessage = "Failed to delete the requested directory!";
+            # Generate the initial message
+            [string] $logMessage = "Failed to delete the requested directory!";
 
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Directory to delete: $($path)`r`n" + `
-                                            "`tAdditional error information:`r`n" + `
-                                            "`t`t$($_)");
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Directory to delete: $($path)`r`n" + `
+                                        "`tAdditional error information:`r`n" + `
+                                        "`t`t$($_)");
 
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
-            } # If: Debugging
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2454,7 +2247,7 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode            = $false;                               # Exit code that will be returned.
+        [bool] $exitCode            = $false;       # Exit code that will be returned.
         # ----------------------------------------
 
 
@@ -2483,22 +2276,18 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If user requested logging features to be enabled, try to log the event.
-            if ([Logging]::DebugLoggingState())
-            {
-                # Generate the initial message
-                [string] $logMessage = "Successfully deleted the requested file(s)!";
+            # Generate the initial message
+            [string] $logMessage = "Successfully deleted the requested file(s)!";
 
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Directory that was inspected: $($path)" ` +
-                                            "`tFile(s) that were deleted:`r`n" + `
-                                            "`t`t$($includes.ToString())");
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Directory that was inspected: $($path)" ` +
+                                        "`tFile(s) that were deleted:`r`n" + `
+                                        "`t`t$($includes.ToString())");
 
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Verbose");                 # Message level
-            } # If: Debugging
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2513,24 +2302,20 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If user requested logging features to be enabled, try to log the event.
-            if ([Logging]::DebugLoggingState())
-            {
-                # Generate the initial message
-                [string] $logMessage = "Failed to delete the requested file(s)!";
+            # Generate the initial message
+            [string] $logMessage = "Failed to delete the requested file(s)!";
 
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Directory that was inspected: $($path)" ` +
-                                            "`tFile(s) requested to be deleted:`r`n" + `
-                                            "`t`t$($includes.ToString())" + `
-                                            "`tAdditional error information:`r`n" + `
-                                            "`t`t$($_)");
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Directory that was inspected: $($path)" ` +
+                                        "`tFile(s) requested to be deleted:`r`n" + `
+                                        "`t`t$($includes.ToString())" + `
+                                        "`tAdditional error information:`r`n" + `
+                                        "`t`t$($_)");
 
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
-            } # If: Debugging
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2577,7 +2362,7 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $hashValue         = $null;                                # The hash value regarding specified file.
+        [string] $hashValue         = $null;        # The hash value regarding specified file.
 
         # SPECIAL OBJECTS
         # - - - - - - - -
@@ -2619,23 +2404,19 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If user requested logging features to be enabled, try to log the event.
-            if ([Logging]::DebugLoggingState())
-            {
-                # Generate the initial message
-                [string] $logMessage = "A failure occurred while trying to get the hash value!";
+            # Generate the initial message
+            [string] $logMessage = "A failure occurred while trying to get the hash value!";
 
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Requested file: $($path)`r`n" + `
-                                            "`tRequested Hash Algorithm: $($hashAlgorithm)`r`n" + `
-                                            "`tAdditional Information:`r`n" + `
-                                            "`t`t$($_)");
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Requested file: $($path)`r`n" + `
+                                        "`tRequested Hash Algorithm: $($hashAlgorithm)`r`n" + `
+                                        "`tAdditional Information:`r`n" + `
+                                        "`t`t$($_)");
 
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
-            } # If: Debugging
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2677,7 +2458,7 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode            = $false;                               # The operation exit code.
+        [bool] $exitCode            = $false;       # The operation exit code.
         # ----------------------------------------
 
 
@@ -2706,23 +2487,19 @@ class IOCommon
                 # Debugging
                 # --------------
 
-                # If user requested logging features to be enabled, try to log the event.
-                if ([Logging]::DebugLoggingState())
-                {
-                    # Generate the initial message
-                    [string] $logMessage = "A failure occurred while trying to access the requested webpage!";
+                # Generate the initial message
+                [string] $logMessage = "A failure occurred while trying to access the requested webpage!";
 
-                    # Generate any additional information that might be useful
-                    [string] $logAdditionalMSG = ("Tried to open requested webpage:`r`n" + `
-                                                "`t`t$($URLAddress)`r`n" + `
-                                                "`tAdditional Information:" + `
-                                                "`t`t$($_)");
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Tried to open requested webpage:`r`n" + `
+                                            "`t`t$($URLAddress)`r`n" + `
+                                            "`tAdditional Information:" + `
+                                            "`t`t$($_)");
 
-                    # Pass the information to the logging system
-                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                "$($logAdditionalMSG)", `   # Additional information
-                                                "Error");                   # Message level
-                } # If: Debugging
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -2741,21 +2518,17 @@ class IOCommon
             # Debugging
             # --------------
 
-            # If user requested logging features to be enabled, try to log the event.
-            if ([Logging]::DebugLoggingState())
-            {
-                # Generate the initial message
-                [string] $logMessage = "The requested webpage is not a valid URL or IP address!";
+            # Generate the initial message
+            [string] $logMessage = "The requested webpage is not a valid URL or IP address!";
 
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Tried to open webpage:`r`n" + `
-                                            "`t`t$($URLAddress)");
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Tried to open webpage:`r`n" + `
+                                        "`t`t$($URLAddress)");
 
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
-            } # If: Debugging
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
