@@ -266,13 +266,20 @@ class IOCommon
         # ----------------------------------------
 
         # Try to detect the requested command
-        if ((Get-Command -Name "$($command)" `
-                        -CommandType $($type) `
-                        -ErrorAction SilentlyContinue) -ne $null)
+        try
         {
-            # Command was detected.
+            Get-Command -Name "$($command)" `
+                        -CommandType "$($type)"`
+                        -ErrorAction Stop;
+
+            # The command was detected
             $exitCode = $true;
-        } # If : Command Detected
+        } # Try - Find Command
+
+        catch
+        {
+            # Failed to find the command or an error occurred.
+        } # Catch : Couldn't Find Command
 
 
         # * * * * * * * * * * * * * * * * * * *
