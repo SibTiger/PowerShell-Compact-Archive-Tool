@@ -68,7 +68,7 @@ class IOCommon
         [string] $stdInput = (Get-Host).UI.ReadLine();
 
         # Return the value as a string
-        return [string]$stdInput;
+        return [string] $stdInput;
     } # FetchUserInput()
 
     #endregion
@@ -261,24 +261,18 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode            = $false;           # The detection code that will be returned based
-                                                        #  on the results; if the command was found or not.
+        [bool] $exitCode = $false;      # The detection code that will be returned based
+                                        #  on the results; if the command was found or not.
         # ----------------------------------------
 
         # Try to detect the requested command
         if ((Get-Command -Name "$($command)" `
                         -CommandType $($type) `
-                        -ErrorAction SilentlyContinue) -eq $null)
-        {
-            # Command was not detected.
-            $exitCode = $false;
-        } # If : Command Not Detected
-
-        else
+                        -ErrorAction SilentlyContinue) -ne $null)
         {
             # Command was detected.
             $exitCode = $true;
-        } # Else : Command Detected
+        } # If : Command Detected
 
 
         # * * * * * * * * * * * * * * * * * * *
@@ -701,15 +695,15 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $logTime           = $(Get-Date -UFormat "%d-%b-%y %H.%M.%S");             # Capture the current date and time.
-        [string] $logStdErr         = "$($stdErrLogPath)\$($logTime)-$($description).err";  # Standard Error absolute log file path
-        [string] $logStdOut         = "$($stdOutLogPath)\$($logTime)-$($description).out";  # Standard Out absolute log file path
-        [string] $fileOutput        = $null;                                                # The absolute path of the file that will
-                                                                                            #  contain the output result from the extCMD
-                                                                                            #  or command.
-        [string] $redirectStdOut    = $null;                                                # When Standard Out redirection to variable is
-                                                                                            #  requested (captureSTDOUT), this will be our
-                                                                                            #  buffer - which will hold the STDOUT data
+        [string] $logTime        = $(Get-Date -UFormat "%d-%b-%y %H.%M.%S");            # Capture the current date and time.
+        [string] $logStdErr      = "$($stdErrLogPath)\$($logTime)-$($description).err"; # Standard Error absolute log file path
+        [string] $logStdOut      = "$($stdOutLogPath)\$($logTime)-$($description).out"; # Standard Out absolute log file path
+        [string] $fileOutput     = $null;                                               # The absolute path of the file that will
+                                                                                        #  contain the output result from the extCMD
+                                                                                        #  or command.
+        [string] $redirectStdOut = $null;                                               # When Standard Out redirection to variable is
+                                                                                        #  requested (captureSTDOUT), this will be our
+                                                                                        #  buffer - which will hold the STDOUT data
         # ----------------------------------------
 
 
@@ -1190,6 +1184,9 @@ class IOCommon
 
         catch
         {
+            # Failed to write to the file.
+
+
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
@@ -1290,12 +1287,12 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [float] $wordVersion        = 0.0;          # Microsoft Word Version
-                                                    #  This may not be needed, but just in case if there is
-                                                    #  differences in other versions - we can try to deter
-                                                    #  conflicts and correct the behavior if possible.
-        [int] $wordPDFCode          = 17;           # The code to export a document in PDF format.
-                                                    #  https://docs.microsoft.com/en-us/office/vba/api/word.wdexportformat
+        [float] $wordVersion = 0.0;     # Microsoft Word Version
+                                        #  This may not be needed, but just in case if there is
+                                        #  differences in other versions - we can try to deter
+                                        #  conflicts and correct the behavior if possible.
+        [int] $wordPDFCode   = 17;      # The code to export a document in PDF format.
+                                        #  https://docs.microsoft.com/en-us/office/vba/api/word.wdexportformat
         # ----------------------------------------
 
 
@@ -1309,6 +1306,9 @@ class IOCommon
         # Check to make sure that the source file actually exists.
         if ([IOCommon]::CheckPathExists("$($sourceFile)") -eq $false)
         {
+            # The target file does not exist.
+
+
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
@@ -1409,6 +1409,9 @@ class IOCommon
         #  integration.
         else
         {
+            # Unable to find Microsoft Word or is not compatible.
+
+
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
@@ -1519,6 +1522,9 @@ class IOCommon
         # Check to make sure that the PDF file was saved properly.
         if ([IOCommon]::CheckPathExists("$($destinationFile)") -eq $false)
         {
+            # The PDF was not found.
+
+
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
@@ -1567,7 +1573,7 @@ class IOCommon
     #   user's roaming profile (%TEMP%) directory.  This
     #   functionality can be useful for storing temporary
     #   program data.  When we are finished with this directory,
-    #   we must discard it properly.  If incase the directory
+    #   we must discard it properly.  If in case the directory
     #   was never expunged, it is possible that the user can
     #   remove it using such tools as 'Clean Manager' or the
     #   Metro variant in Windows 10.
@@ -1712,18 +1718,21 @@ class IOCommon
         # ---------------------------
 
 
-        # First, does the directory already exist?
+        # First, does the parent of the temporary directory already exist?
         if ($([IOCommon]::CheckPathExists("$($tempDirectoryPath)")) -eq $false)
         {
-            # Because the directory does not exist, try to create it.
+            # Because the temporary directory does not exist, try to create it.
             if ($([IOCommon]::MakeDirectory("$($tempDirectoryPath)")) -eq $false)
             {
+                # Failed to create the parent temporary directory.
+
+
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
                 # --------------
 
                 # Prep a message to display to the user for this error; temporary variable.
-                [string] $displayErrorMessage = "Unable to create a temporary directory!";
+                [string] $displayErrorMessage = "Unable to create the parent temporary directory!";
 
                 # Generate the initial message
                 [string] $logMessage = "$($displayErrorMessage)";
@@ -1841,6 +1850,9 @@ class IOCommon
         # Now that we have the name of the temporary sub-directory, create it
         if ($([IOCommon]::MakeDirectory("$($finalDirectoryPath)")) -eq $false)
         {
+            # Failed to create the temporary directory.
+
+
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
@@ -1880,6 +1892,9 @@ class IOCommon
         # Just for assurance sakes, does the directory exist?
         if ($([IOCommon]::CheckPathExists("$($finalDirectoryPath)")) -eq $false)
         {
+            # The temporary directory was created, but we can't find it?
+
+
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
@@ -1956,7 +1971,7 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode            = $true;        # Exit code that will be returned.
+        [bool] $exitCode = $false;      # Exit code that will be returned.
         # ----------------------------------------
 
 
@@ -1990,10 +2005,15 @@ class IOCommon
                 # * * * * * * * * * * * * * * * * * * *
 
 
+                # Successfully created the requested directory
+                $exitCode = $true;
             } # try : Create directory.
 
             catch
             {
+                # Failed to create a new directory.
+
+
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
                 # --------------
@@ -2022,11 +2042,7 @@ class IOCommon
                 # * * * * * * * * * * * * * * * * * * *
 
 
-                # Failure occurred.
-                $exitCode = $false;
             } # Catch : Failed to Create Directory
-
-
         } # If : Directory does not exist
 
 
@@ -2057,7 +2073,7 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode            = $false;       # Exit code that will be returned.
+        [bool] $exitCode = $false;      # Exit code that will be returned.
         # ----------------------------------------
 
 
@@ -2124,7 +2140,7 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode            = $false;       # Exit code that will be returned.
+        [bool] $exitCode = $false;       # Exit code that will be returned.
         # ----------------------------------------
 
 
@@ -2167,12 +2183,15 @@ class IOCommon
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Successfully deleted the requested directory.
+            # Successfully expunged the requested directory
             $exitCode = $true;
         } # Try : Delete Directory
 
         catch
         {
+            # Failed to delete the requested directory.
+
+
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
@@ -2193,8 +2212,6 @@ class IOCommon
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # A failure occurred while deleting the requested directory.
-            $exitCode = $false;
         } # Catch : Error Deleting Directory
 
         # Return with exit code
@@ -2247,7 +2264,7 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode            = $false;       # Exit code that will be returned.
+        [bool] $exitCode = $false;       # Exit code that will be returned.
         # ----------------------------------------
 
 
@@ -2292,12 +2309,15 @@ class IOCommon
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Successfully deleted the file(s)
+            # Successfully expunged the requested files
             $exitCode = $true;
         } # Try : Delete Files
 
         catch
         {
+            # Failed to delete the requested files.
+
+
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
@@ -2320,8 +2340,6 @@ class IOCommon
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # A failure occurred while deleting the requested file(s).
-            $exitCode = $false;
         } # Catch : Error Deleting Files
 
         # Return with exit code
@@ -2362,7 +2380,7 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $hashValue         = $null;        # The hash value regarding specified file.
+        [string] $hashValue = $null;        # The hash value regarding specified file.
 
         # SPECIAL OBJECTS
         # - - - - - - - -
@@ -2379,7 +2397,7 @@ class IOCommon
             #  path, return null to signify an error.
             return $null;
         } # if : File not found
-        
+
 
         # Try to get the hash of the file
         try
@@ -2421,8 +2439,6 @@ class IOCommon
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Return null as an error occurred.
-            $hashValue = $null;
         } # Catch : Failure to fetch value
 
 
@@ -2458,7 +2474,7 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode            = $false;       # The operation exit code.
+        [bool] $exitCode = $false;       # The operation exit code.
         # ----------------------------------------
 
 
@@ -2474,7 +2490,7 @@ class IOCommon
                 Start-Process -FilePath "$($URLAddress)" `
                             -ErrorAction Stop;
 
-                # Update the exit code status
+                # Successfully opened the requested webpage
                 $exitCode = $true;
             } # Try : Execute Task
 
@@ -2504,8 +2520,6 @@ class IOCommon
                 # * * * * * * * * * * * * * * * * * * *
 
 
-                # Update the exit code status.
-                $exitCode = $false;
             } # Catch : Error
         } # If : URL Address is Legitimate
 
@@ -2533,11 +2547,7 @@ class IOCommon
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Update the exit code status.
-            $exitCode = $false;
         } # Else : URL Address is NOT Legitimate
-
-
 
         # Return the operation status
         return $exitCode;
