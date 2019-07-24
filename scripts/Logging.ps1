@@ -627,6 +627,82 @@ class Logging
     #region Public Functions
 
 
+   <# Get Exception Information (Short)
+    # -------------------------------
+    # Documentation:
+    #  This function provides some insight regarding an exception
+    #   that occurred during an operation at runtime.  This is useful
+    #   to provide the information to the user at run-time.
+    # -------------------------------
+    # Inputs:
+    #  [Exception] Error Details
+    #   The exception object that contains further information
+    #    regarding the exception that was thrown.
+    # -------------------------------
+    # Output:
+    #  [string] Exception Information
+    #   Some insight information regarding the exception that was thrown.
+    # -------------------------------
+    #>
+    static [string] GetExceptionInfoShort ([Exception] $errDetail)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Generate the exception information that will be returned to the calling function.
+        [string] $information = ("Reached an exception: $($errDetail.GetType().ToString())`r`n" + `
+                                "More information is provided in the program's logfile.`r`n" + `
+                                "Logfile can be found in:`r`n`t$([Logging]::GetLogFilePath())");
+        # ----------------------------------------
+
+
+        # Return the short details of the error
+        return $information;
+    } # GetExceptionInfoShort()
+
+
+
+
+   <# Get Exception Information
+    # -------------------------------
+    # Documentation:
+    #  This function provides detailed information regarding an
+    #   exception that occurred during an operation at runtime.
+    #   This is useful to provide the information within the
+    #   program's logfile.
+    # -------------------------------
+    # Inputs:
+    #  [Exception] Error Details
+    #   The exception object that contains further information
+    #    regarding the exception that was thrown.
+    # -------------------------------
+    # Output:
+    #  [string] Exception Information
+    #   Detailed information regarding the exception as a multiple line string.
+    # -------------------------------
+    #>
+    static [string] GetExceptionInfo ([Exception] $errDetail)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Generate the exception information that will be returned to the calling function.
+        [string] $information = ("`tException Reached: $($errDetail.GetType().ToString())`r`n" + `
+                                "`tException Message: $($errDetail.Message.ToString())`r`n" + `
+                                "`tException Source: $($errDetail.Source.ToString())`r`n" + `
+                                "`tException Target Site: $($errDetail.TargetSite.ToString())`r`n" + `
+                                "`tException Stack Trace:`r`n" + `
+                                "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~`r`n" + `
+                                "$($errDetail.StackTrace.ToString())`r`n" + `
+                                "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~");
+        # ----------------------------------------
+
+
+        # Return the details of the error
+        return $information;
+    } # GetExceptionInfo()
+
+
+
+
    <# Get Program Logfile
     # -------------------------------
     # Documentation:
