@@ -637,7 +637,7 @@ class Logging
     #       The absolute path of the program's logfile.
     # -------------------------------
     #>
-    static hidden [string] GetLogFilePath()
+    static [string] GetLogFilePath()
     {
         return "$([Logging]::ProgramLogPath)\$([Logging]::ProgramLogFileName)";
     } # GetLogFilePath()
