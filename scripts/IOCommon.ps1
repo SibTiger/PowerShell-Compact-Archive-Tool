@@ -981,7 +981,7 @@ class IOCommon
 
             # Prep a message to display to the user for this error; temporary variable
             [string] $displayErrorMessage = ("Failure to execute command upon request!`n`r" + `
-                                            "Failure reason: $($_)");
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
 
             # Generate the initial message
             [string] $logMessage = "A failure occurred upon executing the external command $($command)!";
@@ -989,7 +989,7 @@ class IOCommon
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
                                         "`tArguments to be used: $($arguments)`r`n" + `
-                                        "`tFailed to execute reason: $($_)");
+                                        "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
