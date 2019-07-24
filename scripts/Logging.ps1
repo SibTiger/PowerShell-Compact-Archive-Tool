@@ -427,7 +427,7 @@ class Logging
 
 
         # Write the readable data to the logfile.
-        elseif (([IOCommon]::WriteToFile("$([Logging]::ProgramLogPath)\$([Logging]::ProgramLogFileName)", "$($message)")) -eq $false)
+        elseif (([IOCommon]::WriteToFile("$([Logging]::GetLogFilePath())", "$($message)")) -eq $false)
         {
             # The message failed to be written to file,
             #  provide an exit code of false to signify failure.
@@ -627,6 +627,24 @@ class Logging
     #region Public Functions
 
 
+   <# Get Program Logfile
+    # -------------------------------
+    # Documentation:
+    #  This function will return the program's main logfile absolute path.
+    # -------------------------------
+    # Output:
+    #   [string] Logfile path
+    #       The absolute path of the program's logfile.
+    # -------------------------------
+    #>
+    static hidden [string] GetLogFilePath()
+    {
+        return "$([Logging]::ProgramLogPath)\$([Logging]::ProgramLogFileName)";
+    } # GetLogFilePath()
+
+
+
+
    <# Allow Logging
     # -------------------------------
     # Documentation:
@@ -818,7 +836,6 @@ class Logging
 
         # Fetch user input, normally.
         $userInput = [IOCommon]::FetchUserInput();
-
 
         # Provide the user's input into the logfile and record it.
         [Logging]::__FormatLogMessage(7, "$($userInput)", "$($null)") | Out-Null;
