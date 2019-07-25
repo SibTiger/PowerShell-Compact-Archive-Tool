@@ -769,11 +769,11 @@ class IOCommon
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "External command returned successfully with additional output.";
+            [string] $logMessage = "The external command provided output in the STDOUT container!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Description: $($description)`r`n" + `
-                                        "`tSTDOUT Log Path: $($logStdOut)`r`n" + `
+            [string] $logAdditionalMSG = ("Description for executing the extCMD: $($description)`r`n" + `
+                                        "`tSTDOUT Logfile Path: $($logStdOut)`r`n" + `
                                         "`tSTDOUT Output:`r`n" + `
                                         "`t$($outputResultOut.Value)");
 
@@ -805,11 +805,11 @@ class IOCommon
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "External command returned with an error or error messages exists!";
+            [string] $logMessage = "The external command provided output in the STDERR container!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Description: $($description)`r`n" + `
-                                        "`tSTDERR Log Path: $($logStdErr)`r`n" + `
+            [string] $logAdditionalMSG = ("Description for executing the extCMD: $($description)`r`n" + `
+                                        "`tSTDERR Logfile Path: $($logStdErr)`r`n" + `
                                         "`tSTDERR Output:`r`n" + `
                                         "`t$($outputResultErr.Value)");
 
