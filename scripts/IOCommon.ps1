@@ -542,7 +542,7 @@ class IOCommon
         # Make sure that the description field actually has something
         #  meaningful, if not (by mistake) - use the executable and args
         #  as the description.
-        if (("$($description)" -eq "") -or ("$($description)" -eq $null))
+        if ("$($description)" -eq $null)
         {
             # NOTE: Worst case scenario, we potentially break the filesystem
             #  by either: using illegal characters or long chars.
