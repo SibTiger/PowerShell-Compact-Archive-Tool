@@ -270,7 +270,7 @@ class IOCommon
         {
             Get-Command -Name "$($command)" `
                         -CommandType "$($type)"`
-                        -ErrorAction Stop;
+                        -ErrorAction Stop | Out-Null;
 
             # The command was detected
             $exitCode = $true;
