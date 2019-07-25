@@ -618,9 +618,9 @@ class IOCommon
         [string] $logMessage = "Successfully executed the external command $($command)!";
 
         # Generate any additional information that might be useful
-        [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
-                                    "`tArguments to be used: $($arguments)`r`n" + `
-                                    "`tReason to use command: $($description)`r`n" + `
+        [string] $logAdditionalMSG = ("Command that was executed: $($command)`r`n" + `
+                                    "`tArguments that were used: $($arguments)`r`n" + `
+                                    "`tReason for using this command: $($description)`r`n" + `
                                     "`tExtCMD Exit Code: $($externalCommandReturnCode)");
 
         # Pass the information to the logging system
