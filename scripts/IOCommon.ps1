@@ -1199,6 +1199,8 @@ class IOCommon
         [string] $outFilePropertyEncoding = "default";          # Encoding property to be used for the Out-File CMDLet.
                                                                 #  This specifies what encoding the text file should be
                                                                 #  upon creation.
+        [bool] $exitCode = $true;                               # The exit code that will be returned from this function.
+                                                                #  This will change to false if the file couldn't be found.
         # ----------------------------------------
 
 
@@ -1258,15 +1260,45 @@ class IOCommon
             # Assurance Fail-Safe; make sure that the file was successfully created on the filesystem.
             if ([IOCommon]::CheckPathExists("$($file)") -eq $false)
             {
-                # Operation failed because the file does not
-                #  exist on the secondary storage.
-                return $false;
+                # Operation failed because the file couldn't be found.  This is certainly odd?
+
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Prep a message to display to the user for this error; temporary variable
+                [string] $displayErrorMessage = ("Successfully wrote information to a file, but somehow it got lost?`n`r" + `
+                                                "Path of the file:`r`n`t$($file)");
+
+                # Generate the initial message
+                [string] $logMessage = "Successfully wrote to the requested file, but it was not found afterwards?";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("File path was: $($file)`r`n" + `
+                                            "`tContents that were written: `r`n`t`t$($contents.Value)`r`n");
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
+
+                # Display a message to the user that something went horribly wrong
+                #  and log that same message for referencing purpose.
+                [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                        "Error");                       # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
+                # Set the exit code to an error.
+                $exitCode = $false;
             } # if : file didn't exist (after write)
         } # Finally : Run last protocol
 
 
         # Operation was successful
-        return $true;
+        return $exitCode;
     } # WriteToFile()
 
 
