@@ -1252,14 +1252,17 @@ class IOCommon
             return $false;
         } # Catch : Failure to write
 
-
-        # Assurance Fail-Safe; make sure that the file was successfully created on the filesystem.
-        if ([IOCommon]::CheckPathExists("$($file)") -eq $false)
+        # Finally do the last operation
+        Finally
         {
-            # Operation failed because the file does not
-            #  exist on the secondary storage.
-            return $false;
-        } # if : file didn't exist (after write)
+            # Assurance Fail-Safe; make sure that the file was successfully created on the filesystem.
+            if ([IOCommon]::CheckPathExists("$($file)") -eq $false)
+            {
+                # Operation failed because the file does not
+                #  exist on the secondary storage.
+                return $false;
+            } # if : file didn't exist (after write)
+        } # Finally : Run last protocol
 
 
         # Operation was successful
