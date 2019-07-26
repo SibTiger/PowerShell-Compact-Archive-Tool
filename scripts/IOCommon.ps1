@@ -1884,6 +1884,13 @@ class IOCommon
                 #  possible that the User's LocalAppData\Temp is locked.
                 return $false;
             } # inner-if : Create Directory Failed
+
+            # Make sure that the parent temporary directory exists (after creating it)
+            elseif ($([IOCommon]::CheckPathExists("$($tempDirectoryPath)")) -eq $false)
+            {
+                # We couldn't successfully find the parent directory, we cannot continue any further.
+                return $false;
+            } # Else-if : Make sure parent temp. directory exists (after already creating it)
         } # if : Path does NOT exist
 
 
