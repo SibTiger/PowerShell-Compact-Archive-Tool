@@ -1276,7 +1276,7 @@ class IOCommon
 
                 # Generate any additional information that might be useful
                 [string] $logAdditionalMSG = ("File path was: $($file)`r`n" + `
-                                            "`tContents that were written: `r`n`t`t$($contents.Value)`r`n");
+                                            "`tContents that were written:`r`n`t`t$($contents.Value)`r`n");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
