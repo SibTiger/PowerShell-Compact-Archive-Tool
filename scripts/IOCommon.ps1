@@ -1888,9 +1888,57 @@ class IOCommon
             # Make sure that the parent temporary directory exists (after creating it)
             elseif ($([IOCommon]::CheckPathExists("$($tempDirectoryPath)")) -eq $false)
             {
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Prep a message to display to the user for this error; temporary variable.
+                [string] $displayErrorMessage = ("Created the parent temporary directory but unable to find it!" + `
+                                                "Parent temporary directory path is:`r`n" + `
+                                                "`t$($tempDirectoryPath)");
+
+                # Generate the initial message
+                [string] $logMessage = "Created the parent temporary directory but unable to find it!";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Path of the parent temporary directory: $($tempDirectoryPath)");
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
+
+                # Display a message to the user that something went horribly wrong
+                #  and log that same message for referencing purpose.
+                [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                        "Error");                       # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
                 # We couldn't successfully find the parent directory, we cannot continue any further.
                 return $false;
             } # Else-if : Make sure parent temp. directory exists (after already creating it)
+
+            # Successfully created the parent temporary directory
+            else
+            {
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = "Successfully created the parent temporary directory!";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = "Path of the parent temporary directory: $($tempDirectoryPath)";
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Verbose");                   # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+            } # Else : Successfully created the parent temporary directory
         } # if : Path does NOT exist
 
 
@@ -1988,7 +2036,7 @@ class IOCommon
             # --------------
 
             # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = "Unable to create a temporary directory!"
+            [string] $displayErrorMessage = "Unable to create a working temporary directory!"
 
             # Generate the initial message
             [string] $logMessage = "$($displayErrorMessage)";
@@ -2017,6 +2065,30 @@ class IOCommon
             return $false;
         } # if : Failure Creating Directory
 
+        # Successfully created the working temporary directory
+        else
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Successfully created a working temporary directory!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Parent temporary directory: $($tempDirectoryPath)" + `
+                                        "`tPath of the temporary directory: $($finalDirectoryPath)" + `
+                                        "`tTime stamp: $($dateTime)" + `
+                                        "`tRepetition counter was: $($repetitionCount)" + `
+                                        "`tRepetition counter threshold was: $($repetitionMax)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # Else : Created working temporary directory
 
 
         # Just for assurance sakes, does the directory exist?
@@ -2036,7 +2108,8 @@ class IOCommon
             [string] $logMessage = "Successfully created the temporary directory but it was not found in the final destination path!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "Path of the temporary directory: $($finalDirectoryPath)";
+            [string] $logAdditionalMSG = ("Parent temporary directory: $($tempDirectoryPath)" + `
+                                        "`tPath of the temporary directory: $($finalDirectoryPath)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
