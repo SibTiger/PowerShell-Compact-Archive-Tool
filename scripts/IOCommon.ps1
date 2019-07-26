@@ -1224,8 +1224,8 @@ class IOCommon
             # --------------
 
             # Prep a message to display to the user for this error; temporary variable
-            [string] $displayErrorMessage = ("Failed to write data to file!`r`n" + `
-                                            "Failure reason: $($_)");
+            [string] $displayErrorMessage = ("A failure occurred upon writing to file named:`r`n`t$($file)!`r`n" + `
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
 
             # Generate the initial message
             [string] $logMessage = "A failure has occurred upon writing data to file!";
@@ -1233,7 +1233,7 @@ class IOCommon
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("File to write: $($file)`r`n" + `
                                         "`tContents to write: $($contents.Value.ToString())`r`n" + `
-                                        "`tFailed to execute reason: $($_)");
+                                        "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
