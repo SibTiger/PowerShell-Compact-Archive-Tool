@@ -1384,11 +1384,11 @@ class IOCommon
             # --------------
 
             # Prep a message to display to the user for this error; temporary variable
-            [string] $displayErrorMessage = ("Unable to create a PDF file; source file does not exist!`r`n" + `
-                                            "Source file: $($sourceFile)");
+            [string] $displayErrorMessage = ("Unable to create a PDF file; the source file does not exist!`r`n" + `
+                                            "Source file path is:`r`n`t$($sourceFile)");
 
             # Generate the initial message
-            [string] $logMessage = "Unable to create a PDF file as the source file does not exist!";
+            [string] $logMessage = "Unable to create a PDF file because the source file does not exist!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Source file: $($sourceFile)`r`n" + `
@@ -1447,7 +1447,7 @@ class IOCommon
 
                 # Prep a message to display to the user for this error; temporary variable
                 [string] $displayErrorMessage = ("Unable to create a new instance of Microsoft Word.`r`n" + `
-                                                "Failure reason: $($_)");
+                                                "$([Logging]::GetExceptionInfoShort($_.Exception))");
 
                 # Generate the initial message
                 [string] $logMessage = "Unable to create a new instance of Microsoft Word.";
@@ -1455,7 +1455,7 @@ class IOCommon
                 # Generate any additional information that might be useful
                 [string] $logAdditionalMSG = ("Unable to create a new instance of Microsoft Word.`r`n" + `
                                             "`tSource File: $($sourceFile)`r`n" + `
-                                            "`tAdditional Error Message: $($_)");
+                                            "$([Logging]::GetExceptionInfo($_.Exception))");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -1473,6 +1473,31 @@ class IOCommon
                 #  MS Word, we can not continue any further.
                 return $false;
             } # Catch : Failure to create MS Word Instance
+
+            # Actions to perform after creating a new instance of Word
+            Finally
+            {
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = "Successfully created a new instance of Microsoft Word!";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Successfully created a new instance of Microsoft Word from the host system.`r`n" + `
+                                            "`tSource File: $($sourceFile)`r`n" + `
+                                            "`tDestination File: $($destinationFile)");
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Verbose");                   # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
+            } # Finally : After successful instance of Word
         } # If : Microsoft Word Installed \ Ready
 
         # Microsoft Word was not detected or is not compatible with PowerShell
@@ -1488,7 +1513,7 @@ class IOCommon
 
             # Prep a message to display to the user for this error; temporary variable
             [string] $displayErrorMessage = ("Unable to find a modern version Microsoft Word; unable to create a PDF.`r`n" + `
-                                            "Failure reason: $($_)");
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
 
             # Generate the initial message
             [string] $logMessage = "Unable to find a modern version of Microsoft Word!";
@@ -1497,7 +1522,8 @@ class IOCommon
             [string] $logAdditionalMSG = ("The host system does not have (or unable to detect) a modern version of " + `
                                         "Microsoft Word.`r`n" + `
                                         "`tSource File: $($sourceFile)`r`n" + `
-                                        "`tAdditional Error Message: $($_)");
+                                        "`tDestination File: $($destinationFile)`r`n" + `
+                                        "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -1625,6 +1651,33 @@ class IOCommon
             # The PDF file was not found
             return $false;
         } # if : file didn't exist
+
+        # The file exists and everything is okay!
+        else
+        {
+            # The PDF file was successfully created and can be found at the requested distination path
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Successfully created the PDF file!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Source file: $($sourceFile)`r`n" + `
+                                        "`tDestination file: $($destinationFile)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+        } # Else : File was found!
 
 
         # Successfully created the document
