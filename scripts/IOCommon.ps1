@@ -1008,10 +1008,13 @@ class IOCommon
             return -255;
         } # Catch : Failed Executing Command
 
-
-        # Capture the Output (STDOUT && STDERR)
-        $captureStdErr.Value = $asyncStdErr.Result; # STDERR
-        $captureStdOut.Value = $asyncStdOut.Result; # STDOUT
+        # After executing the command protocol
+        finally
+        {
+            # Capture the Output (STDOUT && STDERR)
+            $captureStdErr.Value = $asyncStdErr.Result; # STDERR
+            $captureStdOut.Value = $asyncStdOut.Result; # STDOUT
+        } # Finally : After extCMD invoktion
 
 
         # Return the result
