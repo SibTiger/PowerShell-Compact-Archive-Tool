@@ -281,23 +281,26 @@ class IOCommon
             # Failed to find the command or an error occurred.
         } # Catch : Couldn't Find Command
 
+        # Process any further protocol after the detection
+        Finally
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
 
-        # * * * * * * * * * * * * * * * * * * *
-        # Debugging
-        # --------------
+            # Generate the initial message
+            [string] $logMessage = "Tried to find the $($type) named $($command); detected result was $($exitCode)";
 
-        # Generate the initial message
-        [string] $logMessage = "Tried to find the $($type) named $($command); detected result was $($exitCode)";
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = $null;
 
-        # Generate any additional information that might be useful
-        [string] $logAdditionalMSG = $null;
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
 
-        # Pass the information to the logging system
-        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                    "$($logAdditionalMSG)", `   # Additional information
-                                    "Verbose");                 # Message level
-
-        # * * * * * * * * * * * * * * * * * * *
+            # * * * * * * * * * * * * * * * * * * *
+        } # Finally : Protocol after detection
 
 
         # Return the results
