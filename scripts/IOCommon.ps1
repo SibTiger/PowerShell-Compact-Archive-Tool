@@ -1014,6 +1014,28 @@ class IOCommon
             # Capture the Output (STDOUT && STDERR)
             $captureStdErr.Value = $asyncStdErr.Result; # STDERR
             $captureStdOut.Value = $asyncStdOut.Result; # STDOUT
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Successfully executed the extCMD $($command)!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Command that was executed: $($command)`r`n" + `
+                                        "`tArguments that were used: $($arguments)`r`n" + `
+                                        "`tExit code provided by extCMD: $($processExec.ExitCode)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
         } # Finally : After extCMD invoktion
 
 
