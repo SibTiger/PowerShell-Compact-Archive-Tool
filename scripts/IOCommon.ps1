@@ -2322,7 +2322,7 @@ class IOCommon
         [string] $logMessage = "Tried to find the path named $($path), the detected result was $($exitCode)";
 
         # Generate any additional information that might be useful
-        [string] $logAdditionalMSG = "$($_)";
+        [string] $logAdditionalMSG = "$($null)";
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
