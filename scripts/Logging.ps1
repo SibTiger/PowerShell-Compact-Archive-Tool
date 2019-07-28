@@ -642,17 +642,31 @@ class Logging
     # Output:
     #  [string] Exception Information
     #   Some insight information regarding the exception that was thrown.
+    #
+    #   ERROR VALUES
+    #    null = No exception object provided or information was null.
     # -------------------------------
     #>
     static [string] GetExceptionInfoShort ([Exception] $errDetail)
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Generate the exception information that will be returned to the calling function.
-        [string] $information = ("Reached an exception: $($errDetail.GetType().ToString())`r`n" + `
-                                "More information is provided in the program's logfile.`r`n" + `
-                                "Logfile can be found in:`r`n`t$([Logging]::GetLogFilePath())");
+        [string] $information = $null;          # This variable will contain information and data
+                                                #  regarding the exception passed to this function.
         # ----------------------------------------
+
+
+        # Check to make sure the exception passed to this function is not null
+        if ($null -eq $errDetail)
+        {
+            # Because the Exception object is null, we can not extract anything from it.
+            return $null;
+        } # If : Exception is null
+
+        # Generate the exception information that will be returned to the calling function.
+        $information = ("Reached an exception: $($errDetail.GetType().ToString())`r`n" + `
+                        "More information is provided in the program's logfile.`r`n" + `
+                        "Logfile can be found in:`r`n`t$([Logging]::GetLogFilePath())");
 
 
         # Return the short details of the error
@@ -678,22 +692,35 @@ class Logging
     # Output:
     #  [string] Exception Information
     #   Detailed information regarding the exception as a multiple line string.
+    #
+    #   ERROR VALUES
+    #    null = No exception object provided or information was null.
     # -------------------------------
     #>
     static [string] GetExceptionInfo ([Exception] $errDetail)
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Generate the exception information that will be returned to the calling function.
-        [string] $information = ("`tException Reached: $($errDetail.GetType().ToString())`r`n" + `
-                                "`tException Message: $($errDetail.Message.ToString())`r`n" + `
-                                "`tException Source: $($errDetail.Source.ToString())`r`n" + `
-                                "`tException Target Site: $($errDetail.TargetSite.ToString())`r`n" + `
-                                "`tException Stack Trace:`r`n" + `
-                                "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~`r`n" + `
-                                "$($errDetail.StackTrace.ToString())`r`n" + `
-                                "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~");
+        [string] $information = $null;          # This variable will contain information and data
+                                                #  regarding the exception passed to this function.
         # ----------------------------------------
+
+        # Check to make sure the exception passed to this function is not null
+        if ($null -eq $errDetail)
+        {
+            # Because the Exception object is null, we can not extract anything from it.
+            return $null;
+        } # If : Exception is null
+
+        # Generate the exception information that will be returned to the calling function.
+        $information = ("`tException Reached: $($errDetail.GetType().ToString())`r`n" + `
+                        "`tException Message: $($errDetail.Message.ToString())`r`n" + `
+                        "`tException Source: $($errDetail.Source.ToString())`r`n" + `
+                        "`tException Target Site: $($errDetail.TargetSite.ToString())`r`n" + `
+                        "`tException Stack Trace:`r`n" + `
+                        "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~`r`n" + `
+                        "$($errDetail.StackTrace.ToString())`r`n" + `
+                        "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~");
 
 
         # Return the details of the error
