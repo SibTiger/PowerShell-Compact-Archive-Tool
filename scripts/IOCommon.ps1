@@ -2520,7 +2520,29 @@ class IOCommon
         #  if not, then there is nothing to do.
         if(([IOCommon]::CheckPathExists("$($path)")) -eq $false)
         {
-            # The directory does not exist, there's nothing to do.
+            # The directory does not exist, no operations can be performed.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to delete the requested files because the directory does not exist!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Directory Path: $($path)" ` +
+                                        "`tFile(s) that were requested to be deleted:`r`n" + `
+                                        "`t`t$($includes.ToString())");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             #  Because the directory does not exist (with the provided path),
             #  there was no real error - just return as successful.
             return $true;
@@ -2577,8 +2599,7 @@ class IOCommon
             [string] $logAdditionalMSG = ("Directory that was inspected: $($path)" ` +
                                         "`tFile(s) requested to be deleted:`r`n" + `
                                         "`t`t$($includes.ToString())" + `
-                                        "`tAdditional error information:`r`n" + `
-                                        "`t`t$($_)");
+                                        "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -2592,7 +2613,7 @@ class IOCommon
 
         # Return with exit code
         return $exitCode;
-    } # DeleteFile
+    } # DeleteFile()
 
     #endregion
 
