@@ -2179,15 +2179,17 @@ class IOCommon
 
 
         # Check to see if the path already exists; if it already exists -
-        #  then there's nothing to done.  If it does not exist, however,
-        #  then try to create it.
+        #  then there's nothing to be done.  If it does not exist, however,
+        #  then try to create the requested directory.
         if (([IOCommon]::CheckPathExists("$($path)")) -eq $false)
         {
             # The requested path does not exist, try to create it.
             try
             {
                 # Try to create the directory; if failure - stop.
-                New-Item -Path "$($path)" -ItemType Directory -ErrorAction Stop;
+                New-Item -Path "$($path)" `
+                        -ItemType Directory `
+                        -ErrorAction Stop;
 
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -2223,14 +2225,14 @@ class IOCommon
 
                 # Prep a message to display to the user for this error; temporary variable
                 [string] $displayErrorMessage = ("Failed to create the required directory!`r`n" + `
-                                                "Reason for failure: $($_)");
+                                                "$([Logging]::GetExceptionInfoShort($_.Exception))");
 
                 # Generate the initial message
                 [string] $logMessage = "Failed to create the directory by request!";
 
                 # Generate any additional information that might be useful
                 [string] $logAdditionalMSG = ("Directory Path: $($path)`r`n" + `
-                                            "`tAdditional Error Message: $($_)");
+                                            "$([Logging]::GetExceptionInfo($_.Exception))");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -2247,6 +2249,30 @@ class IOCommon
 
             } # Catch : Failed to Create Directory
         } # If : Directory does not exist
+
+        # If the directory already exists
+        else
+        {
+            # Because the directory already exists, there's nothing that can be done.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Skipping request to create a new directory because it already exists!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "Directory Path: $($path)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # Else : Directory already exists
 
 
         # Return the exit code
