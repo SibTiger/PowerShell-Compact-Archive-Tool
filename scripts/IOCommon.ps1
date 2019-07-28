@@ -2377,8 +2377,28 @@ class IOCommon
         #  if not, then there is nothing to do.
         if(([IOCommon]::CheckPathExists("$($path)")) -eq $false)
         {
-            # The directory does not exist, there's nothing to do.
-            #  Because the directory does not exist (with the given path),
+            # The directory does not exist, no operation can be performed.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Cannot delete the directory as requested because the path was not existant!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "Directory Path: $($path)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Because the directory does not exist (with the given path),
             #  there was no real error - just return as successful.
             return $true;
         } # Check if Directory Exists.
@@ -2430,8 +2450,7 @@ class IOCommon
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Directory to delete: $($path)`r`n" + `
-                                        "`tAdditional error information:`r`n" + `
-                                        "`t`t$($_)");
+                                        "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
