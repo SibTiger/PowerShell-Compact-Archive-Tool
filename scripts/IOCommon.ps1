@@ -2662,6 +2662,28 @@ class IOCommon
         # Check if the source file actually exists within the user's filesystem
         if ([IOCommon]::CheckPathExists("$($path)") -eq $false)
         {
+            # The source file was not found.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "The source file was not found; unable to get obtain the file hash as requested!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Requested file: $($path)`r`n" + `
+                                        "`tRequested Hash Algorithm: $($hashAlgorithm)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Because the file was not on the user's filesystem at the specified
             #  path, return null to signify an error.
             return $null;
@@ -2680,6 +2702,28 @@ class IOCommon
 
             # From the cache data, get the hash and save it.
             $hashValue = $hashInfo.Hash;
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Successfully obtained the hash value of the requested file!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Requested file: $($path)`r`n" + `
+                                        "`tRequested Hash Algorithm: $($hashAlgorithm)`r`n" + `
+                                        "`tHash value is: $($hashValue)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
         } # Try : Get hash value
 
         # Catch if an error occurred
@@ -2687,18 +2731,18 @@ class IOCommon
         {
             # Failure to obtain the hash value.
 
+
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "A failure occurred while trying to get the hash value!";
+            [string] $logMessage = "A failure occurred while trying to get the file hash value!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Requested file: $($path)`r`n" + `
                                         "`tRequested Hash Algorithm: $($hashAlgorithm)`r`n" + `
-                                        "`tAdditional Information:`r`n" + `
-                                        "`t`t$($_)");
+                                        "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
