@@ -2805,6 +2805,27 @@ class IOCommon
 
                 # Successfully opened the requested webpage
                 $exitCode = $true;
+
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = "Successfully opened the requested webpage!";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Requested to open webpage address:`r`n" + `
+                                            "`t`t$($URLAddress)");
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "verbose");                   # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
             } # Try : Execute Task
 
             catch
@@ -2822,8 +2843,7 @@ class IOCommon
                 # Generate any additional information that might be useful
                 [string] $logAdditionalMSG = ("Tried to open requested webpage:`r`n" + `
                                             "`t`t$($URLAddress)`r`n" + `
-                                            "`tAdditional Information:" + `
-                                            "`t`t$($_)");
+                                            "$([Logging]::GetExceptionInfo($_.Exception))");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
