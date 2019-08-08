@@ -2215,7 +2215,7 @@ class SevenZip
 
 
                     # Increment the traverse variable
-                    $traverse = $traverse + 1;
+                    $traverse++;
 
 
                     # Finished with the header
@@ -2245,7 +2245,7 @@ class SevenZip
 
 
                     # Increment the traverse variable
-                    $traverse = $traverse + 1;
+                    $traverse++;
 
 
                     # Finished with the Table of Contents
@@ -2284,8 +2284,8 @@ class SevenZip
 
 
                     # Increment the traverse variable
-                    $traverse = $traverse + 1;
-                    
+                    $traverse++;
+
 
                     # Finished with the Project Info.
                     break;
@@ -2326,8 +2326,8 @@ class SevenZip
 
 
                     # Increment the traverse variable
-                    $traverse = $traverse + 1;
-                    
+                    $traverse++;
+
 
                     # Finished with the Contributors
                     break;
@@ -2363,8 +2363,8 @@ class SevenZip
 
 
                     # Increment the traverse variable
-                    $traverse = $traverse + 1;
-                    
+                    $traverse++;
+
 
                     # Finished with the Branches
                     break;
@@ -2393,7 +2393,7 @@ class SevenZip
 
 
                     # Increment the traverse variable
-                    $traverse = $traverse + 1;
+                    $traverse++;
 
 
                     # Jump out of the Loop key

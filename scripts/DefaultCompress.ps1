@@ -1759,7 +1759,7 @@ class DefaultCompress
 
 
                     # Increment the traverse variable
-                    $traverse = $traverse + 1;
+                    $traverse++;
 
 
                     # Finished with the header
@@ -1789,7 +1789,7 @@ class DefaultCompress
 
 
                     # Increment the traverse variable
-                    $traverse = $traverse + 1;
+                    $traverse++;
 
 
                     # Finished with the Table of Contents
@@ -1828,8 +1828,8 @@ class DefaultCompress
 
 
                     # Increment the traverse variable
-                    $traverse = $traverse + 1;
-                    
+                    $traverse++;
+
 
                     # Finished with the Project Info.
                     break;
@@ -1870,8 +1870,8 @@ class DefaultCompress
 
 
                     # Increment the traverse variable
-                    $traverse = $traverse + 1;
-                    
+                    $traverse++;
+
 
                     # Finished with the Contributors
                     break;
@@ -1907,8 +1907,8 @@ class DefaultCompress
 
 
                     # Increment the traverse variable
-                    $traverse = $traverse + 1;
-                    
+                    $traverse++;
+
 
                     # Finished with the Branches
                     break;
@@ -1937,7 +1937,7 @@ class DefaultCompress
 
 
                     # Increment the traverse variable
-                    $traverse = $traverse + 1;
+                    $traverse++;
 
 
                     # Jump out of the Loop key

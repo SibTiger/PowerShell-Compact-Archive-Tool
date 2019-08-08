@@ -2019,7 +2019,7 @@ class IOCommon
                 } # Inner-Else : Check if Max Reached
 
                 # Increment the counter
-                $repetitionCount = $repetitionCount + 1;
+                $repetitionCount++;
             } # while : trying to find unique name
         } # if : Directory already Exists
 

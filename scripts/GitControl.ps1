@@ -2057,7 +2057,7 @@ class GitControl
 
 
                     # Increment the traverse variable
-                    $traverse = $traverse + 1;
+                    $traverse++;
 
 
                     # Finished with the header
@@ -2087,7 +2087,7 @@ class GitControl
 
 
                     # Increment the traverse variable
-                    $traverse = $traverse + 1;
+                    $traverse++;
 
 
                     # Finished with the Table of Contents
@@ -2126,8 +2126,8 @@ class GitControl
 
 
                     # Increment the traverse variable
-                    $traverse = $traverse + 1;
-                    
+                    $traverse++;
+
 
                     # Finished with the Project Info.
                     break;
@@ -2155,8 +2155,8 @@ class GitControl
 
 
                     # Increment the traverse variable
-                    $traverse = $traverse + 1;
-                    
+                    $traverse++;
+
 
                     # Finished with the Contributors
                     break;
@@ -2184,8 +2184,8 @@ class GitControl
 
 
                     # Increment the traverse variable
-                    $traverse = $traverse + 1;
-                    
+                    $traverse++;
+
 
                     # Finished with the Branches
                     break;
@@ -2213,7 +2213,7 @@ class GitControl
 
 
                     # Increment the traverse variable
-                    $traverse = $traverse + 1;
+                    $traverse++;
 
 
                     # Jump out of the Loop key
