@@ -547,10 +547,8 @@ class IOCommon
         #  as the description.
         if ("$($description)" -eq $null)
         {
-            # NOTE: Worst case scenario, we potentially break the filesystem
-            #  by either: using illegal characters or long chars.
-            #  To avoid this from happening, please use a valid description!
-            $description = "$($command) $($arguments)";
+            # Generate a new description using what information we have presently.
+            [string] $description = [IOCommon]::__ExecuteCommandCreateDescription("$($command)", "$($arguments)");
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -637,6 +635,75 @@ class IOCommon
         # Return the ExtCMD's exit code
         return $externalCommandReturnCode;
     } # ExecuteCommand()
+
+
+
+
+   <# Execute Command - Create Description
+    # -------------------------------
+    # Documentation:
+    #  This function will generate a description when one is not provided during
+    #   execution protocol from the ExecuteCommand() function.  To generate the
+    #   description, we will combine the command\executable and the arguments.
+    #   But we will have to sanitize the description to avoid any illegal
+    #   characters and shorten the entire description to a specific length -- one
+    #   must remember that the description is going to be used as part of the
+    #   filename of a file on the filesystem.
+    # -------------------------------
+    # Inputs:
+    #  [string] Command
+    #   The external executable to run by request.
+    #  [string] Arguments
+    #   Arguments to be used when executing the binary or the extCMD.
+    # -------------------------------
+    # Output:
+    #  [string] Newly Generated Description
+    #   A newly generated default description.
+    # -------------------------------
+    #>
+    Static Hidden [string] __ExecuteCommandCreateDescription([string] $command, `
+                                                            [string] $arguments)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [string] $cacheDescription = $null;                     # Our working description
+        [int] $maxDescriptionLength = 64;                       # The maximum possible characters that can be in the description field.
+        [char[]] $illegalChars = @('<', '>', ':', '"', '\', `   # Characters that can NOT be in the description field, as it is possible
+                                    '/', '|', '?', '*', '`');   #  to cause conflicts with the host's filesystem requirements.
+        # ----------------------------------------
+
+
+        # Put together the cached description
+        $cacheDescription = "$($command) $($arguments)";
+
+        # Remove any illegal characters from the cached description.
+        for ([int] $i = 0; $i -lt $illegalChars.Length; $i++)
+        {
+            # Expunge any illegal char at the given index of illegalChars array.
+            $cacheDescription = $cacheDescription.Replace($illegalChars[$i].ToString(), $null);
+        } # For : Expunge Illegal Chars
+
+        # Trim any trailing whitespace
+        $cacheDescription = $cacheDescription.Trim();
+
+
+        # Make sure the description field is within the char-size limits.
+        if ($cacheDescription.Length -gt $maxDescriptionLength)
+        {
+            # How much of the data are we going to discard?
+            [int] $cacheDescriptionDiscard = $cacheDescription.Length - $maxDescriptionLength;
+
+            # Re-initialize the description but restricted length-limits.
+            $cacheDescription = "$($cacheDescription.Remove($maxDescriptionLength, $cacheDescriptionDiscard))";
+
+            # If incase, trim any trailing whitespace (if any)
+            $cacheDescription = $cacheDescription.Trim();
+        } # If : Description field exceeds limit
+
+
+        # Return the modified description
+        return $cacheDescription;
+    } # __ExecuteCommandCreateDescription()
 
 
 
