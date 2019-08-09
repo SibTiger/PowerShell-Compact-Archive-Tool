@@ -223,6 +223,23 @@ class IOCommon
         } # else : Text Background
     } # WriteToBuffer()
 
+
+
+
+   <# Clear the Buffer (Terminal Screen)
+    # -------------------------------
+    # Documentation:
+    #  This function will clear all of the text that was previously
+    #   printed on the terminal's output buffer.  For some terminals,
+    #   this may have different meaning, such as merely appending an
+    #   abundance of new-lines instead of flushing the terminal's screen.
+    # -------------------------------
+    #>
+    static [void] ClearBuffer()
+    {
+        Clear-Host;
+    } # ClearBuffer()
+
     #endregion
 
 
