@@ -545,7 +545,7 @@ class IOCommon
         # Make sure that the description field actually has something
         #  meaningful, if not (by mistake) - use the executable and args
         #  as the description.
-        if ("$($description)" -eq $null)
+        if (("$($description)" -eq "") -or ("$($description)" -eq $null))
         {
             # Generate a new description using what information we have presently.
             [string] $description = [IOCommon]::__ExecuteCommandCreateDescription("$($command)", "$($arguments)");
