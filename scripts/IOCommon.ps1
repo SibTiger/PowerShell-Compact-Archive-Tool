@@ -2699,6 +2699,160 @@ class IOCommon
         return $exitCode;
     } # DeleteFile()
 
+
+
+
+   <# Rename Item (For a File or Directory)
+    # -------------------------------
+    # Documentation:
+    #  This function allows the possibility to rename an already
+    #   existing individual file or directory.
+    # -------------------------------
+    # Input:
+    #  [string] Absolute Path
+    #   The absolute path of a directory or file that we want to rename.
+    #  [string] New Name
+    #   The desired name that we want to identify the target file with.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #    $false = Failed to rename the target.
+    #    $true = Successfully renamed the target.
+    #            OR
+    #            Directory does NOT exists; nothing to do.
+    # -------------------------------
+    #>
+    static [bool] RenameItem([string] $path,        # Path of the directory or file we want to rename
+                            [string] $newName)      # The new name we want to identify the object.
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [bool] $exitCode = $false;              # Exit code that will be returned.
+        # ----------------------------------------
+
+
+        # First make sure that the file or directory exists
+        if ([IOCommon]::CheckPathExists("$($path)") -eq $false)
+        {
+            # The directory or file does not exist, no operations can be performed.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to rename the requested file or directory because the path does not point to a valid target!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Absolute Path of Target: $($path)`r`n" + `
+                                        "`tNew Requested Name: $($newName)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Warning");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            #  Because the file or directory does not exist (with the provided path), then
+            #   we can not really perform the requested operation - just return as successful.
+            return $true;
+        } # If : File\Directory Does not Exists
+
+
+        # Make sure that the requested new name actually contains some sort of 'string'.
+        if (("$($newName)" -eq "") -or ($newName -eq $null))
+        {
+            # Because there was no new name given, we can not proceed any further.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to rename the requested file or directory because there was no name given!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Absolute Path of Target: $($path)`r`n" ` +
+                                        "`tNew Requested Name: $($newName)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            #  Because there was no name provided, we can not rename the file or directory.  Return as an actual failure.
+            return $false;
+        } # If : No new name populated
+
+
+        # Try to rename the target file\directory
+        try
+        {
+            # Rename the item as requested
+            Rename-Item -Path "$($path)" `
+                        -NewName "$($newName)" `
+                        -Force `
+                        -ErrorAction Stop;
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Successfully renamed the file or directory as requested!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Absolute Path of Target: $($path)`r`n" + `
+                                        "`tNew Requested Name: $($newName)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Update the exit code to return as successful
+            $exitCode = $true;
+        } # Try : Rename the Item
+
+        # An error occurred
+        catch
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Failed to rename the directory or file as requested!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Absolute Path of Target: $($path)`r`n" + `
+                                        "`tNew Requested Name: $($newName)`r`n" + `
+                                        "$([Logging]::GetExceptionInfo($_.Exception))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # Catch : Error occurred
+
+
+        # The operation is finished, return the status to the calling function.
+        return $exitCode;
+    } # RenameItem()
+
     #endregion
 
 
