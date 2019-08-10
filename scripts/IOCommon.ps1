@@ -2412,6 +2412,16 @@ class IOCommon
         # Debugging
         # --------------
 
+        # This variable will hold the appropriate message level when presenting it to the log file.
+        [string] $msgLevel = "Warning";
+
+        # If the operation was successful, update the message level as 'Verbose'.
+        if ($exitCode)
+        {
+            $msgLevel = "Verbose";
+        } # If : Successful Operation
+
+
         # Generate the initial message
         [string] $logMessage = "Tried to find the path named $($path), the detected result was $($exitCode)";
 
@@ -2421,7 +2431,7 @@ class IOCommon
         # Pass the information to the logging system
         [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                     "$($logAdditionalMSG)", `   # Additional information
-                                    "Verbose");                 # Message level
+                                    "$($msgLevel)");            # Message level
 
         # * * * * * * * * * * * * * * * * * * *
 
