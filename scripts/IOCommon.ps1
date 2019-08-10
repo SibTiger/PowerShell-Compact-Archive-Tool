@@ -2763,7 +2763,7 @@ class IOCommon
 
 
         # Make sure that the requested new name actually contains some sort of 'string'.
-        if (("$($newName)" -eq "") -or ($newName -eq $null))
+        if (("$($newName)" -eq "") -or ($null -eq "$($newName)"))
         {
             # Because there was no new name given, we can not proceed any further.
 
