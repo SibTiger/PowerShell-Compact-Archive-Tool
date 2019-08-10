@@ -301,6 +301,16 @@ class IOCommon
         # Process any further protocol after the detection
         Finally
         {
+            # Message level that will be presented in the log file.
+            [string] $msgLevel = "Warning";
+
+            # If the operation was successful, change the message level accordingly
+            if ($exitCode)
+            {
+                $msgLevel = "Verbose";
+            } # If : Successful operation
+
+
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
@@ -314,7 +324,7 @@ class IOCommon
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+                                        "$($msgLevel)");                 # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Finally : Protocol after detection
