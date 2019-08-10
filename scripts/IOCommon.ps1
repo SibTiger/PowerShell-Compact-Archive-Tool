@@ -324,7 +324,7 @@ class IOCommon
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "$($msgLevel)");                 # Message level
+                                        "$($msgLevel)");            # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Finally : Protocol after detection
