@@ -2873,6 +2873,161 @@ class IOCommon
         return $exitCode;
     } # RenameItem()
 
+
+
+
+   <# Move a Directory
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the possibilities to relocate a
+    #   specific directory to another location within the filesystem.
+    # -------------------------------
+    # Input:
+    #  [string] Target directory (absolute path)
+    #   The absolute path of the target directory that we want to move
+    #    else-where in the host's filesystem.
+    #  [string] Destination path (absolute path)
+    #   The destination path that the target directory will be relocated
+    #    to within the host's filesystem.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #    $false = Failed to relocate the target directory.
+    #    $true = Successfully relocated the target directory.
+    # -------------------------------
+    #>
+    static [bool] MoveDirectory([string] $targetDirectory,      # The directory we wish to move to another location.
+                                [string] $destinationPath)      # The new destination path that we want to relocate too.
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [bool] $exitCode = $false;              # Exit code that will be returned.
+        # ----------------------------------------
+
+
+        # First make sure that the target directory exists with the given path.
+        if ([IOCommon]::CheckPathExists("$($targetDirectory)") -eq $false)
+        {
+            # The target directory does not exist, no operations can be performed.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to move the requested target directory because the target path does not exist or was not valid!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
+                                        "`tDestination Path: $($destinationPath)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            #  Because the directory does not exist (with the provided path), then we can not proceed
+            #   any further within this function.  We must abort the operation to avoid any conflicts.
+            return $false;
+        } # If : Target Directory Does not Exists
+
+
+        # Second make sure that the destination path is valid.
+        if ([IOCommon]::CheckPathExists("$($destinationPath)") -eq $false)
+        {
+            # The destination path does not exist, no operations can be performed.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to move the requested target directory because the destination path does not exist or was not valid!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
+                                        "`tDestination Path: $($destinationPath)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            #  Because the destination path does not exist (with the provided path), then we can not proceed
+            #   any further within this function.  We must abort the operation to avoid any conflicts.
+            return $false;
+        } # If : Destination Path Does not Exists
+
+
+        # Try to rename the target file\directory
+        try
+        {
+            # Rename the item as requested
+            Move-Item -LiteralPath "$($targetDirectory)" `
+                        -Destination "$($destinationPath)" `
+                        -Force `
+                        -ErrorAction Stop;
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Successfully relocated the target directory to the requested destination path!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
+                                        "`tDestination Path: $($destinationPath)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Update the exit code to return as successful
+            $exitCode = $true;
+        } # Try : Rename the Item
+
+        # An error occurred
+        catch
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Failed relocate the target directory to the requested destination path!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
+                                        "`tDestination Path: $($destinationPath)`r`n" + `
+                                        "$([Logging]::GetExceptionInfo($_.Exception))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # Catch : Error occurred
+
+
+        # The operation is finished, return the status to the calling function.
+        return $exitCode;
+    } # MoveDirectory()
+
     #endregion
 
 
