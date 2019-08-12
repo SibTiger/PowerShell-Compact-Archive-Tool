@@ -2816,7 +2816,7 @@ class IOCommon
         try
         {
             # Rename the item as requested
-            Rename-Item -Path "$($path)" `
+            Rename-Item -LiteralPath "$($path)" `
                         -NewName "$($newName)" `
                         -Force `
                         -ErrorAction Stop;
