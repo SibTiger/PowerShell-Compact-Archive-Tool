@@ -2967,10 +2967,10 @@ class IOCommon
         } # If : Destination Path Does not Exists
 
 
-        # Try to rename the target file\directory
+        # Try to move the target directory
         try
         {
-            # Rename the item as requested
+            # Move the directory as requested
             Move-Item -LiteralPath "$($targetDirectory)" `
                         -Destination "$($destinationPath)" `
                         -Force `
@@ -2998,7 +2998,7 @@ class IOCommon
 
             # Update the exit code to return as successful
             $exitCode = $true;
-        } # Try : Rename the Item
+        } # Try : Move the Directory
 
         # An error occurred
         catch
