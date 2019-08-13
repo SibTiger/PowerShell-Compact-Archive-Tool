@@ -3008,7 +3008,7 @@ class IOCommon
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Failed relocate the target directory to the requested destination path!";
+            [string] $logMessage = "Failed to relocate the target directory to the requested destination path!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
