@@ -3377,6 +3377,184 @@ class IOCommon
         return $exitCode;
     } # CopyDirectory()
 
+
+
+
+   <# Copy File
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the possibility to duplicate a
+    #   specific file or files from a specific directory to another.
+    #   In regards to the files, it can be possible to provide a
+    #   specific list of files, a single file, or a range of files
+    #   using specialized characters - such as the wildcard and the
+    #   like.  However, the files must all be within the target
+    #   directory.  It is not possible to provide a full path or
+    #   relative path of the file(s), but only the filename(s) when
+    #   passing to this function.
+    #
+    #  WARNING NOTES:
+    #   The following flags are enabled in this function:
+    #    - Forceful
+    # -------------------------------
+    # Input:
+    #  [string] Target directory (absolute path)
+    #   The absolute path of the target directory that contains the
+    #    file(s) that we want to duplicate else-where within the
+    #    host's filesystem.
+    #  [string] Destination path (absolute path)
+    #   The destination path of where the requested file(s) will be
+    #    copied to within the host's filesystem.
+    #  [string[]] Files to duplicate
+    #   A file to be copied, a list of files to be copied, or a
+    #    specific crieteria that a file (or files) must satisfy in
+    #    order to be duplicated.  Any files that meet the
+    #    requirements - will be copied to the desired destination
+    #    path.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #    $false = Failed to duplicate the desired data.
+    #    $true = Successfully duplicated the desired data.
+    # -------------------------------
+    #>
+    static [bool] CopyFile([string] $targetDirectory,       # The directory that contains the file(s) we want to duplicate.
+                        [string] $destinationPath,          # The destination path to copy the file(s) to.
+                        [string[]] $includes)               # The file(s) that we want to duplicate from the target directory
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [bool] $exitCode = $false;              # Exit code that will be returned.
+        # ----------------------------------------
+
+
+        # First make sure that the target directory exists with the given path.
+        if ([IOCommon]::CheckPathExists("$($targetDirectory)") -eq $false)
+        {
+            # The target directory does not exist, no operations can be performed.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to copy the requested file(s) because the target path does not exist or was not valid!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
+                                        "`tDestination Path: $($destinationPath)`r`n" + `
+                                        "`t`t$($includes.ToString())");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            #  Because the directory does not exist (with the provided path), then we can not proceed
+            #   any further within this function.  We must abort the operation to avoid any conflicts.
+            return $false;
+        } # If : Target Directory Does not Exists
+
+
+        # Second make sure that the destination path is valid.
+        if ([IOCommon]::CheckPathExists("$($destinationPath)") -eq $false)
+        {
+            # The destination path does not exist, no operations can be performed.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to copy the requested file(s) because the destination path does not exist or was not valid!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
+                                        "`tDestination Path: $($destinationPath)`r`n" + `
+                                        "`t`t$($includes.ToString())");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            #  Because the destination path does not exist (with the provided path), then we can not proceed
+            #   any further within this function.  We must abort the operation to avoid any conflicts.
+            return $false;
+        } # If : Destination Path Does not Exists
+
+
+        # Try to copy the requested file(s) to the desired destination path
+        try
+        {
+            # Copy the directory as requested
+            Copy-Item -Path "$($targetDirectory)\*" `
+                        -Destination "$($destinationPath)" `
+                        -Include $includes `
+                        -Force `
+                        -ErrorAction Stop;
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Successfully copied the requested file(s) to the desired destination path!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
+                                        "`tDestination Path: $($destinationPath)`r`n" + `
+                                        "`t`t$($includes.ToString())");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Update the exit code to return as successful
+            $exitCode = $true;
+        } # Try : Copy the File(s)
+
+        # An error occurred
+        catch
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Failed to copy the desired file(s) to the requested destination path!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
+                                        "`tDestination Path: $($destinationPath)`r`n" + `
+                                        "`t`t$($includes.ToString())`r`n" + `
+                                        "$([Logging]::GetExceptionInfo($_.Exception))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # Catch : Error occurred
+
+
+        # The operation is finished, return the status to the calling function.
+        return $exitCode;
+    } # CopyFile()
     #endregion
 
 
