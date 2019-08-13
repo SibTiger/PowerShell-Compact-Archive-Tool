@@ -3142,6 +3142,7 @@ class IOCommon
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
                                         "`tDestination Path: $($destinationPath)`r`n" + `
+                                        "`tRequested file(s) to move: `r`n" + `
                                         "$($includesStr)");
 
             # Pass the information to the logging system
@@ -3184,6 +3185,7 @@ class IOCommon
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
                                         "`tDestination Path: $($destinationPath)`r`n" + `
+                                        "Requested file(s) to move:`r`n" + `
                                         "$($includesStr)");
 
             # Pass the information to the logging system
@@ -3231,6 +3233,7 @@ class IOCommon
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
                                         "`tDestination Path: $($destinationPath)`r`n" + `
+                                        "`tRequested file(s) to move:`r`n" + `
                                         "$($includesStr)");
 
             # Pass the information to the logging system
@@ -3268,6 +3271,7 @@ class IOCommon
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
                                         "`tDestination Path: $($destinationPath)`r`n" + `
+                                        "`tRequested file(s) to move:`r`n" + `
                                         "$($includesStr)`r`n" + `
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
@@ -3524,6 +3528,7 @@ class IOCommon
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
                                         "`tDestination Path: $($destinationPath)`r`n" + `
+                                        "`tRequested file(s) to copy:`r`n" + `
                                         "$($includesStr)");
 
             # Pass the information to the logging system
@@ -3566,6 +3571,7 @@ class IOCommon
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
                                         "`tDestination Path: $($destinationPath)`r`n" + `
+                                        "`tRequested file(s) to copy:`r`n" + `
                                         "$($includesStr)");
 
             # Pass the information to the logging system
@@ -3613,6 +3619,7 @@ class IOCommon
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
                                         "`tDestination Path: $($destinationPath)`r`n" + `
+                                        "`tRequested file(s) to copy:`r`n" + `
                                         "$($includesStr)");
 
             # Pass the information to the logging system
@@ -3650,6 +3657,7 @@ class IOCommon
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
                                         "`tDestination Path: $($destinationPath)`r`n" + `
+                                        "`tRequested file(s) to copy:`r`n" + `
                                         "$($includesStr)`r`n" + `
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
