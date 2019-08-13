@@ -1323,7 +1323,8 @@ class IOCommon
             # --------------
 
             # Prep a message to display to the user for this error; temporary variable
-            [string] $displayErrorMessage = ("A failure occurred upon writing to file named:`r`n`t$($file)!`r`n" + `
+            [string] $displayErrorMessage = ("A failure occurred upon writing to file named:`r`n" + `
+                                            "`t$($file)!`r`n" + `
                                             "$([Logging]::GetExceptionInfoShort($_.Exception))");
 
             # Generate the initial message
@@ -1373,7 +1374,8 @@ class IOCommon
 
                 # Generate any additional information that might be useful
                 [string] $logAdditionalMSG = ("File path was: $($file)`r`n" + `
-                                            "`tContents that were written:`r`n`t`t$($contents.Value)`r`n");
+                                            "`tContents that were written:`r`n" + `
+                                            "`t`t$($contents.Value)`r`n");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -1479,7 +1481,8 @@ class IOCommon
 
             # Prep a message to display to the user for this error; temporary variable
             [string] $displayErrorMessage = ("Unable to create a PDF file; the source file does not exist!`r`n" + `
-                                            "Source file path is:`r`n`t$($sourceFile)");
+                                            "Source file path is:`r`n" + `
+                                            "`t$($sourceFile)");
 
             # Generate the initial message
             [string] $logMessage = "Unable to create a PDF file because the source file does not exist!";
@@ -1576,11 +1579,10 @@ class IOCommon
                 # --------------
 
                 # Generate the initial message
-                [string] $logMessage = "Successfully created a new instance of Microsoft Word!";
+                [string] $logMessage = "Successfully created a new instance of Microsoft Word from the host system!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Successfully created a new instance of Microsoft Word from the host system.`r`n" + `
-                                            "`tSource File: $($sourceFile)`r`n" + `
+                [string] $logAdditionalMSG = ("`tSource File: $($sourceFile)`r`n" + `
                                             "`tDestination File: $($destinationFile)");
 
                 # Pass the information to the logging system
@@ -1610,12 +1612,11 @@ class IOCommon
                                             "$([Logging]::GetExceptionInfoShort($_.Exception))");
 
             # Generate the initial message
-            [string] $logMessage = "Unable to find a modern version of Microsoft Word!";
+            [string] $logMessage = ("Unable to find a modern version of Microsoft Word!`r`n" + `
+                                    "The host system does not have (or unable to detect) a modern version of Microsoft Word.");
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("The host system does not have (or unable to detect) a modern version of " + `
-                                        "Microsoft Word.`r`n" + `
-                                        "`tSource File: $($sourceFile)`r`n" + `
+            [string] $logAdditionalMSG = ("`tSource File: $($sourceFile)`r`n" + `
                                         "`tDestination File: $($destinationFile)`r`n" + `
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
@@ -2732,7 +2733,7 @@ class IOCommon
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Directory that was inspected: $($path)`r`n" + `
                                         "`tFile(s) requested to be deleted:`r`n" + `
-                                        "$($includesStr)" + `
+                                        "$($includesStr)`r`n" + `
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
@@ -2954,7 +2955,8 @@ class IOCommon
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Unable to move the requested target directory because the target path does not exist or was not valid!";
+            [string] $logMessage = ("Unable to move the requested target directory because the target path does not exist or" + `
+                                    " was not valid!");
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
@@ -2985,7 +2987,8 @@ class IOCommon
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Unable to move the requested target directory because the destination path does not exist or was not valid!";
+            [string] $logMessage = ("Unable to move the requested target directory because the destination path does not exist or" + `
+                                    " was not valid!");
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
@@ -3142,7 +3145,7 @@ class IOCommon
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
                                         "`tDestination Path: $($destinationPath)`r`n" + `
-                                        "`tRequested file(s) to move: `r`n" + `
+                                        "`tRequested file(s) to move:`r`n" + `
                                         "$($includesStr)");
 
             # Pass the information to the logging system
@@ -3185,7 +3188,7 @@ class IOCommon
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
                                         "`tDestination Path: $($destinationPath)`r`n" + `
-                                        "Requested file(s) to move:`r`n" + `
+                                        "`tRequested file(s) to move:`r`n" + `
                                         "$($includesStr)");
 
             # Pass the information to the logging system
@@ -3369,7 +3372,8 @@ class IOCommon
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Unable to copy the requested directory because the destination path does not exist or was not valid!";
+            [string] $logMessage = ("Unable to copy the requested directory because the destination path does not exist or" + `
+                                    " was not valid!");
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
