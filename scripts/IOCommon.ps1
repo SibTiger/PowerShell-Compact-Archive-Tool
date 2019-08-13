@@ -487,7 +487,7 @@ class IOCommon
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = ("Failed to execute the external command $($command)!" + `
+            [string] $logMessage = ("Failed to execute the external command $($command)!`r`n" + `
                                     "The project directory does not exist or was not found!");
 
             # Generate any additional information that might be useful
@@ -517,7 +517,7 @@ class IOCommon
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = ("Failed to execute the external command $($command)!" + `
+            [string] $logMessage = ("Failed to execute the external command $($command)!`r`n" + `
                                     "The Standard Output (or STDOUT) Directory does not exist or was not found!");
 
             # Generate any additional information that might be useful
@@ -547,7 +547,7 @@ class IOCommon
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = ("Failed to execute the external command $($command)!" + `
+            [string] $logMessage = ("Failed to execute the external command $($command)!`r`n" + `
                                     "The Standard Error (or STDERR) Directory does not exist or was not found!");
 
             # Generate any additional information that might be useful
@@ -1987,7 +1987,7 @@ class IOCommon
                 # --------------
 
                 # Prep a message to display to the user for this error; temporary variable.
-                [string] $displayErrorMessage = ("Created the parent temporary directory but unable to find it!" + `
+                [string] $displayErrorMessage = ("Created the parent temporary directory but unable to find it!`r`n" + `
                                                 "Parent temporary directory path is:`r`n" + `
                                                 "`t$($tempDirectoryPath)");
 
@@ -2092,7 +2092,7 @@ class IOCommon
 
                     # Generate any additional information that might be useful
                     [string] $logAdditionalMSG = ("Reached repetition max threshold!`r`n" + `
-                                                "`tRepetition Max Limit is: $($repetitionMax)" + `
+                                                "`tRepetition Max Limit is: $($repetitionMax)`r`n" + `
                                                 "`tRepetition Counter is: $($repetitionCount)");
 
                     # Pass the information to the logging system
@@ -2170,10 +2170,10 @@ class IOCommon
             [string] $logMessage = "Successfully created a working temporary directory!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Parent temporary directory: $($tempDirectoryPath)" + `
-                                        "`tPath of the temporary directory: $($finalDirectoryPath)" + `
-                                        "`tTime stamp: $($dateTime)" + `
-                                        "`tRepetition counter was: $($repetitionCount)" + `
+            [string] $logAdditionalMSG = ("Parent temporary directory: $($tempDirectoryPath)`r`n" + `
+                                        "`tPath of the temporary directory: $($finalDirectoryPath)`r`n" + `
+                                        "`tTime stamp: $($dateTime)`r`n" + `
+                                        "`tRepetition counter was: $($repetitionCount)`r`n" + `
                                         "`tRepetition counter threshold was: $($repetitionMax)");
 
             # Pass the information to the logging system
@@ -2202,7 +2202,7 @@ class IOCommon
             [string] $logMessage = "Successfully created the temporary directory but it was not found in the final destination path!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Parent temporary directory: $($tempDirectoryPath)" + `
+            [string] $logAdditionalMSG = ("Parent temporary directory: $($tempDirectoryPath)`r`n" + `
                                         "`tPath of the temporary directory: $($finalDirectoryPath)");
 
             # Pass the information to the logging system
@@ -2645,7 +2645,7 @@ class IOCommon
             [string] $logMessage = "Unable to delete the requested files because the directory does not exist!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Directory Path: $($path)" + `
+            [string] $logAdditionalMSG = ("Directory Path: $($path)`r`n" + `
                                         "`tFile(s) that were requested to be deleted:`r`n" + `
                                         "$($includesStr)");
 
@@ -2691,7 +2691,7 @@ class IOCommon
             [string] $logMessage = "Successfully deleted the requested file(s)!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Directory that was inspected: $($path)" + `
+            [string] $logAdditionalMSG = ("Directory that was inspected: $($path)`r`n" + `
                                         "`tFile(s) that were deleted:`r`n" + `
                                         "$($includesStr)");
 
@@ -2730,7 +2730,7 @@ class IOCommon
             [string] $logMessage = "Failed to delete the requested file(s)!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Directory that was inspected: $($path)" + `
+            [string] $logAdditionalMSG = ("Directory that was inspected: $($path)`r`n" + `
                                         "`tFile(s) requested to be deleted:`r`n" + `
                                         "$($includesStr)" + `
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
