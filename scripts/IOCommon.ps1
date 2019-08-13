@@ -2631,13 +2631,23 @@ class IOCommon
             # Debugging
             # --------------
 
+            # Extra Step: Break Down the 'includes' array to a single string
+            [string] $includesStr = "";
+
+            # Append all of the strings from each index from the array - to a single string var.
+            foreach ($item in $includes)
+            {
+                $includesStr += "`t`t$($item)`r`n";
+            } # Foreach : Generate Includes String
+
+
             # Generate the initial message
             [string] $logMessage = "Unable to delete the requested files because the directory does not exist!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Directory Path: $($path)" + `
                                         "`tFile(s) that were requested to be deleted:`r`n" + `
-                                        "`t`t$($includes.ToString())");
+                                        "$($includesStr)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -2667,13 +2677,23 @@ class IOCommon
             # Debugging
             # --------------
 
+            # Extra Step: Break Down the 'includes' array to a single string
+            [string] $includesStr = "";
+
+            # Append all of the strings from each index from the array - to a single string var.
+            foreach ($item in $includes)
+            {
+                $includesStr += "`t`t$($item)`r`n";
+            } # Foreach : Generate Includes String
+
+
             # Generate the initial message
             [string] $logMessage = "Successfully deleted the requested file(s)!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Directory that was inspected: $($path)" + `
                                         "`tFile(s) that were deleted:`r`n" + `
-                                        "`t`t$($includes.ToString())");
+                                        "$($includesStr)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -2696,13 +2716,23 @@ class IOCommon
             # Debugging
             # --------------
 
+            # Extra Step: Break Down the 'includes' array to a single string
+            [string] $includesStr = "";
+
+            # Append all of the strings from each index from the array - to a single string var.
+            foreach ($item in $includes)
+            {
+                $includesStr += "`t`t$($item)`r`n";
+            } # Foreach : Generate Includes String
+
+
             # Generate the initial message
             [string] $logMessage = "Failed to delete the requested file(s)!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Directory that was inspected: $($path)" + `
                                         "`tFile(s) requested to be deleted:`r`n" + `
-                                        "`t`t$($includes.ToString())" + `
+                                        "$($includesStr)" + `
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
@@ -3096,13 +3126,23 @@ class IOCommon
             # Debugging
             # --------------
 
+            # Extra Step: Break Down the 'includes' array to a single string
+            [string] $includesStr = "";
+
+            # Append all of the strings from each index from the array - to a single string var.
+            foreach ($item in $includes)
+            {
+                $includesStr += "`t`t$($item)`r`n";
+            } # Foreach : Generate Includes String
+
+
             # Generate the initial message
             [string] $logMessage = "Unable to move the requested file(s) because the target path does not exist or was not valid!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
                                         "`tDestination Path: $($destinationPath)`r`n" + `
-                                        "`t`t$($includes.ToString())");
+                                        "$($includesStr)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -3128,13 +3168,23 @@ class IOCommon
             # Debugging
             # --------------
 
+            # Extra Step: Break Down the 'includes' array to a single string
+            [string] $includesStr = "";
+
+            # Append all of the strings from each index from the array - to a single string var.
+            foreach ($item in $includes)
+            {
+                $includesStr += "`t`t$($item)`r`n";
+            } # Foreach : Generate Includes String
+
+
             # Generate the initial message
             [string] $logMessage = "Unable to move the requested file(s) because the destination path does not exist or was not valid!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
                                         "`tDestination Path: $($destinationPath)`r`n" + `
-                                        "`t`t$($includes.ToString())");
+                                        "$($includesStr)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -3165,13 +3215,23 @@ class IOCommon
             # Debugging
             # --------------
 
+            # Extra Step: Break Down the 'includes' array to a single string
+            [string] $includesStr = "";
+
+            # Append all of the strings from each index from the array - to a single string var.
+            foreach ($item in $includes)
+            {
+                $includesStr += "`t`t$($item)`r`n";
+            } # Foreach : Generate Includes String
+
+
             # Generate the initial message
             [string] $logMessage = "Successfully relocated the requested file(s) to the desired destination path!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
                                         "`tDestination Path: $($destinationPath)`r`n" + `
-                                        "`t`t$($includes.ToString())");
+                                        "$($includesStr)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -3192,13 +3252,23 @@ class IOCommon
             # Debugging
             # --------------
 
+            # Extra Step: Break Down the 'includes' array to a single string
+            [string] $includesStr = "";
+
+            # Append all of the strings from each index from the array - to a single string var.
+            foreach ($item in $includes)
+            {
+                $includesStr += "`t`t$($item)`r`n";
+            } # Foreach : Generate Includes String
+
+
             # Generate the initial message
             [string] $logMessage = "Failed to relocate the desired file(s) to the requested destination path!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
                                         "`tDestination Path: $($destinationPath)`r`n" + `
-                                        "`t`t$($includes.ToString())`r`n" + `
+                                        "$($includesStr)`r`n" + `
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
@@ -3438,13 +3508,23 @@ class IOCommon
             # Debugging
             # --------------
 
+            # Extra Step: Break Down the 'includes' array to a single string
+            [string] $includesStr = "";
+
+            # Append all of the strings from each index from the array - to a single string var.
+            foreach ($item in $includes)
+            {
+                $includesStr += "`t`t$($item)`r`n";
+            } # Foreach : Generate Includes String
+
+
             # Generate the initial message
             [string] $logMessage = "Unable to copy the requested file(s) because the target path does not exist or was not valid!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
                                         "`tDestination Path: $($destinationPath)`r`n" + `
-                                        "`t`t$($includes.ToString())");
+                                        "$($includesStr)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -3470,13 +3550,23 @@ class IOCommon
             # Debugging
             # --------------
 
+            # Extra Step: Break Down the 'includes' array to a single string
+            [string] $includesStr = "";
+
+            # Append all of the strings from each index from the array - to a single string var.
+            foreach ($item in $includes)
+            {
+                $includesStr += "`t`t$($item)`r`n";
+            } # Foreach : Generate Includes String
+
+
             # Generate the initial message
             [string] $logMessage = "Unable to copy the requested file(s) because the destination path does not exist or was not valid!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
                                         "`tDestination Path: $($destinationPath)`r`n" + `
-                                        "`t`t$($includes.ToString())");
+                                        "$($includesStr)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -3507,13 +3597,23 @@ class IOCommon
             # Debugging
             # --------------
 
+            # Extra Step: Break Down the 'includes' array to a single string
+            [string] $includesStr = "";
+
+            # Append all of the strings from each index from the array - to a single string var.
+            foreach ($item in $includes)
+            {
+                $includesStr += "`t`t$($item)`r`n";
+            } # Foreach : Generate Includes String
+
+
             # Generate the initial message
             [string] $logMessage = "Successfully copied the requested file(s) to the desired destination path!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
                                         "`tDestination Path: $($destinationPath)`r`n" + `
-                                        "`t`t$($includes.ToString())");
+                                        "$($includesStr)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -3534,13 +3634,23 @@ class IOCommon
             # Debugging
             # --------------
 
+            # Extra Step: Break Down the 'includes' array to a single string
+            [string] $includesStr = "";
+
+            # Append all of the strings from each index from the array - to a single string var.
+            foreach ($item in $includes)
+            {
+                $includesStr += "`t`t$($item)`r`n";
+            } # Foreach : Generate Includes String
+
+
             # Generate the initial message
             [string] $logMessage = "Failed to copy the desired file(s) to the requested destination path!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
                                         "`tDestination Path: $($destinationPath)`r`n" + `
-                                        "`t`t$($includes.ToString())`r`n" + `
+                                        "$($includesStr)`r`n" + `
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
