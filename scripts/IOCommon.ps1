@@ -3051,6 +3051,10 @@ class IOCommon
     #   directory.  It is not possible to provide a full path or
     #   relative path of the file(s), but only the filename(s) when
     #   passing to this function.
+    #
+    #  WARNING NOTES:
+    #   The following flags are enabled in this function:
+    #    - Forceful
     # -------------------------------
     # Input:
     #  [string] Target directory (absolute path)
