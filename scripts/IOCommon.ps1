@@ -2885,6 +2885,10 @@ class IOCommon
     # Documentation:
     #  This function will allow the possibilities to relocate a
     #   specific directory to another location within the filesystem.
+    #
+    #  WARNING NOTES:
+    #   The following flags are enabled in this function:
+    #    - Forceful
     # -------------------------------
     # Input:
     #  [string] Target directory (absolute path)
