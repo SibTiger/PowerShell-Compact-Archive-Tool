@@ -3214,6 +3214,169 @@ class IOCommon
         return $exitCode;
     } # MoveFile()
 
+
+
+
+   <# Copy Directory (Recursive)
+    # -------------------------------
+    # Documentation:
+    #  This function will provide the ability to duplicate a directory
+    #   from one source to another.  Because this function is duplicating
+    #   a directory, we will be focused on all of the contents within that
+    #   directory - including all of the sub-folders and all of the data
+    #   within the hierarchy.  With that, we will be using the recurse
+    #   parameter.
+    #
+    #  WARNING NOTES:
+    #   The following flags are enabled in this function:
+    #    - Recursive
+    #    - Forceful
+    # -------------------------------
+    # Input:
+    #  [string] Target directory (absolute path)
+    #   The absolute path of the target directory that we want to duplicate.
+    #  [string] Destination path (absolute path)
+    #   The destination path to forward the duplicated data.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #    $false = Failed to duplicate the desired data from the directory.
+    #    $true = Successfully duplicated the desired data from the directory.
+    # -------------------------------
+    #>
+    static [bool] CopyDirectory([string] $targetDirectory,      # The parent directory that we want to duplicate
+                                [string] $destinationPath)      # The destination directory to place duplicated data
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [bool] $exitCode = $false;              # Exit code that will be returned.
+        # ----------------------------------------
+
+
+        # First make sure that the target directory exists with the given path.
+        if ([IOCommon]::CheckPathExists("$($targetDirectory)") -eq $false)
+        {
+            # The target directory does not exist, no operations can be performed.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to copy the requested directory because the target path does not exist or was not valid!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
+                                        "`tDestination Path: $($destinationPath)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            #  Because the directory does not exist (with the provided path), then we can not proceed
+            #   any further within this function.  We must abort the operation to avoid any conflicts.
+            return $false;
+        } # If : Target Directory Does not Exists
+
+
+        # Second make sure that the destination path is valid.
+        if ([IOCommon]::CheckPathExists("$($destinationPath)") -eq $false)
+        {
+            # The destination path does not exist, no operations can be performed.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to copy the requested directory because the destination path does not exist or was not valid!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
+                                        "`tDestination Path: $($destinationPath)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            #  Because the destination path does not exist (with the provided path), then we can not proceed
+            #   any further within this function.  We must abort the operation to avoid any conflicts.
+            return $false;
+        } # If : Destination Path Does not Exists
+
+
+        # Try to copy the target directory to the desired destination path
+        try
+        {
+            # Copy the directory as requested
+            Copy-Item -LiteralPath "$($targetDirectory)" `
+                        -Destination "$($destinationPath)" `
+                        -Recurse `
+                        -Force `
+                        -ErrorAction Stop;
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Successfully copied the requested directory to the desired destination path!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
+                                        "`tDestination Path: $($destinationPath)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Update the exit code to return as successful
+            $exitCode = $true;
+        } # Try : Copy the Directory
+
+        # An error occurred
+        catch
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Failed to copy the desired directory to the requested destination path!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
+                                        "`tDestination Path: $($destinationPath)`r`n" + `
+                                        "$([Logging]::GetExceptionInfo($_.Exception))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # Catch : Error occurred
+
+
+        # The operation is finished, return the status to the calling function.
+        return $exitCode;
+    } # CopyDirectory()
+
     #endregion
 
 
