@@ -723,7 +723,7 @@ class IOCommon
             # Re-initialize the description but restricted length-limits.
             $cacheDescription = "$($cacheDescription.Remove($maxDescriptionLength, $cacheDescriptionDiscard))";
 
-            # If incase, trim any trailing whitespace (if any)
+            # If in case, trim any trailing whitespace (if any)
             $cacheDescription = $cacheDescription.Trim();
         } # If : Description field exceeds limit
 
@@ -1749,7 +1749,7 @@ class IOCommon
         # The file exists and everything is okay!
         else
         {
-            # The PDF file was successfully created and can be found at the requested distination path
+            # The PDF file was successfully created and can be found at the requested destination path
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2489,7 +2489,7 @@ class IOCommon
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Cannot delete the directory as requested because the path was not existant!";
+            [string] $logMessage = "Cannot delete the directory as requested because the path was not existent!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = "Directory Path: $($path)";
@@ -3066,7 +3066,7 @@ class IOCommon
     #    relocated within the host's filesystem.
     #  [string[]] Files to be moved
     #   A File to be moved, a list of files to be moved, or a specific
-    #    critiera that a file (or files) must satisfy in order to be
+    #    criteria that a file (or files) must satisfy in order to be
     #    moved.  Any files that meet the requirements - will be
     #    relocated to the desired destination path.
     # -------------------------------
@@ -3407,7 +3407,7 @@ class IOCommon
     #    copied to within the host's filesystem.
     #  [string[]] Files to duplicate
     #   A file to be copied, a list of files to be copied, or a
-    #    specific crieteria that a file (or files) must satisfy in
+    #    specific criteria that a file (or files) must satisfy in
     #    order to be duplicated.  Any files that meet the
     #    requirements - will be copied to the desired destination
     #    path.
