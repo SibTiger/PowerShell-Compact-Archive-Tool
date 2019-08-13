@@ -2727,6 +2727,10 @@ class IOCommon
     # Documentation:
     #  This function allows the possibility to rename an already
     #   existing individual file or directory.
+    #
+    #  WARNING NOTES:
+    #   The following flags are enabled in this function:
+    #    - Forceful
     # -------------------------------
     # Input:
     #  [string] Absolute Path
