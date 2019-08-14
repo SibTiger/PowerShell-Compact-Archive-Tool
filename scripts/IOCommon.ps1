@@ -1582,7 +1582,7 @@ class IOCommon
                 [string] $logMessage = "Successfully created a new instance of Microsoft Word from the host system!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("`tSource File: $($sourceFile)`r`n" + `
+                [string] $logAdditionalMSG = ("Source File: $($sourceFile)`r`n" + `
                                             "`tDestination File: $($destinationFile)");
 
                 # Pass the information to the logging system
