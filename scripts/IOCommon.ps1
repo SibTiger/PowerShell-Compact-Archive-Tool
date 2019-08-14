@@ -278,16 +278,29 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode = $false;      # The detection code that will be returned based
-                                        #  on the results; if the command was found or not.
+        [string] $commandDebugInfo = $null;     # This will contain any additional information that could be useful when
+                                                #  debugging, but only if the command target was found.
+        [bool] $exitCode = $false;              # The detection code that will be returned based on the results; 
+                                                #  if the command was found or not.
         # ----------------------------------------
 
         # Try to detect the requested command
         try
         {
-            Get-Command -Name "$($command)" `
-                        -CommandType "$($type)"`
-                        -ErrorAction Stop | Out-Null;
+            # We will use this variable to capture output provided from the Get-Command.
+            [System.Management.Automation.ApplicationInfo] $debugInfo = $null;
+
+            # Try to detect the requested command
+            $debugInfo = Get-Command -Name "$($command)" `
+                                        -CommandType "$($type)"`
+                                        -ErrorAction Stop;
+
+            # Setup the information that was provided from the Get-Command
+            $commandDebugInfo = ("Application Information Gathered by System:`r`n" + `
+                                "`tCommand Name: $($debugInfo.Name)`r`n" + `
+                                "`tCommand Path: $($debugInfo.Source)`r`n" + `
+                                "`tCommand Version: $($debugInfo.Version)`r`n" + `
+                                "`tCommand Type: $($debugInfo.CommandType)");
 
             # The command was detected
             $exitCode = $true;
@@ -319,7 +332,7 @@ class IOCommon
             [string] $logMessage = "Tried to find the $($type) named $($command); detected result was $($exitCode)";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = $null;
+            [string] $logAdditionalMSG = "$($commandDebugInfo)";
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
