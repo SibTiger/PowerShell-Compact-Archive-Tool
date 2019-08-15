@@ -2294,11 +2294,20 @@ class IOCommon
             # The requested path does not exist, try to create it.
             try
             {
-                # Try to create the directory; if failure - stop.
-                New-Item -Path "$($path)" `
-                        -ItemType Directory `
-                        -ErrorAction Stop;
+                # We will use this variable to store all of the directory information from the CMDlet.
+                [System.IO.DirectoryInfo] $debugInformation = $null;
 
+                # Try to create the directory; if failure - stop.
+                $debugInformation = New-Item -Path "$($path)" `
+                                            -ItemType Directory `
+                                            -ErrorAction Stop;
+
+                # Get any information that is useful regarding the New-Item operation
+                [string] $debugInformationDirectory = ("`tName:`t`t$($debugInformation.Name.ToString())`r`n" + `
+                                                        "`t`tPath:`t`t$($debugInformation.FullName.ToString())`r`n" + `
+                                                        "`t`tTime:`t`t$($debugInformation.CreationTime.ToString())`r`n" + `
+                                                        "`t`tAttributes:`t$($debugInformation.Attributes.ToString())`r`n" + `
+                                                        "`t`tExists:`t`t$($debugInformation.Exists.ToString())`r`n");
 
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -2308,7 +2317,9 @@ class IOCommon
                 [string] $logMessage = "Successfully created the directory!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = "Directory Path: $($path)";
+                [string] $logAdditionalMSG = ("Directory Path: $($path)`r`n" + `
+                                            "`tDirectory Information:`r`n" + `
+                                            "`t$($debugInformationDirectory)");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
