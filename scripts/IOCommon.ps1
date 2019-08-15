@@ -2566,6 +2566,7 @@ class IOCommon
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Directory that was deleted: $($path)`r`n" + `
+                                        "`tRemoved a total of $($debugInformation.Count) items.`r`n" + `
                                         "`tCommand Verbose Information:`r`n" + `
                                         "`t-----------------------------------------------------------`r`n" + `
                                         "$($debugInformationVerboseStr)" + `
