@@ -2537,7 +2537,7 @@ class IOCommon
         try
         {
             # We will use this variable to store all of the verbose information from the CMDlet.
-            [System.Object[]] $debugInformation = $null;
+            [System.Management.Automation.VerboseRecord[]] $debugInformation = $null;
 
             # Remove the directory as requested.
             $debugInformation = Remove-Item -LiteralPath "$($path)" `
@@ -2553,7 +2553,7 @@ class IOCommon
             foreach ($item in $debugInformation)
             {
                 # Append the string with the element.
-                $debugInformationVerboseStr += "`t-->$($item)`r`n";
+                $debugInformationVerboseStr += "`t-->$($item.Message)`r`n";
             } # Foreach : Convert Object Info. to String
 
 
