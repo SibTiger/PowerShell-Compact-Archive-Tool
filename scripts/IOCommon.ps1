@@ -2536,11 +2536,25 @@ class IOCommon
         # Try to delete the directory
         try
         {
-            # Remove the directory.
-            Remove-Item -LiteralPath "$($path)" `
-                        -Force `
-                        -Recurse `
-                        -ErrorAction Stop;
+            # We will use this variable to store all of the verbose information from the CMDlet.
+            [System.Object[]] $debugInformation = $null;
+
+            # Remove the directory as requested.
+            $debugInformation = Remove-Item -LiteralPath "$($path)" `
+                                            -Force `
+                                            -Recurse `
+                                            -Verbose `
+                                            -ErrorAction Stop 4>&1;
+
+            # We will use this variable to transform the data held within the object array - to a simple string.
+            [string] $debugInformationVerboseStr = $null;
+
+            # Transform the information that is held in the object array - to a sting.
+            foreach ($item in $debugInformation)
+            {
+                # Append the string with the element.
+                $debugInformationVerboseStr += "`t-->$($item)`r`n";
+            } # Foreach : Convert Object Info. to String
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2551,7 +2565,11 @@ class IOCommon
             [string] $logMessage = "Successfully deleted the requested directory!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "Directory that was deleted: $($path)";
+            [string] $logAdditionalMSG = ("Directory that was deleted: $($path)`r`n" + `
+                                        "`tCommand Verbose Information:`r`n" + `
+                                        "`t-----------------------------------------------------------`r`n" + `
+                                        "$($debugInformationVerboseStr)" + `
+                                        "`t-----------------------------------------------------------`r`n");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
