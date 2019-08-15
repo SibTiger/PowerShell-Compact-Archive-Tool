@@ -2546,10 +2546,11 @@ class IOCommon
                                             -Verbose `
                                             -ErrorAction Stop 4>&1;
 
-            # We will use this variable to transform the data held within the object array - to a simple string.
+            # We will use this variable to transform the data held within the Verbose Record array
+            #  to a simple string.
             [string] $debugInformationVerboseStr = $null;
 
-            # Transform the information that is held in the object array - to a sting.
+            # Transform the information that is held in the Verbose Record array - to a sting.
             foreach ($item in $debugInformation)
             {
                 # Append the string with the element.
