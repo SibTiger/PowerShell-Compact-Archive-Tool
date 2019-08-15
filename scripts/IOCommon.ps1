@@ -2711,11 +2711,26 @@ class IOCommon
         # Try to delete the requested files from the provided directory.
         try
         {
+            # We will use this variable to store all of the verbose information from the CMDlet.
+            [System.Management.Automation.VerboseRecord[]] $debugInformation = $null;
+
             # Remove the requested files.
-            Remove-Item -Path "$($path)\*" `
-                        -Include $($includes) `
-                        -Force `
-                        -ErrorAction Stop;
+            $debugInformation = Remove-Item -Path "$($path)\*" `
+                                            -Include $($includes) `
+                                            -Force `
+                                            -Verbose `
+                                            -ErrorAction Stop 4>&1;
+
+            # We will use this variable to transform the data held within the Verbose Record array
+            #  to a simple string.
+            [string] $debugInformationVerboseStr = $null;
+
+            # Transform the information that is held in the Verbose Record array - to a sting.
+            foreach ($item in $debugInformation)
+            {
+                # Append the string with the element.
+                $debugInformationVerboseStr += "`t-->$($item.Message)`r`n";
+            } # Foreach : Convert Object Info. to String
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2737,8 +2752,13 @@ class IOCommon
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Directory that was inspected: $($path)`r`n" + `
-                                        "`tFile(s) that were deleted:`r`n" + `
-                                        "$($includesStr)");
+                                        "`tFile(s) that were requested to be deleted:`r`n" + `
+                                        "$($includesStr)" + `
+                                        "`tRemoved a total of $($debugInformation.Count) items.`r`n" + `
+                                        "`tCommand Verbose Information:`r`n" + `
+                                        "`t-----------------------------------------------------------`r`n" + `
+                                        "$($debugInformationVerboseStr)" + `
+                                        "`t-----------------------------------------------------------`r`n");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
