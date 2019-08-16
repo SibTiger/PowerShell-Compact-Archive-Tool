@@ -3493,32 +3493,37 @@ class IOCommon
         # Second make sure that the destination path is valid.
         if ([IOCommon]::CheckPathExists("$($destinationPath)") -eq $false)
         {
-            # The destination path does not exist, no operations can be performed.
+            # Because the destination path does not exist, lets try to create it.
+
+            if ([IOCommon]::MakeDirectory("$($destinationPath)") -eq $false)
+            {
+                # The destination path does not exist, no operations can be performed.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
 
-            # Generate the initial message
-            [string] $logMessage = ("Unable to copy the requested directory because the destination path does not exist or" + `
-                                    " was not valid!");
+                # Generate the initial message
+                [string] $logMessage = ("Unable to copy the requested directory because the destination path does not exist or" + `
+                                        " was not valid!");
 
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
-                                        "`tDestination Path: $($destinationPath)");
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
+                                            "`tDestination Path: $($destinationPath)");
 
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                 # Message level
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                 # Message level
 
-            # * * * * * * * * * * * * * * * * * * *
+                # * * * * * * * * * * * * * * * * * * *
 
 
-            #  Because the destination path does not exist (with the provided path), then we can not proceed
-            #   any further within this function.  We must abort the operation to avoid any conflicts.
-            return $false;
+                #  Because the destination path does not exist (with the provided path), then we can not proceed
+                #   any further within this function.  We must abort the operation to avoid any conflicts.
+                return $false;
+            } # If : Make Destination Path Failed
         } # If : Destination Path Does not Exists
 
 
