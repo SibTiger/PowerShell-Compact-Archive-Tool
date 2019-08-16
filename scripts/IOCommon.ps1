@@ -297,10 +297,10 @@ class IOCommon
 
             # Setup the information that was provided from the Get-Command
             $commandDebugInfo = ("Application Information Gathered by System:`r`n" + `
-                                "`tCommand Name: $($debugInfo.Name)`r`n" + `
-                                "`tCommand Path: $($debugInfo.Source)`r`n" + `
-                                "`tCommand Version: $($debugInfo.Version)`r`n" + `
-                                "`tCommand Type: $($debugInfo.CommandType)");
+                                "`t`tCommand Name:`t`t$($debugInfo.Name)`r`n" + `
+                                "`t`tCommand Path:`t`t$($debugInfo.Source)`r`n" + `
+                                "`t`tCommand Version:`t$($debugInfo.Version)`r`n" + `
+                                "`t`tCommand Type:`t`t$($debugInfo.CommandType)");
 
             # The command was detected
             $exitCode = $true;
@@ -2302,16 +2302,17 @@ class IOCommon
                                             -ItemType Directory `
                                             -ErrorAction Stop;
 
-                # Get any information that is useful regarding the New-Item operation
-                [string] $debugInformationDirectory = ("`tName:`t`t$($debugInformation.Name.ToString())`r`n" + `
-                                                        "`t`tPath:`t`t$($debugInformation.FullName.ToString())`r`n" + `
-                                                        "`t`tTime:`t`t$($debugInformation.CreationTime.ToString())`r`n" + `
-                                                        "`t`tAttributes:`t$($debugInformation.Attributes.ToString())`r`n" + `
-                                                        "`t`tExists:`t`t$($debugInformation.Exists.ToString())`r`n");
 
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
                 # --------------
+
+                # Get any information that is useful regarding the New-Item operation
+                [string] $debugInformationDirectory = ("`t`tName:`t`t$($debugInformation.Name.ToString())`r`n" + `
+                                                        "`t`tPath:`t`t$($debugInformation.FullName.ToString())`r`n" + `
+                                                        "`t`tTime:`t`t$($debugInformation.CreationTime.ToString())`r`n" + `
+                                                        "`t`tAttributes:`t$($debugInformation.Attributes.ToString())`r`n" + `
+                                                        "`t`tExists:`t`t$($debugInformation.Exists.ToString())`r`n");
 
                 # Generate the initial message
                 [string] $logMessage = "Successfully created the directory!";
@@ -2319,7 +2320,7 @@ class IOCommon
                 # Generate any additional information that might be useful
                 [string] $logAdditionalMSG = ("Directory Path: $($path)`r`n" + `
                                             "`tDirectory Information:`r`n" + `
-                                            "`t$($debugInformationDirectory)");
+                                            "$($debugInformationDirectory)");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -2546,6 +2547,14 @@ class IOCommon
                                             -Verbose `
                                             -ErrorAction Stop 4>&1;
 
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Transform the Verbose Record Variable
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
             # We will use this variable to transform the data held within the Verbose Record array
             #  to a simple string.
             [string] $debugInformationVerboseStr = $null;
@@ -2554,13 +2563,11 @@ class IOCommon
             foreach ($item in $debugInformation)
             {
                 # Append the string with the element.
-                $debugInformationVerboseStr += "`t-->$($item.Message)`r`n";
+                $debugInformationVerboseStr += "`t`t>> $($item.Message)`r`n";
             } # Foreach : Convert Object Info. to String
 
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
 
             # Generate the initial message
             [string] $logMessage = "Successfully deleted the requested directory!";
@@ -2721,6 +2728,14 @@ class IOCommon
                                             -Verbose `
                                             -ErrorAction Stop 4>&1;
 
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Transform the Verbose Record Variable
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
             # We will use this variable to transform the data held within the Verbose Record array
             #  to a simple string.
             [string] $debugInformationVerboseStr = $null;
@@ -2729,13 +2744,14 @@ class IOCommon
             foreach ($item in $debugInformation)
             {
                 # Append the string with the element.
-                $debugInformationVerboseStr += "`t-->$($item.Message)`r`n";
+                $debugInformationVerboseStr += "`t`t>> $($item.Message)`r`n";
             } # Foreach : Convert Object Info. to String
 
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
+
+            # Break down the 'Include' list
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
             # Extra Step: Break Down the 'includes' array to a single string
             [string] $includesStr = "";
@@ -2745,6 +2761,8 @@ class IOCommon
             {
                 $includesStr += "`t`t$($item)`r`n";
             } # Foreach : Generate Includes String
+
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
             # Generate the initial message
@@ -2937,7 +2955,7 @@ class IOCommon
                                         "`tNew Name Requested: $($newName)`r`n" + `
                                         "`tCommand Verbose Information:`r`n" + `
                                         "`t-----------------------------------------------------------`r`n" + `
-                                        "`t-->$($debugInformation.Message)`r`n" + `
+                                        "`t`t>> $($debugInformation.Message)`r`n" + `
                                         "`t-----------------------------------------------------------`r`n");
 
             # Pass the information to the logging system
@@ -3106,7 +3124,7 @@ class IOCommon
                                         "`tDestination Path: $($destinationPath)`r`n" + `
                                         "`tCommand Verbose Information:`r`n" + `
                                         "`t-----------------------------------------------------------`r`n" + `
-                                        "`t-->$($debugInformation.Message)`r`n" + `
+                                        "`t`t>> $($debugInformation.Message)`r`n" + `
                                         "`t-----------------------------------------------------------`r`n");
 
             # Pass the information to the logging system
@@ -3299,6 +3317,14 @@ class IOCommon
                                             -Verbose `
                                             -ErrorAction Stop 4>&1;
 
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Transform the Verbose Record Variable
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
             # We will use this variable to transform the data held within the Verbose Record array
             #  to a simple string.
             [string] $debugInformationVerboseStr = $null;
@@ -3307,13 +3333,14 @@ class IOCommon
             foreach ($item in $debugInformation)
             {
                 # Append the string with the element.
-                $debugInformationVerboseStr += "`t-->$($item.Message)`r`n";
+                $debugInformationVerboseStr += "`t`t>> $($item.Message)`r`n";
             } # Foreach : Convert Object Info. to String
 
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
+
+            # Break down the 'Include' list
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
             # Extra Step: Break Down the 'includes' array to a single string
             [string] $includesStr = "";
@@ -3323,6 +3350,8 @@ class IOCommon
             {
                 $includesStr += "`t`t$($item)`r`n";
             } # Foreach : Generate Includes String
+
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
             # Generate the initial message
@@ -3508,6 +3537,13 @@ class IOCommon
                                             -ErrorAction Stop 4>&1;
 
 
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Transform the Verbose Record Variable
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
             # We will use this variable to transform the data held within the Verbose Record array
             #  to a simple string.
             [string] $debugInformationVerboseStr = $null;
@@ -3516,13 +3552,11 @@ class IOCommon
             foreach ($item in $debugInformation)
             {
                 # Append the string with the element.
-                $debugInformationVerboseStr += "`t-->$($item.Message)`r`n";
+                $debugInformationVerboseStr += "`t`t>> $($item.Message)`r`n";
             } # Foreach : Convert Object Info. to String
 
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
 
             # Generate the initial message
             [string] $logMessage = "Successfully copied the requested directory to the desired destination path!";
@@ -3727,6 +3761,14 @@ class IOCommon
                                             -Verbose `
                                             -ErrorAction Stop 4>&1;
 
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Transform the Verbose Record Variable
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
             # We will use this variable to transform the data held within the Verbose Record array
             #  to a simple string.
             [string] $debugInformationVerboseStr = $null;
@@ -3735,12 +3777,14 @@ class IOCommon
             foreach ($item in $debugInformation)
             {
                 # Append the string with the element.
-                $debugInformationVerboseStr += "`t-->$($item.Message)`r`n";
+                $debugInformationVerboseStr += "`t`t>> $($item.Message)`r`n";
             } # Foreach : Convert Object Info. to String
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+            # Break down the 'Include' list
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
             # Extra Step: Break Down the 'includes' array to a single string
             [string] $includesStr = "";
@@ -3750,6 +3794,8 @@ class IOCommon
             {
                 $includesStr += "`t`t$($item)`r`n";
             } # Foreach : Generate Includes String
+
+            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
             # Generate the initial message
@@ -4026,7 +4072,7 @@ class IOCommon
                                             "`t`t$($URLAddress)`r`n" + `
                                             "`tCommand Verbose Information:`r`n" + `
                                             "`t-----------------------------------------------------------`r`n" + `
-                                            "`t-->$($debugInformation.Message)`r`n" + `
+                                            "`t`t>> $($debugInformation.Message)`r`n" + `
                                             "`t-----------------------------------------------------------`r`n");
 
                 # Pass the information to the logging system
