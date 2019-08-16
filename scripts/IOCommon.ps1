@@ -3288,12 +3288,27 @@ class IOCommon
         # Try to move the target file(s)
         try
         {
+            # We will use this variable to store all of the verbose information from the CMDlet.
+            [System.Management.Automation.VerboseRecord[]] $debugInformation = $null;
+
             # Move the file(s) as requested
-            Move-Item -Path "$($targetDirectory)\*" `
-                        -Destination "$($destinationPath)" `
-                        -Include $includes `
-                        -Force `
-                        -ErrorAction Stop;
+            $debugInformation = Move-Item -Path "$($targetDirectory)\*" `
+                                            -Destination "$($destinationPath)" `
+                                            -Include $includes `
+                                            -Force `
+                                            -Verbose `
+                                            -ErrorAction Stop 4>&1;
+
+            # We will use this variable to transform the data held within the Verbose Record array
+            #  to a simple string.
+            [string] $debugInformationVerboseStr = $null;
+
+            # Transform the information that is held in the Verbose Record array - to a sting.
+            foreach ($item in $debugInformation)
+            {
+                # Append the string with the element.
+                $debugInformationVerboseStr += "`t-->$($item.Message)`r`n";
+            } # Foreach : Convert Object Info. to String
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3317,7 +3332,12 @@ class IOCommon
             [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
                                         "`tDestination Path: $($destinationPath)`r`n" + `
                                         "`tRequested file(s) to move:`r`n" + `
-                                        "$($includesStr)");
+                                        "$($includesStr)" + `
+                                        "`tRelocated a total of $($debugInformation.Count) files.`r`n" + `
+                                        "`tCommand Verbose Information:`r`n" + `
+                                        "`t-----------------------------------------------------------`r`n" + `
+                                        "$($debugInformationVerboseStr)" + `
+                                        "`t-----------------------------------------------------------`r`n");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
