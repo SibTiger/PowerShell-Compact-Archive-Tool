@@ -1388,7 +1388,7 @@ class IOCommon
                 # Generate any additional information that might be useful
                 [string] $logAdditionalMSG = ("File path was: $($file)`r`n" + `
                                             "`tContents that were written:`r`n" + `
-                                            "`t`t$($contents.Value)`r`n");
+                                            "`t`t$($contents.Value)");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -2312,7 +2312,7 @@ class IOCommon
                                                         "`t`tPath:`t`t$($debugInformation.FullName.ToString())`r`n" + `
                                                         "`t`tTime:`t`t$($debugInformation.CreationTime.ToString())`r`n" + `
                                                         "`t`tAttributes:`t$($debugInformation.Attributes.ToString())`r`n" + `
-                                                        "`t`tExists:`t`t$($debugInformation.Exists.ToString())`r`n");
+                                                        "`t`tExists:`t`t$($debugInformation.Exists.ToString())");
 
                 # Generate the initial message
                 [string] $logMessage = "Successfully created the directory!";
@@ -2578,7 +2578,7 @@ class IOCommon
                                         "`tCommand Verbose Information:`r`n" + `
                                         "`t-----------------------------------------------------------`r`n" + `
                                         "$($debugInformationVerboseStr)" + `
-                                        "`t-----------------------------------------------------------`r`n");
+                                        "`t-----------------------------------------------------------");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -2776,7 +2776,7 @@ class IOCommon
                                         "`tCommand Verbose Information:`r`n" + `
                                         "`t-----------------------------------------------------------`r`n" + `
                                         "$($debugInformationVerboseStr)" + `
-                                        "`t-----------------------------------------------------------`r`n");
+                                        "`t-----------------------------------------------------------");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -2956,7 +2956,7 @@ class IOCommon
                                         "`tCommand Verbose Information:`r`n" + `
                                         "`t-----------------------------------------------------------`r`n" + `
                                         "`t`t>> $($debugInformation.Message)`r`n" + `
-                                        "`t-----------------------------------------------------------`r`n");
+                                        "`t-----------------------------------------------------------");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -3125,7 +3125,7 @@ class IOCommon
                                         "`tCommand Verbose Information:`r`n" + `
                                         "`t-----------------------------------------------------------`r`n" + `
                                         "`t`t>> $($debugInformation.Message)`r`n" + `
-                                        "`t-----------------------------------------------------------`r`n");
+                                        "`t-----------------------------------------------------------");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -3366,7 +3366,7 @@ class IOCommon
                                         "`tCommand Verbose Information:`r`n" + `
                                         "`t-----------------------------------------------------------`r`n" + `
                                         "$($debugInformationVerboseStr)" + `
-                                        "`t-----------------------------------------------------------`r`n");
+                                        "`t-----------------------------------------------------------");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -3568,7 +3568,7 @@ class IOCommon
                                         "`tCommand Verbose Information:`r`n" + `
                                         "`t-----------------------------------------------------------`r`n" + `
                                         "$($debugInformationVerboseStr)" + `
-                                        "`t-----------------------------------------------------------`r`n");
+                                        "`t-----------------------------------------------------------");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -3810,7 +3810,7 @@ class IOCommon
                                         "`tCommand Verbose Information:`r`n" + `
                                         "`t-----------------------------------------------------------`r`n" + `
                                         "$($debugInformationVerboseStr)" + `
-                                        "`t-----------------------------------------------------------`r`n");
+                                        "`t-----------------------------------------------------------");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -4073,7 +4073,7 @@ class IOCommon
                                             "`tCommand Verbose Information:`r`n" + `
                                             "`t-----------------------------------------------------------`r`n" + `
                                             "`t`t>> $($debugInformation.Message)`r`n" + `
-                                            "`t-----------------------------------------------------------`r`n");
+                                            "`t-----------------------------------------------------------");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message

@@ -610,7 +610,13 @@ class Logging
         # ---------------------------
         # - - - - - - - - - - - - - -
         # Put the message in the final form that will be in the logfile.
-        $finalMessage = "{$($currentTimeStamp)}-($($messageLevel))`r`n$($borderLine)`r`n$($message)`r`n`r`n$($messageAdditional)`r`n`r`n";
+        $finalMessage = ("{$($currentTimeStamp)}-($($messageLevel))`r`n" + `
+                        "$($borderLine)`r`n" + `
+                        "$($message)`r`n" + `
+                        "`r`n" + `
+                        "$($messageAdditional)`r`n" + `
+                        "`r`n" + `
+                        "`r`n");
 
 
         # - - - -
