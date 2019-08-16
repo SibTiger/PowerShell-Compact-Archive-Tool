@@ -3083,11 +3083,15 @@ class IOCommon
         # Try to move the target directory
         try
         {
+            # We will use this variable to store all of the verbose information from the CMDlet.
+            [System.Management.Automation.VerboseRecord] $debugInformation = $null;
+
             # Move the directory as requested
-            Move-Item -LiteralPath "$($targetDirectory)" `
-                        -Destination "$($destinationPath)" `
-                        -Force `
-                        -ErrorAction Stop;
+            $debugInformation = Move-Item -LiteralPath "$($targetDirectory)" `
+                                            -Destination "$($destinationPath)" `
+                                            -Force `
+                                            -Verbose `
+                                            -ErrorAction Stop 4>&1;
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3099,7 +3103,11 @@ class IOCommon
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Target Directory Path: $($targetDirectory)`r`n" + `
-                                        "`tDestination Path: $($destinationPath)");
+                                        "`tDestination Path: $($destinationPath)`r`n" + `
+                                        "`tCommand Verbose Information:`r`n" + `
+                                        "`t-----------------------------------------------------------`r`n" + `
+                                        "`t-->$($debugInformation.Message)`r`n" + `
+                                        "`t-----------------------------------------------------------`r`n");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
