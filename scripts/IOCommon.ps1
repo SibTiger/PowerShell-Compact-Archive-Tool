@@ -4002,9 +4002,13 @@ class IOCommon
             # Try to open the web site
             try
             {
-                # Open the webpage
-                Start-Process -FilePath "$($URLAddress)" `
-                            -ErrorAction Stop;
+                # We will use this variable to store all of the verbose information from the CMDlet.
+                [System.Management.Automation.VerboseRecord] $debugInformation = $null;
+
+                # Open the webpage as requested
+                $debugInformation = Start-Process -FilePath "$($URLAddress)" `
+                                                -Verbose `
+                                                -ErrorAction Stop 4>&1;
 
                 # Successfully opened the requested webpage
                 $exitCode = $true;
@@ -4019,7 +4023,11 @@ class IOCommon
 
                 # Generate any additional information that might be useful
                 [string] $logAdditionalMSG = ("Requested to open webpage address:`r`n" + `
-                                            "`t`t$($URLAddress)");
+                                            "`t`t$($URLAddress)`r`n" + `
+                                            "`tCommand Verbose Information:`r`n" + `
+                                            "`t-----------------------------------------------------------`r`n" + `
+                                            "`t-->$($debugInformation.Message)`r`n" + `
+                                            "`t-----------------------------------------------------------`r`n");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
