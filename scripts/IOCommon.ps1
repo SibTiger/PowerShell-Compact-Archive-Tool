@@ -2914,11 +2914,15 @@ class IOCommon
         # Try to rename the target file\directory
         try
         {
+            # We will use this variable to store all of the verbose information from the CMDlet.
+            [System.Management.Automation.VerboseRecord] $debugInformation = $null;
+
             # Rename the item as requested
-            Rename-Item -LiteralPath "$($path)" `
-                        -NewName "$($newName)" `
-                        -Force `
-                        -ErrorAction Stop;
+            $debugInformation = Rename-Item -LiteralPath "$($path)" `
+                                            -NewName "$($newName)" `
+                                            -Force `
+                                            -Verbose `
+                                            -ErrorAction Stop 4>&1;
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2930,7 +2934,11 @@ class IOCommon
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Absolute Path of Target: $($path)`r`n" + `
-                                        "`tNew Requested Name: $($newName)");
+                                        "`tNew Name Requested: $($newName)`r`n" + `
+                                        "`tCommand Verbose Information:`r`n" + `
+                                        "`t-----------------------------------------------------------`r`n" + `
+                                        "`t-->$($debugInformation.Message)`r`n" + `
+                                        "`t-----------------------------------------------------------`r`n");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
