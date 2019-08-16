@@ -3817,6 +3817,7 @@ class IOCommon
         # The operation is finished, return the status to the calling function.
         return $exitCode;
     } # CopyFile()
+
     #endregion
 
 
