@@ -3869,6 +3869,176 @@ class IOCommon
         return $exitCode;
     } # CopyFile()
 
+
+
+
+   <# Determine Item Type (Directory or File)
+    # -------------------------------
+    # Documentation:
+    #  This function will try to determine if the path
+    #   provided points to a file or a directory.
+    # -------------------------------
+    # Input:
+    #  [string] Target Item (absolute path)
+    #   The absolute path of the target item that we want to inspect.
+    #    This can point to either a directory or a file (with or
+    #    without an extension provided.)
+    # -------------------------------
+    # Output:
+    #  [Char] Determined Item Type
+    #    F = File
+    #    D = Directory
+    #    U = Unknown
+    #    ! = Error
+    # -------------------------------
+    #>
+    static hidden [Char] DetermineItemType([string] $targetItem)
+    {
+        # First make sure that there was a path provided.
+        if (($targetItem -eq "") -or ($targetItem -eq "$($null)"))
+        {
+            # The target item does not exist, no operations can be performed.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to determine the item type (file or directory) because there was no path provided!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "Target Item Path given: $($targetItem)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            #  Because the path was not provided, we can not proceed any further within this function.
+            #   We must abort the operation to avoid any further complications.
+            return '!';
+        } # If : Target Path was Blank
+
+
+        # Then make sure that the target item or path exists
+        if ([IOCommon]::CheckPathExists("$($targetItem)") -eq $false)
+        {
+            # The target item does not exist, no operations can be performed.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to determine the item type (file or directory) because the path does not exist!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "Target Item Path: $($targetItem)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            #  Because the item does not exist (with the provided path), then we can not proceed any
+            #   further within this function.  We must abort the operation to avoid any further complications.
+            return '!';
+        } # If : Target Item Does not Exist
+
+
+        # Is the target item a directory?
+        if ((Get-Item -LiteralPath "$($targetItem)") -is [System.IO.DirectoryInfo])
+        {
+            # The item is a directory.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "The item has been identified as a Directory.";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "Target Item Path: $($targetItem)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Return 'Directory' char to the calling function.
+            return 'D';
+        } # If : Target item was a Directory
+
+        # Is the target item a file?
+        elseif ((Get-Item -LiteralPath "$($targetItem)") -is [System.IO.FileInfo])
+        {
+            # The item is a file
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "The item has been identified as a File.";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "Target Item Path: $($targetItem)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Return 'File' char to the calling function.
+            return 'F';
+        } # If : Target it was a File
+
+        # The target item is unknown
+        Else
+        {
+            # The item is unknown
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to identify the target item as either a directory or a file, the target item is unknown!.";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "Target Item Path: $($targetItem)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Warning");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Return 'Unknown' char to the calling function.
+            return 'U';
+        } # Else : Unknown file
+    } # DetermineItemType()
+
     #endregion
 
 
