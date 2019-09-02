@@ -755,9 +755,8 @@ class DefaultCompress
             [string] $logMessage = ("Could not find the dotNET Core PSArchive module!");
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("It is not possible to use the default archive that is built-in with dotNET 2.2 and later." + `
-                                        "`tPlease consider downloading the newest version possible from the following link below:" + `
-                                        "`t`thttps://dotnet.microsoft.com/download");
+            [string] $logAdditionalMSG = ("It is not possible to use the default archive that is built-in with dotNET 2.2 and later`r`n." + `
+                                        "`tPlease consider downloading the newest version possible from the following link below:`r`n" + `
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
