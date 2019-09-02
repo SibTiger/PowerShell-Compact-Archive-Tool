@@ -461,9 +461,9 @@ class DefaultCompress
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Default Compress Logging Directories:`r`n" + `
-                                        "`t`tThe Root Directory is: $($this.__rootLogPath)`r`n" + `
-                                        "`t`tThe Logging Directory is: $($this.__logPath)`r`n" + `
-                                        "`t`tThe Report Directory is: $($this.__reportPath)`r`n");
+                                        "`t`tThe Root Directory is:`t`t$($this.__rootLogPath)`r`n" + `
+                                        "`t`tThe Logging Directory is:`t$($this.__logPath)`r`n" + `
+                                        "`t`tThe Report Directory is:`t$($this.__reportPath)`r`n");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -595,9 +595,9 @@ class DefaultCompress
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Default Compress Logging Directories:`r`n" + `
-                                        "`t`tThe Root Directory is: $($this.__rootLogPath)`r`n" + `
-                                        "`t`tThe Logging Directory is: $($this.__logPath)`r`n" + `
-                                        "`t`tThe Report Directory is: $($this.__reportPath)`r`n");
+                                        "`t`tThe Root Directory is:`t`t$($this.__rootLogPath)`r`n" + `
+                                        "`t`tThe Logging Directory is:`t$($this.__logPath)`r`n" + `
+                                        "`t`tThe Report Directory is:`t$($this.__reportPath)`r`n");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -626,9 +626,9 @@ class DefaultCompress
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Default Compress Logging Directories:`r`n" + `
-                                        "`t`tThe Root Directory was: $($this.__rootLogPath)`r`n" + `
-                                        "`t`tThe Logging Directory was: $($this.__logPath)`r`n" + `
-                                        "`t`tThe Report Directory was: $($this.__reportPath)`r`n");
+                                        "`t`tThe Root Directory was:`t`t$($this.__rootLogPath)`r`n" + `
+                                        "`t`tThe Logging Directory was:`t$($this.__logPath)`r`n" + `
+                                        "`t`tThe Report Directory was:`t$($this.__reportPath)`r`n");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
