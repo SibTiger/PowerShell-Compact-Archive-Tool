@@ -720,8 +720,52 @@ class DefaultCompress
         if ($(Get-Module -ListAvailable -Name Microsoft.PowerShell.Archive))
         {
             # Detected the module
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Found the dotNET Core PSArchive module!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "It is possible to use the default archive that is built-in with dotNET 2.2 and later.";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Return that we detected the module
             return $true;
         } # if : Module is installed
+
+        # When the module was not detected
+        else
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Could not find the dotNET Core PSArchive module!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("It is not possible to use the default archive that is built-in with dotNET 2.2 and later." + `
+                                        "`tPlease consider downloading the newest version possible from the following link below:" + `
+                                        "`t`thttps://dotnet.microsoft.com/download");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Warning");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # Else : Module not detected
 
 
         # Because the module was not detected.
