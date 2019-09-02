@@ -757,6 +757,9 @@ class DefaultCompress
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("It is not possible to use the default archive that is built-in with dotNET 2.2 and later`r`n." + `
                                         "`tPlease consider downloading the newest version possible from the following link below:`r`n" + `
+                                        "`t`thttps://dotnet.microsoft.com/download`r`n" + `
+                                        "`tAlso make sure that you are using the latest PowerShell Core version as well:`r`n" + `
+                                        "`t`thttps://github.com/PowerShell/PowerShell");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
