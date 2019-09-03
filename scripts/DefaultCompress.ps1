@@ -727,10 +727,10 @@ class DefaultCompress
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = ("Found the dotNET Core PSArchive module!");
+            [string] $logMessage = ("Found the Microsoft.PowerShell.Archive module!");
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "It is possible to use the default archive that is built-in with dotNET 2.2 and later.";
+            [string] $logAdditionalMSG = "It is possible to use Microsoft.PowerShell.Archive features!";
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -752,13 +752,13 @@ class DefaultCompress
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = ("Could not find the dotNET Core PSArchive module!");
+            [string] $logMessage = ("Could not find the Microsoft.PowerShell.Archive module!");
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("It is not possible to use the default archive that is built-in with dotNET 2.2 and later`r`n." + `
-                                        "`tPlease consider downloading the newest version possible from the following link below:`r`n" + `
+            [string] $logAdditionalMSG = ("It is not possible to use the Microsoft.PowerShell.Archive features!" + `
+                                        "`t- Please consider downloading the latest version of dotNET Core:`r`n" + `
                                         "`t`thttps://dotnet.microsoft.com/download`r`n" + `
-                                        "`tAlso make sure that you are using the latest PowerShell Core version as well:`r`n" + `
+                                        "`t- Also make sure that you are using the latest PowerShell Core version as well:`r`n" + `
                                         "`t`thttps://github.com/PowerShell/PowerShell");
 
             # Pass the information to the logging system
