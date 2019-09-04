@@ -908,6 +908,32 @@ class DefaultCompress
         if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to verify the archive data file due to logging complications!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Because the logging directories for the Default Compress could not be created," + `
+                                        " nothing can be logged as expected.`r`n" + `
+                                        "`tTo resolve the issue:`r`n" + `
+                                        "`t`t- Make sure that the required logging directories are created.`r`n" + `
+                                        "`t`t- OR Disable logging`r`n" + `
+                                        "`tRequested file to verify:`r`n" + `
+                                        "`t`t$($targetFile)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             #  Because the logging features are required, we can not run the operation.
             return $false;
         } # If : .NET Archive Logging Directories
@@ -917,7 +943,30 @@ class DefaultCompress
         if ($this.DetectCompressModule() -eq $false)
         {
             # Because the archive support functionality was not found, we can
-            #  not proceed.  For the validation process.
+            #  not proceed.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to verify the archive data file; unable to find the required module!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Be sure that you have the latest dotNET Core and PowerShell Core available.`r`n" + `
+                                        "`tRequested file to verify:`r`n" + `
+                                        "`t`t$($targetFile)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Because the required module was not found, we can not proceed any further.
             return $false;
         } # if : PowerShell Archive Support Missing
 
@@ -926,14 +975,34 @@ class DefaultCompress
         if ($([IOCommon]::CheckPathExists("$($targetFile)")) -eq $false)
         {
             # The archive data file does not exist, we can not
-            #  test something that simply doesn't exist.  Return
-            #  a failure.
+            #  test something that simply doesn't exist.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to verify the archive data file because the target file does not exist!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "Requested file to verify: $($targetFile)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Return a failure as the target file does not exist.
             return $false;
         } # if : Target file does not exist
 
         # ---------------------------
         # - - - - - - - - - - - - - -
-        
+
 
 
         # First, lets request a new directory in the %TEMP%;
@@ -943,6 +1012,29 @@ class DefaultCompress
         {
             # Because we couldn't make a temporary directory, we
             #  cannot test the archive data file.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to verify the archive data file; failure to create the cache directory!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Requested file to verify: $($targetFile)`r`n" + `
+                                        "`tTemporary Directory: $($tmpDirectory)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Because the temporary directory couldn't be created,
+            #  we can not proceed any further.
             return $false;
         } # if : Failure creating Temp. Directory
 
@@ -966,8 +1058,36 @@ class DefaultCompress
             #  will assume that the archive file was corrupted.
             $testResult = $false;
 
-            # Display error
-            Write-Host "ERROR CAUGHT: $($_)";
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $displayErrorMessage = ("A failure occurred while trying to verify the archive data file!`r`n" + `
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
+
+            # Generate the initial message
+            [string] $logMessage = "Verification process failed; Failed to successfully expand the archive data file.";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Requested file to verify: $($targetFile)`r`n" + `
+                                        "`tTemporary Directory: $($tmpDirectory)`r`n" + `
+                                        "$([Logging]::GetExceptionInfo($_.Exception))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                    "Error");                       # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
         } # catch : Caught Error in Extract Task
 
         # - Finally-Do
@@ -1054,7 +1174,8 @@ class DefaultCompress
                                 [ref] $strSTDOUT, `
                                 [ref] $strSTDERR );
         } # if : User Requested Logging
-        
+
+
         # - - - - - - - - -
         # =================
 
