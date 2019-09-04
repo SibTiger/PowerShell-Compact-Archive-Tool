@@ -755,7 +755,7 @@ class DefaultCompress
             [string] $logMessage = ("Could not find the Microsoft.PowerShell.Archive module!");
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("It is not possible to use the Microsoft.PowerShell.Archive features!" + `
+            [string] $logAdditionalMSG = ("It is not possible to use the Microsoft.PowerShell.Archive features!`r`n" + `
                                         "`t- Please consider downloading the latest version of dotNET Core:`r`n" + `
                                         "`t`thttps://dotnet.microsoft.com/download`r`n" + `
                                         "`t- Also make sure that you are using the latest PowerShell Core version as well:`r`n" + `
