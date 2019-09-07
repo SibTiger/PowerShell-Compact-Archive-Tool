@@ -89,7 +89,6 @@ class DefaultCompress
     # =================================================
 
 
-
     #region Constructor Functions
 
     # Default Constructor
@@ -101,16 +100,16 @@ class DefaultCompress
         # Verify Build
         $this.__verifyBuild = $true;
 
-        # Generate report
+        # Generate Report
         $this.__generateReport = $false;
 
-        # Log Root Directory
+        # Log Root Directory Path
         $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\PSArchive";
 
-        # Report Path
+        # Report Directory Path
         $this.__reportPath = "$($this.__rootLogPath)\reports";
 
-        # Log Path
+        # Log Directory Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
     } # Default Constructor
 
@@ -128,21 +127,20 @@ class DefaultCompress
         # Verify Build
         $this.__verifyBuild = $verifyBuild;
 
-        # Generate report
+        # Generate Report
         $this.__generateReport = $generateReport;
 
-        # Log Root Directory
+        # Log Root Directory Path
         $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\PSArchive";
 
-        # Report Path
+        # Report Directory Path
         $this.__reportPath = "$($this.__rootLogPath)\reports";
 
-        # Log Path
+        # Log Directory Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
-    } # Default Constructor
+    } # User Preference Constructor
 
     #endregion
-
 
 
     #region Getter Functions
@@ -253,7 +251,6 @@ class DefaultCompress
     } # GetRootLogPath()
 
     #endregion
-
 
 
     #region Setter Functions
