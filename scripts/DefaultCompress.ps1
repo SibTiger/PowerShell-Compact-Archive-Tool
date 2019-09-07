@@ -2,15 +2,30 @@
  # ------------------------------
  # ==============================
  # ==============================
- # This class holds settings regarding the use of .NET's
- #  System.IO.Compression (aka: .NET Compression).
- #  Because this was part of .NET 4.5 version and later,
- #  it is now possible for end-user's to use the native
- #  Zip provided - without requiring external API's or
- #  3rd party applications.  This should hypothetically
- #  support all targeted versions of Windows platforms.
- # Requirements: .NET Framework 4.5
+ # This class allows the possibility to compress data into an archive
+ #  file, verify data within an archive file, extract data from an
+ #  archive file, and to list data that exists within the archive file.
+ #  This class does not require any external resources, such as external
+ #  command (7Zip, WinZip, etc), instead it is dependent on the .NET and
+ #  the .NET Core frameworks.  Thus, we will use the archive
+ #  functionality that is normally provided within the Windows Operating
+ #  Systems.
+ #
+ # DEPENDENCIES:
+ #  .NET Framework 4.5 and later
+ #  .NET Core Framework 1.0 and later <Primary dependency due to
+ #      PowerShell Core>
+ #  PowerShell Core 6.0 and Later
+ #
+ # DEVELOPER NOTES [API]:
+ #  We will be using the following modules and APIs heavily within
+ #   this object:
+ #   - System.IO.Compression (dotNET Framework && dotNET Core Framework)
+ #     > https://docs.microsoft.com/en-us/dotnet/api/system.io.compression
+ #   - Microsoft.PowerShell.Archive (PowerShell Module)
+ #     > https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive
  #>
+
 
 
 
