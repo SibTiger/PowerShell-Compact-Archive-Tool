@@ -40,41 +40,44 @@ class DefaultCompress
 
     # Compression Level
     # ---------------
-    # The compression level when generating an
-    #  archive datafile.
+    # The compression level specified when generating an archive datafile.
     Hidden [DefaultCompressionLevel] $__compressionLevel;
 
 
     # Verify Build
     # ---------------
-    # Test the archive datafile to assure it is not
-    #  corrupted.
+    # Test the archive datafile to assure that it has not been corrupted.
     Hidden [bool] $__verifyBuild;
 
 
     # Generate Report
     # ---------------
-    # Generate a report about the archive datafile.
+    # Allow the possibility to generate a report about the archive datafile.
+    #  Reports provide some insight about the archive datafile and the
+    #  contents that are within the file itself.
     Hidden [bool] $__generateReport;
 
 
     # Log Root
     # ---------------
-    # The main root of the log directories.
+    # The main parent directory's absolute path that will hold this object's
+    #  logs and reports directories.
     Hidden [string] $__rootLogPath;
 
 
     # Report Path
     # ---------------
-    # The absolute path to store the reports that
-    #  has been generated.
+    # This directory, in absolute form, will hold reports that were generated
+    #  from this object.  Reports provide some insight about the archive datafile
+    #  and the contents that are within the file itself.
     Hidden [string] $__reportPath;
 
 
     # Log Root Path
     # ---------------
-    # The absolute path to place the logs from the
-    #  executable.
+    # This directory, in absolute form, will hold logfiles that were generated
+    #  from this object when creating, verifying, extracting, and listing
+    #  contents from within an archive datafile.
     Hidden [string] $__logPath;
 
     #endregion
