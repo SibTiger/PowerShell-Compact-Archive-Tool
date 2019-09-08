@@ -668,15 +668,16 @@ class DefaultCompress
    <# Check Required Directories
     # -------------------------------
     # Documentation:
-    #  This function was created to check the directories
-    #   that this class requires.
+    #  This function will check to make sure that the log and report directories,
+    #   that are used in this class, currently exists within the host system's
+    #   filesystem.
     #
     # ----
     #
-    #  Directories to Check:
-    #   - \PSArchive
-    #   - \PSArchive\logs
-    #   - \PSArchive\reports
+    #  Directories to be created:
+    #   - %LOCALAPPDATA%\<PROG_NAME>\PSArchive
+    #   - %LOCALAPPDATA%\<PROG_NAME>\PSArchive\logs
+    #   - %LOCALAPPDATA%\<PROG_NAME>\PSArchive\reports
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -699,6 +700,7 @@ class DefaultCompress
             return $true;
         } # If : Check Directories Exists
 
+        # One or more of the required directories was not found.
         else
         {
             # Directories does not exist.
