@@ -851,37 +851,44 @@ class DefaultCompress
    <# Verify Archive
     # -------------------------------
     # Documentation:
-    #  This function will test the archive data file by making
-    #   sure that all of the contents within the archive are
-    #   readable.  If the files within the archive are corrupted
-    #   or damaged, the test will fail - as the integrity of the
-    #   archive file has been compromised.
+    #  This function will test the archive data file by making sure that all of
+    #   the contents within the file are readable - thus not corrupted.  If the
+    #   files within the archive data file are corrupted or some how damaged,
+    #   the test will fail - as the integrity of the archive file has been
+    #   compromised.
     #
-    # NOTE: Because the .NET Framework does not include a test
-    #        functionality, the only way to really perform an
-    #        integrity test - we have to extract all of the data.
-    #       - Some individuals suggest using 'listing' as a way to
-    #         check if the archive file was corrupted.  With my
-    #         testing of manipulating an archive file via HexEditor,
-    #         I can safely say that it isn't enough.  The best way
-    #         to tell if the archive file is corrupted, is to
-    #         extract all the contents.  If the extract operation
-    #         fails, then the archive file is damaged or corrupted.
+    # Developer Note:
+    #  Because the PowerShell's Archive module, atleast by the time of writing
+    #   this, does not have a function to verify the archive file itself.
+    #   With this limitation in mind, we can merely expanding all of the contents
+    #   within the archive data file to a temporary directory, and thus making
+    #   sure that the data can be extracted successfully.  Upon researching ideas
+    #   to combat this limitation, others have suggested that merely 'listing'
+    #   all of the data - using a function from the .NET framework - to test the
+    #   archive file's contents integrity. But, upon testing, I have found that
+    #   'listing' the contents from the archive was not enough as the contents
+    #   could still be identified and not marked as corrupted or damaged.  The
+    #   testing I performed was a direct manipulation of the archive data file
+    #   using a Hex Editor tool.  By extracting the contents, it was possible to
+    #   easily point-out if the file's contents were corrupted.  However, the
+    #   massive drawback was the performance of the operation.  Instead of just
+    #   expeditiously 'verifying' each file within the archive, we have to extract
+    #   it to a temporary directory in order to test each file's integrity.
     #
     # Extract Information:
     #    https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive/Expand-Archive
     # -------------------------------
     # Input:
     #  [string] Target File
-    #   The archive file that will be tested upon through the
-    #    verification process.
+    #   The archive file, in absolute path form, that will under go an integrity
+    #    test.
     # -------------------------------
     # Output:
     #  [bool] Exit code
-    #    $false = Archive file failed verification process.
+    #    $false = Archive file failed the verification process.
+    #              Some files or the archive file itself is corrupted or damaged.
     #    $true = Archive file passed verification process
-    #             or user did not request the file archive
-    #             to be tested.
+    #             OR the user did not request the file archive to be tested.
     # -------------------------------
     #>
     [bool] VerifyArchive([string] $targetFile)
