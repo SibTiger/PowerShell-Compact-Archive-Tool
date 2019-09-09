@@ -718,11 +718,14 @@ class DefaultCompress
    <# Detect Compression Module
     # -------------------------------
     # Documentation:
-    #  This function will try to detect if the host
-    #   system has the Archive module installed.
-    #   This validation is required in order to
-    #   utilize the Archive functionality within
-    #   the PowerShell and .NET Framework.
+    #  This function will try to detect if the host system has the primary module
+    #   available to the PowerShell's current environment.  Without this module,
+    #   it is not possible to use a lot of the functionality within this class.
+    #
+    # Module(s) and Dependencies:
+    #  - Microsoft.PowerShell.Archive
+    #    >> PowerShell Version 5.0 and Later
+    #       https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -732,10 +735,9 @@ class DefaultCompress
     #>
     [bool] DetectCompressModule()
     {
-        # We are going to try to detect if the module
-        #  itself is installed and ready within this
-        #  PowerShell instance.  If not, we will have
-        #  to return 'false'.
+        # We are going to try to detect if the module is available within this
+        #  PowerShell instance.  If incase it is not available - then we must
+        #  return false, or simply stating that it was not found.
         # NOTE: If there is ANY output, than this function will return true.
         # Reference: https://stackoverflow.com/a/28740512
         if ($(Get-Module -ListAvailable -Name Microsoft.PowerShell.Archive))
@@ -796,8 +798,8 @@ class DefaultCompress
     } # DetectCompressModule()
 
 
-
     #region Inspect Archive
+
 
    <# Fetch Hash Information
     # -------------------------------
