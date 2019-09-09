@@ -841,7 +841,6 @@ class DefaultCompress
                         "MD5:`r`n" + `
                         "`t$([IOCommon]::FileHash("$($file)", "md5"))`r`n`r`n");
 
-
         # Return the result that was generated.
         return $archiveInfo;
     } # FetchHashInformation()
