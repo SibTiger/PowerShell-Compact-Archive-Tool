@@ -924,12 +924,12 @@ class DefaultCompress
 
         # Dependency Check
         # - - - - - - - - - - - - - -
-        #  Make sure that all of the resources are available before trying to use them
+        #  Make sure that all of the resources are available before trying to use them.
         #   This check is to make sure that nothing goes horribly wrong.
         # ---------------------------
 
-        # Make sure that the .NET Compress Archive Logging directories are ready for use (if required)
         if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
+        # Make sure that the logging requirements are meet.
         {
             # Because the logging directories could not be created, we can not log.
 
@@ -960,14 +960,14 @@ class DefaultCompress
 
             #  Because the logging features are required, we can not run the operation.
             return $false;
-        } # If : .NET Archive Logging Directories
+        } # If : Logging Requirements are Meet
 
 
-        # Check to make sure that the host-system support the archive functionality.
+        # Make sure that the current PowerShell instance has the Archive functionality ready for use.
         if ($this.DetectCompressModule() -eq $false)
         {
-            # Because the archive support functionality was not found, we can
-            #  not proceed.
+            # Because this current PowerShell instance lacks the functionality required to test the
+            #  archive datafile, we can not proceed any further.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -995,11 +995,11 @@ class DefaultCompress
         } # if : PowerShell Archive Support Missing
 
 
-        # Make sure that the target file actually exists
+        # Make sure that the target archive file actually exists.
         if ($([IOCommon]::CheckPathExists("$($targetFile)")) -eq $false)
         {
-            # The archive data file does not exist, we can not
-            #  test something that simply doesn't exist.
+            # The target archive data file does not exist, we can not test perform a test on something
+            #  that simply doesn't exist with the given file path.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1022,20 +1022,19 @@ class DefaultCompress
 
             # Return a failure as the target file does not exist.
             return $false;
-        } # if : Target file does not exist
+        } # if : Target Archive File does not Exist
 
         # ---------------------------
         # - - - - - - - - - - - - - -
 
 
 
-        # First, lets request a new directory in the %TEMP%;
-        #  this is necessary to extract the contents from the
-        #  archive file.
+        # In order to test the archive data file, we will extract all of the contents to a
+        #  temporary directory.  With that, we must first make a request to create a temporary
+        #  directory.  We will obtain the temporary directory's full path by using a reference.
         if ($([IOCommon]::MakeTempDirectory("Verify", [ref] $tmpDirectory)) -eq $false)
         {
-            # Because we couldn't make a temporary directory, we
-            #  cannot test the archive data file.
+            # Because the temporary directory couldn't be created, we can not continue any further.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1057,29 +1056,27 @@ class DefaultCompress
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the temporary directory couldn't be created,
-            #  we can not proceed any further.
+            # Because the temporary directory couldn't be created, we can not proceed any further.
             return $false;
-        } # if : Failure creating Temp. Directory
+        } # if : Failure Creating the Temporary Directory
 
 
-        # Secondly, now lets test the archive file by actually extracting all of the contents.
+        # Try to test the archive file by extracting all of the data from the target file to the temporary directory.
         try
         {
-            # Extract the contents
+            # Extract all of the contents
             Expand-Archive -LiteralPath "$($targetFile)" `
                            -DestinationPath "$($tmpDirectory)" `
                            -ErrorAction Stop `
                            -PassThru `
                            -OutVariable execSTDOUT `
                            -ErrorVariable execSTDERR;
-        } # try : Execute Extract Task
+        } # Try : Extract Archive Data File
 
-        # - Error
+        # An error occurred while testing the archive file.
         catch
         {
-            # A failure occurred while extracting the contents, we
-            #  will assume that the archive file was corrupted.
+            # A failure occurred while extracting the contents, we will assume that the archive file is corrupted or damaged.
             $testResult = $false;
 
 
@@ -1112,14 +1109,14 @@ class DefaultCompress
             # * * * * * * * * * * * * * * * * * * *
 
 
-        } # catch : Caught Error in Extract Task
+        } # Catch : Failed to Verify Archive
 
-        # - Finally-Do
+        # Thrash the temporary directory and all data within it.
         finally
         {
             # Thrash the temporary directory, we no longer need it.
             [IOCommon]::DeleteDirectory("$($tmpDirectory)") | Out-Null;
-        } # Final : Delete the temporary data
+        } # Finally : Expunge Temporary Directory
 
 
 
@@ -1127,20 +1124,18 @@ class DefaultCompress
         # =================
         # - - - - - - - - -
 
-        # Did the user wanted logfiles?
+        # Did the user wanted the operation to be logged?  If so, log the operation that was just performed.
         if ([Logging]::DebugLoggingState() -eq $true)
         {
-            # If the STDOUT contains an array-list, then we will
-            #  convert it as a typical string.  If necessary,
-            #  add any remarks that should be in the logfile.
+            # If there is information held in the STDOUT container, then we will convert the data from an array-list
+            #  to a literal string.
             if ($execSTDOUT -ne $null)
             {
-                # Because some data exists in the STDOUT, we will
-                #  now try to make it readable in the logfile.  We
-                #  want to assure that if the user does look over
-                #  the logfile - they should be able to understand
-                #  it clearly.
-                
+                # Because there is information within the STDOUT container, we will convert it to a literal string.
+                #  But because we are going to display the information to a logfile, ultimately, present the data in
+                #  a readable form for the end-user to easily decipher the report.
+
+
                 # HEADER
                 # - - - - - -
                 # Logfile Header
@@ -1161,6 +1156,7 @@ class DefaultCompress
                                     "File: $([string]$($item))`r`n";
                 } # foreach : File in List
 
+
                 # FOOTER
                 # - - - - - -
                 # Logfile Footer
@@ -1168,43 +1164,38 @@ class DefaultCompress
                                 "`r`n" + `
                                 "`r`n" + `
                                 " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n";
-            } # if : STDOUT Is not null
+            } # if : STDOUT Contains Data
 
 
 
-            # If the STDERR contains information, then store
-            #  it as a standard string datatype.  Luckily the
-            #  information provided within the object requires
-            #  no real changes or data manipulation, we can
-            #  just cast it and it works like magic!  I love
-            #  the simplicity!
+            # If there is information held in the STDERR container, then we will transform the data from an object
+            #  to a literal string.
             if ($execSTDERR -ne $null)
             {
-                # No need to filter or manipulate the data, just
-                #  cast it as is.  Everything we need is already
-                #  available and readable.
+                # Because of how the information is stored in the object, we can just store the data to a literal
+                #  string outright.
                 $strSTDERR = "$([string]$($execSTDERR))";
-            } # if : STDERR Is not null
+            } # if : STDERR Contains Data
 
 
-            # Create the logfiles
-            [IOCommon]::PSCMDLetLogging($this.__logPath, `
-                                $this.__logPath, `
-                                $this.__reportPath, `
-                                $false, `
-                                $false, `
-                                "$($execReason)", `
-                                $null, `
-                                [ref] $strSTDOUT, `
-                                [ref] $strSTDERR );
-        } # if : User Requested Logging
-
+            # Create the logfiles as requested
+            [IOCommon]::PSCMDLetLogging($this.__logPath, `          # Log path for the STDOUT logfile.
+                                        $this.__logPath, `          # Log path for the STDERR logfile.
+                                        $this.__reportPath, `       # Report path and filename.
+                                        $false, `                   # Is this a report?
+                                        $false, `                   # Should we receive the STDOUT or STDERR for further processing?
+                                        "$($execReason)", `         # Reason for using the CMDLet.
+                                        $null, `                    # Returned STDOUT\STDERR for further processing.
+                                        [ref] $strSTDOUT, `         # STDOUT output from the CMDLet.
+                                        [ref] $strSTDERR );         # STDERR output from the CMDLet.
+        } # if : Logging Requested
 
         # - - - - - - - - -
         # =================
 
 
-        # Return the results
+
+        # Return the results to the calling function
         return $testResult;
     } # VerifyArchive()
 
