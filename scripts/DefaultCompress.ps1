@@ -1042,7 +1042,7 @@ class DefaultCompress
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Unable to verify the archive data file; failure to create the cache directory!";
+            [string] $logMessage = "Unable to verify the archive data file because the temporary directory could not be created!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Requested file to verify: $($targetFile)`r`n" + `
@@ -1089,7 +1089,7 @@ class DefaultCompress
                                             "$([Logging]::GetExceptionInfoShort($_.Exception))");
 
             # Generate the initial message
-            [string] $logMessage = "Verification process failed; Failed to successfully expand the archive data file.";
+            [string] $logMessage = "Verification process failed; Failed to successfully extract the archive data file.";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Requested file to verify: $($targetFile)`r`n" + `
