@@ -895,31 +895,29 @@ class DefaultCompress
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $tmpDirectory = $null;         # This will hold the directory path in
-                                                #  %TEMP% that we will use to temporarily
-                                                #  extract the contents.
-        [bool] $testResult = $true;             # This will hold our test result if the
-                                                #  operation was successful or failed.
-        # - - - - - - - - - - -
-        # The archive file name; used for the description of the logfiles.
-        [string] $targetFileName = "$($(Get-Item $targetFile).Name)";
-
-        # Description; used for logging.
-        [string] $execReason = "Verifying $($targetFileName)";
-
-        # This will hold the STDOUT Obj. from PowerShell's CMDLet.
-        [System.Object] $execSTDOUT = [System.Object]::new();
-
-        # This will hold the STDERR Obj. from PowerShell's CMDLet.
-        [System.Object] $execSTDERR = [System.Object]::new();
-
-        # This will hold the STDOUT as a normal string datatype;
-        #  converted output result from the STDOUT Object.
-        [string] $strSTDOUT = $null;
-
-        # This will hold the STDERR as a normal string datatype;
-        #  Converted output result from the STDERR Object.
-        [string] $strSTDERR = $null;
+        [string] $tmpDirectory = $null;                                 # This will be used to hold the path of the temporary directory,
+                                                                        #  which will be used to extract the data from the archive file.
+        [bool] $testResult = $true;                                     # This will hold our test result; was the operation successful
+                                                                        #  or did something go horribly wrong?
+        [string] $targetFileName = "$($(Get-Item $targetFile).Name)";   # This will hold the archive file name which will be presented in
+                                                                        #  the logfile.
+        [string] $execReason = "Verifying $($targetFileName)";          # This will hold the description of the operation that is being
+                                                                        #  performed in this function, but only presented for logging
+                                                                        #  purposes.
+        [System.Object] $execSTDOUT = [System.Object]::new();           # This will hold the STDOUT that is provided by the CMDLet that
+                                                                        #  will be used for the verification process, but contained as
+                                                                        #  an object.
+        [System.Object] $execSTDERR = [System.Object]::new();           # This will hold the STDERR that is provided by the CMDLet that
+                                                                        #  will be used for the verification process, but contained as
+                                                                        #  an object.
+        [string] $strSTDOUT = $null;                                    # This will hold the STDOUT information, but will be held as a
+                                                                        #  literal string.  The information provided to it will be
+                                                                        #  converted from an object to a string, the information held in
+                                                                        #  this variable will be presented in the logfile.
+        [string] $strSTDERR = $null;                                    # This will hold the STDERR information, but will be held as a
+                                                                        #  literal string.  The information provided to it will be
+                                                                        #  converted from an object to a string, the information held in
+                                                                        #  this variable will be presented in the logfile.
         # ----------------------------------------
 
 
