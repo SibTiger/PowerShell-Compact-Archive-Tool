@@ -928,8 +928,8 @@ class DefaultCompress
         #   This check is to make sure that nothing goes horribly wrong.
         # ---------------------------
 
-        if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         # Make sure that the logging requirements are meet.
+        if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
 
