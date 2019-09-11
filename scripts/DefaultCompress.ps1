@@ -1073,7 +1073,55 @@ class DefaultCompress
                            -ErrorVariable execSTDERR;
         } # Try : Extract Archive Data File
 
-        # An error occurred while testing the archive file.
+        # An error occurred; a file might have been corrupted or missing.
+        catch [System.Management.Automation.ItemNotFoundException]
+        {
+            # This will temporarily hold on to the just the file name that is missing or corrupted.
+            [string] $badFileName = Split-Path -Path "$($_.TargetObject)" -Leaf;
+
+            # This will temporarily hold on to the full path of the file that is missing or corrupted.
+            [string] $badFileNameFull = "$($_.TargetObject)";
+
+
+            # Because a failure had been reached, we will have to update the exit code.
+            $testResult = $false;
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Prep a message to display to the user regarding this error; temporary variable
+            [string] $displayErrorMessage = ("The file named '$($badFileName)' was not found in the archive file: " + `
+                                            "$($targetFileName)`r`n" + `
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
+
+            # Generate the initial message
+            [string] $logMessage = ("Verification process failed; the file with a name of '$($badFileName)' was not found in the " + `
+                                    "archive data file!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("File that is missing or corrupted: $($badFileNameFull)`r`n" + `
+                                        "`tRequested file to verify: $($targetFile)`r`n" + `
+                                        "`tTemporary Directory: $($tmpDirectory)`r`n" + `
+                                        "$([Logging]::GetExceptionInfo($_.Exception))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                    "Error");                       # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+        } # Catch [ItemNotFound] : File Not Found
+
+        # A general error occurred while testing the archive file.
         catch
         {
             # A failure occurred while extracting the contents, we will assume that the archive file is corrupted or damaged.
@@ -1085,11 +1133,12 @@ class DefaultCompress
             # --------------
 
             # Prep a message to display to the user for this error; temporary variable
-            [string] $displayErrorMessage = ("A failure occurred while trying to verify the archive data file!`r`n" + `
+            [string] $displayErrorMessage = ("A general failure occurred while trying to verify the archive data file!`r`n" + `
                                             "$([Logging]::GetExceptionInfoShort($_.Exception))");
 
             # Generate the initial message
-            [string] $logMessage = "Verification process failed; Failed to successfully extract the archive data file.";
+            [string] $logMessage = ("Verification process failed; A general failure occurred while extracting the " + `
+                                    "archive data file.");
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Requested file to verify: $($targetFile)`r`n" + `
