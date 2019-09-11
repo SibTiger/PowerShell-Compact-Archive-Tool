@@ -1121,6 +1121,45 @@ class DefaultCompress
 
         } # Catch [ItemNotFound] : File Not Found
 
+        # An error occurred; the archive data file's format is malformed
+        catch [System.IO.FileFormatException]
+        {
+            # Because a failure had been reached, we will have to update the exit code.
+            $testResult = $false;
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Prep a message to display to the user regarding this error; temporary variable
+            [string] $displayErrorMessage = ("The archive data file '$($targetFileName)' may not be a valid archive file " + `
+                                            "structure.`r`n" + `
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
+
+            # Generate the initial message
+            [string] $logMessage = "Verification process failed; the archive data file structure is malformed.";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Requested file to verify: $($targetFile)`r`n" + `
+                                        "`tTemporary Directory: $($tmpDirectory)`r`n" + `
+                                        "$([Logging]::GetExceptionInfo($_.Exception))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                    "Error");                       # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+        } # Catch [FileFormat] : Archive File Format Malformed
+
         # A general error occurred while testing the archive file.
         catch
         {
@@ -1255,21 +1294,18 @@ class DefaultCompress
    <# List Files in Archive
     # -------------------------------
     # Documentation:
-    #  This function will list all of the files that are
-    #   within the target archive data file.
+    #  This function will provide a list of all files that exists within the archive data file.
     #
     #  List Files Information:
     #    https://stackoverflow.com/a/14204577
     # -------------------------------
     # Input:
     #  [string] Target File
-    #   The archive file that will contain the files that we
-    #    want to list.
+    #   The absolute path of the target archive file that we want to examine.
     #  [bool] Show Technical Information
-    #   When true, this will show all of the technical
-    #    information regarding each file within the data
-    #    archive file.
-    #   Technical Information will contain some of the following:
+    #   When true, this will show all of the technical information regarding each file that
+    #    resides within the archive data file.
+    #   Some of the technical information that might be provided are:
     #    - CRC32 checksum
     #    - FullName
     #    - Name
