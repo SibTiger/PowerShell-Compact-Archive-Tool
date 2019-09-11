@@ -1143,7 +1143,7 @@ class DefaultCompress
                 $strSTDOUT = ("Successfully verified the archive data file named $($targetFileName).`r`n" + `
                                 "Below is a list of files that resides within the archive file and that has been tested:`r`n" + `
                                 "`r`n" + `
-                                " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n" + `
+                                "-----------------------------------------------------------`r`n" + `
                                 "`r`n");
 
 
@@ -1154,7 +1154,7 @@ class DefaultCompress
                 foreach ($item in $execSTDOUT)
                 {
                     $strSTDOUT = ("$($strSTDOUT)" + `
-                                    "`t`t>> $([string]$($item))`r`n");
+                                    "`t>> $([string]$($item))`r`n");
                 } # foreach : File in List
 
 
@@ -1164,7 +1164,7 @@ class DefaultCompress
 
                 $strSTDOUT = ("$($strSTDOUT)" + `
                                 "`r`n" + `
-                                " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n");
+                                "-----------------------------------------------------------`r`n");
             } # if : STDOUT Contains Data
 
 
