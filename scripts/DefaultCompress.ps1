@@ -1294,14 +1294,31 @@ class DefaultCompress
    <# List Files in Archive
     # -------------------------------
     # Documentation:
-    #  This function will provide a list of all files that exists within the archive data file.
+    #  This function will provide a list of all files that exists within the
+    #   specified archive data file and return that list to the calling
+    #   function.
+    #
+    # Developer Notes:
+    #  Because there is no dedicated PowerShell CMDLet to fetch a list of files
+    #   from an archive datafile, at least at the time of writing this, we will
+    #   have to use the .NET Framework to accomplish this task.
+    #
+    # Dependencies:
+    #  We will accomplish this by using the dotNET (Core) framework, we will
+    #   using the following classes:
+    #   - IO.Compression.ZipFile
+    #     >> dotNET Core 1.0 and later OR dotNET 4.5 and later
+    #        https://docs.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile
+    #   - System.IO.Compression.ZipArchive
+    #     >> dotNET Core 1.0 and later OR dotNET 4.5 and later
+    #        https://docs.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchive
     #
     #  List Files Information:
     #    https://stackoverflow.com/a/14204577
     # -------------------------------
     # Input:
     #  [string] Target File
-    #   The absolute path of the target archive file that we want to examine.
+    #   The absolute path of the archive data file that we will examine.
     #  [bool] Show Technical Information
     #   When true, this will show all of the technical information regarding each file that
     #    resides within the archive data file.
@@ -1314,9 +1331,10 @@ class DefaultCompress
     #    - Last Write-Time
     # -------------------------------
     # Output:
-    #  [string] File List
-    #    List of files that exists within the archive data file.
-    #    NOTE: "ERR" signifies that an error occurred.
+    #  [string] List of Files
+    #    List of files that resides within the archive data file provided.
+    #    NOTE:
+    #       "ERR" - signifies that an error occurred.
     # -------------------------------
     #>
     [string] ListFiles([string] $file, [bool] $showTechInfo)
