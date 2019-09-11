@@ -670,7 +670,7 @@ class Logging
         } # If : Exception is null
 
         # Generate the exception information that will be returned to the calling function.
-        $information = ("Reached an exception: $($errDetail.GetType().ToString())`r`n" + `
+        $information = ("Reached an exception: $($errDetail.GetType())`r`n" + `
                         "More information is provided in the program's logfile.`r`n" + `
                         "Logfile can be found in:`r`n`t$([Logging]::GetLogFilePath())");
 
@@ -719,13 +719,13 @@ class Logging
         } # If : Exception is null
 
         # Generate the exception information that will be returned to the calling function.
-        $information = ("`tException Reached: $($errDetail.GetType().ToString())`r`n" + `
-                        "`tException Message: $($errDetail.Message.ToString())`r`n" + `
-                        "`tException Source: $($errDetail.Source.ToString())`r`n" + `
-                        "`tException Target Site: $($errDetail.TargetSite.ToString())`r`n" + `
+        $information = ("`tException Reached: $($errDetail.GetType())`r`n" + `
+                        "`tException Message: $($errDetail.Message)`r`n" + `
+                        "`tException Source: $($errDetail.Source)`r`n" + `
+                        "`tException Target Site: $($errDetail.TargetSite)`r`n" + `
                         "`tException Stack Trace:`r`n" + `
                         "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~`r`n" + `
-                        "$($errDetail.StackTrace.ToString())`r`n" + `
+                        "$($errDetail.StackTrace)`r`n" + `
                         "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~");
 
 
