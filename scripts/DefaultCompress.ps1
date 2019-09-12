@@ -1398,8 +1398,8 @@ class DefaultCompress
             {
                 # Iterate through each object in the ZipArchive type
                 #  and save all information regarding each entry.
-                $strFileList = "$($strFileList)" + `
-                                $($item | Out-String | Foreach-Object {$_});
+                $strFileList = ("$($strFileList)" + `
+                                $($item | Out-String | Foreach-Object {$_}));
             } # foreach : Get technical info. for each file entry
         } # if : Technical Information
 
@@ -1410,9 +1410,8 @@ class DefaultCompress
             foreach ($item in $archiveData.Entries)
             {
                 # Save the file name.
-                $strFileList = "$($strFileList)" + `
-                                "File: " + $item.FullName + `
-                                "`r`n";
+                $strFileList = ("$($strFileList)" + `
+                                "File: $($item.FullName)`r`n");
             } # foreach : Get files in each file entry
         } # else : Standard File List
 
