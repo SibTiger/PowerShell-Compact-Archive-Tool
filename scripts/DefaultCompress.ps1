@@ -1357,8 +1357,8 @@ class DefaultCompress
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
-            return $false;
         } # If : .NET Archive Logging Directories
+            return "ERR";
 
 
         # Check to make sure that the host-system support the archive functionality.
