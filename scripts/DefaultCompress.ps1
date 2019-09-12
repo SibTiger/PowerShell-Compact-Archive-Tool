@@ -1358,6 +1358,31 @@ class DefaultCompress
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to obtain a list of files from the requested archive file due to logging complications!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Because the logging directories for the Default Compress could not be created," + `
+                                        " nothing can be logged as expected.`r`n" + `
+                                        "`tTo resolve the issue:`r`n" + `
+                                        "`t`t- Make sure that the required logging directories are created.`r`n" + `
+                                        "`t`t- OR Disable logging`r`n" + `
+                                        "`tArchive File to Examine: $($file)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             #  Because the logging features are required, we can not run the operation.
             return "ERR";
         } # If : Logging Requirements are Met
@@ -1369,6 +1394,28 @@ class DefaultCompress
             # Even though we are not going to use the modules, it is best to still have them handy for the environment;
             #  the dotNET framework is still a requirement -- if the requirement is not present then we can not proceed
             #  any further.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to obtain a list of files from the requested archive file; unable to find the required module!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Be sure that you have the latest dotNET Core and PowerShell Core available.`r`n" + `
+                                        "`tArchive File to Examine: $($file)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Because the required module was not found, we can not proceed any further.
             return "ERR";
         } # if : PowerShell Archive Support Missing
 
@@ -1377,6 +1424,27 @@ class DefaultCompress
         if ($([IOCommon]::CheckPathExists("$($file)")) -eq $false)
         {
             # The target archive data file does not exist, we can not examine something that is not present.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to obtain a list of files from the requested archive file because it does not exist!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "Archive File to Examine: $($file)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Return a failure as the target file does not exist.
             return "ERR";
         } # if : Target Archive File does not Exist
 
