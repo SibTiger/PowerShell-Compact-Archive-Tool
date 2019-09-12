@@ -1452,9 +1452,52 @@ class DefaultCompress
         # - - - - - - - - - - - - - -
 
 
-        # Read the file information that currently exists within the source
-        #  archive data file.
-        $archiveData = $([IO.Compression.ZipFile]::OpenRead("$($file)"));
+        # Try to access the archive data file and get ready to inspect it - if we can.
+        try
+        {
+            # Try to access the archive file and try to get ready
+            $archiveData = $([IO.Compression.ZipFile]::OpenRead("$($file)"));
+        } # Try : Access Archive Data File
+
+        # A general error occurred while opening the archive file.
+        catch
+        {
+            # Because the archive file couldn't be accessed, we can not proceed any further.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $displayErrorMessage = ("A general failure occurred while trying to access the archive data file!`r`n" + `
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
+
+            # Generate the initial message
+            [string] $logMessage = ("Unable to obtain a list of files that exists within the archive file; A general failure " + `
+                                    "occurred while accessing the archive data file.");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Archive File to Examine: $($file)" + `
+                                        "$([Logging]::GetExceptionInfo($_.Exception))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                    "Error");                       # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Because we cannot access the archive file, we can not proceed any further.
+            return "ERR";
+        } # Catch : Failed to Access Archive File
+
 
 
         # Now determine what kind of information was requested:
