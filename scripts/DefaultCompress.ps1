@@ -928,7 +928,7 @@ class DefaultCompress
         #   This check is to make sure that nothing goes horribly wrong.
         # ---------------------------
 
-        # Make sure that the logging requirements are meet.
+        # Make sure that the logging requirements are met.
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
@@ -959,7 +959,7 @@ class DefaultCompress
 
             #  Because the logging features are required, we can not run the operation.
             return $false;
-        } # If : Logging Requirements are Meet
+        } # If : Logging Requirements are Met
 
 
         # Make sure that the current PowerShell instance has the Archive functionality ready for use.
