@@ -1335,49 +1335,50 @@ class DefaultCompress
     #       "ERR" - signifies that an error occurred.
     # -------------------------------
     #>
-    [string] ListFiles([string] $file, [bool] $showTechInfo)
+    [string] ListFiles([string] $file,          # The archive data file we want to examine
+                        [bool] $showTechInfo)   # Provide technical information about each file in archive file
     {
         # Declarations and Initializations
         # ----------------------------------------
         [System.IO.Compression.ZipArchive] $archiveData = $null;        # This will hold the archive data file information
         [string] $strFileList = $null;                                  # This will contain a list of files that is within
-                                                                        #  the source archive file, with or without
+                                                                        #  the source archive file, with or without the
                                                                         #  technical information.
         # ----------------------------------------
 
 
         # Dependency Check
         # - - - - - - - - - - - - - -
-        #  Make sure that all of the resources are available before trying to use them
+        #  Make sure that all of the resources are available before trying to use them.
         #   This check is to make sure that nothing goes horribly wrong.
         # ---------------------------
 
-        # Make sure that the .NET Compress Archive Logging directories are ready for use (if required)
         if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
+
+        # Make sure that the logging requirements are met.
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
-        } # If : .NET Archive Logging Directories
             return "ERR";
+        } # If : Logging Requirements are Met
 
 
-        # Check to make sure that the host-system support the archive functionality.
+        # Make sure that the current PowerShell instance has the Archive functionality ready for use.
         if ($this.DetectCompressModule() -eq $false)
         {
-            # Because the archive support functionality was not found, we can
-            #  not proceed with the validation process.
+            # Even though we are not going to use the modules, it is best to still have them handy for the environment;
+            #  the dotNET framework is still a requirement -- if the requirement is not present then we can not proceed
+            #  any further.
             return "ERR";
         } # if : PowerShell Archive Support Missing
 
 
-        # Make sure that the archive file actually exists
+        # Make sure that the target archive file actually exists.
         if ($([IOCommon]::CheckPathExists("$($file)")) -eq $false)
         {
-            # The archive data file does not exist, we can not
-            #  examine something that simply doesn't exist.  Return
-            #  a failure.
+            # The target archive data file does not exist, we can not examine something that is not present.
             return "ERR";
-        } # if : Target file does not exist
+        } # if : Target Archive File does not Exist
 
         # ---------------------------
         # - - - - - - - - - - - - - -
@@ -1392,7 +1393,7 @@ class DefaultCompress
         # Technical Information
         if ($showTechInfo -eq $true)
         {
-            # The user requested to view the technical information.
+            # The user requested to view the technical information for each file within the archive.
             foreach ($item in $archiveData.Entries)
             {
                 # Iterate through each object in the ZipArchive type
@@ -1405,7 +1406,7 @@ class DefaultCompress
         # Simple File Information
         else
         {
-            # The user requested to view only the list of files.
+            # The user requested to view only the list of files that exists within the archive.
             foreach ($item in $archiveData.Entries)
             {
                 # Save the file name.
