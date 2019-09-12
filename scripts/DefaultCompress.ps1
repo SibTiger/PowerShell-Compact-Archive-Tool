@@ -947,8 +947,7 @@ class DefaultCompress
                                         "`tTo resolve the issue:`r`n" + `
                                         "`t`t- Make sure that the required logging directories are created.`r`n" + `
                                         "`t`t- OR Disable logging`r`n" + `
-                                        "`tRequested file to verify:`r`n" + `
-                                        "`t`t$($targetFile)");
+                                        "`tRequested file to verify: $($targetFile)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -979,8 +978,7 @@ class DefaultCompress
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Be sure that you have the latest dotNET Core and PowerShell Core available.`r`n" + `
-                                        "`tRequested file to verify:`r`n" + `
-                                        "`t`t$($targetFile)");
+                                        "`tRequested file to verify: $($targetFile)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
