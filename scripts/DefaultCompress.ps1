@@ -1573,7 +1573,9 @@ class DefaultCompress
     #    $true  = Successfully extracted the contents
     # -------------------------------
     #>
-    [bool] ExtractArchive([string] $file, [string] $outputPath, [ref] $directoryOutput)
+    [bool] ExtractArchive([string] $file,           # The archive file we want to extract the data from
+                        [string] $outputPath,       # The desired path we want to store the extracted data
+                        [ref] $directoryOutput)     # The final directory where the contents are placed; where the data is located
     {
         # Declarations and Initializations
         # ----------------------------------------
