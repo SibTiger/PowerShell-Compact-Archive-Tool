@@ -1539,32 +1539,38 @@ class DefaultCompress
    <# Extract Archive
     # -------------------------------
     # Documentation:
-    #  This function will extract the requested archive data
-    #   file to a specific directory.  However, the directory
-    #   has to already exist in order to use that path.
-    #   Within that directory, this function will create a new
-    #   subdirectory named by the archive file to extract all
-    #   the contents from the archive file.
+    #  This function will extract all of the contents that reside within the
+    #   provided archive data file.  The data from the archive will be extracted
+    #   to the desired directory path, though this function will create a new
+    #   directory with the same name as the archive file - though without the
+    #   extension - within the desired output path.  If incase the final output
+    #   directory already exists within the given path, then this function will
+    #   try to make it unique by attaching a time and date stamp to the directory
+    #   that will hold all of the data from the archive file.  Though, if this
+    #   function is incapable of creating a unique directory then the entire
+    #   operation will be aborted as there is no valid directory to store the
+    #   data.
     #  For Example:
-    #   E:\Project\{{DESIRED_OUTPUT}}\{{FILENAME_EXTRACTED_FILES}}
+    #   E:\User\FreddyM\Documents\{{DESIRED_OUTPUT}}\{{ARCHIVE_FILENAME_EXTRACTED_FILES}}\*
+    #  OR
+    #   E:\User\FreddyM\Documents\{{DESIRED_OUTPUT}}\{{FILENAME_EXTRACTED_FILES}}{{DATE_TIME_STAMP}}\*
     #
     #  Extract Files Information:
     #    https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive/expand-archive
     # -------------------------------
     # Input:
     #  [string] Target File
-    #   The archive file contents that will be extracted.
+    #   The requested archive data file that will be extracted.
     #  [string] Output Path
-    #   The path to output all of the files from the archive file.
-    #  [ref] {string} Directory Output
-    #   The directory in which the data was extracted to within
-    #   the filesystem.  This will hold the absolute path to the
-    #   extracted directory.
+    #   The absolute path to output all of the contents from the requested archive file.
+    #  [string] (REFERENCE) Directory Output
+    #   The final directory's absolute path of where the contents of the archive file
+    #   have been extracted to within the filesystem.
     # -------------------------------
     # Output:
     #  [bool] Status Code
-    #    $false = Failure occurred while extracting contents.
-    #    $true  = Successfully extracted contents.
+    #    $false = A failure occurred while extracting the contents
+    #    $true  = Successfully extracted the contents
     # -------------------------------
     #>
     [bool] ExtractArchive([string] $file, [string] $outputPath, [ref] $directoryOutput)
