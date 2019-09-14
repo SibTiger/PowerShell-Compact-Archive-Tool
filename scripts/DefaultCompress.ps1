@@ -1540,16 +1540,15 @@ class DefaultCompress
     # -------------------------------
     # Documentation:
     #  This function will extract all of the contents that reside within the
-    #   provided archive data file.  The data from the archive will be extracted
-    #   to the desired directory path, though this function will create a new
-    #   directory with the same name as the archive file - though without the
-    #   extension - within the desired output path.  If incase the final output
-    #   directory already exists within the given path, then this function will
-    #   try to make it unique by attaching a time and date stamp to the directory
-    #   that will hold all of the data from the archive file.  Though, if this
-    #   function is incapable of creating a unique directory then the entire
-    #   operation will be aborted as there is no valid directory to store the
-    #   data.
+    #   provided archive data file to the desired output directory.  This
+    #   function will create a new directory with the same name as the archive
+    #   file, omitting the extension, within the desired output path given
+    #   - this will be our extracting directory.  If incase the final extracting
+    #   directory already exists, then this function will try to make a unique
+    #   directory by attaching a time and date stamp to the directory name.
+    #   Though, if this function is incapable of creating a unique directory
+    #   then the entire operation will be aborted as there is no valid directory
+    #   to store the data.
     #  For Example:
     #   E:\User\FreddyM\Documents\{{DESIRED_OUTPUT}}\{{ARCHIVE_FILENAME_EXTRACTED_FILES}}\*
     #  OR
@@ -1564,8 +1563,8 @@ class DefaultCompress
     #  [string] Output Path
     #   The absolute path to output all of the contents from the requested archive file.
     #  [string] (REFERENCE) Directory Output
-    #   The final directory's absolute path of where the contents of the archive file
-    #   have been extracted to within the filesystem.
+    #   The extracting directory's absolute path of where the contents of the archive file
+    #   have been placed within the filesystem.
     # -------------------------------
     # Output:
     #  [bool] Status Code
@@ -1575,7 +1574,7 @@ class DefaultCompress
     #>
     [bool] ExtractArchive([string] $file,           # The archive file we want to extract the data from
                         [string] $outputPath,       # The desired path we want to store the extracted data
-                        [ref] $directoryOutput)     # The final directory where the contents are placed; where the data is located
+                        [ref] $directoryOutput)     # The extracting directory of where the contents are placed
     {
         # Declarations and Initializations
         # ----------------------------------------
