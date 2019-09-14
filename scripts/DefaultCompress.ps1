@@ -1545,7 +1545,7 @@ class DefaultCompress
     #   file, omitting the extension, within the desired output path given
     #   - this will be our extracting directory.  If incase the final extracting
     #   directory already exists, then this function will try to make a unique
-    #   directory by attaching a time and date stamp to the directory name.
+    #   directory by attaching a time and date stamp to the directory's name.
     #   Though, if this function is incapable of creating a unique directory
     #   then the entire operation will be aborted as there is no valid directory
     #   to store the data.
@@ -1574,7 +1574,7 @@ class DefaultCompress
     #>
     [bool] ExtractArchive([string] $file,           # The archive file we want to extract the data from
                         [string] $outputPath,       # The desired path we want to store the extracted data
-                        [ref] $directoryOutput)     # The extracting directory of where the contents are placed
+                        [ref] $directoryOutput)     # The extracting directory of where the contents had been placed
     {
         # Declarations and Initializations
         # ----------------------------------------
