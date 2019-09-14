@@ -1578,41 +1578,35 @@ class DefaultCompress
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $finalOutputPath = $null;                          # This will hold the final output
-                                                                    #  path that is unique.
-        [string] $cacheOutputPath = $null;                          # This will help guide us to the
-                                                                    #  final result; this is used as a
-                                                                    #  working variable.
-        [string] $getDateTime = $null;                              # This will hold the date and time,
-                                                                    #  though to be only used if needing
-                                                                    #  a unique directory for the output
-                                                                    #  path.
-        [string] $fileName = `                                      # Get the filename without the
-          "$([System.IO.Path]::GetFileNameWithoutExtension($file))";#  path and file extension.
-        [string] $fileNameExt = "$(Split-Path $file -leaf)";        # Get only the filename from $file, 
-                                                                    #  while omitting the entire path to
-                                                                    #  get to that file, extension is kept.
+        [string] $finalOutputPath = $null;                          # This will hold the extracting directory path; all of the
+                                                                    #  contents from the archive will be placed in this directory.
+        [string] $cacheOutputPath = $null;                          # This temporary variable will help us achieve the extracting
+                                                                    #  directory path by making sure that the final destination is
+                                                                    #  available before outright using the directory.
+        [string] $getDateTime = $null;                              # This variable will hold the date and time, if required to help
+                                                                    #  make the extracting directory path unique.
+        [string] $fileName = $null;                                 # This will only hold filename of the archive file, omitting the
+                                                                    #  extension and absolute path.
+        [string] $fileNameExt = "$(Split-Path $file -leaf)";        # Get only the filename from archive file, but only omitting the
+                                                                    #  absolute path while keeping the extension.
         [string] $execReason = "Extracting $($fileNameExt)";        # Description; used for logging
-        [bool] $exitCode = $false;                                  # The exit code status provided by the
-                                                                    #  Expand-Archive operation status.  If
-                                                                    #  the operation was successful then
-                                                                    #  true will be set, otherwise it'll be
-                                                                    #  false to signify an error.
-        # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-        # This will hold the STDOUT Obj. from PowerShell's CMDLet.
-        [System.Object] $execSTDOUT = [System.Object]::new();
-
-        # This will hold the STDERR Obj. from PowerShell's CMDLet.
-        [System.Object] $execSTDERR = [System.Object]::new();
-
-        # This will hold the STDOUT as a normal string datatype;
-        #  converted output result from the STDOUT Object.
-        [string] $strSTDOUT = $null;
-
-        # This will hold the STDERR as a normal string datatype;
-        #  Converted output result from the STDERR Object.
-        [string] $strSTDERR = $null;
+        [bool] $exitCode = $false;                                  # The exit code status provided by the Expand-Archive operation
+                                                                    #  status.  If the operation was successful then true will be
+                                                                    #  set, otherwise it'll be false to signify an error.
+        [System.Object] $execSTDOUT = [System.Object]::new();       # This will hold the STDOUT that is provided by the CMDLet that
+                                                                    #  will be used for extracting the archive file, but contained
+                                                                    #  as an object.
+        [System.Object] $execSTDERR = [System.Object]::new();       #This will hold the STDERR that is provided by the CMDLet that
+                                                                    #  will be used for extracting the archive file, but contained
+                                                                    #  as an object.
+        [string] $strSTDOUT = $null;                                # This will hold the STDOUT information, but will be held as a
+                                                                    #  literal string.  The information provided to it will be
+                                                                    #  converted from an object to a string, the information held
+                                                                    #  in this variable will be presented in the logfile.
+        [string] $strSTDERR = $null;                                # This will hold the STDERR information, but will be held as a
+                                                                    #  literal string.  The information provided to it will be
+                                                                    #  converted from an object to a string, the information held
+                                                                    #  in this variable will be presented in the logfile.
         # ----------------------------------------
 
 
