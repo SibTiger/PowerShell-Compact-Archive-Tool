@@ -996,7 +996,7 @@ class DefaultCompress
         # Make sure that the target archive file actually exists.
         if ($([IOCommon]::CheckPathExists("$($targetFile)")) -eq $false)
         {
-            # The target archive data file does not exist, we can not test perform a test on something
+            # The target archive data file does not exist, we can not perform a test on something
             #  that simply doesn't exist with the given file path.
 
 
