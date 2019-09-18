@@ -1616,36 +1616,39 @@ class DefaultCompress
         #   This check is to make sure that nothing goes horribly wrong.
         # ---------------------------
 
-        # Make sure that the .NET Compress Archive Logging directories are ready for use (if required)
+        # Make sure that the logging requirements are met.
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
             return $false;
-        } # If : .NET Archive Logging Directories
+        } # If : Logging Requirements are Met
 
 
-        # Check to make sure that the host-system support the archive functionality.
+        # Make sure that the current PowerShell instance has the Archive functionality ready for use.
         if ($this.DetectCompressModule() -eq $false)
         {
             # Because the archive support functionality was not found, we can
             #  not proceed to extract the archive datafile.
+            # Because this current PowerShell instance lacks the functionality required to extract the
+            #  archive datafile, we can not proceed any further.
             return $false;
         } # if : PowerShell Archive Support Missing
 
 
-        # Make sure that the archive file actually exists
+        # Make sure that the target archive file actually exists.
         if ($([IOCommon]::CheckPathExists("$($file)")) -eq $false)
         {
-            # The archive data file does not exist, we can not
-            #  extract the archive that simply doesn't exist.
+            # The target archive data file does not exist, we can not extract an archive file when
+            #  it doesn't exist - with the given file path.
             return $false;
-        } # if : Target file does not exist
+        } # if : Target Archive File does not Exist
 
 
-        # Make sure that the output path exists
+        # Make sure that the desired output path currently exists
         if ($([IOCommon]::CheckPathExists("$($outputPath)")) -eq $false)
         {
+            # The requested output path does not currently exist, we can not proceed any further.
             # The output path does not exist, we can not extract the contents.
             return $false;
         } # if : Output Directory does not exist
@@ -1655,11 +1658,10 @@ class DefaultCompress
 
 
 
-        # CREATE THE OUTPUT DIRECTORY
+        # CREATE THE EXTRACTING DIRECTORY
         # - - - - - - - - - - - - - -
-        # Before we can do the main operation, we
-        #  first need to make sure that the output
-        #  directory can be created and is also unique.
+        # Before we can do the main operation, we first need to make sure that the
+        #  extracting directory is unique and can be created successfully.
         # ---------------------------
 
         # Setup our Cache
@@ -1667,27 +1669,29 @@ class DefaultCompress
         $cacheOutputPath = "$($outputPath)\$($fileName)";
 
 
-        # Does the output directory already exists?
+        # Does the extracting directory already exists?
         if ([IOCommon]::CheckPathExists("$($cacheOutputPath)") -eq $false)
         {
-            # Because it is a unique directory, this is our final output destination.
+            # Because it is a unique directory, this is now our extracting destination path.
             $finalOutputPath = $cacheOutputPath;
 
-            # Create the new directory
+
+            # Create the new extracting directory
             if([IOCommon]::MakeDirectory("$($finalOutputPath)") -eq $false)
             {
                 # A failure occurred when trying to make the directory,
-                #  we can not continue as the output is not available.
+                #  we can not continue as the extracting directory is not available.
                 return $false;
-            } # INNER-if : Failed to create directory
+            } # INNER-if : Failed to create extracting directory
         } # if : Does the output already exists?
 
         # The output directory already exists
         else
         {
-            # Because the directory already exists, we need to make it unique.
-            #  To accomplish this - we will timestamp the directory to make it
-            #  unique while giving the data 'meaning' to it.
+            # Because the directory already exists, we need to make it unique.  To accomplish
+            #  the task of making the directory to be unique, we will add a timestamp to the
+            #  directory in order to make it unique while still giving the data 'meaning' to
+            #  it.
             #  Date and Time
             #  DD-MMM-YYYY_HH-MM-SS ~~> 09-Feb-2007_01-00-00
             $getDateTime = "$(Get-Date -UFormat "%d-%b-%Y_%H-%M-%S")";
@@ -1695,13 +1699,13 @@ class DefaultCompress
             # Now put everything together
             $finalOutputPath = "$($cacheOutputPath)_$($getDateTime)";
 
-            # Now try to make the directory, if this fails - we can't do anything more.
+            # Now try to make the extracting directory, if this fails - we can't do anything more.
             if([IOCommon]::MakeDirectory("$($finalOutputPath)") -eq $false)
             {
-                # A failure occurred when trying to make the directory,
-                #  we can not continue as the output is not available.
+                # A failure occurred while trying to create the extracting directory,
+                #  this operation can not proceed any further.
                 return $false;
-            } # INNER-if : Failed to create directory (x2)
+            } # INNER-if : Failed to create the extracting directory (x2)
         } # else : Make a Unique Directory
 
 
@@ -1736,7 +1740,7 @@ class DefaultCompress
             $exitCode = $true;
         } # try : Execute Extract Task
 
-        # An error happened
+        # An error had occurred
         catch
         {
             # Display error
@@ -1749,50 +1753,46 @@ class DefaultCompress
         # Log the activity in the logfiles (if requested)
         finally
         {
-            # Does the user want logfiles?
+            # Does the user want the operation performed logged?
             if ([Logging]::DebugLoggingState() -eq $true)
             {
-                # If the STDOUT contains an array-list, then we will
-                #  convert it as a typical string.  If necessary,
-                #  add any remarks that should be in the logfile.
+                # Because there is information within the STDOUT container, we will convert it to a literal string.
+                #  But because we are going to display the information to a logfile, ultimately, present the data in
+                #  a readable form for the end-user to easily decipher the report.
                 if ($execSTDOUT -ne $null)
                 {
-                    # Get each file full name from the array-list
+                    # Get each files full name from the array-list
                     foreach ($item in $execSTDOUT)
                     {
+                        # Append the information as a long list, but in a readable and presentable way.
                         $strSTDOUT = "$($strSTDOUT)" + `
                                         "File: $([string]$($item))`r`n";
                     } # foreach : File in List
-                } # if : STDOUT Is not null
+                } # if : STDOUT Contains Data
 
 
 
-                # If the STDERR contains information, then store
-                #  it as a standard string datatype.  Luckily the
-                #  information provided within the object requires
-                #  no real changes or data manipulation, we can
-                #  just cast it and it works like magic!  I love
-                #  the simplicity!
+                # If there is information held within the STDERR container, then we will transform the
+                #  data from an object to a literal string.
                 if ($execSTDERR -ne $null)
                 {
-                    # No need to filter or manipulate the data, just
-                    #  cast it as is.  Everything we need is already
-                    #  available and readable.
+                    # Because of how the information is stored in the object, we can just store the data to
+                    #  a literal string outright.
                     $strSTDERR = "$([string]$($execSTDERR))";
-                } # if : STDERR Is not null
+                } # if : STDERR Contains Data
 
 
-                # Create the logfiles
-                [IOCommon]::PSCMDLetLogging($this.__logPath, `
-                                    $this.__logPath, `
-                                    $this.__reportPath, `
-                                    $false, `
-                                    $false, `
-                                    "$($execReason)", `
-                                    $null, `
-                                    [ref] $strSTDOUT, `
-                                    [ref] $strSTDERR );
-            } # if : User requested logging
+                # Create the logfiles as requested
+                [IOCommon]::PSCMDLetLogging($this.__logPath, `          # Log path for the STDOUT logfile.
+                                            $this.__logPath, `          # Log path for the STDERR logfile.
+                                            $this.__reportPath, `       # Report path and filename.
+                                            $false, `                   # Is this a report?
+                                            $false, `                   # Should we receive the STDOUT or STDERR for further processing?
+                                            "$($execReason)", `         # Reason for using the CMDLet.
+                                            $null, `                    # Returned STDOUT\STDERR for further processing.
+                                            [ref] $strSTDOUT, `         # STDOUT output from the CMDLet.
+                                            [ref] $strSTDERR );         # STDERR output from the CMDLet.
+            } # if : Logging Requested
         } # finally : Log the activity in the log files
 
 
