@@ -1653,8 +1653,6 @@ class DefaultCompress
         # Make sure that the current PowerShell instance has the Archive functionality ready for use.
         if ($this.DetectCompressModule() -eq $false)
         {
-            # Because the archive support functionality was not found, we can
-            #  not proceed to extract the archive datafile.
             # Because this current PowerShell instance lacks the functionality required to extract the
             #  archive datafile, we can not proceed any further.
 
