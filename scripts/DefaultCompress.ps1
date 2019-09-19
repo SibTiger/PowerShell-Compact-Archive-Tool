@@ -1620,6 +1620,31 @@ class DefaultCompress
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to extract the archive data file due to logging complications!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Because the logging directories for the Default Compress could not be created," + `
+                                        " nothing can be logged as expected.`r`n" + `
+                                        "`tTo resolve the issue:`r`n" + `
+                                        "`t`t- Make sure that the required logging directories are created.`r`n" + `
+                                        "`t`t- OR Disable logging`r`n" + `
+                                        "`tRequested archive file to extract: $($file)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             #  Because the logging features are required, we can not run the operation.
             return $false;
         } # If : Logging Requirements are Met
@@ -1632,6 +1657,28 @@ class DefaultCompress
             #  not proceed to extract the archive datafile.
             # Because this current PowerShell instance lacks the functionality required to extract the
             #  archive datafile, we can not proceed any further.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to extract the archive data file; unable to find the required module!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Be sure that you have the latest dotNET Core and PowerShell Core available.`r`n" + `
+                                        "`tRequested archive file to extract: $($file)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Because the required module was not found, we can not proceed any further.
             return $false;
         } # if : PowerShell Archive Support Missing
 
@@ -1641,6 +1688,27 @@ class DefaultCompress
         {
             # The target archive data file does not exist, we can not extract an archive file when
             #  it doesn't exist - with the given file path.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to extract the archive data file because the file does not exist!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "Requested archive file to extract: $($file)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Return a failure as the target file does not exist.
             return $false;
         } # if : Target Archive File does not Exist
 
@@ -1649,6 +1717,27 @@ class DefaultCompress
         if ($([IOCommon]::CheckPathExists("$($outputPath)")) -eq $false)
         {
             # The requested output path does not currently exist, we can not proceed any further.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to extract the archive data file because the output directory could not be found!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Requested archive file to extract: $($file)`r`n" + `
+                                        "`tOutput Directory: $($outputPath)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # The output path does not exist, we can not extract the contents.
             return $false;
         } # if : Output Directory does not exist
@@ -1681,6 +1770,29 @@ class DefaultCompress
             {
                 # A failure occurred when trying to make the directory,
                 #  we can not continue as the extracting directory is not available.
+
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = "Unable to extract the archive data file because the extracting directory could not be created!";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Requested archive file to extract: $($file)`r`n" + `
+                                            "`tOutput Directory: $($outputPath)`r`n" + `
+                                            "`tExtracting Directory: $($finalOutputPath)");
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
+                # Because the extracting directory could not be created, we can not proceed any further.
                 return $false;
             } # INNER-if : Failed to create extracting directory
         } # if : Does the output already exists?
@@ -1704,6 +1816,30 @@ class DefaultCompress
             {
                 # A failure occurred while trying to create the extracting directory,
                 #  this operation can not proceed any further.
+
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = "Unable to extract the archive file because the extracting directory could not be created!";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Requested archive file to extract: $($file)`r`n" + `
+                                            "`tOutput Directory: $($outputPath)`r`n" + `
+                                            "`tExtracting Directory: $($finalOutputPath)");
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
+                # Because the directory could not be created, this operation must be
+                #  aborted - we can not proceed any further.
                 return $false;
             } # INNER-if : Failed to create the extracting directory (x2)
         } # else : Make a Unique Directory
@@ -1736,6 +1872,27 @@ class DefaultCompress
                            -OutVariable execSTDOUT `
                            -ErrorVariable execSTDERR;
 
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Successfully extracted the archive file!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Archive file that was extracted: $($file)`r`n" + `
+                                        "`tOutput Directory: $($outputPath)`r`n" + `
+                                        "`tExtracting Directory: $($finalOutputPath)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Update the Exit Code status; the operation was successful.
             $exitCode = $true;
         } # try : Execute Extract Task
@@ -1743,10 +1900,37 @@ class DefaultCompress
         # An error had occurred
         catch
         {
-            # Display error
-            Write-Host "ERROR CAUGHT: $($_)";
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
 
-            # Update the Exit Code status; the operation failed.
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $displayErrorMessage = ("Unable to extract the requested archive data file!`r`n" + `
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
+
+            # Generate the initial message
+            [string] $logMessage = "Failed to extract the archive data file.";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Archive file that was extracted: $($file)`r`n" + `
+                                        "`tOutput Directory: $($outputPath)`r`n" + `
+                                        "`tExtracting Directory: $($finalOutputPath)`r`n" + `
+                                        "$([Logging]::GetExceptionInfo($_.Exception))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                    "Error");                       # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Update the Exit Code status because the operation had failed.
             $exitCode = $false;
         } # catch : Caught Error in Extract Task
 
