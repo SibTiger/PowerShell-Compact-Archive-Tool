@@ -1587,8 +1587,6 @@ class DefaultCompress
                                                                     #  make the extracting directory path unique.
         [string] $fileName = $null;                                 # This will only hold filename of the archive file, omitting the
                                                                     #  extension and absolute path.
-        [string] $fileNameExt = $null;                              # Get only the filename from archive file, but only omitting the
-                                                                    #  absolute path while keeping the extension.
         [string] $execReason = $null;                               # Description; used for logging
         [bool] $exitCode = $false;                                  # The exit code status provided by the Expand-Archive operation
                                                                     #  status.  If the operation was successful then true will be
@@ -1753,11 +1751,8 @@ class DefaultCompress
         # Setup the filename to match with the archive data file's name, but omitting the file extension.
         $fileName = "$([System.IO.Path]::GetFileNameWithoutExtension($file))";
 
-        # Get the archive data file's full name, this includes the extension of that file, such as .ZIP or the like.
-        $fileNameExt = "$(Split-Path $file -leaf)";
-
         # The description that will be presented in the logfile.
-        $execReason = "Extracting $($fileNameExt)";
+        $execReason = "Extracting $([System.IO.Path]::GetFileName("$file"))";
 
         # ---------------------------
         # - - - - - - - - - - - - - -
