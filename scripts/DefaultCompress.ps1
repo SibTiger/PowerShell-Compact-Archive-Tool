@@ -1921,13 +1921,37 @@ class DefaultCompress
                 #  a readable form for the end-user to easily decipher the report.
                 if ($execSTDOUT -ne $null)
                 {
-                    # Get each files full name from the array-list
+                    # HEADER
+                    # - - - - - -
+                    # Logfile Header
+
+                    $strSTDOUT = ("Successfully extracted the archive data file named " + `
+                                    "$([System.IO.Path]::GetFileName("$($file)")).`r`n" + `
+                                    "Below is a list of files that had been extracted successfully from the archive file:`r`n" + `
+                                    "`r`n" + `
+                                    "-----------------------------------------------------------`r`n" + `
+                                    "`r`n");
+
+
+                    # BODY
+                    # - - - - - -
+                    # Logfile Body (List of files)
+
                     foreach ($item in $execSTDOUT)
                     {
                         # Append the information as a long list, but in a readable and presentable way.
                         $strSTDOUT = "$($strSTDOUT)" + `
-                                        "File: $([string]$($item))`r`n";
+                                        "`t>> $([string]$($item))`r`n";
                     } # foreach : File in List
+
+
+                    # FOOTER
+                    # - - - - - -
+                    # Logfile Footer
+
+                    $strSTDOUT = ("$($strSTDOUT)" + `
+                                    "`r`n" + `
+                                    "-----------------------------------------------------------`r`n");
                 } # if : STDOUT Contains Data
 
 
