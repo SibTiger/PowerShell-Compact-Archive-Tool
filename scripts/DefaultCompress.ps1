@@ -1771,36 +1771,6 @@ class DefaultCompress
         if ([IOCommon]::CheckPathExists("$($extractPath)") -eq $false)
         {
             # Because it is a unique directory, this is now our extracting destination path.
-            # Create the new extracting directory
-            if([IOCommon]::MakeDirectory("$($extractPath)") -eq $false)
-            {
-                # A failure occurred when trying to make the directory,
-                #  we can not continue as the extracting directory is not available.
-
-
-                # * * * * * * * * * * * * * * * * * * *
-                # Debugging
-                # --------------
-
-                # Generate the initial message
-                [string] $logMessage = "Unable to extract the archive data file because the extracting directory could not be created!";
-
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Requested archive file to extract: $($file)`r`n" + `
-                                            "`tOutput Directory: $($outputPath)`r`n" + `
-                                            "`tExtracting Directory: $($extractPath)");
-
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
-
-                # * * * * * * * * * * * * * * * * * * *
-
-
-                # Because the extracting directory could not be created, we can not proceed any further.
-                return $false;
-            } # INNER-if : Failed to create extracting directory
         } # if : Does the output already exists?
 
         # The output directory already exists
@@ -1816,39 +1786,39 @@ class DefaultCompress
 
             # Now put everything together
             $extractPath += "_$($getDateTime)";
-
-            # Now try to make the extracting directory, if this fails - we can't do anything more.
-            if([IOCommon]::MakeDirectory("$($extractPath)") -eq $false)
-            {
-                # A failure occurred while trying to create the extracting directory,
-                #  this operation can not proceed any further.
-
-
-                # * * * * * * * * * * * * * * * * * * *
-                # Debugging
-                # --------------
-
-                # Generate the initial message
-                [string] $logMessage = "Unable to extract the archive file because the extracting directory could not be created!";
-
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Requested archive file to extract: $($file)`r`n" + `
-                                            "`tOutput Directory: $($outputPath)`r`n" + `
-                                            "`tExtracting Directory: $($extractPath)");
-
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
-
-                # * * * * * * * * * * * * * * * * * * *
-
-
-                # Because the directory could not be created, this operation must be
-                #  aborted - we can not proceed any further.
-                return $false;
-            } # INNER-if : Failed to create the extracting directory (x2)
         } # else : Make a Unique Directory
+
+
+        # Create the new extracting directory; if unable to create it, we can not proceed any further.
+        if([IOCommon]::MakeDirectory("$($extractPath)") -eq $false)
+        {
+            # A failure occurred when trying to make the directory,
+            #  we can not continue as the extracting directory is not available.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to extract the archive data file because the extracting directory could not be created!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Requested archive file to extract: $($file)`r`n" + `
+                                        "`tOutput Directory: $($outputPath)`r`n" + `
+                                        "`tExtracting Directory: $($extractPath)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Because the extracting directory could not be created, we can not proceed any further.
+            return $false;
+        } # if : Failed to create extracting directory
 
 
         # Now save the output path to our reference (pointer) variable, this will allow the
