@@ -1578,11 +1578,9 @@ class DefaultCompress
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $finalOutputPath = $null;                          # This will hold the extracting directory path; all of the
-                                                                    #  contents from the archive will be placed in this directory.
-        [string] $cacheOutputPath = $null;                          # This temporary variable will help us achieve the extracting
-                                                                    #  directory path by making sure that the final destination is
-                                                                    #  available before outright using the directory.
+        [string] $extractPath = $null;                              # This will hold the extracting directory path; all of the
+                                                                    #  contents from the archive will be placed within this
+                                                                    #  directory set by this variable.
         [string] $getDateTime = $null;                              # This variable will hold the date and time, if required to help
                                                                     #  make the extracting directory path unique.
         [string] $fileName = $null;                                 # This will only hold filename of the archive file, omitting the
@@ -1764,20 +1762,17 @@ class DefaultCompress
         #  extracting directory is unique and can be created successfully.
         # ---------------------------
 
-        # Setup our Cache
+        # Provide the general extracting path
         #  OutputPath + Filename
-        $cacheOutputPath = "$($outputPath)\$($fileName)";
+        $extractPath = "$($outputPath)\$($fileName)";
 
 
         # Does the extracting directory already exists?
-        if ([IOCommon]::CheckPathExists("$($cacheOutputPath)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($extractPath)") -eq $false)
         {
             # Because it is a unique directory, this is now our extracting destination path.
-            $finalOutputPath = $cacheOutputPath;
-
-
             # Create the new extracting directory
-            if([IOCommon]::MakeDirectory("$($finalOutputPath)") -eq $false)
+            if([IOCommon]::MakeDirectory("$($extractPath)") -eq $false)
             {
                 # A failure occurred when trying to make the directory,
                 #  we can not continue as the extracting directory is not available.
@@ -1793,7 +1788,7 @@ class DefaultCompress
                 # Generate any additional information that might be useful
                 [string] $logAdditionalMSG = ("Requested archive file to extract: $($file)`r`n" + `
                                             "`tOutput Directory: $($outputPath)`r`n" + `
-                                            "`tExtracting Directory: $($finalOutputPath)");
+                                            "`tExtracting Directory: $($extractPath)");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -1820,10 +1815,10 @@ class DefaultCompress
             $getDateTime = "$(Get-Date -UFormat "%d-%b-%Y_%H-%M-%S")";
 
             # Now put everything together
-            $finalOutputPath = "$($cacheOutputPath)_$($getDateTime)";
+            $extractPath += "_$($getDateTime)";
 
             # Now try to make the extracting directory, if this fails - we can't do anything more.
-            if([IOCommon]::MakeDirectory("$($finalOutputPath)") -eq $false)
+            if([IOCommon]::MakeDirectory("$($extractPath)") -eq $false)
             {
                 # A failure occurred while trying to create the extracting directory,
                 #  this operation can not proceed any further.
@@ -1839,7 +1834,7 @@ class DefaultCompress
                 # Generate any additional information that might be useful
                 [string] $logAdditionalMSG = ("Requested archive file to extract: $($file)`r`n" + `
                                             "`tOutput Directory: $($outputPath)`r`n" + `
-                                            "`tExtracting Directory: $($finalOutputPath)");
+                                            "`tExtracting Directory: $($extractPath)");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -1860,7 +1855,7 @@ class DefaultCompress
         #  calling function to get the absolute path of where the directory resides.
         #  Thus, the calling function can bring the new directory to the user's
         #  attention using whatever methods necessary.
-        $directoryOutput.Value = "$($finalOutputPath)";
+        $directoryOutput.Value = "$($extractPath)";
 
 
         # ---------------------------
@@ -1877,7 +1872,7 @@ class DefaultCompress
         {
             # Extract the contents
             Expand-Archive -LiteralPath "$($file)" `
-                           -DestinationPath "$($finalOutputPath)" `
+                           -DestinationPath "$($extractPath)" `
                            -ErrorAction Stop `
                            -PassThru `
                            -OutVariable execSTDOUT `
@@ -1894,7 +1889,7 @@ class DefaultCompress
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Archive file that was extracted: $($file)`r`n" + `
                                         "`tOutput Directory: $($outputPath)`r`n" + `
-                                        "`tExtracting Directory: $($finalOutputPath)");
+                                        "`tExtracting Directory: $($extractPath)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -1925,7 +1920,7 @@ class DefaultCompress
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Archive file that was extracted: $($file)`r`n" + `
                                         "`tOutput Directory: $($outputPath)`r`n" + `
-                                        "`tExtracting Directory: $($finalOutputPath)`r`n" + `
+                                        "`tExtracting Directory: $($extractPath)`r`n" + `
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
