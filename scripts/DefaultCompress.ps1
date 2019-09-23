@@ -1592,7 +1592,7 @@ class DefaultCompress
         [System.Object] $execSTDOUT = [System.Object]::new();       # This will hold the STDOUT that is provided by the CMDLet that
                                                                     #  will be used for extracting the archive file, but contained
                                                                     #  as an object.
-        [System.Object] $execSTDERR = [System.Object]::new();       #This will hold the STDERR that is provided by the CMDLet that
+        [System.Object] $execSTDERR = [System.Object]::new();       # This will hold the STDERR that is provided by the CMDLet that
                                                                     #  will be used for extracting the archive file, but contained
                                                                     #  as an object.
         [string] $strSTDOUT = $null;                                # This will hold the STDOUT information, but will be held as a
