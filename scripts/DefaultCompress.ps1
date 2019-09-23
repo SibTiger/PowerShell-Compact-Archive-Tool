@@ -1768,13 +1768,7 @@ class DefaultCompress
 
 
         # Does the extracting directory already exists?
-        if ([IOCommon]::CheckPathExists("$($extractPath)") -eq $false)
-        {
-            # Because it is a unique directory, this is now our extracting destination path.
-        } # if : Does the output already exists?
-
-        # The output directory already exists
-        else
+        if ([IOCommon]::CheckPathExists("$($extractPath)") -eq $true)
         {
             # Because the directory already exists, we need to make it unique.  To accomplish
             #  the task of making the directory to be unique, we will add a timestamp to the
@@ -1786,7 +1780,7 @@ class DefaultCompress
 
             # Now put everything together
             $extractPath += "_$($getDateTime)";
-        } # else : Make a Unique Directory
+        } # if : Make a Unique Directory Name
 
 
         # Create the new extracting directory; if unable to create it, we can not proceed any further.
