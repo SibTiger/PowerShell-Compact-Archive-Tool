@@ -1074,7 +1074,7 @@ class DefaultCompress
         # An error occurred; a file might have been corrupted or missing.
         catch [System.Management.Automation.ItemNotFoundException]
         {
-            # This will temporarily hold on to the just the file name that is missing or corrupted.
+            # This will temporarily hold on to just the file name that is missing or corrupted.
             [string] $badFileName = Split-Path -Path "$($_.TargetObject)" -Leaf;
 
             # This will temporarily hold on to the full path of the file that is missing or corrupted.
