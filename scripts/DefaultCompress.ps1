@@ -2107,7 +2107,10 @@ class DefaultCompress
     #    $true  = Successfully created the archive file.
     # -------------------------------
     #>
-    [bool] CreateArchive([string] $archiveFileName, [string] $outputPath, [string] $targetDirectory, [ref] $archivePath)
+    [bool] CreateArchive([string] $archiveFileName,     # The name of the archive that will be created
+                        [string] $outputPath,           # The destination path of the archive file.
+                        [string] $targetDirectory,      # The directory we want to compact.
+                        [ref] $archivePath)             # The full path of the archive file's location.
     {
         # Declarations and Initializations
         # ----------------------------------------
