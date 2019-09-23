@@ -1833,7 +1833,7 @@ class DefaultCompress
 
 
 
-        # EXTRACT THE ARCHIVE DATAFILE
+        # EXTRACT THE ARCHIVE DATA FILE
         # - - - - - - - - - - - - - - -
         # -----------------------------
 
