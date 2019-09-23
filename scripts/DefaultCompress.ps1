@@ -1749,8 +1749,11 @@ class DefaultCompress
         # Setup the filename to match with the archive data file's name, but omitting the file extension.
         $fileName = "$([System.IO.Path]::GetFileNameWithoutExtension($file))";
 
+        # Setup the filename to match with the archive data file's name, including the file extension.
+        $fileNameExt = "$($[System.IO.Path]::GetFileName($file))";
+
         # The description that will be presented in the logfile.
-        $execReason = "Extracting $([System.IO.Path]::GetFileName("$file"))";
+        $execReason = "Extracting $($fileNameExt)";
 
         # ---------------------------
         # - - - - - - - - - - - - - -
@@ -1920,7 +1923,7 @@ class DefaultCompress
                     # Logfile Header
 
                     $strSTDOUT = ("Successfully extracted the archive data file named" + `
-                                    " $([System.IO.Path]::GetFileName("$($file)")).`r`n" + `
+                                    " $($fileNameExt).`r`n" + `
                                     "Below is a list of files that had been extracted successfully from the archive file:`r`n" + `
                                     "`r`n" + `
                                     "-----------------------------------------------------------`r`n" + `
