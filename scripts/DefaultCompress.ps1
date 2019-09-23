@@ -1870,7 +1870,96 @@ class DefaultCompress
             $exitCode = $true;
         } # try : Execute Extract Task
 
-        # An error had occurred
+        # An error occurred; a file might have been corrupted or missing.
+        catch [System.Management.Automation.ItemNotFoundException]
+        {
+            # This will temporarily hold on to just the file name that is missing or corrupted.
+            [string] $badFileName = Split-Path -Path "$($_.TargetObject)" -Leaf;
+
+            # This will temporarily hold on to the full path of the file that is missing or corrupted.
+            [string] $badFileNameFull = "$($_.TargetObject)";
+
+
+            # Because a failure had been reached, we will have to update the exit code.
+            $exitCode = $false;
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Prep a message to display to the user regarding this error; temporary variable
+            [string] $displayErrorMessage = ("The file named '$($badFileName)' was not found in the archive file: " + `
+                                            "$($fileNameExt)`r`n" + `
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
+
+            # Generate the initial message
+            [string] $logMessage = ("Failed to extract the archive data file; the file with a name of '$($badFileName)' was" + `
+                                    " not found in the archive data file!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("File that is missing or corrupted: $($badFileNameFull)`r`n" + `
+                                        "`tArchive file that was extracted: $($file)`r`n" + `
+                                        "`tOutput Directory: $($outputPath)`r`n" + `
+                                        "`tExtracting Directory: $($extractPath)`r`n" + `
+                                        "$([Logging]::GetExceptionInfo($_.Exception))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                    "Error");                       # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+        } # Catch [ItemNotFound] : File Not Found
+
+        # An error occurred; the archive data file's format is malformed
+        catch [System.IO.FileFormatException]
+        {
+            # Because a failure had been reached, we will have to update the exit code.
+            $exitCode = $false;
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Prep a message to display to the user regarding this error; temporary variable
+            [string] $displayErrorMessage = ("The archive data file '$($fileNameExt)' may not be a valid archive file " + `
+                                            "structure.`r`n" + `
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
+
+            # Generate the initial message
+            [string] $logMessage = "Failed to extract the archive data file; the archive data file structure is malformed.";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Archive file that was extracted: $($file)`r`n" + `
+                                        "`tOutput Directory: $($outputPath)`r`n" + `
+                                        "`tExtracting Directory: $($extractPath)`r`n" + `
+                                        "$([Logging]::GetExceptionInfo($_.Exception))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                    "Error");                       # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+        } # Catch [FileFormat] : Archive File Format Malformed
+
+        # A general error had occurred
         catch
         {
             # * * * * * * * * * * * * * * * * * * *
