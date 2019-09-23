@@ -1925,8 +1925,8 @@ class DefaultCompress
                     # - - - - - -
                     # Logfile Header
 
-                    $strSTDOUT = ("Successfully extracted the archive data file named " + `
-                                    "$([System.IO.Path]::GetFileName("$($file)")).`r`n" + `
+                    $strSTDOUT = ("Successfully extracted the archive data file named" + `
+                                    " $([System.IO.Path]::GetFileName("$($file)")).`r`n" + `
                                     "Below is a list of files that had been extracted successfully from the archive file:`r`n" + `
                                     "`r`n" + `
                                     "-----------------------------------------------------------`r`n" + `
