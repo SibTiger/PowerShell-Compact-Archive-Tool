@@ -2080,34 +2080,31 @@ class DefaultCompress
    <# Create Archive File
     # -------------------------------
     # Documentation:
-    #  This function will allow the ability to create a new
-    #   archive datafile.  This function is primarily intended
-    #   for bulk operation instead of small individual file
-    #   additions.  Meaning, this function mainly accepts a
-    #   parent directory that already contains all of the files
-    #   and subdirectories that will be added into the archive
-    #   file.
+    #  This function will provide the ability to create a new archive data file from scratch.
+    #   Because of the design of this function, it only supports a bulk operation - but not
+    #   appending updates to the archive.  Thus, it is recommended to have a dedicated
+    #   directory containing all of the files and subdirectories we want to place into the
+    #   archive data file and then proceed with the operation.
     #
-    #  Extract Files Information:
+    #  Compress Archive Information:
     #    https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive/compress-archive
     # -------------------------------
     # Input:
     #  [string] Archive File
-    #   The archive file name that will be created.
+    #   The requested name of the archive data file that is going to be created.
     #  [string] Output Path
-    #   The output path to place the archive file.
+    #   The output path to place the newly created archive file.
     #  [string] Target Directory
-    #   The directory root that contains all of the data
-    #   that we want to compact into a single archive data file.
-    #  [ref] {string} Archive Path
-    #   This will hold the newly created archive file's absolute
-    #   path and file name.  This will be returned to the calling
-    #   function.
+    #   The root of the directory that contains all of the data that we want to compact
+    #    into a single archive data file.
+    #  [string] (REFERENCE) Archive File Path
+    #   This will hold the newly created archive file's absolute path and file name.
+    #    This will be returned to the calling function.
     # -------------------------------
     # Output:
     #  [bool] Status Code
-    #    $false = Failure occurred while creating the archive.
-    #    $true  = Successfully created the archive.
+    #    $false = A failure occurred while creating the archive file.
+    #    $true  = Successfully created the archive file.
     # -------------------------------
     #>
     [bool] CreateArchive([string] $archiveFileName, [string] $outputPath, [string] $targetDirectory, [ref] $archivePath)
