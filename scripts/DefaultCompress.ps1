@@ -2097,6 +2097,8 @@ class DefaultCompress
     #  [string] Target Directory
     #   The root of the directory that contains all of the data that we want to compact
     #    into a single archive data file.
+    #   NOTE: This argument might contain wildcards, for example:
+    #       D:\Users\Admin\Desktop\TopSecret\*.*
     #  [string] (REFERENCE) Archive File Path
     #   This will hold the newly created archive file's absolute path and file name.
     #    This will be returned to the calling function.
@@ -2109,7 +2111,7 @@ class DefaultCompress
     #>
     [bool] CreateArchive([string] $archiveFileName,     # The name of the archive that will be created
                         [string] $outputPath,           # The destination path of the archive file.
-                        [string] $targetDirectory,      # The directory we want to compact.
+                        [string] $targetDirectory,      # The directory we want to compact; may contain wildcards
                         [ref] $archivePath)             # The full path of the archive file's location.
     {
         # Declarations and Initializations
