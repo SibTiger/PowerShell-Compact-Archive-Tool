@@ -2118,7 +2118,7 @@ class DefaultCompress
         # ----------------------------------------
         [string] $targetDirectoryFiltered = $null;                  # This variable will contain the target directory that we want to
                                                                     #  compact, but the trailing path will be filtered to exclude a
-                                                                    #  specific or range of files and wildcards.  For example:
+                                                                    #  specific file or range of files and wildcards.  For example:
                                                                     #  D:\Users\Jack\Documents\LordOfTongs.*
                                                                     #  OR D:\Users\Jack\Documents\*.*
         [string] $execReason = $null;                               # Description; used for logging
