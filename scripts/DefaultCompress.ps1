@@ -2082,9 +2082,9 @@ class DefaultCompress
     # Documentation:
     #  This function will provide the ability to create a new archive data file from scratch.
     #   Because of the design of this function, it only supports a bulk operation - but not
-    #   appending updates to the archive.  Thus, it is recommended to have a dedicated
-    #   directory containing all of the files and subdirectories we want to place into the
-    #   archive data file and then proceed with the operation.
+    #   appending updates to an already existing archive data file.  Thus, it is recommended
+    #   to have a dedicated directory containing all of the files and subdirectories we want
+    #   to place into the archive data file and then proceed with the operation.
     #
     #  Compress Archive Information:
     #    https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive/compress-archive
