@@ -2180,37 +2180,39 @@ class DefaultCompress
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
             return $false;
-        } # If : .NET Archive Logging Directories
+        } # If : Logging Requirements are Met
 
 
-        # Check to make sure that the host-system support the archive functionality.
+        # Make sure that the current PowerShell instance has the Archive functionality ready for use.
         if ($this.DetectCompressModule() -eq $false)
         {
-            # Because the archive support functionality was not found, we can
-            #  not proceed to extract the archive datafile.
+            # Because this current PowerShell instance lacks the functionality required to create the
+            #  archive datafile, we can not proceed any further.
+
+            # Because the required module was not found, we can not proceed any further.
             return $false;
         } # if : PowerShell Archive Support Missing
 
 
-        # Make sure that the output directory exists
+        # Make sure that the desired output path currently exists
         if ($([IOCommon]::CheckPathExists("$($outputPath)")) -eq $false)
         {
-            # The output directory does not exist;
-            #  we need a valid location to output this archive file.
+            # The requested output path does not currently exist, we can not proceed any further.
+
             return $false;
-        } # if : Output directory does not exist
+        } # if : Output Directory does not exist
 
 
-        # Make sure that the target directory (the contents that will be
-        #  in our newly created archive file) exists.
+        # Make sure that the target directory, contents we want to compact, actually exists.
         if ($([IOCommon]::CheckPathExists("$($targetDirectoryFiltered)")) -eq $false)
         {
-            # The target directory does not exist, we
-            #  can not create an archive if the directory
-            #  root simply does not exist.
+            # The target directory does not exist, we can not compact the requested data as the target directory
+            #  does not exist with the given path.
+
+            # Return a failure as the target directory does not exist.
             return $false;
-        } # if : Target Directory does not exist
-        
+        } # if : Target Directory does not Exist
+
         # ---------------------------
         # - - - - - - - - - - - - - -
 
