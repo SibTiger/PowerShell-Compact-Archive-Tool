@@ -2116,53 +2116,57 @@ class DefaultCompress
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $targetDirectoryFiltered = `                       # This will contain a filtered version of the
-            "$(Split-Path -Path "$($targetDirectory)" -Parent)";    #  targetDirectory variable.  The filtered
-                                                                    #  version is mainly to ignore any wild-cards
-                                                                    #  that might cause issues with directory
-                                                                    #  validations.
-        [string] $execReason = "Creating $($archiveFileName)";      # Description; used for logging
-        [string] $getDateTime = $null;                              # This will hold the date and time,
-                                                                    #  though to be only used if needing
-                                                                    #  a unique archive file name.
-        [string] $archiveFileExtension = "pk3";                     # This will hold the file extension for
-                                                                    #  that archive file.  Because ZipFile class
-                                                                    #  only supports Zip, we'll merely be using
-                                                                    #  'pk3' as our default value.
-                                                                    # NOTE: The Extensions will be recognized
-                                                                    #  in ZDoom's standards.
-                                                                    #   - ZIP == PK3
-                                                                    #   - 7Z == PK7
-        [string] $cacheArchiveFileName = $null;                     # When populated, this will contain a draft
-                                                                    #  of the archive file name before it is
-                                                                    #  actually used.
-        [string] $finalArchiveFileName = $null;                     # When populated, this will contain the final
-                                                                    #  version of the archive file name --
-                                                                    #  essentially, this will be the archive file
-                                                                    #  name.
-        [bool] $exitCode = $false;                                  # The exit code status provided by the
-                                                                    #  Compress-Archive operation status.  If
-                                                                    #  the operation was successful then
-                                                                    #  true will be set, otherwise it'll be
-                                                                    #  false to signify an error.
-        # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-        # This will hold the STDOUT Obj. from PowerShell's CMDLet.
-        [System.Object] $execSTDOUT = [System.Object]::new();
-
-        # This will hold the STDERR Obj. from PowerShell's CMDLet.
-        [System.Object] $execSTDERR = [System.Object]::new();
-
-        # This will hold the STDOUT as a normal string datatype;
-        #  converted output result from the STDOUT Object.
-        [string] $strSTDOUT = $null;
-
-        # This will hold the STDERR as a normal string datatype;
-        #  Converted output result from the STDERR Object.
-        [string] $strSTDERR = $null;
-
+        [string] $targetDirectoryFiltered = $null;                  # This variable will contain the target directory that we want to
+                                                                    #  compact, but the trailing path will be filtered to exclude a
+                                                                    #  specific or range of files and wildcards.  For example:
+                                                                    #  D:\Users\Jack\Documents\LordOfTongs.*
+                                                                    #  OR D:\Users\Jack\Documents\*.*
+        [string] $execReason = $null;                               # Description; used for logging
+        [string] $getDateTime = $null;                              # This variable will only hold the date and time, only required when
+                                                                    #  trying to make the newly created archive file's name unique.
+        [string] $archiveFileExtension = "pk3";                     # This will hold the archive file's extension.
+                                                                    #  NOTE: Because the ZipFile class only supports the Zip standard, and
+                                                                    #   we are targeting the ZDoom engine, the extension will be fixated to
+                                                                    #   the Zip file extension that is recognizable to the ZDoom engine.
+                                                                    #   Thus, this variable will be set as 'PK3'.
+        [string] $archiveFileName = $null;                          # This will hold the archive data file's full name, including the
+                                                                    #  absolute path to access the file specifically.
+        [bool] $exitCode = $false;                                  # The exit code status provided by the Compress-Archive operation
+                                                                    #  status.  If the operation was successful then true will be
+                                                                    #  set, otherwise it'll be false to signify an error.
+        [System.Object] $execSTDOUT = [System.Object]::new();       # This will hold the STDOUT that is provided by the CMDLet that
+                                                                    #  will be used for compacting the archive file, but contained
+                                                                    #  as an object.
+        [System.Object] $execSTDERR = [System.Object]::new();       # This will hold the STDERR that is provided by the CMDLet that
+                                                                    #  will be used for compacting the archive file, but contained
+                                                                    #  as an object.
+        [string] $strSTDOUT = $null;                                # This will hold the STDOUT information, but will be held as a
+                                                                    #  literal string.  The information provided to it will be
+                                                                    #  converted from an object to a string, the information held
+                                                                    #  in this variable will be presented in the logfile.
+        [string] $strSTDERR = $null;                                # This will hold the STDERR information, but will be held as a
+                                                                    #  literal string.  The information provided to it will be
+                                                                    #  converted from an object to a string, the information held
+                                                                    #  in this variable will be presented in the logfile.
         # ----------------------------------------
-        
+
+
+        # SETUP THE ENVIRONMENT
+        # - - - - - - - - - - - - - -
+        # Make sure that the environment is ready before we proceed by initializing any variables that need to be
+        #  configured before we proceed any further during the compacting procedure.
+        # ---------------------------
+
+        # Filter the target directory by only capturing the parent directory path, omitting a specific file; specific range of files;
+        #  and wildcards.
+        $targetDirectoryFiltered = "$(Split-Path -Path "$($targetDirectory)" -Parent)";
+
+        # The description that will be presented within the logfile that will be generated later on.
+        $execReason = "Creating $($archiveFileName)";
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+
 
         # Dependency Check
         # - - - - - - - - - - - - - -
