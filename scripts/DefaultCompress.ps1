@@ -2154,14 +2154,14 @@ class DefaultCompress
         # SETUP THE ENVIRONMENT
         # - - - - - - - - - - - - - -
         # Make sure that the environment is ready before we proceed by initializing any variables that need to be
-        #  configured before we proceed any further during the compacting procedure.
+        #  configured before we proceed any further during the compacting procedure protocol.
         # ---------------------------
 
-        # Filter the target directory by only capturing the parent directory path, omitting a specific file; specific range of files;
-        #  and wildcards.
+        # Filter the target directory, the directory that we want to compact, by removing any specific file ranges (wildcards) and a
+        #  specific file.
         $targetDirectoryFiltered = "$(Split-Path -Path "$($targetDirectory)" -Parent)";
 
-        # The description that will be presented within the logfile that will be generated later on.
+        # The description that will be presented in the logfile.
         $execReason = "Creating $($archiveFileName)";
 
         # ---------------------------
@@ -2308,7 +2308,7 @@ class DefaultCompress
         # - - - - - - - - - - - - - -
 
 
-        
+
         # DETERMINE ARCHIVE FILE NAME
         # - - - - - - - - - - - - - -
         # We need to determine the file name of the archive file,
