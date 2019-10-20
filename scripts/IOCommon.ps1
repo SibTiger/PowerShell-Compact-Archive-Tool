@@ -2098,6 +2098,11 @@ class IOCommon
                     # Because we reached our max, something went horribly wrong.
                     #  We must abort this operation as it was unsuccessful.
 
+
+                    # * * * * * * * * * * * * * * * * * * *
+                    # Debugging
+                    # --------------
+
                     # Prep a message to display to the user for this error; temporary variable.
                     [string] $displayErrorMessage = "Failed to create a unique temporary directory!";
 
