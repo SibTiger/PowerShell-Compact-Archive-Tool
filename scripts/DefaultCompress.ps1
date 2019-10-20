@@ -2109,10 +2109,10 @@ class DefaultCompress
     #    $true  = Successfully created the archive file.
     # -------------------------------
     #>
-    [bool] CreateArchive([string] $archiveFileName,     # The name of the archive that will be created
-                        [string] $outputPath,           # The destination path of the archive file.
-                        [string] $targetDirectory,      # The directory we want to compact; may contain wildcards
-                        [ref] $archivePath)             # The full path of the archive file's location.
+    [bool] CreateArchive([string] $archiveFileNameRequest,  # The name of the archive that will be created
+                        [string] $outputPath,               # The destination path of the archive file.
+                        [string] $targetDirectory,          # The directory we want to compact; may contain wildcards
+                        [ref] $archivePath)                 # The full path of the archive file's location.
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2122,8 +2122,6 @@ class DefaultCompress
                                                                     #  D:\Users\Jack\Documents\LordOfTongs.*
                                                                     #  OR D:\Users\Jack\Documents\*.*
         [string] $execReason = $null;                               # Description; used for logging
-        [string] $getDateTime = $null;                              # This variable will only hold the date and time, only required when
-                                                                    #  trying to make the newly created archive file's name unique.
         [string] $archiveFileExtension = "pk3";                     # This will hold the archive file's extension.
                                                                     #  NOTE: Because the ZipFile class only supports the Zip standard, and
                                                                     #   we are targeting the ZDoom engine, the extension will be fixated to
@@ -2162,7 +2160,11 @@ class DefaultCompress
         $targetDirectoryFiltered = "$(Split-Path -Path "$($targetDirectory)" -Parent)";
 
         # The description that will be presented in the logfile.
-        $execReason = "Creating $($archiveFileName)";
+        $execReason = "Creating $($archiveFileNameRequest)";
+
+        # Generate the full path of the archive data file, though this may change later on if it is not unique.
+        #  NOTE: Omitting the file extension.
+        $archiveFileName = "$($outputPath)\$($archiveFileNameRequest)";
 
         # ---------------------------
         # - - - - - - - - - - - - - -
@@ -2193,7 +2195,7 @@ class DefaultCompress
                                         "`tTo resolve the issue:`r`n" + `
                                         "`t`t- Make sure that the required logging directories are created.`r`n" + `
                                         "`t`t- OR Disable logging`r`n" + `
-                                        "`tRequested archive file to create: $($archiveFileName)`r`n" + `
+                                        "`tRequested archive file to create: $($archiveFileNameRequest)`r`n" + `
                                         "`tContents to compact: $($targetDirectory)`r`n" + `
                                         "`tOutput directory: $($outputPath)");
 
@@ -2226,7 +2228,7 @@ class DefaultCompress
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Be sure that you have the latest dotNET Core and PowerShell Core available.`r`n" + `
-                                        "`tRequested archive file to create: $($archiveFileName)`r`n" + `
+                                        "`tRequested archive file to create: $($archiveFileNameRequest)`r`n" + `
                                         "`tContents to compact: $($targetDirectory)");
 
             # Pass the information to the logging system
@@ -2256,7 +2258,7 @@ class DefaultCompress
             [string] $logMessage = "Unable to create the archive data file because the output directory could not be found!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Requested archive file to create: $($archiveFileName)`r`n" + `
+            [string] $logAdditionalMSG = ("Requested archive file to create: $($archiveFileNameRequest)`r`n" + `
                                         "`tContents to compact: $($targetDirectory)`r`n" + `
                                         "`tOutput directory: $($outputPath)");
 
@@ -2288,7 +2290,7 @@ class DefaultCompress
             [string] $logMessage = "Unable to create the archive data file because the target directory could not be found!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Requested archive file to create: $($archiveFileName)`r`n" + `
+            [string] $logAdditionalMSG = ("Requested archive file to create: $($archiveFileNameRequest)`r`n" + `
                                         "`tContents to compact: $($targetDirectory)`r`n" + `
                                         "`tOutput directory: $($outputPath)");
 
@@ -2311,59 +2313,79 @@ class DefaultCompress
 
         # DETERMINE ARCHIVE FILE NAME
         # - - - - - - - - - - - - - -
-        # We need to determine the file name of the archive file,
-        #  and then we also have to make sure that it is unique
-        #  in the output directory.  If in case it is not unique,
-        #  then we will merely throw a time stamp to the file
-        #  name -- despite helping to be unique, it also gives
-        #  it a meaning as well.
+        # We will need to determine a unique file name of the archive data file.  If the original name given is not sufficient,
+        #  if some other file has the same name in the output directory, then we will merely apply a timestamp to help make it unique.
         # ---------------------------
 
 
-        # Setup the base name and check it
-        if ([IOCommon]::CheckPathExists("$($outputPath)\$($archiveFileName).$($archiveFileExtension)") -eq $false)
+        # If the full path is not unique, try to make it unique.
+        if ([IOCommon]::CheckPathExists("$($archiveFileName).$($archiveFileExtension)") -eq $true)
         {
-            # Because the file does not exist, use it!
-            $finalArchiveFileName = "$($outputPath)\$($archiveFileName).$($archiveFileExtension)";
-        } # if : File Doesn't Exist at Path
-        else
-        {
-            # Because the file already exists at the
-            #  given output path, we will append a time
-            #  stamp to the filename to assure that it
-            #  is much more unique.  If in case that
-            #  fails, the file already exists with that
-            #  given time stamp, we can not proceed.
+            # Because the filename already exists within the given output path, we can make it unique by adding in a timestamp
+            #  to the filename.  However, in case we can not make the filename unique (even with the timestamp), then the
+            #  operation must be aborted.
 
-            # Setup the timestamp to help make it unique,
-            #  but also to help supply some meaning to
-            #  the file.
-            #  Date and Time
+
+            # Setup the timestamp to help make it unique.
+            #  Formatting of the Date and Time:
             #  DD-MMM-YYYY_HH-MM-SS ~~> 09-Feb-2007_01-00-00
-            $getDateTime = "$(Get-Date -UFormat "%d-%b-%Y_%H-%M-%S")";
+            [string] $getDateTime = "$(Get-Date -UFormat "%d-%b-%Y_%H-%M-%S")";
 
-            # Update the cache name for coding simplicity
-            $cacheArchiveFileName = "$($archiveFileName)_$($getDateTime)";
+            # Update the archive filename to include the date and time stamp.
+            $archiveFileName = "$($archiveFileName)_$($getDateTime)";
 
-            if ([IOCommon]::CheckPathExists("$($outputPath)\$($cacheArchiveFileName).$($archiveFileExtension)") -eq $false)
+            # Check to make sure that the new filename is unique; if not - then we cannot proceed.
+            if ([IOCommon]::CheckPathExists("$($archiveFileName).$($archiveFileExtension)") -eq $true)
             {
-                # Because the archive file is now unique, we can use that new name.
-                $finalArchiveFileName = "$($outputPath)\$($cacheArchiveFileName).$($archiveFileExtension)";
-            } # INNER-if : Archive File does not exist
-            else
-            {
-                # Because the archive file name is still not unique enough, we
-                #  simply can not proceed anymore.  We will have to return an error.
+                # Because the archive file name is still not unique enough, we can not proceed anymore.
+                #  This function will have to be aborted.
+
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                    # Prep a message to display to the user for this error; temporary variable.
+                    [string] $displayErrorMessage = "Failed to create a new archive data file!";
+
+                    # Generate the initial message
+                    [string] $logMessage = "$($displayErrorMessage)";
+
+                    # Generate any additional information that might be useful
+                    [string] $logAdditionalMSG = ("Unable to create a unique filename for the archive datafile!`r`n" + `
+                                                "`tArchive Filename [Absolute Path]: $($archiveFileName).$($archiveFileExtension)`r`n" + `
+                                                "`tContents to compact: $($targetDirectory)`r`n" + `
+                                                "`tOutput directory: $($outputPath)");
+
+                    # Pass the information to the logging system
+                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                "$($logAdditionalMSG)", `   # Additional information
+                                                "Error");                   # Message level
+
+                    # Display a message to the user that something went horribly wrong
+                    #  and log that same message for referencing purpose.
+                    [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                            "Error");                       # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
+                # Return an error.
                 return $false;
-            } # INNER-else : Archive file does exist
-        } # else : File Already Exists at Path
+            } # INNER-IF: Unable to make it unique
+        } # If: File Already Exists at Path
+
+
+        # Now save the output path to our reference (pointer) variable, this will allow the calling function to get the absolute path of
+        #  where the archive file resides.
+
 
 
         # Now save the output path to our reference (pointer) variable, this will allow the
         #  calling function to get the absolute path of where the archive file resides.
         #  Thus, the calling function can bring the new archive file to the user's
         #  attention using whatever methods necessary.
-        $archivePath.Value = "$($finalArchiveFileName)";
+        $archivePath.Value = "$($archiveFileName).$($archiveFileExtension)";
 
 
         # ---------------------------
@@ -2380,7 +2402,7 @@ class DefaultCompress
         {
             # Create the archive datafile.
             Compress-Archive -Path "$($targetDirectory)" `
-                             -DestinationPath "$($finalArchiveFileName)" `
+                             -DestinationPath "$($archiveFileName).$($archiveFileExtension)" `
                              -CompressionLevel $this.__compressionLevel `
                              -ErrorAction Stop `
                              -PassThru `
@@ -2394,8 +2416,34 @@ class DefaultCompress
         # An error happened
         catch
         {
-            # Display error
-            Write-Host "ERROR CAUGHT: $($_)";
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Prep a message to display to the user for this error; temporary variable
+                [string] $displayErrorMessage = ("Failed to create a new archive datafile!`r`n" + `
+                                                "$([Logging]::GetExceptionInfoShort($_.Exception))");
+
+                # Generate the initial message
+                [string] $logMessage = "Failed to create a new archive datafile!";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Archive Filename [Absolute Path]: $($archiveFileName).$($archiveFileExtension)`r`n" + `
+                                            "`tContents to compact: $($targetDirectory)`r`n" + `
+                                            "`tOutput directory: $($outputPath)`r`n" + `
+                                            "$([Logging]::GetExceptionInfo($_.Exception))");
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
+
+                # Display a message to the user that something went horribly wrong
+                #  and log that same message for referencing purpose.
+                [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                        "Error");                       # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
 
             # Update the Exit Code status; the operation failed.
             $exitCode = $false;
