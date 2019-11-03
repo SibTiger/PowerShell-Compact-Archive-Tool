@@ -3897,7 +3897,7 @@ class IOCommon
     #    ! = Error
     # -------------------------------
     #>
-    static hidden [Char] DetermineItemType([string] $targetItem)
+    static [Char] DetermineItemType([string] $targetItem)
     {
         # First make sure that there was a path provided.
         if (($targetItem -eq "") -or ($targetItem -eq "$($null)"))
