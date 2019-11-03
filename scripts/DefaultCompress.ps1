@@ -2493,17 +2493,15 @@ class DefaultCompress
             # Does the user want logfiles?
             if ([Logging]::DebugLoggingState() -eq $true)
             {
-                # If the STDOUT contains an array-list, then we will
-                #  convert it as a typical string.  If necessary,
-                #  add any remarks that should be in the logfile.
+                # If the STDOUT contains the file path of the archive datafile,
+                #  then we will store it for logging purposes.
                 if ($execSTDOUT -ne $null)
                 {
-                    # Get each file full name from the array-list
-                    foreach ($item in $execSTDOUT)
-                    {
-                        $strSTDOUT = "$($strSTDOUT)" + `
-                                        "File: $([string]$($item))`r`n";
-                    } # foreach : File in List
+                    # Because we only created just one compressed datafile, we
+                    #  will only have one output file - not multiple.  With that,
+                    #  we just need to capture just the one output file - which is
+                    #  our compressed archive datafile.
+                    $strSTDOUT = "Newly created archive datafile path: $([string]$($execSTDOUT))";
                 } # if : STDOUT Is not null
 
 
