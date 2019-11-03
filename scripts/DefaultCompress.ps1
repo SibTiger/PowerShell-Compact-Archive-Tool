@@ -2413,7 +2413,45 @@ class DefaultCompress
             $exitCode = $true;
         } # try : Execute Compression Task
 
-        # An error happened
+        # An error occurred; the data is too large to compact
+        catch [System.OutOfMemoryException]
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $displayErrorMessage = ("Failed to create a new archive datafile because of memory limitations!" + `
+                                            "  There may be too much data to compact or a file is too large too compress!`r`n" + `
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
+
+            # Generate the initial message
+            [string] $logMessage = "Failed to create a new archive datafile due to memory constraints!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Archive Filename [Absolute Path]: $($archiveFileName).$($archiveFileExtension)`r`n" + `
+                                        "`tContents to compact: $($targetDirectory)`r`n" + `
+                                        "`tOutput directory: $($outputPath)`r`n" + `
+                                        "$([Logging]::GetExceptionInfo($_.Exception))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                    "Error");                       # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Because a failure had been reached, we will have to update the exit code.
+            $exitCode = $false;
+        } # Catch [OutOfMemory] : File(s) too large
+
+        # A general error had occurred
         catch
         {
                 # * * * * * * * * * * * * * * * * * * *
