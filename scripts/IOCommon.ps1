@@ -2397,6 +2397,10 @@ class IOCommon
                                         "Warning");                 # Message level
 
             # * * * * * * * * * * * * * * * * * * *
+
+
+            # Because the directory already exists, this is not really an error.
+            $exitCode = $true;
         } # Else : Directory already exists
 
 
