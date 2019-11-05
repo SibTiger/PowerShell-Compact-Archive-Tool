@@ -134,7 +134,7 @@ function CreateDirectories()
     # ----
 
     # Program Data Root [Roaming]
-    if(([IOCommon]::MakeDirectory("$($_PROGRAMADATA_ROOT_ROAMING_PATH_)")) -eq $false)
+    if(([IOCommon]::MakeDirectory("$($_PROGRAMDATA_ROOT_ROAMING_PATH_)")) -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -219,7 +219,7 @@ function CheckProgramDirectories()
 
     if ((([IOCommon]::CheckPathExists("$($_PROGRAMDATA_ROOT_LOCAL_PATH_)", $true)) -eq $true) -and `
         (([IOCommon]::CheckPathExists("$($_PROGRAMDATA_LOGS_PATH_)", $true)) -eq $true) -and `
-        (([IOCommon]::CheckPathExists("$($_PROGRAMADATA_ROOT_ROAMING_PATH_)", $true)) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($_PROGRAMDATA_ROOT_ROAMING_PATH_)", $true)) -eq $true) -and `
         (([IOCommon]::CheckPathExists("$($_PROGRAMDATA_CONFIGS_PATH_)", $true)) -eq $true))
     {
         # The directories exists.

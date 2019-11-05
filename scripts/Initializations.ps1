@@ -176,14 +176,14 @@ function InitializationDirectory()
     # Program-Data Parent Directory Path
     # ---------------
     # The root directory where program-data will be stored.
-    Set-Variable -Name "_PROGRAMADATA_ROOT_ROAMING_PATH_" -Value "$(FetchPathAppDataRoaming)\$($_PROGRAMNAME_)" `
+    Set-Variable -Name "_PROGRAMDATA_ROOT_ROAMING_PATH_" -Value "$(FetchPathAppDataRoaming)\$($_PROGRAMNAME_)" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
 
     # User Data (Configuration)
     # ---------------
     # This directory will hold the user's configurations.
-    Set-Variable -Name "_PROGRAMDATA_CONFIGS_PATH_" -Value "$($_PROGRAMADATA_ROOT_ROAMING_PATH_)\Configs" `
+    Set-Variable -Name "_PROGRAMDATA_CONFIGS_PATH_" -Value "$($_PROGRAMDATA_ROOT_ROAMING_PATH_)\Configs" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 } # InitializationDirectory()
 
