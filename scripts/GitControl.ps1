@@ -682,13 +682,13 @@ class GitControl
     Hidden [bool] __CheckRequiredDirectories()
     {
         # Check Root Log Directory
-        if ((([IOCommon]::CheckPathExists("$($this.__rootLogPath)")) -eq $true) -and `
+        if ((([IOCommon]::CheckPathExists("$($this.__rootLogPath)", $true)) -eq $true) -and `
 
         # Check Report Path
-        (([IOCommon]::CheckPathExists("$($this.__reportPath)")) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($this.__reportPath)", $true)) -eq $true) -and `
 
         # Check Log Path
-        (([IOCommon]::CheckPathExists("$($this.__logPath)") -eq $true)))
+        (([IOCommon]::CheckPathExists("$($this.__logPath)", $true) -eq $true)))
         {
             # All of the directories exists
             return $true;
@@ -746,7 +746,7 @@ class GitControl
         #  check which directory does not exist and then try to create it.
 
         # Root Log Directory
-        if(([IOCommon]::CheckPathExists("$($this.__rootLogPath)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($this.__rootLogPath)", $true)) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
             if (([IOCommon]::MakeDirectory("$($this.__rootLogPath)")) -eq $false)
@@ -761,7 +761,7 @@ class GitControl
 
 
         # Log Directory
-        if(([IOCommon]::CheckPathExists("$($this.__logPath)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($this.__logPath)", $true)) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
             if (([IOCommon]::MakeDirectory("$($this.__logPath)")) -eq $false)
@@ -776,7 +776,7 @@ class GitControl
 
 
         # Report Directory
-        if(([IOCommon]::CheckPathExists("$($this.__reportPath)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($this.__reportPath)", $true)) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
             if (([IOCommon]::MakeDirectory("$($this.__reportPath)")) -eq $false)
@@ -895,7 +895,7 @@ class GitControl
 
 
         # Make sure that the project path exists
-        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # Project Path does not exist, return an error.
             return $false;
@@ -995,7 +995,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # Project Path does not exist, return an error.
             return $false;
@@ -1095,7 +1095,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # Project Path does not exist, return the default
             #  message instead.
@@ -1227,7 +1227,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # Project Path does not exist, return an error.
             return $false;
@@ -1374,7 +1374,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # Project Path does not exist, return the default
             #  message instead.
@@ -1477,7 +1477,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # Project Path does not exist, return the default
             #  error message instead.
@@ -1593,7 +1593,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # Project Path does not exist, return an error
             #  message instead.
@@ -1716,7 +1716,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # Project Path does not exist, return an error message instead.
             return "ERR";
@@ -1816,7 +1816,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # Project Path does not exist, return an error message instead.
             return "ERR";
@@ -1996,7 +1996,7 @@ class GitControl
 
 
         # Make sure that the path exists
-        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # Project Path does not exist, return an error.
             return $false;

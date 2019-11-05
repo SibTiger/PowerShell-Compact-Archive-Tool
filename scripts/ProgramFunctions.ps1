@@ -191,10 +191,10 @@ function CheckProgramDirectories()
     # User-Data Directories
     # -----
 
-    if ((([IOCommon]::CheckPathExists("$($_USERDATA_ROOT_PATH_)")) -eq $true) -and `
-        (([IOCommon]::CheckPathExists("$($_USERDATA_BUILDS_PATH_)")) -eq $true) -and `
-        (([IOCommon]::CheckPathExists("$($_USERDATA_RELEASEBUILDS_PATH_)")) -eq $true) -and `
-        (([IOCommon]::CheckPathExists("$($_USERDATA_DEVBUILDS_PATH_)")) -eq $true))
+    if ((([IOCommon]::CheckPathExists("$($_USERDATA_ROOT_PATH_)", $true)) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($_USERDATA_BUILDS_PATH_)", $true)) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($_USERDATA_RELEASEBUILDS_PATH_)", $true)) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($_USERDATA_DEVBUILDS_PATH_)", $true)) -eq $true))
     {
         # The directories exists.
         #  Nothing to do.
@@ -217,10 +217,10 @@ function CheckProgramDirectories()
     # Program-Data Directories
     # ----
 
-    if ((([IOCommon]::CheckPathExists("$($_PROGRAMDATA_ROOT_LOCAL_PATH_)")) -eq $true) -and `
-        (([IOCommon]::CheckPathExists("$($_PROGRAMDATA_LOGS_PATH_)")) -eq $true) -and `
-        (([IOCommon]::CheckPathExists("$($_PROGRAMADATA_ROOT_ROAMING_PATH_)")) -eq $true) -and `
-        (([IOCommon]::CheckPathExists("$($_PROGRAMDATA_CONFIGS_PATH_)")) -eq $true))
+    if ((([IOCommon]::CheckPathExists("$($_PROGRAMDATA_ROOT_LOCAL_PATH_)", $true)) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($_PROGRAMDATA_LOGS_PATH_)", $true)) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($_PROGRAMADATA_ROOT_ROAMING_PATH_)", $true)) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($_PROGRAMDATA_CONFIGS_PATH_)", $true)) -eq $true))
     {
         # The directories exists.
         #  Nothing to do.
@@ -277,7 +277,7 @@ function CheckSpecialDirectories()
 
     # Check the following:
     # My Documents
-    if (([IOCommon]::CheckPathExists("$($pathMyDocuments)")) -eq $false)
+    if (([IOCommon]::CheckPathExists("$($pathMyDocuments)", $true)) -eq $false)
     {
         return $false;
     } # If : My Documents
@@ -287,7 +287,7 @@ function CheckSpecialDirectories()
 
 
     # Local AppData
-    if (([IOCommon]::CheckPathExists("$($pathLocalAppData)")) -eq $false)
+    if (([IOCommon]::CheckPathExists("$($pathLocalAppData)", $true)) -eq $false)
     {
         return $false;
     } # If : Local AppData
@@ -297,7 +297,7 @@ function CheckSpecialDirectories()
 
 
     # Roaming AppData
-    if (([IOCommon]::CheckPathExists("$($pathRoamingAppData)")) -eq $false)
+    if (([IOCommon]::CheckPathExists("$($pathRoamingAppData)", $true)) -eq $false)
     {
         return $false;
     } # If : Roaming AppData

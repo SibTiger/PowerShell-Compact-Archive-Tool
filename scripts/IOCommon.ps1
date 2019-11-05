@@ -493,7 +493,7 @@ class IOCommon
 
 
         # Make sure that the Project path exists
-        if ($([IOCommon]::CheckPathExists("$($projectPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -523,7 +523,7 @@ class IOCommon
 
 
         # Make sure that the Standard Output Path exists
-        if ($([IOCommon]::CheckPathExists("$($stdOutLogPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($stdOutLogPath)", $true)) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -553,7 +553,7 @@ class IOCommon
 
 
         # Make sure that the Standard Error path exists
-        if ($([IOCommon]::CheckPathExists("$($stdErrLogPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($stdErrLogPath)", $true)) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -1369,7 +1369,7 @@ class IOCommon
         Finally
         {
             # Assurance Fail-Safe; make sure that the file was successfully created on the filesystem.
-            if ([IOCommon]::CheckPathExists("$($file)") -eq $false)
+            if ([IOCommon]::CheckPathExists("$($file)", $true) -eq $false)
             {
                 # Operation failed because the file couldn't be found.  This is certainly odd?
 
@@ -1483,7 +1483,7 @@ class IOCommon
         # ---------------------------
 
         # Check to make sure that the source file actually exists.
-        if ([IOCommon]::CheckPathExists("$($sourceFile)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($sourceFile)", $true) -eq $false)
         {
             # The target file does not exist.
 
@@ -1724,7 +1724,7 @@ class IOCommon
 
 
         # Check to make sure that the PDF file was saved properly.
-        if ([IOCommon]::CheckPathExists("$($destinationFile)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($destinationFile)", $true) -eq $false)
         {
             # The PDF was not found.
 
@@ -1950,7 +1950,7 @@ class IOCommon
 
 
         # First, does the parent of the temporary directory already exist?
-        if ($([IOCommon]::CheckPathExists("$($tempDirectoryPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($tempDirectoryPath)", $true)) -eq $false)
         {
             # Because the temporary directory does not exist, try to create it.
             if ($([IOCommon]::MakeDirectory("$($tempDirectoryPath)")) -eq $false)
@@ -1994,7 +1994,7 @@ class IOCommon
             } # inner-if : Create Directory Failed
 
             # Make sure that the parent temporary directory exists (after creating it)
-            elseif ($([IOCommon]::CheckPathExists("$($tempDirectoryPath)")) -eq $false)
+            elseif ($([IOCommon]::CheckPathExists("$($tempDirectoryPath)", $true)) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -2070,7 +2070,7 @@ class IOCommon
 
         # First, we should check if the directory already exists.
         #  If the directory already exists, try to make it unique.
-        if ($([IOCommon]::CheckPathExists("$($finalDirectoryPath)")) -eq $true)
+        if ($([IOCommon]::CheckPathExists("$($finalDirectoryPath)", $true)) -eq $true)
         {
             # Because the directory already exists, we need to make
             #  it unique to avoid data conflicts.
@@ -2083,7 +2083,7 @@ class IOCommon
             # Find a unique name
             while($status)
             {
-                if($([IOCommon]::CheckPathExists("$($finalDirectoryPath).$($repetitionCount)")) -eq $false)
+                if($([IOCommon]::CheckPathExists("$($finalDirectoryPath).$($repetitionCount)", $true)) -eq $false)
                 {
                     # We found a unique name, now record it
                     $finalDirectoryPath = "$($finalDirectoryPath).$($repetitionCount)";
@@ -2205,7 +2205,7 @@ class IOCommon
 
 
         # Just for assurance sakes, does the directory exist?
-        if ($([IOCommon]::CheckPathExists("$($finalDirectoryPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($finalDirectoryPath)", $true)) -eq $false)
         {
             # The temporary directory was created, but we can't find it?
 
@@ -2294,7 +2294,7 @@ class IOCommon
         # Check to see if the path already exists; if it already exists -
         #  then there's nothing to be done.  If it does not exist, however,
         #  then try to create the requested directory.
-        if (([IOCommon]::CheckPathExists("$($path)")) -eq $false)
+        if (([IOCommon]::CheckPathExists("$($path)", $true)) -eq $false)
         {
             # The requested path does not exist, try to create it.
             try
@@ -2410,20 +2410,28 @@ class IOCommon
    <# Check Path Exists
     # -------------------------------
     # Documentation:
-    #  This function will check if the provided directory's path
-    #   (absolute path) exists within the host's filesystem.
+    #  This function will check if the provided directory's
+    #   or file's path exists within the host's filesystem.
     # -------------------------------
     # Input:
-    #  [string] Directory (Absolute Path)
-    #    The path of the directory to check if it exists.
+    #  [string] Directory or File Path
+    #    The path of the directory or file to check if it exists.
+    #  [Bool] Literal Path Switch
+    #    When true, it is expected that the path must be
+    #     absolute and literal.  Meaning, the path given
+    #     is not a relative nor contains special characters
+    #     such as wildcards.
+    #    When false, however, the path may be relative and
+    #     may contain special characters such as wildcards.
     # -------------------------------
     # Output:
     #  [bool] Exit code
-    #    $false = Directory does not exist.
-    #    $true = Directory exist
+    #    $false = Directory or file does not exist.
+    #    $true = Directory or file exist
     # -------------------------------
     #>
-    static [bool] CheckPathExists([string] $path)
+    static [bool] CheckPathExists([string] $path, `         # The path of the target to check.
+                                    [bool] $literalSwitch)  # Type of check to perform (absolute or relative)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2431,12 +2439,22 @@ class IOCommon
         # ----------------------------------------
 
 
-        # Check if the path exists
-        if((Test-Path -LiteralPath "$($path)" -ErrorAction SilentlyContinue) -eq $true)
+        # Perform the requested check on the path:
+        #  - Literal path (or Absolute path)
+        if(($literalSwitch -eq $true) -and `
+            (Test-Path -LiteralPath "$($path)" -ErrorAction SilentlyContinue) -eq $true)
         {
-            # Directory exists
+            # Directory or file exists
             $exitCode = $true;
-        } # If : Directory exists
+        } # If : Directory or File exists
+
+
+        #  - Relative path
+        elseif((Test-Path -Path "$($path)" -ErrorAction SilentlyContinue) -eq $true)
+        {
+            # Directory or file exists
+            $exitCode = $true;
+        } # If : Directory or File exists
 
 
         # * * * * * * * * * * * * * * * * * * *
@@ -2510,7 +2528,7 @@ class IOCommon
 
         # First check to see if the directory actually exists,
         #  if not, then there is nothing to do.
-        if(([IOCommon]::CheckPathExists("$($path)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($path)", $true)) -eq $false)
         {
             # The directory does not exist, no operation can be performed.
 
@@ -2679,7 +2697,7 @@ class IOCommon
 
         # First check to see if the directory actually exists,
         #  if not, then there is nothing to do.
-        if(([IOCommon]::CheckPathExists("$($path)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($path)", $true)) -eq $false)
         {
             # The directory does not exist, no operations can be performed.
 
@@ -2874,7 +2892,7 @@ class IOCommon
 
 
         # First make sure that the file or directory exists
-        if ([IOCommon]::CheckPathExists("$($path)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($path)", $true) -eq $false)
         {
             # The directory or file does not exist, no operations can be performed.
 
@@ -3040,7 +3058,7 @@ class IOCommon
 
 
         # First make sure that the target directory exists with the given path.
-        if ([IOCommon]::CheckPathExists("$($targetDirectory)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($targetDirectory)", $true) -eq $false)
         {
             # The target directory does not exist, no operations can be performed.
 
@@ -3072,7 +3090,7 @@ class IOCommon
 
 
         # Second make sure that the destination path is valid.
-        if ([IOCommon]::CheckPathExists("$($destinationPath)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($destinationPath)", $true) -eq $false)
         {
             # The destination path does not exist, no operations can be performed.
 
@@ -3223,7 +3241,7 @@ class IOCommon
 
 
         # First make sure that the target directory exists with the given path.
-        if ([IOCommon]::CheckPathExists("$($targetDirectory)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($targetDirectory)", $true) -eq $false)
         {
             # The target directory does not exist, no operations can be performed.
 
@@ -3266,7 +3284,7 @@ class IOCommon
 
 
         # Second make sure that the destination path is valid.
-        if ([IOCommon]::CheckPathExists("$($destinationPath)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($destinationPath)", $true) -eq $false)
         {
             # The destination path does not exist, no operations can be performed.
 
@@ -3465,7 +3483,7 @@ class IOCommon
 
 
         # First make sure that the target directory exists with the given path.
-        if ([IOCommon]::CheckPathExists("$($targetDirectory)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($targetDirectory)", $true) -eq $false)
         {
             # The target directory does not exist, no operations can be performed.
 
@@ -3496,7 +3514,7 @@ class IOCommon
 
 
         # Second make sure that the destination path is valid.
-        if ([IOCommon]::CheckPathExists("$($destinationPath)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($destinationPath)", $true) -eq $false)
         {
             # Because the destination path does not exist, lets try to create it.
 
@@ -3672,7 +3690,7 @@ class IOCommon
 
 
         # First make sure that the target directory exists with the given path.
-        if ([IOCommon]::CheckPathExists("$($targetDirectory)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($targetDirectory)", $true) -eq $false)
         {
             # The target directory does not exist, no operations can be performed.
 
@@ -3715,7 +3733,7 @@ class IOCommon
 
 
         # Second make sure that the destination path is valid.
-        if ([IOCommon]::CheckPathExists("$($destinationPath)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($destinationPath)", $true) -eq $false)
         {
             # The destination path does not exist, no operations can be performed.
 
@@ -3930,7 +3948,7 @@ class IOCommon
 
 
         # Then make sure that the target item or path exists
-        if ([IOCommon]::CheckPathExists("$($targetItem)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($targetItem)", $true) -eq $false)
         {
             # The target item does not exist, no operations can be performed.
 
@@ -4089,7 +4107,7 @@ class IOCommon
 
 
         # Check if the source file actually exists within the user's filesystem
-        if ([IOCommon]::CheckPathExists("$($path)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($path)", $true) -eq $false)
         {
             # The source file was not found.
 

@@ -208,7 +208,7 @@
         #  check which directory does not exist and then try to create it.
 
         # User Configuration Path
-        if(([IOCommon]::CheckPathExists("$($this.__configPath)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($this.__configPath)", $true)) -eq $false)
         {
             # The User Configuration Directory does not exist, try to create it.
             if (([IOCommon]::MakeDirectory("$($this.__configPath)")) -eq $false)
@@ -257,7 +257,7 @@
     Hidden [bool] __CheckRequiredDirectories()
     {
         # Check Configuration Path
-        if ([IOCommon]::CheckPathExists("$($this.__configPath)") -eq $true)
+        if ([IOCommon]::CheckPathExists("$($this.__configPath)", $true) -eq $true)
         {
             # Required directories exists
             return $true;
@@ -441,7 +441,7 @@
         # ---------------------------
 
         # Make sure that the file exists at the given location.
-        if ([IOCommon]::CheckPathExists("$($this.__configPath)\$($this.__configFileName)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($this.__configPath)\$($this.__configFileName)", $true) -eq $false)
         {
             # Because either the file or directory does not exist
             #  at the provided location, we simply can not load

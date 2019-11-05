@@ -503,7 +503,7 @@ class DefaultCompress
         #  check which directory does not exist and then try to create it.
 
         # Root Log Directory
-        if(([IOCommon]::CheckPathExists("$($this.__rootLogPath)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($this.__rootLogPath)", $true)) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
             if (([IOCommon]::MakeDirectory("$($this.__rootLogPath)")) -eq $false)
@@ -536,7 +536,7 @@ class DefaultCompress
 
 
         # Log Directory
-        if(([IOCommon]::CheckPathExists("$($this.__logPath)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($this.__logPath)", $true)) -eq $false)
         {
             # Log Directory does not exist, try to create it.
             if (([IOCommon]::MakeDirectory("$($this.__logPath)")) -eq $false)
@@ -569,7 +569,7 @@ class DefaultCompress
 
 
         # Report Directory
-        if(([IOCommon]::CheckPathExists("$($this.__reportPath)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($this.__reportPath)", $true)) -eq $false)
         {
             # Report Directory does not exist, try to create it.
             if (([IOCommon]::MakeDirectory("$($this.__reportPath)")) -eq $false)
@@ -688,13 +688,13 @@ class DefaultCompress
     Hidden [bool] __CheckRequiredDirectories()
     {
         # Check Root Log Directory
-        if ((([IOCommon]::CheckPathExists("$($this.__rootLogPath)")) -eq $true) -and `
+        if ((([IOCommon]::CheckPathExists("$($this.__rootLogPath)", $true)) -eq $true) -and `
 
         # Check Report Path
-        (([IOCommon]::CheckPathExists("$($this.__reportPath)")) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($this.__reportPath)", $true)) -eq $true) -and `
 
         # Check Log Path
-        (([IOCommon]::CheckPathExists("$($this.__logPath)") -eq $true)))
+        (([IOCommon]::CheckPathExists("$($this.__logPath)", $true) -eq $true)))
         {
             # All of the directories exists
             return $true;
@@ -994,7 +994,7 @@ class DefaultCompress
 
 
         # Make sure that the target archive file actually exists.
-        if ($([IOCommon]::CheckPathExists("$($targetFile)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($targetFile)", $true)) -eq $false)
         {
             # The target archive data file does not exist, we can not perform a test on something
             #  that simply doesn't exist with the given file path.
@@ -1421,7 +1421,7 @@ class DefaultCompress
 
 
         # Make sure that the target archive file actually exists.
-        if ($([IOCommon]::CheckPathExists("$($file)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($file)", $true)) -eq $false)
         {
             # The target archive data file does not exist, we can not examine something that is not present.
 
@@ -1678,7 +1678,7 @@ class DefaultCompress
 
 
         # Make sure that the target archive file actually exists.
-        if ($([IOCommon]::CheckPathExists("$($file)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($file)", $true)) -eq $false)
         {
             # The target archive data file does not exist, we can not extract an archive file when
             #  it doesn't exist - with the given file path.
@@ -1708,7 +1708,7 @@ class DefaultCompress
 
 
         # Make sure that the desired output path currently exists
-        if ($([IOCommon]::CheckPathExists("$($outputPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($outputPath)", $true)) -eq $false)
         {
             # The requested output path does not currently exist, we can not proceed any further.
 
@@ -1771,7 +1771,7 @@ class DefaultCompress
 
 
         # Does the extracting directory already exists?
-        if ([IOCommon]::CheckPathExists("$($extractPath)") -eq $true)
+        if ([IOCommon]::CheckPathExists("$($extractPath)", $true) -eq $true)
         {
             # Because the directory already exists, we need to make it unique.  To accomplish
             #  the task of making the directory to be unique, we will add a timestamp to the
@@ -2245,7 +2245,7 @@ class DefaultCompress
 
 
         # Make sure that the desired output path currently exists
-        if ($([IOCommon]::CheckPathExists("$($outputPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($outputPath)", $true)) -eq $false)
         {
             # The requested output path does not currently exist, we can not proceed any further.
 
@@ -2276,7 +2276,7 @@ class DefaultCompress
 
 
         # Make sure that the target directory, contents we want to compact, actually exists.
-        if ($([IOCommon]::CheckPathExists("$($targetDirectoryFiltered)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($targetDirectoryFiltered)", $true) -eq $false))
         {
             # The target directory does not exist, we can not compact the requested data as the target directory
             #  does not exist with the given path.
@@ -2319,7 +2319,7 @@ class DefaultCompress
 
 
         # If the full path is not unique, try to make it unique.
-        if ([IOCommon]::CheckPathExists("$($archiveFileName).$($archiveFileExtension)") -eq $true)
+        if ([IOCommon]::CheckPathExists("$($archiveFileName).$($archiveFileExtension)", $true) -eq $true)
         {
             # Because the filename already exists within the given output path, we can make it unique by adding in a timestamp
             #  to the filename.  However, in case we can not make the filename unique (even with the timestamp), then the
@@ -2335,7 +2335,7 @@ class DefaultCompress
             $archiveFileName = "$($archiveFileName)_$($getDateTime)";
 
             # Check to make sure that the new filename is unique; if not - then we cannot proceed.
-            if ([IOCommon]::CheckPathExists("$($archiveFileName).$($archiveFileExtension)") -eq $true)
+            if ([IOCommon]::CheckPathExists("$($archiveFileName).$($archiveFileExtension)", $true) -eq $true)
             {
                 # Because the archive file name is still not unique enough, we can not proceed anymore.
                 #  This function will have to be aborted.
@@ -2673,7 +2673,7 @@ class DefaultCompress
 
 
         # Make sure that the path exists
-        if ($([IOCommon]::CheckPathExists("$($ArchiveFile)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($ArchiveFile)", $true)) -eq $false)
         {
             # Project Path does not exist, return an error.
             return $false;

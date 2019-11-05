@@ -190,7 +190,7 @@ class Logging
 
 
         # Check Program Log Directory
-        if (([IOCommon]::CheckPathExists("$([Logging]::ProgramLogPath)")) -eq $true)
+        if (([IOCommon]::CheckPathExists("$([Logging]::ProgramLogPath)", $true)) -eq $true)
         {
             # All of the required directories are present in the filesystem
             $exitCode = $true;
@@ -294,7 +294,7 @@ class Logging
         #  can use it within the program.
 
         # Program Log Directory
-        if(([IOCommon]::CheckPathExists("$([Logging]::ProgramLogPath)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$([Logging]::ProgramLogPath)", $true)) -eq $false)
         {
             # Program Log Directory does not exist, try to create it.
             if (([IOCommon]::MakeDirectory("$([Logging]::ProgramLogPath)")) -eq $false)

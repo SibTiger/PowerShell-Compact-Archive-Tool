@@ -750,13 +750,13 @@ class SevenZip
     Hidden [bool] __CheckRequiredDirectories()
     {
         # Check Root Log Directory
-        if ((([IOCommon]::CheckPathExists("$($this.__rootLogPath)")) -eq $true) -and `
+        if ((([IOCommon]::CheckPathExists("$($this.__rootLogPath)", $true)) -eq $true) -and `
 
         # Check Report Path
-        (([IOCommon]::CheckPathExists("$($this.__reportPath)")) -eq $true) -and `
+        (([IOCommon]::CheckPathExists("$($this.__reportPath)", $true)) -eq $true) -and `
 
         # Check Log Path
-        (([IOCommon]::CheckPathExists("$($this.__logPath)") -eq $true)))
+        (([IOCommon]::CheckPathExists("$($this.__logPath)", $true) -eq $true)))
         {
             # All of the directories exists
             return $true;
@@ -814,7 +814,7 @@ class SevenZip
         #  check which directory does not exist and then try to create it.
 
         # Root Log Directory
-        if(([IOCommon]::CheckPathExists("$($this.__rootLogPath)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($this.__rootLogPath)", $true)) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
             if (([IOCommon]::MakeDirectory("$($this.__rootLogPath)")) -eq $false)
@@ -829,7 +829,7 @@ class SevenZip
 
 
         # Log Directory
-        if(([IOCommon]::CheckPathExists("$($this.__logPath)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($this.__logPath)", $true)) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
             if (([IOCommon]::MakeDirectory("$($this.__logPath)")) -eq $false)
@@ -844,7 +844,7 @@ class SevenZip
 
 
         # Report Directory
-        if(([IOCommon]::CheckPathExists("$($this.__reportPath)")) -eq $false)
+        if(([IOCommon]::CheckPathExists("$($this.__reportPath)", $true)) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
             if (([IOCommon]::MakeDirectory("$($this.__reportPath)")) -eq $false)
@@ -1260,7 +1260,7 @@ class SevenZip
 
 
         # Make sure that the target file actually exists
-        if ($([IOCommon]::CheckPathExists("$($file)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($file)", $true)) -eq $false)
         {
             # The archive data file does not exist, we can not
             #  test something that simply doesn't exist.  Return
@@ -1418,7 +1418,7 @@ class SevenZip
 
 
         # Make sure that the target file actually exists
-        if ($([IOCommon]::CheckPathExists("$($file)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($file)", $true)) -eq $false)
         {
             # The archive data file does not exist, we can not
             #  test something that simply doesn't exist.  Return
@@ -1555,7 +1555,7 @@ class SevenZip
 
 
         # Make sure that the target file actually exists
-        if ($([IOCommon]::CheckPathExists("$($file)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($file)", $true)) -eq $false)
         {
             # The archive data file does not exist, we can not
             #  test something that simply doesn't exist.  Return
@@ -1565,7 +1565,7 @@ class SevenZip
 
 
         # Make sure that the output path exists
-        if ($([IOCommon]::CheckPathExists("$($outputPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($outputPath)", $true)) -eq $false)
         {
             # The output path does not exist, we can not extract the contents.
             return $false;
@@ -1589,7 +1589,7 @@ class SevenZip
 
 
         # Does the output directory already exists?
-        if ([IOCommon]::CheckPathExists("$($cacheOutputPath)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($cacheOutputPath)", $true) -eq $false)
         {
             # Because it is a unique directory, this is our final output destination.
             $finalOutputPath = $cacheOutputPath;
@@ -1765,7 +1765,7 @@ class SevenZip
 
 
         # Make sure that the output directory exists
-        if ($([IOCommon]::CheckPathExists("$($outputPath)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($outputPath)", $true)) -eq $false)
         {
             # The output directory does not exist;
             #  we need a valid location to output this archive file.
@@ -1775,7 +1775,7 @@ class SevenZip
 
         # Make sure that the target directory (the contents that will be
         #  in our newly created archive file) exists.
-        if ($([IOCommon]::CheckPathExists("$($targetDirectory)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($targetDirectory)", $true)) -eq $false)
         {
             # The target directory does not exist, we
             #  can not create an archive if the directory
@@ -1840,7 +1840,7 @@ class SevenZip
 
 
         # Setup the base name and check it
-        if ([IOCommon]::CheckPathExists("$($outputPath)\$($archiveFileName).$($archiveFileExtension)") -eq $false)
+        if ([IOCommon]::CheckPathExists("$($outputPath)\$($archiveFileName).$($archiveFileExtension)", $true) -eq $false)
         {
             # Because the file does not exist, use it!
             $finalArchiveFileName = "$($outputPath)\$($archiveFileName).$($archiveFileExtension)";
@@ -1864,7 +1864,7 @@ class SevenZip
             # Update the cache name for coding simplicity
             $cacheArchiveFileName = "$($archiveFileName)_$($getDateTime)";
 
-            if ([IOCommon]::CheckPathExists("$($outputPath)\$($cacheArchiveFileName).$($archiveFileExtension)") -eq $false)
+            if ([IOCommon]::CheckPathExists("$($outputPath)\$($cacheArchiveFileName).$($archiveFileExtension)", $true) -eq $false)
             {
                 # Because the archive file is now unique, we can use that new name.
                 $finalArchiveFileName = "$($outputPath)\$($cacheArchiveFileName).$($archiveFileExtension)";
@@ -2158,7 +2158,7 @@ class SevenZip
 
 
         # Make sure that the path exists
-        if ($([IOCommon]::CheckPathExists("$($ArchiveFile)")) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($ArchiveFile)", $true)) -eq $false)
         {
             # Project Path does not exist, return an error.
             return $false;
