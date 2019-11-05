@@ -2116,11 +2116,6 @@ class DefaultCompress
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $targetDirectoryFiltered = $null;                  # This variable will contain the target directory that we want to
-                                                                    #  compact, but the trailing path will be filtered to exclude a
-                                                                    #  specific file or range of files and wildcards.  For example:
-                                                                    #  D:\Users\Jack\Documents\LordOfTongs.*
-                                                                    #  OR D:\Users\Jack\Documents\*.*
         [string] $execReason = $null;                               # Description; used for logging
         [string] $archiveFileExtension = "pk3";                     # This will hold the archive file's extension.
                                                                     #  NOTE: Because the ZipFile class only supports the Zip standard, and
@@ -2154,11 +2149,6 @@ class DefaultCompress
         # Make sure that the environment is ready before we proceed by initializing any variables that need to be
         #  configured before we proceed any further during the compacting procedure protocol.
         # ---------------------------
-
-        # Filter the target directory, the directory that we want to compact, by removing any specific file ranges (wildcards) and a
-        #  specific file.
-        $targetDirectoryFiltered = "$(Split-Path -Path "$($targetDirectory)" -Parent)";
-
         # The description that will be presented in the logfile.
         $execReason = "Creating $($archiveFileNameRequest)";
 
@@ -2275,8 +2265,8 @@ class DefaultCompress
         } # if : Output Directory does not exist
 
 
-        # Make sure that the target directory, contents we want to compact, actually exists.
-        if ($([IOCommon]::CheckPathExists("$($targetDirectoryFiltered)", $true) -eq $false))
+        # Check to make sure that the target path directory or file(s) already exists within the filesystem.
+        if ($([IOCommon]::CheckPathExists("$($targetDirectory)", $false) -eq $false))
         {
             # The target directory does not exist, we can not compact the requested data as the target directory
             #  does not exist with the given path.
