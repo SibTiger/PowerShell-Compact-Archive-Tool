@@ -2570,23 +2570,25 @@ class DefaultCompress
         # Declarations and Initializations
         # ----------------------------------------
         # Get the filename without the path and file extension.
-        [string] $fileName ="$([System.IO.Path]::GetFileNameWithoutExtension($ArchiveFile))";
+        [string] $fileName = "$([System.IO.Path]::GetFileNameWithoutExtension($ArchiveFile))";
 
         # Get the filename without the path, extension is kept.
         [string] $fileNameExt = "$(Split-Path $ArchiveFile -leaf)";
 
 
-        # This variable will hold the current date and
-        #  time from the host system.  With this, it'll be accessed
-        #  for the filename and inside the report.
+        # The following variables will hold the current date and time from the host system.
+        #  With this, it'll be available for the filename and inside the report.
+        # - - - -
         # >> Date
         [string] $dateNow = "$(Get-Date -UFormat "%d-%b-%y")";
         # >> Time
         [string] $timeNow = "$(Get-Date -UFormat "%H.%M.%S")";
         # >> Date && Time
         [string] $dateTime = "$($dateNow) $($timeNow)";
+        # - - - -
 
-        # This will hold the report's filename.
+
+        # The following variables will hold the report's filename.
         # - - - -
         # >> Standard Textfile
         [string] $fileNameTXT = "$($this.__reportPath)\$($fileNameExt) - $($dateTime).txt";
@@ -2595,34 +2597,32 @@ class DefaultCompress
         [string] $fileNamePDF = "$($this.__reportPath)\$($fileNameExt) - $($dateTime).pdf";
         # - - - -
 
-        # This variable will hold the output
-        #  provided by the functions.  Because
-        #  some data might be excessively large
-        #  and to help minimize requiring
-        #  massive heap space, we will only
-        #  store only ONE output at a time.
-        #  If we store MORE THAN ONE, depending
-        #  on the information given, this could demand
-        #  a lot from main memory.  Lets try to
-        #  conserve on memory.
-        # NOTE: CLR String Datatypes can reach
-        #       near 3GB of memory usage.
+
+        # This variable will hold the output provided by the various function calls that are used in this method.
+        #  Because some of the information provided might be excessively large, we will only store one chunk of
+        #  data at a time through out the entire process.  It might be possible to store multiple chunks into this
+        #  variable in one shoot, but we will require much more resources from the host's system main memory.  Lets
+        #  try to conserve the user's primary storage.
+        # NOTE: CLR String Datatypes can reach ~3GB of memory usage.
         [string] $outputContent = $null;
 
-        # This will be used to jump from one case to another.
-        #  This will greatly help to keep the procedure organized
-        #  and to assure that the data is being written properly.
+
+        # This will be used to jump from one case to another; this will greatly help to keep the procedure organized.
+        #  Essentially this variable will drive the structure of the report, but in a proper sequential manner.
         [int] $traverse = 0;
 
-        # This variable is a small placeholder for the border
-        #  that will be used for each section within this report.
-        #  With this variable, it'll help avoid redundancy - by
-        #  not having to retype the border over and over again.
-        [string] $sectionBorder = $null;
 
-        # This variable will be used to break out of the do-while
-        #  loop.  This assures that the file is being written within
-        #  the switch statement inside of the do-while loop.
+        # This variable will contain a border that will visually help to separate each section of the report.  With
+        #  this defined in this way, we can cut code redundancy without having type it over and over again through
+        #  out this entire function.
+        [string] $sectionBorder = ("------------------------------`r`n" + `
+                                    "==============================`r`n" + `
+                                    "==============================`r`n");
+
+
+        # This variable will be used as our break to escape the do-while loop; when we are finished generating the
+        #  report - this variable will allow us to move forward into the final stages of completing the newly created
+        #  report.
         [bool] $readyToBreak = $false;
         # ----------------------------------------
 
@@ -2671,12 +2671,6 @@ class DefaultCompress
         # ---------------------------
         # - - - - - - - - - - - - - -
 
-
-        # Before we begin creating the report, lets generate the
-        #  bordering that will be used for each section in the report.
-        $sectionBorder = "------------------------------`r`n" + `
-                         "==============================`r`n" + `
-                         "==============================`r`n";
 
         DO
         {
