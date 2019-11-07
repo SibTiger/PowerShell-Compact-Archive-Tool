@@ -2564,16 +2564,16 @@ class DefaultCompress
     #               generate a report.
     # -------------------------------
     #>
-    [bool] CreateNewReport([string] $ArchiveFile, `
+    [bool] CreateNewReport([string] $archiveFile, `
                            [bool] $makePDF)
     {
         # Declarations and Initializations
         # ----------------------------------------
         # Get the filename without the path and file extension.
-        [string] $fileName = "$([System.IO.Path]::GetFileNameWithoutExtension($ArchiveFile))";
+        [string] $fileName = "$([System.IO.Path]::GetFileNameWithoutExtension($archiveFile))";
 
         # Get the filename without the path, extension is kept.
-        [string] $fileNameExt = "$(Split-Path $ArchiveFile -leaf)";
+        [string] $fileNameExt = "$(Split-Path $archiveFile -leaf)";
 
 
         # The following variables will hold the current date and time from the host system.
@@ -2662,7 +2662,7 @@ class DefaultCompress
                                         "`tTo resolve the issue:`r`n" + `
                                         "`t`t- Make sure that the required logging directories are created.`r`n" + `
                                         "`t`t- OR Disable logging`r`n" + `
-                                        "`tRequested file to generate a report: $($ArchiveFile)");
+                                        "`tRequested file to generate a report: $($archiveFile)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -2693,7 +2693,7 @@ class DefaultCompress
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Be sure that you have the latest dotNET Core and PowerShell Core available.`r`n" + `
-                                        "`tRequested file to generate a report: $($ArchiveFile)");
+                                        "`tRequested file to generate a report: $($archiveFile)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -2709,7 +2709,7 @@ class DefaultCompress
 
 
         # Make sure that the target archive file actually exists.
-        if ($([IOCommon]::CheckPathExists("$($ArchiveFile)", $true)) -eq $false)
+        if ($([IOCommon]::CheckPathExists("$($archiveFile)", $true)) -eq $false)
         {
             # The target archive data file does not exist, we can not perform a report on something
             #  when that file simply doesn't exist with the given file path.
@@ -2723,7 +2723,7 @@ class DefaultCompress
             [string] $logMessage = "Unable to create a report on the archive data file because the target file does not exist!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "Requested file to generate a report: $($ArchiveFile)";
+            [string] $logAdditionalMSG = "Requested file to generate a report: $($archiveFile)";
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -2874,17 +2874,17 @@ class DefaultCompress
                                      "File Property Information:`r`n" + `
 
                                      "File Base Name:`r`n" + `
-                                     "  $($(Get-Item "$($ArchiveFile)").BaseName)`r`n`r`n" + `
+                                     "  $($(Get-Item "$($archiveFile)").BaseName)`r`n`r`n" + `
                                      "File Exists in Directory:`r`n" + `
-                                     "  $($(Get-Item "$($ArchiveFile)").DirectoryName)`r`n`r`n" + `
+                                     "  $($(Get-Item "$($archiveFile)").DirectoryName)`r`n`r`n" + `
                                      "File Created:`r`n" + `
-                                     "  $($(Get-Item "$($ArchiveFile)").CreationTime)`r`n`r`n" + `
+                                     "  $($(Get-Item "$($archiveFile)").CreationTime)`r`n`r`n" + `
                                      "File Created (UTC):`r`n" + `
-                                     "  $($(Get-Item "$($ArchiveFile)").CreationTimeUtc)`r`n`r`n" + `
+                                     "  $($(Get-Item "$($archiveFile)").CreationTimeUtc)`r`n`r`n" + `
                                      "File Attributes:`r`n" + `
-                                     "  $($(Get-Item "$($ArchiveFile)").Attributes)`r`n`r`n" + `
+                                     "  $($(Get-Item "$($archiveFile)").Attributes)`r`n`r`n" + `
                                      "Size of File:`r`n" + `
-                                     "  $($(Get-Item "$($ArchiveFile)").Length) bytes`r`n`r`n";
+                                     "  $($(Get-Item "$($archiveFile)").Length) bytes`r`n`r`n";
 
 
                     # Write to file
@@ -2921,7 +2921,7 @@ class DefaultCompress
                                      "Provided below is the list of Hash values regarding $($fileNameExt).`r`n`r`n" + `
                                      "File Hash Information:`r`n" + `
 
-                                     "$($this.FetchHashInformation("$($ArchiveFile)"))";
+                                     "$($this.FetchHashInformation("$($archiveFile)"))";
 
 
                     # Write to file
@@ -2951,7 +2951,7 @@ class DefaultCompress
                                      " exists within the archive data file.`r`n`r`n" + `
 
                                      "List of Files inside $($fileNameExt):`r`n" + `
-                                     "$($this.ListFiles("$($ArchiveFile)", $true))";
+                                     "$($this.ListFiles("$($archiveFile)", $true))";
 
 
                     # Write to file
