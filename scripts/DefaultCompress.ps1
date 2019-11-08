@@ -2755,28 +2755,28 @@ class DefaultCompress
                     #  http://patorjk.com/software/taag
                     #  FONT: Big
                     #  All other settings set to 'default'.
-                    $outputContent = "+-------------------------------------------------------------------+`r`n" + `
-                                     "|  _______       ______ _ _        _____                       _    |`r`n" + `
-                                     "| |___  (_)     |  ____(_) |      |  __ \                     | |   |`r`n" + `
-                                     "|    / / _ _ __ | |__   _| | ___  | |__) |___ _ __   ___  _ __| |_  |`r`n" + `
-                                     "|   / / | | '_ \|  __| | | |/ _ \ |  _  // _ \ '_ \ / _ \| '__| __| |`r`n" + `
-                                     "|  / /__| | |_) | |    | | |  __/ | | \ \  __/ |_) | (_) | |  | |_  |`r`n" + `
-                                     "| /_____|_| .__/|_|    |_|_|\___| |_|  \_\___| .__/ \___/|_|   \__| |`r`n" + `
-                                     "|         | |                                | |                    |`r`n" + `
-                                     "|         |_|                                |_|                    |`r`n" + `
-                                     "+-------------------------------------------------------------------+`r`n" + `
-                                     "`r`n`r`n" + `
-                                     "Synopsis`r`n" + `
-                                     "----------`r`n" + `
-                                     "This report was generated on $($dateNow) at $($timeNow) for the archive file" + `
-                                     " named $($fileNameExt).  This report contains an overview of what is in the" + `
-                                     " archive data file and information regarding the archive file it self." + `
-                                     " The information provided can be helpful for validation purposes and assuring" + `
-                                     " that archive data file itself is not damaged." + `
-                                     "`r`n`r`n`r`n";
+                    $outputContent = ("+---------------------------------------------------------------------+`r`n" + `
+                                      "|   _______       ______ _ _        _____                       _     |`r`n" + `
+                                      "|  |___  (_)     |  ____(_) |      |  __ \                     | |    |`r`n" + `
+                                      "|     / / _ _ __ | |__   _| | ___  | |__) |___ _ __   ___  _ __| |_   |`r`n" + `
+                                      "|    / / | | '_ \|  __| | | |/ _ \ |  _  // _ \ '_ \ / _ \| '__| __|  |`r`n" + `
+                                      "|   / /__| | |_) | |    | | |  __/ | | \ \  __/ |_) | (_) | |  | |_   |`r`n" + `
+                                      "|  /_____|_| .__/|_|    |_|_|\___| |_|  \_\___| .__/ \___/|_|   \__|  |`r`n" + `
+                                      "|          | |                                | |                     |`r`n" + `
+                                      "|          |_|                                |_|                     |`r`n" + `
+                                      "+---------------------------------------------------------------------+`r`n" + `
+                                      "`r`n`r`n" + `
+                                      "Synopsis`r`n" + `
+                                      "----------`r`n" + `
+                                      "This report was generated on $($dateNow) at $($timeNow) for the archive file" + `
+                                      " named '$($fileNameExt)'.  This report contains an overview of what is within" + `
+                                      " the archive data file and information regarding the archive file it self. " + `
+                                      " The information provided can be helpful for validation purposes and assuring" + `
+                                      " that archive data file itself is not damaged." + `
+                                      "`r`n`r`n`r`n");
 
 
-                    # Write to file
+                    # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we can not proceed any further.
