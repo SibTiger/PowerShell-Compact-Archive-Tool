@@ -2742,16 +2742,18 @@ class DefaultCompress
         # - - - - - - - - - - - - - -
 
 
+        # Generate the Report (Procedure Methodology)
+        #  This loop will help us to stay organized as we traverse through each step.
         DO
         {
-            # Begin writing the report
+            # Sequential steps
             switch ($traverse)
             {
                 # Report Header
                 0
                 {
-                    # Build the output
-                    #  Word Art provided by this website:
+                    # Prepare the message that we will write to the report.
+                    # Word Art for the report's header were provided by this website:
                     #  http://patorjk.com/software/taag
                     #  FONT: Big
                     #  All other settings set to 'default'.
@@ -2810,19 +2812,20 @@ class DefaultCompress
                     } # If : Failure to write file
 
 
-                    # Increment the traverse variable
+                    # Increment the traverse variable; proceed to the next step.
                     $traverse++;
 
 
-                    # Finished with the header
+                    # Finished with the report's Header
                     break;
                 } # Case : Report Header
+
 
 
                 # Table of Contents
                 1
                 {
-                    # Build the output
+                    # Prepare the message that we will write to the report.
                     $outputContent = ("Table of Contents:`r`n" + `
                                      "---------------------`r`n" + `
                                      "1) Project Information`r`n" + `
@@ -2832,7 +2835,7 @@ class DefaultCompress
                                      "`r`n`r`n");
 
 
-                    # Write to file
+                    # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we can not proceed any further.
@@ -2866,19 +2869,20 @@ class DefaultCompress
                     } # If : Failure to write file
 
 
-                    # Increment the traverse variable
+                    # Increment the traverse variable; proceed to the next step.
                     $traverse++;
 
 
-                    # Finished with the Table of Contents
+                    # Finished with the report's Table of Contents
                     break;
                 } # Case : Table of Contents
 
 
-                # SECTION - Project Information
+
+                # Project Information
                 2
                 {
-                    # Build the output
+                    # Prepare the message that we will write to the report.
                     $outputContent = ("1) PROJECT INFORMATION`r`n" + `
                                      "$($sectionBorder)`r`n`r`n" + `
                                      "Provided below is information regarding the project itself.`r`n`r`n" + `
@@ -2897,7 +2901,7 @@ class DefaultCompress
                                      "`r`n`r`n");
 
 
-                    # Write to file
+                    # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we can not proceed any further.
@@ -2931,26 +2935,27 @@ class DefaultCompress
                     } # If : Failure to write file
 
 
-                    # Increment the traverse variable
+                    # Increment the traverse variable; proceed to the next step.
                     $traverse++;
 
 
-                    # Finished with the Project Info.
+                    # Finished with the report's Project Information
                     break;
-                } # Case : SECTION - Project Information
+                } # Case : Project Information
 
 
-                # SECTION - ARCHIVE INFORMATION
+
+                # Archive Information
                 3
                 {
-                    # Build the output
+                    # Prepare the message that we will write to the report.
                     $outputContent = ("2) ARCHIVE FILE INFORMATION`r`n" + `
                                      "$($sectionBorder)`r`n`r`n" + `
                                      "Provided below is information regarding the archive" + `
                                      " file itself.  The information can be helpful to know" + `
                                      " the properties of the archive data file itself.`r`n`r`n" + `
-                                     "File Property Information:`r`n" + `
 
+                                     "File Property Information:`r`n" + `
                                      "File Base Name:`r`n" + `
                                      "  $($(Get-Item "$($archiveFile)").BaseName)`r`n`r`n" + `
                                      "File Exists in Directory:`r`n" + `
@@ -2965,7 +2970,7 @@ class DefaultCompress
                                      "  $($(Get-Item "$($archiveFile)").Length) bytes`r`n`r`n");
 
 
-                    # Write to file
+                    # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we can not proceed any further.
@@ -2999,36 +3004,37 @@ class DefaultCompress
                     } # If : Failure to write file
 
 
-                    # Increment the traverse variable
+                    # Increment the traverse variable; proceed to the next step.
                     $traverse++;
 
 
-                    # Finished with the Contributors
+                    # Finished with the report's Archive Information
                     break;
-                } # Case : SECTION - ARCHIVE INFORMATION
+                } # Case : Archive Information
 
-                
-                # SECTION - FILE HASH INFORMATION
+
+
+                # File Hash Information
                 4
                 {
-                    # Build the output
+                    # Prepare the message that we will write to the report.
                     $outputContent = ("3) FILE HASH INFORMATION`r`n" + `
                                      "$($sectionBorder)`r`n`r`n" + `
                                      "File Hash values are helpful to know if the archive" + `
                                      " file was: corrupted, damaged, or altered.  The Hash" + `
                                      " each file has is like a 'finger print', each hash" + `
-                                     " is generally unique to that file at the given time." + `
+                                     " is generally unique to that file at the given time. " + `
                                      " When the hash value is different, in comparison to" + `
                                      " another file, it is likely that the finger-print has" + `
                                      " changed or the file itself was damaged\corrupted" + `
                                      " during transfer from one location to the next.`r`n" + `
                                      "Provided below is the list of Hash values regarding $($fileNameExt).`r`n`r`n" + `
-                                     "File Hash Information:`r`n" + `
 
+                                     "File Hash Information:`r`n" + `
                                      "$($this.FetchHashInformation("$($archiveFile)"))");
 
 
-                    # Write to file
+                    # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we can not proceed any further.
@@ -3062,19 +3068,20 @@ class DefaultCompress
                     } # If : Failure to write file
 
 
-                    # Increment the traverse variable
+                    # Increment the traverse variable; proceed to the next step.
                     $traverse++;
 
 
-                    # Finished with the Branches
+                    # Finished with the report's File Hash Information
                     break;
-                } # Case : SECTION - FILE HASH INFORMATION
+                } # Case : File Hash Information
 
 
-                # SECTION - LIST OF FILES INSIDE ARCHIVE
+
+                # List of Files Within the Archive File
                 5
                 {
-                    # Build the output
+                    # Prepare the message that we will write to the report.
                     $outputContent = ("4) LIST OF FILES INSIDE THE ARCHIVE FILE`r`n" + `
                                      "$($sectionBorder)`r`n`r`n" + `
                                      "Provided below is a list of files that" + `
@@ -3084,7 +3091,7 @@ class DefaultCompress
                                      "$($this.ListFiles("$($archiveFile)", $true))");
 
 
-                    # Write to file
+                    # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we can not proceed any further.
@@ -3118,17 +3125,18 @@ class DefaultCompress
                     } # If : Failure to write file
 
 
-                    # Increment the traverse variable
+                    # Increment the traverse variable; proceed to the next step.
                     $traverse++;
 
 
-                    # Jump out of the Loop key
+                    # Jump out of the Loop key; without this flag - a Run-Away will occur.
                     $readyToBreak = $true;
 
 
-                    # Finished with the Commits Overview
+                    # Finished with the report's File Hash Information
                     break;
-                } # Case : SECTION - LIST OF FILES INSIDE ARCHIVE
+                } # Case : List of Files Within the Archive File
+
 
 
                 # Default - ERROR; Run Away
@@ -3161,15 +3169,16 @@ class DefaultCompress
 
                     # Because a Run-Away occurred, 
                     return $false;
-                } # Case : DEFAULT
+                } # Case : Default
             } # switch()
         } While ($readyToBreak -eq $false);
 
-        
+
+
         # Does the user also want a PDF file of the report?
         if ($makePDF -eq $true)
         {
-            # Create the PDF file
+            # Create the PDF file as requested
             if(([IOCommon]::CreatePDFFile("$($fileNameTXT)", "$($fileNamePDF)")) -eq $false)
             {
                 # Failure occurred while creating the PDF document.
@@ -3202,9 +3211,9 @@ class DefaultCompress
         } # If : Make PDF Report
 
 
+
         # Successfully wrote to the file
         return $true;
-
     } # CreateNewReport()
 
     #endregion
