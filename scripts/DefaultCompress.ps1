@@ -2823,13 +2823,13 @@ class DefaultCompress
                 1
                 {
                     # Build the output
-                    $outputContent = "Table of Contents:`r`n" + `
+                    $outputContent = ("Table of Contents:`r`n" + `
                                      "---------------------`r`n" + `
                                      "1) Project Information`r`n" + `
                                      "2) Archive File Information`r`n" + `
                                      "3) File Hash Details`r`n" + `
                                      "4) List of Files inside Archive`r`n" + `
-                                     "`r`n`r`n";
+                                     "`r`n`r`n");
 
 
                     # Write to file
@@ -2879,7 +2879,7 @@ class DefaultCompress
                 2
                 {
                     # Build the output
-                    $outputContent = "1) PROJECT INFORMATION`r`n" + `
+                    $outputContent = ("1) PROJECT INFORMATION`r`n" + `
                                      "$($sectionBorder)`r`n`r`n" + `
                                      "Provided below is information regarding the project itself.`r`n`r`n" + `
                                      "Project Name:`r`n" + `
@@ -2894,7 +2894,7 @@ class DefaultCompress
                                      "`t$([ProjectInformation]::urlWiki)`r`n`r`n" + `
                                      "Project's Repository:`r`n" + `
                                      "`t$([ProjectInformation]::urlSource)`r`n" + `
-                                     "`r`n`r`n";
+                                     "`r`n`r`n");
 
 
                     # Write to file
@@ -2944,7 +2944,7 @@ class DefaultCompress
                 3
                 {
                     # Build the output
-                    $outputContent = "2) ARCHIVE FILE INFORMATION`r`n" + `
+                    $outputContent = ("2) ARCHIVE FILE INFORMATION`r`n" + `
                                      "$($sectionBorder)`r`n`r`n" + `
                                      "Provided below is information regarding the archive" + `
                                      " file itself.  The information can be helpful to know" + `
@@ -2962,7 +2962,7 @@ class DefaultCompress
                                      "File Attributes:`r`n" + `
                                      "  $($(Get-Item "$($archiveFile)").Attributes)`r`n`r`n" + `
                                      "Size of File:`r`n" + `
-                                     "  $($(Get-Item "$($archiveFile)").Length) bytes`r`n`r`n";
+                                     "  $($(Get-Item "$($archiveFile)").Length) bytes`r`n`r`n");
 
 
                     # Write to file
@@ -3012,7 +3012,7 @@ class DefaultCompress
                 4
                 {
                     # Build the output
-                    $outputContent = "3) FILE HASH INFORMATION`r`n" + `
+                    $outputContent = ("3) FILE HASH INFORMATION`r`n" + `
                                      "$($sectionBorder)`r`n`r`n" + `
                                      "File Hash values are helpful to know if the archive" + `
                                      " file was: corrupted, damaged, or altered.  The Hash" + `
@@ -3025,7 +3025,7 @@ class DefaultCompress
                                      "Provided below is the list of Hash values regarding $($fileNameExt).`r`n`r`n" + `
                                      "File Hash Information:`r`n" + `
 
-                                     "$($this.FetchHashInformation("$($archiveFile)"))";
+                                     "$($this.FetchHashInformation("$($archiveFile)"))");
 
 
                     # Write to file
@@ -3075,13 +3075,13 @@ class DefaultCompress
                 5
                 {
                     # Build the output
-                    $outputContent = "4) LIST OF FILES INSIDE ARCHIVE`r`n" + `
+                    $outputContent = ("4) LIST OF FILES INSIDE THE ARCHIVE FILE`r`n" + `
                                      "$($sectionBorder)`r`n`r`n" + `
                                      "Provided below is a list of files that" + `
                                      " exists within the archive data file.`r`n`r`n" + `
 
                                      "List of Files inside $($fileNameExt):`r`n" + `
-                                     "$($this.ListFiles("$($archiveFile)", $true))";
+                                     "$($this.ListFiles("$($archiveFile)", $true))");
 
 
                     # Write to file
