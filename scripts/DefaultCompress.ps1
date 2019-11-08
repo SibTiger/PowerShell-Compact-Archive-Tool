@@ -2569,9 +2569,6 @@ class DefaultCompress
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Get the filename without the path and file extension.
-        [string] $fileName = "$([System.IO.Path]::GetFileNameWithoutExtension($archiveFile))";
-
         # Get the filename without the path, extension is kept.
         [string] $fileNameExt = "$(Split-Path $archiveFile -leaf)";
 
