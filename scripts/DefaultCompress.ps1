@@ -2646,7 +2646,7 @@ class DefaultCompress
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Warning");                   # Message level
+                                        "Warning");                 # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
