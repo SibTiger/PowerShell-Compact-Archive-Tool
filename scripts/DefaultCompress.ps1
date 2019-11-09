@@ -2791,9 +2791,9 @@ class DefaultCompress
                                       "----------`r`n" + `
                                       "This report was generated on $($dateNow) at $($timeNow) for the archive file" + `
                                       " named '$($fileNameExt)'.  This report contains an overview of what is within" + `
-                                      " the archive data file and information regarding the archive file it self. " + `
-                                      " The information provided can be helpful for validation purposes and assuring" + `
-                                      " that archive data file itself is not damaged." + `
+                                      " the archive data file and information regarding the file itself.  The information" + `
+                                      " provided can be helpful for validation purposes and assuring that the archive data" + `
+                                      " file itself was not damaged." + `
                                       "`r`n`r`n`r`n");
 
 
@@ -2904,7 +2904,7 @@ class DefaultCompress
                     # Prepare the message that we will write to the report.
                     $outputContent = ("1) PROJECT INFORMATION`r`n" + `
                                      "$($sectionBorder)`r`n`r`n" + `
-                                     "Provided below is information regarding the project itself.`r`n`r`n" + `
+                                     "Provided below is information regarding the project.`r`n`r`n" + `
                                      "Project Name:`r`n" + `
                                      "`t$([ProjectInformation]::projectName)`r`n`r`n" + `
                                      "Project Code Name:`r`n" + `
@@ -2970,9 +2970,8 @@ class DefaultCompress
                     # Prepare the message that we will write to the report.
                     $outputContent = ("2) ARCHIVE FILE INFORMATION`r`n" + `
                                      "$($sectionBorder)`r`n`r`n" + `
-                                     "Provided below is information regarding the archive" + `
-                                     " file itself.  The information can be helpful to know" + `
-                                     " the properties of the archive data file itself.`r`n`r`n" + `
+                                     "Provided below is information regarding the archive file.  This information can" + `
+                                     " be helpful to know the properties of the archive data file itself.`r`n`r`n" + `
 
                                      "File Property Information:`r`n" + `
                                      "File Base Name:`r`n" + `
@@ -3039,15 +3038,14 @@ class DefaultCompress
                     # Prepare the message that we will write to the report.
                     $outputContent = ("3) FILE HASH INFORMATION`r`n" + `
                                      "$($sectionBorder)`r`n`r`n" + `
-                                     "File Hash values are helpful to know if the archive" + `
-                                     " file was: corrupted, damaged, or altered.  The Hash" + `
-                                     " each file has is like a 'finger print', each hash" + `
-                                     " is generally unique to that file at the given time. " + `
-                                     " When the hash value is different, in comparison to" + `
-                                     " another file, it is likely that the finger-print has" + `
-                                     " changed or the file itself was damaged\corrupted" + `
+                                     "File Hash values are helpful to know if the archive file was: corrupted, damaged," + `
+                                     " or altered.  The hash of the file signifies a 'finger print', each hash is generally" + `
+                                     " unique to that file at the given time it was created or updated.  When the hash" + `
+                                     " value is different, in comparison to another version of the same file, it is" + `
+                                     " likely that the finger-print has changed or the file itself was damaged\corrupted" + `
                                      " during transfer from one location to the next.`r`n" + `
-                                     "Provided below is the list of Hash values regarding $($fileNameExt).`r`n`r`n" + `
+                                     "Provided below is the list of Hash values regarding $($fileNameExt)." + `
+                                     "`r`n`r`n" + `
 
                                      "File Hash Information:`r`n" + `
                                      "$($this.FetchHashInformation("$($archiveFile)"))");
@@ -3103,8 +3101,8 @@ class DefaultCompress
                     # Prepare the message that we will write to the report.
                     $outputContent = ("4) LIST OF FILES INSIDE THE ARCHIVE FILE`r`n" + `
                                      "$($sectionBorder)`r`n`r`n" + `
-                                     "Provided below is a list of files that" + `
-                                     " exists within the archive data file.`r`n`r`n" + `
+                                     "Provided below is a list of files that exists within the archive data file." + `
+                                     "`r`n`r`n" + `
 
                                      "List of Files inside $($fileNameExt):`r`n" + `
                                      "$($this.ListFiles("$($archiveFile)", $true))");
