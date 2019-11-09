@@ -2628,8 +2628,30 @@ class DefaultCompress
         # Did the user wanted a report of an archive data file?
         if ($this.__generateReport -eq $false)
         {
-            # Because the user did not want a report generated,
-            #  merely return 'true'.
+            # The user does not wish to have a report generated, we will abort this operation by request.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Unable to create the report because the user does not request to" + `
+                                    " generate one (User Settings).");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Current User Setting: $($this.__generateReport)`r`n" + `
+                                        "`tRequested file to generate a report: $($archiveFile)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Warning");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Because the user did not want a report generated, merely return 'true'.
             return $true;
         } # if : Do not create report
 
