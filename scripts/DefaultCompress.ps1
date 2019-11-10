@@ -3263,8 +3263,8 @@ class DefaultCompress
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string[]] $extLogs = @('*.err', '*.out');   # Array of log extensions
-        [string[]] $extReports = @('*.txt');         # Array of report extensions
+        [string[]] $extLogs = @('*.err', '*.out');      # Array of log extensions
+        [string[]] $extReports = @('*.txt', '*.pdf');   # Array of report extensions
         # ----------------------------------------
 
 
