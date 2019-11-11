@@ -3447,8 +3447,10 @@ class DefaultCompress
 
 <# Default Compression Level [ENUM]
  # -------------------------------
- # Associated with what type of compression level the
- #  end-user prefers when compacting an archive datafile.
+ # Associated with what type of compression level the end-user prefers when compacting
+ #  an archive datafile from the DefaultCompress object.
+ # Please see the '-CompressionLevel' from the 'Compress-Archive' CMDLet here:
+ #  https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive/compress-archive#parameters
  # -------------------------------
  #>
 enum DefaultCompressionLevel
