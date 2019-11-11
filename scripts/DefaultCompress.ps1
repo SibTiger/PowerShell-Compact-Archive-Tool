@@ -3265,6 +3265,10 @@ class DefaultCompress
         # ----------------------------------------
         [string[]] $extLogs = @('*.err', '*.out');      # Array of log extensions
         [string[]] $extReports = @('*.txt', '*.pdf');   # Array of report extensions
+        [bool] $exitCode = $false;                      # The exit code status provided by the log\report
+                                                        #  deletion operation status.  If the operation
+                                                        #  was successful then true will be set, otherwise
+                                                        #  it'll be false to signify an error.
         # ----------------------------------------
 
 
@@ -3281,8 +3285,9 @@ class DefaultCompress
         # Because the directories exists, lets try to thrash the logs.
         if(([IOCommon]::DeleteFile("$($this.__logPath)", $extLogs)) -eq $false)
         {
-            # Failure to remove the requested files
-            return $false;
+            # Because the operation failed, we will update the exit code to 'false'
+            #  to signify that we reached an error.
+            $exitCode = $false;
         } # If : failure to delete files
 
 
@@ -3291,16 +3296,17 @@ class DefaultCompress
 
         # Did the user also wanted to thrash the reports?
         if (($($expungeReports) -eq $true) -and `
-        ([IOCommon]::DeleteFile("$($this.__reportPath)", $extReports)) -eq $false)
+            ([IOCommon]::DeleteFile("$($this.__reportPath)", $extReports)) -eq $false)
         {
-            # Failure to remove the requested files
-            return $false;
+            # Because the operation failed, we will update the exit code to 'false'
+            #  to signify that we reached an error.
+            $exitCode = $false;
         } # If : thrash the reports
 
 
 
         # If we made it here, then everything went okay!
-        return $true;
+        return $exitCode;
     } # ThrashLogs()
 
     #endregion
