@@ -2,18 +2,24 @@
  # ------------------------------
  # ==============================
  # ==============================
- # This class holds settings regarding the use of 7Zip
- #  aswell as functions in order to perform specific
- #  operations relating to compacting archive datafiles.
- #  This is an optional setting and must be enabled by
- #  the user in order to use it.
- # NOTE: This is required in order to generate 7Z (PK7)
- #   archive data files.
- # IMPORTANT NOTE:
- #  In order to use 7Zip features in this program, the
- #   end-user must also have 7Zip installed on the host
- #   system.  If the program is not installed, then the
- #   features are not available for use.
+ # This class allows the possibility to utilize 7Zip functionality within the program.  7Zip
+ #  is a popular compression tool that supports common archive data file formats such as: ZIP,
+ #  GZIP, and 7Z.  For the best compression, 7Z is preferred - though it has a greater performance
+ #  impact when it comes to expeditious unpacking of data in RealTime environments.  For the best
+ #  performance with compression, ZIP is preferred.  With this object, it is possible to: list
+ #  files, verify, extract, and create a new archive data file.  However, the use of 7Zip is
+ #  merely an optional setting.  Because 7Zip is an external command (external executable), it is
+ #  not required for the user to already have this particular software installed on the host system.
+ #  But, in order to use 7Zip's functionality or to compact and extract a 7Z file format, then it
+ #  is a requirement to install the 7Zip program from that point onward.
+ # NOTE:
+ #  - This is only required if wanting to: verify, list files from, generate, or extract a 7Z (or
+ #     PK7 for ZDoom's mods) file.
+ #  - In order to utilize 7Zip functionality within this program, the 7Zip software must first be
+ #     installed properly on the host system.  Otherwise, the features may not be readily available.
+ # DEPENDENCIES (Optional):
+ #  7Zip version 19.00 or later.
+ #   - https://www.7-zip.org/
  #>
 
 
