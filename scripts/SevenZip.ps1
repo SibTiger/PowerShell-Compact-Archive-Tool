@@ -43,7 +43,9 @@ class SevenZip
     # Compression Method
     # ---------------
     # The compression method in which to compact the newly generated archive
-    #  data files.
+    #  data files.  Possible options can be:
+    #   - Zip [PK3]
+    #   - 7Zip [PK7]
     Hidden [SevenZipCompressionMethod] $__compressionMethod;
 
 
