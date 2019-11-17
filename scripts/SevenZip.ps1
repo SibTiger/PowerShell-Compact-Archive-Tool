@@ -36,71 +36,92 @@ class SevenZip
 
     # 7Zip Executable Path
     # ---------------
-    # The path in which the executable '7z.exe' resides.
+    # The path to the '7z.exe' executable within the Windows environment.
     Hidden [string] $__executablePath;
 
 
     # Compression Method
     # ---------------
-    # The method in which to compact the archive datafile.
+    # The compression method in which to compact the newly generated archive
+    #  data files.
     Hidden [SevenZipCompressionMethod] $__compressionMethod;
 
 
     # Algorithm [PK3|Zip]
     # ---------------
-    # The algorithm to use when using the Zip Method
+    # The compression algorithm that will be used when compacting the Zip (PK3)
+    #  archive files.
     Hidden [SevenZipAlgorithmZip] $__algorithmZip;
 
 
     # Algorithm [PK7|7Zip]
     # ---------------
-    # The algorithm to use when using the 7Zip Method
+    # The compression algorithm that will be used when compacting the 7Zip (PK7)
+    #  archive files.
     Hidden [SevenZipAlgorithm7Zip] $__algorithm7Zip;
 
 
     # Use Multithread
     # ---------------
-    # When true, this will allow 7Zip to use multithreaded
-    #  operations when available.
+    # 7Zip's multithreaded functionality
+    #  When this is true, 7Zip will use multiple threads for compression and
+    #  decompression operations - if supported by the various algorithms used
+    #  for the archive compression methods.
+    #   Supported Algorithms in Zip:
+    #    - BZip2
+    #   Supported Algorithms in 7Zip:
+    #    - LZMA
+    #    - LZMA2
+    #    - BZip2
     Hidden [bool] $__useMultithread;
 
 
     # Compression Level
     # ---------------
-    # How tightly to compact the files.
+    # How tightly to compress the files going inside the archive data file that
+    #  is currently being generated.  Levels of compression range from 0 to 9.
+    #  Where:
+    #   - 0 is no compression
+    #   - 5 is standard compression
+    #   - 9 is the maximum compression possible
     Hidden [SevenCompressionLevel] $__compressionLevel;
 
 
     # Verify Build
     # ---------------
-    # Test the archive datafile to assure it is not
-    #  corrupted.
+    # Test the integrity of the archive data file and the files that are within
+    #  compressed file.
     Hidden [bool] $__verifyBuild;
 
 
     # Generate Report
     # ---------------
-    # Generate a report about the archive datafile.
+    # Allow the possibility to generate a report about the archive datafile.
+    #  Reports provide some insight about the archive datafile and the
+    #  contents that are within the file itself.
     Hidden [bool] $__generateReport;
 
 
     # Log Root
     # ---------------
-    # The main root of the log directories.
+    # The main parent directory's absolute path that will hold this object's
+    #  logs and reports directories.
     Hidden [string] $__rootLogPath;
 
 
     # Report Path
     # ---------------
-    # The absolute path to store the reports that
-    #  has been generated.
+    # This directory, in absolute form, will hold reports that were generated
+    #  from this object.  Reports provide some insight about the archive datafile
+    #  and the contents that are within the file itself.
     Hidden [string] $__reportPath;
 
 
     # Log Root Path
     # ---------------
-    # The absolute path to place the logs from the
-    #  executable.
+    # This directory, in absolute form, will hold logfiles that were generated
+    #  from this object when creating, verifying, extracting, and listing
+    #  contents from within an archive datafile.
     Hidden [string] $__logPath;
 
 
