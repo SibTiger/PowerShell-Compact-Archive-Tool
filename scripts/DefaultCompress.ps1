@@ -149,11 +149,11 @@ class DefaultCompress
    <# Get Compression Level
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Compression Level variable.
+    #  Returns the value of the 'Compression Level' variable.
     # -------------------------------
     # Output:
     #  [DefaultCompressionLevel] Compression Level
-    #   the value of the Compression Level.
+    #   The value of the 'Compression Level'.
     # -------------------------------
     #>
     [DefaultCompressionLevel] GetCompressionLevel()
@@ -167,11 +167,11 @@ class DefaultCompress
    <# Get Verify Build
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Verify Build variable.
+    #  Returns the value of the 'Verify Build' variable.
     # -------------------------------
     # Output:
     #  [bool] Verify Build
-    #   the value of the Verify Build.
+    #   The value of the 'Verify Build'.
     # -------------------------------
     #>
     [bool] GetVerifyBuild()
@@ -185,11 +185,11 @@ class DefaultCompress
    <# Get Generate Report
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Generate Report variable.
+    #  Returns the value of the 'Generate Report' variable.
     # -------------------------------
     # Output:
     #  [bool] Generate Report
-    #   the value of the Generate Report.
+    #   The value of the 'Generate Report'.
     # -------------------------------
     #>
     [bool] GetGenerateReport()
@@ -200,14 +200,14 @@ class DefaultCompress
 
 
 
-   <# Get Report Path
+   <# Get Report Directory Path
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Report Path variable.
+    #  Returns the value of the 'Report Directory Path' variable.
     # -------------------------------
     # Output:
     #  [string] Report Path
-    #   the value of the Report Path.
+    #   The value of the 'Report Directory Path'.
     # -------------------------------
     #>
     [string] GetReportPath()
@@ -218,14 +218,14 @@ class DefaultCompress
 
 
 
-   <# Get Log Path
+   <# Get Log Directory Path
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Log Path variable.
+    #  Returns the value of the 'Log Directory Path' variable.
     # -------------------------------
     # Output:
     #  [string] Log Path
-    #   the value of the Log Path.
+    #   The value of the 'Log Directory Path'.
     # -------------------------------
     #>
     [string] GetLogPath()
@@ -236,14 +236,14 @@ class DefaultCompress
 
 
 
-   <# Get Root Log Path
+   <# Get Root Log Directory Path
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Root Log Path variable.
+    #  Returns the value of the 'Root Log Directory Path' variable.
     # -------------------------------
     # Output:
     #  [string] Root Log Path
-    #   the value of the Log Root Path.
+    #   The value of the 'Log Root Directory Path'.
     # -------------------------------
     #>
     [string] GetRootLogPath()
