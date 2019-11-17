@@ -230,11 +230,11 @@ class SevenZip
    <# Get Executable Path
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Executable Path variable.
+    #  Returns the value of the 'Executable Path' variable.
     # -------------------------------
     # Output:
     #  [string] Executable Path
-    #   the value of the Executable Path to 7z.exe.
+    #   The value of the 'Executable Path' to the 7z.exe binary file.
     # -------------------------------
     #>
     [string] GetExecutablePath()
@@ -248,11 +248,11 @@ class SevenZip
    <# Get Compression Method
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Compression Method variable.
+    #  Returns the value of the 'Compression Method' variable.
     # -------------------------------
     # Output:
     #  [SevenZipCompressionMethod] Compression Method
-    #   the value of the Compression Method.
+    #   The value of the 'Compression Method'.
     # -------------------------------
     #>
     [SevenZipCompressionMethod] GetCompressionMethod()
@@ -266,11 +266,11 @@ class SevenZip
    <# Get Algorithm [PK3|Zip]
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Algorithm variable.
+    #  Returns the value of the 'Algorithm' variable used with Zip method..
     # -------------------------------
     # Output:
     #  [SevenZipAlgorithmZip] Algorithm [ZIP]
-    #   the value of the Compression Algorithm.
+    #   The value of the 'Compression Algorithm'.
     # -------------------------------
     #>
     [SevenZipAlgorithmZip] GetAlgorithmZip()
@@ -284,11 +284,11 @@ class SevenZip
    <# Get Algorithm [PK7|7Zip]
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Algorithm variable.
+    #  Returns the value of the 'Algorithm' variable used with 7Zip method.
     # -------------------------------
     # Output:
     #  [SevenZipAlgorithm7Zip] Algorithm [7Zip]
-    #   the value of the Compression Algorithm.
+    #   The value of the Compression Algorithm.
     # -------------------------------
     #>
     [SevenZipAlgorithm7Zip] GetAlgorithm7Zip()
@@ -302,11 +302,11 @@ class SevenZip
    <# Get Use Multithread
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Use Multithread variable.
+    #  Returns the value of the 'Use Multithread' variable.
     # -------------------------------
     # Output:
     #  [bool] Use Multithread
-    #   the value of the Use Multithread.
+    #   The value of the 'Use Multithread'.
     # -------------------------------
     #>
     [bool] GetUseMultithread()
@@ -320,11 +320,11 @@ class SevenZip
    <# Get Compression Level
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Compression Level variable.
+    #  Returns the value of the 'Compression Level' variable.
     # -------------------------------
     # Output:
     #  [SevenCompressionLevel] Compression Level
-    #   the value of the Compression Level.
+    #   The value of the 'Compression Level'.
     # -------------------------------
     #>
     [SevenCompressionLevel] GetCompressionLevel()
@@ -338,11 +338,11 @@ class SevenZip
    <# Get Verify Build
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Verify Build variable.
+    #  Returns the value of the 'Verify Build' variable.
     # -------------------------------
     # Output:
     #  [bool] Verify Build
-    #   the value of the Verify Build.
+    #   The value of the 'Verify Build'.
     # -------------------------------
     #>
     [bool] GetVerifyBuild()
@@ -356,11 +356,11 @@ class SevenZip
    <# Get Generate Report
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Generate Report variable.
+    #  Returns the value of the 'Generate Report' variable.
     # -------------------------------
     # Output:
     #  [bool] Generate Report
-    #   the value of the Generate Report.
+    #   The value of the 'Generate Report'.
     # -------------------------------
     #>
     [bool] GetGenerateReport()
@@ -371,14 +371,14 @@ class SevenZip
 
 
 
-   <# Get Report Path
+   <# Get Report Directory Path
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Report Path variable.
+    #  Returns the value of the 'Report Directory Path' variable.
     # -------------------------------
     # Output:
     #  [string] Report Path
-    #   the value of the Report Path.
+    #   The value of the 'Report Directory Path'.
     # -------------------------------
     #>
     [string] GetReportPath()
@@ -389,14 +389,14 @@ class SevenZip
 
 
 
-   <# Get Log Path
+   <# Get Log Directory Path
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Log Path variable.
+    #  Returns the value of the 'Log Directory Path' variable.
     # -------------------------------
     # Output:
     #  [string] Log Path
-    #   the value of the Log Path.
+    #   The value of the 'Log Directory Path'.
     # -------------------------------
     #>
     [string] GetLogPath()
@@ -407,14 +407,14 @@ class SevenZip
 
 
 
-   <# Get Root Log Path
+   <# Get Root Log Directory Path
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Root Log Path variable.
+    #  Returns the value of the 'Root Log Directory Path' variable.
     # -------------------------------
     # Output:
     #  [string] Root Log Path
-    #   the value of the Log Root Path.
+    #   The value of the 'Log Root Directory Path'.
     # -------------------------------
     #>
     [string] GetRootLogPath()
