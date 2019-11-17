@@ -141,7 +141,7 @@ class SevenZip
     # Default Constructor
     SevenZip()
     {
-        # 7z.exe Path
+        # Executable path to the 7z.exe
         $this.__executablePath = "$($this.Find7Zip($true))";
 
         # Compression Method
@@ -153,10 +153,10 @@ class SevenZip
         # Algorithm [7Zip]
         $this.__algorithm7Zip = 0;
 
-        # Multithread
+        # Multithreaded Support
         $this.__useMultithread = $true;
 
-        # Compress Level
+        # Compression Level
         $this.__compressionLevel = 2;
 
         # Verify Build
@@ -165,13 +165,13 @@ class SevenZip
         # Generate Report
         $this.__generateReport = $false;
 
-        # Log Root Directory
+        # Log Root Directory Path
         $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\7Zip";
 
-        # Report Path
+        # Report Directory Path
         $this.__reportPath = "$($this.__rootLogPath)\reports";
 
-        # Log Path
+        # Log Directory Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
     } # Default Constructor
 
@@ -188,7 +188,7 @@ class SevenZip
             [bool] $verifyBuild,
             [bool] $generateReport)
     {
-        # 7z.exe Path
+        # Executable path to the 7z.exe
         $this.__executablePath = $executablePath;
 
         # Compression Method
@@ -200,10 +200,10 @@ class SevenZip
         # Algorithm [7Zip]
         $this.__algorithm7Zip = $algorithm7Zip;
 
-        # Multithread
+        # Multithreaded Support
         $this.__useMultithread = $useMultithread;
 
-        # Compress Level
+        # Compression Level
         $this.__compressionLevel = $compressionLevel;
 
         # Verify Build
@@ -212,13 +212,13 @@ class SevenZip
         # Generate Report
         $this.__generateReport = $generateReport;
 
-        # Log Root Directory
+        # Log Root Directory Path
         $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\7Zip";
 
-        # Report Path
+        # Report Directory Path
         $this.__reportPath = "$($this.__rootLogPath)\reports";
 
-        # Log Path
+        # Log Directory Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
     } # User Preference : On-Load
 
