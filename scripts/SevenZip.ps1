@@ -92,7 +92,7 @@ class SevenZip
     # Verify Build
     # ---------------
     # Test the integrity of the archive data file and the files that are within
-    #  compressed file.
+    #  the compressed file.
     Hidden [bool] $__verifyBuild;
 
 
