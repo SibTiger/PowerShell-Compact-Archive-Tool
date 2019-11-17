@@ -74,6 +74,7 @@ class IOCommon
     #endregion
 
 
+
     #region Write-to-Buffer Functions
 
    <# Write to Buffer (Terminal Screen)
@@ -241,6 +242,7 @@ class IOCommon
     } # ClearBuffer()
 
     #endregion
+
 
 
     #region External Command Functions
@@ -1270,6 +1272,7 @@ class IOCommon
     #endregion
 
 
+
     #region Writing File Functions
 
    <# Write to File
@@ -1793,6 +1796,7 @@ class IOCommon
     } # CreatePDFFile()
 
     #endregion
+
 
 
     #region Directory and File Management Functions
@@ -4069,6 +4073,7 @@ class IOCommon
     #endregion
 
 
+
     #region File Integrity
 
    <# File Hash
@@ -4211,6 +4216,7 @@ class IOCommon
     } # FileHash()
 
     #endregion
+
 
 
     #region Web Control
