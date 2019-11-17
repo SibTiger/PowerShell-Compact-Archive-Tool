@@ -126,7 +126,6 @@ class SevenZip
     #  contents from within an archive datafile.
     Hidden [string] $__logPath;
 
-
     #endregion
 
 
@@ -137,7 +136,7 @@ class SevenZip
 
 
     #region Constructor Functions
-    
+
     # Default Constructor
     SevenZip()
     {
