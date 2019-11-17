@@ -143,6 +143,7 @@ class DefaultCompress
     #endregion
 
 
+
     #region Getter Functions
 
    <# Get Compression Level
@@ -251,6 +252,7 @@ class DefaultCompress
     } # GetRootLogPath()
 
     #endregion
+
 
 
     #region Setter Functions
@@ -431,6 +433,7 @@ class DefaultCompress
     } # SetReportPath()
 
     #endregion
+
 
 
     #region Private Functions
@@ -712,6 +715,7 @@ class DefaultCompress
     #endregion
 
 
+
     #region Public Functions
 
 
@@ -796,6 +800,7 @@ class DefaultCompress
         # Because the module was not detected.
         return $false;
     } # DetectCompressModule()
+
 
 
     #region Inspect Archive
@@ -1532,6 +1537,7 @@ class DefaultCompress
     } # ListFiles()
 
     #endregion
+
 
 
     #region Archive File Management
@@ -2537,6 +2543,7 @@ class DefaultCompress
     #endregion
 
 
+
     #region Report
 
    <# Create a new Report
@@ -3234,6 +3241,7 @@ class DefaultCompress
     } # CreateNewReport()
 
     #endregion
+
 
 
     #region File Management
