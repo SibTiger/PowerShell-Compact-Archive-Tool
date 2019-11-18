@@ -260,7 +260,7 @@ class DefaultCompress
    <# Set Compression Level
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Compression Level variable.
+    #  Sets a new value for the 'Compression Level' variable.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -287,7 +287,7 @@ class DefaultCompress
    <# Set Verify Build
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Verify Build variable.
+    #  Sets a new value for the 'Verify Build' variable.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -313,7 +313,7 @@ class DefaultCompress
    <# Set Generate Report
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Generate Report variable.
+    #  Sets a new value for the 'Generate Report' variable.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -336,10 +336,10 @@ class DefaultCompress
 
 
 
-   <# Set Root Log Path
+   <# Set Root Log Directory Path
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Root Log Path variable.
+    #  Sets a new value for the 'Root Log Directory Path' variable.
     #
     # WARNING:
     #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!
@@ -369,10 +369,10 @@ class DefaultCompress
 
 
 
-   <# Set Log Path
+   <# Set Log Directory Path
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Log Path variable.
+    #  Sets a new value for the 'Log Directory Path' variable.
     #
     # WARNING:
     #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!
@@ -402,10 +402,10 @@ class DefaultCompress
 
 
 
-   <# Set Report Path
+   <# Set Report Directory Path
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Report Path variable.
+    #  Sets a new value for the 'Report Directory Path' variable.
     #
     # WARNING:
     #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!
