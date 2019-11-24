@@ -262,6 +262,11 @@ class DefaultCompress
     # Documentation:
     #  Sets a new value for the 'Compression Level' variable.
     # -------------------------------
+    # Input:
+    #  [DefaultCompressionLevel] Compression Level
+    #   The desired compression level for compacting newly generated
+    #    archive data files.
+    # -------------------------------
     # Output:
     #  [bool] Status
     #   true = Success; value has been changed.
@@ -270,11 +275,10 @@ class DefaultCompress
     #>
     [bool] SetCompressionLevel([DefaultCompressionLevel] $newVal)
     {
-        # Because the value must fit within the
-        #  'DefaultCompressionLevel' datatype, there really is
-        #  no point in checking if the new requested value is
-        #  'legal'.  Thus, we are going to trust the value and
-        #  automatically return success.
+        # Because the value must fit within the 'DefaultCompressionLevel'
+        #  datatype, there really is no point in checking if the new
+        #  requested value is 'legal'.  Thus, we are going to trust the
+        #  value and automatically return success.
         $this.__compressionLevel = $newVal;
 
         # Successfully updated.
@@ -289,6 +293,12 @@ class DefaultCompress
     # Documentation:
     #  Sets a new value for the 'Verify Build' variable.
     # -------------------------------
+    # Input:
+    #  [bool] Verify Archive
+    #   When true, allow the possibility to test the archive datafile's
+    #    integrity.  Otherwise, do not allow the possibility to
+    #    examine the archive file.
+    # -------------------------------
     # Output:
     #  [bool] Status
     #   true = Success; value has been changed.
@@ -297,10 +307,10 @@ class DefaultCompress
     #>
     [bool] SetVerifyBuild([bool] $newVal)
     {
-        # Because the value is either true or false, there
-        #  really is no point in checking if the new requested
-        #  value is 'legal'.  Thus, we are going to trust the
-        #  value and automatically return success.
+        # Because the value is either true or false, there really is no
+        #  point in checking if the new requested value is 'legal'.
+        #  Thus, we are going to trust the value and automatically
+        #  return success.
         $this.__verifyBuild = $newVal;
 
         # Successfully updated.
@@ -315,6 +325,12 @@ class DefaultCompress
     # Documentation:
     #  Sets a new value for the 'Generate Report' variable.
     # -------------------------------
+    # Input:
+    #  [bool] Generate Report
+    #   When true, this will allow the report functionality to be
+    #    executed.  Otherwise the report functionality will be turned
+    #    off.
+    # -------------------------------
     # Output:
     #  [bool] Status
     #   true = Success; value has been changed.
@@ -323,10 +339,10 @@ class DefaultCompress
     #>
     [bool] SetGenerateReport([bool] $newVal)
     {
-        # Because the value is either true or false, there
-        #  really is no point in checking if the new requested
-        #  value is 'legal'.  Thus, we are going to trust the
-        #  value and automatically return success.
+        # Because the value is either true or false, there really is no
+        #  point in checking if the new requested value is 'legal'.
+        #  Thus, we are going to trust the value and automatically
+        #  return success.
         $this.__generateReport = $newVal;
 
         # Successfully updated.
@@ -342,9 +358,12 @@ class DefaultCompress
     #  Sets a new value for the 'Root Log Directory Path' variable.
     #
     # WARNING:
-    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!
-    #   IT IS RECOMMENDED TO _NOT_ REVISE THIS VARIABLE
-    #   UNLESS IT IS ABSOLUTELY NECESSARY!
+    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!  IT IS RECOMMENDED
+    #   TO _NOT_ REVISE THIS VARIABLE UNLESS IT IS ABSOLUTELY NECESSARY!
+    # -------------------------------
+    # Input:
+    #  [string] Root Log Path
+    #   The new location of the Root Log directory.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -375,9 +394,12 @@ class DefaultCompress
     #  Sets a new value for the 'Log Directory Path' variable.
     #
     # WARNING:
-    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!
-    #   IT IS RECOMMENDED TO _NOT_ REVISE THIS VARIABLE
-    #   UNLESS IT IS ABSOLUTELY NECESSARY!
+    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!  IT IS RECOMMENDED
+    #   TO _NOT_ REVISE THIS VARIABLE UNLESS IT IS ABSOLUTELY NECESSARY!
+    # -------------------------------
+    # Input:
+    #  [string] Log Path
+    #   The new location of the Logging directory.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -408,9 +430,12 @@ class DefaultCompress
     #  Sets a new value for the 'Report Directory Path' variable.
     #
     # WARNING:
-    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!
-    #   IT IS RECOMMENDED TO _NOT_ REVISE THIS VARIABLE
-    #   UNLESS IT IS ABSOLUTELY NECESSARY!
+    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!  IT IS RECOMMENDED
+    #   TO _NOT_ REVISE THIS VARIABLE UNLESS IT IS ABSOLUTELY NECESSARY!
+    # -------------------------------
+    # Input:
+    #  [string] Report Path
+    #   The new location of the Report directory.
     # -------------------------------
     # Output:
     #  [bool] Status
