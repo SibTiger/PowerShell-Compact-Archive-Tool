@@ -432,14 +432,11 @@ class SevenZip
    <# Set Executable Path
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Executable Path variable.
+    #  Sets a new value for the 'Executable Path' variable.
     # -------------------------------
     # Input:
-    #  [bool] Logging [Debugging]
-    #   When true, the logging functionality will be enabled.
-    #    The logging functionality merely captures any detailed
-    #    information, which is then placed in a log file that
-    #    is specified in the Logging implementation.
+    #  [string] Executable Path
+    #   The location of the 7Zip executable within the host system.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -449,9 +446,8 @@ class SevenZip
     #>
     [bool] SetExecutablePath([string] $newVal)
     {
-        # Because we are testing for an actual file,
-        #  we have to assure that the file really exists
-        #  within the host's filesystem.
+        # Because we are testing for an actual file, we have to assure
+        #  that the file really exists within the host's filesystem.
         if(([IOCommon]::DetectCommand("$($newVal)", "Application")) -eq $false)
         {
             # Could not find the executable.
@@ -472,7 +468,11 @@ class SevenZip
    <# Set Compression Method
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Compression Method variable.
+    #  Sets a new value for the 'Compression Method' variable.
+    # -------------------------------
+    # Input:
+    #  [SevenZipCompressionMethod] Compress Method
+    #   The choice between 7Zip or Zip archive data file format.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -482,11 +482,10 @@ class SevenZip
     #>
     [bool] SetCompressionMethod([SevenZipCompressionMethod] $newVal)
     {
-        # Because the value must fit within the
-        #  'SevenZipCompressionMethod' datatype, there really is
-        #  no point in checking if the new requested value is
-        #  'legal'.  Thus, we are going to trust the value and
-        #  automatically return success.
+        # Because the value must fit within the 'SevenZipCompressionMethod'
+        #  datatype, there really is no point in checking if the new
+        #  requested value is 'legal'.  Thus, we are going to trust the
+        #  value and automatically return success.
         $this.__compressionMethod = $newVal;
 
         # Successfully updated.
@@ -499,7 +498,11 @@ class SevenZip
    <# Set Algorithm [PK3|Zip]
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Algorithm variable.
+    #  Sets a new value for the 'Zip Algorithm' variable.
+    # -------------------------------
+    # Input:
+    #  [SevenZipAlgorithmZip] Algorithm Zip
+    #   The algorithm that will be used when compacting a new Zip archive data file.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -509,11 +512,10 @@ class SevenZip
     #>
     [bool] SetAlgorithmZip([SevenZipAlgorithmZip] $newVal)
     {
-        # Because the value must fit within the
-        #  'SevenZipAlgorithmZip' datatype, there really is
-        #  no point in checking if the new requested value is
-        #  'legal'.  Thus, we are going to trust the value and
-        #  automatically return success.
+        # Because the value must fit within the 'SevenZipAlgorithmZip'
+        #  datatype, there really is no point in checking if the new
+        #  requested value is 'legal'.  Thus, we are going to trust the
+        #  value and automatically return success.
         $this.__algorithmZip = $newVal;
 
         # Successfully updated.
@@ -526,7 +528,11 @@ class SevenZip
    <# Set Algorithm [PK7|7Zip]
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Algorithm variable.
+    #  Sets a new value for the '7Zip Algorithm' variable.
+    # -------------------------------
+    # Input:
+    #  [SevenZipAlgorithm7Zip] Algorithm 7Zip
+    #   The algorithm that will be used when compacting a new 7Zip archive data file.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -536,11 +542,10 @@ class SevenZip
     #>
     [bool] SetAlgorithm7Zip([SevenZipAlgorithm7Zip] $newVal)
     {
-        # Because the value must fit within the
-        #  'SevenZipAlgorithm7Zip' datatype, there really is
-        #  no point in checking if the new requested value is
-        #  'legal'.  Thus, we are going to trust the value and
-        #  automatically return success.
+        # Because the value must fit within the 'SevenZipAlgorithm7Zip'
+        #  datatype, there really is no point in checking if the new
+        #  requested value is 'legal'.  Thus, we are going to trust the
+        #  value and automatically return success.
         $this.__algorithm7Zip = $newVal;
 
         # Successfully updated.
@@ -553,7 +558,12 @@ class SevenZip
    <# Set Use Multithread
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Use Multithread variable.
+    #  Sets a new value for the 'Use Multithread' variable.
+    # -------------------------------
+    # Input:
+    #  [bool] Use Multithread
+    #   When true, this will allow 7Zip to utilize multiple threads on
+    #    the host system's CPU.  Otherwise, only one thread will be used.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -563,10 +573,10 @@ class SevenZip
     #>
     [bool] SetUseMultithread([bool] $newVal)
     {
-        # Because the value is either true or false, there
-        #  really is no point in checking if the new requested
-        #  value is 'legal'.  Thus, we are going to trust the
-        #  value and automatically return success.
+        # Because the value is either true or false, there really is no
+        #  point in checking if the new requested value is 'legal'.
+        #  Thus, we are going to trust the value and automatically
+        #  return success.
         $this.__useMultithread = $newVal;
 
         # Successfully updated.
@@ -579,7 +589,12 @@ class SevenZip
    <# Set Compression Level
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Compression Level variable.
+    #  Sets a new value for the 'Compression Level' variable.
+    # -------------------------------
+    # Input:
+    #  [SevenCompressionLevel] Compression Level
+    #   The desired compression level for compacting newly generated
+    #    archive data files.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -589,11 +604,10 @@ class SevenZip
     #>
     [bool] SetCompressionLevel([SevenCompressionLevel] $newVal)
     {
-        # Because the value must fit within the
-        #  'SevenCompressionLevel' datatype, there really is
-        #  no point in checking if the new requested value is
-        #  'legal'.  Thus, we are going to trust the value and
-        #  automatically return success.
+        # Because the value must fit within the 'SevenCompressionLevel'
+        #  datatype, there really is no point in checking if the new
+        #  requested value is 'legal'.  Thus, we are going to trust the
+        #  value and automatically return success.
         $this.__compressionLevel = $newVal;
 
         # Successfully updated.
@@ -606,7 +620,13 @@ class SevenZip
    <# Set Verify Build
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Verify Build variable.
+    #  Sets a new value for the 'Verify Build' variable.
+    # -------------------------------
+    # Input:
+    #  [bool] Verify Archive
+    #   When true, allow the possibility to test the archive datafile's
+    #    integrity.  Otherwise, do not allow the possibility to
+    #    examine the archive file.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -616,10 +636,10 @@ class SevenZip
     #>
     [bool] SetVerifyBuild([bool] $newVal)
     {
-        # Because the value is either true or false, there
-        #  really is no point in checking if the new requested
-        #  value is 'legal'.  Thus, we are going to trust the
-        #  value and automatically return success.
+        # Because the value is either true or false, there really is no
+        #  point in checking if the new requested value is 'legal'.
+        #  Thus, we are going to trust the value and automatically
+        #  return success.
         $this.__verifyBuild = $newVal;
 
         # Successfully updated.
@@ -632,7 +652,13 @@ class SevenZip
    <# Set Generate Report
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Generate Report variable.
+    #  Sets a new value for the 'Generate Report' variable.
+    # -------------------------------
+    # Input:
+    #  [bool] Generate Report
+    #   When true, this will allow the report functionality to be
+    #    executed.  Otherwise the report functionality will be turned
+    #    off.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -642,10 +668,10 @@ class SevenZip
     #>
     [bool] SetGenerateReport([bool] $newVal)
     {
-        # Because the value is either true or false, there
-        #  really is no point in checking if the new requested
-        #  value is 'legal'.  Thus, we are going to trust the
-        #  value and automatically return success.
+        # Because the value is either true or false, there really is no
+        #  point in checking if the new requested value is 'legal'.
+        #  Thus, we are going to trust the value and automatically
+        #  return success.
         $this.__generateReport = $newVal;
 
         # Successfully updated.
@@ -658,12 +684,15 @@ class SevenZip
    <# Set Root Log Path
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Root Log Path variable.
+    #  Sets a new value for the 'Root Log Path' variable.
     #
     # WARNING:
-    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!
-    #   IT IS RECOMMENDED TO _NOT_ REVISE THIS VARIABLE
-    #   UNLESS IT IS ABSOLUTELY NECESSARY!
+    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!  IT IS RECOMMENDED
+    #   TO _NOT_ REVISE THIS VARIABLE UNLESS IT IS ABSOLUTELY NECESSARY!
+    # -------------------------------
+    # Input:
+    #  [string] Root Log Path
+    #   The new location of the Root Log directory.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -687,15 +716,19 @@ class SevenZip
 
 
 
+
    <# Set Log Path
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Log Path variable.
+    #  Sets a new value for the 'Log Path' variable.
     #
     # WARNING:
-    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!
-    #   IT IS RECOMMENDED TO _NOT_ REVISE THIS VARIABLE
-    #   UNLESS IT IS ABSOLUTELY NECESSARY!
+    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!  IT IS RECOMMENDED
+    #   TO _NOT_ REVISE THIS VARIABLE UNLESS IT IS ABSOLUTELY NECESSARY!
+    # -------------------------------
+    # Input:
+    #  [string] Log Path
+    #   The new location of the Logging directory.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -719,15 +752,19 @@ class SevenZip
 
 
 
+
    <# Set Report Path
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Report Path variable.
+    #  Sets a new value for the 'Report Path' variable.
     #
     # WARNING:
-    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!
-    #   IT IS RECOMMENDED TO _NOT_ REVISE THIS VARIABLE
-    #   UNLESS IT IS ABSOLUTELY NECESSARY!
+    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!  IT IS RECOMMENDED
+    #   TO _NOT_ REVISE THIS VARIABLE UNLESS IT IS ABSOLUTELY NECESSARY!
+    # -------------------------------
+    # Input:
+    #  [string] Report Path
+    #   The new location of the Report directory.
     # -------------------------------
     # Output:
     #  [bool] Status
