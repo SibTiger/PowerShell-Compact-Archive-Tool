@@ -796,15 +796,15 @@ class SevenZip
    <# Check Required Directories
     # -------------------------------
     # Documentation:
-    #  This function was created to check the directories
-    #   that this class requires.
+    #  This function will check to make sure that the log and report directories,\
+    #   that are used in this class, currently exists within the host system's filesystem.
     #
     # ----
     #
-    #  Directories to Check:
-    #   - \7Zip
-    #   - \7Zip\logs
-    #   - \7Zip\reports
+    #  Directories to be checked:
+    #   - %LOCALAPPDATA%\<PROG_NAME>\7Zip
+    #   - %LOCALAPPDATA%\<PROG_NAME>\7Zip\logs
+    #   - %LOCALAPPDATA%\<PROG_NAME>\7Zip\reports
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -827,6 +827,7 @@ class SevenZip
             return $true;
         } # If : Check Directories Exists
 
+        # One or more of the required directories was not found.
         else
         {
             # Directories does not exist.
