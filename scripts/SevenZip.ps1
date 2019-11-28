@@ -1088,24 +1088,24 @@ class SevenZip
     #    $true  = The hash algorithm requested is supported.
     # -------------------------------
     #>
-    hidden [bool] __SupportedHashAlgorithms([string] $hashAlgo)
+    hidden [bool] __SupportedHashAlgorithms([string] $hashAlgorithm)
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string[]] $knownAlgos = @("crc32", `
-                                   "crc64", `
-                                   "sha1", `
-                                   "sha256", `
-                                   "blake2sp");
+        [string[]] $knownAlgorithms = @("crc32", `
+                                        "crc64", `
+                                        "sha1", `
+                                        "sha256", `
+                                        "blake2sp");
         # ----------------------------------------
 
 
         # Scan the list against the requested hash algorithm
-        foreach ($algo in $knownAlgos)
+        foreach ($algorithm in $knownAlgorithms)
         {
             # Scan through the list and compare each algorithm
             #  against the requested hash algorithm.
-            if ("$($algo)" -eq "$($hashAlgo)")
+            if ("$($algorithm)" -eq "$($hashAlgorithm)")
             {
                 # The requested algo is supported.
             } # if : Algos Matches
