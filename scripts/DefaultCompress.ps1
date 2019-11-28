@@ -702,7 +702,7 @@ class DefaultCompress
     #
     # ----
     #
-    #  Directories to be created:
+    #  Directories to be checked:
     #   - %LOCALAPPDATA%\<PROG_NAME>\PSArchive
     #   - %LOCALAPPDATA%\<PROG_NAME>\PSArchive\logs
     #   - %LOCALAPPDATA%\<PROG_NAME>\PSArchive\reports
