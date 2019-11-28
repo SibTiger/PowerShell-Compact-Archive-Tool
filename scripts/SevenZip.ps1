@@ -1100,20 +1100,22 @@ class SevenZip
         # ----------------------------------------
 
 
-        # Scan the list against the requested hash algorithm
+        # Scan the list of the known algorithms against the requested hash
+        #  algorithm.
         foreach ($algorithm in $knownAlgorithms)
         {
-            # Scan through the list and compare each algorithm
+            # Scan through the list and compare each of the known algorithms
             #  against the requested hash algorithm.
             if ("$($algorithm)" -eq "$($hashAlgorithm)")
             {
-                # The requested algo is supported.
-            } # if : Algos Matches
-        } # foreach : Compare Algos
+                # The requested algorithm is supported.
                 return $true;
+            } # if : Algorithm Matches
+        } # foreach : Compare Algorithm List
 
 
-        # We didn't find a match, return false.
+        # The hash algorithm may not be supported.  Return false as there were
+        #  no positive matches.
         return $false;
     } # __SupportedHashAlgorithms()
 
