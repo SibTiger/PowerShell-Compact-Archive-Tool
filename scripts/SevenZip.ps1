@@ -1066,60 +1066,6 @@ class SevenZip
     } # __CreateDirectories()
 
 
-
-   <# Supported Hash Algorithms
-    # -------------------------------
-    # Documentation:
-    #  To assure that the user is utilizing the correct algorithm to be used in the
-    #   7Zip program, we first want to make sure that the algorithm is supported.
-    #   This function will test the user's requested algorithm against a list of known
-    #   (supported) algorithms that the 7Zip program utilizes.
-    #
-    #  List of available Hash Algorithms:
-    #   https://sevenzip.osdn.jp/chm/cmdline/commands/hash.htm
-    # -------------------------------
-    # Input:
-    #  [string] Requested Hash Algorithm
-    #    This will contain the requested hash algorithm provided by the user.  This
-    #     will be checked against a list of known-supported list of algorithms.
-    # -------------------------------
-    # Output:
-    #  [bool] Supported Status
-    #    $false = The requested hash algorithm is not supported.
-    #    $true  = The requested hash algorithm is supported.
-    # -------------------------------
-    #>
-    hidden [bool] __SupportedHashAlgorithms([string] $hashAlgorithm)
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [string[]] $knownAlgorithms = @("crc32", `
-                                        "crc64", `
-                                        "sha1", `
-                                        "sha256", `
-                                        "blake2sp");
-        # ----------------------------------------
-
-
-        # Scan the list of the known algorithms against the requested hash
-        #  algorithm.
-        foreach ($algorithm in $knownAlgorithms)
-        {
-            # Scan through the list and compare each of the known algorithms against
-            #  the requested hash algorithm.
-            if ("$($algorithm)" -eq "$($hashAlgorithm)")
-            {
-                # The requested algorithm is supported.
-                return $true;
-            } # if : Algorithm Matches
-        } # foreach : Compare Algorithm List
-
-
-        # The hash algorithm may not be supported.  Return false as there were no
-        #  positive matches.
-        return $false;
-    } # __SupportedHashAlgorithms()
-
     #endregion
 
 
@@ -1230,7 +1176,7 @@ class SevenZip
     # Input:
     #  [string] Target File
     #   The archive file that will be used by 7Zip to get the hash value.
-    #  [string] Hashing Algorithm
+    #  [FileHashAlgorithm7Zip] Hashing Algorithm
     #   The supported Hash Algorithm that will be used in 7Zip.
     #    NOTE: For a list of supported algorithms, please check this website:
     #          https://sevenzip.osdn.jp/chm/cmdline/commands/hash.htm
@@ -1241,7 +1187,7 @@ class SevenZip
     #             archive data file is corrupted.
     # -------------------------------
     #>
-    [string] ArchiveHash([string] $file, [string] $hashAlgorithm)
+    [string] ArchiveHash([string] $file, [FileHashAlgorithm7Zip] $hashAlgorithm)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1279,15 +1225,6 @@ class SevenZip
             return "ERR";
         } # if : 7Zip was not detected
 
-
-        # Make sure that the requested hash algorithm is
-        #  supported before trying to use it.
-        if ($this.__SupportedHashAlgorithms($hashAlgorithm) -eq $false)
-        {
-            # The requested hash algorithm is not supported;
-            #  we can not use it.
-            return "ERR";
-        } # if : Hash Algorithm not Supported
 
         # ---------------------------
         # - - - - - - - - - - - - - -
@@ -2700,6 +2637,27 @@ class SevenZip
     #endregion
     #endregion
 } # SevenZip
+
+
+
+
+<# File Hash Algorithm (7Zip) [ENUM]
+# -------------------------------
+# Contains a list of known and supported hash algorithms
+#  for the 7Zip executable.
+#
+# List of supported hash algorithms:
+#  https://sevenzip.osdn.jp/chm/cmdline/commands/hash.htm
+# -------------------------------
+#>
+enum FileHashAlgorithm7Zip
+{
+    crc32 = 0;
+    crc64 = 1;
+    sha1 = 2;
+    sha256 = 3;
+    blake2sp = 4;
+} # FileHashAlgorithm7Zip
 
 
 
