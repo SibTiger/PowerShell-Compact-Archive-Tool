@@ -1108,9 +1108,9 @@ class SevenZip
             if ("$($algo)" -eq "$($hashAlgo)")
             {
                 # The requested algo is supported.
-                return $true
             } # if : Algos Matches
         } # foreach : Compare Algos
+                return $true;
 
 
         # We didn't find a match, return false.
