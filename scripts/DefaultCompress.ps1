@@ -475,7 +475,7 @@ class DefaultCompress
     #  If the directories does not already exist, this function will try to create
     #   them automatically - without interacting with the end-user.
     #  If the directories already exist within the filesystem, then nothing will
-    #   performed.
+    #   be performed.
     #
     # ----
     #
