@@ -494,7 +494,7 @@ class DefaultCompress
     #>
     Hidden [bool] __CreateDirectories()
     {
-        # First, check if the directories already exist?
+        # First, check if the directories already exist.
         if(($this.__CheckRequiredDirectories()) -eq $true)
         {
             # * * * * * * * * * * * * * * * * * * *
