@@ -870,6 +870,28 @@ class SevenZip
         # First, check if the directories already exist.
         if(($this.__CheckRequiredDirectories()) -eq $true)
         {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("The 7Zip logging directories already exists;" + `
+                                    " there is no need to create the directories again.");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("7Zip Logging Directories:`r`n" + `
+                                        "`t`tThe Root Directory is:`t`t$($this.__rootLogPath)`r`n" + `
+                                        "`t`tThe Logging Directory is:`t$($this.__logPath)`r`n" + `
+                                        "`t`tThe Report Directory is:`t$($this.__reportPath)`r`n");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # The directories exist, no action is required.
             return $true;
         } # IF : Check if Directories Exists
@@ -887,6 +909,24 @@ class SevenZip
             # Root Log Directory does not exist, try to create it.
             if (([IOCommon]::MakeDirectory("$($this.__rootLogPath)")) -eq $false)
             {
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = "Couldn't create the 7Zip root logging and report directory!";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = "The root directory path is: $($this.__rootLogPath)";
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
                 # Failure occurred; couldn't create directory.
                 return $false;
             } # If : Failed to Create Directory
@@ -902,6 +942,24 @@ class SevenZip
             # Log Directory does not exist, try to create it.
             if (([IOCommon]::MakeDirectory("$($this.__logPath)")) -eq $false)
             {
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = "Couldn't create the 7Zip logging directory!";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = "The logging directory path is: $($this.__logPath)";
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
                 # Failure occurred; couldn't create directory.
                 return $false;
             } # If : Failed to Create Directory
@@ -917,6 +975,24 @@ class SevenZip
             # Report Directory does not exist, try to create it.
             if (([IOCommon]::MakeDirectory("$($this.__reportPath)")) -eq $false)
             {
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = "Couldn't create the 7Zip report directory!";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = "The report directory path is: $($this.__reportPath)";
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
                 # Failure occurred; couldn't create directory.
                 return $false;
             } # If : Failed to Create Directory
@@ -929,9 +1005,60 @@ class SevenZip
         # Fail-safe; final assurance that the directories have been created successfully.
         if(($this.__CheckRequiredDirectories()) -eq $true)
         {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Successfully created the 7Zip logging and report directories!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("7Zip Logging Directories:`r`n" + `
+                                        "`t`tThe Root Directory is:`t`t$($this.__rootLogPath)`r`n" + `
+                                        "`t`tThe Logging Directory is:`t$($this.__logPath)`r`n" + `
+                                        "`t`tThe Report Directory is:`t$($this.__reportPath)`r`n");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # The directories exist
             return $true;
         } # IF : Check if Directories Exists
+
+
+        # ONLY REACHED UPON ERROR
+        # If the directories could not be detected - despite being created on the filesystem,
+        #  then something went horribly wrong.
+        else
+        {
+            # The directories couldn't be found.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Failed to detect the 7Zip required logging and report directories!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("7Zip Logging Directories:`r`n" + `
+                                        "`t`tThe Root Directory was:`t`t$($this.__rootLogPath)`r`n" + `
+                                        "`t`tThe Logging Directory was:`t$($this.__logPath)`r`n" + `
+                                        "`t`tThe Report Directory was:`t$($this.__reportPath)`r`n");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # Else : If Directories Not Found
 
 
         # A general error occurred, the directories could not be created.
