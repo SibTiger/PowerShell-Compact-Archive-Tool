@@ -467,7 +467,7 @@ class DefaultCompress
    <# Create Directories
     # -------------------------------
     # Documentation:
-    #  This function will create the necessary directories that will hold log and
+    #  This function will create the necessary directories that will hold the log and
     #   report files that are generated from this class.  If the directories does
     #   not exist on the filesystem already, there is a chance that some operations
     #   might fail due to the inability to properly store the log and\or the
