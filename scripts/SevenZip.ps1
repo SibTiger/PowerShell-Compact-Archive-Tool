@@ -1070,22 +1070,23 @@ class SevenZip
    <# Supported Hash Algorithms
     # -------------------------------
     # Documentation:
-    #  This function will check to make sure
-    #   that hash algorithm is supported in 7Zip.
+    #  To assure that the user is utilizing the correct algorithm to be used in the
+    #   7Zip program, we first want to make sure that the algorithm is supported.
+    #   This function will test the user's requested algorithm against a list of known
+    #   (supported) algorithms that the 7Zip program utilizes.
     #
     #  List of available Hash Algorithms:
     #   https://sevenzip.osdn.jp/chm/cmdline/commands/hash.htm
     # -------------------------------
     # Input:
     #  [string] Requested Hash Algorithm
-    #    This will contain the requested algorithm to be used
-    #     in 7Zip.  This will be checked against a list of
-    #     available algorithms known to be supported.
+    #    This will contain the requested hash algorithm provided by the user.  This
+    #     will be checked against a list of known-supported list of algorithms.
     # -------------------------------
     # Output:
     #  [bool] Supported Status
-    #    $false = The hash algorithm requested is not supported.
-    #    $true  = The hash algorithm requested is supported.
+    #    $false = The requested hash algorithm is not supported.
+    #    $true  = The requested hash algorithm is supported.
     # -------------------------------
     #>
     hidden [bool] __SupportedHashAlgorithms([string] $hashAlgorithm)
