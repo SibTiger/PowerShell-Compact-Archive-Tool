@@ -1069,9 +1069,12 @@ class SevenZip
     #endregion
 
 
+
     #region Public Functions
 
+
     #region 7Zip Detection
+
 
    <# Detect 7Zip Executable
     # -------------------------------
