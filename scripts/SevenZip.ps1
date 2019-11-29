@@ -1079,38 +1079,42 @@ class SevenZip
    <# Detect 7Zip Executable
     # -------------------------------
     # Documentation:
-    #  This function will check if the 7Zip executable
-    #   was detected.  To accomplish this, we will
-    #   investigate the dedicated variable that
-    #   contains the path and determine if the path
-    #   is valid or not.
+    #  This function will try to detect the 7Zip executable by making sure that the
+    #   assigned member variable is setup properly.  To accomplish this task, this
+    #   function will make sure that the variable contains some sort of data and to
+    #   make sure that the variable is pointing to a binary file.  After investigating
+    #   the variable, this function will return the result in boolean form.
     # -------------------------------
     # Output:
     #  [bool] Detected Code
-    #    $false = Failure to detect the external executable.
+    #    $false = Failed to detect the external executable.
     #    $true  = Successfully detected the external executable.
     # -------------------------------
     #>
     [bool] Detect7ZipExist()
     {
-        # Make sure that it is not null
+        # Make sure that the value is not empty (or null).
         if ($this.__executablePath -eq $null)
         {
-            # Executable does not exist or was not set properly.
-            #  Return false to signify that it doesn't exist.
+            # Because the value is empty, this function was unable to detect the
+            #  executable file.
             return $false;
-        } # if : Executable Path is Null
-        
-        
-        # Check if the 7Zip executable was found
+        } # if : Executable Path is Empty
+
+
+        # Check if the 7Zip executable was found.
         if (([IOCommon]::DetectCommand("$($this.__executablePath)", "Application")) -eq $true)
         {
+            # Return that the executable was found.
             return $true;
-        } # If : Detected
+        } # If : Detected 7Zip
+
+        # Failed to detect the executable.
         else
         {
+            # Return that the executable could not be found.
             return $false;
-        } # Else : Not Detected
+        } # Else : Unable to Detected 7zip
     } # Detect7ZipExist()
 
 
