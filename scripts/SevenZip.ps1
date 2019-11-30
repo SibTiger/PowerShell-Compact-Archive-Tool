@@ -1187,41 +1187,45 @@ class SevenZip
    <# Find 7Zip
     # -------------------------------
     # Documentation:
-    #  This function will try to find the 7Zip executable by
-    #   checking the common locations within the host's
-    #   filesystem.
+    #  This function will try to automatically find the 7Zip executable by checking
+    #   some prevalent locations within the host's filesystem.  If this function was
+    #   able to successfully detect the executable, then the path to the binary file
+    #   will be returned.  Otherwise, if the application was not found, then '$null'
+    #   will be returned instead.
     # -------------------------------
     # Output:
-    #  [string] 7Zip.exe Absolute Path
-    #    $null = When the path was not discoverable,
-    #             then '$null' will be returned.
+    #  [string] 7Zip Executable (Absolute) Path
+    #    Returns the location of where the 7Zip application resides.
+    #    NOTE:
+    #       $null - signifies that the 7Zip executable could not be found in the common
+    #                locations.
     # -------------------------------
     #>
     [string] Find7Zip()
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string[]] $path = @("7z.exe",`                             # Location: %PATH%
-                             "7za.exe", `                           # Location: %PATH% {7Zip CLI; Stand-Alone}
-                         "${env:PROGRAMFILES}\7-Zip\7z.exe", `      # Location: %ProgramFiles%       {x86_32}
-                         "${env:PROGRAMFILES(x86)}\7-Zip\7z.exe");  # Location: %ProgramFiles(x86)%  {x86_64}
+        [string[]] $path = @("7z.exe",`                                 # Location: %PATH%
+                             "7za.exe", `                               # Location: %PATH% {7Zip CLI; Stand-Alone}
+                            "${env:PROGRAMFILES}\7-Zip\7z.exe", `       # Location: %ProgramFiles%       {x86_32}
+                            "${env:PROGRAMFILES(x86)}\7-Zip\7z.exe");   # Location: %ProgramFiles(x86)%  {x86_64}
         # ----------------------------------------
 
 
-        # Inspect each path in the array
+        # Try to automatically find the 7Zip executable by inspecting each path within the array.
         foreach ($index in $path)
         {
-            # Test if the executable exists at the given path
+            # Check the path to see if the 7Zip application was found with the given path.
             if([IOCommon]::DetectCommand("$($index)", "Application") -eq $true)
             {
-                # We found the executable, return its location.
+                # Successfully found the executable; return the path.
                 return "$($index)";
-            } # if : Command Detected
-        } # Foreach : Path
+            } # if : Inspect the Individual Path
+        } # Foreach : Check all Common Paths
 
 
-        # If and only if the executable was not found,
-        #  than will signify that we couldn't find it.
+        # If the application could not be found, then return nothing ($null) to signify
+        #  that this function was unable to find the application.
         return $null;
     } # Find7Zip()
 
