@@ -1218,10 +1218,54 @@ class SevenZip
             # Check the path to see if the 7Zip application was found with the given path.
             if([IOCommon]::DetectCommand("$($index)", "Application") -eq $true)
             {
+                # Successfully found the executable
+
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = "Successfully located the 7Zip executable!";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = "7Zip was found in: $($index)";
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Verbose");                 # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
                 # Successfully found the executable; return the path.
                 return "$($index)";
             } # if : Inspect the Individual Path
         } # Foreach : Check all Common Paths
+
+
+
+        # Could not find the 7Zip executable
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        [string] $logMessage = "Could not automatically locate the 7Zip executable!";
+
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = ("Places to automatically look:`r`n" + `
+                                    "`t`t- $($path -join "`r`n`t`t- ")");
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                    "$($logAdditionalMSG)", `   # Additional information
+                                    "Warning");                 # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
 
 
         # If the application could not be found, then return nothing ($null) to signify
