@@ -1307,7 +1307,8 @@ class SevenZip
     #               be generated.
     # -------------------------------
     #>
-    [string] ArchiveHash([string] $file, [FileHashAlgorithm7Zip] $hashAlgorithm)
+    [string] ArchiveHash([string] $file,                            # The archive file that the hash value is generated from.
+                        [FileHashAlgorithm7Zip] $hashAlgorithm)     # The desired hash algorithm to generate.
     {
         # Declarations and Initializations
         # ----------------------------------------
