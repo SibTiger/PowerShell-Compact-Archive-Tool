@@ -1281,29 +1281,30 @@ class SevenZip
    <# Archive-File Hash
     # -------------------------------
     # Documentation:
-    #  This function will try to get the archive data
-    #   file's hash value directly from 7Zip.  In addition,
-    #   if the archive file is corrupted or the output
-    #   provided is not what we are expecting, this algorithm
-    #   will return an error message or 'ERR'.
+    #  This function will generate and provide the desired hash value from the
+    #   requested archive data file.  If incase the hash value is unobtainable,
+    #   such as the archive data file being corrupted; file was not found; hash
+    #   failed to be generated; or any reason at all, then this function will
+    #   return 'ERR' to signify an error.
     #
-    # NOTE: Because 7Zip does NOT have a simple clean
-    #       way of just outputting the hash value only, we
-    #       have to manipulate the text a bit by using some
-    #       RegEx!
+    # DEVELOPER NOTES:  Because 7Zip does _NOT_ provide clean output, such as
+    #       only returning the hash value, the use of Regular Expression is
+    #       required to parse the output.  PowerShell, luckily, supports RegEx.
     # -------------------------------
     # Input:
     #  [string] Target File
-    #   The archive file that will be used by 7Zip to get the hash value.
+    #   The requested archive data file that the hash value will be generated from.
     #  [FileHashAlgorithm7Zip] Hashing Algorithm
-    #   The supported Hash Algorithm that will be used in 7Zip.
+    #   The requested hash algorithm to generate from the desired archive data file.
     #    NOTE: For a list of supported algorithms, please check this website:
     #          https://sevenzip.osdn.jp/chm/cmdline/commands/hash.htm
     # -------------------------------
     # Output:
     #  [string] Hash Value
-    #    ERR = Error; Unable to get the hash-value or the
-    #             archive data file is corrupted.
+    #   The generated hash value from the requested archive file.
+    #    NOTE:
+    #       ERR - signifies that an error has been reached, the hash value could not
+    #               be generated.
     # -------------------------------
     #>
     [string] ArchiveHash([string] $file, [FileHashAlgorithm7Zip] $hashAlgorithm)
