@@ -1312,13 +1312,12 @@ class SevenZip
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $sourceDir = "$($(Get-Item $file).DirectoryName)"      # Working Directory when executing the
-                                                                        #  extCMD.
-        [string] $extCMDArgs = "h -scrc$($hashAlgorithm) `"$($file)`""; # Arguments for the external command
-                                                                        #  This will get 7zip to generate the
-                                                                        #  requested hash value.
-        [string] $outputResult = $null;                                 # Holds the hash value provided by the
-                                                                        #  extCMD 7z
+        [string] $sourceDir = "$($(Get-Item $file).DirectoryName)";     # The Working Directory for the 7Zip executable.
+        [string] $extCMDArgs = "h -scrc$($hashAlgorithm) `"$($file)`""; # Arguments to be used when invoking the 7Zip executable.
+                                                                        #  This will allow 7Zip to generate the desired Hash information
+                                                                        #  based from the archive datafile.
+        [string] $outputResult = $null;                                 # This variable will hold the newly generated hash value from the
+                                                                        #  7Zip executable.
         [string] $execReason = "Generate $($hashAlgorithm) Hash";       # Description; used for logging
         # ----------------------------------------
 
@@ -1336,13 +1335,13 @@ class SevenZip
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
             return "ERR";
-        } # If : 7Zip Logging Directories
+        } # If : Logging Requirements are Met
 
 
-        # Make sure that the 7Zip executable was detected.
+        # Make sure that the 7Zip executable has been detected and is presently ready to be used.
         if ($($this.Detect7ZipExist()) -eq $false)
         {
-            # 7Zip was not detected.
+            # The 7Zip executable was not detected.
             return "ERR";
         } # if : 7Zip was not detected
 
@@ -1359,17 +1358,17 @@ class SevenZip
         # - - - - - - - - - - - - - -
 
 
-        # Execute the command and cache the value
-        if ($([IOCommon]::ExecuteCommand("$($this.__executablePath)", `
-                            "$($extCMDArgs)", `
-                            "$($sourceDir)", `
-                            "$($this.__logPath)", `
-                            "$($this.__logPath)", `
-                            "$($this.__reportPath)", `
-                            "$($execReason)", `
-                            $false, `
-                            $true, `
-                            [ref]$outputResult)) -ne 0)
+        # Execute the command to generate the desired hash information.
+        if ($([IOCommon]::ExecuteCommand("$($this.__executablePath)", `     # 7Zip Executable Path
+                                        "$($extCMDArgs)", `                 # Arguments to generate the hash from the archive data file.
+                                        "$($sourceDir)", `                  # The working directory that 7Zip will start from.
+                                        "$($this.__logPath)", `             # The Standard Output Directory path.
+                                        "$($this.__logPath)", `             # The Error Output Directory path.
+                                        "$($this.__reportPath)", `          # The Report Directory path.
+                                        "$($execReason)", `                 # The reason why we are running 7Zip; used for logging purposes.
+                                        $false, `                           # Are we building a report?
+                                        $true, `                            # We will be capturing the STDOUT - we will need to process it.
+                                        [ref]$outputResult)) -ne 0)         # Variable containing the STDOUT; used for processing.
         {
             # 7Zip closed with an error
             return "ERR";
@@ -1378,30 +1377,33 @@ class SevenZip
 
         # Evaluation Requirement Check
         # - - - - - - - - - - - - - -
-        # Before we perform some various operations using Regular Expression,
-        #  we first need to make sure that the output result meets the basic
-        #  requirements.  Requirements are the following:
-        #   - The data is NOT null or empty
-        #   - The data contains an expected key phrase, which is necessary to
-        #      recognize that the output is correct.  All other values could mean
-        #      that the file was corrupted, unsupported hash value, or anything else.
-        #  If the requirements are not meant, then it is not possibly to get the
-        #   hash value.
+        # Before we can perform some various operations using Regular Expression, we
+        #  first need to make sure that the output, gathered from 7Zip, meets the
+        #  basic requirements.
+        #  Requirements are the following:
+        #   - The data is NOT null or empty.
+        #   - The data contains an expected key phrase.  This is necessary to recognize
+        #      that the output is correct.  All other values could mean that the file
+        #      was corrupted, unsupported hash value, or something went horribly wrong.
+        #  If the requirements are not meant - then it is not possibly to get the hash
+        #   value.
         # ---------------------------
 
-        # Just for assurance, make sure that we actually have some
-        #  sort of data to work with before trying to evaluate it.
+        # Make sure that the variable containing the Hash information, from 7Zip, is not empty.
+        #  We need the variable to be initialized with some sort of data, if not - we cannot
+        #  evaluate the information from 7Zip as the information provided was empty (or null).
         if ("$($outputResult)" -eq "$($null)")
         {
-            # The output cannot be evaluated; there's nothing to
-            #  inspect.
+            # The output cannot be evaluated; there's nothing to inspect.
             return "ERR";
         } # if : Output Result is Empty
 
 
         # The most important part, can we try to pick up the key-phrase?
-        #  If we have that key-phrase - we have the correct output to evaluate
-        # KEY-PHRASE(RegEx): Everything\ is\ Ok\r\n$
+        #  If we have that key-phrase - than we have the correct output to evaluate.
+        #
+        #  KEY-PHRASE(RegEx):
+        #    Everything\ is\ Ok\r\n$
         if ($($($outputResult) -match "Everything Is Ok`r`n$") -eq $false)
         {
             # The key-phrase was not detected, we cannot evaluate the text.
