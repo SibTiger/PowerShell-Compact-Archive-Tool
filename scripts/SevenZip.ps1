@@ -1330,8 +1330,8 @@ class SevenZip
         #   This check is to make sure that nothing goes horribly wrong.
         # ---------------------------
 
-        # Make sure that the 7Zip Logging directories are ready for use (if required)
-        if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
+        # Make sure that the logging requirements are met.
+        if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
