@@ -1347,6 +1347,14 @@ class SevenZip
         } # if : 7Zip was not detected
 
 
+        # Make sure that the archive data file exists within the provided path.
+        if ($([IOCommon]::CheckPathExists("$(file)"), $true))
+        {
+            # The requested file does not exist.  We cannot generate a hash value without the archive datafile.
+            return "ERR";
+        } # if : File does not exist
+
+
         # ---------------------------
         # - - - - - - - - - - - - - -
 
