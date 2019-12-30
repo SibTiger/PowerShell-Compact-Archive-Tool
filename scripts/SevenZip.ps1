@@ -1333,7 +1333,33 @@ class SevenZip
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
-            #  Because the logging features are required, we can not run the operation.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to generate the hash value of the desired archive file due to logging complications!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Because the logging directories for 7Zip could not be created," + `
+                                        " nothing can be logged as expected.`r`n" + `
+                                        "`tTo resolve the issue:`r`n" + `
+                                        "`t`t- Make sure that the required logging directories are created.`r`n" + `
+                                        "`t`t- OR Disable logging`r`n" + `
+                                        "`tRequested Hash Algorithm: $($hashAlgorithm)`r`n" + `
+                                        "`tArchive data file to inspect: $($file)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Because the logging features are required, we can not run the operation.
             return "ERR";
         } # If : Logging Requirements are Met
 
@@ -1342,6 +1368,31 @@ class SevenZip
         if ($($this.Detect7ZipExist()) -eq $false)
         {
             # The 7Zip executable was not detected.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to generate the Hash value as the 7Zip application was not found!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Because the 7Zip executable was not found, it is not possible" + `
+                                        " to generate the requested hash value.`r`n" + `
+                                        "`tRequested Hash Algorithm: $($hashAlgorithm)`r`n" + `
+                                        "`tArchive data file to inspect: $($file)");
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Return an error as the 7Zip executable was not found, it is not possible to generate the Hash value.
             return "ERR";
         } # if : 7Zip was not detected
 
@@ -1350,6 +1401,30 @@ class SevenZip
         if ($([IOCommon]::CheckPathExists("$($file)", $true)) -eq $false)
         {
             # The requested file does not exist.  We cannot generate a hash value without the archive datafile.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to generate the Hash value as the archive data file was not found!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("The archive data file was not found with the given path.`r`n" + `
+                                        "`tRequested Hash Algorithm: $($hashAlgorithm)`r`n" + `
+                                        "`tArchive data file to inspect: $($file)");
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Return an error as the archive data file does not exist with the given path.
             return "ERR";
         } # if : File does not exist
 
@@ -1371,6 +1446,32 @@ class SevenZip
                                         [ref]$outputResult)) -ne 0)         # Variable containing the STDOUT; used for processing.
         {
             # 7Zip closed with an error
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to fetch the Hash value as 7Zip returned an error!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Because the 7Zip application returned an error, it was not" + `
+                                        " possible to fetch the requested Hash value.`r`n" + `
+                                        "`tRequested Hash Algorithm: $($hashAlgorithm)`r`n" + `
+                                        "`tArchive data file to inspect: $($file)`r`n" + `
+                                        "`tOutput from 7Zip: $($outputResult)");
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # This function will return an error as the 7Zip executable reported a possible failure.
             return "ERR";
         } # if : 7Zip Closed with Error
 
@@ -1396,6 +1497,32 @@ class SevenZip
         if ("$($outputResult)" -eq "$($null)")
         {
             # The output cannot be evaluated; there's nothing to inspect.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Could not obtain the Hash value as the value was either empty or lost!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("An error occurred were the Hash value was either not provided by" + `
+                                        " 7Zip or was lost internally.`r`n" + `
+                                        "`tRequested Hash Algorithm: $($hashAlgorithm)`r`n" + `
+                                        "`tArchive data file to inspect: $($file)`r`n" + `
+                                        "`tOutput from 7Zip: $($outputResult)");
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Because the hash value was not fully captured, this function will have to return an error.
             return "ERR";
         } # if : Output Result is Empty
 
@@ -1408,6 +1535,31 @@ class SevenZip
         if ($($($outputResult) -match "Everything Is Ok`r`n$") -eq $false)
         {
             # The key-phrase was not detected, it is not possible to parse the data correctly.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to prase the Hash value provided by the 7Zip application!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Unable to parse the Hash Value as the Key-Phrase was not found as expected!" + `
+                                        "`tRequested Hash Algorithm: $($hashAlgorithm)`r`n" + `
+                                        "`tArchive data file to inspect: $($file)`r`n" + `
+                                        "`tOutput from 7Zip: $($outputResult)");
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Return an error as the Key-Phrase was not found in 7Zip's output.
             return "ERR";
         } # if : Key-Phrase not Detected
 
@@ -1439,6 +1591,32 @@ class SevenZip
         #  if not detected - then something else was unexpectedly found.
         if ("$($($outputResult) -match "\s\w+$")" -eq $false)
         {
+            # The hash value was not found as expected.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Failed to fetch the Hash Value that was generated by the 7Zip application!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Unable to properly prase the output that was gathered by the 7Zip application." + `
+                                        "  Expected to find the Hash Value at Pass 2.`r`n" + `
+                                        "`tRequested Hash Algorithm: $($hashAlgorithm)`r`n" + `
+                                        "`tArchive data file to inspect: $($file)`r`n" + `
+                                        "`tOutput from 7Zip: $($outputResult)");
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # The parsing value did not match with what was expected, immediately leave
             #  and return an error.
             return "ERR";
