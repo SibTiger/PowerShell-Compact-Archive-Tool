@@ -987,7 +987,7 @@ class DefaultCompress
             # * * * * * * * * * * * * * * * * * * *
 
 
-            #  Because the logging features are required, we can not run the operation.
+            # Because the logging features are required, we can not run the operation.
             return $false;
         } # If : Logging Requirements are Met
 
@@ -1413,7 +1413,7 @@ class DefaultCompress
             # * * * * * * * * * * * * * * * * * * *
 
 
-            #  Because the logging features are required, we can not run the operation.
+            # Because the logging features are required, we can not run the operation.
             return "ERR";
         } # If : Logging Requirements are Met
 
@@ -1672,7 +1672,7 @@ class DefaultCompress
             # * * * * * * * * * * * * * * * * * * *
 
 
-            #  Because the logging features are required, we can not run the operation.
+            # Because the logging features are required, we can not run the operation.
             return $false;
         } # If : Logging Requirements are Met
 
@@ -2228,7 +2228,7 @@ class DefaultCompress
             # * * * * * * * * * * * * * * * * * * *
 
 
-            #  Because the logging features are required, we can not run the operation.
+            # Because the logging features are required, we can not run the operation.
             return $false;
         } # If : Logging Requirements are Met
 
@@ -2723,7 +2723,7 @@ class DefaultCompress
             # * * * * * * * * * * * * * * * * * * *
 
 
-            #  Because the logging features are required, we can not run the operation.
+            # Because the logging features are required, we can not run the operation.
             return $false;
         } # If : Logging Requirements are Met
 
