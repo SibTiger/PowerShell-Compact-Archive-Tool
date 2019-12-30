@@ -1690,7 +1690,7 @@ class SevenZip
         if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
-            #  Because the logging features are required, we can not run the operation.
+            # Because the logging features are required, we can not run the operation.
             return $false;
         } # If : 7Zip Logging Directories
 
@@ -1848,7 +1848,7 @@ class SevenZip
         if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
-            #  Because the logging features are required, we can not run the operation.
+            # Because the logging features are required, we can not run the operation.
             return $false;
         } # If : 7Zip Logging Directories
 
@@ -1985,7 +1985,7 @@ class SevenZip
         if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
-            #  Because the logging features are required, we can not run the operation.
+            # Because the logging features are required, we can not run the operation.
             return $false;
         } # If : 7Zip Logging Directories
 
@@ -2195,7 +2195,7 @@ class SevenZip
         if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
-            #  Because the logging features are required, we can not run the operation.
+            # Because the logging features are required, we can not run the operation.
             return $false;
         } # If : 7Zip Logging Directories
 
@@ -2588,7 +2588,7 @@ class SevenZip
         if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
-            #  Because the logging features are required, we can not run the operation.
+            # Because the logging features are required, we can not run the operation.
             return $false;
         } # If : 7Zip Logging Directories
 
