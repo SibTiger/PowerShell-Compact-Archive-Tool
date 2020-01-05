@@ -1545,7 +1545,7 @@ class SevenZip
             [string] $logMessage = "Unable to prase the Hash value provided by the 7Zip application!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Unable to parse the Hash Value as the Key-Phrase was not found as expected!" + `
+            [string] $logAdditionalMSG = ("Unable to parse the Hash Value as the Key-Phrase was not found as expected!`r`n" + `
                                         "`tRequested Hash Algorithm: $($hashAlgorithm)`r`n" + `
                                         "`tArchive data file to inspect: $($file)`r`n" + `
                                         "`tOutput from 7Zip: $($outputResult)");
