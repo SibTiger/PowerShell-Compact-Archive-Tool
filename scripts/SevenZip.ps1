@@ -1635,23 +1635,27 @@ class SevenZip
    <# Verify Archive
     # -------------------------------
     # Documentation:
-    #  This function will test the archive datafile by making sure
-    #   that it is not damaged or corrupted.  To do this, we will
-    #   use 7Zip's Verification functionality.
+    #  This function will initiate 7Zip's ability to test the file contents
+    #   that currently resides within the archive data file as well as verify
+    #   the archive file's data structure.  With this function, it is possible
+    #   to identify if a data within the archive are corrupted or if the
+    #   archive's structure was damaged.
     #
     #  Test Integrity Informatoin:
     #    https://sevenzip.osdn.jp/chm/cmdline/commands/test.htm
     # -------------------------------
     # Input:
     #  [string] Target File
-    #   The archive file that will be tested upon through the
-    #    verification process.
+    #   The requested archive data file that will be verified.  This
+    #    verification process checks the compact file's data structure and
+    #    the data within the compressed file itself.
     # -------------------------------
     # Output:
-    #  [bool] Exit code
-    #    $false = Archive file failed verification process.
-    #    $true = Archive file passed verification process
-    #             or user did not request the file archive
+    #  [bool] Verification Process Code
+    #    $false = The archive data file is corrupted.
+    #    $true = The archive data file is healthy
+    #            OR
+    #            The user did not request the archive data file
     #             to be tested.
     # -------------------------------
     #>
