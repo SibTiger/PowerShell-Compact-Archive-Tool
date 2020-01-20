@@ -1728,10 +1728,9 @@ class SevenZip
             [string] $logMessage = "Unable to verify the requested archive data file as the 7Zip application was not found!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Because the 7Zip executable was not found, it is not possible" + `
-                                        " to generate the requested hash value.`r`n" + `
+            [string] $logAdditionalMSG = ("Because the 7Zip application was not found, it is not possible to test the desired " + `
+                                        "archive data file's integrity.`r`n" + `
                                         "`tArchive data file to verify: $($file)");
-
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
