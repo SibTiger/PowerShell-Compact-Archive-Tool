@@ -1638,7 +1638,7 @@ class SevenZip
     #  This function will initiate 7Zip's ability to test the file contents
     #   that currently resides within the archive data file as well as verify
     #   the archive file's data structure.  With this function, it is possible
-    #   to identify if a data within the archive are corrupted or if the
+    #   to identify if the data within the archive is corrupted or if the
     #   archive's structure was damaged.
     #
     #  Test Integrity Informatoin:
