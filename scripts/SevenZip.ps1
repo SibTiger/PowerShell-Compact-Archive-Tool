@@ -1660,14 +1660,12 @@ class SevenZip
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $fileName = "$(Split-Path $file -leaf)";           # Get only the filename from $file, 
-                                                                    #  while omitting the entire path to
-                                                                    #  get to that file.
-        [string] $sourceDir = "$($(Get-Item $file).DirectoryName)"; # Working Directory when executing the
-                                                                    #  extCMD.
-        [string] $extCMDArgs = "t `"$($file)`"";                    # Arguments for the external command
-                                                                    #  This will get 7zip to test the
-                                                                    #  requested archive datafile.
+        [string] $fileName = "$(Split-Path $file -leaf)";           # Obtain only just the file name itself while omitting
+                                                                    #  the absolute path.
+        [string] $sourceDir = "$($(Get-Item $file).DirectoryName)"; # The Working Directory for the 7Zip executable.
+        [string] $extCMDArgs = "t `"$($file)`"";                    # Arguments to be used when invoking the 7Zip executable.
+                                                                    #  This will allow 7Zip to perform a verification test on
+                                                                    #  the specified archive data file.
         [string] $execReason = "Verifying $($fileName)";            # Description; used for logging
         # ----------------------------------------
 
