@@ -918,7 +918,6 @@ class DefaultCompress
     #    $false = Archive file failed the verification process.
     #              Some files or the archive file itself is corrupted or damaged.
     #    $true = Archive file passed verification process
-    #             OR the user did not request the file archive to be tested.
     # -------------------------------
     #>
     [bool] VerifyArchive([string] $targetFile)
