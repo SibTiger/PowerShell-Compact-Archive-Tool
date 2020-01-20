@@ -1653,10 +1653,7 @@ class SevenZip
     # Output:
     #  [bool] Verification Process Code
     #    $false = The archive data file is corrupted.
-    #    $true = The archive data file is healthy
-    #            OR
-    #            The user did not request the archive data file
-    #             to be tested.
+    #    $true = The archive data file is healthy.
     # -------------------------------
     #>
     [bool] VerifyArchive([string] $file)
@@ -1674,14 +1671,6 @@ class SevenZip
         [string] $execReason = "Verifying $($fileName)";            # Description; used for logging
         # ----------------------------------------
 
-
-        # Did the user want the archive file tested?
-        if ($this.__verifyBuild -eq $false)
-        {
-            # Because the user did not want the file tested,
-            #  just return 'true' instead.
-            return $true;
-        } # if : Do not test archive file
 
 
         # Dependency Check
