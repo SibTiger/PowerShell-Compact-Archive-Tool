@@ -1807,7 +1807,7 @@ class SevenZip
                                         "it may not be possible to recover the data or to access the contents within " + `
                                         "the archive file.`r`n" + `
                                         "`tArchive data file to verify: $($file)`r`n" + `
-                                        "`tOutput from 7Zip: $($outputResult)");
+                                        "`tPossible Output from 7Zip: $($outputResult)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
