@@ -1832,26 +1832,21 @@ class SevenZip
    <# Fetch Hash Information
     # -------------------------------
     # Documentation:
-    #  This function will retrieve and return
-    #   all hash values that is associated with
-    #   the archive data file.  Hash values are
-    #   essentially a finger print of a specific
-    #   file that was generated at a specific time.
-    #   If the hash value differs to a specific
-    #   file, that could mean that the file is
-    #   different (overall) or corrupted.
+    #  This function will retrieve all of the possible hash information
+    #   associated with the desired archive data file.
+    #  The file hashes are essentially a finger print to that specific
+    #   file.  If the hash provided differs from the previously known
+    #   hash information, then it could mean that the file could have
+    #   been corrupted or was modified.
     # -------------------------------
     # Input:
-    #  [string] Archive datafile Path
-    #   The archive file that will be inspected.
-    #    The path provided should be in absolute
-    #    form.
+    #  [string] Archive File Path
+    #   The absolute path to the desired archive data file to inspect.
     # -------------------------------
     # Output:
     #  [string] Hash Values
-    #    A string list of all hash values
-    #    associated with that specific archive
-    #    file.
+    #   A string list of all supported hash values that are associated
+    #    with the desired archive data file.
     # -------------------------------
     #>
     [string] FetchHashInformation([string] $file)
