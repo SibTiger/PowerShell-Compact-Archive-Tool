@@ -1883,24 +1883,23 @@ class SevenZip
    <# List Files in Archive
     # -------------------------------
     # Documentation:
-    #  This function will list all of the files that are
-    #   within the target archive file.
+    #  This function will provide a list of all of the files that are available
+    #   and resides within the archive data file.
     #
     #  List Files Information:
     #    https://sevenzip.osdn.jp/chm/cmdline/commands/list.htm
     # -------------------------------
     # Input:
-    #  [string] Target File
-    #   The archive file that will contain the files that we
-    #    want to list.
+    #  [string] Archive File
+    #   The archive file that will be inspected.
     #  [bool] Show Technical Information
-    #   When true, this will show All Technical Information.
-    #    This uses the '-slt' argument when listing all of
-    #    the files within the archive file.
+    #   When true, this will show All Technical Information - provided by 7Zip.
+    #    This will use the '-slt' argument when providing a list of all of the
+    #    files that is associated within the archive data file.
     # -------------------------------
     # Output:
     #  [string] File List
-    #    List of files that exists within the archive data file.
+    #    List of files that exists within the archive file.
     # -------------------------------
     #>
     [string] ListFiles([string] $file, [bool] $showTechInfo)
