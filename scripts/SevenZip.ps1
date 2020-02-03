@@ -1931,27 +1931,96 @@ class SevenZip
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to retrieve the list of files from the archive data file due to logging complications!"
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Because the logging directories for 7Zip could not be created," + `
+                                        " nothing can be logged as expected.`r`n" + `
+                                        "`tTo resolve the issue:`r`n" + `
+                                        "`t`t- Make sure that the required logging directories are created.`r`n" + `
+                                        "`t`t- OR Disable logging`r`n" + `
+                                        "`tArchive data to inspect: $($file)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Because the logging features are required, we can not run the operation.
             return "ERR";
         } # If : 7Zip Logging Directories
 
 
-        # Make sure that the 7Zip executable was detected.
+        # Make sure that the 7Zip executable has been detected and is presently ready to be used.
         if ($($this.Detect7ZipExist()) -eq $false)
         {
-            # 7Zip was not detected.
+            # The 7Zip executable was not detected.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to retrieve the list of files from the archive data file as the 7Zip application was not found!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Because the 7Zip application was not found, it is not possible to retrieve a list of files " + `
+                                        " that currently resides within the archive data file.`r`n" + `
+                                        "`tArchive data file to inspect: $($file)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Because the 7Zip application was not found, return an error to signify that the operation had failed.
             return "ERR";
         } # if : 7Zip was not detected
 
 
-        # Make sure that the target file actually exists
+        # Make sure that the archive data file exists within the provided path.
         if ($([IOCommon]::CheckPathExists("$($file)", $true)) -eq $false)
         {
-            # The archive data file does not exist, we can not
-            #  test something that simply doesn't exist.  Return
-            #  a failure.
+            # The archive data file does not exist with the provided path.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to retrieve the list of files from the archive data file as the compact file was not found!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("The archive data file was not found with the given path.`r`n" + `
+                                        "`tArchive data file to inspect: $($file)");
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # It is not possible to inspect the archive file as it was not found.
             return "ERR";
-        } # if : Target file does not exist
+        } # if : File does not exist
 
         # ---------------------------
         # - - - - - - - - - - - - - -
