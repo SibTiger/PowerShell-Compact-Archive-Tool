@@ -1900,6 +1900,9 @@ class SevenZip
     # Output:
     #  [string] File List
     #    List of files that exists within the archive file.
+    #    NOTE:
+    #       ERR - signifies that an error has been reached, the list could not
+    #               be generated.
     # -------------------------------
     #>
     [string] ListFiles([string] $file, [bool] $showTechInfo)
