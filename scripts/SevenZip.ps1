@@ -1748,7 +1748,7 @@ class SevenZip
         # Make sure that the archive data file exists within the provided path.
         if ($([IOCommon]::CheckPathExists("$($file)", $true)) -eq $false)
         {
-            # The archive data files does not exist with the provided path.
+            # The archive data file does not exist with the provided path.
 
 
             # * * * * * * * * * * * * * * * * * * *
