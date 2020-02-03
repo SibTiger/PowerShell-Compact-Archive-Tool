@@ -1980,10 +1980,9 @@ class SevenZip
                                 [ref]$outputResult) | Out-Null;
 
 
-        # Just for assurance; make sure that we have an actual list
-        #  from the archive file.  If in case the list was not
-        #  retrieved successfully, then place 'ERR' to signify that
-        #  an issue occurred, but still providing a value.
+        # Just for assurance; make sure that we have an actual list from the archive
+        #  file.  If in case the list was not  retrieved successfully, then place an
+        #  'ERR' to signify that an issue occurred, but still providing a value.
         if ("$($outputResult)" -eq "$($null)")
         {
             $outputResult = "ERR";
