@@ -1932,7 +1932,7 @@ class SevenZip
         {
             # Because the logging directories could not be created, we can not log.
             # Because the logging features are required, we can not run the operation.
-            return $false;
+            return "ERR";
         } # If : 7Zip Logging Directories
 
 
