@@ -1969,15 +1969,15 @@ class SevenZip
 
         # Execute the command
         [IOCommon]::ExecuteCommand("$($this.__executablePath)", `
-                            "$($extCMDArgs)", `
-                            "$($sourceDir)", `
-                            "$($this.__logPath)", `
-                            "$($this.__logPath)", `
-                            "$($this.__reportPath)", `
-                            "$($execReason)", `
-                            $false, `
-                            $true, `
-                            [ref]$outputResult) | Out-Null;
+                                "$($extCMDArgs)", `
+                                "$($sourceDir)", `
+                                "$($this.__logPath)", `
+                                "$($this.__logPath)", `
+                                "$($this.__reportPath)", `
+                                "$($execReason)", `
+                                $false, `
+                                $true, `
+                                [ref]$outputResult) | Out-Null;
 
 
         # Just for assurance; make sure that we have an actual list
