@@ -1681,7 +1681,7 @@ class SevenZip
 
 
         # Make sure that the logging requirements are met.
-        if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
+        if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
 
