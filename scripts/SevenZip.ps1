@@ -1975,7 +1975,7 @@ class SevenZip
             [string] $logMessage = "Unable to retrieve the list of files from the archive data file as the 7Zip application was not found!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Because the 7Zip application was not found, it is not possible to retrieve a list of files " + `
+            [string] $logAdditionalMSG = ("Because the 7Zip application was not found, it is not possible to retrieve a list of files" + `
                                         " that currently resides within the archive data file.`r`n" + `
                                         "`tArchive data file to inspect: $($file)");
 
