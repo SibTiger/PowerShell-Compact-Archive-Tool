@@ -2007,7 +2007,7 @@ class SevenZip
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("The archive data file was not found with the given path.`r`n" + `
-                                        "`tArchive data file to inspect: $($file)");
+                                        "`tAbsolute Path of the Archive file: $($file)");
 
 
             # Pass the information to the logging system
