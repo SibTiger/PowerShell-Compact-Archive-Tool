@@ -2026,14 +2026,15 @@ class SevenZip
         # - - - - - - - - - - - - - -
 
 
-        # Should the technical information be added in the output?
-        #  If requested, append the argument to the command parameter.
+        # If the user requested verbose information regarding each file, then just
+        #  append that argument to the parameter list.
         if ($showTechInfo -eq $true)
         {
-            # There was a request to display all of the technical information
-            #  for each file within the archive data file.
+            # This will append the 'Technical Information' argument to the parameter
+            #  list.  With that argument, it will provide verbose information regarding
+            #  each file within the archive data file.
             $extCMDArgs = "$($extCMDArgs) -slt";
-        } # if : Show Technical
+        } # if : Provide Technical Information
 
 
         # Execute the command
