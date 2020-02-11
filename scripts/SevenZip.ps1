@@ -2038,16 +2038,16 @@ class SevenZip
 
 
         # Execute the command
-        [IOCommon]::ExecuteCommand("$($this.__executablePath)", `
-                                "$($extCMDArgs)", `
-                                "$($sourceDir)", `
-                                "$($this.__logPath)", `
-                                "$($this.__logPath)", `
-                                "$($this.__reportPath)", `
-                                "$($execReason)", `
-                                $false, `
-                                $true, `
-                                [ref]$outputResult) | Out-Null;
+        [IOCommon]::ExecuteCommand("$($this.__executablePath)", `   # 7Zip Executable Path
+                                "$($extCMDArgs)", `                 # Arguments to provide a list of all files within the archive file.
+                                "$($sourceDir)", `                  # The working directory that 7Zip will start from.
+                                "$($this.__logPath)", `             # The Standard Output Directory path.
+                                "$($this.__logPath)", `             # The Error Output Directory path.
+                                "$($this.__reportPath)", `          # The Report Directory path.
+                                "$($execReason)", `                 # The reason why we are running 7Zip; used for logging purposes.
+                                $false, `                           # Are we building a report?
+                                $true, `                            # We will be capturing the STDOUT - we will need to process it.
+                                [ref]$outputResult) | Out-Null;     # Variable containing the STDOUT; used for processing.
 
 
         # Just for assurance; make sure that we have an actual list from the archive
