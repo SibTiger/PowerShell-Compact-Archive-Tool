@@ -1905,7 +1905,8 @@ class SevenZip
     #               be generated.
     # -------------------------------
     #>
-    [string] ListFiles([string] $file, [bool] $showTechInfo)
+    [string] ListFiles([string] $file,              # The Archive File to Inspect
+                        [bool] $showTechInfo)       # Provide Verbose Information regarding Each File
     {
         # Declarations and Initializations
         # ----------------------------------------
