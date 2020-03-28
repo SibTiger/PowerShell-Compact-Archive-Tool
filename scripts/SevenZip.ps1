@@ -1883,8 +1883,8 @@ class SevenZip
    <# List Files in Archive
     # -------------------------------
     # Documentation:
-    #  This function will provide a list of all of the files that are available
-    #   and resides within the archive data file.
+    #  This function will provide a list of files that currently resides within the archive data file.
+    #   The list generated will be returned to the calling function.
     #
     #  List Files Information:
     #    https://sevenzip.osdn.jp/chm/cmdline/commands/list.htm
