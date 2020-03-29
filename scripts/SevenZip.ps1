@@ -2072,32 +2072,39 @@ class SevenZip
    <# Extract Archive
     # -------------------------------
     # Documentation:
-    #  This function will extract the requested archive data
-    #   file to a specific directory.  However, the directory
-    #   has to already exist in order to use that path.
-    #   Within that directory, this function will create a new
-    #   subdirectory named by the archive file to extract all
-    #   the contents from the archive file.
+    #  This function will extract all of the contents that reside within the
+    #   provided archive data file to the desired output directory.  This
+    #   function will create a new directory with the same name as the archive
+    #   file, omitting the file extension, within the desired output path given
+    #   - this will be our extracting directory.  If incase the final extracting
+    #   directory already exists, then this function will try to make a unique
+    #   directory by attaching a time and data stamp to the directory's name.
+    #   Though, if this function is incapable of creating a unique directory
+    #   then the entire operation will be aborted as there is no valid directory
+    #   to store the data that would be extracted.
     #  For Example:
-    #   E:\Project\{{DESIRED_OUTPUT}}\{{FILENAME_EXTRACTED_FILES}}
+    #   E:\User\JackMass\Documents\{{DESIRED_OUTPUT}}\{{ARCHIVE_FILENAME_EXTRACTED_FILES}}\*
+    #  OR
+    #   E:\User\JackMass\Documents\{{DESIRED_OUTPUT}}\{{FILENAME_EXTRACTED_FILES}}{{DATE_TIME_STAMP}}\*
     #
     #  Extract Files Information:
     #    https://sevenzip.osdn.jp/chm/cmdline/commands/extract.htm
     # -------------------------------
     # Input:
     #  [string] Target File
-    #   The archive file contents that will be extracted.
+    #   The requested archive data file that will be extracted.
     #  [string] Output Path
-    #   The path to output all of the files from the archive file.
-    #  [ref] {string} Directory Output
-    #   The directory in which the data was extracted to within
-    #   the filesystem.  This will hold the absolute path to the
-    #   extracted directory.
+    #   The absolute path of where to extract all of the contents within the desired
+    #    archive file.
+    #  [string] (REFERENCE) Directory Output
+    #   The extracting directory's absolute path of where the contents of the archive file
+    #    have been placed within the system's filesystem.  This path will be returned back
+    #    to the calling function.
     # -------------------------------
     # Output:
     #  [bool] Status Code
-    #    $false = Failure occurred while extracting contents.
-    #    $true  = Successfully extracted contents.
+    #    $false = A failure occurred while extracting contents from the archive file.
+    #    $true  = Successfully extracted contents from the archive file.
     # -------------------------------
     #>
     [bool] ExtractArchive([string] $file, [string] $outputPath, [ref] $directoryOutput)
