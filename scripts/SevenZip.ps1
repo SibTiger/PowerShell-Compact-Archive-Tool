@@ -2296,8 +2296,8 @@ class SevenZip
     #       D:\Users\Admin\Desktop\TopSecret\*.*
     #  [string] (REFERENCE) Archive File Path
     #   This will hold the absolute path, including the file name, of the newly
-    #   created archive file's final destination within the system's filesystem.
-    #   This path will be returned back to the calling function.
+    #    created archive file's final destination within the system's filesystem.
+    #    This path will be returned back to the calling function.
     # -------------------------------
     # Output:
     #  [bool] Status Code
