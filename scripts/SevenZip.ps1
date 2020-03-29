@@ -2274,34 +2274,35 @@ class SevenZip
    <# Create Archive File
     # -------------------------------
     # Documentation:
-    #  This function will allow the ability to
-    #   create new archive data files with the help of 7Zip!
-    #   This function is primarily intended for bulk operation
-    #   instead of small individual file additions.  Meaning,
-    #   this function mainly accepts a parent directory that
-    #   already contains all of the files and subdirectories
-    #   that will be added into the archive file.
+    #  This function will allow the ability to create a new archive data
+    #   file by using the 7Zip application.  Though, this functionality
+    #   only works with bulk operations instead of minor additions by
+    #   updating an already existing archive file.  Meaning, this function
+    #   mainly accepts a parent directory that already contains all of the
+    #   files and subdirectories that will be added into the compressed file.
     #
     #  Extract Files Information:
     #    https://sevenzip.osdn.jp/chm/cmdline/commands/add.htm
     # -------------------------------
     # Input:
     #  [string] Archive File
-    #   The archive file name that will be created.
+    #   The name of the archive file that will be created during this operation.
     #  [string] Output Path
-    #   The output path to place the archive file.
+    #   The path to place the newly created archive data file.
     #  [string] Target Directory
-    #   The directory root that contains all of the data
-    #   that we want to compact into a single archive data file.
-    #  [ref] {string} Archive Path
-    #   This will hold the newly created archive file's absolute
-    #   path and file name.  This will be returned to the calling
-    #   function.
+    #   The root of the directory that contains all of the data that we want to compact
+    #    into a single archive data file.
+    #   NOTE: This argument might contain wildcards, for example:
+    #       D:\Users\Admin\Desktop\TopSecret\*.*
+    #  [string] (REFERENCE) Archive File Path
+    #   This will hold the absolute path, including the file name, of the newly
+    #   created archive file's final destination within the system's filesystem.
+    #   This path will be returned back to the calling function.
     # -------------------------------
     # Output:
     #  [bool] Status Code
-    #    $false = Failure occurred while creating the archive.
-    #    $true  = Successfully created the archive.
+    #    $false = A failure occurred while creating the archive file.
+    #    $true  = Successfully created the archive file.
     # -------------------------------
     #>
     [bool] CreateArchive([string] $archiveFileName, [string] $outputPath, [string] $targetDirectory, [ref] $archivePath)
