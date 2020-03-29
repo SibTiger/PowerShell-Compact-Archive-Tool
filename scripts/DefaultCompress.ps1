@@ -1362,6 +1362,7 @@ class DefaultCompress
     #    List of files that resides within the archive data file provided.
     #    NOTE:
     #       "ERR" - signifies that an error occurred.
+    #       $null - signifies that something went horribly wrong.
     # -------------------------------
     #>
     [string] ListFiles([string] $file,          # The archive data file we want to examine
@@ -1538,33 +1539,37 @@ class DefaultCompress
         } # Catch : Failed to Access Archive File
 
 
-
-        # Now determine what kind of information was requested:
-        # Technical Information
-        if ($showTechInfo -eq $true)
+        # If incase there's absolutely no data, do not try to process it - skip this step.
+        if ($archiveData -ne $null)
         {
-            # The user requested to view the technical information for each file within the archive.
-            foreach ($item in $archiveData.Entries)
-            {
-                # Iterate through each object in the ZipArchive type
-                #  and save all information regarding each entry.
-                $strFileList = ("$($strFileList)" + `
-                                $($item | Out-String | Foreach-Object {$_}));
-            } # foreach : Get technical info. for each file entry
-        } # if : Technical Information
+            # We have a list of files from the archive file, try to generate a literal string
 
-        # Simple File Information
-        else
-        {
-            # The user requested to view only the list of files that exists within the archive.
-            foreach ($item in $archiveData.Entries)
+            # Now determine what kind of information was requested:
+            # Technical Information
+            if ($showTechInfo -eq $true)
             {
-                # Save the file name.
-                $strFileList = ("$($strFileList)" + `
-                                "File: $($item.FullName)`r`n");
-            } # foreach : Get files in each file entry
-        } # else : Standard File List
+                # The user requested to view the technical information for each file within the archive.
+                foreach ($item in $archiveData.Entries)
+                {
+                    # Iterate through each object in the ZipArchive type
+                    #  and save all information regarding each entry.
+                    $strFileList = ("$($strFileList)" + `
+                                    $($item | Out-String | Foreach-Object {$_}));
+                } # foreach : Get technical info. for each file entry
+            } # if : Technical Information
 
+            # Simple File Information
+            else
+            {
+                # The user requested to view only the list of files that exists within the archive.
+                foreach ($item in $archiveData.Entries)
+                {
+                    # Save the file name.
+                    $strFileList = ("$($strFileList)" + `
+                                    "File: $($item.FullName)`r`n");
+                } # foreach : Get files in each file entry
+            } # else : Standard File List
+        } # If : File List were Provided
 
 
         # Logging Section
