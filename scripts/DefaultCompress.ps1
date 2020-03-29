@@ -1370,9 +1370,19 @@ class DefaultCompress
         # Declarations and Initializations
         # ----------------------------------------
         [System.IO.Compression.ZipArchive] $archiveData = $null;        # This will hold the archive data file information
-        [string] $strFileList = $null;                                  # This will contain a list of files that is within
-                                                                        #  the source archive file, with or without the
-                                                                        #  technical information.
+        [string] $strFileList = $null;                                  # This will contain a list of files that is within the
+                                                                        #  source archive file, with or without the technical information.
+        [string] $targetFileName = "$($(Get-Item $file).Name)";         # This will hold the archive file name which will be presented in
+                                                                        #  the logfile.
+        [string] $strSTDOUT = $null;                                    # This will hold the STDOUT information, but will be held as a
+                                                                        #  literal string.The information held in this variable will
+                                                                        #  be presented in the logfile.
+        [string] $strSTDERR = $null;                                    # This will hold the STDERR information, but will be held as a
+                                                                        #  literal string.  The information held in this variable will
+                                                                        #  be presented in the logfile.
+        [string] $execReason = "File List $($targetFileName)";          # This will hold the description of the operation that is being
+                                                                        #  performed in this function, but only presented for logging
+                                                                        #  purposes.
         # ----------------------------------------
 
 
@@ -1554,6 +1564,89 @@ class DefaultCompress
                                 "File: $($item.FullName)`r`n");
             } # foreach : Get files in each file entry
         } # else : Standard File List
+
+
+
+        # Logging Section
+        # =================
+        # - - - - - - - - -
+
+        # Did the user wanted the operation to be logged?  If so, log the operation that was just performed.
+        if ([Logging]::DebugLoggingState() -eq $true)
+        {
+            # Even though the operation that was performed in this function only read the files that exists
+            #  within the archive file, we will need to generate our own logged information.
+
+
+            # Create a temporary variable that will be a mere copy of the output that was gathered, instead
+            #  of manipulating the information that is within the original output - we will alter the data
+            #  through this variable.
+            [string] $logString = $strFileList;
+
+
+            # If there was information provided, then we will process it accordingly.
+            if ($logString -ne "$($null)")
+            {
+                # Because there exists data within the output, we will prepare the output in such a way that
+                #  it can be available within the Logfile in an elegant way.  Ultimately, we want the
+                #  information to be presented in a readable way so that the user can easily decipher the report.
+
+
+                # HEADER
+                # - - - - - -
+                # Logfile Header
+
+                $strSTDOUT = ("Finished generating a list of files that presently exists within the archive data file named $($targetFileName)`r`n" + `
+                                "Below is a list of files that currently resides within the archive file:`r`n" + `
+                                "`r`n" + `
+                                "-----------------------------------------------------------`r`n" + `
+                                "`r`n");
+
+
+                # BODY
+                # - - - - - -
+                # Logfile Body (List of files)
+
+                # So that we can indent each new line of the output, we will need to manipulate the string.
+                #  Replace all of the "`r`n" with "`r`n`t>>".  This was the body of the output is not confusing.
+                $logString = $logString -Replace "`r`n", "`r`n`t>> " -Replace "`t>> `r`n", "`r`n";
+
+                # Attach the newly crafted string to the strSTDOUT container
+                $strSTDOUT = "$($strSTDOUT)$($logString)`r`n";
+
+
+                # FOOTER
+                # - - - - - -
+                # Logfile Footer
+
+                $strSTDOUT = ("$($strSTDOUT)" + `
+                                "`r`n" + `
+                                "-----------------------------------------------------------`r`n");
+            } # If : Output is not 'ERR'
+
+
+            # If there was an error retrieving the list of files, then we will generate that error message ourselves.
+            else
+            {
+                # We will generate our own error message.
+                $strSTDERR = ("`tUnable to generate a list of files from the archive data file named $($targetFileName)!`r`n" + `
+                                "`t`tCheck to make sure that the path exists and that the archive data file is not corrupted.`r`n" + `
+                                "`r`n" + `
+                                "`t`tArchive Data File Path: $($file)");
+            } # else : Error Retrieving File List
+
+
+            # Create the logfile as requested
+            [IOCommon]::PSCMDLetLogging($this.__logPath, `      # Log path for the STDOUT logfile.
+                                        $this.__logPath, `      # Log path for the STDERR logfile.
+                                        $this.__reportPath, `   # Report path and filename.
+                                        $false, `               # Is this a report?
+                                        $false, `               # Should we receive the STDOUT or STDERR for further processing?
+                                        "$($execReason)", `     # Reason for the operation.
+                                        $null, `                # Return the STDOUT/STDERR for further processing.
+                                        [ref] $strSTDOUT, `     # STDOUT output from the CMDLet.
+                                        [ref] $strSTDERR);      # STDERR output from the CMDLet.
+        } # if: Log Results
 
 
         # Return the file list
