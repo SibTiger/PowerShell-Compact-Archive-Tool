@@ -2113,26 +2113,17 @@ class SevenZip
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $finalOutputPath = $null;                          # This will hold the final output
-                                                                    #  path that is unique.
-        [string] $cacheOutputPath = $null;                          # This will help guide us to the
-                                                                    #  final result; this is used as a
-                                                                    #  working variable.
-        [string] $getDateTime = $null;                              # This will hold the date and time,
-                                                                    #  though to be only used if needing
-                                                                    #  a unique directory for the output
-                                                                    #  path.
-        [string] $fileName = `                                      # Get the filename without the
-          "$([System.IO.Path]::GetFileNameWithoutExtension($file))";#  path and file extension.
-        [string] $fileNameExt = "$(Split-Path $file -leaf)";        # Get only the filename from $file, 
-                                                                    #  while omitting the entire path to
-                                                                    #  get to that file, extension is kept.
-        [string] $sourceDir = "$($(Get-Item $file).DirectoryName)"; # Working Directory when executing the
-                                                                    #  extCMD.
-        [string] $extCMDArgs = "x `"$($file)`"";                    # Arguments for the external command
-                                                                    #  This will get 7zip to list all of
-                                                                    #  the files within the requested
-                                                                    #  archive datafile.
+        [string] $finalOutputPath = $null;                          # This will contain the absolute path of the output (extracted) directory.
+        [string] $cacheOutputPath = $null;                          # A temporary variable used to help generate the final output path.
+        [string] $getDateTime = $null;                              # Holds the date and time, though only used when needing to create a
+                                                                    #  unique output directory name.
+        [string] $fileName = `                                      # Get the filename of the archive file without the path nor file extension.
+          "$([System.IO.Path]::GetFileNameWithoutExtension($file))";
+        [string] $fileNameExt = "$(Split-Path $file -leaf)";        # Get only the filename and file extension of the archive file.
+        [string] $sourceDir = "$($(Get-Item $file).DirectoryName)"; # The Working Directory for the 7Zip executable.
+        [string] $extCMDArgs = "x `"$($file)`"";                    # Arguments to be used when invoking the 7Zip executable.
+                                                                    #  This will allow 7Zip to extract all of the files that are present within
+                                                                    #  the desired archive data file to the requested output path.
         [string] $execReason = "Extracting $($fileNameExt)";        # Description; used for logging
         # ----------------------------------------
 
