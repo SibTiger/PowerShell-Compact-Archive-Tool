@@ -2068,9 +2068,9 @@ class SevenZip
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("7Zip was executed and generated a list of files and directories that resides within the" + `
-                                            " requested archive data file, but strangely - the output is currently empty." + `
+                                            " requested archive data file, but strangely - the output is currently empty.`r`n" + `
                                             "`tTo Resolve this issue:`r`n" + `
-                                            "`t`t- You may need to report this bug as it could be an issue with how the data is being captured." + `
+                                            "`t`t- You may need to report this bug as it could be an issue with how the data is being captured.`r`n" + `
                                             "`tArchive Data to Inspect: $($file)`r`n" + `
                                             "`tShow Technical Information: $($showTechInfo)");
 
