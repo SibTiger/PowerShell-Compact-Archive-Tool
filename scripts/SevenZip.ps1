@@ -2141,7 +2141,6 @@ class SevenZip
         # Declarations and Initializations
         # ----------------------------------------
         [string] $finalOutputPath = $null;                          # This will contain the absolute path of the output (extracted) directory.
-        [string] $cacheOutputPath = $null;                          # A temporary variable used to help generate the final output path.
         [string] $getDateTime = $null;                              # Holds the date and time, though only used when needing to create a
                                                                     #  unique output directory name.
         [string] $fileName = `                                      # Get the filename of the archive file without the path nor file extension.
@@ -2301,14 +2300,13 @@ class SevenZip
 
         # Setup our Cache
         #  OutputPath + Filename
-        $cacheOutputPath = "$($outputPath)\$($fileName)";
+        $finalOutputPath = "$($outputPath)\$($fileName)";
 
 
         # Does the output directory already exists?
-        if ([IOCommon]::CheckPathExists("$($cacheOutputPath)", $true) -eq $false)
+        if ([IOCommon]::CheckPathExists("$($finalOutputPath)", $true) -eq $false)
         {
             # Because it is a unique directory, this is our final output destination.
-            $finalOutputPath = $cacheOutputPath;
 
             # Create the new directory
             if([IOCommon]::MakeDirectory("$($finalOutputPath)") -eq $false)
@@ -2352,7 +2350,7 @@ class SevenZip
             $getDateTime = "$(Get-Date -UFormat "%d-%b-%Y_%H-%M-%S")";
 
             # Now put everything together
-            $finalOutputPath = "$($cacheOutputPath)_$($getDateTime)";
+            $finalOutputPath = "$($finalOutputPath)_$($getDateTime)";
 
             # Now try to make the directory, if this fails - we can't do anything more.
             if([IOCommon]::MakeDirectory("$($finalOutputPath)") -eq $false)
