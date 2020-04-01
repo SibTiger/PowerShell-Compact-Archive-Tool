@@ -2271,7 +2271,7 @@ class SevenZip
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("The extract output directory path does not exist with the provided path.`r`n" + `
-                                        "`tAbsolute Path of the Archive file: $($file)" + `
+                                        "`tAbsolute Path of the Archive file: $($file)`r`n" + `
                                         "`tAbsolute Path of the Extracted Directory: $($outputPath)");
 
 
