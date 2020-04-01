@@ -2165,6 +2165,31 @@ class SevenZip
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to extract the archive data file due to logging complications!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Because the logging directories for 7Zip could not be created," + `
+                                        " nothing can be logged as expected.`r`n" + `
+                                        "`tTo resolve the issue:`r`n" + `
+                                        "`t`t- Make sure that the required logging directories are created.`r`n" + `
+                                        "`t`t- OR Disable logging`r`n" + `
+                                        "`tArchive data to inspect: $($file)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Because the logging features are required, we can not run the operation.
             return $false;
         } # If : 7Zip Logging Directories
@@ -2174,6 +2199,27 @@ class SevenZip
         if ($($this.Detect7ZipExist()) -eq $false)
         {
             # 7Zip was not detected.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to extract the archive data file; unable to find the 7Zip Application!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Because the 7Zip application was not found, it is not possible to extract the requested archive data file.`r`n" + `
+                                        "`tArchive data file to inspect: $($file)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             return $false;
         } # if : 7Zip was not detected
 
@@ -2184,6 +2230,28 @@ class SevenZip
             # The archive data file does not exist, we can not
             #  test something that simply doesn't exist.  Return
             #  a failure.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to extract the archive data file as the compact file was not found!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("The archive data file was not found with the given path.`r`n" + `
+                                        "`tAbsolute Path of the Archive file: $($file)");
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             return $false;
         } # if : Target file does not exist
 
@@ -2191,6 +2259,30 @@ class SevenZip
         # Make sure that the output path exists
         if ($([IOCommon]::CheckPathExists("$($outputPath)", $true)) -eq $false)
         {
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to extract the archive data file because the output path does not exist!";
+
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("The extract output directory path does not exist with the provided path.`r`n" + `
+                                        "`tAbsolute Path of the Archive file: $($file)" + `
+                                        "`tAbsolute Path of the Extracted Directory: $($outputPath)");
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # The output path does not exist, we can not extract the contents.
             return $false;
         } # if : Output Directory does not exist
@@ -2223,6 +2315,28 @@ class SevenZip
             {
                 # A failure occurred when trying to make the directory,
                 #  we can not continue as the output is not available.
+
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = "Unable to extract the archive data file because the extracting directory could not be created!";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Requested archive file to extract: $($file)`r`n" + `
+                                            "`tOutput Directory: $($outputPath)`r`n" + `
+                                            "`tAbsolute Path of Extracting Directory: $($finalOutputPath)");
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
                 return $false;
             } # INNER-if : Failed to create directory
         } # if : Does the output already exists?
@@ -2245,6 +2359,27 @@ class SevenZip
             {
                 # A failure occurred when trying to make the directory,
                 #  we can not continue as the output is not available.
+
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = "Unable to extract the archive data file because the extracting directory could not be created!";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Requested archive file to extract: $($file)`r`n" + `
+                                            "`tOutput Directory: $($outputPath)`r`n" + `
+                                            "`tAbsolute Path of Extracting Directory: $($finalOutputPath)");
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
                 return $false;
             } # INNER-if : Failed to create directory (x2)
         } # else : Make a Unique Directory
@@ -2283,6 +2418,28 @@ class SevenZip
                             $null) -ne 0)
         {
             # 7Zip reached an error
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "A failure occurred while trying to extract the data within the archive file!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Requested archive data file to extract: $($file)`r`n" + `
+                                        "`tOutput Directory: $($outputPath)`r`n" + `
+                                        "`tAbsolute Path of Extracting Directory: $($finalOutputPath)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             return $false;
         } # if : Extraction Operation Failed
 
