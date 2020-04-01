@@ -2056,6 +2056,33 @@ class SevenZip
         #  'ERR' to signify that an issue occurred, but still providing a value.
         if ("$($outputResult)" -eq "$($null)")
         {
+            # The Output from 7Zip contained no data.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "7Zip executed with a list of files within the archive file, but output was null!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("7Zip was executed and generated a list of files and directories that resides within the" + `
+                                            " requested archive data file, but strangely - the output is currently empty." + `
+                                            "`tTo Resolve this issue:`r`n" + `
+                                            "`t`t- You may need to report this bug as it could be an issue with how the data is being captured." + `
+                                            "`tArchive Data to Inspect: $($file)`r`n" + `
+                                            "`tShow Technical Information: $($showTechInfo)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Warning");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Because the output was NULL, throw in a default error message.
             $outputResult = "ERR";
         } # If : List was not valid
 
