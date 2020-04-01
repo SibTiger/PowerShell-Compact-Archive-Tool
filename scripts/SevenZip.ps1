@@ -2194,10 +2194,10 @@ class SevenZip
         } # If : 7Zip Logging Directories
 
 
-        # Make sure that the 7Zip executable was detected.
+        # Make sure that the 7Zip executable has been detected and is presently ready to be used.
         if ($($this.Detect7ZipExist()) -eq $false)
         {
-            # 7Zip was not detected.
+            # The 7Zip executable was not detected.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2219,16 +2219,15 @@ class SevenZip
             # * * * * * * * * * * * * * * * * * * *
 
 
+            # Because the 7Zip application was not found, return an error to signify that the operation had failed.
             return $false;
         } # if : 7Zip was not detected
 
 
-        # Make sure that the target file actually exists
+        # Make sure that the archive data file exists within the provided path.
         if ($([IOCommon]::CheckPathExists("$($file)", $true)) -eq $false)
         {
-            # The archive data file does not exist, we can not
-            #  test something that simply doesn't exist.  Return
-            #  a failure.
+            # The archive data file does not exist with the provided path.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2251,13 +2250,15 @@ class SevenZip
             # * * * * * * * * * * * * * * * * * * *
 
 
+            # It is not possible to extract the archive file as it was not found.
             return $false;
         } # if : Target file does not exist
 
 
-        # Make sure that the output path exists
+        # Make sure that the output path exists with the path provided.
         if ($([IOCommon]::CheckPathExists("$($outputPath)", $true)) -eq $false)
         {
+            # The extract directory does not exist with the provided path.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2293,26 +2294,29 @@ class SevenZip
 
         # CREATE THE OUTPUT DIRECTORY
         # - - - - - - - - - - - - - -
-        # Before we can do the main operation, we
-        #  first need to make sure that the output
-        #  directory can be created and is also unique.
+        # Before the archive data file can be extracted, the extracting directory has to be created first.  The
+        #  extracting directory's path will be within the output path requested, but the name of the extracting
+        #  directory will be the same as the filename from the compressed file that is being extracted from.
+        #  The exception to this rule is when the extracting directory's name already exists within the output
+        #  path, then a timestamp will be appended to the directory's name instead to keep the names unique.
         # ---------------------------
 
-        # Setup our Cache
+
+        # Prepare the extracting directory path.
         #  OutputPath + Filename
         $finalOutputPath = "$($outputPath)\$($fileName)";
 
 
-        # Does the output directory already exists?
+        # Does the extracting output directory already exists?
         if ([IOCommon]::CheckPathExists("$($finalOutputPath)", $true) -eq $false)
         {
-            # Because it is a unique directory, this is our final output destination.
+            # Because the extracting directory has a unique name, it will be used as the final output path.
 
-            # Create the new directory
+            # Create the new extracting directory
             if([IOCommon]::MakeDirectory("$($finalOutputPath)") -eq $false)
             {
-                # A failure occurred when trying to make the directory,
-                #  we can not continue as the output is not available.
+                # A failure occurred while trying to create the new extracting directory.  Because of this
+                #  failure, it is not possible to continue this operation.
 
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -2335,6 +2339,7 @@ class SevenZip
                 # * * * * * * * * * * * * * * * * * * *
 
 
+                # Because the extracting directory could not be created, it is not possible to proceed any further.
                 return $false;
             } # INNER-if : Failed to create directory
         } # if : Does the output already exists?
@@ -2342,21 +2347,21 @@ class SevenZip
         # The output directory already exists
         else
         {
-            # Because the directory already exists, we need to make it unique.
-            #  To accomplish this - we will timestamp the directory to make it
-            #  unique while giving the data 'meaning' to it.
-            #  Date and Time
+            # Because the directory already exists, it must be revised in order to make it unique.
+            #  To accomplish this task a timestamp will be attached to the directory in order to
+            #  make it unique while giving the data 'meaning' to it.
+            #  Date and Time Format Scheme:
             #  DD-MMM-YYYY_HH-MM-SS ~~> 09-Feb-2007_01-00-00
             $getDateTime = "$(Get-Date -UFormat "%d-%b-%Y_%H-%M-%S")";
 
-            # Now put everything together
+            # Now attach the timestamp to the name:
             $finalOutputPath = "$($finalOutputPath)_$($getDateTime)";
 
-            # Now try to make the directory, if this fails - we can't do anything more.
+            # Now try to make the directory, if this fails - it is not possible to continue any further.
             if([IOCommon]::MakeDirectory("$($finalOutputPath)") -eq $false)
             {
-                # A failure occurred when trying to make the directory,
-                #  we can not continue as the output is not available.
+                # A failure occurred while trying to create the new extracting directory.  Because of this
+                #  failure, it is not possible to continue this operation.
 
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -2378,6 +2383,8 @@ class SevenZip
 
                 # * * * * * * * * * * * * * * * * * * *
 
+
+                # Because the extracting directory could not be created, it is not possible to proceed any further.
                 return $false;
             } # INNER-if : Failed to create directory (x2)
         } # else : Make a Unique Directory
@@ -2399,21 +2406,20 @@ class SevenZip
         # - - - - - - - - - - - - - - -
         # -----------------------------
 
-        # Attach the output directory to the extCMD Arguments
+        # Attach the extracting output directory to the extCMD Arguments
         $extCMDArgs = "$($extCMDArgs) -o`"$($finalOutputPath)`"";
-        
 
         # Execute the command
-        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `
-                            "$($extCMDArgs)", `
-                            "$($sourceDir)", `
-                            "$($this.__logPath)", `
-                            "$($this.__logPath)", `
-                            "$($this.__reportPath)", `
-                            "$($execReason)", `
-                            $false, `
-                            $false, `
-                            $null) -ne 0)
+        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `       # 7Zip Executable Path
+                                        "$($extCMDArgs)", `                 # Arguments to extract the desired archive data file.
+                                        "$($sourceDir)", `                  # The working directory that 7Zip will start from.
+                                        "$($this.__logPath)", `             # The Standard Output Directory Path.
+                                        "$($this.__logPath)", `             # The Error Output Directory Path.
+                                        "$($this.__reportPath)", `          # The Report Directory Path.
+                                        "$($execReason)", `                 # The reason why we are running 7Zip; used for logging purposes.
+                                        $false, `                           # Are we building a report?
+                                        $false, `                           # Do we need to capture the STDOUT so we can process it further?
+                                        $null) -ne 0)                       # Variable containing the STDOUT; if we need to process it.
         {
             # 7Zip reached an error
 
@@ -2438,6 +2444,7 @@ class SevenZip
             # * * * * * * * * * * * * * * * * * * *
 
 
+            # The operation had failed -- the archive file was not extracted.
             return $false;
         } # if : Extraction Operation Failed
 
