@@ -2501,33 +2501,22 @@ class SevenZip
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $sourceDir = "$(Get-Item $targetDirectory)";       # Working Directory when executing the
-                                                                    #  extCMD.
-        [string] $extCMDArgs = $null;                               # Arguments for the external command
-                                                                    #  When populated, this will contain
-                                                                    #  the arguments needed to create an
-                                                                    #  archive file.  However, when built,
-                                                                    #  this will contain the user's settings
-                                                                    #  when compacting the archive file.
-                                                                    #  For example, preferred algorithm,
-                                                                    #  compression level, etc.
+        [string] $sourceDir = "$(Get-Item $targetDirectory)";       # The Working Directory for the 7Zip executable.
+        [string] $extCMDArgs = $null;                               # Arguments to be used when invoking the 7Zip executable.
+                                                                    #  This will allow 7Zip to create a new archive data
+                                                                    #  file, a bulk operation, by targeting the requested
+                                                                    #  directory.
         [string] $execReason = "Creating $($archiveFileName)";      # Description; used for logging
-        # = = = = = = = = = = = = = = = = = = = = =
-        [string] $getDateTime = $null;                              # This will hold the date and time,
-                                                                    #  though to be only used if needing
-                                                                    #  a unique archive file name.
-        [string] $archiveFileExtension = $null;                     # When populated, this will hold the
-                                                                    #  file extension for that archive file.
-                                                                    #  NOTE: The Extensions will be recognized
-                                                                    #  in ZDoom's standards.  Thus, ZIP == PK3
-                                                                    #  and 7Z == PK7.
-        [string] $cacheArchiveFileName = $null;                     # When populated, this will contain a draft
+        [string] $getDateTime = $null;                              # Holds the date and time, though only used when needing to create a
+                                                                    #  unique archive file name if necessary.
+        [string] $archiveFileExtension = $null;                     # Contains the File Extension to be used for the archive filename.
+        [string] $archiveFileName = $null;                          # This will contain the absolute path of the archive data file's
+                                                                    #  final destination. output (extracted) directory.
+
+
+        #[string] $cacheArchiveFileName = $null;                     # When populated, this will contain a draft
                                                                     #  of the archive file name before it is
                                                                     #  actually used.
-        [string] $finalArchiveFileName = $null;                     # When populated, this will contain the final
-                                                                    #  version of the archive file name --
-                                                                    #  essentially, this will be the archive file
-                                                                    #  name.
         # ----------------------------------------
         
 
