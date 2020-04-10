@@ -2513,7 +2513,7 @@ class SevenZip
         [string] $archiveFileName = $null;                          # This will contain the absolute path of the archive data file's
                                                                     #  final destination. output (extracted) directory.
         # ----------------------------------------
-        
+
 
         # Dependency Check
         # - - - - - - - - - - - - - -
@@ -2556,20 +2556,20 @@ class SevenZip
             #  root simply does not exist.
             return $false;
         } # if : Target Directory does not exist
-        
+
         # ---------------------------
         # - - - - - - - - - - - - - -
 
 
-        
         # DETERMINE ARCHIVE FILE EXTENSION
+
         # - - - - - - - - - - - - - - - - -
         # We will need to figure out what the preferred
         #  file extension is before we can append it to
         #  the filename and the main compacting process.
         # ---------------------------------
-        
         # Inspect user's choice
+
         switch ($this.__compressionMethod)
         {
             "Zip"
@@ -2599,7 +2599,7 @@ class SevenZip
 
         # ---------------------------------
         # - - - - - - - - - - - - - - - - -
-        
+
 
 
         # DETERMINE ARCHIVE FILE NAME
