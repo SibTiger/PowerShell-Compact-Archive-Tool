@@ -2590,10 +2590,8 @@ class SevenZip
 
             default
             {
-                # The compression method selected
-                #  is unknown, we must have a valid
-                #  compression method before we can
-                #  continue.
+                # The compression method that was chosen - is unknown.  It is not possible to continue
+                #  any further, the choice must be either a Zip or 7Zip archive data file format.
                 return $false;
             } # Unknown
         } # switch
@@ -2709,8 +2707,10 @@ class SevenZip
 
             default
             {
-                # The compression method that was chosen - is unknown.  It is not possible to continue
-                #  any further, the choice must be either a Zip or 7Zip archive data file format.
+                # The compression method selected
+                #  is unknown, we must have a valid
+                #  compression method before we can
+                #  continue.
                 return $false;
             } # Unknown
         } # switch
