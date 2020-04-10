@@ -2510,7 +2510,7 @@ class SevenZip
         [string] $getDateTime = $null;                              # Holds the date and time, though only used when needing to create a
                                                                     #  unique archive file name if necessary.
         [string] $archiveFileExtension = $null;                     # Contains the File Extension to be used for the archive filename.
-        [string] $archiveFileName = $null;                          # This will contain the absolute path of the archive data file's
+        [string] $archiveFileNameFull = $null;                      # This will contain the absolute path of the archive data file's
                                                                     #  final destination. output (extracted) directory.
         # ----------------------------------------
 
