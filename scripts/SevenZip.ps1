@@ -2530,30 +2530,29 @@ class SevenZip
         } # If : 7Zip Logging Directories
 
 
-        # Make sure that the 7Zip executable was detected.
+        # Make sure that the 7Zip executable has been detected and is presently ready to be used.
         if ($($this.Detect7ZipExist()) -eq $false)
         {
-            # 7Zip was not detected.
+            # The 7Zip executable was not detected.
+            # Because the 7Zip application was not found, return an error to signify that the operation had failed.
             return $false;
         } # if : 7Zip was not detected
 
 
-        # Make sure that the output directory exists
+        # Make sure that the output directory exists within the provided path.
         if ($([IOCommon]::CheckPathExists("$($outputPath)", $true)) -eq $false)
         {
-            # The output directory does not exist;
-            #  we need a valid location to output this archive file.
+            # The output directory does not exist with the provided path.
+            # Return a failure to signal that an error was reached.
             return $false;
         } # if : Output directory does not exist
 
 
-        # Make sure that the target directory (the contents that will be
-        #  in our newly created archive file) exists.
+        # Make sure that the Target Directory, the data to be compacted, exists within the provided path.
         if ($([IOCommon]::CheckPathExists("$($targetDirectory)", $true)) -eq $false)
         {
-            # The target directory does not exist, we
-            #  can not create an archive if the directory
-            #  root simply does not exist.
+            # The Target Directory does not exist within the provided path.
+            # Because the Target Directory does not exist, the operation must be aborted.
             return $false;
         } # if : Target Directory does not exist
 
@@ -2561,15 +2560,18 @@ class SevenZip
         # - - - - - - - - - - - - - -
 
 
-        # DETERMINE ARCHIVE FILE EXTENSION
 
+        # DETERMINE THE ARCHIVE FILE EXTENSION
         # - - - - - - - - - - - - - - - - -
-        # We will need to figure out what the preferred
-        #  file extension is before we can append it to
-        #  the filename and the main compacting process.
+        # Try to figure out what File Extension that will be attached to the archive file name.
+        #
+        # NOTE: This is configured to respect the file extension convention that were set as a
+        #        standard by the (G)ZDoom engine.  For more details regarding the file extension
+        #        standards, please view the ZDoom Wiki:
+        #           https://zdoom.org/wiki/Using_ZIPs_as_WAD_replacement
         # ---------------------------------
-        # Inspect user's choice
 
+        # Inspect the user's preferred compiling method
         switch ($this.__compressionMethod)
         {
             "Zip"
@@ -2707,10 +2709,8 @@ class SevenZip
 
             default
             {
-                # The compression method selected
-                #  is unknown, we must have a valid
-                #  compression method before we can
-                #  continue.
+                # The compression method that was chosen - is unknown.  It is not possible to continue
+                #  any further, the choice must be either a Zip or 7Zip archive data file format.
                 return $false;
             } # Unknown
         } # switch
