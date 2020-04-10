@@ -2179,7 +2179,7 @@ class SevenZip
                                         "`tTo resolve the issue:`r`n" + `
                                         "`t`t- Make sure that the required logging directories are created.`r`n" + `
                                         "`t`t- OR Disable logging`r`n" + `
-                                        "`tArchive data to inspect: $($file)");
+                                        "`tArchive data to Extract: $($file)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -2209,7 +2209,7 @@ class SevenZip
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Because the 7Zip application was not found, it is not possible to extract the requested archive data file.`r`n" + `
-                                        "`tArchive data file to inspect: $($file)");
+                                        "`tArchive data file to Extract: $($file)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
