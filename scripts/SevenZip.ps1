@@ -2512,11 +2512,6 @@ class SevenZip
         [string] $archiveFileExtension = $null;                     # Contains the File Extension to be used for the archive filename.
         [string] $archiveFileName = $null;                          # This will contain the absolute path of the archive data file's
                                                                     #  final destination. output (extracted) directory.
-
-
-        #[string] $cacheArchiveFileName = $null;                     # When populated, this will contain a draft
-                                                                    #  of the archive file name before it is
-                                                                    #  actually used.
         # ----------------------------------------
         
 
