@@ -2646,10 +2646,10 @@ class SevenZip
 
 
         # Now save the output path to our reference (pointer) variable, this will allow the
-        $archivePath.Value = "$($finalArchiveFileName)";
         #  calling function to get the absolute path of where the archive data file resides.
         #  Thus, the calling function can bring the new archive file to the user's attention
         #  using whatever methods necessary.
+        $archivePath.Value = "$($archiveFileNameFull)";
 
 
         # ---------------------------
