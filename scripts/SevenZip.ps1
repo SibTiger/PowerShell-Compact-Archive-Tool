@@ -3004,7 +3004,8 @@ class SevenZip
             [string] $logAdditionalMSG = ("Requested Archive File to Create: $($archiveFileName)`r`n" + `
                                         "`tProposed filename of the archive file: $($archiveFileNameFull)`r`n" + `
                                         "`tPath of the Output Directory: $($outputPath)`r`n" + `
-                                        "`tPath of the Target Directory: $($targetDirectory)`r`n");
+                                        "`tPath of the Target Directory: $($targetDirectory)`r`n" + `
+                                        "`t7Zip Arguments: $($extCMDArgs)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
