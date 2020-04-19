@@ -2525,6 +2525,32 @@ class SevenZip
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to create the archive data file due to logging complications!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Because the logging directories for 7Zip could not be created," + `
+                                        " nothing can be logged as expected.`r`n" + `
+                                        "`tTo resolve the issue:`r`n" + `
+                                        "`t`t- Make sure that the required logging directories are created.`r`n" + `
+                                        "`t`t- OR Disable logging`r`n" + `
+                                        "`tAbsolute Path of the Target Directory: $($targetDirectory)`r`n" + `
+                                        "`tRequested Archive File to Create: $($archiveFileName)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Because the logging features are required, we can not run the operation.
             return $false;
         } # If : 7Zip Logging Directories
@@ -2534,6 +2560,28 @@ class SevenZip
         if ($($this.Detect7ZipExist()) -eq $false)
         {
             # The 7Zip executable was not detected.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to create the archive data file; unable to find the 7Zip Application!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Because the 7Zip application was not found, it is not possible to create a new archive data file as requested.`r`n" + `
+                                        "`tAbsolute Path of the Target Directory: $($targetDirectory)`r`n" + `
+                                        "`tRequested Archive File to Create: $($archiveFileName)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Because the 7Zip application was not found, return an error to signify that the operation had failed.
             return $false;
         } # if : 7Zip was not detected
@@ -2543,6 +2591,30 @@ class SevenZip
         if ($([IOCommon]::CheckPathExists("$($outputPath)", $true)) -eq $false)
         {
             # The output directory does not exist with the provided path.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to create the archive data file as the output directory was not found!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("The output directory was not found within the given path.`r`n" + `
+                                        "`tPath of the Output Directory: $($outputPath)`r`n" + `
+                                        "`tPath of the Target Directory: $($targetDirectory)`r`n" + `
+                                        "`tRequested Archive File to Create: $($archiveFileName)");
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Return a failure to signal that an error was reached.
             return $false;
         } # if : Output directory does not exist
@@ -2552,6 +2624,30 @@ class SevenZip
         if ($([IOCommon]::CheckPathExists("$($targetDirectory)", $true)) -eq $false)
         {
             # The Target Directory does not exist within the provided path.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to create the archive data file because the Target Directory does not exist!";
+
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("The Target Directory path does not exist with the provided path.`r`n" + `
+                                        "`tPath of the Target Directory: $($targetDirectory)`r`n" + `
+                                        "`tRequested Archive File to Create: $($archiveFileName)");
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Because the Target Directory does not exist, the operation must be aborted.
             return $false;
         } # if : Target Directory does not exist
@@ -2592,6 +2688,40 @@ class SevenZip
             {
                 # The compression method that was chosen - is unknown.  It is not possible to continue
                 #  any further, the choice must be either a Zip or 7Zip archive data file format.
+
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = "Unable to create the archive data file as the requested compression method was unsupported!";
+
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("The supported compression methods are the following:`r`n" + `
+                                            "`t`t> Zip (PK3)`r`n" + `
+                                            "`t`t> 7Zip (7Zip)`r`n" + `
+                                            "`r`n" + `
+                                            "`tPlease be sure that your settings are set to use either of these compression methods.`r`n" + `
+                                            "`tFor more information regarding the Compression Methods, please see the ZDoom Wiki:`r`n" + `
+                                            "`t`thttps://zdoom.org/wiki/Using_ZIPs_as_WAD_replacement`r`n" + `
+                                            "`r`n" + `
+                                            "`tDesired Compression Method: $($this.__compressionMethod)`r`n" + `
+                                            "`tPath of the Target Directory: $($targetDirectory)`r`n" + `
+                                            "`tRequested Archive File to Create: $($archiveFileName)");
+
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
+                # Because the desired compression method in is not supported, it is not possible to continue any further.
+                #  The user must reconfigure their settings to the supported compression methods.
                 return $false;
             } # Unknown
         } # switch
@@ -2641,6 +2771,30 @@ class SevenZip
                 # Because there already exists a file already with the same filename
                 #  (including timestamp), it is not possible to move forward at this time.
                 #  It is not possible to make a unique filename for the archive data file.
+
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = "Unable to create the archive data file as a filename couldn't be finalized!";
+
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Unable to make a unique filename for the archive data file!`r`n" + `
+                                            "`tRequested Archive File to Create: $($archiveFileName)`r`n" + `
+                                            "`tProposed filename of the archive file: $($archiveFileNameFull)`r`n" + `
+                                            "`tPath of the Output Directory: $($outputPath)`r`n" + `
+                                            "`tPath of the Target Directory: $($targetDirectory)`r`n");
+
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
             } # INNER-if : Filename (with Timestamp) Already Exists at Output Path
         } # if : Filename Already Exists at Output Path
 
@@ -2698,6 +2852,31 @@ class SevenZip
             default
             {
                 # The desired compression method is unknown.
+
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = "Unable to create the archive data file as the compression method is not supported!";
+
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("The desired compression method is not supported for this operation!`r`n" + `
+                                            "`tSelected Compression Method: $($this.__compressionMethod)`r`n" + `
+                                            "`t7Zip Arguments Generated thus far: $($extCMDArgs)`r`n" + `
+                                            "`tRequested Archive File to Create: $($archiveFileName)");
+
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
                 # Because the compression method is not supported, the operation will fail.
                 return $false;
             } # Unknown
@@ -2754,6 +2933,31 @@ class SevenZip
             Default
             {
                 # The desired compression value is unknown.
+
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = "Unable to create the archive data file as the compression level was unknown!";
+
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("The desired compression level is not supported!`r`n" + `
+                                            "`tSelected Compression Level: $($this.__compressionLevel)`r`n" + `
+                                            "`t7Zip Arguments Generated thus far: $($extCMDArgs)`r`n" + `
+                                            "`tRequested Archive File to Create: $($archiveFileName)");
+
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
                 # Because the compression level is unknown or not supported, the operation must be aborted.
                 return $false;
             } # Unknown Value
@@ -2783,6 +2987,29 @@ class SevenZip
                                         $null) -ne 0)                       # Variable containing the STDOUT; if we need to process it.
         {
             # 7Zip reached an error.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "A failure occurred while trying to create the archive data file!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Requested Archive File to Create: $($archiveFileName)`r`n" + `
+                                        "`tProposed filename of the archive file: $($archiveFileNameFull)`r`n" + `
+                                        "`tPath of the Output Directory: $($outputPath)`r`n" + `
+                                        "`tPath of the Target Directory: $($targetDirectory)`r`n");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Return signal that the operation had failed.
             return $false;
         } # if : Archive File Creation Failed
