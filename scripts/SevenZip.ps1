@@ -2657,16 +2657,14 @@ class SevenZip
 
 
 
-        # BUILD-UP THE ARGUMENTS
+        # GENERATE THE ARGUMENTS
         # - - - - - - - - - - - -
-        # Append all of the user's settings
-        #  in the extCMD's parameter string.
+        # Generate the the arguments to use when calling the 7Zip application.  The arguments
+        #  will be crafted based upon the user's preferences for using 7Zip.
         # -----------------------
 
 
-        # Since we are going to create a new
-        #  archive file, add the 'add' switch
-        #  to the extCMD parameters.
+        # Since we are going to create a new archive data file, use the add 'a' switch.
         $extCMDArgs = "a";
 
 
@@ -2676,12 +2674,11 @@ class SevenZip
 
         # Attach the target directory
         $extCMDArgs = "$($extCMDArgs) `"$($targetDirectory)`"\*";
-        
 
-        # Now determine the compression method
-        #  that the user wanted to build and
-        #  also attach the requested compression
-        #  algorithm.
+
+
+        # Determine the desired compression method and the compression algorithm that will
+        #  be utilized for this operation.
         switch ($this.__compressionMethod)
         {
             "Zip"
@@ -2700,91 +2697,93 @@ class SevenZip
 
             default
             {
-                # The compression method selected
-                #  is unknown, we must have a valid
-                #  compression method before we can
-                #  continue.
+                # The desired compression method is unknown.
+                # Because the compression method is not supported, the operation will fail.
                 return $false;
             } # Unknown
         } # switch
-        
 
-        
+
+
         # Append the Multithreading Value
         if ($this.__useMultithread -eq $true)
         {
-            # Ensure that multithreaded operations are enabled.
+            # Enable the multithreaded operations.
             $extCMDArgs = "$($extCMDArgs) -mmt=ON";
         } # if : Enable Multithreading
 
         else
         {
-            # Ensure that multithreaded operations are disabled.
+            # Disable the multithreaded operations.
             $extCMDArgs = "$($extCMDArgs) -mmt=OFF";
         } # else : Disable Multithreading
 
-        
 
-        # Now to append the compression level
+
+        # Now append the desired compression level
         switch ($this.__compressionLevel)
         {
             "Store"
             {
+                # No Compression
                 $extCMDArgs = "$($extCMDArgs) -mx=0";
                 break;
             } # Store {No Compression}
 
             "Minimal"
             {
+                # Minimal Compression
                 $extCMDArgs = "$($extCMDArgs) -mx=3";
                 break;
             } # Minimal Compression
 
             "Normal"
             {
+                # Standard Compression
                 $extCMDArgs = "$($extCMDArgs) -mx=5";
                 break;
             } # Standard Compression
 
             "Maximum"
             {
+                # Maximum-as-possible Compression
                 $extCMDArgs = "$($extCMDArgs) -mx=9";
                 break;
             } # Maximum Compression
-            
+
             Default
             {
-                # The compression value is unknown,
-                #  we must have a value before moving
-                #  forward.  Return an error.
+                # The desired compression value is unknown.
+                # Because the compression level is unknown or not supported, the operation must be aborted.
                 return $false;
             } # Unknown Value
         } # switch : Compression Level
-        
+
 
         # -----------------------
         # - - - - - - - - - - - -
 
-        
+
 
         # EXECUTE THE 7ZIP CREATION TASK
         # - - - - - - - - - - - - - - -
         # -----------------------------
-        
-        
+
+
         # Execute the command
-        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `
-                            "$($extCMDArgs)", `
-                            "$($sourceDir)", `
-                            "$($this.__logPath)", `
-                            "$($this.__logPath)", `
-                            "$($this.__reportPath)", `
-                            "$($execReason)", `
-                            $false, `
-                            $false, `
-                            $null) -ne 0)
+        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `       # 7Zip Executable Path
+                                        "$($extCMDArgs)", `                 # Arguments to generate the desired archive data file
+                                        "$($sourceDir)", `                  # The working directory that the 7Zip will start from.
+                                        "$($this.__logPath)", `             # The Standard Output Directory Path.
+                                        "$($this.__logPath)", `             # The Error Output Directory Path.
+                                        "$($this.__reportPath)", `          # The Report Directory Path.
+                                        "$($execReason)", `                 # The reason why we are running 7Zip; used for logging purposes.
+                                        $false, `                           # Are we building a report?
+                                        $false, `                           # Do we need to capture the STDOUT so we can process it further?
+                                        $null) -ne 0)                       # Variable containing the STDOUT; if we need to process it.
         {
-            # 7Zip reached an error
+            # 7Zip reached an error.
+            # Return signal that the operation had failed.
             return $false;
         } # if : Archive File Creation Failed
 
@@ -2793,11 +2792,12 @@ class SevenZip
         # - - - - - - - - - - - - - - -
 
 
-        # Successfully finished the operation
+        # Successfully finished the operation.
         return $true;
     } # CreateArchive()
 
     #endregion
+
 
 
     #region Report
