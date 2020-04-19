@@ -2795,6 +2795,10 @@ class SevenZip
                                             "Error");                   # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
+
+
+                # Because a unique filename could not be created, abort the operation.
+                return $false;
             } # INNER-if : Filename (with Timestamp) Already Exists at Output Path
         } # if : Filename Already Exists at Output Path
 
