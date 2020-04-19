@@ -2669,7 +2669,7 @@ class SevenZip
 
 
         # Attach the archive file name
-        $extCMDArgs = "$($extCMDArgs) `"$($finalArchiveFileName)`"";
+        $extCMDArgs = "$($extCMDArgs) `"$($archiveFileNameFull)`"";
 
 
         # Attach the target directory
