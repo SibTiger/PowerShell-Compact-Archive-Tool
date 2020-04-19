@@ -2602,14 +2602,16 @@ class SevenZip
 
 
 
-        # DETERMINE ARCHIVE FILE NAME
+        # DETERMINE THE ARCHIVE FILE NAME
         # - - - - - - - - - - - - - -
-        # We need to determine the file name of the archive file,
-        #  and then we also have to make sure that it is unique
-        #  in the output directory.  If in case it is not unique,
-        #  then we will merely throw a time stamp to the file
-        #  name -- despite helping to be unique, it also gives
-        #  it a meaning as well.
+        # Try to determine a unique filename for the archive data file.  The archive file will be placed within
+        #  the requested output directory, but the name of the archive file needs to be unique when placed within
+        #  the output directory.  The file name is unique when it is the only filename within the output directory.
+        #  If a file within the output directory - already contains the exact same name, then the filename is no
+        #  longer unique.  When this scenario happens, merely attach a timestamp on the archive data file name.
+        #  This will greatly help to accomplish making the filename of the archive data file unique.  However,
+        #  in a rare occurrence, if the name and the timestamp attached is still not enough to make the filename
+        #  unique, then the operation will fail.
         # ---------------------------
 
 
@@ -2621,22 +2623,18 @@ class SevenZip
         } # if : File Doesn't Exist at Path
         else
         {
-            # Because the file already exists at the
-            #  given output path, we will append a time
-            #  stamp to the filename to assure that it
-            #  is much more unique.  If in case that
-            #  fails, the file already exists with that
-            #  given time stamp, we can not proceed.
-
-            # Setup the timestamp to help make it unique,
-            #  but also to help supply some meaning to
-            #  the file.
-            #  Date and Time
+            # Because there already exists a file with the same filename within the
+            #  output directory, a timestamp will be attached to the filename.  This
+            #  will help to make the filename unique.  Additionally, this will help to
+            #  provide meaning to the file.  The user will be able to easily recognize
+            #  the archive file by keeping the base filename with the timestamp
+            #  attached to it.
+            #  Date and Time Format Scheme:
             #  DD-MMM-YYYY_HH-MM-SS ~~> 09-Feb-2007_01-00-00
             $getDateTime = "$(Get-Date -UFormat "%d-%b-%Y_%H-%M-%S")";
 
-            # Update the cache name for coding simplicity
             $cacheArchiveFileName = "$($archiveFileName)_$($getDateTime)";
+            # Recreate the filename with the timestamp attached to it.
 
             if ([IOCommon]::CheckPathExists("$($outputPath)\$($cacheArchiveFileName).$($archiveFileExtension)", $true) -eq $false)
             {
@@ -2653,10 +2651,10 @@ class SevenZip
 
 
         # Now save the output path to our reference (pointer) variable, this will allow the
-        #  calling function to get the absolute path of where the archive file resides.
-        #  Thus, the calling function can bring the new archive file to the user's
-        #  attention using whatever methods necessary.
         $archivePath.Value = "$($finalArchiveFileName)";
+        #  calling function to get the absolute path of where the archive data file resides.
+        #  Thus, the calling function can bring the new archive file to the user's attention
+        #  using whatever methods necessary.
 
 
         # ---------------------------
