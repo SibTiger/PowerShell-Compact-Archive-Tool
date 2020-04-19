@@ -2615,13 +2615,13 @@ class SevenZip
         # ---------------------------
 
 
-        # Setup the base name and check it
-        if ([IOCommon]::CheckPathExists("$($outputPath)\$($archiveFileName).$($archiveFileExtension)", $true) -eq $false)
-        {
-            # Because the file does not exist, use it!
-            $finalArchiveFileName = "$($outputPath)\$($archiveFileName).$($archiveFileExtension)";
-        } # if : File Doesn't Exist at Path
-        else
+        # Prepare the filename of the archive data file.
+        #  OutputPath + Archive Filename
+        $archiveFileNameFull = "$($outputPath)\$($archiveFileName).$($archiveFileExtension)";
+
+
+        # Does the desired filename already exists within the output directory?
+        if ([IOCommon]::CheckPathExists("$($archiveFileNameFull)", $true) -eq $true)
         {
             # Because there already exists a file with the same filename within the
             #  output directory, a timestamp will be attached to the filename.  This
@@ -2633,21 +2633,16 @@ class SevenZip
             #  DD-MMM-YYYY_HH-MM-SS ~~> 09-Feb-2007_01-00-00
             $getDateTime = "$(Get-Date -UFormat "%d-%b-%Y_%H-%M-%S")";
 
-            $cacheArchiveFileName = "$($archiveFileName)_$($getDateTime)";
             # Recreate the filename with the timestamp attached to it.
+            $archiveFileNameFull = "$($outputPath)\$($archiveFileName)_$($getDateTime).$($archiveFileExtension)";
 
-            if ([IOCommon]::CheckPathExists("$($outputPath)\$($cacheArchiveFileName).$($archiveFileExtension)", $true) -eq $false)
+            if ([IOCommon]::CheckPathExists("$($archiveFileNameFull)", $true) -eq $true)
             {
-                # Because the archive file is now unique, we can use that new name.
-                $finalArchiveFileName = "$($outputPath)\$($cacheArchiveFileName).$($archiveFileExtension)";
-            } # INNER-if : Archive File does not exist
-            else
-            {
-                # Because the archive file name is still not unique enough, we
-                #  simply can not proceed anymore.  We will have to return an error.
-                return $false;
-            } # INNER-else : Archive file does exist
-        } # else : File Already Exists at Path
+                # Because there already exists a file already with the same filename
+                #  (including timestamp), it is not possible to move forward at this time.
+                #  It is not possible to make a unique filename for the archive data file.
+            } # INNER-if : Filename (with Timestamp) Already Exists at Output Path
+        } # if : Filename Already Exists at Output Path
 
 
         # Now save the output path to our reference (pointer) variable, this will allow the
