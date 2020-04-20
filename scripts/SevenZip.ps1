@@ -3124,6 +3124,28 @@ class SevenZip
         if ($this.__generateReport -eq $false)
         {
             # The user does not wish to have a report generated, we will abort this operation by request.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Unable to create the report because the user does not request to" + `
+                                    " generate one (User Settings).");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Current User Setting: $($this.__generateReport)`r`n" + `
+                                        "`tRequested file to generate a report: $($archiveFile)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Warning");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Because the user did not want a report generated, merely return 'true'.
             return $true;
         } # if : Do not create report
@@ -3139,6 +3161,31 @@ class SevenZip
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to create a report on the archive data file due to logging complications!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Because the logging directories for 7Zip could not be created," + `
+                                        " nothing can be logged as expected.`r`n" + `
+                                        "`tTo resolve the issue:`r`n" + `
+                                        "`t`t- Make sure that the required logging directories are created.`r`n" + `
+                                        "`t`t- OR Disable logging`r`n" + `
+                                        "`tRequested file to generate a report: $($archiveFile)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Because the logging features are required, we can not run the operation.
             return $false;
         } # If : Logging Requirements are Met
@@ -3150,6 +3197,27 @@ class SevenZip
             # Because 7Zip was not detected, it is not possible to proceed any further
             #  as the application is required to analyze and inspect the files within
             #  the archive data file.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to create a report on the archive data file; unable to find the 7Zip Executable!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Be sure that the 7Zip application is presently installed and assure that this program is able to detect the executable.`r`n" + `
+                                        "`tRequested file to generate a report: $($archiveFile)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Because 7Zip was not found, it is not possible to proceed any further.
             return $false;
         } # if : 7Zip was not detected
@@ -3160,6 +3228,26 @@ class SevenZip
         {
             # The target archive data file does not exist, we can not perform a report on something
             #  when that file simply doesn't exist with the given file path.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to create a report on the archive data file because the target file does not exist!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "Requested file to generate a report: $($archiveFile)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Return a failure as the target file does not exist.
             return $false;
         } # if : Target Archive File does not Exist
@@ -3207,6 +3295,31 @@ class SevenZip
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we can not proceed any further.
+
+
+                        # * * * * * * * * * * * * * * * * * * *
+                        # Debugging
+                        # --------------
+
+                        # Generate the initial message
+                        [string] $logMessage = "Unable to write the Header to the report!";
+
+                        # Generate any additional information that might be useful
+                        [string] $logAdditionalMSG = ("Object: 7Zip`r`n" + `
+                                                    "`tIteration Step: $($traverse)`r`n" + `
+                                                    "`tRequested file to generate a report: $($archiveFile)`r`n" + `
+                                                    "`tTried to write to report file: $($fileNameTXT)`r`n" + `
+                                                    "`tInformation to write:`r`n" + `
+                                                    "$($outputContent)");
+
+                        # Pass the information to the logging system
+                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                    "$($logAdditionalMSG)", `   # Additional information
+                                                    "Error");                   # Message level
+
+                        # * * * * * * * * * * * * * * * * * * *
+
+
                         # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
@@ -3239,6 +3352,31 @@ class SevenZip
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we can not proceed any further.
+
+
+                        # * * * * * * * * * * * * * * * * * * *
+                        # Debugging
+                        # --------------
+
+                        # Generate the initial message
+                        [string] $logMessage = "Unable to write the Table of Contents to the report!";
+
+                        # Generate any additional information that might be useful
+                        [string] $logAdditionalMSG = ("Object: 7Zip`r`n" + `
+                                                    "`tIteration Step: $($traverse)`r`n" + `
+                                                    "`tRequested file to generate a report: $($archiveFile)`r`n" + `
+                                                    "`tTried to write to report file: $($fileNameTXT)`r`n" + `
+                                                    "`tInformation to write:`r`n" + `
+                                                    "$($outputContent)");
+
+                        # Pass the information to the logging system
+                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                    "$($logAdditionalMSG)", `   # Additional information
+                                                    "Error");                   # Message level
+
+                        # * * * * * * * * * * * * * * * * * * *
+
+
                         # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
@@ -3280,6 +3418,31 @@ class SevenZip
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we can not proceed any further.
+
+
+                        # * * * * * * * * * * * * * * * * * * *
+                        # Debugging
+                        # --------------
+
+                        # Generate the initial message
+                        [string] $logMessage = "Unable to write the Project Information to the report!";
+
+                        # Generate any additional information that might be useful
+                        [string] $logAdditionalMSG = ("Object: 7Zip`r`n" + `
+                                                    "`tIteration Step: $($traverse)`r`n" + `
+                                                    "`tRequested file to generate a report: $($archiveFile)`r`n" + `
+                                                    "`tTried to write to report file: $($fileNameTXT)`r`n" + `
+                                                    "`tInformation to write:`r`n" + `
+                                                    "$($outputContent)");
+
+                        # Pass the information to the logging system
+                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                    "$($logAdditionalMSG)", `   # Additional information
+                                                    "Error");                   # Message level
+
+                        # * * * * * * * * * * * * * * * * * * *
+
+
                         # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
@@ -3324,6 +3487,31 @@ class SevenZip
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we can not proceed any further.
+
+
+                        # * * * * * * * * * * * * * * * * * * *
+                        # Debugging
+                        # --------------
+
+                        # Generate the initial message
+                        [string] $logMessage = "Unable to write the Archive Information to the report!";
+
+                        # Generate any additional information that might be useful
+                        [string] $logAdditionalMSG = ("Object: 7Zip`r`n" + `
+                                                    "`tIteration Step: $($traverse)`r`n" + `
+                                                    "`tRequested file to generate a report: $($archiveFile)`r`n" + `
+                                                    "`tTried to write to report file: $($fileNameTXT)`r`n" + `
+                                                    "`tInformation to write:`r`n" + `
+                                                    "$($outputContent)");
+
+                        # Pass the information to the logging system
+                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                    "$($logAdditionalMSG)", `   # Additional information
+                                                    "Error");                   # Message level
+
+                        # * * * * * * * * * * * * * * * * * * *
+
+
                         # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
@@ -3363,6 +3551,31 @@ class SevenZip
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we can not proceed any further.
+
+
+                        # * * * * * * * * * * * * * * * * * * *
+                        # Debugging
+                        # --------------
+
+                        # Generate the initial message
+                        [string] $logMessage = "Unable to write the File Hash Information to the report!";
+
+                        # Generate any additional information that might be useful
+                        [string] $logAdditionalMSG = ("Object: 7Zip`r`n" + `
+                                                    "`tIteration Step: $($traverse)`r`n" + `
+                                                    "`tRequested file to generate a report: $($archiveFile)`r`n" + `
+                                                    "`tTried to write to report file: $($fileNameTXT)`r`n" + `
+                                                    "`tInformation to write:`r`n" + `
+                                                    "$($outputContent)");
+
+                        # Pass the information to the logging system
+                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                    "$($logAdditionalMSG)", `   # Additional information
+                                                    "Error");                   # Message level
+
+                        # * * * * * * * * * * * * * * * * * * *
+
+
                         # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
@@ -3395,6 +3608,31 @@ class SevenZip
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we can not proceed any further.
+
+
+                        # * * * * * * * * * * * * * * * * * * *
+                        # Debugging
+                        # --------------
+
+                        # Generate the initial message
+                        [string] $logMessage = "Unable to write the List of Files Inside the Archive File to the report!";
+
+                        # Generate any additional information that might be useful
+                        [string] $logAdditionalMSG = ("Object: 7Zip`r`n" + `
+                                                    "`tIteration Step: $($traverse)`r`n" + `
+                                                    "`tRequested file to generate a report: $($archiveFile)`r`n" + `
+                                                    "`tTried to write to report file: $($fileNameTXT)`r`n" + `
+                                                    "`tInformation to write:`r`n" + `
+                                                    "$($outputContent)");
+
+                        # Pass the information to the logging system
+                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                    "$($logAdditionalMSG)", `   # Additional information
+                                                    "Error");                   # Message level
+
+                        # * * * * * * * * * * * * * * * * * * *
+
+
                         # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
@@ -3419,6 +3657,29 @@ class SevenZip
                 {
                     # Something went horribly wrong
                     #  In normal cases, we should _NEVER_ reach this point.
+
+
+                    # * * * * * * * * * * * * * * * * * * *
+                    # Debugging
+                    # --------------
+
+                    # Generate the initial message
+                    [string] $logMessage = "Run-Away had occurred while generating the requested report!";
+
+                    # Generate any additional information that might be useful
+                    [string] $logAdditionalMSG = ("Object: 7Zip`r`n" + `
+                                                "`tIteration Step: $($traverse)`r`n" + `
+                                                "`tRequested file to generate a report: $($archiveFile)`r`n" + `
+                                                "`tTried to write to report file: $($fileNameTXT)`r`n");
+
+                    # Pass the information to the logging system
+                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                "$($logAdditionalMSG)", `   # Additional information
+                                                "Error");                   # Message level
+
+                    # * * * * * * * * * * * * * * * * * * *
+
+
                     # Because a Run-Away occurred, 
                     return $false;
                 } # Case : Default
@@ -3434,6 +3695,29 @@ class SevenZip
             if(([IOCommon]::CreatePDFFile("$($fileNameTXT)", "$($fileNamePDF)")) -eq $false)
             {
                 # Failure occurred while creating the PDF document.
+
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = "Could not create a PDF file of the report!";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Object: 7Zip`r`n" + `
+                                            "`tReport is based on the archive file: $($archiveFile)`r`n" + `
+                                            "`tText file of the report: $($fileNameTXT)`r`n" + `
+                                            "`tTried to create PDF file: $($fileNamePDF)");
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
                 # Because the report could not be made in the PDF format, we will signify an error.
                 return $false;
             } # If : Failure while creating PDF
