@@ -3037,27 +3037,26 @@ class SevenZip
    <# Create a new Report
     # -------------------------------
     # Documentation:
-    #  This function will create a report based upon
-    #   the archive data file that is provided when
-    #   calling this function.
-    #  The report will contain information regarding
-    #   the archive file, such as what files are in
-    #   the file, hash information, and general
-    #   information if available.
+    #  This function will create a report based upon the archive data file that
+    #   is provided when calling this function.
+    #  The report will contain information regarding the archive file.  The
+    #   information may contain a list of files that resides within the archive
+    #   datafile, typical hashes data of the archive file itself, and any general
+    #   details that might be useful for inspection purposes.
     # -------------------------------
     # Input:
     #  [string] Archive File
-    #   The archive file that we are going to generate
-    #    a report on.
+    #   The archive file that will be used to generate the report; this is our
+    #    target file.
     #  [bool] Create a PDF File
-    #   When true, this will allow the ability to create
-    #    a PDF document along with the textfile
+    #   When true, this will allow the ability to create a PDF document along
+    #    with the text file.
     # -------------------------------
     # Output:
     #  [bool] Status Code
-    #    $false = Failure occurred while writing the report.
-    #    $true  = Successfully created the report or user
-    #              did not request to generate a report.
+    #    $false = Failure occurred while generating the report.
+    #    $true  = Successfully created the report or user did not request to
+    #               generate a report.
     # -------------------------------
     #>
     [bool] CreateNewReport([string] $ArchiveFile, `
