@@ -3059,8 +3059,8 @@ class SevenZip
     #               generate a report.
     # -------------------------------
     #>
-    [bool] CreateNewReport([string] $ArchiveFile, `
-                           [bool] $makePDF)
+    [bool] CreateNewReport([string] $archiveFile, `     # The archive file that we will generate a report from.
+                           [bool] $makePDF)             # Create a report within the PDF format aswell?
     {
         # Declarations and Initializations
         # ----------------------------------------
