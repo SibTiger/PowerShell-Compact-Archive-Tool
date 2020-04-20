@@ -3123,8 +3123,8 @@ class SevenZip
         # Did the user wanted a report of an archive data file?
         if ($this.__generateReport -eq $false)
         {
-            # Because the user did not want a report generated,
-            #  merely return 'true'.
+            # The user does not wish to have a report generated, we will abort this operation by request.
+            # Because the user did not want a report generated, merely return 'true'.
             return $true;
         } # if : Do not create report
 
@@ -3141,39 +3141,46 @@ class SevenZip
             # Because the logging directories could not be created, we can not log.
             # Because the logging features are required, we can not run the operation.
             return $false;
-        } # If : 7Zip Logging Directories
+        } # If : Logging Requirements are Met
 
 
         # Make sure that the 7Zip executable was detected.
         if ($($this.Detect7ZipExist()) -eq $false)
         {
-            # 7Zip was not detected.
+            # Because 7Zip was not detected, it is not possible to proceed any further
+            #  as the application is required to analyze and inspect the files within
+            #  the archive data file.
+            # Because 7Zip was not found, it is not possible to proceed any further.
             return $false;
         } # if : 7Zip was not detected
 
 
-        # Make sure that the path exists
+        # Make sure that the target archive file actually exists.
         if ($([IOCommon]::CheckPathExists("$($ArchiveFile)", $true)) -eq $false)
         {
-            # Project Path does not exist, return an error.
+            # The target archive data file does not exist, we can not perform a report on something
+            #  when that file simply doesn't exist with the given file path.
+            # Return a failure as the target file does not exist.
             return $false;
-        } # if : the Project Path does not exist
+        } # if : Target Archive File does not Exist
+
 
         # ---------------------------
         # - - - - - - - - - - - - - -
 
 
-
+        # Generate the Report (Procedure Methodology)
+        #  This loop will help us to stay organized as we traverse through each step.
         DO
         {
-            # Begin writing the report
+            # Sequential steps
             switch ($traverse)
             {
                 # Report Header
                 0
                 {
-                    # Build the output
-                    #  Word Art provided by this website:
+                    # Prepare the message that we will write to the report.
+                    # Word Art for the report's header were provided by this website:
                     #  http://patorjk.com/software/taag
                     #  FONT: Big
                     #  All other settings set to 'default'.
@@ -3196,21 +3203,23 @@ class SevenZip
                                      "`r`n`r`n`r`n";
 
 
-                    # Write to file
+                    # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
+                        # Because there was failure while writing to the report file, we can not proceed any further.
                         # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
 
 
-                    # Increment the traverse variable
+                    # Increment the traverse variable; proceed to the next step.
                     $traverse++;
 
 
-                    # Finished with the header
+                    # Finished with the report's Header
                     break;
                 } # Case : Report Header
+
 
 
                 # Table of Contents
@@ -3226,28 +3235,30 @@ class SevenZip
                                      "`r`n`r`n";
 
 
-                    # Write to file
+                    # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
+                        # Because there was failure while writing to the report file, we can not proceed any further.
                         # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
 
 
-                    # Increment the traverse variable
+                    # Increment the traverse variable; proceed to the next step.
                     $traverse++;
 
 
-                    # Finished with the Table of Contents
+                    # Finished with the report's Table of Contents
                     break;
                 } # Case : Table of Contents
 
 
-                # SECTION - Project Information
+
+                # Project Information
                 2
                 {
-                    # Build the output
                     $outputContent = "1) PROJECT INFORMATION`r`n" + `
+                    # Prepare the message that we will write to the report.
                                      "$($sectionBorder)`r`n`r`n" + `
                                      "Provided below is information regarding the project itself.`r`n`r`n" + `
                                      "Project Name:`r`n" + `
@@ -3265,28 +3276,30 @@ class SevenZip
                                      "`r`n`r`n";
 
 
-                    # Write to file
+                    # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
+                        # Because there was failure while writing to the report file, we can not proceed any further.
                         # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
 
 
-                    # Increment the traverse variable
+                    # Increment the traverse variable; proceed to the next step.
                     $traverse++;
 
 
-                    # Finished with the Project Info.
+                    # Finished with the report's Project Information
                     break;
-                } # Case : SECTION - Project Information
+                } # Case : Project Information
 
 
-                # SECTION - ARCHIVE INFORMATION
+
+                # Archive Information
                 3
                 {
-                    # Build the output
                     $outputContent = "2) ARCHIVE FILE INFORMATION`r`n" + `
+                    # Prepare the message that we will write to the report.
                                      "$($sectionBorder)`r`n`r`n" + `
                                      "Provided below is information regarding the archive" + `
                                      " file itself.  The information can be helpful to know" + `
@@ -3307,28 +3320,30 @@ class SevenZip
                                      "  $($(Get-Item "$($ArchiveFile)").Length) bytes`r`n`r`n";
 
 
-                    # Write to file
+                    # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
+                        # Because there was failure while writing to the report file, we can not proceed any further.
                         # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
 
 
-                    # Increment the traverse variable
+                    # Increment the traverse variable; proceed to the next step.
                     $traverse++;
 
 
-                    # Finished with the Contributors
+                    # Finished with the report's Archive Information
                     break;
-                } # Case : SECTION - ARCHIVE INFORMATION
+                } # Case : Archive Information
 
-                
-                # SECTION - FILE HASH INFORMATION
+
+
+                # File Hash Information
                 4
                 {
-                    # Build the output
                     $outputContent = "3) FILE HASH INFORMATION`r`n" + `
+                    # Prepare the message that we will write to the report.
                                      "$($sectionBorder)`r`n`r`n" + `
                                      "File Hash values are helpful to know if the archive" + `
                                      " file was: corrupted, damaged, or altered.  The Hash" + `
@@ -3344,28 +3359,30 @@ class SevenZip
                                      "$($this.FetchHashInformation("$($ArchiveFile)"))";
 
 
-                    # Write to file
+                    # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
+                        # Because there was failure while writing to the report file, we can not proceed any further.
                         # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
 
 
-                    # Increment the traverse variable
+                    # Increment the traverse variable; proceed to the next step.
                     $traverse++;
 
 
-                    # Finished with the Branches
+                    # Finished with the report's File Hash Information
                     break;
-                } # Case : SECTION - FILE HASH INFORMATION
+                } # Case : File Hash Information
 
 
-                # SECTION - LIST OF FILES INSIDE ARCHIVE
+
+                # List of Files Within the Archive File
                 5
                 {
-                    # Build the output
                     $outputContent = "4) LIST OF FILES INSIDE ARCHIVE`r`n" + `
+                    # Prepare the message that we will write to the report.
                                      "$($sectionBorder)`r`n`r`n" + `
                                      "Provided below is a list of files that" + `
                                      " exists within the archive data file.`r`n`r`n" + `
@@ -3374,55 +3391,62 @@ class SevenZip
                                      "$($this.ListFiles("$($ArchiveFile)", $true))";
 
 
-                    # Write to file
+                    # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
+                        # Because there was failure while writing to the report file, we can not proceed any further.
                         # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
 
 
-                    # Increment the traverse variable
+                    # Increment the traverse variable; proceed to the next step.
                     $traverse++;
 
 
-                    # Jump out of the Loop key
+                    # Jump out of the Loop key; without this flag - a Run-Away will occur.
                     $readyToBreak = $true;
 
 
-                    # Finished with the Commits Overview
+                    # Finished with the report's File Hash Information
                     break;
-                } # Case : SECTION - LIST OF FILES INSIDE ARCHIVE
+                } # Case : List of Files Within the Archive File
+
 
 
                 # Default - ERROR; Run Away
                 default
                 {
                     # Something went horribly wrong
+                    #  In normal cases, we should _NEVER_ reach this point.
+                    # Because a Run-Away occurred, 
                     return $false;
-                } # Case : DEFAULT
+                } # Case : Default
             } # switch()
         } While ($readyToBreak -eq $false);
 
-        
+
+
         # Does the user also want a PDF file of the report?
         if ($makePDF -eq $true)
         {
-            # Create the PDF file
+            # Create the PDF file as requested
             if(([IOCommon]::CreatePDFFile("$($fileNameTXT)", "$($fileNamePDF)")) -eq $false)
             {
                 # Failure occurred while creating the PDF document.
+                # Because the report could not be made in the PDF format, we will signify an error.
                 return $false;
             } # If : Failure while creating PDF
         } # If : Make PDF Report
 
 
+
         # Successfully wrote to the file
         return $true;
-
     } # CreateNewReport()
 
     #endregion
+
 
 
     #region File Management
