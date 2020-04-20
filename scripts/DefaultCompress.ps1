@@ -2718,7 +2718,7 @@ class DefaultCompress
         # - - - -
         # >> Standard Textfile
         [string] $fileNameTXT = "$($this.__reportPath)\$($fileNameExt) - $($dateTime).txt";
-        
+
         # >> Portable Document File (PDF)
         [string] $fileNamePDF = "$($this.__reportPath)\$($fileNameExt) - $($dateTime).pdf";
         # - - - -
