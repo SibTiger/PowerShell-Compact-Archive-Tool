@@ -3770,9 +3770,45 @@ class SevenZip
                                                         #  it'll be false to signify an error.
         # ----------------------------------------
 
-        # First, make sure that the directories exist.
-        #  If the directories are not available, than there
-        #  is nothing that can be done.
+
+        # Before we start, setup the known extensions variable for logging purposes.
+        #  Get all of the known extensions used for logging; $extLogs
+        foreach ($item in $extLogs)
+        {
+            # if this is the first entry in the variable, then just apply the item
+            #  to the string without adding a appending the previous entries.
+            if (($knownExtensions -eq $null) -or
+                ($knownExtensions -eq ""))
+            {
+                # First entry to the string.
+                $knownExtensions = "$($item)";
+            }# If: first entry
+
+            # There is already information in the variable, append the new entry to the
+            #  previous data.
+            else
+            {
+                # Append the entry to the string list.
+                $knownExtensions += ", $($item)";
+            } # Else: Append entry
+        } # Foreach: Known Logging Extensions
+
+
+        #  Did the user wanted to remove all report files?
+        if ($expungeReports)
+        {
+            # Get all of the known extensions used for reports; $extReports
+            foreach($item in $extReports)
+            {
+                # Append the entry to the string list.
+                $knownExtensions += ", $($item)";
+            } # Foreach: Known Report Extensions
+        } # If: Reports are included in operation
+
+
+
+        # Make sure that the logging directories exist.  If the directories are not
+        #  available presently, than there is nothing that can be done at this time.
         if (($this.__CheckRequiredDirectories()) -eq $false)
         {
             # This is not really an error, however the directories simply
@@ -3784,8 +3820,10 @@ class SevenZip
         # Because the directories exists, lets try to thrash the logs.
         if(([IOCommon]::DeleteFile("$($this.__logPath)", $extLogs)) -eq $false)
         {
-            # Failure to remove the requested files
-            return $false;
+            # Reached a failure upon removing the requested log files.
+            # Because the operation failed, we will update the exit code to 'false'
+            #  to signify that we reached an error.
+            $exitCode = $false;
         } # If : failure to delete files
 
 
@@ -3794,16 +3832,18 @@ class SevenZip
 
         # Did the user also wanted to thrash the reports?
         if (($($expungeReports) -eq $true) -and `
-        ([IOCommon]::DeleteFile("$($this.__reportPath)", $extReports)) -eq $false)
+            ([IOCommon]::DeleteFile("$($this.__reportPath)", $extReports)) -eq $false)
         {
-            # Failure to remove the requested files
-            return $false;
+            # Reached a failure upon removing the requested log files.
+            # Because the operation failed, we will update the exit code to 'false'
+            #  to signify that we reached an error.
+            $exitCode = $false;
         } # If : thrash the reports
 
 
 
         # If we made it here, then everything went okay!
-        return $true;
+        return $exitCode;
     } # ThrashLogs()
 
     #endregion
