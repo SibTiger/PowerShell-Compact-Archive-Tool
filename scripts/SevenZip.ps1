@@ -3760,6 +3760,14 @@ class SevenZip
         # ----------------------------------------
         [string[]] $extLogs = @('*.err', '*.out');   # Array of log extensions
         [string[]] $extReports = @('*.txt');         # Array of report extensions
+        [string] $knownExtensions = $null;              # This will hold a nice string value of all of
+                                                        #  the extensions that this function will remove;
+                                                        #  extensions being: $extLogs and $extReports combined.
+                                                        #  This is primarily used for logging purposes.
+        [bool] $exitCode = $true;                       # The exit code status provided by the log\report
+                                                        #  deletion operation status.  If the operation
+                                                        #  was successful then true will be set, otherwise
+                                                        #  it'll be false to signify an error.
         # ----------------------------------------
 
         # First, make sure that the directories exist.
