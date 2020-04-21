@@ -3811,6 +3811,26 @@ class SevenZip
         #  available presently, than there is nothing that can be done at this time.
         if (($this.__CheckRequiredDirectories()) -eq $false)
         {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to delete the requested files as the logging directories were not found!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Object: 7Zip`r`n" + `
+                                        "`tRequested file extensions to delete: $($knownExtensions)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Warning");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+
             # This is not really an error, however the directories simply
             #  does not exist -- nothing can be done.
             return $true;
@@ -3821,6 +3841,27 @@ class SevenZip
         if(([IOCommon]::DeleteFile("$($this.__logPath)", $extLogs)) -eq $false)
         {
             # Reached a failure upon removing the requested log files.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "A failure occurred while removing the requested log files!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Object: 7Zip`r`n" + `
+                                        "`tRequested file extensions to delete: $($knownExtensions)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Because the operation failed, we will update the exit code to 'false'
             #  to signify that we reached an error.
             $exitCode = $false;
@@ -3835,11 +3876,57 @@ class SevenZip
             ([IOCommon]::DeleteFile("$($this.__reportPath)", $extReports)) -eq $false)
         {
             # Reached a failure upon removing the requested log files.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "A failure occurred while removing the requested report files!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Object: 7Zip`r`n" + `
+                                        "`tRequested file extensions to delete: $($knownExtensions)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Because the operation failed, we will update the exit code to 'false'
             #  to signify that we reached an error.
             $exitCode = $false;
         } # If : thrash the reports
 
+
+        # If everything succeeded, provide this information to the logfile.
+        if ($exitCode)
+        {
+            # The operation was successful, provide the information to the logfile.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Successfully expunged the requested files!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Object: 7Zip`r`n" + `
+                                        "`tRequested file extensions to delete: $($knownExtensions)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # If: Everything was Successful
 
 
         # If we made it here, then everything went okay!
