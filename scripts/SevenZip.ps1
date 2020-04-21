@@ -3758,8 +3758,7 @@ class SevenZip
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string[]] $extLogs = @('*.err', '*.out');   # Array of log extensions
-        [string[]] $extReports = @('*.txt');         # Array of report extensions
+        [string[]] $extLogs = @('*.err', '*.out');      # Array of log extensions
         [string[]] $extReports = @('*.txt', '*.pdf');   # Array of report extensions
         [string] $knownExtensions = $null;              # This will hold a nice string value of all of
                                                         #  the extensions that this function will remove;
