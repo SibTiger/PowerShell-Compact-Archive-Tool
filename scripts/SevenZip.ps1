@@ -3981,16 +3981,20 @@ enum SevenZipCompressionMethod
 
 <# 7Zip Algorithm Zip [ENUM]
  # -------------------------------
- # Associated with what type of 7Z Compression Algorithm
- #  the end-user prefers when compacting an archive
- #  datafile.
+ # List of compression algorithms that can be set when utilizing the Compression
+ #  Method Zip.  Despite that the 7Zip application may support more compression
+ #  algorithms for the Zip method, this application will only focus on a few
+ #  popular or widely known methods instead.
+ #
+ # List of all Compression Algorithms supported by 7Zip
+ #  - https://sevenzip.osdn.jp/chm/cmdline/switches/method.htm#Zip
  # -------------------------------
  #>
 enum SevenZipAlgorithmZip
 {
-    Deflate = 0;  # Default
-    LZMA = 1;     # LZMA Algo.
-    BZip2 = 2;    # BZip2 Algo.
+    Deflate = 0;        # Deflate Algorithm
+    LZMA = 1;           # LZMA Algorithm
+    BZip2 = 2;          # BZip2 Algorithm
 } # SevenZipAlgorithmZip
 
 
