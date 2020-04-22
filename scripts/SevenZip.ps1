@@ -4024,14 +4024,20 @@ enum SevenZipAlgorithm7Zip
 
 <# 7Zip Compression Level [ENUM]
  # -------------------------------
- # Associated with what type of compression level the
- #  end-user prefers when compacting an archive datafile.
+ # List of compression levels that can be utilized when compacting an individual
+ #  or a collection of files into a desired archive datafile.  Despite that the
+ #  7Zip application may support more compression levels, this application aims
+ #  to keep the process simple for the end-user.
+ #
+ # List of all compression levels supported by 7Zip
+ #  - https://sevenzip.osdn.jp/chm/cmdline/switches/method.htm#ZipX
+ #  - https://sevenzip.osdn.jp/chm/cmdline/switches/method.htm#SevenZipX
  # -------------------------------
  #>
 enum SevenCompressionLevel
 {
-    Store = 0;    # Store [No Compression] {0}
-    Minimal = 1;  # Minimal compression    {3}
-    Normal = 2;   # Standard compression   {5}
-    Maximum = 3;  # Maximum compression    {9}
+    Store = 0;          # Store [No Compression] {0}
+    Minimal = 1;        # Minimal compression    {3}
+    Normal = 2;         # Standard compression   {5}
+    Maximum = 3;        # Maximum compression    {9}
 } # DefaultCompressionLevel
