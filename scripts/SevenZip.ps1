@@ -3962,14 +3962,18 @@ enum FileHashAlgorithm7Zip
 
 <# 7Zip Compression Method [ENUM]
  # -------------------------------
- # Associated with what type of 7Z Method the end-user
- #  prefers when compacting an archive datafile.
+ # List of compression methods that is supported with the 7Zip application.
+ #  Despite that 7Zip may support more compression types, this application
+ #  will only focus on a few popular or widely known methods instead.
+ #
+ # List of all Compression Methods supported by 7Zip
+ #  - https://sevenzip.osdn.jp/chm/cmdline/switches/method.htm
  # -------------------------------
  #>
 enum SevenZipCompressionMethod
 {
-    Zip = 0;      # Zip format [PK3]
-    SevenZip = 1; # 7Zip format [PK7]
+    Zip = 0;            # Zip format [PK3]
+    SevenZip = 1;       # 7Zip format [PK7]
 } # SevenZipCompressionMethod
 
 
