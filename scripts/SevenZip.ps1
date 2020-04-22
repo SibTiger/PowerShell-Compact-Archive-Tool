@@ -4000,19 +4000,23 @@ enum SevenZipAlgorithmZip
 
 
 
-<# 7Zip Algorithm 7Zip [ENUM]
+<# 7Zip Algorithm 7z [ENUM]
  # -------------------------------
- # Associated with what type of 7Z Compression Algorithm
- #  the end-user prefers when compacting an archive
- #  datafile.
+ # List of compression algorithms that can be set when utilizing the Compression
+ #  Method 7z.  Despite that the 7Zip application may support more compression
+ #  algorithms for the 7z method, this application will only focus on a few
+ #  popular or widely known methods instead.
+ #
+ # List of all Compression Algorithms supported by 7Zip
+ #  - https://sevenzip.osdn.jp/chm/cmdline/switches/method.htm#7Z
  # -------------------------------
  #>
 enum SevenZipAlgorithm7Zip
 {
-    LZMA2 = 0;    # Default
-    LZMA = 1;     # LZMA Algo.
-    BZip2 = 2;    # BZip2 Algo.
-    PPMd = 3;     # PPMd Algo.
+    LZMA2 = 0;          # LZMA2 Algorithm
+    LZMA = 1;           # LZMA Algorithm
+    BZip2 = 2;          # BZip2 Algorithm
+    PPMd = 3;           # PPMd Algorithm
 } # SevenZipAlgorithm7Zip
 
 
