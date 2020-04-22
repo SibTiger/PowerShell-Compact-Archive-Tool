@@ -3942,20 +3942,19 @@ class SevenZip
 
 <# File Hash Algorithm (7Zip) [ENUM]
 # -------------------------------
-# Contains a list of known and supported hash algorithms
-#  for the 7Zip executable.
+# List of Hash Algorithms that is supported with the 7Zip Application.
 #
 # List of supported hash algorithms:
-#  https://sevenzip.osdn.jp/chm/cmdline/commands/hash.htm
+#  - https://sevenzip.osdn.jp/chm/cmdline/commands/hash.htm
 # -------------------------------
 #>
 enum FileHashAlgorithm7Zip
 {
-    crc32 = 0;
-    crc64 = 1;
-    sha1 = 2;
-    sha256 = 3;
-    blake2sp = 4;
+    crc32 = 0;          # Cyclic Redundancy Check (32bit)
+    crc64 = 1;          # Cyclic Redundancy Check (64bit)
+    sha1 = 2;           # Secure Hash Algorithm 1 
+    sha256 = 3;         # Secure Hash Algorithm 256
+    blake2sp = 4;       # BLAKE2sp (Multi-Core)
 } # FileHashAlgorithm7Zip
 
 
