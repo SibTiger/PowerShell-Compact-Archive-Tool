@@ -266,7 +266,7 @@ class SevenZip
    <# Get Algorithm [PK3|Zip]
     # -------------------------------
     # Documentation:
-    #  Returns the value of the 'Algorithm' variable used with Zip method..
+    #  Returns the value of the 'Algorithm' variable used with Zip method.
     # -------------------------------
     # Output:
     #  [SevenZipAlgorithmZip] Algorithm [ZIP]
@@ -796,7 +796,7 @@ class SevenZip
    <# Check Required Directories
     # -------------------------------
     # Documentation:
-    #  This function will check to make sure that the log and report directories,\
+    #  This function will check to make sure that the log and report directories,
     #   that are used in this class, currently exists within the host system's filesystem.
     #
     # ----
@@ -927,7 +927,7 @@ class SevenZip
                 # * * * * * * * * * * * * * * * * * * *
 
 
-                # Failure occurred; couldn't create directory.
+                # Failure occurred; could not create directory.
                 return $false;
             } # If : Failed to Create Directory
         } # If : Not Detected Root Log Directory
@@ -960,7 +960,7 @@ class SevenZip
                 # * * * * * * * * * * * * * * * * * * *
 
 
-                # Failure occurred; couldn't create directory.
+                # Failure occurred; could not create directory.
                 return $false;
             } # If : Failed to Create Directory
         } # If : Not Detected Log Directory
@@ -993,7 +993,7 @@ class SevenZip
                 # * * * * * * * * * * * * * * * * * * *
 
 
-                # Failure occurred; couldn't create directory.
+                # Failure occurred; could not create directory.
                 return $false;
             } # If : Failed to Create Directory
         } # If : Not Detected Report Directory
@@ -1036,7 +1036,7 @@ class SevenZip
         #  then something went horribly wrong.
         else
         {
-            # The directories couldn't be found.
+            # The directories could not be found.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1061,7 +1061,7 @@ class SevenZip
         } # Else : If Directories Not Found
 
 
-        # A general error occurred, the directories could not be created.
+        # A general error occurred; the directories could not be created.
         return $false;
     } # __CreateDirectories()
 
@@ -1332,7 +1332,7 @@ class SevenZip
         # Make sure that the logging requirements are met.
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
-            # Because the logging directories could not be created, we can not log.
+            # Because the logging directories could not be created, we cannot log.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1359,7 +1359,7 @@ class SevenZip
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the logging features are required, we can not run the operation.
+            # Because the logging features are required, we cannot run the operation.
             return "ERR";
         } # If : Logging Requirements are Met
 
@@ -1496,7 +1496,7 @@ class SevenZip
         #  was empty (or null) - it is not possible to properly evaluate the output as needed.
         if ("$($outputResult)" -eq "$($null)")
         {
-            # The output cannot be evaluated; there's nothing to inspect.
+            # The output cannot be evaluated; there is nothing to inspect.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1534,7 +1534,7 @@ class SevenZip
         #    "Everything\ is\ Ok\r\n$"
         if ($($($outputResult) -match "Everything Is Ok`r`n$") -eq $false)
         {
-            # The key-phrase was not detected, it is not possible to parse the data correctly.
+            # The key-phrase was not detected; it is not possible to parse the data correctly.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1542,7 +1542,7 @@ class SevenZip
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Unable to prase the Hash value provided by the 7Zip application!";
+            [string] $logMessage = "Unable to parse the Hash value provided by the 7Zip application!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Unable to parse the Hash Value as the Key-Phrase was not found as expected!`r`n" + `
@@ -1571,7 +1571,7 @@ class SevenZip
         # - - - - - - - - - - - - - -
         # ---------------------------
         # To assure that I - as well as others - are able to follow the parsing protocol,
-        #  the procedure has been split up into several steps to insure that it is easy
+        #  the procedure has been split up into several steps to ensure that it is easy
         #  to follow and to maintain in the future.
         # Please see this link for PowerShell RegEx
         #  https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_regular_expressions
@@ -1602,7 +1602,7 @@ class SevenZip
             [string] $logMessage = "Unable to parse the Hash value successfully!"
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Unable to properly prase the output that was gathered by the 7Zip application." + `
+            [string] $logAdditionalMSG = ("Unable to properly parse the output that was gathered by the 7Zip application." + `
                                         "  Expected to find the Hash Value at Pass 2.`r`n" + `
                                         "`tRequested Hash Algorithm: $($hashAlgorithm)`r`n" + `
                                         "`tArchive data file to inspect: $($file)`r`n" + `
@@ -1683,7 +1683,7 @@ class SevenZip
         # Make sure that the logging requirements are met.
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
-            # Because the logging directories could not be created, we can not log.
+            # Because the logging directories could not be created, we cannot log.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1709,7 +1709,7 @@ class SevenZip
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the logging features are required, we can not run the operation.
+            # Because the logging features are required, we cannot run the operation.
             return $false;
         } # If : Logging Requirements are Met
 
@@ -1834,7 +1834,7 @@ class SevenZip
     # Documentation:
     #  This function will retrieve all of the possible hash information
     #   associated with the desired archive data file.
-    #  The file hashes are essentially a finger print to that specific
+    #  The file hashes are essentially a fingerprint to that specific
     #   file.  If the hash provided differs from the previously known
     #   hash information, then it could mean that the file could have
     #   been corrupted or was modified.
@@ -1931,7 +1931,7 @@ class SevenZip
         # Make sure that the 7Zip Logging directories are ready for use (if required)
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
-            # Because the logging directories could not be created, we can not log.
+            # Because the logging directories could not be created, we cannot log.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1957,7 +1957,7 @@ class SevenZip
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the logging features are required, we can not run the operation.
+            # Because the logging features are required, we cannot run the operation.
             return "ERR";
         } # If : 7Zip Logging Directories
 
@@ -2052,7 +2052,7 @@ class SevenZip
 
 
         # Just for assurance; make sure that we have an actual list from the archive
-        #  file.  If in case the list was not  retrieved successfully, then place an
+        #  file.  If in case the list was not retrieved successfully, then place an
         #  'ERR' to signify that an issue occurred, but still providing a value.
         if ("$($outputResult)" -eq "$($null)")
         {
@@ -2163,7 +2163,7 @@ class SevenZip
         # Make sure that the 7Zip Logging directories are ready for use (if required)
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
-            # Because the logging directories could not be created, we can not log.
+            # Because the logging directories could not be created, we cannot log.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2189,7 +2189,7 @@ class SevenZip
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the logging features are required, we can not run the operation.
+            # Because the logging features are required, we cannot run the operation.
             return $false;
         } # If : 7Zip Logging Directories
 
@@ -2283,7 +2283,7 @@ class SevenZip
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # The output path does not exist, we can not extract the contents.
+            # The output path does not exist, we cannot extract the contents.
             return $false;
         } # if : Output Directory does not exist
 
@@ -2307,7 +2307,7 @@ class SevenZip
         $finalOutputPath = "$($outputPath)\$($fileName)";
 
 
-        # Does the extracting output directory already exists?
+        # Does the extracting output directory already exist?
         if ([IOCommon]::CheckPathExists("$($finalOutputPath)", $true) -eq $false)
         {
             # Because the extracting directory has a unique name, it will be used as the final output path.
@@ -2524,7 +2524,7 @@ class SevenZip
         # Make sure that the 7Zip Logging directories are ready for use (if required)
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
-            # Because the logging directories could not be created, we can not log.
+            # Because the logging directories could not be created, we cannot log.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2551,7 +2551,7 @@ class SevenZip
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the logging features are required, we can not run the operation.
+            # Because the logging features are required, we cannot run the operation.
             return $false;
         } # If : 7Zip Logging Directories
 
@@ -2750,7 +2750,7 @@ class SevenZip
         $archiveFileNameFull = "$($outputPath)\$($archiveFileName).$($archiveFileExtension)";
 
 
-        # Does the desired filename already exists within the output directory?
+        # Does the desired filename already exist within the output directory?
         if ([IOCommon]::CheckPathExists("$($archiveFileNameFull)", $true) -eq $true)
         {
             # Because there already exists a file with the same filename within the
@@ -2817,7 +2817,7 @@ class SevenZip
 
         # GENERATE THE ARGUMENTS
         # - - - - - - - - - - - -
-        # Generate the the arguments to use when calling the 7Zip application.  The arguments
+        # Generate the arguments to use when calling the 7Zip application.  The arguments
         #  will be crafted based upon the user's preferences for using 7Zip.
         # -----------------------
 
@@ -3060,7 +3060,7 @@ class SevenZip
     # -------------------------------
     #>
     [bool] CreateNewReport([string] $archiveFile, `     # The archive file that we will generate a report from.
-                           [bool] $makePDF)             # Create a report within the PDF format aswell?
+                           [bool] $makePDF)             # Create a report within the PDF format as well?
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -3092,7 +3092,7 @@ class SevenZip
 
         # This variable will hold the output provided by the various function calls that are used in this method.
         #  Because some of the information provided might be excessively large, we will only store one chunk of
-        #  data at a time through out the entire process.  It might be possible to store multiple chunks into this
+        #  data at a time throughout the entire process.  It might be possible to store multiple chunks into this
         #  variable in one shoot, but we will require much more resources from the host's system main memory.  Lets
         #  try to conserve the user's primary storage.
         # NOTE: CLR String Datatypes can reach ~3GB of memory usage.
@@ -3120,7 +3120,7 @@ class SevenZip
 
 
 
-        # Did the user wanted a report of an archive data file?
+        # Did the user want a report of the archive data file?
         if ($this.__generateReport -eq $false)
         {
             # The user does not wish to have a report generated, we will abort this operation by request.
@@ -3160,7 +3160,7 @@ class SevenZip
         # Make sure that the 7Zip Logging directories are ready for use (if required)
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
-            # Because the logging directories could not be created, we can not log.
+            # Because the logging directories could not be created, we cannot log.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3186,7 +3186,7 @@ class SevenZip
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the logging features are required, we can not run the operation.
+            # Because the logging features are required, we cannot run the operation.
             return $false;
         } # If : Logging Requirements are Met
 
@@ -3226,8 +3226,8 @@ class SevenZip
         # Make sure that the target archive file actually exists.
         if ($([IOCommon]::CheckPathExists("$($ArchiveFile)", $true)) -eq $false)
         {
-            # The target archive data file does not exist, we can not perform a report on something
-            #  when that file simply doesn't exist with the given file path.
+            # The target archive data file does not exist, we cannot perform a report on something
+            #  when that file simply does not exist with the given file path.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3294,7 +3294,7 @@ class SevenZip
                     # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
-                        # Because there was failure while writing to the report file, we can not proceed any further.
+                        # Because there was failure while writing to the report file, we cannot proceed any further.
 
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -3351,7 +3351,7 @@ class SevenZip
                     # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
-                        # Because there was failure while writing to the report file, we can not proceed any further.
+                        # Because there was failure while writing to the report file, we cannot proceed any further.
 
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -3417,7 +3417,7 @@ class SevenZip
                     # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
-                        # Because there was failure while writing to the report file, we can not proceed any further.
+                        # Because there was failure while writing to the report file, we cannot proceed any further.
 
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -3485,7 +3485,7 @@ class SevenZip
                     # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
-                        # Because there was failure while writing to the report file, we can not proceed any further.
+                        # Because there was failure while writing to the report file, we cannot proceed any further.
 
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -3533,7 +3533,7 @@ class SevenZip
                     $outputContent = ("3) FILE HASH INFORMATION`r`n" + `
                                      "$($sectionBorder)`r`n`r`n" + `
                                      "File Hash values are helpful to know if the archive file was: corrupted, damaged," + `
-                                     " or altered.  The hash of the file signifies a 'finger print', each hash is generally" + `
+                                     " or altered.  The hash of the file signifies a 'fingerprint', each hash is generally" + `
                                      " unique to that file at the given time it was created or updated.  When the hash" + `
                                      " value is different, in comparison to another version of the same file, it is" + `
                                      " likely that the finger-print has changed or the file itself was damaged\corrupted" + `
@@ -3548,7 +3548,7 @@ class SevenZip
                     # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
-                        # Because there was failure while writing to the report file, we can not proceed any further.
+                        # Because there was failure while writing to the report file, we cannot proceed any further.
 
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -3605,7 +3605,7 @@ class SevenZip
                     # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
-                        # Because there was failure while writing to the report file, we can not proceed any further.
+                        # Because there was failure while writing to the report file, we cannot proceed any further.
 
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -3808,7 +3808,7 @@ class SevenZip
 
 
         # Make sure that the logging directories exist.  If the directories are not
-        #  available presently, than there is nothing that can be done at this time.
+        #  available presently, then there is nothing that can be done at this time.
         if (($this.__CheckRequiredDirectories()) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
@@ -3837,7 +3837,7 @@ class SevenZip
         } # IF : Required Directories Exists
 
 
-        # Because the directories exists, lets try to thrash the logs.
+        # Because the directories exists, let's try to thrash the logs.
         if(([IOCommon]::DeleteFile("$($this.__logPath)", $extLogs)) -eq $false)
         {
             # Reached a failure upon removing the requested log files.
