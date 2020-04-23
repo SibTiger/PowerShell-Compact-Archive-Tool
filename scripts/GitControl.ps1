@@ -2,13 +2,29 @@
  # ------------------------------
  # ==============================
  # ==============================
- # This class holds settings regarding the use of Git and
- #  its features, but also holds functions to perform various
- #  tasks related to using Git.
- # NOTE: In order to use git, it must first already be
- #  installed within the host system.  We are merely going to
- #  use the binary to perform the tasks we want; if the
- #  binary is not available - then nothing is used.
+ # This class allows the possibility to utilizes Git features and functionality 
+ #  within this program.  With using Git, it is possible to update the project source,
+ #  retrieve information regarding the latest commit or retrieve a history changelog
+ #  of previous commits, obtain a short-hand SHA1 of the latest commit, get information
+ #  regarding the contributors of the project, and various other functionalities.
+ #  However, using Git is only optional - not a requirement within the program.  Because
+ #  Git is an external command (external executable), it is not required for the user to
+ #  already have this particular software installed on the host system.  But, in order to
+ #  use Git's functionality, then it is necessary to first install the Git version control
+ #  software from that point onward.
+ # NOTE:
+ #  - This is only required if wanting to: Retrieve history information, contributors,
+ #     small SHA1 of the latest commit, updates to the local repository, and such other
+ #     features.
+ #  - In order to utilize Git functionality within this program, the Git Version Control
+ #     must first be installed properly on the host system.  Otherwise, the features may
+ #     not be readily available.
+ # DEPENDENCIES (Optional):
+ #  GitHub Desktop (Windows)
+ #   - https://desktop.github.com/
+ #  OR
+ #  Git (Windows)
+ #   - https://git-scm.com/
  #>
 
 
