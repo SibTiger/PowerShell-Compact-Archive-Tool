@@ -554,7 +554,7 @@ class DefaultCompress
                 # * * * * * * * * * * * * * * * * * * *
 
 
-                # Failure occurred; couldn't create directory.
+                # Failure occurred; could not create directory.
                 return $false;
             } # If : Failed to Create Directory
         } # If : Not Detected Root Log Directory
@@ -587,7 +587,7 @@ class DefaultCompress
                 # * * * * * * * * * * * * * * * * * * *
 
 
-                # Failure occurred; couldn't create directory.
+                # Failure occurred; could not create directory.
                 return $false;
             } # If : Failed to Create Directory
         } # If : Not Detected Log Directory
@@ -620,7 +620,7 @@ class DefaultCompress
                 # * * * * * * * * * * * * * * * * * * *
 
 
-                # Failure occurred; couldn't create directory.
+                # Failure occurred; could not create directory.
                 return $false;
             } # If : Failed to Create Directory
         } # If : Not Detected Report Directory
@@ -661,7 +661,7 @@ class DefaultCompress
         #  then something went horribly wrong.
         else
         {
-            # The directories couldn't be found.
+            # The directories could not be found.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -686,7 +686,7 @@ class DefaultCompress
         } # Else : If Directories Not Found
 
 
-        # A general error occurred, the directories could not be created.
+        # A general error occurred; the directories could not be created.
         return $false;
     } # __CreateDirectories()
 
@@ -767,7 +767,7 @@ class DefaultCompress
         # We are going to try to detect if the module is available within this
         #  PowerShell instance.  If incase it is not available - then we must
         #  return false, or simply stating that it was not found.
-        # NOTE: If there is ANY output, than this function will return true.
+        # NOTE: If there is ANY output, then this function will return true.
         # Reference: https://stackoverflow.com/a/28740512
         if ($(Get-Module -ListAvailable -Name Microsoft.PowerShell.Archive))
         {
@@ -837,7 +837,7 @@ class DefaultCompress
     #  This function will retrieve and return all of the hash values that is
     #   associated with the specific file given.  The file, ideally should be
     #   an archive data file, but any file - that is valid - is acceptable.
-    #  Hash values are essentially a finger print of a specific file that was
+    #  Hash values are essentially a fingerprint of a specific file that was
     #   generated at a specific time. If the hash value differs to a specific
     #   file, that could mean that the file is different (possibility altered)
     #   or corrupted.
@@ -883,12 +883,12 @@ class DefaultCompress
     # Documentation:
     #  This function will test the archive data file by making sure that all of
     #   the contents within the file are readable - thus not corrupted.  If the
-    #   files within the archive data file are corrupted or some how damaged,
+    #   files within the archive data file are corrupted or somehow damaged,
     #   the test will fail - as the integrity of the archive file has been
     #   compromised.
     #
     # Developer Note:
-    #  Because the PowerShell's Archive module, atleast by the time of writing
+    #  Because the PowerShell's Archive module, at least by the time of writing
     #   this, does not have a function to verify the archive file itself.
     #   With this limitation in mind, we can merely expanding all of the contents
     #   within the archive data file to a temporary directory, and thus making
@@ -910,7 +910,7 @@ class DefaultCompress
     # -------------------------------
     # Input:
     #  [string] Target File
-    #   The archive file, in absolute path form, that will under go an integrity
+    #   The archive file, in absolute path form, that will undergo an integrity
     #    test.
     # -------------------------------
     # Output:
@@ -960,7 +960,7 @@ class DefaultCompress
         # Make sure that the logging requirements are met.
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
-            # Because the logging directories could not be created, we can not log.
+            # Because the logging directories could not be created, we cannot log.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -986,7 +986,7 @@ class DefaultCompress
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the logging features are required, we can not run the operation.
+            # Because the logging features are required, we cannot run the operation.
             return $false;
         } # If : Logging Requirements are Met
 
@@ -995,7 +995,7 @@ class DefaultCompress
         if ($this.DetectCompressModule() -eq $false)
         {
             # Because this current PowerShell instance lacks the functionality required to test the
-            #  archive datafile, we can not proceed any further.
+            #  archive datafile, we cannot proceed any further.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1017,7 +1017,7 @@ class DefaultCompress
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the required module was not found, we can not proceed any further.
+            # Because the required module was not found, we cannot proceed any further.
             return $false;
         } # if : PowerShell Archive Support Missing
 
@@ -1025,8 +1025,8 @@ class DefaultCompress
         # Make sure that the target archive file actually exists.
         if ($([IOCommon]::CheckPathExists("$($targetFile)", $true)) -eq $false)
         {
-            # The target archive data file does not exist, we can not perform a test on something
-            #  that simply doesn't exist with the given file path.
+            # The target archive data file does not exist, we cannot perform a test on something
+            #  that simply does not exist with the given file path.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1061,7 +1061,7 @@ class DefaultCompress
         #  directory.  We will obtain the temporary directory's full path by using a reference.
         if ($([IOCommon]::MakeTempDirectory("Verify", [ref] $tmpDirectory)) -eq $false)
         {
-            # Because the temporary directory couldn't be created, we can not continue any further.
+            # Because the temporary directory could not be created, we cannot continue any further.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1083,7 +1083,7 @@ class DefaultCompress
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the temporary directory couldn't be created, we can not proceed any further.
+            # Because the temporary directory could not be created, we cannot proceed any further.
             return $false;
         } # if : Failure Creating the Temporary Directory
 
@@ -1239,7 +1239,7 @@ class DefaultCompress
         # =================
         # - - - - - - - - -
 
-        # Did the user wanted the operation to be logged?  If so, log the operation that was just performed.
+        # Did the user want the operation to be logged?  If so, log the operation that was just performed.
         if ([Logging]::DebugLoggingState() -eq $true)
         {
             # If there is information held in the STDOUT container, then we will convert the data from an array-list
@@ -1376,7 +1376,7 @@ class DefaultCompress
         [string] $targetFileName = "$($(Get-Item $file).Name)";         # This will hold the archive file name which will be presented in
                                                                         #  the logfile.
         [string] $strSTDOUT = $null;                                    # This will hold the STDOUT information, but will be held as a
-                                                                        #  literal string.The information held in this variable will
+                                                                        #  literal string.  The information held in this variable will
                                                                         #  be presented in the logfile.
         [string] $strSTDERR = $null;                                    # This will hold the STDERR information, but will be held as a
                                                                         #  literal string.  The information held in this variable will
@@ -1397,7 +1397,7 @@ class DefaultCompress
         # Make sure that the logging requirements are met.
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
-            # Because the logging directories could not be created, we can not log.
+            # Because the logging directories could not be created, we cannot log.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1423,7 +1423,7 @@ class DefaultCompress
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the logging features are required, we can not run the operation.
+            # Because the logging features are required, we cannot run the operation.
             return "ERR";
         } # If : Logging Requirements are Met
 
@@ -1432,7 +1432,7 @@ class DefaultCompress
         if ($this.DetectCompressModule() -eq $false)
         {
             # Even though we are not going to use the modules, it is best to still have them handy for the environment;
-            #  the dotNET framework is still a requirement -- if the requirement is not present then we can not proceed
+            #  the dotNET framework is still a requirement -- if the requirement is not present then we cannot proceed
             #  any further.
 
 
@@ -1455,7 +1455,7 @@ class DefaultCompress
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the required module was not found, we can not proceed any further.
+            # Because the required module was not found, we cannot proceed any further.
             return "ERR";
         } # if : PowerShell Archive Support Missing
 
@@ -1463,7 +1463,7 @@ class DefaultCompress
         # Make sure that the target archive file actually exists.
         if ($([IOCommon]::CheckPathExists("$($file)", $true)) -eq $false)
         {
-            # The target archive data file does not exist, we can not examine something that is not present.
+            # The target archive data file does not exist, we cannot examine something that is not present.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1502,7 +1502,7 @@ class DefaultCompress
         # A general error occurred while opening the archive file.
         catch
         {
-            # Because the archive file couldn't be accessed, we can not proceed any further.
+            # Because the archive file could not be accessed, we cannot proceed any further.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1534,7 +1534,7 @@ class DefaultCompress
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because we cannot access the archive file, we can not proceed any further.
+            # Because we cannot access the archive file, we cannot proceed any further.
             return "ERR";
         } # Catch : Failed to Access Archive File
 
@@ -1576,7 +1576,7 @@ class DefaultCompress
         # =================
         # - - - - - - - - -
 
-        # Did the user wanted the operation to be logged?  If so, log the operation that was just performed.
+        # Did the user want the operation to be logged?  If so, log the operation that was just performed.
         if ([Logging]::DebugLoggingState() -eq $true)
         {
             # Even though the operation that was performed in this function only read the files that exists
@@ -1743,7 +1743,7 @@ class DefaultCompress
         # Make sure that the logging requirements are met.
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
-            # Because the logging directories could not be created, we can not log.
+            # Because the logging directories could not be created, we cannot log.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1769,7 +1769,7 @@ class DefaultCompress
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the logging features are required, we can not run the operation.
+            # Because the logging features are required, we cannot run the operation.
             return $false;
         } # If : Logging Requirements are Met
 
@@ -1778,7 +1778,7 @@ class DefaultCompress
         if ($this.DetectCompressModule() -eq $false)
         {
             # Because this current PowerShell instance lacks the functionality required to extract the
-            #  archive datafile, we can not proceed any further.
+            #  archive datafile, we cannot proceed any further.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1800,7 +1800,7 @@ class DefaultCompress
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the required module was not found, we can not proceed any further.
+            # Because the required module was not found, we cannot proceed any further.
             return $false;
         } # if : PowerShell Archive Support Missing
 
@@ -1808,8 +1808,8 @@ class DefaultCompress
         # Make sure that the target archive file actually exists.
         if ($([IOCommon]::CheckPathExists("$($file)", $true)) -eq $false)
         {
-            # The target archive data file does not exist, we can not extract an archive file when
-            #  it doesn't exist - with the given file path.
+            # The target archive data file does not exist, we cannot extract an archive file when
+            #  it does not exist - with the given file path.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1838,7 +1838,7 @@ class DefaultCompress
         # Make sure that the desired output path currently exists
         if ($([IOCommon]::CheckPathExists("$($outputPath)", $true)) -eq $false)
         {
-            # The requested output path does not currently exist, we can not proceed any further.
+            # The requested output path does not currently exist, we cannot proceed any further.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1860,7 +1860,7 @@ class DefaultCompress
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # The output path does not exist, we can not extract the contents.
+            # The output path does not exist, we cannot extract the contents.
             return $false;
         } # if : Output Directory does not exist
 
@@ -1914,11 +1914,11 @@ class DefaultCompress
         } # if : Make a Unique Directory Name
 
 
-        # Create the new extracting directory; if unable to create it, we can not proceed any further.
+        # Create the new extracting directory; if unable to create it, we cannot proceed any further.
         if([IOCommon]::MakeDirectory("$($extractPath)") -eq $false)
         {
             # A failure occurred when trying to make the directory,
-            #  we can not continue as the extracting directory is not available.
+            #  we cannot continue as the extracting directory is not available.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1941,7 +1941,7 @@ class DefaultCompress
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the extracting directory could not be created, we can not proceed any further.
+            # Because the extracting directory could not be created, we cannot proceed any further.
             return $false;
         } # if : Failed to create extracting directory
 
@@ -2297,7 +2297,7 @@ class DefaultCompress
         # Make sure that the logging requirements are met.
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
-            # Because the logging directories could not be created, we can not log.
+            # Because the logging directories could not be created, we cannot log.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2325,7 +2325,7 @@ class DefaultCompress
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the logging features are required, we can not run the operation.
+            # Because the logging features are required, we cannot run the operation.
             return $false;
         } # If : Logging Requirements are Met
 
@@ -2334,7 +2334,7 @@ class DefaultCompress
         if ($this.DetectCompressModule() -eq $false)
         {
             # Because this current PowerShell instance lacks the functionality required to create the
-            #  archive datafile, we can not proceed any further.
+            #  archive datafile, we cannot proceed any further.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2357,7 +2357,7 @@ class DefaultCompress
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the required module was not found, we can not proceed any further.
+            # Because the required module was not found, we cannot proceed any further.
             return $false;
         } # if : PowerShell Archive Support Missing
 
@@ -2365,7 +2365,7 @@ class DefaultCompress
         # Make sure that the desired output path currently exists
         if ($([IOCommon]::CheckPathExists("$($outputPath)", $true)) -eq $false)
         {
-            # The requested output path does not currently exist, we can not proceed any further.
+            # The requested output path does not currently exist, we cannot proceed any further.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2388,7 +2388,7 @@ class DefaultCompress
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # The output path does not exist, we can not extract the contents.
+            # The output path does not exist, we cannot extract the contents.
             return $false;
         } # if : Output Directory does not exist
 
@@ -2396,7 +2396,7 @@ class DefaultCompress
         # Check to make sure that the target path directory or file(s) already exists within the filesystem.
         if ($([IOCommon]::CheckPathExists("$($targetDirectory)", $false) -eq $false))
         {
-            # The target directory does not exist, we can not compact the requested data as the target directory
+            # The target directory does not exist, we cannot compact the requested data as the target directory
             #  does not exist with the given path.
 
 
@@ -2440,7 +2440,7 @@ class DefaultCompress
         if ([IOCommon]::CheckPathExists("$($archiveFileName).$($archiveFileExtension)", $true) -eq $true)
         {
             # Because the filename already exists within the given output path, we can make it unique by adding in a timestamp
-            #  to the filename.  However, in case we can not make the filename unique (even with the timestamp), then the
+            #  to the filename.  However, in case we cannot make the filename unique (even with the timestamp), then the
             #  operation must be aborted.
 
 
@@ -2455,7 +2455,7 @@ class DefaultCompress
             # Check to make sure that the new filename is unique; if not - then we cannot proceed.
             if ([IOCommon]::CheckPathExists("$($archiveFileName).$($archiveFileExtension)", $true) -eq $true)
             {
-                # Because the archive file name is still not unique enough, we can not proceed anymore.
+                # Because the archive file name is still not unique enough, we cannot proceed anymore.
                 #  This function will have to be aborted.
 
 
@@ -2540,7 +2540,7 @@ class DefaultCompress
 
             # Prep a message to display to the user for this error; temporary variable
             [string] $displayErrorMessage = ("Failed to create a new archive datafile because of memory limitations!" + `
-                                            "  There may be too much data to compact or a file is too large too compress!`r`n" + `
+                                            "  There may be too much data to compact or a file is too large to compress!`r`n" + `
                                             "$([Logging]::GetExceptionInfoShort($_.Exception))");
 
             # Generate the initial message
@@ -2694,7 +2694,7 @@ class DefaultCompress
     # -------------------------------
     #>
     [bool] CreateNewReport([string] $archiveFile, `     # The archive file that we will generate a report from.
-                           [bool] $makePDF)             # Create a report within the PDF format aswell?
+                           [bool] $makePDF)             # Create a report within the PDF format as well?
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2703,7 +2703,7 @@ class DefaultCompress
 
 
         # The following variables will hold the current date and time from the host system.
-        #  With this, it'll be available for the filename and inside the report.
+        #  With this, it will be available for the filename and inside the report.
         # - - - -
         # >> Date
         [string] $dateNow = "$(Get-Date -UFormat "%d-%b-%y")";
@@ -2726,7 +2726,7 @@ class DefaultCompress
 
         # This variable will hold the output provided by the various function calls that are used in this method.
         #  Because some of the information provided might be excessively large, we will only store one chunk of
-        #  data at a time through out the entire process.  It might be possible to store multiple chunks into this
+        #  data at a time throughout the entire process.  It might be possible to store multiple chunks into this
         #  variable in one shoot, but we will require much more resources from the host's system main memory.  Lets
         #  try to conserve the user's primary storage.
         # NOTE: CLR String Datatypes can reach ~3GB of memory usage.
@@ -2754,7 +2754,7 @@ class DefaultCompress
 
 
 
-        # Did the user wanted a report of an archive data file?
+        # Did the user want a report of an archive data file?
         if ($this.__generateReport -eq $false)
         {
             # The user does not wish to have a report generated, we will abort this operation by request.
@@ -2794,7 +2794,7 @@ class DefaultCompress
         # Make sure that the .NET Compress Archive Logging directories are ready for use (if required)
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
-            # Because the logging directories could not be created, we can not log.
+            # Because the logging directories could not be created, we cannot log.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2820,7 +2820,7 @@ class DefaultCompress
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the logging features are required, we can not run the operation.
+            # Because the logging features are required, we cannot run the operation.
             return $false;
         } # If : Logging Requirements are Met
 
@@ -2829,7 +2829,7 @@ class DefaultCompress
         if ($this.DetectCompressModule() -eq $false)
         {
             # Because this current PowerShell instance lacks the functionality required to open and analyze
-            #  the archive datafile, we can not proceed any further.
+            #  the archive datafile, we cannot proceed any further.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2851,7 +2851,7 @@ class DefaultCompress
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the required module was not found, we can not proceed any further.
+            # Because the required module was not found, we cannot proceed any further.
             return $false;
         } # if : PowerShell Archive Support Missing
 
@@ -2859,8 +2859,8 @@ class DefaultCompress
         # Make sure that the target archive file actually exists.
         if ($([IOCommon]::CheckPathExists("$($archiveFile)", $true)) -eq $false)
         {
-            # The target archive data file does not exist, we can not perform a report on something
-            #  when that file simply doesn't exist with the given file path.
+            # The target archive data file does not exist, we cannot perform a report on something
+            #  when that file simply does not exist with the given file path.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2929,7 +2929,7 @@ class DefaultCompress
                     # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
-                        # Because there was failure while writing to the report file, we can not proceed any further.
+                        # Because there was failure while writing to the report file, we cannot proceed any further.
 
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -2986,7 +2986,7 @@ class DefaultCompress
                     # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
-                        # Because there was failure while writing to the report file, we can not proceed any further.
+                        # Because there was failure while writing to the report file, we cannot proceed any further.
 
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -3052,7 +3052,7 @@ class DefaultCompress
                     # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
-                        # Because there was failure while writing to the report file, we can not proceed any further.
+                        # Because there was failure while writing to the report file, we cannot proceed any further.
 
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -3120,7 +3120,7 @@ class DefaultCompress
                     # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
-                        # Because there was failure while writing to the report file, we can not proceed any further.
+                        # Because there was failure while writing to the report file, we cannot proceed any further.
 
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -3168,7 +3168,7 @@ class DefaultCompress
                     $outputContent = ("3) FILE HASH INFORMATION`r`n" + `
                                      "$($sectionBorder)`r`n`r`n" + `
                                      "File Hash values are helpful to know if the archive file was: corrupted, damaged," + `
-                                     " or altered.  The hash of the file signifies a 'finger print', each hash is generally" + `
+                                     " or altered.  The hash of the file signifies a 'fingerprint', each hash is generally" + `
                                      " unique to that file at the given time it was created or updated.  When the hash" + `
                                      " value is different, in comparison to another version of the same file, it is" + `
                                      " likely that the finger-print has changed or the file itself was damaged\corrupted" + `
@@ -3183,7 +3183,7 @@ class DefaultCompress
                     # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
-                        # Because there was failure while writing to the report file, we can not proceed any further.
+                        # Because there was failure while writing to the report file, we cannot proceed any further.
 
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -3240,7 +3240,7 @@ class DefaultCompress
                     # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
-                        # Because there was failure while writing to the report file, we can not proceed any further.
+                        # Because there was failure while writing to the report file, we cannot proceed any further.
 
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -3472,7 +3472,7 @@ class DefaultCompress
         } # IF : Required Directories Exists
 
 
-        # Because the directories exists, lets try to thrash the logs.
+        # Because the directories exists, let's try to thrash the logs.
         if(([IOCommon]::DeleteFile("$($this.__logPath)", $extLogs)) -eq $false)
         {
             # Reached a failure upon removing the requested log files.
