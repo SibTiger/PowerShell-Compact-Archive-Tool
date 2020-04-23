@@ -112,7 +112,7 @@ class IOCommon
             {
                 # Because this function was called with a message level
                 #  of 'UserInput' (Only usable for capturing or evaluating
-                #  the user's input elsewhere), there's no point of having
+                #  the user's input elsewhere), there is no point of having
                 #  this display what the user has already provided.
                 return;
             } # UserInput
@@ -359,13 +359,13 @@ class IOCommon
     #   requested external command and help to manage how the
     #   logging or redirection of output should be handled.
     #  This function depends on other methods in order to
-    #   preform the operation, this function is made to help
+    #   perform the operation, this function is made to help
     #   simplify the operation and keep data organized
     #   efficiently.
     #
     #  Return Code Notes: After the command has been executed,
     #   this function will only return the exit code provided
-    #   by the executable.  If the external executable can not
+    #   by the executable.  If the external executable cannot
     #   be found or generally fails to execute in vague reasons,
     #   this function will return a specific error code that is
     #   dedicated by this function.
@@ -950,7 +950,7 @@ class IOCommon
     #
     #  Return Code Notes: After the command has been executed,
     #   this function will only return the exit code provided
-    #   by the executable.  If the external executable can not
+    #   by the executable.  If the external executable cannot
     #   be found or generally fails to execute in vague reasons,
     #   this function will return a specific error code that is
     #   dedicated by this function.
@@ -1240,10 +1240,10 @@ class IOCommon
                                                                 #  be relocated, this is our medium in order to
                                                                 #  accomplish this.
         [string] $cacheSTDOUT = "$($outputResultOut.Value)";    # Cache the STDOUT; because it is a pointer - we
-                                                                #  can not directly use it as a pointer in another
+                                                                #  cannot directly use it as a pointer in another
                                                                 #  function call (At least in PowerShell).
         [string] $cacheSTDERR = "$($outputResultErr.Value)";    # Cache the STDERR; because it is a pointer - we
-                                                                #  can not directly use it as a pointer in another
+                                                                #  cannot directly use it as a pointer in another
                                                                 #  function call (At least in PowerShell).
         # ----------------------------------------
 
@@ -1313,7 +1313,7 @@ class IOCommon
                                                                 #  This specifies what encoding the text file should be
                                                                 #  upon creation.
         [bool] $exitCode = $true;                               # The exit code that will be returned from this function.
-                                                                #  This will change to false if the file couldn't be found.
+                                                                #  This will change to false if the file could not be found.
         # ----------------------------------------
 
 
@@ -1374,7 +1374,7 @@ class IOCommon
             # Assurance Fail-Safe; make sure that the file was successfully created on the filesystem.
             if ([IOCommon]::CheckPathExists("$($file)", $true) -eq $false)
             {
-                # Operation failed because the file couldn't be found.  This is certainly odd?
+                # Operation failed because the file could not be found.  This is certainly odd?
 
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -1426,7 +1426,7 @@ class IOCommon
     #   file by taking the existing text document (*.txt) and
     #   generating a PDF file as the output.  Thus, a source
     #   file must already exist and is ready to be read.  If
-    #   the file does not exist or can not be read, it is then
+    #   the file does not exist or cannot be read, it is then
     #   impossible to create a PDF file.
     #
     #  - DEPENDENCY NOTE: This function requires Microsoft Word
@@ -1582,8 +1582,8 @@ class IOCommon
 
                 # * * * * * * * * * * * * * * * * * * *
 
-                # Because we couldn't get an instance of
-                #  MS Word, we can not continue any further.
+                # Because we could not get an instance of
+                #  MS Word, we cannot continue any further.
                 return $false;
             } # Catch : Failure to create MS Word Instance
 
@@ -1649,7 +1649,7 @@ class IOCommon
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because we couldn't find Microsoft Word, we can not create a PDF file.
+            # Because we could not find Microsoft Word, we cannot create a PDF file.
             return $false;
         } # Else : Failure to find Microsoft Word
 
@@ -1992,7 +1992,7 @@ class IOCommon
                 # * * * * * * * * * * * * * * * * * * *
 
 
-                # We couldn't create the parent directory.  It might be
+                # We could not create the parent directory.  It might be
                 #  possible that the User's LocalAppData\Temp is locked.
                 return $false;
             } # inner-if : Create Directory Failed
@@ -2242,7 +2242,7 @@ class IOCommon
 
 
             # Because the directory does not exist, we cannot
-            #  simply use something that isn't there.
+            #  simply use something that is not there.
             return $false;
         } # if : Directory does not exist
 
@@ -2296,7 +2296,7 @@ class IOCommon
 
 
         # Check to see if the path already exists; if it already exists -
-        #  then there's nothing to be done.  If it does not exist, however,
+        #  then there is nothing to be done.  If it does not exist, however,
         #  then try to create the requested directory.
         if (([IOCommon]::CheckPathExists("$($path)", $true)) -eq $false)
         {
@@ -2382,7 +2382,7 @@ class IOCommon
         # If the directory already exists
         else
         {
-            # Because the directory already exists, there's nothing that can be done.
+            # Because the directory already exists, there is nothing that can be done.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2504,7 +2504,7 @@ class IOCommon
     # -------------------------------
     # Documentation:
     #  This function will forcefully expunge a specific directory
-    #   recursively within it's hierarchy.  Meaning that any
+    #   recursively within its hierarchy.  Meaning that any
     #   existing data-files or sub-directories - will be thrashed
     #   without any warning prompted to the end-user.  Please be
     #   sure you are using this function correctly.
@@ -2925,7 +2925,7 @@ class IOCommon
 
 
             #  Because the file or directory does not exist (with the provided path), then
-            #   we can not really perform the requested operation - just return as successful.
+            #   we cannot really perform the requested operation - just return as successful.
             return $true;
         } # If : File\Directory Does not Exists
 
@@ -2933,7 +2933,7 @@ class IOCommon
         # Make sure that the requested new name actually contains some sort of 'string'.
         if (("$($newName)" -eq "") -or ($null -eq "$($newName)"))
         {
-            # Because there was no new name given, we can not proceed any further.
+            # Because there was no new name given, we cannot proceed any further.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2955,7 +2955,7 @@ class IOCommon
             # * * * * * * * * * * * * * * * * * * *
 
 
-            #  Because there was no name provided, we can not rename the file or directory.  Return as an actual failure.
+            #  Because there was no name provided, we cannot rename the file or directory.  Return as an actual failure.
             return $false;
         } # If : No new name populated
 
@@ -3091,7 +3091,7 @@ class IOCommon
             # * * * * * * * * * * * * * * * * * * *
 
 
-            #  Because the directory does not exist (with the provided path), then we can not proceed
+            #  Because the directory does not exist (with the provided path), then we cannot proceed
             #   any further within this function.  We must abort the operation to avoid any conflicts.
             return $false;
         } # If : Target Directory Does not Exists
@@ -3123,7 +3123,7 @@ class IOCommon
             # * * * * * * * * * * * * * * * * * * *
 
 
-            #  Because the destination path does not exist (with the provided path), then we can not proceed
+            #  Because the destination path does not exist (with the provided path), then we cannot proceed
             #   any further within this function.  We must abort the operation to avoid any conflicts.
             return $false;
         } # If : Destination Path Does not Exists
@@ -3285,7 +3285,7 @@ class IOCommon
             # * * * * * * * * * * * * * * * * * * *
 
 
-            #  Because the directory does not exist (with the provided path), then we can not proceed
+            #  Because the directory does not exist (with the provided path), then we cannot proceed
             #   any further within this function.  We must abort the operation to avoid any conflicts.
             return $false;
         } # If : Target Directory Does not Exists
@@ -3328,7 +3328,7 @@ class IOCommon
             # * * * * * * * * * * * * * * * * * * *
 
 
-            #  Because the destination path does not exist (with the provided path), then we can not proceed
+            #  Because the destination path does not exist (with the provided path), then we cannot proceed
             #   any further within this function.  We must abort the operation to avoid any conflicts.
             return $false;
         } # If : Destination Path Does not Exists
@@ -3515,7 +3515,7 @@ class IOCommon
             # * * * * * * * * * * * * * * * * * * *
 
 
-            #  Because the directory does not exist (with the provided path), then we can not proceed
+            #  Because the directory does not exist (with the provided path), then we cannot proceed
             #   any further within this function.  We must abort the operation to avoid any conflicts.
             return $false;
         } # If : Target Directory Does not Exists
@@ -3551,7 +3551,7 @@ class IOCommon
                 # * * * * * * * * * * * * * * * * * * *
 
 
-                #  Because the destination path does not exist (with the provided path), then we can not proceed
+                #  Because the destination path does not exist (with the provided path), then we cannot proceed
                 #   any further within this function.  We must abort the operation to avoid any conflicts.
                 return $false;
             } # If : Make Destination Path Failed
@@ -3734,7 +3734,7 @@ class IOCommon
             # * * * * * * * * * * * * * * * * * * *
 
 
-            #  Because the directory does not exist (with the provided path), then we can not proceed
+            #  Because the directory does not exist (with the provided path), then we cannot proceed
             #   any further within this function.  We must abort the operation to avoid any conflicts.
             return $false;
         } # If : Target Directory Does not Exists
@@ -3777,7 +3777,7 @@ class IOCommon
             # * * * * * * * * * * * * * * * * * * *
 
 
-            #  Because the destination path does not exist (with the provided path), then we can not proceed
+            #  Because the destination path does not exist (with the provided path), then we cannot proceed
             #   any further within this function.  We must abort the operation to avoid any conflicts.
             return $false;
         } # If : Destination Path Does not Exists
@@ -3949,7 +3949,7 @@ class IOCommon
             # * * * * * * * * * * * * * * * * * * *
 
 
-            #  Because the path was not provided, we can not proceed any further within this function.
+            #  Because the path was not provided, we cannot proceed any further within this function.
             #   We must abort the operation to avoid any further complications.
             return '!';
         } # If : Target Path was Blank
@@ -3979,7 +3979,7 @@ class IOCommon
             # * * * * * * * * * * * * * * * * * * *
 
 
-            #  Because the item does not exist (with the provided path), then we can not proceed any
+            #  Because the item does not exist (with the provided path), then we cannot proceed any
             #   further within this function.  We must abort the operation to avoid any further complications.
             return '!';
         } # If : Target Item Does not Exist
@@ -4052,7 +4052,7 @@ class IOCommon
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Unable to identify the target item as either a directory or a file, the target item is unknown!.";
+            [string] $logMessage = "Unable to identify the target item as either a directory or a file, the target item is unknown!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = "Target Item Path: $($targetItem)";
