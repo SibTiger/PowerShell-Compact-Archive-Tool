@@ -1641,7 +1641,7 @@ class SevenZip
     #   to identify if the data within the archive is corrupted or if the
     #   archive's structure was damaged.
     #
-    #  Test Integrity Informatoin:
+    #  Test Integrity Information:
     #    https://sevenzip.osdn.jp/chm/cmdline/commands/test.htm
     # -------------------------------
     # Input:
