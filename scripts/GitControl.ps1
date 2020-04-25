@@ -128,41 +128,41 @@ class GitControl
     # Member Functions :: Methods
     # =================================================
     # =================================================
-    
+
 
     #region Constructor Functions
 
     # Default Constructor
     GitControl()
     {
-        # git.exe Path
+        # Executable path to the Git.exe
         $this.__executablePath = "git.exe";
 
         # Update Source
         $this.__updateSource = $true;
 
-        # Length Commit ID
+        # Length of the Commit ID
         $this.__lengthCommitID = 0;
 
-        # Fetch Commit ID
+        # Fetch the Commit ID
         $this.__fetchCommitID = $true;
 
-        # Fetch changelog
+        # Fetch the changelog History
         $this.__fetchChangelog = $true;
 
-        # Changelog history limits
+        # Changelog history limit
         $this.__changelogLimit = 50;
 
         # Generate Report
         $this.__generateReport = $true;
 
-        # Log Root Directory
+        # Log Root Directory Path
         $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\git";
 
-        # Report Path
+        # Report Directory Path
         $this.__reportPath = "$($this.__rootLogPath)\reports";
 
-        # Log Path
+        # Log Directory Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
     } # Default Constructor
 
@@ -178,7 +178,7 @@ class GitControl
                 [int]$changelogLimit,
                 [bool]$generateReport)
     {
-        # git.exe Path
+        # Executable path to the Git.exe
         $this.__executablePath = $executablePath;
 
         # Update Source
@@ -193,21 +193,22 @@ class GitControl
         # Fetch the Changelog History
         $this.__fetchChangelog = $fetchChangelog;
 
-        # Changelog Limit
+        # Changelog history limit
         $this.__changelogLimit = $changelogLimit;
 
         # Generate Report
         $this.__generateReport = $generateReport;
 
-        # Log Root Directory
+        # Log Root Directory Path
         $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\git";
 
-        # Report Path
+        # Report Directory Path
         $this.__reportPath = "$($this.__rootLogPath)\reports";
 
-        # Log Path
+        # Log Directory Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
     } # User Preference : On-Load
+
     #endregion
 
 
