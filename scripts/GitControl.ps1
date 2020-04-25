@@ -41,70 +41,89 @@ class GitControl
 
     # Git Executable Path
     # ---------------
-    # The path in which the executable 'git.exe' resides.
+    # The path to the 'git.exe' executable within the Windows Environment.
     Hidden [string] $__executablePath;
 
 
     # Update Source
     # ---------------
-    # When true, try to update the source when possible.
+    # When this is true, this program will try to update the repository (project)
+    #  when possible to assure that the repository has the latest changes available.
     Hidden [bool] $__updateSource;
 
 
     # Length Commit ID
     # ---------------
-    # Set how long the commit ID should be when retrieving it.
+    # Determines how the Commit ID, the SHA1 hash, is presented from the Git
+    #  Application.  Thus, it is possible to trim a long Commit ID or to keep
+    #  the long form of the Commit ID.
+    # Supported Values:
+    #  Short - Might contain seven characters
+    #  Long  - Might contain forty-one characters
     Hidden [GitCommitLength] $__lengthCommitID;
 
 
     # Fetch Latest Commit ID
     # ---------------
-    # When true, try to fetch the latest commit ID.
+    # When this is true, this will allow the possibility to retrieve the Commit
+    #  ID of the desired local repository (or project).  When false, however, the
+    #  Commit ID will not retrieved regardless.
     Hidden [bool] $__fetchCommitID;
 
-    
+
     # Fetch Changelog History
     # ---------------
-    # When true, try to retrieve a commit history.
+    # When this is true, this will allow the possibility to retrieve a changelog
+    #  history (or commit changelog) of the desired local repository.  This can
+    #  be helpful when wanting to see what changes took place, analysis, or testing
+    #  purposes.  When this is set to false, however, the changelog will not be
+    #  retrieved.
     Hidden [bool] $__fetchChangelog;
 
-    
+
     # Changelog History Limit
     # ---------------
-    # The maximum commits to record in the changelog.
+    # This will provide a limit as to how many commits will appear in the changelog.
+    #  With this variable, it will help to avoid clutter in the changelog by only limiting
+    #  to just the recent activity or a focus range of history.  Setting the value to zero
+    #  may allow for all changes to be logged.
     Hidden [int] $__changelogLimit;
 
 
     # Generate Report
     # ---------------
-    # Generate a report regarding the project's
-    #  git repository.
+    # When this is true, this will provide the ability to generate reports upon request.
+    #  A report will provide information regarding the repository from those that contribute,
+    #  the commit history, forks, branches, and potentially much more.  When this is false,
+    #  however, the report functionality will not be available.
     Hidden [bool] $__generateReport;
 
 
     # Log Root
     # ---------------
-    # The main root of the log directories.
+    # The main parent directory's absolute path that will hold this object's logs and
+    #  reports directories.
     Hidden [string] $__rootLogPath;
 
 
     # Report Path
     # ---------------
-    # The absolute path to store the reports that
-    #  has been generated.
+    # This directory, in absolute form, will hold reports that were generated from this
+    #  object.  Reports provide some insight and outlook regarding a specific git repository.
     Hidden [string] $__reportPath;
 
 
     # Log Root Path
     # ---------------
-    # The absolute path to place the logs from the
-    #  executable.
+    # This directory, in absolute form, will hold logfiles that were generated from this
+    #  object when updating, retrieving the Commit ID, switching branches, and potentially
+    #  much more when using Git features.
     Hidden [string] $__logPath;
 
 
     #endregion
 
-    
+
 
     # Member Functions :: Methods
     # =================================================
