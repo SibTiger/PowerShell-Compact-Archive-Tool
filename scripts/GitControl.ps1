@@ -2,14 +2,14 @@
  # ------------------------------
  # ==============================
  # ==============================
- # This class allows the possibility to utilizes Git features and functionality 
+ # This class allows the possibility to utilize Git features and functionality 
  #  within this program.  With using Git, it is possible to update the project source,
  #  retrieve information regarding the latest commit or retrieve a history changelog
  #  of previous commits, obtain a short-hand SHA1 of the latest commit, get information
  #  regarding the contributors of the project, and various other functionalities.
  #  However, using Git is only optional - not a requirement within the program.  Because
  #  Git is an external command (external executable), it is not required for the user to
- #  already have this particular software installed on the host system.  But, in order to
+ #  already have this software installed on the host system.  But, however, in order to
  #  use Git's functionality, then it is necessary to first install the Git version control
  #  software from that point onward.
  # NOTE:
