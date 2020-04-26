@@ -218,11 +218,11 @@ class GitControl
    <# Get Executable Path
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Executable Path variable.
+    #  Returns the value of the 'Executable Path' variable.
     # -------------------------------
     # Output:
     #  [string] Executable Path
-    #   the value of the Executable Path to git.exe.
+    #   The value of the 'Executable Path' to the git.exe binary file.
     # -------------------------------
     #>
     [string] GetExecutablePath()
@@ -236,11 +236,11 @@ class GitControl
    <# Get Update Source Flag
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Update Source variable.
+    #  Returns the value of the 'Update Source' variable.
     # -------------------------------
     # Output:
     #  [bool] Update Source
-    #   the value of the Update Source.
+    #   The value of the 'Update Source'.
     # -------------------------------
     #>
     [bool] GetUpdateSource()
@@ -251,14 +251,14 @@ class GitControl
 
 
 
-   <# Get Git Commit Length
+   <# Get Commit ID Length
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Git Commit Length variable.
+    #  Returns the value of the 'Commit ID Length' variable.
     # -------------------------------
     # Output:
-    #  [GitCommitLength] Git Commit Length
-    #   the value of the Git Commit Length.
+    #  [GitCommitLength] Commit ID Length
+    #   The value of the 'Commit ID Length'.
     # -------------------------------
     #>
     [GitCommitLength] GetLengthCommitID()
@@ -272,11 +272,11 @@ class GitControl
    <# Get Fetch Commit ID
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Fetch Commit ID variable.
+    #  Returns the value of the 'Fetch Commit ID' variable.
     # -------------------------------
     # Output:
     #  [bool] Fetch Commit ID
-    #   the value of the Fetch Commit ID.
+    #   The value of the 'Fetch Commit ID'.
     # -------------------------------
     #>
     [bool] GetFetchCommitID()
@@ -287,14 +287,14 @@ class GitControl
 
 
 
-   <# Get Fetch Changelog
+   <# Get Fetch History Changelog
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Fetch Changelog variable.
+    #  Returns the value of the 'Fetch History Changelog' variable.
     # -------------------------------
     # Output:
     #  [bool] Fetch Changelog
-    #   the value of the Fetch Changelog.
+    #   The value of the 'Fetch History Changelog'.
     # -------------------------------
     #>
     [bool] GetFetchChangelog()
@@ -305,14 +305,14 @@ class GitControl
 
 
 
-   <# Get Changelog Limit
+   <# Get Changelog History Limit
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Changelog Limit variable.
+    #  Returns the value of the 'Changelog History Limit' variable.
     # -------------------------------
     # Output:
-    #  [int] Changelog Limit
-    #   the value of the Changelog Limit.
+    #  [int] Changelog History Limit
+    #   The value of the 'Changelog History Limit'.
     # -------------------------------
     #>
     [int] GetChangelogLimit()
@@ -326,11 +326,11 @@ class GitControl
    <# Get Generate Report
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Generate Report variable.
+    #  Returns the value of the 'Generate Report' variable.
     # -------------------------------
     # Output:
     #  [bool] Generate Report
-    #   the value of the Generate Report.
+    #   The value of the 'Generate Report'.
     # -------------------------------
     #>
     [bool] GetGenerateReport()
@@ -341,14 +341,14 @@ class GitControl
 
 
 
-   <# Get Report Path
+   <# Get Report Directory Path
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Report Path variable.
+    #  Returns the value of the 'Report Directory Path' variable.
     # -------------------------------
     # Output:
     #  [string] Report Path
-    #   the value of the Report Path.
+    #   The value of the 'Report Directory Path'.
     # -------------------------------
     #>
     [string] GetReportPath()
@@ -359,14 +359,14 @@ class GitControl
 
 
 
-   <# Get Log Path
+   <# Get Log Directory Path
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Log Path variable.
+    #  Returns the value of the 'Log Directory Path' variable.
     # -------------------------------
     # Output:
     #  [string] Log Path
-    #   the value of the Log Path.
+    #   The value of the 'Log Directory Path'.
     # -------------------------------
     #>
     [string] GetLogPath()
@@ -377,14 +377,14 @@ class GitControl
 
 
 
-   <# Get Root Log Path
+   <# Get Root Log Directory Path
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Root Log Path variable.
+    #  Returns the value of the 'Root Log Directory Path' variable.
     # -------------------------------
     # Output:
     #  [string] Root Log Path
-    #   the value of the Log Root Path.
+    #   The value of the 'Log Root Directory Path'.
     # -------------------------------
     #>
     [string] GetRootLogPath()
