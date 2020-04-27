@@ -402,7 +402,11 @@ class GitControl
    <# Set Executable Path
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Executable Path variable.
+    #  Sets a new value for the 'Executable Path' variable.
+    # -------------------------------
+    # Input:
+    #  [string] Executable Path
+    #   The location of the Git executable within the host system.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -421,7 +425,6 @@ class GitControl
             return $false;
         } # If : Command Not Found
 
-
         # Set the path
         $this.__executablePath = $newVal;
 
@@ -435,7 +438,12 @@ class GitControl
    <# Set Update Source Flag
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Update Source variable.
+    #  Sets a new value for the 'Update Source' variable.
+    # -------------------------------
+    # Input:
+    #  [bool] Update Source flag
+    #   The option to update the localized repository against the centralized
+    #    repository (usually from a server host).
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -445,10 +453,10 @@ class GitControl
     #>
     [bool] SetUpdateSource([bool] $newVal)
     {
-        # Because the value is either true or false, there
-        #  really is no point in checking if the new requested
-        #  value is 'legal'.  Thus, we are going to trust the
-        #  value and automatically return success.
+        # Because the value is either true or false, there really is no
+        #  point in checking if the new requested value is 'legal'.
+        #  Thus, we are going to trust the value and automatically
+        #  return success.
         $this.__updateSource = $newVal;
 
         # Successfully updated.
@@ -458,10 +466,15 @@ class GitControl
 
 
 
-   <# Set Git Commit Length
+   <# Set Commit ID Length
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Git Commit Length variable.
+    #  Sets a new value for the 'Commit ID Length' variable.
+    # -------------------------------
+    # Input:
+    #  [GitCommitLength] Commit ID Length
+    #   The choice as to how the SHA1 hash is presented.  Long form, which is
+    #    forty-one characters.  Short form, however, only seven characters.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -487,7 +500,11 @@ class GitControl
    <# Set Fetch Commit ID
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Fetch Commit ID variable.
+    #  Sets a new value for the 'Fetch Commit ID' variable.
+    # -------------------------------
+    # Input:
+    #  [bool] Fetch Commit ID
+    #   The choice if the Commit ID is to be retrieved from the desired repository.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -497,10 +514,10 @@ class GitControl
     #>
     [bool] SetFetchCommitID([bool] $newVal)
     {
-        # Because the value is either true or false, there
-        #  really is no point in checking if the new requested
-        #  value is 'legal'.  Thus, we are going to trust the
-        #  value and automatically return success.
+        # Because the value is either true or false, there really is no
+        #  point in checking if the new requested value is 'legal'.
+        #  Thus, we are going to trust the value and automatically
+        #  return success.
         $this.__fetchCommitID = $newVal;
 
         # Successfully updated.
@@ -510,10 +527,14 @@ class GitControl
 
 
 
-   <# Set Fetch Changelog
+   <# Set Fetch Changelog History
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Fetch Changelog variable.
+    #  Sets a new value for the 'Fetch Changelog History' variable.
+    # -------------------------------
+    # Input:
+    #  [bool] Fetch Commit ID
+    #   The choice if the Commit ID is to be retrieved from the desired repository.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -523,10 +544,10 @@ class GitControl
     #>
     [bool] SetFetchChangelog([bool] $newVal)
     {
-        # Because the value is either true or false, there
-        #  really is no point in checking if the new requested
-        #  value is 'legal'.  Thus, we are going to trust the
-        #  value and automatically return success.
+        # Because the value is either true or false, there really is no
+        #  point in checking if the new requested value is 'legal'.
+        #  Thus, we are going to trust the value and automatically
+        #  return success.
         $this.__fetchChangelog = $newVal;
 
         # Successfully updated.
@@ -536,10 +557,14 @@ class GitControl
 
 
 
-   <# Set Changelog Limit
+   <# Set Changelog History Limit
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Changelog Limit variable.
+    #  Sets a new value for the 'Changelog History Limit' variable.
+    # -------------------------------
+    # Input:
+    #  [int] Changelog History Limit
+    #   A maximum limit of commits are shown within the Changelog history.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -572,7 +597,13 @@ class GitControl
    <# Set Generate Report
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Generate Report variable.
+    #  Sets a new value for the 'Generate Report' variable.
+    # -------------------------------
+    # Input:
+    #  [bool] Generate Report
+    #   When true, this will allow the report functionality to be
+    #    executed.  Otherwise the report functionality will be turned
+    #    off.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -582,10 +613,10 @@ class GitControl
     #>
     [bool] SetGenerateReport([bool] $newVal)
     {
-        # Because the value is either true or false, there
-        #  really is no point in checking if the new requested
-        #  value is 'legal'.  Thus, we are going to trust the
-        #  value and automatically return success.
+        # Because the value is either true or false, there really is no
+        #  point in checking if the new requested value is 'legal'.
+        #  Thus, we are going to trust the value and automatically
+        #  return success.
         $this.__generateReport = $newVal;
 
         # Successfully updated.
@@ -598,12 +629,15 @@ class GitControl
    <# Set Root Log Path
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Root Log Path variable.
+    #  Sets a new value for the 'Root Log Path' variable.
     #
     # WARNING:
-    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!
-    #   IT IS RECOMMENDED TO _NOT_ REVISE THIS VARIABLE
-    #   UNLESS IT IS ABSOLUTELY NECESSARY!
+    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!  IT IS RECOMMENDED
+    #   TO _NOT_ REVISE THIS VARIABLE UNLESS IT IS ABSOLUTELY NECESSARY!
+    # -------------------------------
+    # Input:
+    #  [string] Root Log Path
+    #   The new location of the Root Log directory.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -627,15 +661,19 @@ class GitControl
 
 
 
+
    <# Set Log Path
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Log Path variable.
+    #  Sets a new value for the 'Log Path' variable.
     #
     # WARNING:
-    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!
-    #   IT IS RECOMMENDED TO _NOT_ REVISE THIS VARIABLE
-    #   UNLESS IT IS ABSOLUTELY NECESSARY!
+    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!  IT IS RECOMMENDED
+    #   TO _NOT_ REVISE THIS VARIABLE UNLESS IT IS ABSOLUTELY NECESSARY!
+    # -------------------------------
+    # Input:
+    #  [string] Log Path
+    #   The new location of the Logging directory.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -659,15 +697,19 @@ class GitControl
 
 
 
+
    <# Set Report Path
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Report Path variable.
+    #  Sets a new value for the 'Report Path' variable.
     #
     # WARNING:
-    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!
-    #   IT IS RECOMMENDED TO _NOT_ REVISE THIS VARIABLE
-    #   UNLESS IT IS ABSOLUTELY NECESSARY!
+    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!  IT IS RECOMMENDED
+    #   TO _NOT_ REVISE THIS VARIABLE UNLESS IT IS ABSOLUTELY NECESSARY!
+    # -------------------------------
+    # Input:
+    #  [string] Report Path
+    #   The new location of the Report directory.
     # -------------------------------
     # Output:
     #  [bool] Status
