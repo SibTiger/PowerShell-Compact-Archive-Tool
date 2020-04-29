@@ -741,15 +741,15 @@ class GitControl
    <# Check Required Directories
     # -------------------------------
     # Documentation:
-    #  This function was created to check the directories
-    #   that this class requires.
+    #  This function will check to make sure that the log and report directories,
+    #   that are used in this class, currently exists within the host system's filesystem.
     #
     # ----
     #
-    #  Directories to Check:
-    #   - \git
-    #   - \git\logs
-    #   - \git\reports
+    #  Directories to be checked:
+    #   - %LOCALAPPDATA%\<PROG_NAME>\Git
+    #   - %LOCALAPPDATA%\<PROG_NAME>\Git\logs
+    #   - %LOCALAPPDATA%\<PROG_NAME>\Git\reports
     # -------------------------------
     # Output:
     #  [bool] Exit code
