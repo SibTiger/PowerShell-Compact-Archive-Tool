@@ -772,6 +772,7 @@ class GitControl
             return $true;
         } # If : Check Directories Exists
 
+        # One or more of the required directories was not found.
         else
         {
             # Directories does not exist.
