@@ -157,7 +157,7 @@ class GitControl
         $this.__generateReport = $true;
 
         # Log Root Directory Path
-        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\git";
+        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\Git";
 
         # Report Directory Path
         $this.__reportPath = "$($this.__rootLogPath)\reports";
@@ -200,7 +200,7 @@ class GitControl
         $this.__generateReport = $generateReport;
 
         # Log Root Directory Path
-        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\git";
+        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\Git";
 
         # Report Directory Path
         $this.__reportPath = "$($this.__rootLogPath)\reports";
