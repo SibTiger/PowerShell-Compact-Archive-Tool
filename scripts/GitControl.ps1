@@ -812,8 +812,8 @@ class GitControl
     #>
     Hidden [bool] __CreateDirectories()
     {
-        if(($this.__CheckRequiredDirectories())-eq $true)
         # First, check if the directories already exist.
+        if(($this.__CheckRequiredDirectories()) -eq $true)
         {
             # The directories exist, no action is required.
             return $true;
@@ -872,7 +872,7 @@ class GitControl
 
 
         # Fail-safe; final assurance that the directories have been created successfully.
-        if(($this.__CheckRequiredDirectories())-eq $true)
+        if(($this.__CheckRequiredDirectories()) -eq $true)
         {
             # The directories exist
             return $true;
