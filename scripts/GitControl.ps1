@@ -812,8 +812,8 @@ class GitControl
     #>
     Hidden [bool] __CreateDirectories()
     {
-        # First, check if the directories already exist?
         if(($this.__CheckRequiredDirectories())-eq $true)
+        # First, check if the directories already exist.
         {
             # The directories exist, no action is required.
             return $true;
@@ -835,7 +835,7 @@ class GitControl
                 # Failure occurred.
                 return $false;
             } # If : Failed to Create Directory
-        } # Root Log Directory
+        } # If : Not Detected Root Log Directory
 
 
         # ----
@@ -844,13 +844,13 @@ class GitControl
         # Log Directory
         if(([IOCommon]::CheckPathExists("$($this.__logPath)", $true)) -eq $false)
         {
-            # Root Log Directory does not exist, try to create it.
+            # Log Directory does not exist, try to create it.
             if (([IOCommon]::MakeDirectory("$($this.__logPath)")) -eq $false)
             {
                 # Failure occurred.
                 return $false;
             } # If : Failed to Create Directory
-        } # Log Directory
+        } # If : Not Detected Log Directory
 
 
         # ----
@@ -859,13 +859,13 @@ class GitControl
         # Report Directory
         if(([IOCommon]::CheckPathExists("$($this.__reportPath)", $true)) -eq $false)
         {
-            # Root Log Directory does not exist, try to create it.
+            # Report Directory does not exist, try to create it.
             if (([IOCommon]::MakeDirectory("$($this.__reportPath)")) -eq $false)
             {
-                # Failure occurred.
+                # Failure occurred; could not create directory.
                 return $false;
             } # If : Failed to Create Directory
-        } # Report Directory
+        } # If : Not Detected Report Directory
 
 
         # ----
