@@ -1035,6 +1035,16 @@ class GitControl
     #>
     [bool] DetectGitExist()
     {
+        # Make sure that the value is not empty (or null).
+        if ($this.__executablePath -eq $null)
+        {
+            # No value was provided; unable to perform a check as nothing was provided.
+            # Because the value is empty, this function was unable to detect the
+            #  executable file.
+            return $false;
+        } # if : Executable Path is Empty
+
+
         # Check if the Git executable was found.
         if (([IOCommon]::DetectCommand("$($this.__executablePath)", "Application")) -eq $true)
         {
