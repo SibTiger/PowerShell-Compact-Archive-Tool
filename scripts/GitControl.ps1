@@ -1048,7 +1048,7 @@ class GitControl
         # Check if the Git executable was found.
         if (([IOCommon]::DetectCommand("$($this.__executablePath)", "Application")) -eq $true)
         {
-            # Successfully located the 7Zip executable.
+            # Successfully located the Git executable.
             # Return that the executable was found.
             return $true;
         } # If : Detected Git
