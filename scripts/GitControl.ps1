@@ -1035,15 +1035,22 @@ class GitControl
     #>
     [bool] DetectGitExist()
     {
-        # Check if the git executable was found
+        # Check if the Git executable was found.
         if (([IOCommon]::DetectCommand("$($this.__executablePath)", "Application")) -eq $true)
         {
+            # Successfully located the 7Zip executable.
+            # Return that the executable was found.
             return $true;
-        } # If : Detected
+        } # If : Detected Git
+
+        # Failed to detect the executable.
         else
         {
+            # The path provided already does not point to a valid executable or
+            #  the path does not exist.
+            # Return that the executable could not be found.
             return $false;
-        } # Else : Not Detected
+        } # Else : Unable to Detect Git
     } # DetectGitExist()
 
 
