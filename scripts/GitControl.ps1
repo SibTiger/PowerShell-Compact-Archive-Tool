@@ -1043,6 +1043,7 @@ class GitControl
             return $true;
         } # If : Detected Git
 
+
         # Failed to detect the executable.
         else
         {
