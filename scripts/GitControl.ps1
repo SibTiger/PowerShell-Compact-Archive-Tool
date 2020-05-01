@@ -1039,6 +1039,26 @@ class GitControl
         if ($this.__executablePath -eq $null)
         {
             # No value was provided; unable to perform a check as nothing was provided.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to find the Git executable as there was no path provided!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "Git Executable Path is: $($this.__executablePath)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Warning");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Because the value is empty, this function was unable to detect the
             #  executable file.
             return $false;
@@ -1049,6 +1069,26 @@ class GitControl
         if (([IOCommon]::DetectCommand("$($this.__executablePath)", "Application")) -eq $true)
         {
             # Successfully located the Git executable.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Successfully located the Git executable!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "Git Executable Path is: $($this.__executablePath)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Return that the executable was found.
             return $true;
         } # If : Detected Git
@@ -1059,6 +1099,26 @@ class GitControl
         {
             # The path provided already does not point to a valid executable or
             #  the path does not exist.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to find the Git executable as the path was not valid!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "Git Executable Path is: $($this.__executablePath)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Warning");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Return that the executable could not be found.
             return $false;
         } # Else : Unable to Detect Git
