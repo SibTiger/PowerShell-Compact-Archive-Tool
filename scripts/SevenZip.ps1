@@ -1178,7 +1178,7 @@ class SevenZip
 
             # Return that the executable could not be found.
             return $false;
-        } # Else : Unable to Detected 7zip
+        } # Else : Unable to Detect 7zip
     } # Detect7ZipExist()
 
 
