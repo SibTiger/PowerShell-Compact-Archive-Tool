@@ -1018,6 +1018,10 @@ class GitControl
 
     #region Public Functions
 
+
+    #region Git Detection
+
+
    <# Detect Git Executable
     # -------------------------------
     # Documentation:
@@ -1213,6 +1217,7 @@ class GitControl
         return $null;
     } # FindGit()
 
+    #endregion
 
 
 
