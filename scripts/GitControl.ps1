@@ -1127,6 +1127,58 @@ class GitControl
 
 
 
+   <# Find Git
+    # -------------------------------
+    # Documentation:
+    #  This function will try to automatically find the Git executable by checking
+    #   some prevalent locations within the host's filesystem.  If this function was
+    #   able to successfully detect the executable, then the path to the binary file
+    #   will be returned.  Otherwise, if the application was not found, then '$null'
+    #   will be returned instead.
+    # -------------------------------
+    # Output:
+    #  [string] Git Executable (Absolute) Path
+    #    Returns the location of where the Git application resides.
+    #    NOTE:
+    #       $null - signifies that the Git executable could not be found in the common
+    #                locations.
+    # -------------------------------
+    #>
+    [string] FindGit()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [string[]] $path = @("git.exe");
+        # ----------------------------------------
+
+
+        # Try to automatically find the Git executable by inspecting each path within the array.
+        foreach ($index in $path)
+        {
+            # Check the path to see if the Git application was found with the given path.
+            if([IOCommon]::DetectCommand("$($index)", "Application") -eq $true)
+            {
+                # Successfully found the executable
+
+
+                # Successfully found the executable; return the path.
+                return "$($index)";
+            } # if : Inspect the Individual Path
+        } # Foreach : Check all Common Paths
+
+
+
+        # Could not find the Git executable
+
+
+        # If the application could not be found, then return nothing ($null) to signify
+        #  that this function was unable to find the application.
+        return $null;
+    } # FindGit()
+
+
+
+
    <# Update Local Working Copy
     # -------------------------------
     # Documentation:
