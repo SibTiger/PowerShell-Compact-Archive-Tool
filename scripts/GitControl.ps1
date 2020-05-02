@@ -1152,7 +1152,40 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string[]] $path = @("git.exe");
+        [string[]] $path = @(# %PATH%
+                            # ====================
+                            # --------------------
+                            "git.exe",
+                            # ------------------------------------------
+
+                            # Git for Windows
+                            # ====================
+                            # --------------------
+                            # {AMD64}
+                            # ---------
+                            "C:\Program Files\Git\bin\git.exe",
+                            "C:\Program Files\Git\cmd\git.exe",
+                            # - - - - -
+                            # {x86_32}
+                            # ---------
+                            "C:\Program Files (x86)\Git\bin\git.exe",
+                            "C:\Program Files (x86)\Git\cmd\git.exe",
+                            # ------------------------------------------
+
+                            # Visual Studio 2019 Community Edition {x86_32 && AMD64}
+                            # ====================
+                            # --------------------
+                            # {AMD64}
+                            # ---------
+                            "C:\Program Files\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe",
+                            "C:\Program Files\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\mingw32\bin\git.exe",
+                            # - - - - -
+                            # {x86_32}
+                            # ---------
+                            "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe",
+                            "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\mingw32\bin\git.exe"
+                            # ------------------------------------------
+                            );
         # ----------------------------------------
 
 
