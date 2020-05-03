@@ -1152,10 +1152,22 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
+        # If it exists, try to check the user's filesystem for GitHub for Windows Git executable path.
+        [string] $pathGitHubforWindows = "$($this.FindGitGitHubForWindows())";
+
+        # Initialize the Path to check.
         [string[]] $path = @(# %PATH%
+                            # Use the preferred Git executable
                             # ====================
                             # --------------------
                             "git.exe",
+                            # ------------------------------------------
+
+                            # Github for Windows
+                            # A lot of users will be using this tool from Github (myself included).
+                            # ====================
+                            # --------------------
+                            "$($pathGitHubforWindows)",
                             # ------------------------------------------
 
                             # Git for Windows
