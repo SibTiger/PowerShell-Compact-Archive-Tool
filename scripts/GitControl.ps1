@@ -1155,7 +1155,11 @@ class GitControl
         # If it exists, try to check the user's filesystem for GitHub for Windows Git executable path.
         [string] $pathGitHubforWindows = "$($this.FindGitGitHubForWindows())";
 
-        # Initialize the Path to check.
+        # Initialize a list of absolute paths to check if the Git binary file exists within the filesystem.
+        #  Hopefully with this list, it should cover a lot of users that presently have Git installed on
+        #  their systems.  Keep in mind that despite Git may had already been installed, some users may not
+        #  know where the install path is (Github for Windows is a prime case) or possibly forgot that it was
+        #  ever installed to begin with.  Simplify the experience as much as possible for the end-user.
         [string[]] $path = @(# %PATH%
                             # Use the preferred Git executable
                             # ====================
