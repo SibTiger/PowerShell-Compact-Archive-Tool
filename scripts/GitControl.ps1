@@ -1303,7 +1303,7 @@ class GitControl
         #  Data
         try
         {
-            $searchResults = Get-ChildItem -Path "$($env:LOCALAPPDATA)\GithubDesktop\" `
+            $searchResults = Get-ChildItem -LiteralPath "$($env:LOCALAPPDATA)\GithubDesktop\" `
                                             -Filter "git.exe" `
                                             -Recurse `
                                             -ErrorAction Stop;
