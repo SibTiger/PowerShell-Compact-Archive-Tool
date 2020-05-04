@@ -4070,6 +4070,99 @@ class IOCommon
         } # Else : Unknown file
     } # DetermineItemType()
 
+
+
+
+   <# Search for a File
+    # -------------------------------
+    # Documentation:
+    #  This function will try to search, within the given starting
+    #   absolute path, for a desired file.  During the search, this
+    #   function will enforce the Recursive and Force flag.  With this
+    #   configuration, it will be possible to find all possible
+    #   instances of the requested file.
+    # -------------------------------
+    # Input:
+    #  [string] Search Path (Absolute Path)
+    #   The absolute path of the parent directory in which to scan for the
+    #    requested file.
+    #  [string] Search File
+    #   The desired file, files with the same name, or files that contain
+    #    the desired file extension, to find within the requested directory.
+    # -------------------------------
+    # Output
+    #  [System.IO.FileSystemInfo[]] Search Results
+    #    All of the instances found based on the search result.
+    #   NOTE:
+    #     It is possible to have no results provided - for when the search
+    #      could not find any instances.
+    # -------------------------------
+    #>
+    static [System.IO.FileSystemInfo[]] SearchFile ([string] $searchPath,
+                                                    [string] $searchFile)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This variable object will hold all of the occurrences found from the search
+        #  function.  The first index will be initialized as '$null' as a safety
+        #  precaution if nothing was found from the search.
+        [System.IO.FileSystemInfo[]] $searchResults = $null;
+        # ----------------------------------------
+
+
+        # Make sure that the directory we want to inspect presently exist with the
+        #  given path.
+        if ([IOCommon]::CheckPathExists("$($searchPath)", $true) -eq $false)
+        {
+            # The parent directory does not exist, no operations can be performed.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to perform the search requested as the requested directory path does not exist or was not valid!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Parent Directory Path: $($searchPath)`r`n" + `
+                                        "`File(s) to find: $($searchFile)`r`n");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            #  Because the directory does not exist (with the provided path), then we cannot proceed
+            #   any further within this function.  We must abort the operation to avoid any conflicts.
+            return $searchResults;
+        } # If : Target Directory Does not Exists
+
+
+        # Try to find the requested file withing the provided path.
+        try
+        {
+            $searchResults = Get-ChildItem -LiteralPath "$($searchPath)" `
+                                            -Filter "$($searchFile)" `
+                                            -Recurse `
+                                            -ErrorAction Stop;
+        } # Try : Find all instances
+
+
+        # A failure prevented the scan to work correctly or the path did not exist.
+        catch
+        {
+            # An error was reached
+        } # Catch : Failed to find the binary file or path did not exist.
+
+
+        # Return the search results back to the calling function.
+        return $searchResults;
+    } # SearchFile()
+
     #endregion
 
 
