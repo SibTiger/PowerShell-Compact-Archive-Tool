@@ -4149,6 +4149,40 @@ class IOCommon
                                             -Filter "$($searchFile)" `
                                             -Recurse `
                                             -ErrorAction Stop;
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # We will use this variable to transform the search results into a simply string.
+            [string] $debugInformationResults = $null;
+
+            # Transform the results into a simple string
+            foreach ($item in $searchResults)
+            {
+                $debugInformationResults += "`t`t>> $($item.FullName)`r`n";
+            } # Foreach : Retrieve Results
+
+
+            # Generate the initial message
+            [string] $logMessage = "Successfully searched for the requested file at the desired base path!";
+
+            [string] $logAdditionalMSG = ("Base Path to thoroughly inspect: $($searchPath)`r`n" + `
+                                        "`tFile to find: $($searchFile)`r`n" + `
+                                        "`tHits found: $($searchResults.Count)`r`n" + `
+                                        "`t-----------------------------------------------------------`r`n" + `
+                                        "$($debugInformationResults)" + `
+                                        "`t-----------------------------------------------------------");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+            "$($logAdditionalMSG)", `                               # Additional information
+            "Verbose");                                             # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
         } # Try : Find all instances
 
 
