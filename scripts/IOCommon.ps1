@@ -4104,7 +4104,8 @@ class IOCommon
         # ----------------------------------------
         # This variable object will hold all of the occurrences found from the search
         #  function.  The first index will be initialized as '$null' as a safety
-        #  precaution if nothing was found from the search.
+        #  precaution if nothing was found from the search, otherwise - the actual instances
+        #  will be provided.
         [System.IO.FileSystemInfo[]] $searchResults = $null;
         # ----------------------------------------
 
