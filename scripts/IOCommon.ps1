@@ -4173,9 +4173,6 @@ class IOCommon
                                         "Error");                   # Message level
 
             # * * * * * * * * * * * * * * * * * * *
-
-
-            
         } # Catch : Failed to find the binary file or path did not exist.
 
 
