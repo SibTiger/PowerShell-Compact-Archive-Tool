@@ -4130,7 +4130,7 @@ class IOCommon
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                 # Message level
+                                        "Error");                   # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -4170,7 +4170,7 @@ class IOCommon
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                 # Message level
+                                        "Error");                   # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
