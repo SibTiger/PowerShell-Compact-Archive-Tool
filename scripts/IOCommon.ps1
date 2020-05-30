@@ -4155,7 +4155,28 @@ class IOCommon
         # A failure prevented the scan to work correctly or the path did not exist.
         catch
         {
-            # An error was reached
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Unable to perform the file search!" + `
+                                    "$([Logging]::GetExceptionInfoShort($_.Exception))");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Parent Directory Path: $($searchPath)`r`n" + `
+                                        "`File(s) to find: $($searchFile)`r`n" + `
+                                        "$([Logging]::GetExceptionInfo($_.Exception))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            
         } # Catch : Failed to find the binary file or path did not exist.
 
 
