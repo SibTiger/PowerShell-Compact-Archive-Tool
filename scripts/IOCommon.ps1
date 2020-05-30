@@ -4076,19 +4076,18 @@ class IOCommon
    <# Search for a File
     # -------------------------------
     # Documentation:
-    #  This function will try to search, within the given starting
-    #   absolute path, for a desired file.  During the search, this
-    #   function will enforce the Recursive and Force flag.  With this
-    #   configuration, it will be possible to find all possible
-    #   instances of the requested file.
+    #  This function will try to search, within the given starting absolute path,
+    #   for a desired file.  During the search, this function will enforce the
+    #   Recursive and Force flag.  With this configuration, it will be possible
+    #   to find all possible instances of the requested file.
     # -------------------------------
     # Input:
     #  [string] Search Path (Absolute Path)
-    #   The absolute path of the parent directory in which to scan for the
-    #    requested file.
+    #   The absolute path of the parent directory in which to scan for the requested
+    #    file.
     #  [string] Search File
-    #   The desired file, files with the same name, or files that contain
-    #    the desired file extension, to find within the requested directory.
+    #   The desired file, files with the same name, or files that contain the desired
+    #    file extension, to find within the requested directory.
     # -------------------------------
     # Output
     #  [System.IO.FileSystemInfo[]] Search Results
