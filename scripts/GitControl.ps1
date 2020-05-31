@@ -1266,64 +1266,6 @@ class GitControl
         return $null;
     } # FindGit()
 
-
-
-
-   <# Find Git - GitHub for Windows
-    # -------------------------------
-    # Documentation:
-    #  This function will try to find the Git executable that is stored within the
-    #   Github for Windows directory.  Because Github for Windows, by the time of
-    #   writing this, does not place the Git executable within a static location but
-    #   only in version-by-version locations, the location of Git changes over time.
-    #   Meaning, the Git executable that Github for Windows utilizes moves around in
-    #   each different version or update instead of being in just one specific
-    #   directory - separated away from the version of the executable.
-    # -------------------------------
-    # Output:
-    #  [string] Git Executable (Absolute) Path
-    #    Returns the location of where the Git application resides within the Github
-    #     for Windows directory.
-    #    NOTE:
-    #       $null - signifies that the Git executable could not be found in the common
-    #                locations.
-    # -------------------------------
-    #>
-    [string] FindGitGitHubForWindows()
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Once properly initialized, this may contain the path of reaching one or more of
-        #  the Git.exe instances within the desired location.
-        [System.IO.FileSystemInfo[]] $searchResults = $null;
-        # ----------------------------------------
-
-
-        # Try to find the Git Executable that is stored somewhere within the Git Application
-        #  Data
-        try
-        {
-            $searchResults = Get-ChildItem -LiteralPath "$($env:LOCALAPPDATA)\GithubDesktop\" `
-                                            -Filter "git.exe" `
-                                            -Recurse `
-                                            -ErrorAction Stop;
-        } # Try : Find all git binary files within the Github's dir.
-
-
-        # A failure prevented the scan to work correctly or the path did not exist.
-        catch
-        {
-            # Because an error was reached; return a null to signify that nothing was provided.
-            return "$($null)";
-        } # Catch : Failed to find the binary file or path did not exist.
-
-
-        # If we made it here - that means we successfully found one or more instances of the
-        #  executable file.  Return only the first entry back to the calling function.
-        #  NOTE: Cast into a string
-        return "$([string]$searchResults[0].FullName)";
-    } # FindGitGitHubForWindows()
-
     #endregion
 
 
