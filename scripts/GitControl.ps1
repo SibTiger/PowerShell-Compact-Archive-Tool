@@ -1152,91 +1152,114 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # If it exists, try to check the user's filesystem for GitHub for Windows Git executable path.
-        [string] $pathGitHubforWindows = "$($this.FindGitGitHubForWindows())";
+        # Initialize a list of common absolute paths that could contain the Git
+        #  executable within the user's system.
+        [string[]] $listDirectoryPath = @(
+                                        # Github for Windows
+                                        # This should encompass a lot of users as many utilize this tool.
+                                        #  Github for Windows provides the Git.exe executable within the
+                                        #  Program Data under %LocalAppData%.
+                                        # ====================
+                                        # --------------------
+                                        "$($env:LOCALAPPDATA)\GithubDesktop\"
+                                        # ------------------------------------------
 
-        # Initialize a list of absolute paths to check if the Git binary file exists within the filesystem.
-        #  Hopefully with this list, it should cover a lot of users that presently have Git installed on
-        #  their systems.  Keep in mind that despite Git may had already been installed, some users may not
-        #  know where the install path is (Github for Windows is a prime case) or possibly forgot that it was
-        #  ever installed to begin with.  Simplify the experience as much as possible for the end-user.
-        [string[]] $path = @(# %PATH%
-                            # Use the preferred Git executable
-                            # ====================
-                            # --------------------
-                            "git.exe",
-                            # ------------------------------------------
 
-                            # Github for Windows
-                            # A lot of users will be using this tool from Github (myself included).
-                            # ====================
-                            # --------------------
-                            "$($pathGitHubforWindows)",
-                            # ------------------------------------------
+                                        # Git for Windows
+                                        # ====================
+                                        # --------------------
+                                        # {AMD64}
+                                        # ---------
+                                        "C:\Program Files\Git\",
+                                        # - - - - -
+                                        # {x86_32}
+                                        # ---------
+                                        "C:\Program Files (x86)\Git\",
+                                        # ------------------------------------------
 
-                            # Git for Windows
-                            # ====================
-                            # --------------------
-                            # {AMD64}
-                            # ---------
-                            "C:\Program Files\Git\bin\git.exe",
-                            "C:\Program Files\Git\cmd\git.exe",
-                            # - - - - -
-                            # {x86_32}
-                            # ---------
-                            "C:\Program Files (x86)\Git\bin\git.exe",
-                            "C:\Program Files (x86)\Git\cmd\git.exe",
-                            # ------------------------------------------
 
-                            # Visual Studio 2019 Community Edition {x86_32 && AMD64}
-                            # ====================
-                            # --------------------
-                            # {AMD64}
-                            # ---------
-                            "C:\Program Files\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe",
-                            "C:\Program Files\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\mingw32\bin\git.exe",
-                            # - - - - -
-                            # {x86_32}
-                            # ---------
-                            "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe",
-                            "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\mingw32\bin\git.exe"
-                            # ------------------------------------------
-                            );
+                                        # Visual Studio 2019 Community Edition {x86_32 && AMD64}
+                                        # ====================
+                                        # --------------------
+                                        # {AMD64}
+                                        # ---------
+                                        "C:\Program Files\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\",
+
+                                        # - - - - -
+                                        # {x86_32}
+                                        # ---------
+                                        "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\",
+                                        # ------------------------------------------
+
+
+                                        # Visual Studio (Any Possible Installations) {x86_32 && AMD64}
+                                        # ====================
+                                        # --------------------
+                                        # {AMD64}
+                                        # ---------
+                                        "C:\Program Files\Microsoft Visual Studio\",
+
+                                        # - - - - -
+                                        # {x86_32}
+                                        # ---------
+                                        "C:\Program Files (x86)\Microsoft Visual Studio\"
+                                        # ------------------------------------------
+                                        );
         # ----------------------------------------
 
 
-        # Try to automatically find the Git executable by inspecting each path within the array.
-        foreach ($index in $path)
+        # First, lets try to test the system's %PATH%
+        if ([IOCommon]::DetectCommand("git.exe", "Application") -eq $true)
         {
-            # Check the path to see if the Git application was found with the given path.
-            if([IOCommon]::DetectCommand("$($index)", "Application") -eq $true)
+            # Found
+            Write-Host "Found it in PATH"
+        } # If : Path
+
+
+        # Try to find the Git executable by inspecting each element within the array.
+        foreach ($index in $pathList)
+        {
+            if ([IOCommon]::DetermineItemType($index) -eq 'F')
             {
-                # Successfully found the executable
+                Write-Host "File Detected: $($index)"
+            }
+            Write-Host "File NOT Detected: $($index)"
 
 
-                # * * * * * * * * * * * * * * * * * * *
-                # Debugging
-                # --------------
-
-                # Generate the initial message
-                [string] $logMessage = "Successfully located the Git executable!";
-
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = "Git was found in: $($index)";
-
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Verbose");                 # Message level
-
-                # * * * * * * * * * * * * * * * * * * *
+            <#
+                # Try to automatically find the Git executable by inspecting each path within the array.
+                foreach ($index in $path)
+                {
+                    # Check the path to see if the Git application was found with the given path.
+                    if([IOCommon]::DetectCommand("$($index)", "Application") -eq $true)
+                    {
+                        # Successfully found the executable
 
 
-                # Successfully found the executable; return the path.
-                return "$($index)";
-            } # if : Inspect the Individual Path
-        } # Foreach : Check all Common Paths
+                        # * * * * * * * * * * * * * * * * * * *
+                        # Debugging
+                        # --------------
 
+                        # Generate the initial message
+                        [string] $logMessage = "Successfully located the Git executable!";
+
+                        # Generate any additional information that might be useful
+                        [string] $logAdditionalMSG = "Git was found in: $($index)";
+
+                        # Pass the information to the logging system
+                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                    "$($logAdditionalMSG)", `   # Additional information
+                                                    "Verbose");                 # Message level
+
+                        # * * * * * * * * * * * * * * * * * * *
+
+
+                        # Successfully found the executable; return the path.
+                        return "$($index)";
+                    } # if : Inspect the Individual Path
+                } # Foreach : Check all Common Paths
+            #>
+        } # Foreach : Check all Paths
 
 
         # Could not find the Git executable
@@ -1251,7 +1274,7 @@ class GitControl
 
         # Generate any additional information that might be useful
         [string] $logAdditionalMSG = ("Places to automatically look:`r`n" + `
-                                    "`t`t- $($path -join "`r`n`t`t- ")");
+                                    "`t`t- $($pathList -join "`r`n`t`t- ")");
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
