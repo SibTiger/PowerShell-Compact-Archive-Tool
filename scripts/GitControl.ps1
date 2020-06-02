@@ -1211,9 +1211,30 @@ class GitControl
         # First, lets try to test the system's %PATH%
         if ([IOCommon]::DetectCommand("git.exe", "Application") -eq $true)
         {
-            # Found
-            Write-Host "Found it in PATH"
-        } # If : Path
+            # Successfully located Git within the host system's %PATH%.  Because the executable was found, we can stop this search.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Successfully located the Git executable!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "Git was found within the system's %PATH%";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Because the Git executable was found via the system's $PATH, return 'git.exe'.
+            return "git.exe"
+        } # If : Git Reachable via %PATH%
 
 
         # Try to find the Git executable by inspecting each element within the array.
