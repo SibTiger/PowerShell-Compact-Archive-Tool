@@ -1170,11 +1170,11 @@ class GitControl
                                         # --------------------
                                         # {AMD64}
                                         # ---------
-                                        "C:\Program Files\Git\",
+                                        "$($env:ProgramFiles)\Git\",
                                         # - - - - -
                                         # {x86_32}
                                         # ---------
-                                        "C:\Program Files (x86)\Git\",
+                                        "${env:ProgramFiles(x86)}\Git\",
                                         # ------------------------------------------
 
 
@@ -1183,12 +1183,12 @@ class GitControl
                                         # --------------------
                                         # {AMD64}
                                         # ---------
-                                        "C:\Program Files\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\",
+                                        "$($env:ProgramFiles)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\",
 
                                         # - - - - -
                                         # {x86_32}
                                         # ---------
-                                        "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\",
+                                        "${env:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\",
                                         # ------------------------------------------
 
 
@@ -1197,12 +1197,12 @@ class GitControl
                                         # --------------------
                                         # {AMD64}
                                         # ---------
-                                        "C:\Program Files\Microsoft Visual Studio\",
+                                        "$($env:ProgramFiles)\Microsoft Visual Studio\",
 
                                         # - - - - -
                                         # {x86_32}
                                         # ---------
-                                        "C:\Program Files (x86)\Microsoft Visual Studio\"
+                                        "${env:ProgramFiles(x86)}\Microsoft Visual Studio\"
                                         # ------------------------------------------
                                         );
         # ----------------------------------------
