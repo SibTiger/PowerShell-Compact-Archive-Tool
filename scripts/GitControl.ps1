@@ -1238,7 +1238,7 @@ class GitControl
 
 
         # Try to find the Git executable by inspecting each element within the array.
-        foreach ($index in $pathList)
+        foreach ($index in $listDirectoryPath)
         {
             if ([IOCommon]::DetermineItemType($index) -eq 'F')
             {
@@ -1295,7 +1295,7 @@ class GitControl
 
         # Generate any additional information that might be useful
         [string] $logAdditionalMSG = ("Places to automatically look:`r`n" + `
-                                    "`t`t- $($pathList -join "`r`n`t`t- ")");
+                                    "`t`t- $($listDirectoryPath -join "`r`n`t`t- ")");
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
