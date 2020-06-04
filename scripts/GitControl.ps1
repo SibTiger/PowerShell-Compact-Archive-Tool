@@ -1249,18 +1249,18 @@ class GitControl
             # Determine if there was any valid results from the search.
             if ($searchResult -ne $null)
             {
-                # Found a positive hit from the search!
+                # Successfully found the executable!
+
+
+
+
+
+
+
 
                 # Return the first result back to the calling function.
                 return "$($searchResult[0].FullName)";
             } # If : Search Found Git
-
-
-
-
-
-
-
 
         # Could not find the Git executable
 
