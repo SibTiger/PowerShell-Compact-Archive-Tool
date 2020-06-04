@@ -1256,40 +1256,10 @@ class GitControl
             } # If : Search Found Git
 
 
-            <#
-                # Try to automatically find the Git executable by inspecting each path within the array.
-                foreach ($index in $path)
-                {
-                    # Check the path to see if the Git application was found with the given path.
-                    if([IOCommon]::DetectCommand("$($index)", "Application") -eq $true)
-                    {
-                        # Successfully found the executable
 
 
-                        # * * * * * * * * * * * * * * * * * * *
-                        # Debugging
-                        # --------------
-
-                        # Generate the initial message
-                        [string] $logMessage = "Successfully located the Git executable!";
-
-                        # Generate any additional information that might be useful
-                        [string] $logAdditionalMSG = "Git was found in: $($index)";
-
-                        # Pass the information to the logging system
-                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                    "$($logAdditionalMSG)", `   # Additional information
-                                                    "Verbose");                 # Message level
-
-                        # * * * * * * * * * * * * * * * * * * *
 
 
-                        # Successfully found the executable; return the path.
-                        return "$($index)";
-                    } # if : Inspect the Individual Path
-                } # Foreach : Check all Common Paths
-            #>
-        } # Foreach : Check all Paths
 
 
         # Could not find the Git executable
