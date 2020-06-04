@@ -1261,6 +1261,7 @@ class GitControl
                 # Return the first result back to the calling function.
                 return "$($searchResult[0].FullName)";
             } # If : Search Found Git
+        } # Foreach : Scan Known Directory List
 
         # Could not find the Git executable
 
