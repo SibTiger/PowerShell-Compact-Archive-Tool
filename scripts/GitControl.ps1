@@ -1205,6 +1205,9 @@ class GitControl
                                         "${env:ProgramFiles(x86)}\Microsoft Visual Studio\"
                                         # ------------------------------------------
                                         );
+
+        # This will hold the search results that were performed by another function.  If the first result was $null, 
+        [System.IO.FileSystemInfo[]] $searchResult = $null;
         # ----------------------------------------
 
 
@@ -1240,11 +1243,17 @@ class GitControl
         # Try to find the Git executable by inspecting each element within the array.
         foreach ($index in $listDirectoryPath)
         {
-            if ([IOCommon]::DetermineItemType($index) -eq 'F')
+            # Grab all of the results possible from this array's index.
+            $searchResult = [IOCommon]::SearchFile("$($index)", "git.exe")
+
+            # Determine if there was any valid results from the search.
+            if ($searchResult -ne $null)
             {
-                Write-Host "File Detected: $($index)"
-            }
-            Write-Host "File NOT Detected: $($index)"
+                # Found a positive hit from the search!
+
+                # Return the first result back to the calling function.
+                return "$($searchResult[0].FullName)";
+            } # If : Search Found Git
 
 
             <#
