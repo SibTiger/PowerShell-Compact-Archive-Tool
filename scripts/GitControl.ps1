@@ -1252,10 +1252,22 @@ class GitControl
                 # Successfully found the executable!
 
 
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
 
+                # Generate the initial message
+                [string] $logMessage = "Successfully located the Git executable!";
 
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = "Git was found in: $($searchResult[0].FullName)";
 
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Verbose");                 # Message level
 
+                # * * * * * * * * * * * * * * * * * * *
 
 
                 # Return the first result back to the calling function.
