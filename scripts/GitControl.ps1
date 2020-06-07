@@ -1309,17 +1309,15 @@ class GitControl
    <# Update Local Working Copy
     # -------------------------------
     # Documentation:
-    #  This function will update the project's Local
-    #   Working Copy by fetching any of the latest
-    #   changes made to the centralized repository
-    #   server. 
+    #  This function will update the project's localized repository by synchronizing with the centralized
+    #   (or master) repository server.  Upon updating the localized repository from the centralized
+    #   repository, the updates will only effect the currently selected branch.  Thus, all other branches
+    #   will not be synchronized unless manually switching to another branch and performing the update again.
     # -------------------------------
     # Input:
     #  [string] Project Path
-    #   The path to the project's root directory that
-    #   contains the .git directory.  If that directory
-    #   lacks that specific '.git' directory, this
-    #   will fail to work.
+    #   The path to the project's localized repository.  The provided path must contain the .git directory
+    #    within the root of the project's source files.
     # -------------------------------
     # Output:
     #  [bool] Status
