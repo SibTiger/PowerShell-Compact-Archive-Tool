@@ -1546,7 +1546,8 @@ class GitControl
     #    $true  = Successfully switched to the requested branch.
     # -------------------------------
     #>
-    [bool] SwitchLocalBranch([string] $projectPath, [string] $requestedBranch)
+    [bool] SwitchLocalBranch([string] $projectPath,         # Project's Local Repository Path
+                            [string] $requestedBranch)      # Switch to the Requested Branch.
     {
         # Declarations and Initializations
         # ----------------------------------------
