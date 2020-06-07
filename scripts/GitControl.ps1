@@ -1329,9 +1329,10 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $extCMDArgs = "pull";          # Arguments for the external command
-                                                #  Fetch updates from the remote repository.
-        [string] $execReason = "Update LWC";    # Description; used for logging
+        [string] $extCMDArgs = "pull";              # Arguments to be used when invoking the Git executable.
+                                                    #  This will allow the Git to update the local repository
+                                                    #  at the current selected Branch.
+        [string] $execReason = "Update LWC";        # Description; used for logging
         # ----------------------------------------
 
 
