@@ -1605,15 +1605,15 @@ class GitControl
                                         "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
                                         $false, `                           # Are we building a report?
                                         $false, `                           # Do we need to capture the STDOUT so we can process it further?
-                                        [ref]$null) -eq 0)                  # Variable containing the STDOUT; if we need to process it.
+                                        [ref]$null) -ne 0)                  # Variable containing the STDOUT; if we need to process it.
         {
-            # Successfully switched from one branch to another branch.
-            return $true;
-        } # If : Switch Branches
+            # A failure had been reached; unable to switch the project's local repository branch.
+            return $false;
+        } # If : Switch Local Repo. Branch Operation Failed
 
 
-        # Failure to switch branches.
-        return $false;
+        # Successfully switched from one branch to another branch.
+        return $true;
     } # SwitchLocalBranch()
 
 
