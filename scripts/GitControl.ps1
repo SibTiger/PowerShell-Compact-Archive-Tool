@@ -1475,9 +1475,6 @@ class GitControl
             return $true;
         } # If : Do not update source
 
-        
-        # Failure occurred
-        return $false;
 
         # Execute the command
         if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `       # Git Executable Path
