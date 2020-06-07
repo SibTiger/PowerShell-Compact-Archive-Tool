@@ -1446,7 +1446,6 @@ class GitControl
         # Did the user wanted the project's local repository to be updated?
         if ($($this.__updateSource) -eq $false)
         {
-            return $false;
             # The user did not want the project's local repository to be updated; abort the operation.
 
 
@@ -1470,6 +1469,9 @@ class GitControl
 
             # * * * * * * * * * * * * * * * * * * *
 
+            # Because the user did not want the project's local repository updated, return 'true'.
+            #  Technically the operation did not fail - instead the user did not request for the
+            #  local repository to be updated with the remote repository.
             return $true;
         } # If : Do not update source
 
