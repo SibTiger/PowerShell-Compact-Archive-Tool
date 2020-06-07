@@ -1551,9 +1551,9 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $extCMDArgs = "checkout $($requestedBranch)";  # Arguments for the external command
-                                                                #  This will allow us to switch to
-                                                                #  another branch.
+        [string] $extCMDArgs = "checkout $($requestedBranch)";  # Arguments to be used when invoking the Git Executable.
+                                                                #  This will allow Git to switch the local repository
+                                                                #  to another branch.
         [string] $execReason = "Switch Branch";                 # Description; used for logging
         # ----------------------------------------
 
