@@ -1382,19 +1382,6 @@ class GitControl
             # The user did not want the project's local repository to be updated; abort the operation.
 
 
-        # Try to update the LWC
-        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `
-                                "$($extCMDArgs)", `
-                                "$($projectPath)", `
-                                "$($this.__logPath)", `
-                                "$($this.__logPath)", `
-                                "$($this.__reportPath)", `
-                                "$($execReason)", `
-                                $false, `
-                                $false, `
-                                $null) -eq 0)
-        {
-            # Successfully update the source
             return $true;
         } # If : Do not update source
 
