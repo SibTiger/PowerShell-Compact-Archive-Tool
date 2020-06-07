@@ -1401,6 +1401,19 @@ class GitControl
         
         # Failure occurred
         return $false;
+
+        # Execute the command
+        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `       # Git Executable Path
+                                        "$($extCMDArgs)", `                 # Arguments to update the local repo.
+                                        "$($projectPath)", `                # The working directory that Git will start from.
+                                        "$($this.__logPath)", `             # The Standard Output Directory Path.
+                                        "$($this.__logPath)", `             # The Error Output Directory Path.
+                                        "$($this.__reportPath)", `          # The Report Directory Path.
+                                        "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
+                                        $false, `                           # Are we building a report?
+                                        $false, `                           # Do we need to capture the STDOUT se we can process it further?
+                                        $null) -ne 0)                       # Variable containing the STDOUT; if we need to process it.
+        {
             # A failure had been reached; unable to update the local repository.
             # The operation had failed -- the local repository could not be updated.
             return $false;
