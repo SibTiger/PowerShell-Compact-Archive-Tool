@@ -1437,7 +1437,7 @@ class GitControl
 
             # Return a failure to signal that the operation had failed.
             return $false;
-        } # if : the Project Directory does not exist
+        } # if : The Project Directory does not exist
 
         # ---------------------------
         # - - - - - - - - - - - - - -
