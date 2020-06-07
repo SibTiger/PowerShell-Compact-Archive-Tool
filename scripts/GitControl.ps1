@@ -1574,7 +1574,7 @@ class GitControl
         } # If : Git Logging Directories
 
 
-        # Make sure that the git executable was detected.
+        # Make sure that the Git executable has been detected and is presently ready to be used.
         if ($($this.DetectGitExist()) -eq $false)
         {
             # Git was not detected.
@@ -1582,28 +1582,28 @@ class GitControl
         } # if : Git was not detected
 
 
-        # Make sure that the path exists
+        # Make sure that the Project Directory exists within the provided path.
         if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # Project Path does not exist, return an error.
             return $false;
-        } # if : the Project Path does not exist
+        } # if : The Project Directory does not exist
 
         # ---------------------------
         # - - - - - - - - - - - - - -
 
 
         # Execute the command
-        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `
-                            "$($extCMDArgs)", `
-                            "$($projectPath)", `
-                            "$($this.__logPath)", `
-                            "$($this.__logPath)", `
-                            "$($this.__reportPath)", `
-                            "$($execReason)", `
-                            $false, `
-                            $false, `
-                            [ref]$null) -eq 0)
+        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `       # Git Executable Path
+                                        "$($extCMDArgs)", `                 # Arguments to switch the local repo's branch
+                                        "$($projectPath)", `                # The working directory that Git will start from.
+                                        "$($this.__logPath)", `             # The Standard Output Directory Path.
+                                        "$($this.__logPath)", `             # The Error Output Directory Path.
+                                        "$($this.__reportPath)", `          # The Report Directory Path.
+                                        "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
+                                        $false, `                           # Are we building a report?
+                                        $false, `                           # Do we need to capture the STDOUT so we can process it further?
+                                        [ref]$null) -eq 0)                  # Variable containing the STDOUT; if we need to process it.
         {
             # Successfully switched from one branch to another branch.
             return $true;
