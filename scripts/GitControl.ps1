@@ -1320,9 +1320,9 @@ class GitControl
     #    within the root of the project's source files.
     # -------------------------------
     # Output:
-    #  [bool] Status
-    #    $false = Failure to detect the external executable.
-    #    $true  = Successfully detected the external executable.
+    #  [bool] Operation Status
+    #    $false = Failure to update the localized repository.
+    #    $true  = Successfully updated the localized repository.
     # -------------------------------
     #>
     [bool] UpdateLocalWorkingCopy([string] $projectPath)
