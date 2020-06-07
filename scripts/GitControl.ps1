@@ -1702,6 +1702,7 @@ class GitControl
             # * * * * * * * * * * * * * * * * * * *
 
 
+            # The operation had failed -- the local repository's branch could not be changed to the requested branch.
             return $false;
         } # If : Switch Local Repo. Branch Operation Failed
 
