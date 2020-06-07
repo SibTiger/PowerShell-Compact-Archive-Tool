@@ -1569,6 +1569,32 @@ class GitControl
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we cannot log.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to switch the project's local repository branch due to logging complications!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Because the logging directories for Git could not be created," + `
+                                        " nothing can be logged as expected.`r`n" + `
+                                        "`tTo resolve the issue:`r`n" + `
+                                        "`t`t- Make sure that the required logging directories are created.`r`n" + `
+                                        "`t`t- OR Disable logging`r`n" + `
+                                        "`tAbsolute Path of the Project Directory: $($projectPath)`r`n" + `
+                                        "`tRequested Branch to Switch: $($requestedBranch)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Because the logging features are required, we cannot run the operation.
             return $false;
         } # If : Git Logging Directories
@@ -1578,6 +1604,28 @@ class GitControl
         if ($($this.DetectGitExist()) -eq $false)
         {
             # The Git executable was not detected.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to switch the project's local repository branch; unable to find the Git Application!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Because the Git application was not found, it is not possible to switch the project's local repository branch.`r`n" + `
+                                        "`tAbsolute Path of the Project Directory: $($projectPath)`r`n" + `
+                                        "`tRequested Branch to Switch: $($requestedBranch)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Because the Git application was not found, return an error to signify that the operation had failed.
             return $false;
         } # if : Git was not detected
@@ -1587,6 +1635,29 @@ class GitControl
         if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # The project directory does not exist with the provided path, unable to proceed forward.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to switch the project's local repository branch; unable to find the desired project's directory!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("The project's directory was not found within the given path.`r`n" + `
+                                        "`tAbsolute Path of the Project Directory: $($projectPath)`r`n" + `
+                                        "`tRequested Branch to Switch: $($requestedBranch)");
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Return a failure to signal that the operation had failed.
             return $false;
         } # if : The Project Directory does not exist
@@ -1608,6 +1679,29 @@ class GitControl
                                         [ref]$null) -ne 0)                  # Variable containing the STDOUT; if we need to process it.
         {
             # A failure had been reached; unable to switch the project's local repository branch.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "A failure occurred while trying to switch the project's local repository branch.";
+
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Path of the Target Directory: $($projectPath)`r`n" + `
+                                        "`tRequested Branch to Switch: $($requestedBranch)");
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             return $false;
         } # If : Switch Local Repo. Branch Operation Failed
 
