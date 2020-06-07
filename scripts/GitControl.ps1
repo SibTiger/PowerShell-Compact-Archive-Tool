@@ -1526,23 +1526,24 @@ class GitControl
    <# Switch Local Branch
     # -------------------------------
     # Documentation:
-    #  This function will switch the project's local
-    #   repository to the requested branch - if possible.
+    #  This function will change the project's local repository's current branch to another, if the desired
+    #   branch is available to select.  Changing branches could be a necessity to select from stable build
+    #   to an experimental build or vice versa.  Once the local repository had been switched to another
+    #   branch, the files will switch to match with that branch.
+    #
+    # Use this function with caution if one where to be active within this project's files.
     # -------------------------------
     # Input:
     #  [string] Project Path
-    #   The path to the project's root directory that
-    #   contains the .git directory.  If that directory
-    #   lacks that specific '.git' directory, this
-    #   will fail to work.
+    #   The path to the project's localized repository.  The provided path must contain the .git directory
+    #    within the root of the project's source files.
     #  [string] Requested Branch
-    #   The requested branch to switch to in the local
-    #    repository.
+    #   The desired branch in which to switch to within the project's local repository.
     # -------------------------------
     # Output:
     #  [bool] Status Code
-    #    $false = Failure to switch to requested branch.
-    #    $true  = Successfully switched to requested branch.
+    #    $false = Failure to switch to the requested branch.
+    #    $true  = Successfully switched to the requested branch.
     # -------------------------------
     #>
     [bool] SwitchLocalBranch([string] $projectPath, [string] $requestedBranch)
