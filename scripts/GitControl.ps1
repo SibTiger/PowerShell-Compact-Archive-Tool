@@ -1325,7 +1325,7 @@ class GitControl
     #    $true  = Successfully updated the localized repository.
     # -------------------------------
     #>
-    [bool] UpdateLocalWorkingCopy([string] $projectPath)
+    [bool] UpdateLocalRepository([string] $projectPath)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1397,7 +1397,7 @@ class GitControl
         
         # Failure occurred
         return $false;
-    } # UpdateLocalWorkingCopy()
+    } # UpdateLocalRepository()
 
 
 
