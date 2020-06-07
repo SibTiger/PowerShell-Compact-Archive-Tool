@@ -1485,7 +1485,7 @@ class GitControl
                                         "$($this.__reportPath)", `          # The Report Directory Path.
                                         "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
                                         $false, `                           # Are we building a report?
-                                        $false, `                           # Do we need to capture the STDOUT se we can process it further?
+                                        $false, `                           # Do we need to capture the STDOUT so we can process it further?
                                         $null) -ne 0)                       # Variable containing the STDOUT; if we need to process it.
         {
             # A failure had been reached; unable to update the local repository.
