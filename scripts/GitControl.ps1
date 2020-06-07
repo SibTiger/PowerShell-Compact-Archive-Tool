@@ -1400,6 +1400,12 @@ class GitControl
         
         # Failure occurred
         return $false;
+            # A failure had been reached; unable to update the local repository.
+            # The operation had failed -- the local repository could not be updated.
+            return $false;
+        } # If : Update Local Repo. Operation Failed
+        # Successfully updated the project's local repository.
+        return $true;
     } # UpdateLocalRepository()
 
 
