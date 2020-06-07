@@ -1323,6 +1323,8 @@ class GitControl
     #  [bool] Operation Status
     #    $false = Failure to update the localized repository.
     #    $true  = Successfully updated the localized repository.
+    #             OR
+    #             User did not request for the local repo. to be updated (User Setting)
     # -------------------------------
     #>
     [bool] UpdateLocalRepository([string] $projectPath)
@@ -1377,7 +1379,6 @@ class GitControl
         if ($($this.__updateSource) -eq $false)
         {
             return $false;
-        } # If : Do not update source
             # The user did not want the project's local repository to be updated; abort the operation.
 
 
@@ -1395,7 +1396,7 @@ class GitControl
         {
             # Successfully update the source
             return $true;
-        } # If : Successfully updated the source
+        } # If : Do not update source
 
         
         # Failure occurred
