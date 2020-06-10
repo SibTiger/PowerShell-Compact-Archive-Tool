@@ -1717,28 +1717,29 @@ class GitControl
    <# Fetch Current Commit ID
     # -------------------------------
     # Documentation:
-    #  This function will retrieve the latest
-    #   Commit ID from the project repository.
-    #  Two possible ways of getting the Commit
-    #   ID are the following:
-    #    - Short: 7chars
-    #    - Long: 40chars
+    #  This function will retrieve the latest Commit ID from the Project's local Git Repository
+    #   from the selected Branch.  If the local git repository is behind or ahead of the remote
+    #   repository, only the local local repository is used.  Meaning that this function only
+    #   cares about the Commit ID retrieved from the project's localized git repository.
+    #
+    #  Two possible Commit ID forms:
+    #   - Short Form: 7 Characters
+    #   - Long Form: 40 Characters
+    #  The length of the Commit ID is determined by the user's preference.
     # -------------------------------
     # Input:
     #  [string] Project Path
-    #   The path to the project's root directory that
-    #   contains the .git directory.  If that directory
-    #   lacks that specific '.git' directory, this
-    #   will fail to work.
+    #   The path to the project's localized repository.  The provided path must contain the .git directory
+    #    within the root of the project's source files.
     # -------------------------------
     # Output:
     #  [string] Commit ID
-    #    The latest commit ID from the project's repository.
-    #    - ERROR and NON-ERROR VALUES
+    #   The Commit ID that was retrieved from the project's local git repository.
+    #    Other possible return values:
     #       - "DEV"
     #           User did not want a commit ID to be retrieved.
     #       - "ERR"
-    #            Failure retrieving the commit ID.
+    #           A failure occurred; unable to retrieve the commit ID.
     # -------------------------------
     #>
     [string] FetchCommitID([string] $projectPath)
