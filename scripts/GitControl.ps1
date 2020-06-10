@@ -1746,12 +1746,13 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $commitID = $null;                 # This will hold the commit ID
-                                                    #  This will also be returned.
-        [string] $extCMDArgs = $null;               # Arguments for the external command
-                                                    #  This will contain the commit ID
-                                                    #  argument; though determined by
-                                                    #  user's request.
+        [string] $commitID = $null;                 # This will hold the commit ID that was retrieved from
+                                                    #  Git executable.  If the Git executable was successful
+                                                    #  in retrieving the Commit ID value, then this variable
+                                                    #  will be returned to the calling function.
+        [string] $extCMDArgs = $null;               # Arguments to be used when invoking the Git executable.
+                                                    #  This will allow the Git to retrieve the commit ID from
+                                                    #  project's local Git repository.
         [string] $execReason = "Fetch CommitID";    # Description; used for logging
         # ----------------------------------------
 
