@@ -1765,7 +1765,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if ([Logging]::DebugLoggingState() -and ($this.__CreateDirectories() -eq $false))
+        if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we can not log.
             #  Because the logging features are required, we can not run the operation.
