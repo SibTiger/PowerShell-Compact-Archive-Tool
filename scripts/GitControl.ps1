@@ -1736,7 +1736,7 @@ class GitControl
     #  [string] Commit ID
     #   The Commit ID that was retrieved from the project's local git repository.
     #    Other possible return values:
-    #       - "DEV"
+    #       - "USR"
     #           User did not want a commit ID to be retrieved.
     #       - "ERR"
     #           A failure occurred; unable to retrieve the commit ID.
@@ -1800,8 +1800,8 @@ class GitControl
             # Immediately leave this function while
             #  returning a default non-commit ID
             #  value.
-            return "DEV";
         } # If : User didn't request commit ID
+            return "USR";
 
 
         # Determine what type of commit ID the user wants
