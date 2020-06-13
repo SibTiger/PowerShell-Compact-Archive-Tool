@@ -1719,7 +1719,7 @@ class GitControl
     # Documentation:
     #  This function will retrieve the latest Commit ID from the Project's local Git Repository
     #   from the selected Branch.  If the local git repository is behind or ahead of the remote
-    #   repository, only the local local repository is used.  Meaning that this function only
+    #   repository, only the local local repository's Commit ID will be used.  Meaning that this function only
     #   cares about the Commit ID retrieved from the project's localized git repository.
     #
     #  Two possible Commit ID forms:
@@ -1795,24 +1795,24 @@ class GitControl
 
 
         # Does the user want the commit ID?
+        # Did the user wanted the project's local repository's current Commit ID?
         if ($this.__fetchCommitID -eq $false)
         {
-            # Immediately leave this function while
-            #  returning a default non-commit ID
-            #  value.
-        } # If : User didn't request commit ID
+            # The user did not want the project's local repository's current Commit ID.
+            # Provide a non-error response back to the calling function.
             return "USR";
+        } # If : Do not Retrieve Commit ID
 
 
-        # Determine what type of commit ID the user wants
+        # Build the arguments necessary for retrieving the Commit ID by applying the user's request.
         if($($this.__lengthCommitID) -eq 0)
         {
-            # Short Commit ID
+            # Use Short Commit ID
             $extCMDArgs = "rev-parse --short HEAD";
         } # If : Short Commit ID
         else
         {
-            # Long Commit ID
+            # Use Long Commit ID
             $extCMDArgs = "rev-parse HEAD";
         } # Else : Long Commit ID
 
@@ -1840,7 +1840,7 @@ class GitControl
         } # If : Commit ID is not valid
 
 
-        # Return the Commit ID
+        # Successfully retrieved the Commit ID from the project's local repo.
         return $commitID;
     } # FetchCommitID()
 
