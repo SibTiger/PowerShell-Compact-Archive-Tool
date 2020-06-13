@@ -1777,7 +1777,7 @@ class GitControl
         if ($($this.DetectGitExist()) -eq $false)
         {
             # Git was not detected, throw the default message instead.
-            return "DEV";
+            return "ERR";
         } # if : Git was not detected
 
 
@@ -1786,8 +1786,8 @@ class GitControl
         {
             # Project Path does not exist, return the default
             #  message instead.
-            return "DEV";
         } # if : the Project Path does not exist
+            return "ERR";
 
         # ---------------------------
         # - - - - - - - - - - - - - -
