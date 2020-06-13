@@ -1818,26 +1818,21 @@ class GitControl
 
 
         # Execute the command
-        [IOCommon]::ExecuteCommand("$($this.__executablePath)", `
-                            "$($extCMDArgs)", `
-                            "$($projectPath)", `
-                            "$($this.__logPath)", `
-                            "$($this.__logPath)", `
-                            "$($this.__reportPath)", `
-                            "$($execReason)", `
-                            $false, `
-                            $true, `
-                            [ref]$commitID) | Out-Null;
-
-
-        # Just for assurance; make sure that we have the Commit ID.
-        #  If in case the commit ID was not retrieved successfully,
-        #  than place 'ERR' to signify that an issue occurred, but
-        #  still providing a value.
-        if ("$($commitID)" -eq "$($null)")
+        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `       # Git Executable Path
+                                        "$($extCMDArgs)", `                 # Arguments to retrieve the Commit ID from Local Repo.
+                                        "$($projectPath)", `                # The working directory that Git will start from.
+                                        "$($this.__logPath)", `             # The Standard Output Directory Path.
+                                        "$($this.__logPath)", `             # The Error Output Directory Path.
+                                        "$($this.__reportPath)", `          # The Report Directory Path.
+                                        "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
+                                        $false, `                           # Are we building a report?
+                                        $true, `                            # Do we need to capture the STDOUT so we can process it further?
+                                        [ref]$commitID) -ne 0)              # Variable containing the STDOUT; if we need to process it.)
         {
-            $commitID = "ERR";
-        } # If : Commit ID is not valid
+            # A failure had been reached; unable to retrieve the Commit ID from the project's local repository.
+            # Return an error to signify that the operation was not successful.
+            return "ERR";
+        }
 
 
         # Successfully retrieved the Commit ID from the project's local repo.
