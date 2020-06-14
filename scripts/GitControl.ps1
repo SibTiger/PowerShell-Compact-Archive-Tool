@@ -1860,26 +1860,24 @@ class GitControl
    <# Fetch Commit History (Changelog)
     # -------------------------------
     # Documentation:
-    #  This function is designed to grab the Commit History
-    #   from a specific repository and place the information
-    #   into a textfile.
+    #  This function will retrieve a history of all or a specific range of commits that had been
+    $   submitted to the project's local repository and remote repository.  The information
+    $   retrieved from the repository - will be stored in within a Portable Document File format.
     # -------------------------------
     # Input:
     #  [string] Project Path
-    #   The path to the project's root directory that
-    #   contains the .git directory.  If that directory
-    #   lacks that specific '.git' directory, this
-    #   will fail to work.
+    #   The path to the project's localized repository.  The provided path must contain the .git directory
+    #    within the root of the project's source files.
     #  [string] Output Path
-    #   The absolute location to place the Commit History.
-    #   - NOTE: We will use the Report functionality to
-    #           create the file; this gives us full power
-    #           to dictate where to put the file and how
-    #           it'll be named.
+    #   The absolute path of where the output file, containing the Project's Commit History, will be located
+    #    within the host's filesystem.
+    #
+    #   - NOTE: We will use the Report functionality to create the file; this gives us full power to dictate
+    #           as to where the output file will be located and how it will be named.
     # -------------------------------
     # Output:
     #  [bool] Status Code
-    #    $false = Failure to create a report.
+    #    $false = Failure to create the report.
     #    $true  = Successfully created the report.
     # -------------------------------
     #>
