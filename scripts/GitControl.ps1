@@ -1735,11 +1735,8 @@ class GitControl
     # Output:
     #  [string] Commit ID
     #   The Commit ID that was retrieved from the project's local git repository.
-    #    Other possible return values:
-    #       - "USR"
-    #           User did not want a commit ID to be retrieved.
-    #       - "ERR"
-    #           A failure occurred; unable to retrieve the commit ID.
+    #   NOTE:
+    #       $null - Signifies that the Commit ID could not be provided due to complications.
     # -------------------------------
     #>
     [string] FetchCommitID([string] $projectPath)
@@ -1769,7 +1766,7 @@ class GitControl
         {
             # Because the logging directories could not be created, we cannot log.
             # Because the logging features are required, we cannot run the operation.
-            return "ERR";
+            return $null;
         } # If : Git Logging Directories
 
 
@@ -1778,7 +1775,7 @@ class GitControl
         {
             # The Git executable was not detected.
             # Because the Git application was not found, return an error to signify that the operation had failed.
-            return "ERR";
+            return $null;
         } # if : Git was not detected
 
 
@@ -1787,7 +1784,7 @@ class GitControl
         {
             # The project directory does not exist with the provided path, unable to proceed forward.
             # Return a failure to signal that the operation had failed.
-            return "ERR";
+            return $null;
         } # if : The Project Directory does not exist
 
         # ---------------------------
@@ -1800,7 +1797,7 @@ class GitControl
         {
             # The user did not want the project's local repository's current Commit ID.
             # Provide a non-error response back to the calling function.
-            return "USR";
+            return $null;
         } # If : Do not Retrieve Commit ID
 
 
@@ -1831,7 +1828,7 @@ class GitControl
         {
             # A failure had been reached; unable to retrieve the Commit ID from the project's local repository.
             # Return an error to signify that the operation was not successful.
-            return "ERR";
+            return $null;
         }
 
 
