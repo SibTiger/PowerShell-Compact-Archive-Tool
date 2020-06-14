@@ -1861,7 +1861,7 @@ class GitControl
     # -------------------------------
     # Documentation:
     #  This function will retrieve a history of all or a specific range of commits that had been
-    $   submitted to the project's local repository and remote repository.  The information
+    $   submitted to the project's local repository and remote repository.  The readable information
     $   retrieved from the repository - will be stored in within a standard textfile (.txt) file.
     # -------------------------------
     # Input:
@@ -1877,8 +1877,8 @@ class GitControl
     # -------------------------------
     # Output:
     #  [bool] Status Code
-    #    $false = Failure to create the report.
-    #    $true  = Successfully created the report.
+    #    $false = Failure to retrieve the Commit History.
+    #    $true  = Successfully retrieved the Commit History.
     # -------------------------------
     #>
     [bool] FetchCommitHistory([string] $projectPath,        # The absolute location of the project's local repository
