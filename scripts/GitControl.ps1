@@ -1881,7 +1881,8 @@ class GitControl
     #    $true  = Successfully created the report.
     # -------------------------------
     #>
-    [bool] FetchCommitHistory([string] $projectPath, [string] $outputPath)
+    [bool] FetchCommitHistory([string] $projectPath,        # The absolute location of the project's local repository
+                                [string] $outputPath)       # The absolute path of the Commit History Output File
     {
         # Declarations and Initializations
         # ----------------------------------------
