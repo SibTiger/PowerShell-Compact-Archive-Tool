@@ -1862,7 +1862,7 @@ class GitControl
     # Documentation:
     #  This function will retrieve a history of all or a specific range of commits that had been
     $   submitted to the project's local repository and remote repository.  The information
-    $   retrieved from the repository - will be stored in within a Portable Document File format.
+    $   retrieved from the repository - will be stored in within a standard textfile (.txt) file.
     # -------------------------------
     # Input:
     #  [string] Project Path
