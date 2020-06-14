@@ -63,14 +63,6 @@ class GitControl
     Hidden [GitCommitLength] $__lengthCommitID;
 
 
-    # Fetch Latest Commit ID
-    # ---------------
-    # When this is true, this will allow the possibility to retrieve the Commit
-    #  ID of the desired local repository (or project).  When false, however, the
-    #  Commit ID will not retrieved regardless.
-    Hidden [bool] $__fetchCommitID;
-
-
     # Fetch Changelog History
     # ---------------
     # When this is true, this will allow the possibility to retrieve a changelog
@@ -144,9 +136,6 @@ class GitControl
         # Length of the Commit ID
         $this.__lengthCommitID = 0;
 
-        # Fetch the Commit ID
-        $this.__fetchCommitID = $true;
-
         # Fetch the changelog History
         $this.__fetchChangelog = $true;
 
@@ -186,9 +175,6 @@ class GitControl
 
         # Length of the Commit ID
         $this.__lengthCommitID = $lengthCommitID;
-
-        # Fetch the Commit ID
-        $this.__fetchCommitID = $fetchCommitID;
 
         # Fetch the Changelog History
         $this.__fetchChangelog = $fetchChangelog;
@@ -265,24 +251,6 @@ class GitControl
     {
         return $this.__lengthCommitID;
     } # GetLengthCommitID()
-
-
-
-
-   <# Get Fetch Commit ID
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'Fetch Commit ID' variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Fetch Commit ID
-    #   The value of the 'Fetch Commit ID'.
-    # -------------------------------
-    #>
-    [bool] GetFetchCommitID()
-    {
-        return $this.__fetchCommitID;
-    } # GetFetchCommitID()
 
 
 
@@ -493,36 +461,6 @@ class GitControl
         # Successfully updated.
         return $true;
     } # SetLengthCommitID()
-
-
-
-
-   <# Set Fetch Commit ID
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Fetch Commit ID' variable.
-    # -------------------------------
-    # Input:
-    #  [bool] Fetch Commit ID
-    #   The choice if the Commit ID is to be retrieved from the desired repository.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetFetchCommitID([bool] $newVal)
-    {
-        # Because the value is either true or false, there really is no
-        #  point in checking if the new requested value is 'legal'.
-        #  Thus, we are going to trust the value and automatically
-        #  return success.
-        $this.__fetchCommitID = $newVal;
-
-        # Successfully updated.
-        return $true;
-    } # SetFetchCommitID()
 
 
 
@@ -1789,16 +1727,6 @@ class GitControl
 
         # ---------------------------
         # - - - - - - - - - - - - - -
-
-
-        # Does the user want the commit ID?
-        # Did the user wanted the project's local repository's current Commit ID?
-        if ($this.__fetchCommitID -eq $false)
-        {
-            # The user did not want the project's local repository's current Commit ID.
-            # Provide a non-error response back to the calling function.
-            return $null;
-        } # If : Do not Retrieve Commit ID
 
 
         # Build the arguments necessary for retrieving the Commit ID by applying the user's request.
