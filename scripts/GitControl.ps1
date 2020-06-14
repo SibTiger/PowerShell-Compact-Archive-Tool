@@ -1886,16 +1886,16 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $fileName = "Changelog.txt"                    # The filename of the commit history (changelog)
-        [string] $changelogSize = $null;                        # The size of the changelog
-        [string] $changelogPath = "$($outputPath)\$($fileName)";# Location of the commit history (changelog)
-        [string] $prettyType = "fuller";                        # The type of 'Pretty' format to be used.
-                                                                #  More Info: https://git-scm.com/docs/pretty-formats
-        [string] $extCMDArgs = $null;                           # Arguments for the external command
-                                                                #  This will contain args. to get the
-                                                                #  commit history.  This'll be generated
-                                                                #  by user's request.
-        [string] $execReason = "Fetch Commit History";          # Description; used for logging
+        [string] $fileName = "Changelog.txt"                        # The filename of the commit history (or changelog) filename
+        [string] $changelogSize = $null;                            # How many history commits to are to be retrieved?
+                                                                    #   NOTE: 0 - Everything; from the very start to the latest commit.
+        [string] $changelogPath = "$($outputPath)\$($fileName)";    # The full path of the commit history (changelog) text file.
+        [string] $prettyType = "fuller";                            # The type of 'Pretty' format to be used when obtaining the history.
+                                                                    #  More Information: https://git-scm.com/docs/pretty-formats
+        [string] $extCMDArgs = $null;                               # Arguments to be used when invoking the Git executable.
+                                                                    #  This will allow Git to retrieve the commit history (changelog) from
+                                                                    #  the project's local repository at the currently selected branch.
+        [string] $execReason = "Fetch Commit History";              # Description; used for logging
         # ----------------------------------------
 
 
