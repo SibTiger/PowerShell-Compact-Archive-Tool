@@ -1938,11 +1938,11 @@ class GitControl
         # - - - - - - - - - - - - - -
 
 
-        # Does the user want the commit history (changelog)?
+        # Did the user requested a Changelog from the Commit History of the project's repository?
         if ($this.__fetchChangelog -eq $false)
         {
-            # Immediately leave this function; user's request.
-            #  We will return true because no actual error happened.
+            # The user does not wish to have a Changelog file, we will abort this operation by request via User Settings.
+            # Because the user did not want a Changelog file, merely return 'true'.
             return $true;
         } # If : User didn't request commit history.
 
