@@ -1985,6 +1985,7 @@ class GitControl
         # Create the arguments that will be used when calling the Git executable.
 
 
+        # Attach the Pretty Format and the Changelog History size to the extCMD Arguments.
         $extCMDArgs = "log --pretty=$($prettyType) $($changelogSize)";
 
 
@@ -1994,16 +1995,16 @@ class GitControl
 
 
         # Execute the command
-        if([IOCommon]::ExecuteCommand("$($this.__executablePath)", `
-                            "$($extCMDArgs)", `
-                            "$($projectPath)", `
-                            "$($this.__logPath)", `
-                            "$($this.__logPath)", `
-                            "$($changelogPath)", `
-                            "$($execReason)", `
-                            $true, `
-                            $false, `
-                            $null) -eq 0)
+        if([IOCommon]::ExecuteCommand("$($this.__executablePath)", `        # Git Executable Path
+                                        "$($extCMDArgs)", `                 # Arguments to retrieve the Changelog\Commit History.
+                                        "$($projectPath)", `                # The working directory that Git will start from.
+                                        "$($this.__logPath)", `             # The Standard Output Directory Path.
+                                        "$($this.__logPath)", `             # The Error Output Directory Path.
+                                        "$($changelogPath)", `              # The Report Directory Path.
+                                        "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
+                                        $true, `                            # Are we building a report?
+                                        $false, `                           # Do we need to capture the STDOUT so we can process it further?
+                                        $null) -eq 0)                       # Variable containing the STDOUT; if we need to process it.
         {
             # Successfully retrieved the commit history.
             return $true;
