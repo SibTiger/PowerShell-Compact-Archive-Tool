@@ -1966,8 +1966,8 @@ class GitControl
         #  integer.
         ElseIf($this.__changelogLimit -lt 0)
         {
-            $changelogSize = "-$($this.__changelogLimit * (-1))";
             # Negate the negative number
+            $changelogSize = "-$($this.__changelogLimit * (-1))";
         } # If : Negated Negative Number; Error Protection
 
 
