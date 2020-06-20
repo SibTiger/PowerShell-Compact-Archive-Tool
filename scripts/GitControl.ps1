@@ -2004,15 +2004,15 @@ class GitControl
                                         "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
                                         $true, `                            # Are we building a report?
                                         $false, `                           # Do we need to capture the STDOUT so we can process it further?
-                                        $null) -eq 0)                       # Variable containing the STDOUT; if we need to process it.
+                                        $null) -ne 0)                       # Variable containing the STDOUT; if we need to process it.
         {
-            # Successfully retrieved the commit history.
-            return $true;
-        } # If : Successfully retrieved the commit history.
+            # Failure to retrieve the commit history or a general error had occurred.
+            return $false;
+        } # If : Failed to retrieve the commit history.
 
 
-        # Failure to retrieve the commit history or a general error had occurred.
-        return $false;
+        # Successfully retrieved the commit history.
+        return $true;
     } # FetchCommitHistory()
 
 
