@@ -1950,40 +1950,39 @@ class GitControl
 
         # Commit History Size
         # ++++++++++++++++++++
+        # How many commits are to be fetched from the project's local repository?
 
 
-        # How many commits does the user want?
-        #  Number-Line (because I am a visual person)
-        #  <(-----------0+++++++++++)>
+        # Retrieve all of the commits that had ever been made to the Project's local repository?
         if ($this.__changelogLimit -eq 0)
         {
-            # User wants ALL of the commits made into the project.
-            #  Do not use the size parameter; this will give us
-            #  the entire commit history that is in the repository.
+            # User wants all of the commits that had been made within the project's current selected branch from the localized repository.
+            #  To provide this request - assure that the Changelog History Size is $null.
             $changelogSize = "";
-        } # If : All Commits
+        } # If : Fetch all Commits
 
 
-        #  We want to also make sure that if a negative number exists (it shouldn't happen),
-        #   but we should also negate it - thus making it a positive number.
+        # Make sure that the Changelog History size is not a negative number.  If it were to be negative - then simply negate the negative
+        #  integer.
         ElseIf($this.__changelogLimit -lt 0)
         {
-            # Negative number, make it a positive number and use that as the new size.
             $changelogSize = "-$($this.__changelogLimit * (-1))";
-        } # If : Negated number; flip it (Error Protection)
+            # Negate the negative number
+        } # If : Negated Negative Number; Error Protection
 
 
-        # Number that is greater than zero
+        # Changelog History request is greater than zero
         else
         {
-            # Because it's a supported number, just use it as is.
+            # Because the User's Setting is greater than zero, we will merely use the integer as is with no alterations necessary.
             $changelogSize = "-$($this.__changelogLimit)";
-        } # Else : Number greater than 0
+        } # Else : Number is greater than Zero
 
 
 
         # Arguments Builder Constructor
         # ++++++++++++++++++++
+        # Create the arguments that will be used when calling the Git executable.
 
 
         $extCMDArgs = "log --pretty=$($prettyType) $($changelogSize)";
