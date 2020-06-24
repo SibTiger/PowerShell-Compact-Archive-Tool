@@ -2045,7 +2045,7 @@ class GitControl
         # ++++++++++++++++++++
         # How many commits are to be fetched from the project's local repository?
 
-
+        $this.__changelogLimit = -50;
         # Retrieve all of the commits that had ever been made to the Project's local repository?
         if ($this.__changelogLimit -eq 0)
         {
@@ -2060,7 +2060,11 @@ class GitControl
         ElseIf($this.__changelogLimit -lt 0)
         {
             # Negate the negative number
-            $changelogSize = "-$($this.__changelogLimit * (-1))";
+            $changelogSize = $this.__changelogLimit * (-1);
+
+            # Set the integer for the parameter
+            $changelogSize = "-$($changelogSize)";
+
 
 
             # * * * * * * * * * * * * * * * * * * *
