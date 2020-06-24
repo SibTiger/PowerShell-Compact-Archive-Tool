@@ -2123,6 +2123,29 @@ class GitControl
                                         $null) -ne 0)                       # Variable containing the STDOUT; if we need to process it.
         {
             # Failure to retrieve the commit history or a general error had occurred.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "A failure occurred while trying to retrieve the project's local repository's Commit History.";
+
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Path of the Target Directory: $($projectPath)");
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Return an error to signify that the operation was not successful.
             return $false;
         } # If : Failed to retrieve the commit history.
 
