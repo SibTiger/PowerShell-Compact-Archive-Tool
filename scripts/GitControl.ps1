@@ -2058,9 +2058,8 @@ class GitControl
         #  integer.
         ElseIf($this.__changelogLimit -lt 0)
         {
-            # Negate the negative number
-            [string] $cacheChangelogSize = "$($this.__changelogLimit * (-1))";      # This is only used for logging purposes
-            $changelogSize = " -$($cacheChangelogSize)";                            # This will be used for the parameters
+            # Negate the negative number; we will output the result to the logfile.
+            $changelogSize = "$($this.__changelogLimit * (-1))";
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2072,7 +2071,7 @@ class GitControl
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("User's Commit History Limit setting is: $($this.__changelogLimit)`r`n" + `
-                                        "`tTemporary Commit History Limit (Used in this operation): $($cacheChangelogSize)`r`n" + `
+                                        "`tTemporary Commit History Limit (Used in this operation): $($changelogSize)`r`n" + `
                                         "`tPath of the Project Directory: $($projectPath)");
 
 
@@ -2084,6 +2083,8 @@ class GitControl
             # * * * * * * * * * * * * * * * * * * *
 
 
+            # Append the parameter denotion onto the variable
+            $changelogSize = " -$($changelogSize)";
         } # If : Negated Negative Number; Error Protection
 
 
