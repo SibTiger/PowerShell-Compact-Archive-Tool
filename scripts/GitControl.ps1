@@ -2059,7 +2059,8 @@ class GitControl
         ElseIf($this.__changelogLimit -lt 0)
         {
             # Negate the negative number
-            $changelogSize = "$($this.__changelogLimit * (-1))";
+            [string] $cacheChangelogSize = "$($this.__changelogLimit * (-1))";      # This is only used for logging purposes
+            $changelogSize = " -$($cacheChangelogSize)";                            # This will be used for the parameters
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2071,7 +2072,7 @@ class GitControl
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("User's Commit History Limit setting is: $($this.__changelogLimit)`r`n" + `
-                                        "`tTemporary Commit History Limit (Used in this operation): $($changelogSize)`r`n" + `
+                                        "`tTemporary Commit History Limit (Used in this operation): $($cacheChangelogSize)`r`n" + `
                                         "`tPath of the Project Directory: $($projectPath)");
 
 
@@ -2090,7 +2091,7 @@ class GitControl
         else
         {
             # Because the User's Setting is greater than zero, we will merely use the integer as is with no alterations necessary.
-            $changelogSize = "$($this.__changelogLimit)";
+            $changelogSize = " -$($this.__changelogLimit)";
         } # Else : Number is greater than Zero
 
 
@@ -2101,7 +2102,7 @@ class GitControl
 
 
         # Attach the Pretty Format and the Changelog History size to the extCMD Arguments.
-        $extCMDArgs = "log --pretty=$($prettyType) -$($changelogSize)";
+        $extCMDArgs = "log --pretty=$($prettyType)$($changelogSize)";
 
 
 
