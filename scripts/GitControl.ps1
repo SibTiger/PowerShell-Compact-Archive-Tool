@@ -2061,10 +2061,6 @@ class GitControl
             # Negate the negative number
             $changelogSize = $this.__changelogLimit * (-1);
 
-            # Set the integer for the parameter
-            $changelogSize = "-$($changelogSize)";
-
-
 
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -2105,7 +2101,7 @@ class GitControl
 
 
         # Attach the Pretty Format and the Changelog History size to the extCMD Arguments.
-        $extCMDArgs = "log --pretty=$($prettyType) $($changelogSize)";
+        $extCMDArgs = "log --pretty=$($prettyType) -$($changelogSize)";
 
 
 
