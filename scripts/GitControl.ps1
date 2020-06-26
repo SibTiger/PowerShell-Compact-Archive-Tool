@@ -2090,7 +2090,7 @@ class GitControl
         else
         {
             # Because the User's Setting is greater than zero, we will merely use the integer as is with no alterations necessary.
-            $changelogSize = "-$($this.__changelogLimit)";
+            $changelogSize = "$($this.__changelogLimit)";
         } # Else : Number is greater than Zero
 
 
