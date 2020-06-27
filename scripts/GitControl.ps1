@@ -2172,6 +2172,8 @@ class GitControl
     # Output:
     #  [string] Current Active Branch
     #   The present branch that is selected on the project's local repository.
+    #   NOTE:
+    #       $null - Signifies that the Active Branch from the local repository could not be retrieve due to complications.
     # -------------------------------
     #>
     [string] FetchCurrentBranch([string] $projectPath)
@@ -2200,25 +2202,25 @@ class GitControl
         {
             # Because the logging directories could not be created, we cannot log.
             # Because the logging features are required, we cannot run the operation.
-            return $false;
+            return $null;
         } # If : Git Logging Directories
 
 
         # Make sure that the Git executable has been detected and is presently ready to be used.
         if ($($this.DetectGitExist()) -eq $false)
         {
-            return "ERR";
             # The Git executable was not detected.
             # Because the Git application was not found, return an error to signify that the operation had failed.
+            return $null;
         } # if : Git was not detected
 
 
         # Make sure that the Project Directory exists within the provided path.
         if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
-            return "ERR";
             # The project directory does not exist with the provided path, unable to proceed forward.
             # Return a failure to signal that the operation had failed.
+            return $null;
         } # if : The Project Directory does not exist
 
         # ---------------------------
@@ -2244,7 +2246,7 @@ class GitControl
         #  still providing a value.
         if ("$($outputResult)" -eq "$($null)")
         {
-            $outputResult = "ERR";
+            $outputResult = $null;
         } # If : Current Branch is not valid
 
 
