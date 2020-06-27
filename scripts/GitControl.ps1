@@ -2161,20 +2161,17 @@ class GitControl
    <# Fetch Current Branch
     # -------------------------------
     # Documentation:
-    #  This function will retrieve the current
-    #   branch that is active in the project's 
-    #   local repository.
+    #  This function will retrieve the project's local repository's current active branch.  This can be useful to identify
+    #   which branch is presently active and how the files may differ due to the differences between other branches.
     # -------------------------------
     # Input:
     #  [string] Project Path
-    #   The path to the project's root directory that
-    #   contains the .git directory.  If that directory
-    #   lacks that specific '.git' directory, this
-    #   will fail to work.
+    #   The path to the project's localized repository.  The provided path must contain the .git directory
+    #    within the root of the project's source files.
     # -------------------------------
     # Output:
-    #  [string] Current and Active Branch
-    #    The current branch selected (or active).
+    #  [string] Current Active Branch
+    #   The present branch that is selected on the project's local repository.
     # -------------------------------
     #>
     [string] FetchCurrentBranch([string] $projectPath)
