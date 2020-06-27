@@ -1847,7 +1847,7 @@ class GitControl
 
             # Return an error to signify that the operation was not successful.
             return $null;
-        }
+        } # if : Retrieve Commit ID
 
 
         # Successfully retrieved the Commit ID from the project's local repo.
