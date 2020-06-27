@@ -2178,12 +2178,13 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $extCMDArgs = "rev-parse --abbrev-ref HEAD";   # Arguments for the external command
-                                                                #  This will only show the selected
-                                                                #  branch.
-        [string] $outputResult = $null;                         # Holds the value of the current
-                                                                #  branch provided by the extCMD.
-        [string] $execReason = "Fetch Current Branch";          # Description; used for logging
+        [string] $extCMDArgs = "rev-parse --abbrev-ref HEAD";       # Arguments to be used when invoking the Git executable.
+                                                                    #  This will allow Git to retrieve the project's local
+                                                                    #  repository's active branch.
+        [string] $outputResult = $null;                             # This will hold the output provided by the Git executable.
+                                                                    #  The output given will be the active branch name within the
+                                                                    #  local repository.
+        [string] $execReason = "Fetch Current Branch";              # Description; used for logging
         # ----------------------------------------
 
 
