@@ -2226,16 +2226,16 @@ class GitControl
 
 
         # Execute the command
-        [IOCommon]::ExecuteCommand("$($this.__executablePath)", `
-                            "$($extCMDArgs)", `
-                            "$($projectPath)", `
-                            "$($this.__logPath)", `
-                            "$($this.__logPath)", `
-                            "$($this.__reportPath)", `
-                            "$($execReason)", `
-                            $false, `
-                            $true, `
-                            [ref]$outputResult) | Out-Null;
+        [IOCommon]::ExecuteCommand("$($this.__executablePath)", `       # Git Executable Path
+                                    "$($extCMDArgs)", `                 # Arguments to retrieve the Active Branch
+                                    "$($projectPath)", `                # The working directory that Git will start from.
+                                    "$($this.__logPath)", `             # The Standard Output Directory Path.
+                                    "$($this.__logPath)", `             # The Error Output Directory Path.
+                                    "$($this.__reportPath)", `          # The Report Directory Path.
+                                    "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
+                                    $false, `                           # Are we building a report?
+                                    $true, `                            # Do we need to capture the STDOUT so we can process it further?
+                                    [ref]$outputResult) | Out-Null;     # Variable containing the STDOUT; if we need to process it.
 
 
         # Just for assurance; make sure that we have the current branch.
