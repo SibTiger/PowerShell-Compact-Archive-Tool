@@ -2767,7 +2767,7 @@ class GitControl
         # Declarations and Initializations
         # ----------------------------------------
         [string] $extCMDArgs = "shortlog --summary --email";    # Arguments to be used when invoking the Git executable.
-                                                                #  This will all Git to retrieve a list of all contributors
+                                                                #  This will allow Git to retrieve a list of all contributors
                                                                 #  and how many commits they each published onto the repository.
         [string] $outputResult = $null;                         # This will hold the output provided by the Git executable.
                                                                 #  The output given will hold the list of contributors.
