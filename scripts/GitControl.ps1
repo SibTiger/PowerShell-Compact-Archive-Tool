@@ -2296,7 +2296,7 @@ class GitControl
 
 
         # Execute the command
-        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `       # Git Executable Path
+        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `   # Git Executable Path
                                     "$($extCMDArgs)", `                 # Arguments to retrieve the Active Branch
                                     "$($projectPath)", `                # The working directory that Git will start from.
                                     "$($this.__logPath)", `             # The Standard Output Directory Path.
