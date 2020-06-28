@@ -2556,12 +2556,14 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $extCMDArgs = $null;                   # Arguments for the external command
-                                                        #  This will display all the branches
-                                                        #  available in the local repository,
-                                                        #  once the variable has been built.
-        [string] $outputResult = $null;                 # Holds the value of the current
-                                                        #  branch provided by the extCMD.
+        [string] $extCMDArgs = $null;                   # Arguments to be used when invoking the Git executable.
+                                                        #  This will allow Git to retrieve the Last-Known Activity
+                                                        #  of all of the branches available from the Remote
+                                                        #  Repository server.
+        [string] $outputResult = $null;                 # This will hold the output provided by the Git executable.
+                                                        #  The output given will hold the last-known activity of all
+                                                        #  of the branches that are available on the Remote Repository
+                                                        #  server.
         [string] $execReason = "Fetch Active Branches"  # Description; used for logging
         # ----------------------------------------
 
