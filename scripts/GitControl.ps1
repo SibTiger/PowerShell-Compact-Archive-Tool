@@ -2364,12 +2364,13 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $extCMDArgs = "branch";                # Arguments for the external command
-                                                        #  This will display all the branches
-                                                        #  available in the local repository.
-        [string] $outputResult = $null;                 # Holds the value of the current
-                                                        #  branch provided by the extCMD.
-        [string] $execReason = "Fetch All Branches";    # Description; used for logging
+        [string] $extCMDArgs = "branch";                    # Arguments to be used when invoking the Git executable.
+                                                            #  This will allow Git to retrieve all of the available
+                                                            #  branches from the project's local repository.
+        [string] $outputResult = $null;                     # This will hold the output provided by the Git executable.
+                                                            #  The output given will be all of the available branches
+                                                            #  within the local repository.
+        [string] $execReason = "Fetch All Branches";        # Description; used for logging
         # ----------------------------------------
 
 
