@@ -2623,29 +2623,24 @@ class GitControl
 
 
         # Execute the command
-        [IOCommon]::ExecuteCommand("$($this.__executablePath)", `
-                            "$($extCMDArgs)", `
-                            "$($projectPath)", `
-                            "$($this.__logPath)", `
-                            "$($this.__logPath)", `
-                            "$($this.__reportPath)", `
-                            "$($execReason)", `
-                            $false, `
-                            $true, `
-                            [ref]$outputResult) | Out-Null;
-
-
-        # Just for assurance; make sure that we have all of the branches.
-        #  If in case the branches was not retrieved successfully, then
-        #  place 'ERR' to signify that an issue occurred, but still
-        #  providing a value.
-        if ("$($outputResult)" -eq "$($null)")
+        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `   # Git Executable Path
+                                        "$($extCMDArgs)", `             # Arguments to retrieve the Last-Known Activity of all branches from the Remote Repo.
+                                        "$($projectPath)", `            # The working directory that Git will start from.
+                                        "$($this.__logPath)", `         # The Standard Output Directory Path.
+                                        "$($this.__logPath)", `         # The Error Output Directory Path.
+                                        "$($this.__reportPath)", `      # The Report Directory Path.
+                                        "$($execReason)", `             # The reason why we are running Git; used for logging purposes.
+                                        $false, `                       # Are we building a report?
+                                        $true, `                        # Do we need to capture the STDOUT so we can process it further?
+                                        [ref]$outputResult) -ne 0)      # Variable containing the STDOUT; if we need to process it.
         {
-            $outputResult = "ERR";
-        } # If : Branches is not valid
+            # Failure to retrieve the Last-Known Activity from the Branches on Remote Repo.
+            # Return an error to signify that the operation was not successful.
+            return $null;
+        } # if : Unable to Retrieve Last-Known Activity
 
 
-        # Return all available Branches
+        # Successfully retrieved Last Known Activity from all available Branches on Remote Repo.
         return $outputResult;
     } # FetchAllBranchesActivity()
 
