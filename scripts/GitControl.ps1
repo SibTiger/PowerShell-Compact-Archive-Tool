@@ -2743,6 +2743,11 @@ class GitControl
     # Documentation:
     #  This function will retrieve all of the contributors that had been involved within the project's development, as well as how many commits
     #   they had previously submitted into the project's repository.
+    #
+    #  The following information is gathered for each contributor:
+    #   - User Name
+    #   - How many commits they pushed onto the repository
+    #   - Their E-Mail Address
     # -------------------------------
     # Input:
     #  [string] Project Path
