@@ -2412,7 +2412,7 @@ class GitControl
 
 
         # Execute the command
-        [IOCommon]::ExecuteCommand("$($this.__executablePath)", `       # Git Executable Path
+        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `   # Git Executable Path
                                     "$($extCMDArgs)", `                 # Arguments to retrieve all of the available branches within the local repo.
                                     "$($projectPath)", `                # The working directory that Git will start from.
                                     "$($this.__logPath)", `             # The Standard Output Directory Path.
@@ -2421,20 +2421,15 @@ class GitControl
                                     "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
                                     $false, `                           # Are we building a report?
                                     $true, `                            # Do we need to capture the STDOUT so we can process it further?
-                                    [ref]$outputResult) | Out-Null;     # Variable containing the STDOUT; if we need to process it.
-
-
-        # Just for assurance; make sure that we have all of the branches.
-        #  If in case the branches was not retrieved successfully, then
-        #  place 'ERR' to signify that an issue occurred, but still
-        #  providing a value.
-        if ("$($outputResult)" -eq "$($null)")
+                                    [ref]$outputResult) -ne 0)          # Variable containing the STDOUT; if we need to process it.
         {
-            $outputResult = "ERR";
-        } # If : Branches is not valid
+            # Failure to retrieve the currently active branch name from the local repository.
+            # Return an error to signify that the operation was not successful.
+            return $null;
+        } # if : Retrieve Current Active Branch
 
 
-        # Return all available Branches
+        # Successfully retrieved all of the available branches from the local repository.
         return $outputResult;
     } # FetchAllBranches()
 
