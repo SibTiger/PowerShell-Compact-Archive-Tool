@@ -2173,7 +2173,7 @@ class GitControl
     #  [string] Current Active Branch
     #   The present branch that is selected on the project's local repository.
     #   NOTE:
-    #       $null - Signifies that the Active Branch from the local repository could not be retrieve due to complications.
+    #       $null - Signifies that the Active Branch from the local repository could not be retrieved due to complications.
     # -------------------------------
     #>
     [string] FetchCurrentBranch([string] $projectPath)
@@ -2357,7 +2357,7 @@ class GitControl
     #    Available branches that are available within the project's local repository.
     #    The output provided, obviously is a string, but may contain new line characters.
     #   NOTE:
-    #       $null - Signifies that the list of available branches from the local repository could not be retrieve due to complications.
+    #       $null - Signifies that the list of available branches from the local repository could not be retrieved due to complications.
     # -------------------------------
     #>
     [string] FetchAllBranches([string] $projectPath)
@@ -2549,7 +2549,7 @@ class GitControl
     #    The output provided, obviously is a string, but may contain new line characters.
     #   NOTE:
     #       $null - Signifies that the list of Last-Known Activity from the available branches from the remote repository could not be
-    #                retrieve due to complications.
+    #                retrieved due to complications.
     # -------------------------------
     #>
     [string] FetchAllBranchesActivity([string] $projectPath)
