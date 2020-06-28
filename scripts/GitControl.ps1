@@ -2335,7 +2335,7 @@ class GitControl
         } # if : Retrieve Current Active Branch
 
 
-        # Successfully retrieved the the current active Branch
+        # Successfully retrieved the current active Branch
         return $outputResult;
     } # FetchCurrentBranch()
 
