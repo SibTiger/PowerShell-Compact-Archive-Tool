@@ -2647,7 +2647,7 @@ class GitControl
 
         # Return all available Branches
         return $outputResult;
-    } # FetchAllBranches()
+    } # FetchAllBranchesActivity()
 
 
 
