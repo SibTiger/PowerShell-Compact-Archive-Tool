@@ -2785,27 +2785,27 @@ class GitControl
         # Make sure that the Git Logging directories are ready for use (if required)
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
-            return $false;
             # Because the logging directories could not be created, we cannot log.
             # Because the logging features are required, we cannot run the operation.
+            return $null;
         } # If : Git Logging Directories
 
 
         # Make sure that the Git executable has been detected and is presently ready to be used.
         if ($($this.DetectGitExist()) -eq $false)
         {
-            return "ERR";
             # The Git executable was not detected.
             # Because the Git application was not found, return an error to signify that the operation had failed.
+            return $null;
         } # if : Git was not detected
 
 
         # Make sure that the Project Directory exists within the provided path.
         if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
-            return "ERR";
             # The project directory does not exist with the provided path, unable to proceed forward.
             # Return a failure to signal that the operation had failed.
+            return $null;
         } # if : The Project Directory does not exist
 
         # ---------------------------
