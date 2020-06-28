@@ -2385,6 +2385,31 @@ class GitControl
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we cannot log.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to retrieve a list of available branches within the project's local repository due to logging complications!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Because the logging directories for Git could not be created," + `
+                                        " nothing can be logged as expected.`r`n" + `
+                                        "`tTo resolve the issue:`r`n" + `
+                                        "`t`t- Make sure that the required logging directories are created.`r`n" + `
+                                        "`t`t- OR Disable logging`r`n" + `
+                                        "`tAbsolute Path of the Project Directory: $($projectPath)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Because the logging features are required, we cannot run the operation.
             return $null;
         } # If : Git Logging Directories
@@ -2394,6 +2419,27 @@ class GitControl
         if ($($this.DetectGitExist()) -eq $false)
         {
             # The Git executable was not detected.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to retrieve a list of available branches within the project's local repository; unable to find the Git Application!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Because the Git application was not found, it is not possible to retrieve a list of all available branches from the project's local repository.`r`n" + `
+                                        "`tAbsolute Path of the Project Directory: $($projectPath)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Because the Git application was not found, return an error to signify that the operation had failed.
             return $null;
         } # if : Git was not detected
@@ -2403,6 +2449,28 @@ class GitControl
         if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # The project directory does not exist with the provided path, unable to proceed forward.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to retrieve a list of available branches within the project's local repository; unable to find the desired project's directory!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("The project's directory was not found within the given path.`r`n" + `
+                                        "`tPath of the Project Directory: $($projectPath)");
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Return a failure to signal that the operation had failed.
             return $null;
         } # if : The Project Directory does not exist
@@ -2424,6 +2492,28 @@ class GitControl
                                     [ref]$outputResult) -ne 0)          # Variable containing the STDOUT; if we need to process it.
         {
             # Failure to retrieve the currently active branch name from the local repository.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "A failure occurred while trying to retrieve all of the available branches within the project's local repository.";
+
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Path of the Target Directory: $($projectPath)");
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Return an error to signify that the operation was not successful.
             return $null;
         } # if : Retrieve Current Active Branch
