@@ -2745,7 +2745,7 @@ class GitControl
     #   they had previously submitted into the project's repository.
     #
     #  The following information is gathered for each contributor:
-    #   - User Name
+    #   - Real Name (or alias)
     #   - How many commits they pushed onto the repository
     #   - Their E-Mail Address
     # -------------------------------
