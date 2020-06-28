@@ -2516,7 +2516,7 @@ class GitControl
 
             # Return an error to signify that the operation was not successful.
             return $null;
-        } # if : Retrieve Current Active Branch
+        } # if : Unable to Retrieve Current Active Branch
 
 
         # Successfully retrieved all of the available branches from the local repository.
