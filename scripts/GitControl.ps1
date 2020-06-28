@@ -2813,29 +2813,24 @@ class GitControl
 
 
         # Execute the command
-        [IOCommon]::ExecuteCommand("$($this.__executablePath)", `
-                            "$($extCMDArgs)", `
-                            "$($projectPath)", `
-                            "$($this.__logPath)", `
-                            "$($this.__logPath)", `
-                            "$($this.__reportPath)", `
-                            "$($execReason)", `
-                            $false, `
-                            $true, `
-                            [ref]$outputResult) | Out-Null;
-
-
-        # Just for assurance; make sure that we have all of the contributors.
-        #  If in case the contributors was not retrieved successfully, then
-        #  place 'ERR' to signify that an issue occurred, but still
-        #  providing a value.
-        if ("$($outputResult)" -eq "$($null)")
+        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `   # Git Executable Path
+                                        "$($extCMDArgs)", `             # Arguments to retrieve a list of contributors that had been involved with the developments.
+                                        "$($projectPath)", `            # The working directory that Git will start from.
+                                        "$($this.__logPath)", `         # The Standard Output Directory Path.
+                                        "$($this.__logPath)", `         # The Error Output Directory Path.
+                                        "$($this.__reportPath)", `      # The Report Directory Path.
+                                        "$($execReason)", `             # The reason why we are running Git; used for logging purposes.
+                                        $false, `                       # Are we building a report?
+                                        $true, `                        # Do we need to capture the STDOUT so we can process it further?
+                                        [ref]$outputResult) -ne 0)      # Variable containing the STDOUT; if we need to process it.
         {
-            $outputResult = "ERR";
-        } # If : Contributors is not valid
+            # Failure to retrieve a list of contributors.
+            # Return an error to signify that the operation was not successful.
+            return $null;
+        } # if : Unable to obtain list of Contributors
 
 
-        # Return all contributors
+        # Successfully retrieved a list of contributors
         return $outputResult;
     } # FetchAllContributors()
 
