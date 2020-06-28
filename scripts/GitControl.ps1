@@ -2741,27 +2741,20 @@ class GitControl
    <# Fetch All Contributors
     # -------------------------------
     # Documentation:
-    #  This function will retrieve all of the contributors
-    #   that have been involved within the project, as well
-    #   how many commits have been pushed into the project
-    #   by those users.
+    #  This function will retrieve all of the contributors that had been involved within the project's development, as well as how many commits
+    #   they had previously submitted into the project's repository.
     # -------------------------------
     # Input:
     #  [string] Project Path
-    #   The path to the project's root directory that
-    #   contains the .git directory.  If that directory
-    #   lacks that specific '.git' directory, this
-    #   will fail to work.
+    #   The path to the project's localized repository.  The provided path must contain the .git directory
+    #    within the root of the project's source files.
     # -------------------------------
     # Output:
     #  [string] Contributors
-    #    All contributors that have been involved with the project.
-    #     repository.
-    #    - NOTE: This does not really return a 'list' type,
-    #            but this string will capture the newline chars
-    #            and will be added to the string.
-    #            For example:
-    #            John[CR][LF]Amber[CR][LF]Hammingway
+    #    All contributors that had been involved within the project's repository and how many commits published by each contributor.
+    #    The output provided, obviously is a string, but may contain new line characters.
+    #   NOTE:
+    #       $null - Signifies that the list of contributors could not be retrieved due to complications.
     # -------------------------------
     #>
     [string] FetchAllContributors([string] $projectPath)
