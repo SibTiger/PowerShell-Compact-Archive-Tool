@@ -2228,7 +2228,7 @@ class GitControl
 
 
         # Execute the command
-        [IOCommon]::ExecuteCommand("$($this.__executablePath)", `       # Git Executable Path
+        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `       # Git Executable Path
                                     "$($extCMDArgs)", `                 # Arguments to retrieve the Active Branch
                                     "$($projectPath)", `                # The working directory that Git will start from.
                                     "$($this.__logPath)", `             # The Standard Output Directory Path.
@@ -2237,20 +2237,19 @@ class GitControl
                                     "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
                                     $false, `                           # Are we building a report?
                                     $true, `                            # Do we need to capture the STDOUT so we can process it further?
-                                    [ref]$outputResult) | Out-Null;     # Variable containing the STDOUT; if we need to process it.
-
-
-        # Just for assurance; make sure that we have the current branch.
-        #  If in case the current branch was not retrieved successfully,
-        #  than place 'ERR' to signify that an issue occurred, but
-        #  still providing a value.
-        if ("$($outputResult)" -eq "$($null)")
+                                    [ref]$outputResult) -ne 0)          # Variable containing the STDOUT; if we need to process it.
         {
-            $outputResult = $null;
-        } # If : Current Branch is not valid
+            # Failure to retrieve the currently active branch name from the local repository.
 
 
-        # Return the Current (active) Branch
+
+
+            # Return an error to signify that the operation was not successful.
+            return $null;
+        } # if : Retrieve Current Active Branch
+
+
+        # Successfully retrieved the the current active Branch
         return $outputResult;
     } # FetchCurrentBranch()
 
