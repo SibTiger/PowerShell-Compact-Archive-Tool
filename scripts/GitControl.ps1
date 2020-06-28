@@ -2345,25 +2345,19 @@ class GitControl
    <# Fetch all available Branches
     # -------------------------------
     # Documentation:
-    #  This function will retrieve all of the available
-    #   branches in the project's repository.
+    #  This function will retrieve all of the available branches that exists within the project's local repository.
     # -------------------------------
     # Input:
     #  [string] Project Path
-    #   The path to the project's root directory that
-    #   contains the .git directory.  If that directory
-    #   lacks that specific '.git' directory, this
-    #   will fail to work.
+    #   The path to the project's localized repository.  The provided path must contain the .git directory
+    #    within the root of the project's source files.
     # -------------------------------
     # Output:
     #  [string] Branches
-    #    All available branches that are in the project's
-    #     repository.
-    #    - NOTE: This does not really return a 'list' type,
-    #            but this string will capture the newline chars
-    #            and will be added to the string.
-    #            For example:
-    #            master[CR][LF]The Mega Branch![CR][LF]Lame Branch
+    #    Available branches that are available within the project's local repository.
+    #    The output provided, obviously is a string, but may contain new line characters.
+    #   NOTE:
+    #       $null - Signifies that the list of available branches from the local repository could not be retrieve due to complications.
     # -------------------------------
     #>
     [string] FetchAllBranches([string] $projectPath)
