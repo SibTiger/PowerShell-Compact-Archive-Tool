@@ -2529,37 +2529,27 @@ class GitControl
    <# Fetch all available Branches with Last-Known Activity
     # -------------------------------
     # Documentation:
-    #  This function will retrieve all of the available
-    #   branches in the project's repository and determine
-    #   when it was last active.
-    #  NOTE: This function will use branches that are
-    #        available on the remote-repository, not
-    #        the local-repository.  This is done to assure
-    #        that all official branches have been detected.
-    #        If we were to rely on the local-repository, we
-    #        would be bounded to what is available to the
-    #        local-repository -- when the local-repository
-    #        only has five branches available, but the
-    #        remote has more than ten available.
-    #        As such, we will use the Remote-Repository to
-    #        assure we have all of the branches.
+    #  This function will retrieve the latest activity from all of the branches that are affiliated with the project's remote repository.
+    #  NOTE: This function will use the available branches that are available on the remote repository, excluding the localized repository.
+    #         This was done to assure that the official branches had been accounted for.  If we were to rely solely on the localized
+    #         repository, it may be possible that only a few branches are rendered while the rest is not available due to the local
+    #         repository not being synchronized with the remote server.  As such, some data would be hidden and not properly recorded.  To
+    #         circumvent this issue, we will use the Remote Repository to assure we have all of the branches available.
+    #         A pitfall to this approach, if a user had yet to publish a new branch onto the remote repository - but only remains on the
+    #         user's local repository, then that data will not be detected.
     # -------------------------------
     # Input:
     #  [string] Project Path
-    #   The path to the project's root directory that
-    #   contains the .git directory.  If that directory
-    #   lacks that specific '.git' directory, this
-    #   will fail to work.
+    #   The path to the project's localized repository.  The provided path must contain the .git directory
+    #    within the root of the project's source files.
     # -------------------------------
     # Output:
-    #  [string] Branches with Last-Known Activity
-    #    All available branches that are in the project's
-    #     repository, and when they were last active.
-    #    - NOTE: This does not really return a 'list' type,
-    #            but this string will capture the newline chars
-    #            and will be added to the string.
-    #            For example:
-    #            master[CR][LF]The Mega Branch![CR][LF]Lame Branch
+    #  [string] Branches Last-Known Activity within Remote Repository.
+    #   Provides the Last-Known activity within each Branch on the Remote-Repository.
+    #    The output provided, obviously is a string, but may contain new line characters.
+    #   NOTE:
+    #       $null - Signifies that the list of Last-Known Activity from the available branches from the remote repository could not be
+    #                retrieve due to complications.
     # -------------------------------
     #>
     [string] FetchAllBranchesActivity([string] $projectPath)
