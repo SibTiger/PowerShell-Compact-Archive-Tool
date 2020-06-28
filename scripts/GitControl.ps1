@@ -2578,27 +2578,28 @@ class GitControl
         # Make sure that the Git Logging directories are ready for use (if required)
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
-            # Because the logging directories could not be created, we can not log.
-            #  Because the logging features are required, we can not run the operation.
             return $false;
+            # Because the logging directories could not be created, we cannot log.
+            # Because the logging features are required, we cannot run the operation.
         } # If : Git Logging Directories
 
 
-        # Make sure that the git executable was detected.
+        # Make sure that the Git executable has been detected and is presently ready to be used.
         if ($($this.DetectGitExist()) -eq $false)
         {
-            # Git was not detected, throw an error message instead.
             return "ERR";
+            # The Git executable was not detected.
+            # Because the Git application was not found, return an error to signify that the operation had failed.
         } # if : Git was not detected
 
 
-        # Make sure that the path exists
+        # Make sure that the Project Directory exists within the provided path.
         if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
-            # Project Path does not exist, return an error
-            #  message instead.
             return "ERR";
-        } # if : the Project Path does not exist
+            # The project directory does not exist with the provided path, unable to proceed forward.
+            # Return a failure to signal that the operation had failed.
+        } # if : The Project Directory does not exist
 
         # ---------------------------
         # - - - - - - - - - - - - - -
@@ -2608,7 +2609,7 @@ class GitControl
         # ++++++++++++++++++++
 
 
-        # This should provide us with the following example:
+        # This should provide us with the following output:
         # *(BRANCH) - (RELATIVE_DATE)
         # Source: https://stackoverflow.com/a/30076212
         $extCMDArgs = "branch -r --sort=-committerdate" + `
