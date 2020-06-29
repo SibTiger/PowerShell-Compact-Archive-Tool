@@ -3030,26 +3030,21 @@ class GitControl
 
 
         # Execute the command
-        [IOCommon]::ExecuteCommand("$($this.__executablePath)", `
-                            "$($extCMDArgs)", `
-                            "$($projectPath)", `
-                            "$($this.__logPath)", `
-                            "$($this.__logPath)", `
-                            "$($this.__reportPath)", `
-                            "$($execReason)", `
-                            $false, `
-                            $true, `
-                            [ref]$outputResult) | Out-Null;
-
-
-        # Just for assurance; make sure that we have all of the information.
-        #  If in case the graph and information was not retrieved successfully,
-        #  then place 'ERR' to signify that an issue occurred, but still
-        #  providing a value.
-        if ("$($outputResult)" -eq "$($null)")
+        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `   # Git Executable Path
+                                        "$($extCMDArgs)", `             # Arguments to retrieve the History Line Graph with the appropriate formatting.
+                                        "$($projectPath)", `            # The working directory that Git will start from.
+                                        "$($this.__logPath)", `         # The Standard Output Directory Path.
+                                        "$($this.__logPath)", `         # The Error Output Directory Path.
+                                        "$($this.__reportPath)", `      # The Report Directory Path.
+                                        "$($execReason)", `             # The reason why we are running Git; used for logging purposes.
+                                        $false, `                       # Are we building a report?
+                                        $true, `                        # Do we need to capture the STDOUT so we can process it further?
+                                        [ref]$outputResult) -ne 0)      # Variable containing the STDOUT; if we need to process it.
         {
-            $outputResult = "ERR";
-        } # If : Information is not valid
+            # Failure to retrieve the History Line Graph
+            # Return an error to signify that the operation was not successful.
+            return $null;
+        } # if : Unable to obtain the History Line Graph
 
 
         # Successfully retrieved the History Line Graph
