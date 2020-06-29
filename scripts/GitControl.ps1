@@ -2953,13 +2953,15 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $extCMDArgs = $null;                   # Arguments for the external command
-                                                        #  This will display the graph and the
-                                                        #  commit information once it has been
-                                                        #  constructed.
-        [string] $gitArgsLong = $null;                  # Long-wordy arguments
-        [string] $gitArgsFormat = $null;                # Formatting for the commit information args.
-        [string] $outputResult = $null;                 # Holds the graph and commit information.
+        [string] $extCMDArgs = $null;                   # Arguments to be used when invoking the Git executable.
+                                                        #  This will allow Git to provide a line graph containing
+                                                        #  all commits that had been pushed onto the project and
+                                                        #  branch history.
+        [string] $gitArgsLong = $null;                  # Cache Arguments that will hold the Line Graph operation
+        [string] $gitArgsFormat = $null;                # Cache formatting for how the information is to be presented
+        [string] $outputResult = $null;                 # This will hold the output provided by the Git executable.
+                                                        #  The output given will hold the History Line Graph.  This
+                                                        #  could be really big!
         [string] $execReason = "Graph Log";             # Description; used for logging
         # ----------------------------------------
 
