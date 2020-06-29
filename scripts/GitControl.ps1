@@ -2931,21 +2931,22 @@ class GitControl
    <# Generate Graph
     # -------------------------------
     # Documentation:
-    #  This function will retrieve a simple visual graph-line
-    #   with the commit description, date when it was committed
-    #   into the repository, and by whom.
+    #  This function will retrieve a visual Line Graph representation of the history within the project's repository.  The Line Graph
+    #   demonstrates all commits that had been pushed into the project, the date in which it was committed, and the individual that
+    #   pushed the commit.  Further, this Line Graph also provides a visual representation of all branches - including the Master
+    #   Branch - that relates to the main project..
     # -------------------------------
     # Input:
     #  [string] Project Path
-    #   The path to the project's root directory that
-    #   contains the .git directory.  If that directory
-    #   lacks that specific '.git' directory, this
-    #   will fail to work.
+    #   The path to the project's localized repository.  The provided path must contain the .git directory
+    #    within the root of the project's source files.
     # -------------------------------
     # Output:
-    #  [string] Commit Graph & info
-    #    Simple line-graph with commit information
-    #    - NOTE: This is a giant string.
+    #  [string] Line Graph
+    #    Line Graph that contains the history of commits that had been pushed to all branches within the project.
+    #    The output provided, is a giant string, and will contain new line characters.
+    #   NOTE:
+    #       $null - Signifies that the list of contributors could not be retrieved due to complications.
     # -------------------------------
     #>
     [string] MakeCommitGraphInfo([string] $projectPath)
