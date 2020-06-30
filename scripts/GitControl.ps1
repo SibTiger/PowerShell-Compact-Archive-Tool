@@ -3161,8 +3161,8 @@ class GitControl
     #               generate a report.
     # -------------------------------
     #>
-    [bool] CreateNewReport([string] $projectPath, `
-                           [bool] $makePDF)
+    [bool] CreateNewReport([string] $projectPath, `     # The absolute location of the project's local repository
+                           [bool] $makePDF)             # Create a report within the PDF format was well?
     {
         # Declarations and Initializations
         # ----------------------------------------
