@@ -2949,7 +2949,7 @@ class GitControl
     #       $null - Signifies that the list of contributors could not be retrieved due to complications.
     # -------------------------------
     #>
-    [string] MakeCommitGraphInfo([string] $projectPath)
+    [string] GenerateActivityLineGraph([string] $projectPath)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -3130,7 +3130,7 @@ class GitControl
 
         # Successfully retrieved the History Line Graph
         return $outputResult;
-    } # MakeCommitGraphInfo()
+    } # GenerateActivityLineGraph()
 
 
 
