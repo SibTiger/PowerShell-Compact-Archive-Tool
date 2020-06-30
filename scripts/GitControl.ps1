@@ -3138,24 +3138,27 @@ class GitControl
    <# Create a new Report
     # -------------------------------
     # Documentation:
-    #  This function will create a report based upon
-    #   the project's repository.
+    #  This function will create a report based upon the project's repository that
+    #   were provided when calling this function.
+    #  The report will contain information regarding the activity within the project's
+    #   repository.  The information may contain a list of contributors that had previously
+    #   published commits onto the project, branch information, overview of the commits that
+    #   had been pushed to the project, and any other general details that might be useful
+    #   inspection purposes.
     # -------------------------------
     # Input:
     #  [string] Project Path
-    #   The path to the project's root directory that
-    #   contains the .git directory.  If that directory
-    #   lacks that specific '.git' directory, this
-    #   will fail to work.
+    #   The path to the project's localized repository.  The provided path must contain the .git directory
+    #    within the root of the project's source files.
     #  [bool] Create a PDF File
-    #   When true, this will allow the ability to create
-    #    a PDF document along with the textfile
+    #   When true, this will allow the ability to create a PDF document along
+    #    with the text file.
     # -------------------------------
     # Output:
     #  [bool] Status Code
-    #    $false = Failure occurred while writing the report.
-    #    $true  = Successfully created the report or user
-    #              did not request to generate a report.
+    #    $false = Failure occurred while generating the report.
+    #    $true  = Successfully created the report or user did not request to
+    #               generate a report.
     # -------------------------------
     #>
     [bool] CreateNewReport([string] $projectPath, `
