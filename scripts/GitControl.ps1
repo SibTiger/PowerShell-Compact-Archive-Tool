@@ -2957,8 +2957,6 @@ class GitControl
                                                         #  This will allow Git to provide a line graph containing
                                                         #  all commits that had been pushed onto the project and
                                                         #  branch history.
-        [string] $gitArgsLong = $null;                  # Cache Arguments that will hold the Line Graph operation
-        [string] $gitArgsFormat = $null;                # Cache formatting for how the information is to be presented
         [string] $outputResult = $null;                 # This will hold the output provided by the Git executable.
                                                         #  The output given will hold the History Line Graph.  This
                                                         #  could be really big!
@@ -3073,24 +3071,16 @@ class GitControl
 
 
         # Arguments Builder Constructor
-        # ++++++++++++++++++++
+        # ++++++++++++++++++++++++++++++
 
         # This was a major help in figuring out how to accomplish this task:
         #  https://stackoverflow.com/a/9074343
         # Formatting Help:
         #  https://git-scm.com/docs/pretty-formats
 
-        # Long wordy arguments
-        $gitArgsLong = "log --graph --abbrev-commit --decorate --all";
-
-
-        # Formatting for the commit information
-        $gitArgsFormat = "--format=`"[%h] - %aD (%ar) %d%n%x09By: %an%n%x09%s%n`"";
-
-
-        # Construct the arguments into one variable,
-        #  this will be used when calling the extCMD.
-        $extCMDArgs = "$($gitArgsLong) $($gitArgsFormat)";
+        # Construct the arguments that will be necessary to generate the History Line Graph
+        $extCMDArgs = ("log --graph --abbrev-commit --decorate --all" + `                   # Generate the History Line Graph
+                        " --format=`"[%h] - %aD (%ar) %d%n%x09By: %an%n%x09%s%n`"");        # Formatting to be used when presenting the Commit Information
 
 
 
