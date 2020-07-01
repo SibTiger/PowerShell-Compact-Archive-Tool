@@ -3218,11 +3218,11 @@ class GitControl
 
 
 
-        # Did the user wanted a report of an archive data file?
+        # Did the user want a report of the project's repository?
         if ($this.__generateReport -eq $false)
         {
-            # Because the user did not want a report generated,
-            #  merely return 'true'.
+            # The user does not wish to have a report generated, we will abort this operation by request.
+            # Because the user did not want a report generated, merely return 'true'.
             return $true;
         } # if : Do not create report
 
