@@ -3237,26 +3237,31 @@ class GitControl
         # Make sure that the Git Logging directories are ready for use (if required)
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
-            # Because the logging directories could not be created, we can not log.
-            #  Because the logging features are required, we can not run the operation.
+            # Because the logging directories could not be created, we cannot log.
+            # Because the logging features are required, we cannot run the operation.
             return $false;
-        } # If : Git Logging Directories
+        } # If : Logging Requirements are Met
 
 
-        # Make sure that the git executable was detected.
+        # Make sure that the Git executable was detected.
         if ($($this.DetectGitExist()) -eq $false)
         {
-            # Git was not detected.
+            # Because Git was not detected, it is not possible to proceed any further
+            #  as the application is required to retrieve information about the project's
+            #  repository.
+            # Because Git was not found, it is not possible to proceed any further.
             return $false;
         } # if : Git was not detected
 
 
-        # Make sure that the path exists
+        # Make sure that the local repository actually exists.
         if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
-            # Project Path does not exist, return an error.
+            # The local repository does not exist with the provided path given.  It is not possible to create a report.
+            # Return a failure as the local repository does not exist.
             return $false;
-        } # if : the Project Path does not exist
+        } # if : Project Path (Local Repo.) does not Exist
+
 
         # ---------------------------
         # - - - - - - - - - - - - - -
@@ -3268,6 +3273,8 @@ class GitControl
                          "==============================`r`n" + `
                          "==============================`r`n";
 
+        # Generate the Report (Procedure Methodology)
+        #  This loop will help us to stay organized as we traverse through each step.
         DO
         {
             # Begin writing the report
