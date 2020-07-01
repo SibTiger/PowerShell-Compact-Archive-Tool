@@ -3267,12 +3267,6 @@ class GitControl
         # - - - - - - - - - - - - - -
 
 
-        # Before we begin creating the report, lets generate the
-        #  bordering that will be used for each section in the report.
-        $sectionBorder = "------------------------------`r`n" + `
-                         "==============================`r`n" + `
-                         "==============================`r`n";
-
         # Generate the Report (Procedure Methodology)
         #  This loop will help us to stay organized as we traverse through each step.
         DO
