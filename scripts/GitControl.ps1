@@ -4012,12 +4012,12 @@ class GitControl
 
 <# Git Commit Type [ENUM]
  # -------------------------------
- # Associated with what type of commit ID the end-user
- #  prefers when retrieving the Commit ID.
+ # Type of Commit Hash ID Length.
+ # This provides a way to define how the SHA1 hash is to be presented.
  # -------------------------------
  #>
 enum GitCommitLength
 {
-    short = 0;   # usually contains seven chars.
-    long = 1;    # usually about forty-one chars. [Lunacy!]
+    short = 0;   # Short Form contains seven characters
+    long = 1;    # Long Form contains forty-one characters
 } # GitCommitType
