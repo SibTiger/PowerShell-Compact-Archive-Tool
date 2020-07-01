@@ -3416,13 +3416,13 @@ class GitControl
                 1
                 {
                     # Build the output
-                    $outputContent = "Table of Contents:`r`n" + `
-                                     "---------------------`r`n" + `
-                                     "1) Project Information`r`n" + `
-                                     "2) Contributors`r`n" + `
-                                     "3) Branches`r`n" + `
-                                     "4) Commits overview`r`n" + `
-                                     "`r`n`r`n";
+                    $outputContent = ("Table of Contents:`r`n" + `
+                                      "---------------------`r`n" + `
+                                      "1) Project Information`r`n" + `
+                                      "2) Contributors`r`n" + `
+                                      "3) Branches`r`n" + `
+                                      "4) Commits overview`r`n" + `
+                                      "`r`n`r`n");
 
 
                     # Write the message to the report file
@@ -3447,22 +3447,22 @@ class GitControl
                 2
                 {
                     # Build the output
-                    $outputContent = "1) PROJECT INFORMATION`r`n" + `
-                                     "$($sectionBorder)`r`n`r`n" + `
-                                     "Provided below is information regarding the project itself.`r`n`r`n" + `
-                                     "Project Name:`r`n" + `
-                                     "`t$([ProjectInformation]::projectName)`r`n`r`n" + `
-                                     "Project Code Name:`r`n" + `
-                                     "`t$([ProjectInformation]::codeName)`r`n`r`n" + `
-                                     "Filename:`r`n" + `
-                                     "`t$([ProjectInformation]::fileName)`r`n`r`n" + `
-                                     "Project Website:`r`n" + `
-                                     "`t$([ProjectInformation]::urlWebsite)`r`n`r`n" + `
-                                     "Project's Documentation:`r`n" + `
-                                     "`t$([ProjectInformation]::urlWiki)`r`n`r`n" + `
-                                     "Project's Repository:`r`n" + `
-                                     "`t$([ProjectInformation]::urlSource)`r`n" + `
-                                     "`r`n`r`n";
+                    $outputContent = ("1) PROJECT INFORMATION`r`n" + `
+                                      "$($sectionBorder)`r`n`r`n" + `
+                                      "Provided below is information regarding the project itself.`r`n`r`n" + `
+                                      "Project Name:`r`n" + `
+                                      "`t$([ProjectInformation]::projectName)`r`n`r`n" + `
+                                      "Project Code Name:`r`n" + `
+                                      "`t$([ProjectInformation]::codeName)`r`n`r`n" + `
+                                      "Filename:`r`n" + `
+                                      "`t$([ProjectInformation]::fileName)`r`n`r`n" + `
+                                      "Project Website:`r`n" + `
+                                      "`t$([ProjectInformation]::urlWebsite)`r`n`r`n" + `
+                                      "Project's Documentation:`r`n" + `
+                                      "`t$([ProjectInformation]::urlWiki)`r`n`r`n" + `
+                                      "Project's Repository:`r`n" + `
+                                      "`t$([ProjectInformation]::urlSource)`r`n" + `
+                                      "`r`n`r`n");
 
 
                     # Write the message to the report file
@@ -3487,12 +3487,12 @@ class GitControl
                 3
                 {
                     # Build the output
-                    $outputContent = "2) CONTRIBUTORS`r`n" + `
-                                     "$($sectionBorder)`r`n`r`n" + `
-                                     "Provided below is a list of contributors that have" + `
-                                     " sent commits to this project's git repository.`r`n`r`n" + `
-                                     "List of Contributors:`r`n" + `
-                                     "$($this.FetchAllContributors($projectPath))`r`n`r`n";
+                    $outputContent = ("2) CONTRIBUTORS`r`n" + `
+                                      "$($sectionBorder)`r`n`r`n" + `
+                                      "Provided below is a list of contributors that have" + `
+                                      " sent commits to this project's git repository.`r`n`r`n" + `
+                                      "List of Contributors:`r`n" + `
+                                      "$($this.FetchAllContributors($projectPath))`r`n`r`n");
 
 
                     # Write the message to the report file
@@ -3517,12 +3517,12 @@ class GitControl
                 4
                 {
                     # Build the output
-                    $outputContent = "3) BRANCHES`r`n" + `
-                                     "$($sectionBorder)`r`n`r`n" + `
-                                     "Provided below is list of branches that are" + `
-                                     " available in this repository.`r`n`r`n" + `
-                                     "List of Branches:`r`n" + `
-                                     "$($this.FetchAllBranchesActivity($projectPath))`r`n`r`n";
+                    $outputContent = ("3) BRANCHES`r`n" + `
+                                      "$($sectionBorder)`r`n`r`n" + `
+                                      "Provided below is list of branches that are" + `
+                                      " available in this repository.`r`n`r`n" + `
+                                      "List of Branches:`r`n" + `
+                                      "$($this.FetchAllBranchesActivity($projectPath))`r`n`r`n");
 
 
                     # Write the message to the report file
@@ -3547,12 +3547,12 @@ class GitControl
                 5
                 {
                     # Build the output
-                    $outputContent = "4) COMMITS OVERVIEW`r`n" + `
-                                     "$($sectionBorder)`r`n`r`n" + `
-                                     "Provided below is an overview of commits that" + `
-                                     "  have been submitted to this project's repository.`r`n`r`n" + `
-                                     "List of Commits:`r`n" + `
-                                     "$($this.MakeCommitGraphInfo($projectPath))";
+                    $outputContent = ("4) COMMITS OVERVIEW`r`n" + `
+                                      "$($sectionBorder)`r`n`r`n" + `
+                                      "Provided below is an overview of commits that" + `
+                                      "  have been submitted to this project's repository.`r`n`r`n" + `
+                                      "List of Commits:`r`n" + `
+                                      "$($this.MakeCommitGraphInfo($projectPath))");
 
 
                     # Write the message to the report file
