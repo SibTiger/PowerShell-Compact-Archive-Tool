@@ -3222,6 +3222,28 @@ class GitControl
         if ($this.__generateReport -eq $false)
         {
             # The user does not wish to have a report generated, we will abort this operation by request.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Unable to create the report because the user does not request to" + `
+                                    " generate one (User Settings).");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Current User Setting: $($this.__generateReport)`r`n" + `
+                                        "`tRequested repository to generate a report: $($projectPath)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Warning");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Because the user did not want a report generated, merely return 'true'.
             return $true;
         } # if : Do not create report
@@ -3238,6 +3260,31 @@ class GitControl
         if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
         {
             # Because the logging directories could not be created, we cannot log.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to create a report on the project's repository due to logging complications!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Because the logging directories for Git could not be created," + `
+                                        " nothing can be logged as expected.`r`n" + `
+                                        "`tTo resolve the issue:`r`n" + `
+                                        "`t`t- Make sure that the required logging directories are created.`r`n" + `
+                                        "`t`t- OR Disable logging`r`n" + `
+                                        "`tRequested repository to generate a report: $($projectPath)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Because the logging features are required, we cannot run the operation.
             return $false;
         } # If : Logging Requirements are Met
@@ -3249,6 +3296,28 @@ class GitControl
             # Because Git was not detected, it is not possible to proceed any further
             #  as the application is required to retrieve information about the project's
             #  repository.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to create a report on the project's repository; unable to find the Git Executable!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Be sure that the Git application is presently installed and assure that this program" + `
+                                        " is able to detect the executable.`r`n" + `
+                                        "`tRequested repository to generate a report: $($projectPath)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Because Git was not found, it is not possible to proceed any further.
             return $false;
         } # if : Git was not detected
@@ -3258,6 +3327,26 @@ class GitControl
         if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # The local repository does not exist with the provided path given.  It is not possible to create a report.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to create a report on the project's repository because the local repository does not exist!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "Requested repository to generate a report: $($projectPath)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Return a failure as the local repository does not exist.
             return $false;
         } # if : Project Path (Local Repo.) does not Exist
