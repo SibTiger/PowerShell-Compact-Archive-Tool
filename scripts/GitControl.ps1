@@ -3360,14 +3360,14 @@ class GitControl
         #  This loop will help us to stay organized as we traverse through each step.
         DO
         {
-            # Begin writing the report
+            # Sequential steps
             switch ($traverse)
             {
                 # Report Header
                 0
                 {
-                    # Build the output
-                    #  Word Art provided by this website:
+                    # Prepare the message that we will write to the report.
+                    # Word Art for the report's header were provided by this website:
                     #  http://patorjk.com/software/taag
                     #  FONT: Big
                     #  All other settings set to 'default'.
@@ -3394,19 +3394,20 @@ class GitControl
                                      "`r`n`r`n`r`n";
 
 
-                    # Write to file
+                    # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
+                        # Because there was failure while writing to the report file, we cannot proceed any further.
                         # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
 
 
-                    # Increment the traverse variable
+                    # Increment the traverse variable; proceed to the next step.
                     $traverse++;
 
 
-                    # Finished with the header
+                    # Finished with the report's Header
                     break;
                 } # Case : Report Header
 
@@ -3424,15 +3425,16 @@ class GitControl
                                      "`r`n`r`n";
 
 
-                    # Write to file
+                    # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
+                        # Because there was failure while writing to the report file, we cannot proceed any further.
                         # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
 
 
-                    # Increment the traverse variable
+                    # Increment the traverse variable; proceed to the next step.
                     $traverse++;
 
 
@@ -3441,7 +3443,7 @@ class GitControl
                 } # Case : Table of Contents
 
 
-                # SECTION - Project Information
+                # Project Information
                 2
                 {
                     # Build the output
@@ -3463,24 +3465,25 @@ class GitControl
                                      "`r`n`r`n";
 
 
-                    # Write to file
+                    # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
+                        # Because there was failure while writing to the report file, we cannot proceed any further.
                         # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
 
 
-                    # Increment the traverse variable
+                    # Increment the traverse variable; proceed to the next step.
                     $traverse++;
 
 
                     # Finished with the Project Info.
                     break;
-                } # Case : SECTION - Project Information
+                } # Case : Project Information
 
 
-                # SECTION - Contributors
+                # Contributors
                 3
                 {
                     # Build the output
@@ -3492,24 +3495,25 @@ class GitControl
                                      "$($this.FetchAllContributors($projectPath))`r`n`r`n";
 
 
-                    # Write to file
+                    # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
+                        # Because there was failure while writing to the report file, we cannot proceed any further.
                         # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
 
 
-                    # Increment the traverse variable
+                    # Increment the traverse variable; proceed to the next step.
                     $traverse++;
 
 
                     # Finished with the Contributors
                     break;
-                } # Case : SECTION - Contributors
+                } # Case : Contributors
 
-                
-                # SECTION - Branch
+
+                # Branch
                 4
                 {
                     # Build the output
@@ -3521,24 +3525,25 @@ class GitControl
                                      "$($this.FetchAllBranchesActivity($projectPath))`r`n`r`n";
 
 
-                    # Write to file
+                    # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
+                        # Because there was failure while writing to the report file, we cannot proceed any further.
                         # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
 
 
-                    # Increment the traverse variable
+                    # Increment the traverse variable; proceed to the next step.
                     $traverse++;
 
 
                     # Finished with the Branches
                     break;
-                } # Case : SECTION - Branch
+                } # Case : Branch
 
 
-                # SECTION - Commits Overview
+                # Commits Overview
                 5
                 {
                     # Build the output
@@ -3550,44 +3555,48 @@ class GitControl
                                      "$($this.MakeCommitGraphInfo($projectPath))";
 
 
-                    # Write to file
+                    # Write the message to the report file
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
+                        # Because there was failure while writing to the report file, we cannot proceed any further.
                         # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
 
 
-                    # Increment the traverse variable
+                    # Increment the traverse variable; proceed to the next step.
                     $traverse++;
 
 
-                    # Jump out of the Loop key
+                    # Jump out of the Loop key; without this flag - a Run-Away will occur.
                     $readyToBreak = $true;
 
 
                     # Finished with the Commits Overview
                     break;
-                } # Case : SECTION - Commits Overview
+                } # Case : Commits Overview
 
 
                 # Default - ERROR; Run Away
                 default
                 {
                     # Something went horribly wrong
+                    #  In normal cases, we should _NEVER_ reach this point.
+                    # Because a Run-Away occurred, 
                     return $false;
-                } # Case : DEFAULT
+                } # Case : Default
             } # switch()
         } While ($readyToBreak -eq $false);
 
-        
+
         # Does the user also want a PDF file of the report?
         if ($makePDF -eq $true)
         {
-            # Create the PDF file
+            # Create the PDF file as requested
             if(([IOCommon]::CreatePDFFile("$($fileNameTXT)", "$($fileNamePDF)")) -eq $false)
             {
                 # Failure occurred while creating the PDF document.
+                # Because the report could not be made in the PDF format, we will signify an error.
                 return $false;
             } # If : Failure while creating PDF
         } # If : Make PDF Report
@@ -3595,7 +3604,6 @@ class GitControl
 
         # Successfully wrote to the file
         return $true;
-
     } # CreateNewReport()
 
 
