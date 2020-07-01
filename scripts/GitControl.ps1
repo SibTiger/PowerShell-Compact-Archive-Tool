@@ -3829,27 +3829,113 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string[]] $extLogs = @('*.err', '*.out');   # Array of log extensions
-        [string[]] $extReports = @('*.txt');         # Array of report extensions
+        [string[]] $extLogs = @('*.err', '*.out');      # Array of log extensions
+        [string[]] $extReports = @('*.txt', '*.pdf');   # Array of report extensions
+        [string] $knownExtensions = $null;              # This will hold a nice string value of all of
+                                                        #  the extensions that this function will remove;
+                                                        #  extensions being: $extLogs and $extReports combined.
+                                                        #  This is primarily used for logging purposes.
+        [bool] $exitCode = $true;                       # The exit code status provided by the log\report
+                                                        #  deletion operation status.  If the operation
+                                                        #  was successful then true will be set, otherwise
+                                                        #  it'll be false to signify an error.
         # ----------------------------------------
 
 
-        # First, make sure that the directories exist.
-        #  If the directories are not available, than there
-        #  is nothing that can be done.
+        # Before we start, setup the known extensions variable for logging purposes.
+        #  Get all of the known extensions used for logging; $extLogs
+        foreach ($item in $extLogs)
+        {
+            # if this is the first entry in the variable, then just apply the item
+            #  to the string without adding a appending the previous entries.
+            if (($knownExtensions -eq $null) -or
+                ($knownExtensions -eq ""))
+            {
+                # First entry to the string.
+                $knownExtensions = "$($item)";
+            }# If: first entry
+
+            # There is already information in the variable, append the new entry to the
+            #  previous data.
+            else
+            {
+                # Append the entry to the string list.
+                $knownExtensions += ", $($item)";
+            } # Else: Append entry
+        } # Foreach: Known Logging Extensions
+
+
+        #  Did the user wanted to remove all report files?
+        if ($expungeReports)
+        {
+            # Get all of the known extensions used for reports; $extReports
+            foreach($item in $extReports)
+            {
+                # Append the entry to the string list.
+                $knownExtensions += ", $($item)";
+            } # Foreach: Known Report Extensions
+        } # If: Reports are included in operation
+
+
+
+        # Make sure that the logging directories exist.  If the directories are not
+        #  available presently, then there is nothing that can be done at this time.
         if (($this.__CheckRequiredDirectories()) -eq $false)
         {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to delete the requested files as the logging directories were not found!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Object: Git`r`n" + `
+                                        "`tRequested file extensions to delete: $($knownExtensions)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Warning");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+
             # This is not really an error, however the directories simply
             #  does not exist -- nothing can be done.
             return $true;
         } # IF : Required Directories Exists
 
 
-        # Because the directories exists, lets try to thrash the logs.
+        # Because the directories exists, let's try to thrash the logs.
         if(([IOCommon]::DeleteFile("$($this.__logPath)", $extLogs)) -eq $false)
         {
-            # Failure to remove the requested files
-            return $false;
+            # Reached a failure upon removing the requested log files.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "A failure occurred while removing the requested log files!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Object: Git`r`n" + `
+                                        "`tRequested file extensions to delete: $($knownExtensions)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Because the operation failed, we will update the exit code to 'false'
+            #  to signify that we reached an error.
+            $exitCode = $false;
         } # If : failure to delete files
 
 
@@ -3858,16 +3944,64 @@ class GitControl
 
         # Did the user also wanted to thrash the reports?
         if (($($expungeReports) -eq $true) -and `
-        ([IOCommon]::DeleteFile("$($this.__reportPath)", $extReports)) -eq $false)
+            ([IOCommon]::DeleteFile("$($this.__reportPath)", $extReports)) -eq $false)
         {
-            # Failure to remove the requested files
-            return $false;
+            # Reached a failure upon removing the requested log files.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "A failure occurred while removing the requested report files!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Object: Git`r`n" + `
+                                        "`tRequested file extensions to delete: $($knownExtensions)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Because the operation failed, we will update the exit code to 'false'
+            #  to signify that we reached an error.
+            $exitCode = $false;
         } # If : thrash the reports
 
 
+        # If everything succeeded, provide this information to the logfile.
+        if ($exitCode)
+        {
+            # The operation was successful, provide the information to the logfile.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Successfully expunged the requested files!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Object: Git`r`n" + `
+                                        "`tRequested file extensions to delete: $($knownExtensions)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # If: Everything was Successful
+
 
         # If we made it here, then everything went okay!
-        return $true;
+        return $exitCode;
     } # ThrashLogs()
 
     #endregion
