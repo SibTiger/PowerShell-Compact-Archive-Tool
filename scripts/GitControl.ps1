@@ -3371,27 +3371,26 @@ class GitControl
                     #  http://patorjk.com/software/taag
                     #  FONT: Big
                     #  All other settings set to 'default'.
-                    $outputContent = "+--------------------------------------------------+`r`n" + `
-                                     "|   _____ _ _     _____                       _    |`r`n" + `
-                                     "|  / ____(_) |   |  __ \                     | |   |`r`n" + `
-                                     "| | |  __ _| |_  | |__) |___ _ __   ___  _ __| |_  |`r`n" + `
-                                     "| | | |_ | | __| |  _  // _ \ '_ \ / _ \| '__| __| |`r`n" + `
-                                     "| | |__| | | |_  | | \ \  __/ |_) | (_) | |  | |_  |`r`n" + `
-                                     "|  \_____|_|\__| |_|  \_\___| .__/ \___/|_|   \__| |`r`n" + `
-                                     "|                           | |                    |`r`n" + `
-                                     "|                           |_|                    |`r`n" + `
-                                     "+--------------------------------------------------+`r`n" + `
-                                     "`r`n`r`n" + `
-                                     "Synopsis`r`n" + `
-                                     "----------`r`n" + `
-                                     "This report was generated on $($dateNow) at $($timeNow) for the" + `
-                                     " $([ProjectInformation]::projectName) project.  This report contains" + `
-                                     " an overview of the project's activity and work flow." + `
-                                     "  However, all information is based on the local repository -" + `
-                                     " not directly from the remote repository.  If the local repository is caught" + `
-                                     " up with the remote repository then all of the information is current with the" + `
-                                     " centralized repository." + `
-                                     "`r`n`r`n`r`n";
+                    $outputContent = ("+--------------------------------------------------+`r`n" + `
+                                      "|   _____ _ _     _____                       _    |`r`n" + `
+                                      "|  / ____(_) |   |  __ \                     | |   |`r`n" + `
+                                      "| | |  __ _| |_  | |__) |___ _ __   ___  _ __| |_  |`r`n" + `
+                                      "| | | |_ | | __| |  _  // _ \ '_ \ / _ \| '__| __| |`r`n" + `
+                                      "| | |__| | | |_  | | \ \  __/ |_) | (_) | |  | |_  |`r`n" + `
+                                      "|  \_____|_|\__| |_|  \_\___| .__/ \___/|_|   \__| |`r`n" + `
+                                      "|                           | |                    |`r`n" + `
+                                      "|                           |_|                    |`r`n" + `
+                                      "+--------------------------------------------------+`r`n" + `
+                                      "`r`n`r`n" + `
+                                      "Synopsis`r`n" + `
+                                      "----------`r`n" + `
+                                      "This report was generated on $($dateNow) at $($timeNow) for the" + `
+                                      "$([ProjectInformation]::projectName) project.  This report contains an overview of" + `
+                                      " the project's activity and workflow.  However, all information is solely based on" + `
+                                      " the project's Local Repository instead of the Remote Repository.  To assure that" + `
+                                      " the information gathered by this report contains the latest information, be sure" + `
+                                      " that the Local Repository had been completely up to date with the Remote Repository." `
+                                      "`r`n`r`n`r`n";
 
 
                     # Write the message to the report file
