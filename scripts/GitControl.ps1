@@ -3397,6 +3397,31 @@ class GitControl
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
+
+
+                        # * * * * * * * * * * * * * * * * * * *
+                        # Debugging
+                        # --------------
+
+                        # Generate the initial message
+                        [string] $logMessage = "Unable to write the Header to the report!";
+
+                        # Generate any additional information that might be useful
+                        [string] $logAdditionalMSG = ("Object: Git`r`n" + `
+                                                    "`tIteration Step: $($traverse)`r`n" + `
+                                                    "`tRequested Local Repository generate a report: $($projectPath)`r`n" + `
+                                                    "`tTried to write to report file: $($fileNameTXT)`r`n" + `
+                                                    "`tInformation to write:`r`n" + `
+                                                    "$($outputContent)");
+
+                        # Pass the information to the logging system
+                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                    "$($logAdditionalMSG)", `   # Additional information
+                                                    "Error");                   # Message level
+
+                        # * * * * * * * * * * * * * * * * * * *
+
+
                         # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
@@ -3428,6 +3453,31 @@ class GitControl
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
+
+
+                        # * * * * * * * * * * * * * * * * * * *
+                        # Debugging
+                        # --------------
+
+                        # Generate the initial message
+                        [string] $logMessage = "Unable to write the Table of Contents to the report!";
+
+                        # Generate any additional information that might be useful
+                        [string] $logAdditionalMSG = ("Object: Git`r`n" + `
+                                                    "`tIteration Step: $($traverse)`r`n" + `
+                                                    "`tRequested Local Repository generate a report: $($projectPath)`r`n" + `
+                                                    "`tTried to write to report file: $($fileNameTXT)`r`n" + `
+                                                    "`tInformation to write:`r`n" + `
+                                                    "$($outputContent)");
+
+                        # Pass the information to the logging system
+                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                    "$($logAdditionalMSG)", `   # Additional information
+                                                    "Error");                   # Message level
+
+                        # * * * * * * * * * * * * * * * * * * *
+
+
                         # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
@@ -3468,6 +3518,31 @@ class GitControl
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
+
+
+                        # * * * * * * * * * * * * * * * * * * *
+                        # Debugging
+                        # --------------
+
+                        # Generate the initial message
+                        [string] $logMessage = "Unable to write the Project Information to the report!";
+
+                        # Generate any additional information that might be useful
+                        [string] $logAdditionalMSG = ("Object: Git`r`n" + `
+                                                    "`tIteration Step: $($traverse)`r`n" + `
+                                                    "`tRequested Local Repository generate a report: $($projectPath)`r`n" + `
+                                                    "`tTried to write to report file: $($fileNameTXT)`r`n" + `
+                                                    "`tInformation to write:`r`n" + `
+                                                    "$($outputContent)");
+
+                        # Pass the information to the logging system
+                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                    "$($logAdditionalMSG)", `   # Additional information
+                                                    "Error");                   # Message level
+
+                        # * * * * * * * * * * * * * * * * * * *
+
+
                         # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
@@ -3498,6 +3573,31 @@ class GitControl
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
+
+
+                        # * * * * * * * * * * * * * * * * * * *
+                        # Debugging
+                        # --------------
+
+                        # Generate the initial message
+                        [string] $logMessage = "Unable to write the Contributors to the report!";
+
+                        # Generate any additional information that might be useful
+                        [string] $logAdditionalMSG = ("Object: Git`r`n" + `
+                                                    "`tIteration Step: $($traverse)`r`n" + `
+                                                    "`tRequested Local Repository generate a report: $($projectPath)`r`n" + `
+                                                    "`tTried to write to report file: $($fileNameTXT)`r`n" + `
+                                                    "`tInformation to write:`r`n" + `
+                                                    "$($outputContent)");
+
+                        # Pass the information to the logging system
+                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                    "$($logAdditionalMSG)", `   # Additional information
+                                                    "Error");                   # Message level
+
+                        # * * * * * * * * * * * * * * * * * * *
+
+
                         # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
@@ -3528,6 +3628,31 @@ class GitControl
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
+
+
+                        # * * * * * * * * * * * * * * * * * * *
+                        # Debugging
+                        # --------------
+
+                        # Generate the initial message
+                        [string] $logMessage = "Unable to write the Branch List to the report!";
+
+                        # Generate any additional information that might be useful
+                        [string] $logAdditionalMSG = ("Object: Git`r`n" + `
+                                                    "`tIteration Step: $($traverse)`r`n" + `
+                                                    "`tRequested Local Repository generate a report: $($projectPath)`r`n" + `
+                                                    "`tTried to write to report file: $($fileNameTXT)`r`n" + `
+                                                    "`tInformation to write:`r`n" + `
+                                                    "$($outputContent)");
+
+                        # Pass the information to the logging system
+                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                    "$($logAdditionalMSG)", `   # Additional information
+                                                    "Error");                   # Message level
+
+                        # * * * * * * * * * * * * * * * * * * *
+
+
                         # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
@@ -3558,6 +3683,31 @@ class GitControl
                     if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
+
+
+                        # * * * * * * * * * * * * * * * * * * *
+                        # Debugging
+                        # --------------
+
+                        # Generate the initial message
+                        [string] $logMessage = "Unable to write the Commits Overview Details to the report!";
+
+                        # Generate any additional information that might be useful
+                        [string] $logAdditionalMSG = ("Object: Git`r`n" + `
+                                                    "`tIteration Step: $($traverse)`r`n" + `
+                                                    "`tRequested Local Repository generate a report: $($projectPath)`r`n" + `
+                                                    "`tTried to write to report file: $($fileNameTXT)`r`n" + `
+                                                    "`tInformation to write:`r`n" + `
+                                                    "$($outputContent)");
+
+                        # Pass the information to the logging system
+                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                    "$($logAdditionalMSG)", `   # Additional information
+                                                    "Error");                   # Message level
+
+                        # * * * * * * * * * * * * * * * * * * *
+
+
                         # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
@@ -3581,6 +3731,29 @@ class GitControl
                 {
                     # Something went horribly wrong
                     #  In normal cases, we should _NEVER_ reach this point.
+
+
+                    # * * * * * * * * * * * * * * * * * * *
+                    # Debugging
+                    # --------------
+
+                    # Generate the initial message
+                    [string] $logMessage = "Run-Away had occurred while generating the requested report!";
+
+                    # Generate any additional information that might be useful
+                    [string] $logAdditionalMSG = ("Object: Git`r`n" + `
+                                                "`tIteration Step: $($traverse)`r`n" + `
+                                                "`tRequested Local Repository generate a report: $($projectPath)`r`n" + `
+                                                "`tTried to write to report file: $($fileNameTXT)`r`n");
+
+                    # Pass the information to the logging system
+                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                "$($logAdditionalMSG)", `   # Additional information
+                                                "Error");                   # Message level
+
+                    # * * * * * * * * * * * * * * * * * * *
+
+
                     # Because a Run-Away occurred, 
                     return $false;
                 } # Case : Default
@@ -3595,6 +3768,29 @@ class GitControl
             if(([IOCommon]::CreatePDFFile("$($fileNameTXT)", "$($fileNamePDF)")) -eq $false)
             {
                 # Failure occurred while creating the PDF document.
+
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = "Could not create a PDF file of the report!";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Object: Git`r`n" + `
+                                            "`tRequested Local Repository generate a report: $($projectPath)`r`n" + `
+                                            "`tText file of the report: $($fileNameTXT)`r`n" + `
+                                            "`tTried to create PDF file: $($fileNamePDF)");
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
                 # Because the report could not be made in the PDF format, we will signify an error.
                 return $false;
             } # If : Failure while creating PDF
