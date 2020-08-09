@@ -2,16 +2,11 @@
  # ------------------------------
  # ==============================
  # ==============================
- # This class is designed to house all of the common
- #  input and output functionality that will be used
- #  within the software.  Because all of the I\O
- #  functions are held within this class, we can
- #  focus on minimizing code redundancy and assure
- #  that the functionality is refined.  Though, using
- #  this class requires a tightening class-coupling
- #  and a lower-cohesion -- A cost that is required
- #  to help avoid code redundancies and using well-refined
- #  functions within this class.
+ # This class is designed to house all of the common input and output functionality that will be used
+ #  within the software.  Because all of the I\O functions are held within this class, we can focus
+ #  on minimizing code redundancy and assure that the functionality is refined.  Though, using this
+ #  class requires a tightening class-coupling and a lower-cohesion -- A cost that is required to
+ #  help avoid code redundancies and using well-refined functions within this class.
  # - -
  # Functionality that is supported in this class:
  #  - Get user input (keyboard)
@@ -37,21 +32,14 @@ class IOCommon
    <# Fetch User Input
     # -------------------------------
     # Documentation:
-    #  This function will fetch input provided by the
-    #   the user using STDIN (keyboard).
-    #  This function will display a prompt that is
-    #   adjacent to Python's prompt.  I prefer this
-    #   prompt style as it is clear that the program
-    #   is waiting for some sort of feedback from the
-    #   user.  If the program is not clear when it is
-    #   ready for feedback from the user - yet the
-    #   program is in a block state because it is
-    #   waiting for user feedback, the user will
-    #   believe that the program is broken\frozen and
-    #   the user will exit the program.  Because of
-    #   this, I believe that it is important to have
-    #   a clear indication when the program is waiting
-    #   for feedback from the user.
+    #  This function will fetch input provided by the user using STDIN (keyboard).
+    #  This function will display a prompt that is adjacent to Python's prompt.  I prefer
+    #   this prompt style as it is clearer that the program is waiting for some sort of
+    #   feedback from the user.  If the program is not clear when it is ready for feedback
+    #   from the user - yet the program is in a block state because it is waiting for
+    #   user feedback, the user will believe that the program is broken\frozen and the
+    #   user will exit the program.  Because of this, I believe that it is important to
+    #   have a clear indication when the program is waiting for feedback from the user.
     # -------------------------------
     # Output:
     #  [string] User's Input Request
@@ -80,17 +68,15 @@ class IOCommon
    <# Write to Buffer (Terminal Screen)
     # -------------------------------
     # Documentation:
-    #  This function will present the requested message
-    #   on the screen with its appropriate formatting.  The
-    #   formatting of the message is determined by its
-    #   message level (or logged level).
+    #  This function will present the requested message on the screen with its
+    #   appropriate formatting.  The formatting of the message is determined
+    #   by its message level (or logged level).
     # -------------------------------
     # Input:
     #  [string] Message
     #   The message that is to be presented on the screen.
     #  [LogMessageLevel] Message Level
-    #   The level of the message that is to be presented
-    #    or formatted.
+    #   The level of the message that is to be presented or formatted.
     # -------------------------------
     #>
     static [void] WriteToBuffer([string] $msg,                 # Message
@@ -230,10 +216,9 @@ class IOCommon
    <# Clear the Buffer (Terminal Screen)
     # -------------------------------
     # Documentation:
-    #  This function will clear all of the text that was previously
-    #   printed on the terminal's output buffer.  For some terminals,
-    #   this may have different meaning, such as merely appending an
-    #   abundance of new-lines instead of flushing the terminal's screen.
+    #  This function will clear the text that was previously printed on the terminal's output
+    #   buffer.  For some terminals, this may have different meaning, such as merely appending
+    #   an abundance of new-lines instead of flushing the terminal's screen.
     # -------------------------------
     #>
     static [void] ClearBuffer()
@@ -250,15 +235,11 @@ class IOCommon
    <# Detect Command [Test]
     # -------------------------------
     # Documentation:
-    #  This function will help to determine if the external
-    #   command or command (in general terms) could be
-    #   detected with the given path and if the command is
-    #   a supported command type.  If the file or command
-    #   we want to ultimately execute is not detected in
-    #   the filesystem or the file we want to use is not
-    #   the proper executable type, then the detection
-    #   will return false - indicating that the command
-    #   cannot be used.
+    #  This function will help to determine if the external command or command (in general terms)
+    #   could be detected with the given path and if the command is a supported command type.
+    #   If the file or command we want to ultimately execute is not detected in the filesystem or
+    #   the file we want to use is not the proper executable type, then the detection will return
+    #   false - indicating that the command cannot be used.
     # -------------------------------
     # Inputs:
     #  [string] Command
@@ -270,8 +251,7 @@ class IOCommon
     # -------------------------------
     # Output:
     #  [bool] Detected Code
-    #    $false = Failure to detect the external executable or
-    #              was not the proper command type.
+    #    $false = Failure to detect the external executable or was not the proper command type.
     #    $true  = Successfully detected the external executable.
     # -------------------------------
     #>
