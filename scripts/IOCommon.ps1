@@ -79,8 +79,8 @@ class IOCommon
     #   The level of the message that is to be presented or formatted.
     # -------------------------------
     #>
-    static [void] WriteToBuffer([string] $msg,                 # Message
-                                [LogMessageLevel] $msgLevel)   # Message Level
+    static [void] WriteToBuffer([string] $msg,                      # Message
+                                [LogMessageLevel] $msgLevel)        # Message Level
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -255,8 +255,8 @@ class IOCommon
     #    $true  = Successfully detected the external executable.
     # -------------------------------
     #>
-    static [bool] DetectCommand([string] $command, `    # Executable or command to run
-                                [string] $type)         # Command type
+    static [bool] DetectCommand([string] $command, `        # Executable or command to run
+                                [string] $type)             # Command type
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -331,20 +331,15 @@ class IOCommon
    <# Execute Command
     # -------------------------------
     # Documentation:
-    #  This function will provide the ability to execute the
-    #   requested external command and help to manage how the
-    #   logging or redirection of output should be handled.
-    #  This function depends on other methods in order to
-    #   perform the operation, this function is made to help
-    #   simplify the operation and keep data organized
-    #   efficiently.
+    #  This function will provide the ability to execute the requested external command and
+    #   help to manage how the logging or redirection of output should be handled.
+    #  This function depends on other methods in order to perform the operation, this
+    #   function is made to help simplify the operation and keep data organized efficiently.
     #
-    #  Return Code Notes: After the command has been executed,
-    #   this function will only return the exit code provided
-    #   by the executable.  If the external executable cannot
-    #   be found or generally fails to execute in vague reasons,
-    #   this function will return a specific error code that is
-    #   dedicated by this function.
+    #  Return Code Notes: After the command has been executed, this function will only
+    #   return the exit code provided by the executable.  If the external executable cannot
+    #   be found or generally fails to execute in vague reasons, this function will return
+    #   a specific error code that is dedicated by this function.
     # -------------------------------
     # Inputs:
     #  [string] Command
@@ -354,47 +349,40 @@ class IOCommon
     #  [string] Project Path
     #   The absolute path of the project directory.
     #  [string] STDOUT Log Path
-    #   Absolute path to store the log file containing
-    #    the program's STDOUT output.
+    #   Absolute path to store the log file containing the program's STDOUT output.
     #   - NOTE: Filename will be provided by this function.
     #  [string] STDERR Log Path
-    #   Absolute path to store the log file containing
-    #    the program's STDERR output.
+    #   Absolute path to store the log file containing the program's STDERR output.
     #   - NOTE: Filename will be provided by this function.
     #  [string] Report Path
     #   Absolute path and filename to store the report file.
     #   - NOTE: The filename of the report __MUST_BE_INCLUDED!___
     #  [string] Description
     #   Used for logging and for information purposes only.
-    #   - NOTE: A description can provide a reason for executing the
-    #            executable or an operation that is being performed
-    #            by the executable.  For example: "Using the Tree
-    #            extCMD will provide an overview of the filesystem's
-    #            directory hierarchy - as well as the depth of the
-    #            directories."
-    #            Just remember, this is only shown in the log file.
+    #   - NOTE: A description can provide a reason for executing the executable or
+    #            an operation that is being performed by the executable.  For
+    #            example: "Using the Tree extCMD will provide an overview of the
+    #            filesystem's directory hierarchy - as well as the depth of the
+    #            directories."  Just remember, this is only shown in the log file.
     #  [bool] Is Report
-    #   When true, this will assure that the information
-    #    is logged as a report.
+    #   When true, this will assure that the information is logged as a report.
     #  [bool] Capture STDOUT
-    #   When true, the STDOUT will not be logged in a
-    #    text file, instead it will be captured into
-    #    a reference string.  Useful for processing the STDOUT
+    #   When true, the STDOUT will not be logged in a text file, instead it will
+    #    be captured into a reference string.  Useful for processing the STDOUT
     #    internally - within the program.
     #  [string] (REFERENCE) String Output
-    #   When Capture STDOUT is true, this parameter will
-    #   carry the STDOUT from the executable.  The
-    #   information provided will be available for use
-    #   from the calling function.
+    #   When Capture STDOUT is true, this parameter will carry the STDOUT from
+    #    the executable.  The information provided will be available for use
+    #    from the calling function.
     # -------------------------------
     # Output:
     #  [int] Exit Code
     #   The error code provided from the executable.
-    #    This can be helpful to diagnose if the external command
-    #    reached an error or was successful.
-    #    NOTE: We are using negative values to help avoid a confusion
-    #           from the return code of the binary (or extCMD) that was
-    #           executed in this function.
+    #    This can be helpful to diagnose if the external command reached an
+    #    error or was successful.
+    #    NOTE: We are using negative values to help avoid a confusion from
+    #           the return code of the binary (or extCMD) that was executed
+    #           in this function.
     #   ERROR VALUES
     #   -255
     #    The executable could not execute; may not exist.
@@ -428,9 +416,8 @@ class IOCommon
         [string] $containerStdOut        = $null;       # Used to hold the STDOUT
         [string] $containerStdErr        = $null;       # Used to hold the STDERR
         [int] $externalCommandReturnCode = $null;       # Exit Code from the extCMD.
-        [string] $callBack               = $null;       # Allocate memory address if the stdout
-                                                        #  needs to be relocated, this is our
-                                                        #  medium in order to accomplish this.
+        [string] $callBack               = $null;       # Allocate memory address if the stdout needs to be relocated
+                                                        #  this is our medium in order to accomplish this.
         # ----------------------------------------
 
 
@@ -660,13 +647,12 @@ class IOCommon
    <# Execute Command - Create Description
     # -------------------------------
     # Documentation:
-    #  This function will generate a description when one is not provided during
-    #   execution protocol from the ExecuteCommand() function.  To generate the
-    #   description, we will combine the command\executable and the arguments.
-    #   But we will have to sanitize the description to avoid any illegal
-    #   characters and shorten the entire description to a specific length -- one
-    #   must remember that the description is going to be used as part of the
-    #   filename of a file on the filesystem.
+    #  This function will generate a description when one is not provided during execution
+    #   protocol from the ExecuteCommand() function.  To generate the description, we will
+    #   combine the command\executable and the arguments.  But we will have to sanitize
+    #   the description to avoid any illegal characters and shorten the entire description
+    #   to a specific length -- one must remember that the description is going to be used
+    #   as part of the filename of a file on the filesystem.
     # -------------------------------
     # Inputs:
     #  [string] Command
@@ -679,8 +665,8 @@ class IOCommon
     #   A newly generated default description.
     # -------------------------------
     #>
-    Static Hidden [string] __ExecuteCommandCreateDescription([string] $command, `
-                                                            [string] $arguments)
+    Static Hidden [string] __ExecuteCommandCreateDescription([string] $command, `       # External Command to execute
+                                                            [string] $arguments)        # Arguments for the External Command
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -729,44 +715,36 @@ class IOCommon
    <# Execute Command - Logging
     # -------------------------------
     # Documentation:
-    #  This function will take the outputs provided by the
-    #   external command or executable file and place them
-    #   in the log files or redirect the output to a specific
+    #  This function will take the outputs provided by the external command or executable
+    #   file and place them in the log files or redirect the output to a specific
     #   reference variable upon request.
     # -------------------------------
     # Inputs:
     #  [string] STDOUT Log Path
-    #   Absolute path to store the log file containing
-    #    the program's STDOUT output.
+    #   Absolute path to store the log file containing the program's STDOUT output.
     #   - NOTE: Filename is provided by this function.
     #  [string] STDERR Log Path
-    #   Absolute path to store the log file containing
-    #    the program's STDERR output.
+    #   Absolute path to store the log file containing the program's STDERR output.
     #   - NOTE: Filename is provided by this function.
     #  [string] Report Path
     #   Absolute path and filename to store the report file.
     #   - NOTE: The filename of the report __MUST_BE_INCLUDED!___
     #  [bool] Is Report
-    #   When true, this will assure that the information
-    #    is logged as a report.
+    #   When true, this will assure that the information is logged as a report.
     #  [bool] Capture STDOUT
-    #   When true, the STDOUT will not be logged in a
-    #    text file, instead it will be captured into
-    #    a reference string.  Useful for processing the STDOUT
+    #   When true, the STDOUT will not be logged in a text file, instead it will be
+    #    captured into a reference string.  Useful for processing the STDOUT
     #  [string] Description
     #   Used for logging and for information purposes only.
-    #   - NOTE: A description can provide a reason for executing the
-    #            executable or an operation that is being performed
-    #            by the executable.  For example: "Using the Tree
-    #            extCMD will provide an overview of the filesystem's
-    #            directory hierarchy - as well as the depth of the
-    #            directories."
-    #            Just remember, this is only shown in the log file.
+    #   - NOTE: A description can provide a reason for executing the executable or
+    #            an operation that is being performed by the executable.  For
+    #            example: "Using the Tree extCMD will provide an overview of the
+    #            filesystem's directory hierarchy - as well as the depth of the
+    #            directories."  Just remember, this is only shown in the log file.
     #  [string] (REFERENCE) Output String
-    #   When Capture STDOUT is true, this parameter will
-    #    carry the STDOUT from the executable.  The
-    #    information provided will be available for use
-    #    from the calling function.
+    #   When Capture STDOUT is true, this parameter will carry the STDOUT from the
+    #    executable.  The information provided will be available for use from the
+    #    calling function.
     #  [string] (REFERENCE) Output Result STDOUT
     #   The STDOUT provided by the extCMD.
     #   - NOTE: Trying to conserve main memory space by using referencing.
@@ -918,18 +896,15 @@ class IOCommon
    <# Execute Command - Run [Using .NET API]
     # -------------------------------
     # Documentation:
-    #  This function will provide the ability execute the
-    #   command or extCMD with the desired arguments.  This
-    #   function will return the exit code that is provided
-    #   directly from the executable, unless an internal
-    #   conflict occurs - see 'Output:' for more information.
+    #  This function will provide the ability execute the command or extCMD with the
+    #   desired arguments.  This function will return the exit code that is provided
+    #   directly from the executable, unless an internal conflict occurs - see
+    #   'Output:' for more information.
     #
-    #  Return Code Notes: After the command has been executed,
-    #   this function will only return the exit code provided
-    #   by the executable.  If the external executable cannot
-    #   be found or generally fails to execute in vague reasons,
-    #   this function will return a specific error code that is
-    #   dedicated by this function.
+    #  Return Code Notes: After the command has been executed, this function will only
+    #   return the exit code provided by the executable.  If the external executable
+    #   cannot be found or generally fails to execute in vague reasons, this function
+    #   will return a specific error code that is dedicated by this function.
     # -------------------------------
     # Inputs:
     #  [string] Command
@@ -948,11 +923,10 @@ class IOCommon
     # Output:
     #  [int] Exit Code
     #   The error code provided from the executable.
-    #    This can be helpful to diagnose if the external command
-    #    reached an error or was successful.
-    #   NOTE: We are using negative values to help avoid a confusion
-    #          from the return code of the binary (or extCMD) that was
-    #          executed in this function.
+    #    This can be helpful to diagnose if the external command reached an error
+    #    or was successful.
+    #   NOTE: We are using negative values to help avoid a confusion from the return
+    #          code of the binary (or extCMD) that was executed in this function.
     #   ERROR VALUES
     #   -255
     #    The executable could not execute; may not exist.
@@ -1038,13 +1012,11 @@ class IOCommon
             # Start the process; do not output anything.
             $processExec.Start() | Out-Null;
 
-            # Prevent a Deadlock from occurring by capturing
-            #  the output and immediately cache before the
-            #  buffer is full, once the buffer is full
-            #  (which is a few Kilobytes) - a deadlock will
-            #  occur.  Once a deadlock has occurred, nothing
-            #  more can be done -- the shell itself MUST be
-            #  forcefully terminated.
+            # Prevent a Deadlock from occurring by capturing the output and
+            #  immediately cache before the buffer is full, once the buffer
+            #  is full (which is a few Kilobytes) - a deadlock will occur.
+            #  Once a deadlock has occurred, nothing more can be done --
+            #  the shell itself MUST be forcefully terminated.
             # Resources that helped on resolving this issue:
             # >> https://stackoverflow.com/a/36539747
             # >> https://stackoverflow.com/a/36539226
@@ -1124,7 +1096,7 @@ class IOCommon
             # * * * * * * * * * * * * * * * * * * *
 
 
-        } # Finally : After extCMD invoktion
+        } # Finally : After extCMD invocation
 
 
         # Return the result
@@ -1137,17 +1109,14 @@ class IOCommon
    <# PowerShell CMDLet - Logging
     # -------------------------------
     # Documentation:
-    #  This function will take the outputs provided by the
-    #   PowerShell's CMDLets and either place the data in
-    #   the respected logfiles or redirect the output to
-    #   a specific reference variable upon request.
+    #  This function will take the outputs provided by the PowerShell's CMDLets and
+    #   either place the data in the respected logfiles or redirect the output to a
+    #   specific reference variable upon request.
     #
-    #  NOTE: This function implies that the CMDLet had already
-    #         executed from outside of this function.  This
-    #         function will _NOT_ execute any CMDLets nor execute
-    #         any commands; this function is only designed to help
-    #         push the STDOUT and STDERR to the respected files
-    #         and protocols.
+    #  NOTE: This function implies that the CMDLet had already executed from outside
+    #         of this function.  This function will _NOT_ execute any CMDLets nor
+    #         execute any commands; this function is only designed to help push the
+    #         STDOUT and STDERR to the respected files and protocols.
     #
     #  EXECUTION NOTE:
     #   This function should only be called for significant CMDLets only.
@@ -1160,36 +1129,31 @@ class IOCommon
     # -------------------------------
     # Inputs:
     #  [string] STDOUT Log Path
-    #   Absolute path to store the log file containing
-    #    the program's STDOUT output.
+    #   Absolute path to store the log file containing the program's STDOUT output.
     #   - NOTE: Filename will be provided by this function.
     #  [string] STDERR Log Path
-    #   Absolute path to store the log file containing
-    #    the program's STDERR output.
+    #   Absolute path to store the log file containing the program's STDERR output.
     #   - NOTE: Filename will be provided by this function.
     #  [string] Report Path
     #   Absolute path and filename to store the report file.
     #   - NOTE: The filename of the report __MUST_BE_INCLUDED!___
     #  [bool] Is Report
-    #   When true, this will assure that the information
-    #    is logged as a report.
+    #   When true, this will assure that the information is logged as a report.
     #  [bool] Capture STDOUT
-    #   When true, the STDOUT will not be logged in a
-    #    text file, instead it will be captured into
-    #    a reference string.  Useful for processing the STDOUT
+    #   When true, the STDOUT will not be logged in a text file, instead it will
+    #    be captured into a reference string.  Useful for processing the STDOUT
     #    internally - within the program.
     #  [string] Description
     #   Used for logging and for information purposes only.
-    #   - NOTE: A description can provide a reason for executing the
-    #            CMDLet or an operation that was performed by the
-    #            CMDLet.  For example; "Using the Get-ChildItem to
-    #            display all files and sub-directories that exists
-    #            within the Working Directory"
+    #   - NOTE: A description can provide a reason for executing the CMDLet or
+    #            an operation that was performed by the CMDLet.  For example;
+    #            "Using the Get-ChildItem to display all files and
+    #            sub-directories that exists within the Working Directory"
     #            Just remember, this is only shown in the log file.
     #  [string] (REFERENCE) String Output
-    #   When Capture STDOUT is true, this parameter will
-    #    carry the STDOUT from the CMDLet.  The information provided
-    #    will be available for use from the calling function.
+    #   When Capture STDOUT is true, this parameter will carry the STDOUT from
+    #    the CMDLet.  The information provided will be available for use from
+    #    the calling function.
     #  [string] (REFERENCE) Output Result STDOUT
     #   The STDOUT provided by the CMDLet.
     #   - NOTE: Trying to conserve main memory space by using referencing.
@@ -1254,21 +1218,19 @@ class IOCommon
    <# Write to File
     # -------------------------------
     # Documentation:
-    #  This function will allow the ability to write data given
-    #   to a specific file.
+    #  This function will allow the ability to write data given to a specific file.
     #
-    #  NOTE: The encoding of the textfile will be set as Default.
-    #   Default, at the time of writing this, is Unicode.
+    #  NOTE: The encoding of the textfile will be set as Default.  Default, at the
+    #         time of writing this, is Unicode.
     # -------------------------------
     # Input:
     #  [string] File
     #   The exact file that will be written too.
-    #   - NOTE: This must include the absolute path and the file
-    #            name (including extension).  For example:
-    #           "C:\Fake\Path\NewASCIIFile.txt"
+    #   - NOTE: This must include the absolute path and the file name
+    #            (including extension).  For example:
+    #            "C:\Fake\Path\NewASCIIFile.txt"
     #  [string] (REFERENCE) Contents
-    #   The information (or data) that will be written to the file
-    #    specified.
+    #   The information (or data) that will be written to the file specified.
     #   - NOTE: Trying to conserve main memory space by using referencing.
     #            Size can be at maximum of 2GB of space. (Defined by CLR)
     # -------------------------------
@@ -1398,24 +1360,21 @@ class IOCommon
    <# Create a Portable Document File (PDF)
     # -------------------------------
     # Documentation:
-    #  This function will provide the ability to create a PDF
-    #   file by taking the existing text document (*.txt) and
-    #   generating a PDF file as the output.  Thus, a source
-    #   file must already exist and is ready to be read.  If
-    #   the file does not exist or cannot be read, it is then
-    #   impossible to create a PDF file.
+    #  This function will provide the ability to create a PDF file by taking the
+    #   existing text document (*.txt) and generating a PDF file as the output.
+    #   Thus, a source file must already exist and is ready to be read.  If the
+    #   file does not exist or cannot be read, it is then impossible to create
+    #   a PDF file.
     #
-    #  - DEPENDENCY NOTE: This function requires Microsoft Word
-    #                      to be installed on the host-system.
+    #  - DEPENDENCY NOTE: This function requires Microsoft Word to be installed
+    #                      on the host-system.
     #
-    #  DEV.NOTE: iTextSharp, 3rd party API, is possible to use
-    #             instead of Microsoft Word.  My goal is to keep
-    #             all external dependencies at a minimal as much as
-    #             possible and avoid external conflicts.  Other
-    #             developers are free to change this dependency as
-    #             you (pl) see fit, all I ask is to please keep in
-    #             mind of the licensing when implementing such
-    #             feature.
+    #  DEV.NOTE: iTextSharp, 3rd party API, is possible to use instead of
+    #             Microsoft Word.  My goal is to keep all external
+    #             dependencies at a minimal as much as possible and avoid
+    #             external conflicts.  Other developers are free to change
+    #             this dependency as you (pl) see fit, all I ask is to please
+    #             keep in mind of the licensing when implementing such feature.
     #
     #  Resources:
     #   This helps greatly with how to implement this feature.
@@ -1430,8 +1389,8 @@ class IOCommon
     #            For example: "C:\Fake\Path\TargetFile.txt"
     #  [string] Destination File
     #   The destination path and filename of the PDF file.
-    #   - NOTE: This must include an absolute path and the file
-    #            name (including extension).  For example:
+    #   - NOTE: This must include an absolute path and the file name
+    #            (including extension).  For example:
     #           "C:\Fake\Path\NewReport.pdf"
     # -------------------------------
     # Output:
@@ -1580,7 +1539,7 @@ class IOCommon
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                             "$($logAdditionalMSG)", `   # Additional information
-                                            "Verbose");                   # Message level
+                                            "Verbose");                 # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -1759,7 +1718,7 @@ class IOCommon
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                   # Message level
+                                        "Verbose");                 # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1780,55 +1739,44 @@ class IOCommon
    <# Create Temporary Directory (Roaming Profile)
     # -------------------------------
     # Documentation:
-    #  This function will create a temporary directory in the
-    #   user's roaming profile (%TEMP%) directory.  This
-    #   functionality can be useful for storing temporary
-    #   program data.  When we are finished with this directory,
-    #   we must discard it properly.  If in case the directory
-    #   was never expunged, it is possible that the user can
-    #   remove it using such tools as 'Clean Manager' or the
-    #   Metro variant in Windows 10.
+    #  This function will create a temporary directory in the user's roaming
+    #   profile (%TEMP%) directory.  This functionality can be useful for
+    #   storing temporary program data.  When we are finished with this
+    #   directory, we must discard it properly.  If in case the directory
+    #   was never expunged, it is possible that the user can remove it using
+    #   such tools as 'Clean Manager' or the Metro variant in Windows 10.
     #   Examples of usage:
-    #    1 - Organizing data before compacting them in an
-    #         archive data file.
-    #    2 - Extracting the data to a temporary location,
-    #         after completion - ask user where to store
-    #         their data.
-    #    3 - Hold large program generated files for further
-    #         processing (queued) without wasting system's
-    #         main memory resources.
+    #    1 - Organizing data before compacting them in an archive data file.
+    #    2 - Extracting the data to a temporary location, after completion -
+    #         ask user where to store their data.
+    #    3 - Hold large program generated files for further processing
+    #         (queued) without wasting system's main memory resources.
     #
     # Directory Naming Scheme Note:
-    #  The directory must be unique, we can NEVER have
-    #   duplicated directories to assure that the data is
-    #   correct.  With that in mind, we will have to think
-    #   of the future and past tenses.  Meaning, we will need
-    #   to assert the 'What-If' card.
+    #  The directory must be unique, we can NEVER have duplicated directories
+    #   to assure that the data is correct.  With that in mind, we will have
+    #   to think of the future and past tenses.  Meaning, we will need to
+    #   assert the 'What-If' card.
     #    What-If:
-    #     - The user added a directory that has the EXACT
-    #        same name as to what we are going to add?
-    #     - The user reconfigures the System Time and
-    #        System Date (rolling back in time), we are
-    #        trying to create a directory that has the EXACT
-    #        same name (combined with date and time).
-    #     - The System Time and System Date is stalled,
-    #        time and the date never changes.  Yes, this is
-    #        purgatory and has never really happened
-    #        (because the System Board would be severally
-    #         damaged as the crystal timer that organizes the
-    #         time in between IO would corrupt the machine
-    #         beyond the state of repair.)
-    #        but we must think of this case as it is still
-    #        possible to occur -- we must think of all possible
-    #        cases.
-    #     - The System Date and System Time configured by the
-    #        user originally was changed when the time and date
-    #        was synchronized by the remote server, with that
-    #        change - the directory contains the EXACT same
-    #        name (combined with date and time). 
+    #     - The user added a directory that has the EXACT same name as to
+    #        what we are going to add?
+    #     - The user reconfigures the System Time and System Date (rolling
+    #        back in time), we are trying to create a directory that has
+    #        the EXACT same name (combined with date and time).
+    #     - The System Time and System Date is stalled, time and the date
+    #        never changes.  Yes, this is purgatory and has never really
+    #        happened (because the System Board would be severally damaged
+    #        as the crystal timer that organizes the time in between IO
+    #        would corrupt the machine beyond the state of repair.) but
+    #        we must think of this case as it is still possible to occur
+    #        -- we must think of all possible cases.
+    #     - The System Date and System Time configured by the user
+    #        originally was changed when the time and date was synchronized
+    #        by the remote server, with that change - the directory
+    #        contains the EXACT same name (combined with date and time).
     #     - I'm probably thinking too much?
-    #   But with this in mind, we must assure that the directory
-    #   name is unique at all times.
+    #   But with this in mind, we must assure that the directory name
+    #    is unique at all times.
     #
     # Directory Naming Scheme:
     #  GENERAL FORM:
@@ -1843,12 +1791,11 @@ class IOCommon
     # -------------------------------
     # Input:
     #  [string] Noun or Verb Key Term
-    #   This will be included in the directory's name.
-    #    This is only useful for debugging, nothing more.
+    #   This will be included in the directory's name.  This is only
+    #    useful for debugging, nothing more.
     #  [ref] {STRING} Newly Created Directory's Absolute Path
-    #   This will contain the newly created directory's
-    #    absolute path.  This will be returned along with the
-    #    function's status code.
+    #   This will contain the newly created directory's absolute path.
+    #    This will be returned along with the function's status code.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -1880,8 +1827,7 @@ class IOCommon
 
         # Initialize the Variables
         # - - - - - - - - - - - - - -
-        #  Initialize the variables so that they can be used
-        #   in the operations later on.
+        #  Initialize the variables so that they can be used in the operations later on.
         # ---------------------------
 
 
@@ -2023,7 +1969,7 @@ class IOCommon
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                             "$($logAdditionalMSG)", `   # Additional information
-                                            "Verbose");                   # Message level
+                                            "Verbose");                 # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
             } # Else : Successfully created the parent temporary directory
@@ -2178,7 +2124,7 @@ class IOCommon
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                   # Message level
+                                        "Verbose");                 # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Else : Created working temporary directory
@@ -2247,13 +2193,13 @@ class IOCommon
    <# Make a New Directory
     # -------------------------------
     # Documentation:
-    #  This function will create a new directory with the
-    #   desired absolute path provided.
+    #  This function will create a new directory with the desired absolute path
+    #   provided.
     # -------------------------------
     # Input:
     #  [string] Absolute Path
-    #   The absolute path of a directory that is to be created
-    #    within the filesystem.
+    #   The absolute path of a directory that is to be created within the
+    #    filesystem.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -2394,19 +2340,18 @@ class IOCommon
    <# Check Path Exists
     # -------------------------------
     # Documentation:
-    #  This function will check if the provided directory's
-    #   or file's path exists within the host's filesystem.
+    #  This function will check if the provided directory's or file's path exists
+    #   within the host's filesystem.
     # -------------------------------
     # Input:
     #  [string] Directory or File Path
     #    The path of the directory or file to check if it exists.
     #  [Bool] Literal Path Switch
-    #    When true, it is expected that the path must be
-    #     absolute and literal.  Meaning, the path given
-    #     is not a relative nor contains special characters
-    #     such as wildcards.
-    #    When false, however, the path may be relative and
-    #     may contain special characters such as wildcards.
+    #    When true, it is expected that the path must be absolute and literal.
+    #     Meaning, the path given is not a relative nor contains special
+    #     characters such as wildcards.
+    #    When false, however, the path may be relative and may contain special
+    #     characters such as wildcards.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -2479,11 +2424,10 @@ class IOCommon
    <# Delete Directory
     # -------------------------------
     # Documentation:
-    #  This function will forcefully expunge a specific directory
-    #   recursively within its hierarchy.  Meaning that any
-    #   existing data-files or sub-directories - will be thrashed
-    #   without any warning prompted to the end-user.  Please be
-    #   sure you are using this function correctly.
+    #  This function will forcefully expunge a specific directory recursively
+    #   within its hierarchy.  Meaning that any existing data-files or
+    #   sub-directories - will be thrashed without any warning prompted to the
+    #   end-user.  Please be sure you are using this function correctly.
     #
     #  WARNING NOTES:
     #   The following flags are enabled in this function:
@@ -2635,16 +2579,13 @@ class IOCommon
    <# Delete File
     # -------------------------------
     # Documentation:
-    #  This function will forcefully delete an individual
-    #   file or a specific set of files given by a specific
-    #   criteria.  It can be possible to provide a specific
-    #   list of files to delete or provide a generic range,
-    #   such as using a wildcard.  However, all 'included'
-    #   files must be in the same directory.  If the files
-    #   requested to be deleted are in different directories,
-    #   it is not possible to remove them.  The includes
-    #   parameter only allows for the filename(s) or set
-    #   ranges, no path is specified other than the requesting
+    #  This function will forcefully delete an individual file or a specific set
+    #   of files given by a specific criteria.  It can be possible to provide a
+    #   specific list of files to delete or provide a generic range, such as using
+    #   a wildcard.  However, all 'included' files must be in the same directory.
+    #   If the files requested to be deleted are in different directories, it is
+    #   not possible to remove them.  The includes parameter only allows for the
+    #   filename(s) or set ranges, no path is specified other than the requesting
     #   directory that we want to inspect.
     #
     #  WARNING NOTES:
@@ -2653,14 +2594,12 @@ class IOCommon
     # -------------------------------
     # Input:
     #  [string] Directory (Absolute Path)
-    #    The directory that contains the data files that we
-    #     want to expunge.
-    #    - NOTE: DO NOT PUT THE ACTUAL FILE PATH OR PATH OF
-    #            FILES HERE, USE 'Includes' FOR THIS!
+    #    The directory that contains the data files that we want to expunge.
+    #    - NOTE: DO NOT PUT THE ACTUAL FILE PATH OR PATH OF FILES HERE, USE
+    #             'Includes' FOR THIS!
     #  [string[]] Includes
-    #    What specific requirements must a file have in order
-    #     to be classified to be deleted.  Specific filenames
-    #     are acceptable.
+    #    What specific requirements must a file have in order to be classified to
+    #     be deleted.  Specific filenames are acceptable.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -2845,8 +2784,8 @@ class IOCommon
    <# Rename Item (For a File or Directory)
     # -------------------------------
     # Documentation:
-    #  This function allows the possibility to rename an already
-    #   existing individual file or directory.
+    #  This function allows the possibility to rename an already existing
+    #   individual file or directory.
     #
     #  WARNING NOTES:
     #   The following flags are enabled in this function:
@@ -2995,7 +2934,7 @@ class IOCommon
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                 # Message level
+                                        "Error");                   # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Catch : Error occurred
@@ -3011,8 +2950,8 @@ class IOCommon
    <# Move a Directory
     # -------------------------------
     # Documentation:
-    #  This function will allow the possibilities to relocate a
-    #   specific directory to another location within the filesystem.
+    #  This function will allow the possibilities to relocate a specific
+    #   directory to another location within the filesystem.
     #
     #  WARNING NOTES:
     #   The following flags are enabled in this function:
@@ -3020,11 +2959,11 @@ class IOCommon
     # -------------------------------
     # Input:
     #  [string] Target directory (absolute path)
-    #   The absolute path of the target directory that we want to move
-    #    else-where in the host's filesystem.
+    #   The absolute path of the target directory that we want to move else-where
+    #    in the host's filesystem.
     #  [string] Destination path (absolute path)
-    #   The destination path that the target directory will be relocated
-    #    to within the host's filesystem.
+    #   The destination path that the target directory will be relocated to within
+    #    the host's filesystem.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -3062,7 +3001,7 @@ class IOCommon
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                 # Message level
+                                        "Error");                   # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3094,7 +3033,7 @@ class IOCommon
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                 # Message level
+                                        "Error");                   # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3164,7 +3103,7 @@ class IOCommon
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                 # Message level
+                                        "Error");                   # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Catch : Error occurred
@@ -3180,15 +3119,13 @@ class IOCommon
    <# Move File
     # -------------------------------
     # Documentation:
-    #  This function will allow the possibility to move a specific
-    #   file or files from the target directory to the destination
-    #   directory.  In regards to the files, it can be possible to
-    #   provide a specific list of files, a single file, or a range
-    #   of files using specialized characters - like the wildcard
-    #   char.  However, the files must all be within the target
-    #   directory.  It is not possible to provide a full path or
-    #   relative path of the file(s), but only the filename(s) when
-    #   passing to this function.
+    #  This function will allow the possibility to move a specific file or files
+    #   from the target directory to the destination directory.  In regards to
+    #   the files, it can be possible to provide a specific list of files, a
+    #   single file, or a range of files using specialized characters - like the
+    #   wildcard char.  However, the files must all be within the target
+    #   directory.  It is not possible to provide a full path or relative path
+    #   of the file(s), but only the filename(s) when passing to this function.
     #
     #  WARNING NOTES:
     #   The following flags are enabled in this function:
@@ -3196,17 +3133,15 @@ class IOCommon
     # -------------------------------
     # Input:
     #  [string] Target directory (absolute path)
-    #   The absolute path of the target directory that contains the
-    #    file(s) that we want to move else-where in within the host's
-    #    filesystem.
+    #   The absolute path of the target directory that contains the file(s) that
+    #    we want to move else-where in within the host's filesystem.
     #  [string] Destination path (absolute path)
-    #   The destination path of where the requested file(s) will be
-    #    relocated within the host's filesystem.
+    #   The destination path of where the requested file(s) will be relocated
+    #    within the host's filesystem.
     #  [string[]] Files to be moved
-    #   A File to be moved, a list of files to be moved, or a specific
-    #    criteria that a file (or files) must satisfy in order to be
-    #    moved.  Any files that meet the requirements - will be
-    #    relocated to the desired destination path.
+    #   A File to be moved, a list of files to be moved, or a specific criteria
+    #    that a file (or files) must satisfy in order to be moved.  Any files that
+    #    meet the requirements - will be relocated to the desired destination path.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -3256,7 +3191,7 @@ class IOCommon
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                 # Message level
+                                        "Error");                   # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3299,7 +3234,7 @@ class IOCommon
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                 # Message level
+                                        "Error");                   # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3417,7 +3352,7 @@ class IOCommon
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                 # Message level
+                                        "Error");                   # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Catch : Error occurred
@@ -3433,12 +3368,11 @@ class IOCommon
    <# Copy Directory (Recursive)
     # -------------------------------
     # Documentation:
-    #  This function will provide the ability to duplicate a directory
-    #   from one source to another.  Because this function is duplicating
-    #   a directory, we will be focused on all of the contents within that
-    #   directory - including all of the sub-folders and all of the data
-    #   within the hierarchy.  With that, we will be using the recurse
-    #   parameter.
+    #  This function will provide the ability to duplicate a directory from one
+    #   source to another.  Because this function is duplicating a directory,
+    #   we will be focused on all of the contents within that directory -
+    #   including all of the sub-folders and all of the data within the
+    #   hierarchy.  With that, we will be using the recurse parameter.
     #
     #  WARNING NOTES:
     #   The following flags are enabled in this function:
@@ -3486,7 +3420,7 @@ class IOCommon
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                 # Message level
+                                        "Error");                   # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3522,7 +3456,7 @@ class IOCommon
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                             "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                 # Message level
+                                            "Error");                   # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -3612,7 +3546,7 @@ class IOCommon
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                 # Message level
+                                        "Error");                   # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Catch : Error occurred
@@ -3628,15 +3562,13 @@ class IOCommon
    <# Copy File
     # -------------------------------
     # Documentation:
-    #  This function will allow the possibility to duplicate a
-    #   specific file or files from a specific directory to another.
-    #   In regards to the files, it can be possible to provide a
-    #   specific list of files, a single file, or a range of files
-    #   using specialized characters - such as the wildcard and the
-    #   like.  However, the files must all be within the target
-    #   directory.  It is not possible to provide a full path or
-    #   relative path of the file(s), but only the filename(s) when
-    #   passing to this function.
+    #  This function will allow the possibility to duplicate a specific file or
+    #   files from a specific directory to another.  In regards to the files, it
+    #   can be possible to provide a specific list of files, a single file, or a
+    #   range of files using specialized characters - such as the wildcard and
+    #   the like.  However, the files must all be within the target directory.
+    #   It is not possible to provide a full path or relative path of the
+    #   file(s), but only the filename(s) when passing to this function.
     #
     #  WARNING NOTES:
     #   The following flags are enabled in this function:
@@ -3644,18 +3576,16 @@ class IOCommon
     # -------------------------------
     # Input:
     #  [string] Target directory (absolute path)
-    #   The absolute path of the target directory that contains the
-    #    file(s) that we want to duplicate else-where within the
-    #    host's filesystem.
+    #   The absolute path of the target directory that contains the file(s) that
+    #    we want to duplicate else-where within the host's filesystem.
     #  [string] Destination path (absolute path)
-    #   The destination path of where the requested file(s) will be
-    #    copied to within the host's filesystem.
+    #   The destination path of where the requested file(s) will be copied to
+    #    within the host's filesystem.
     #  [string[]] Files to duplicate
-    #   A file to be copied, a list of files to be copied, or a
-    #    specific criteria that a file (or files) must satisfy in
-    #    order to be duplicated.  Any files that meet the
-    #    requirements - will be copied to the desired destination
-    #    path.
+    #   A file to be copied, a list of files to be copied, or a specific criteria
+    #    that a file (or files) must satisfy in order to be duplicated.  Any
+    #    files that meet the requirements - will be copied to the desired
+    #    destination path.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -3882,14 +3812,14 @@ class IOCommon
    <# Determine Item Type (Directory or File)
     # -------------------------------
     # Documentation:
-    #  This function will try to determine if the path
-    #   provided points to a file or a directory.
+    #  This function will try to determine if the path provided points to a file
+    #   or a directory.
     # -------------------------------
     # Input:
     #  [string] Target Item (absolute path)
     #   The absolute path of the target item that we want to inspect.
-    #    This can point to either a directory or a file (with or
-    #    without an extension provided.)
+    #    This can point to either a directory or a file (with or without
+    #    an extension provided.)
     # -------------------------------
     # Output:
     #  [Char] Determined Item Type
@@ -4073,8 +4003,8 @@ class IOCommon
     #      could not find any instances.
     # -------------------------------
     #>
-    static [System.IO.FileSystemInfo[]] SearchFile ([string] $searchPath,
-                                                    [string] $searchFile)
+    static [System.IO.FileSystemInfo[]] SearchFile ([string] $searchPath, `         # Search within directory
+                                                    [string] $searchFile)           # File to search
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -4200,13 +4130,12 @@ class IOCommon
    <# File Hash
     # -------------------------------
     # Documentation:
-    #  This function will provide a hash value in respect
-    #   to the data-file requested.
+    #  This function will provide a hash value in respect to the data-file
+    #   requested.
     # -------------------------------
     # Input:
     #  [string] File (Absolute Path)
-    #   The absolute path of the data-file that we want to
-    #    inspect.
+    #   The absolute path of the data-file that we want to inspect.
     #  [FileHashAlgorithmDotNet] Hash Algorithm
     #   Typical values can be: "MD5" or "SHA1".
     #    For a complete list of hash algorithms, please check the documentation:
@@ -4221,8 +4150,8 @@ class IOCommon
     #     Unknown an error occurred
     # -------------------------------
     #>
-    static [string] FileHash([string] $path, `                          # Absolute path of the target file
-                            [FileHashAlgorithmDotNet] $hashAlgorithm)   # Hash algorithm requested
+    static [string] FileHash([string] $path, `                              # Absolute path of the target file
+                            [FileHashAlgorithmDotNet] $hashAlgorithm)       # Hash algorithm requested
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -4296,7 +4225,7 @@ class IOCommon
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                   # Message level
+                                        "Verbose");                 # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -4345,16 +4274,15 @@ class IOCommon
    <# Open Web Page
     # -------------------------------
     # Documentation:
-    #  This function will provide the ability to access a specific
-    #   webpage on request.  In order to access the webpage, we will
-    #   merely try to use the default or preferred web browser that
-    #   is set by the host or user settings of the current system
-    #   environment.
+    #  This function will provide the ability to access a specific webpage on
+    #   request.  In order to access the webpage, we will merely try to use
+    #   the default or preferred web browser that is set by the host or user
+    #   settings of the current system environment.
     # -------------------------------
     # Input:
     #  [string] Web Site's URL Address
-    #   The webpage that we want to access; URL or IP address of the
-    #    server (or service) we want to access.
+    #   The webpage that we want to access; URL or IP address of the server
+    #    (or service) we want to access.
     # -------------------------------
     #  [bool] Exit code
     #    $false = Failed to access webpage.
@@ -4407,7 +4335,7 @@ class IOCommon
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                             "$($logAdditionalMSG)", `   # Additional information
-                                            "verbose");                   # Message level
+                                            "verbose");                 # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -4480,9 +4408,8 @@ class IOCommon
 
 <# File Hash Algorithm (.NET) [ENUM]
  # -------------------------------
- # Contains a list of known and supported hash algorithms
- #  for the Get-FileHash CMDLet in the PowerShell engine
- #  or .NET Core.
+ # Contains a list of known and supported hash algorithms for the Get-FileHash
+ #  CMDLet in the PowerShell engine or .NET Core.
  #
  # List of supported hash algorithms:
  #  https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-filehash
