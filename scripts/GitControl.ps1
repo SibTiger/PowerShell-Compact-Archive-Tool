@@ -3389,8 +3389,8 @@ class GitControl
                                       " the project's activity and workflow.  However, all information is solely based on" + `
                                       " the project's Local Repository instead of the Remote Repository.  To assure that" + `
                                       " the information gathered by this report contains the latest information, be sure" + `
-                                      " that the Local Repository had been completely up to date with the Remote Repository." `
-                                      "`r`n`r`n`r`n";
+                                      " that the Local Repository had been completely up to date with the Remote Repository." + `
+                                      "`r`n`r`n`r`n");
 
 
                     # Write the message to the report file
