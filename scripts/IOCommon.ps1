@@ -288,10 +288,6 @@ class IOCommon
             $exitCode = $true;
         } # Try - Find Command
 
-        catch
-        {
-            # Failed to find the command or an error occurred.
-        } # Catch : Couldn't Find Command
 
         # Process any further protocol after the detection
         Finally
