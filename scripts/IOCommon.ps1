@@ -547,9 +547,8 @@ class IOCommon
         } # if : The Standard Error Path does not exist
 
 
-        # Make sure that the description field actually has something
-        #  meaningful, if not (by mistake) - use the executable and args
-        #  as the description.
+        # Make sure that the description field has something meaningful,
+        #  if not (by mistake) - use the executable and args as the description.
         if (("$($description)" -eq "") -or ("$($description)" -eq $null))
         {
             # Generate a new description using what information we have presently.
@@ -964,7 +963,7 @@ class IOCommon
         # ----------------------------------------
 
 
-        # Check to see if the external command exists; if not - leave this function immediately.
+        # Check to see if the external command exists, if not - leave this function immediately.
         if(([IOCommon]::DetectCommand("$($command)", "Application")) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
@@ -1146,7 +1145,7 @@ class IOCommon
     #  [string] Description
     #   Used for logging and for information purposes only.
     #   - NOTE: A description can provide a reason for executing the CMDLet or
-    #            an operation that was performed by the CMDLet.  For example;
+    #            an operation that was performed by the CMDLet.  For example,
     #            "Using the Get-ChildItem to display all files and
     #            sub-directories that exists within the Working Directory"
     #            Just remember, this is only shown in the log file.
@@ -1420,7 +1419,7 @@ class IOCommon
         #   This check is to make sure that nothing goes horribly wrong.
         # ---------------------------
 
-        # Check to make sure that the source file actually exists.
+        # Check to make sure that the source file exists.
         if ([IOCommon]::CheckPathExists("$($sourceFile)", $true) -eq $false)
         {
             # The target file does not exist.
@@ -1471,7 +1470,7 @@ class IOCommon
 
         # First try to see if the host system has Microsoft Word installed,
         #  if so, we can proceed through the rest of this function, otherwise
-        #  we have to immediately stop.
+        #  we must immediately stop.
         if ($(Test-Path HKLM:SOFTWARE\Classes\Word.Application) -eq $true)
         {
             # Microsoft Word was detected; try to create a new instance
@@ -1698,7 +1697,7 @@ class IOCommon
             return $false;
         } # if : file didn't exist
 
-        # The file exists and everything is okay!
+        # The file exists, then everything is okay!
         else
         {
             # The PDF file was successfully created and can be found at the requested destination path
@@ -1827,7 +1826,7 @@ class IOCommon
 
         # Initialize the Variables
         # - - - - - - - - - - - - - -
-        #  Initialize the variables so that they can be used in the operations later on.
+        #  Initialize the variables so that they can be used in the operations later.
         # ---------------------------
 
 
@@ -1949,7 +1948,7 @@ class IOCommon
 
                 # * * * * * * * * * * * * * * * * * * *
 
-                # We couldn't successfully find the parent directory, we cannot continue any further.
+                # We couldn't successfully find the parent directory; we cannot continue any further.
                 return $false;
             } # Else-if : Make sure parent temp. directory exists (after already creating it)
 
@@ -2178,7 +2177,7 @@ class IOCommon
         # ---------------------------
 
 
-        # Record the absolute directory name; so the previous
+        # Record the absolute directory name; so that the previous
         #  function may utilize it.
         $directoryPath.Value = "$($finalDirectoryPath)";
 
@@ -2217,7 +2216,7 @@ class IOCommon
         # ----------------------------------------
 
 
-        # Check to see if the path already exists; if it already exists -
+        # Check to see if the path already exists, if it already exists -
         #  then there is nothing to be done.  If it does not exist, however,
         #  then try to create the requested directory.
         if (([IOCommon]::CheckPathExists("$($path)", $true)) -eq $false)
@@ -2348,7 +2347,7 @@ class IOCommon
     #    The path of the directory or file to check if it exists.
     #  [Bool] Literal Path Switch
     #    When true, it is expected that the path must be absolute and literal.
-    #     Meaning, the path given is not a relative nor contains special
+    #     Meaning, that the path given is not a relative nor contains special
     #     characters such as wildcards.
     #    When false, however, the path may be relative and may contain special
     #     characters such as wildcards.
@@ -2454,11 +2453,10 @@ class IOCommon
         # ----------------------------------------
 
 
-        # First check to see if the directory actually exists,
-        #  if not, then there is nothing to do.
+        # First check to see if the directory exists.  If not, then there is nothing to do.
         if(([IOCommon]::CheckPathExists("$($path)", $true)) -eq $false)
         {
-            # The directory does not exist, no operation can be performed.
+            # The directory does not exist; no operation can be performed.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2580,7 +2578,7 @@ class IOCommon
     # -------------------------------
     # Documentation:
     #  This function will forcefully delete an individual file or a specific set
-    #   of files given by a specific criteria.  It can be possible to provide a
+    #   of files given by a specific criterion.  It can be possible to provide a
     #   specific list of files to delete or provide a generic range, such as using
     #   a wildcard.  However, all 'included' files must be in the same directory.
     #   If the files requested to be deleted are in different directories, it is
@@ -2618,11 +2616,11 @@ class IOCommon
         # ----------------------------------------
 
 
-        # First check to see if the directory actually exists,
+        # First check to see if the directory exists,
         #  if not, then there is nothing to do.
         if(([IOCommon]::CheckPathExists("$($path)", $true)) -eq $false)
         {
-            # The directory does not exist, no operations can be performed.
+            # The directory does not exist; no operations can be performed.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2817,7 +2815,7 @@ class IOCommon
         # First make sure that the file or directory exists
         if ([IOCommon]::CheckPathExists("$($path)", $true) -eq $false)
         {
-            # The directory or file does not exist, no operations can be performed.
+            # The directory or file does not exist; no operations can be performed.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2983,7 +2981,7 @@ class IOCommon
         # First make sure that the target directory exists with the given path.
         if ([IOCommon]::CheckPathExists("$($targetDirectory)", $true) -eq $false)
         {
-            # The target directory does not exist, no operations can be performed.
+            # The target directory does not exist; no operations can be performed.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3015,7 +3013,7 @@ class IOCommon
         # Second make sure that the destination path is valid.
         if ([IOCommon]::CheckPathExists("$($destinationPath)", $true) -eq $false)
         {
-            # The destination path does not exist, no operations can be performed.
+            # The destination path does not exist; no operations can be performed.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3120,7 +3118,7 @@ class IOCommon
     # -------------------------------
     # Documentation:
     #  This function will allow the possibility to move a specific file or files
-    #   from the target directory to the destination directory.  In regards to
+    #   from the target directory to the destination directory.  In regard to
     #   the files, it can be possible to provide a specific list of files, a
     #   single file, or a range of files using specialized characters - like the
     #   wildcard char.  However, the files must all be within the target
@@ -3139,7 +3137,7 @@ class IOCommon
     #   The destination path of where the requested file(s) will be relocated
     #    within the host's filesystem.
     #  [string[]] Files to be moved
-    #   A File to be moved, a list of files to be moved, or a specific criteria
+    #   A File to be moved, a list of files to be moved, or a specific criterion
     #    that a file (or files) must satisfy in order to be moved.  Any files that
     #    meet the requirements - will be relocated to the desired destination path.
     # -------------------------------
@@ -3162,7 +3160,7 @@ class IOCommon
         # First make sure that the target directory exists with the given path.
         if ([IOCommon]::CheckPathExists("$($targetDirectory)", $true) -eq $false)
         {
-            # The target directory does not exist, no operations can be performed.
+            # The target directory does not exist; no operations can be performed.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3205,7 +3203,7 @@ class IOCommon
         # Second make sure that the destination path is valid.
         if ([IOCommon]::CheckPathExists("$($destinationPath)", $true) -eq $false)
         {
-            # The destination path does not exist, no operations can be performed.
+            # The destination path does not exist; no operations can be performed.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3403,7 +3401,7 @@ class IOCommon
         # First make sure that the target directory exists with the given path.
         if ([IOCommon]::CheckPathExists("$($targetDirectory)", $true) -eq $false)
         {
-            # The target directory does not exist, no operations can be performed.
+            # The target directory does not exist; no operations can be performed.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3434,11 +3432,11 @@ class IOCommon
         # Second make sure that the destination path is valid.
         if ([IOCommon]::CheckPathExists("$($destinationPath)", $true) -eq $false)
         {
-            # Because the destination path does not exist, lets try to create it.
+            # Because the destination path does not exist, let's try to create it.
 
             if ([IOCommon]::MakeDirectory("$($destinationPath)") -eq $false)
             {
-                # The destination path does not exist, no operations can be performed.
+                # The destination path does not exist; no operations can be performed.
 
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -3563,7 +3561,7 @@ class IOCommon
     # -------------------------------
     # Documentation:
     #  This function will allow the possibility to duplicate a specific file or
-    #   files from a specific directory to another.  In regards to the files, it
+    #   files from a specific directory to another.  In regard to the files, it
     #   can be possible to provide a specific list of files, a single file, or a
     #   range of files using specialized characters - such as the wildcard and
     #   the like.  However, the files must all be within the target directory.
@@ -3582,7 +3580,7 @@ class IOCommon
     #   The destination path of where the requested file(s) will be copied to
     #    within the host's filesystem.
     #  [string[]] Files to duplicate
-    #   A file to be copied, a list of files to be copied, or a specific criteria
+    #   A file to be copied, a list of files to be copied, or a specific criterion
     #    that a file (or files) must satisfy in order to be duplicated.  Any
     #    files that meet the requirements - will be copied to the desired
     #    destination path.
@@ -3606,7 +3604,7 @@ class IOCommon
         # First make sure that the target directory exists with the given path.
         if ([IOCommon]::CheckPathExists("$($targetDirectory)", $true) -eq $false)
         {
-            # The target directory does not exist, no operations can be performed.
+            # The target directory does not exist; no operations can be performed.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3649,7 +3647,7 @@ class IOCommon
         # Second make sure that the destination path is valid.
         if ([IOCommon]::CheckPathExists("$($destinationPath)", $true) -eq $false)
         {
-            # The destination path does not exist, no operations can be performed.
+            # The destination path does not exist; no operations can be performed.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3834,7 +3832,7 @@ class IOCommon
         # First make sure that there was a path provided.
         if (($targetItem -eq "") -or ($targetItem -eq "$($null)"))
         {
-            # The target item does not exist, no operations can be performed.
+            # The target item does not exist; no operations can be performed.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3864,7 +3862,7 @@ class IOCommon
         # Then make sure that the target item or path exists
         if ([IOCommon]::CheckPathExists("$($targetItem)", $true) -eq $false)
         {
-            # The target item does not exist, no operations can be performed.
+            # The target item does not exist; no operations can be performed.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -4020,7 +4018,7 @@ class IOCommon
         #  given path.
         if ([IOCommon]::CheckPathExists("$($searchPath)", $true) -eq $false)
         {
-            # The parent directory does not exist, no operations can be performed.
+            # The parent directory does not exist; no operations can be performed.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -4061,7 +4059,7 @@ class IOCommon
             # Debugging
             # --------------
 
-            # We will use this variable to transform the search results into a simply string.
+            # We will use this variable to transform the search results into a simple string.
             [string] $debugInformationResults = $null;
 
             # Transform the results into a simple string
@@ -4201,7 +4199,7 @@ class IOCommon
         {
             # Try to get the hash of the file and cache it.
             #  NOTE: Do not try to out-right store the 'hash' value explicitly as
-            #        this causes a performance degrade when an issue creeps up.
+            #        this causes a performance to degrade when an issue creeps up.
             $hashInfo = Get-FileHash -LiteralPath "$($path)" `
                                     -Algorithm "$($hashAlgorithm)" `
                                     -ErrorAction Stop;
@@ -4281,7 +4279,7 @@ class IOCommon
     # -------------------------------
     # Input:
     #  [string] Web Site's URL Address
-    #   The webpage that we want to access; URL or IP address of the server
+    #   The webpage that we want to access, URL or IP address of the server
     #    (or service) we want to access.
     # -------------------------------
     #  [bool] Exit code
