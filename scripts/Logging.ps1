@@ -60,7 +60,7 @@ class Logging
     #  will prevent information from being logged in a recursive manner.
     #
     # NOTE: This lock is only used internally within the program; this will be updated
-    #        programmatically depending on certain circumstances..
+    #        programmatically depending on certain circumstances.
     # -------------------------------
     # Output:
     #   [bool] Lock status
@@ -291,8 +291,8 @@ class Logging
         # ----
 
 
-        # Because the logging directory was not detected, we must create the directory  before we
-        #  can use it within the program.
+        # Because the logging directory was not detected, we must create the directory before we can use it
+        #  within the program.
 
         # Program Log Directory
         if(([IOCommon]::CheckPathExists("$([Logging]::ProgramLogPath)", $true)) -eq $false)
@@ -304,7 +304,7 @@ class Logging
                 if($controlLockKey)
                 {
                     # Because this function has the Logging Lock Key controlled, unlock it now to avoid conflicts.
-                    #  -- NOTE: If other functions already has it set - do not touch it!
+                    #  -- NOTE: If other functions already have it set - do not touch it!
                     [Logging]::__SetLoggingLockKey($false);
                 } # If : This function controls the logging lock key
 
@@ -340,7 +340,7 @@ class Logging
         } # If : This function controls the logging lock key
 
 
-        # A failure occurred during the Final Assurance check, the program's log directory could not be created.
+        # A failure occurred during the Final Assurance check; the program's log directory could not be created.
         return $false;
     } # __CreateDirectories()
 
@@ -378,10 +378,10 @@ class Logging
         # ----------------------------------------
 
 
-        # Determine if the logging lock key was already set by another function
+        # Determine if the logging lock key had already been set by another function
         if ([Logging]::__GetLoggingLockKey())
         {
-            # Another function has already placed a logging lock, we can NOT proceed in this function.
+            # Another function had already placed a logging lock, we can NOT proceed in this function.
             #  Return immediately.
             return $false;
         } # if : Logging lock key controlled outside
@@ -398,12 +398,11 @@ class Logging
 
 
 
-        # Make sure that the required directories exists for logging, if not - try to create it.
+        # Make sure that the required directories exist for logging, if not - try to create it.
         if ([Logging]::__CreateDirectories() -eq $false)
         {
-            # Because the directory could not be created, there's no point in
-            #  trying to write information to a log file - when the directory
-            #  does not exist.
+            # Because the logging directory could not be created, there is no point in
+            #  trying to write information to a log file - when the directory does not exist.
             Write-Output "ERR! Program Log Directory failed to be created!";
 
             # Provide an error code
@@ -412,11 +411,10 @@ class Logging
 
 
         # Make sure that there is something to actually write, if there is no message - then
-        #  there is no point in trying to write to the host's filesystem.
+        #  there is no point in trying to write to the logfile.
         elseif ("$($message)" -eq "$($null)")
         {
-            # Because the message is empty, there is really nothing that can be written to
-            #  the logfile.
+            # Because the message is empty, there's really no point in written to the logfile.
             Write-Output "ERR! Message can not be recorded as it is null!";
 
             # Provide an error code
@@ -427,15 +425,14 @@ class Logging
         # Write the readable data to the logfile.
         elseif (([IOCommon]::WriteToFile("$([Logging]::GetLogFilePath())", "$($message)")) -eq $false)
         {
-            # The message failed to be written to file,
-            #  provide an exit code of false to signify failure.
+            # The message could not be written to the logfile.  Provide an exit code of false to signify failure.
             $exitCode = $false;
         } # Else-If : Operation Failed
 
         # Operation was successful
         else
         {
-            # Because the operation was successful, set the exit code as successful.
+            # Because the operation was completed, set the exit code as successful.
             $exitCode = $true;
         } # Else : Successful operation
 
@@ -444,7 +441,6 @@ class Logging
         if($controlLockKey)
         {
             # Because this function has the Logging Lock Key controlled, unlock it now to avoid conflicts.
-            #  -- NOTE: If other functions already has it set - do not touch it!
             [Logging]::__SetLoggingLockKey($false);
         } # If : This function controls the logging lock key
 
@@ -459,20 +455,20 @@ class Logging
    <# Format Log Message
     # -------------------------------
     # Documentation:
-    #  This function will format the information that
-    #   is passed into this function.  From this function,
-    #   once the information has been formatted in a
-    #   unified form, will pass the data to another
-    #   function that will write to the log file.
-    #  In order to write to the log file, it is recommended
-    #   to pass to this function.
+    #  This function will format the information that is provided to this method.
+    #   Within this function, once the information has been formatted in a unified
+    #   form, the information will be passed to another function which will write
+    #   the data to the logfile.
+    #
+    #  In order to write to the program's logfile, it is recommended to pass to this
+    #   function.
     # -------------------------------
     # Input:
     #  [LogMessageLevel] Message Level
     #    The message level severity of the information provided.
     #  [String] Initial Message
     #    The message that will be recorded in the logfile.
-    #  [String] Additional Information (Nullable)
+    #  [String] Additional Information (Optional)
     #    Additional information that relates to the initial message.
     # -------------------------------
     # Output:
@@ -487,16 +483,14 @@ class Logging
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $currentTimeStamp = $null; # The current time of when the message has
-                                            #  been captured.
-        [string] $message = $null;          # The main message that will be logged.
-        [string] $messageLevel = $null;     # The level of the message 
-        [string] $messageAdditional = $null;# Additional information; usually contains
-                                            #  readable data from the Powershell engine.
-        [string] $borderLine = $null;       # This will provide a horizontal line that
-                                            #  will help separate the header and the
-                                            #  message.
-        [string] $finalMessage = $null;     # The final message that will be logged.
+        [string] $currentTimeStamp = $null;     # The current time of when the message had been captured.
+        [string] $message = $null;              # The main message that will be logged.
+        [string] $messageLevel = $null;         # The level of severity regarding the message.
+        [string] $messageAdditional = $null;    # Additional information regarding the initial message.
+                                                #  Such information may contain brief messages about the error.
+        [string] $borderLine = $null;           # This will provide a horizontal line that will help to separate
+                                                #  the header and the content relating to the message.
+        [string] $finalMessage = $null;         # The final message that will be written to the logfile.
         # ----------------------------------------
 
 
@@ -509,30 +503,32 @@ class Logging
 
 
 
-        # Evaluate the information passed to this function.  If any of the values are
-        #  not provided, then we will provide a default or error message instead
-        #  -- must avoid blank entries in the logfile.
+        # Evaluate the information passed to this function.  If any of the values are not provided,
+        #  then we will provide a default or error message instead - - we must avoid blank entries
+        #  in the logfile.
 
 
 
         # First: Message Data
         # ---------------------------
         # - - - - - - - - - - - - - -
-        # Try to fetch the initial message; the reason why for the entry to be logged.
+        # Make sure that the initial message exists; if the initial message is blank (or null), then provide
+        #  some default message to indicate that something is wrong - but we managed to log the error regardless.
 
         # There was no initial message provided
         if ("$($msg)" -eq "$($null)")
         {
-            # There does not exist any message.
+            # Provide an default error message; helps to indicate that something went horribly wrong.
             $message = "<<UNKNOWN OR BLANK MESSAGE>>";
         } # If: Unknown or Blank Message
 
+        # Obtain the initial message
         else
         {
-            # The Message was provided
+            # Capture the message
             $message = $msg;
         } # Else: Message Data was Provided
-        
+
 
 
         # - - - - - - - - - - - - - -
@@ -542,8 +538,7 @@ class Logging
         # Second: Message Level
         # ---------------------------
         # - - - - - - - - - - - - - -
-        # Try to fetch the message level; the severity or what kind of message
-        #  that is provided with the data.
+        # Try to fetch the message level; the severity or what kind of message that is provided with the data.
 
         # The message level was not provided or is not obtainable.
         if ("$($msgLevel)" -eq "$($null)")
@@ -552,9 +547,10 @@ class Logging
             $messageLevel = "UNKNOWN";
         } # If: Unknown Message Level
 
+        # The message level was provided
         else
         {
-            # The Message Level was provided
+            # Capture the message level
             $messageLevel = $msgLevel;
         } # Else: Message Level was Provided
 
@@ -567,7 +563,7 @@ class Logging
         # Third: Additional Information
         # ---------------------------
         # - - - - - - - - - - - - - -
-        # Any additional information provided; optional field.
+        # Any additional information provided; optional field.  This can be null (or merely empty).
 
         # No additional information provided
         if ("$($additionalMsg)" -eq "$($null)")
@@ -575,10 +571,12 @@ class Logging
             # No additional information was provided
             $messageAdditional = "$($null)";
         } # If: No Additional Information was Provided
+
+        # Additional information was provided
         else
         {
-            # There exists some additional information; format
-            #  it in a way that it works in the final message form.
+            # There exists some additional information, format it in a way that it works in the final
+            #  message form.
             $messageAdditional = "Additional Information:`r`n`t$($additionalMsg)";
         } # Else: Additional Information was Provided
 
@@ -591,7 +589,7 @@ class Logging
         # Fourth: Timestamp
         # ---------------------------
         # - - - - - - - - - - - - - -
-        # Get the timestamp for when the message was captured.
+        # Generate the timestamp for when the message is about to be logged.
 
         # Fetch the timestamp and cache it.
         $currentTimeStamp = [Logging]::__GenerateTimestamp();
@@ -607,14 +605,13 @@ class Logging
         # Fifth: Final Form
         # ---------------------------
         # - - - - - - - - - - - - - -
-        # Put the message in the final form that will be in the logfile.
-        $finalMessage = ("{$($currentTimeStamp)}-($($messageLevel))`r`n" + `
-                        "$($borderLine)`r`n" + `
-                        "$($message)`r`n" + `
-                        "`r`n" + `
-                        "$($messageAdditional)`r`n" + `
-                        "`r`n" + `
-                        "`r`n");
+        # Put the message in its final form, this message will be written to the logfile.
+        $finalMessage = ("{$($currentTimeStamp)}-($($messageLevel))`r`n" + `        # Header of the log entry
+                        "$($borderLine)`r`n" + `                                    # - - BORDER - -
+                        "$($message)`r`n" + `                                       # Message Content
+                        "`r`n" + `                                                  # - - NEW LING SPACE - -
+                        "$($messageAdditional)`r`n" + `                             # Additional Information (if any)
+                        "`r`n`r`n");                                                # Padding for the next log entry.
 
 
         # - - - -
@@ -848,7 +845,7 @@ class Logging
         if($controlLockKey)
         {
             # Because this function has the Logging Lock Key controlled, unlock it now to avoid conflicts.
-            #  -- NOTE: If other functions already has it set - do not touch it!
+            #  -- NOTE: If other functions already have it set - do not touch it!
             [Logging]::__SetLoggingLockKey($false);
         } # If : This function controls the logging lock key
 
