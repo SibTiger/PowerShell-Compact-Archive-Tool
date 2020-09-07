@@ -414,7 +414,7 @@ class Logging
         #  there is no point in trying to write to the logfile.
         elseif ("$($message)" -eq "$($null)")
         {
-            # Because the message is empty, there's really no point in written to the logfile.
+            # Because the message is empty, there is really no point in written to the logfile.
             Write-Output "ERR! Message can not be recorded as it is null!";
 
             # Provide an error code
@@ -563,7 +563,7 @@ class Logging
         # Third: Additional Information
         # ---------------------------
         # - - - - - - - - - - - - - -
-        # Any additional information provided; optional field.  This can be null (or merely empty).
+        # Any additional information provided, optional field.  This can be null (or merely empty).
 
         # No additional information provided
         if ("$($additionalMsg)" -eq "$($null)")
@@ -644,7 +644,7 @@ class Logging
     #   Some insight information regarding the exception that was thrown.
     #
     #   ERROR VALUES
-    #    null = No exception object provided or information was null.
+    #    null = No exception object provided, or information was null.
     # -------------------------------
     #>
     static [string] GetExceptionInfoShort ([Exception] $errDetail)
@@ -691,7 +691,7 @@ class Logging
     #   Detailed information regarding the exception as a multiple line string.
     #
     #   ERROR VALUES
-    #    null = No exception object provided or information was null.
+    #    null = No exception object provided, or information was null.
     # -------------------------------
     #>
     static [string] GetExceptionInfo ([Exception] $errDetail)
@@ -811,8 +811,8 @@ class Logging
         } # else : Logging lock key is controlled by this function
 
 
-        # First, make sure that the log directory exist.
-        #  If the directory is not available, than there is nothing that can be done.
+        # First, make sure that the log directory exists.
+        #  If the directory is not available, then there is nothing that can be done.
         if (([Logging]::__CheckRequiredDirectories()) -eq $false)
         {
             # This is not really an error, however the logging directory simply does not
@@ -942,32 +942,26 @@ class Logging
    <# Log Program Activity
     # -------------------------------
     # Documentation:
-    #  This function will allow provide the ability for
-    #   the internal program activity to be recorded in
-    #   the logfile.  Information provided here may or
-    #   may not be visible to the end-user via terminal
-    #   buffer, but the information can be useful for
-    #   debugging and understanding what actions are
-    #   taking place under the hood of the software.
+    #  This function will allow the ability for the program to record internal activities.
+    #   Information provided here may or may not be visible to the end-user via the terminal.
+    #   screen, but the data can be useful for debugging and understanding what actions are
+    #   occurring under the hood of the application during run-time.
     # -------------------------------
     # Input:
     #  [string] Message
-    #   The initial message that will be recorded.
+    #   The initial message that will be recorded into the logfile.
     #  [string] Additional Information
-    #   Additional information relating to the initial
-    #    message.
+    #   Additional information relating to the initial message.
     #  [LogMessageLevel] Message Level
-    #   The severity or level of the message that is
-    #   about to be recorded in the logfile.
+    #   The severity or level of the message that is about to be recorded in the logfile.
     # -------------------------------
     #>
-    static [void] LogProgramActivity([string] $message, `
-                                    [string] $additionalInformation, `
-                                    [LogMessageLevel] $messageLevel)
+    static [void] LogProgramActivity([string] $message, `                   # The message to be recorded
+                                    [string] $additionalInformation, `      # Additional information to be recorded
+                                    [LogMessageLevel] $messageLevel)        # Severity of the message
     {
-        # Because we have the information already provided for us,
-        #  we will merely pass the data to the appropriate functions
-        #  to properly record it in the logfile.
+        # Because we have the information already provided for us, we will merely pass the
+        #  data to the appropriate functions to properly record it in the logfile.
         [Logging]::__FormatLogMessage($messageLevel, `
                                     "$($message)", `
                                     "$($additionalInformation)") | Out-Null;
@@ -976,32 +970,33 @@ class Logging
 
 
 
-   <# Write To Logfile
+   <# Write to Logfile
     # -------------------------------
     # Documentation:
-    #  This function will allow the ability to write information
-    #   to a specific logfile upon request, though only if logging
-    #   functionality is enabled or if the logging functionality
+    #  This function will allow the ability to write information to a specific logfile upon
+    #   request, though only if logging functionality is enabled or if the logging functionality
     #   is available at the time upon request.
     # -------------------------------
     # Input:
-    #  [string] File Path (Absolute Path)
-    #   The absolute and complete target path of the logfile that
-    #    is about to be generated.
+    #  [string] File Path
+    #   The absolute path of the logfile that is about to be generated.
     #  [string] (REFERENCE) Message
-    #   The message or data that is going to be written to the logfile.
+    #   The information that is going to be written to the logfile.
+    #   NOTE: The message can be as long as the CLR (which is about 2.5GB)
     # -------------------------------
     #>
-    static [void] WriteToLogFile([string] $filePath, [ref] $msg)
+    static [void] WriteToLogFile([string] $filePath,        # The absolute path of the logfile
+                                [ref] $msg)                 # The message to be written
     {
-        # If the logging functionality is enabled, write the information
-        #  as requested
+        # If the logging functionality is enabled, write the information as requested.
         if ([Logging]::DebugLoggingState())
         {
             # Logging is available presently, write the file as requested.
             [IOCommon]::WriteToFile("$($filePath)", "$($msg.Value.ToString())") | Out-Null;
         } # If : Logging is enabled & available
     } # WriteToLogFile()
+
+
     #endregion
 } # Logging
 
@@ -1010,19 +1005,18 @@ class Logging
 
 <# Message Level [ENUM]
  # -------------------------------
- # The level of the message that is about to be
- #  presented to the screen or how the information
+ # The level of the message that is about to be presented to the screen or how the information
  #  is to be logged for future references.
  # -------------------------------
  #>
 enum LogMessageLevel
 {
-    Standard = 0;   # Regular messages
-    Attention = 1;  # Confirmation messages
-    Information = 2;# Informational messages
-    Warning = 3;    # Warning messages
-    Error = 4;      # Error messages
-    Fatal = 5;      # Program death messages
-    Verbose = 6;    # Debug or detailed messages.
-    UserInput = 7;  # User Feedback\Input (STDIN\Keyboard)
+    Standard        = 0;    # Regular messages
+    Attention       = 1;    # Confirmation messages
+    Information     = 2;    # Informational messages
+    Warning         = 3;    # Warning messages
+    Error           = 4;    # Error messages
+    Fatal           = 5;    # Program death messages
+    Verbose         = 6;    # Debug or detailed messages.
+    UserInput       = 7;    # User Feedback\Input (STDIN\Keyboard)
 } # IOCommonBufferMessageLevel
