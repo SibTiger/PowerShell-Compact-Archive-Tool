@@ -477,9 +477,9 @@ class Logging
     #    $true  = Operation was successful 
     # -------------------------------
     #>
-    static Hidden [bool] __FormatLogMessage([LogMessageLevel] $msgLevel, `
-                                            [String] $msg, `
-                                            [String] $additionalMsg)
+    static Hidden [bool] __FormatLogMessage([LogMessageLevel] $msgLevel, `      # Message level
+                                            [String] $msg, `                    # Main message to be logged
+                                            [String] $additionalMsg)            # (OPTIONAL) Additional information relating to the main message.
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -631,14 +631,13 @@ class Logging
    <# Get Exception Information (Short)
     # -------------------------------
     # Documentation:
-    #  This function provides some insight regarding an exception
-    #   that occurred during an operation at runtime.  This is useful
-    #   to provide the information to the user at run-time.
+    #  This function provides some insight regarding an exception that occurred, within PowerShell's
+    #   engine, during an operation at runtime.  This is useful to provide the information to the user
+    #   at run-time.
     # -------------------------------
     # Inputs:
     #  [Exception] Error Details
-    #   The exception object that contains further information
-    #    regarding the exception that was thrown.
+    #   The exception object that contains further information regarding the exception that was thrown.
     # -------------------------------
     # Output:
     #  [string] Exception Information
@@ -652,15 +651,15 @@ class Logging
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $information = $null;          # This variable will contain information and data
-                                                #  regarding the exception passed to this function.
+        [string] $information = $null;          # This variable will contain information regarding the
+                                                #  exception passed to this function.
         # ----------------------------------------
 
 
-        # Check to make sure the exception passed to this function is not null
+        # Check to make sure the exception passed to this function is not null.
         if ($null -eq $errDetail)
         {
-            # Because the Exception object is null, we can not extract anything from it.
+            # Because the Exception object is null, we can not extract anything useful from it.
             return $null;
         } # If : Exception is null
 
@@ -680,15 +679,12 @@ class Logging
    <# Get Exception Information
     # -------------------------------
     # Documentation:
-    #  This function provides detailed information regarding an
-    #   exception that occurred during an operation at runtime.
-    #   This is useful to provide the information within the
-    #   program's logfile.
+    #  This function provides detailed information regarding an exception that had occurred during
+    #   the program's runtime.  This is useful to provide the information within the program's logfile.
     # -------------------------------
     # Inputs:
     #  [Exception] Error Details
-    #   The exception object that contains further information
-    #    regarding the exception that was thrown.
+    #   The exception object that contains further information regarding the exception that was thrown.
     # -------------------------------
     # Output:
     #  [string] Exception Information
@@ -702,9 +698,10 @@ class Logging
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $information = $null;          # This variable will contain information and data
-                                                #  regarding the exception passed to this function.
+        [string] $information = $null;          # This variable will contain information regarding the
+                                                #  exception passed to this function.
         # ----------------------------------------
+
 
         # Check to make sure the exception passed to this function is not null
         if ($null -eq $errDetail)
@@ -734,7 +731,7 @@ class Logging
    <# Get Program Logfile
     # -------------------------------
     # Documentation:
-    #  This function will return the program's main logfile absolute path.
+    #  This function will return the program's logfile absolute path location.
     # -------------------------------
     # Output:
     #   [string] Logfile path
@@ -752,8 +749,8 @@ class Logging
    <# Allow Logging
     # -------------------------------
     # Documentation:
-    #  This function will provide the status if the logging functionality is
-    #   currently allowed or if logging is not yet available.
+    #  This function will provide the current status if the logging functionality, which
+    #   could be either enabled or disabled.
     # -------------------------------
     # Output:
     #  [bool] Logging State
@@ -772,16 +769,15 @@ class Logging
    <# Thrash Logs and Reports
     # -------------------------------
     # Documentation:
-    #  This function will expunge the log files that
-    #   are present in directories that are managed
-    #   within the class.
+    #  This function will expunge the log files that are currently present within the logging
+    #   directory.
     # -------------------------------
     # Output:
     #  [bool] Exit code
-    #   $false = One or more operations failed
+    #   $false = One or more operations failed.
     #   $true = Successfully expunged the files.
     #           OR
-    #           Directories were not found
+    #           Logging directory was not found.
     # -------------------------------
     #>
     Static [bool] ThrashLogs()
@@ -797,10 +793,10 @@ class Logging
         # ----------------------------------------
 
 
-        # Determine if the logging lock key was already set by another function
+        # Determine if the logging lock key had already been set by another function.
         if ([Logging]::__GetLoggingLockKey())
         {
-            # Another function has already placed a logging lock, do not manipulate the main lock.
+            # Another function had already placed a logging lock, do not manipulate the main lock.
             $controlLockKey = $false;
         } # if : Logging lock key controlled outside
 
@@ -815,18 +811,17 @@ class Logging
         } # else : Logging lock key is controlled by this function
 
 
-        # First, make sure that the directories exist.
-        #  If the directories are not available, than there
-        #  is nothing that can be done.
+        # First, make sure that the log directory exist.
+        #  If the directory is not available, than there is nothing that can be done.
         if (([Logging]::__CheckRequiredDirectories()) -eq $false)
         {
-            # This is not really an error, however the directories simply
-            #  does not exist -- nothing can be done.
+            # This is not really an error, however the logging directory simply does not
+            #  exist -- nothing can be done.
             $exitCode = $false;
-        } # IF : Required Directories Exists
+        } # IF : Required Directory Exist
 
 
-        # Because the directories exists, lets try to thrash the log files.
+        # Because the logging directory exist, lets try to thrash the log files.
         elseif (([IOCommon]::DeleteFile("$([Logging]::ProgramLogPath)", $extLogs)) -eq $false)
         {
             # Failure to remove the requested files
@@ -845,7 +840,6 @@ class Logging
         if($controlLockKey)
         {
             # Because this function has the Logging Lock Key controlled, unlock it now to avoid conflicts.
-            #  -- NOTE: If other functions already have it set - do not touch it!
             [Logging]::__SetLoggingLockKey($false);
         } # If : This function controls the logging lock key
 
@@ -859,25 +853,24 @@ class Logging
    <# Display Message
     # -------------------------------
     # Documentation:
-    #  This function will provide information to be
-    #   displayed to the end-user while also capturing
-    #   the message to a logfile.  This will help to
-    #   capture all of the output that is displayed to
-    #   the end-user for debugging purposes.
+    #  This function will provide information to be displayed to the end-user while also simultaneously written
+    #   onto the program's logfile.  This functionality will help to capture all of the output messages that are
+    #   to be displayed onto the user's screen - while also be captured into the program's logfile for debugging
+    #   purposes.
+    #
     # NOTE:
-    #  The formatting and specifications of the message
-    #   will be evaluated in the inner-specific functions
-    #   that are called within this function.
+    #  The formatting and specifications of the message will be evaluated in the inner-specific functions
+    #   that are called within this method.
     # -------------------------------
     # Input:
     #  [string] Message
-    #   The message that is to be presented on the screen.
+    #   The message that is to be presented on the screen and written in the logfile.
     #  [LogMessageLevel] Message Level
-    #   The level of the message that is to be presented
-    #    or formatted.
+    #   The level of the message that is to be presented or formatted.
     # -------------------------------
     #>
-    static [void] DisplayMessage([string] $msg, [LogMessageLevel] $msgLevel)
+    static [void] DisplayMessage([string] $msg,                     # Message to provide to both Display and Logfile
+                                [LogMessageLevel] $msgLevel)        # Message's severity level
     {
         # Display the message to the end-user's screen.
         [IOCommon]::WriteToBuffer("$($msg)", "$($msgLevel)");
@@ -892,25 +885,22 @@ class Logging
    <# Display Message (Short-Hand\Standard MSGs)
     # -------------------------------
     # Documentation:
-    #  This function is merely a quick accessor to the
-    #   DisplayMessage() function for 'Standard Messages'.
-    #   Because PowerShell does not allow default
-    #   arguments to be set, at least at the time of
-    #   writing this statement, this function will
-    #   allow overflowing of the arguments.
+    #  This overload function is merely an expeditious way of reaching the DisplayMessage(arg0, arg1)
+    #   method.  However, this function will always assume that the Message Severity is 'Standard'.
+    #   Because PowerShell does not allow default arguments to be set, at least at the time of writing
+    #   this statement, this function will allow overloading of the arguments.
+    #
     # NOTE:
-    #  Any messages coming through this function will be
-    #   treated as a Standard Message!
+    #  Any messages coming through this function will be treated as a Standard Message!
     # -------------------------------
     # Input:
     #  [string] Message
-    #   The message that is to be presented on the screen.
+    #   The message that is to be presented on the screen and written to the logfile.
     # -------------------------------
     #>
     static [void] DisplayMessage([string] $msg)
     {
-        # Access the standard DisplayMessage() with MSG Level
-        #  set to standard.
+        # Access the DisplayMessage(arg0, arg1) with MSG Level set to standard severity.
         [Logging]::DisplayMessage("$($msg)", "Standard");
     } # DisplayMessage()
 
@@ -920,21 +910,19 @@ class Logging
    <# Get User Input
     # -------------------------------
     # Documentation:
-    #  This function will allow the ability to fetch for
-    #   user-input (STDIN) and also capture the result
-    #   in the logfile as well.  This will help with
-    #   debugging purposes.
+    #  This function will allow the ability to capture the user's input (STDIN) and log the
+    #   same input onto the program's logfile.  This will help with debugging purposes.
     # -------------------------------
     # Output:
     #  [string] User's Input Request
-    #    Returns the user's request.
+    #    Returns the user's input.
     # -------------------------------
     #>
     static [string] GetUserInput()
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $userInput = $null;    # This will hold the user's feedback
+        [string] $userInput = $null;        # This will hold the user's feedback
         # ----------------------------------------
 
 
