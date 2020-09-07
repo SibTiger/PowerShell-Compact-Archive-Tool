@@ -996,7 +996,6 @@ class Logging
         } # If : Logging is enabled & available
     } # WriteToLogFile()
 
-
     #endregion
 } # Logging
 
