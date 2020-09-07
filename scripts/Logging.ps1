@@ -30,7 +30,6 @@ class Logging
 
     #region Variables
 
-
     # Program Log Path
     # ---------------
     # The centralized location of where the program's logfiles will be located.
@@ -39,7 +38,7 @@ class Logging
 
     # Program Log Filename
     # ---------------
-    # The filename of the program's log
+    # The filename of the program's log file.
     Static [string] $ProgramLogFileName = "$($GLOBAL:_PROGRAMNAMESHORT_).log";
 
     #endregion
@@ -57,8 +56,11 @@ class Logging
    <# Get Logging Lock Key
     # -------------------------------
     # Documentation:
-    #  This function will return the value of the logging lock key. This lock
-    #   is important to assure that we do not log recursive information.
+    #  This function will return the current value of the logging lock key.  This lock
+    #  will prevent information from being logged in a recursive manner.
+    #
+    # NOTE: This lock is only used internally within the program; this will be updated
+    #        programmatically depending on certain circumstances..
     # -------------------------------
     # Output:
     #   [bool] Lock status
@@ -77,23 +79,21 @@ class Logging
    <# Set Logging Lock Key
     # -------------------------------
     # Documentation:
-    #  This function will allow the logging functionality to temporarily pause.
-    #   This is used to assure that nothing is logged that could cause recursive
-    #   information - which would ultimately lead to a stack overflow.
-    #   - When setting this true, a function is requesting that the logging
-    #      functionality is temporarily paused.  Do know that the logging
-    #      functionality will still operate as intended, but nothing will be written
-    #      to the user's filesystem.
-    #   - When setting this to false, the logging functionality will resume its entire
-    #      logging protocol - information and data will be written to the user's
-    #      filesystem.
+    #  This function will allow the possibility to temporarily pause or resume the logging functionality.
+    #   This lock will prevent information from being logged in a recursive manner, which if not set
+    #     properly during runtime may result into a Stack Overflow (not talking about the website).
+    #   - When true, a function 
+    #   - When setting this to true, the logging functionality will be locked or disabled temporarily.
+    #      If a function is requesting an event or action to be logged, the request will be ignored.  Do
+    #      keep in mind that the logging functionality will still operate as intended, however no logs will
+    #      written or appended too.  To undo this action, toggle the lock key to resume the logging feature.
+    #   - When setting this to false, the logging functionality will resume its entire logging protocol.
+    #      Thus, the logging information will be written to the log file as normal.
     # -------------------------------
     # Input:
     #  [bool] New Value
-    #   $True = Logging functionality is temporarily paused; nothing is written
-    #             to the filesystem.
-    #   $False = Logging functionality protocol is allowed to execute; data
-    #             and information is written to the filesystem.
+    #   $True = Logging functionality is temporarily paused; nothing is written to the filesystem.
+    #   $False = Logging functionality is allowed to write; data and information is now written to the filesystem.
     # -------------------------------
     #>
     static Hidden [void] __SetLoggingLockKey([bool] $value)
@@ -107,17 +107,13 @@ class Logging
    <# Generate Timestamp
     # -------------------------------
     # Documentation:
-    #  This function will generate a timestamp that
-    #   can be used for the information that will
-    #   be stored in the logfile.  The timestamp will
-    #   help to provide a depiction of when an event
-    #   or activity occurred within the program's
-    #   run-time.
+    #  This function will generate a timestamp that can be used for the information that will be stored in the
+    #   logfile.  The timestamp will help to provide a depiction of when an event or activity occurred within
+    #   the program's runtime.
     # -------------------------------
     # Output:
     #  [string] Session Timestamp
-    #   The generated timestamp for information being
-    #    written in a logfile.
+    #   The generated timestamp which can be used the for information being written in a logfile.
     # -------------------------------
     #>
     Static Hidden [string] __GenerateTimestamp()
@@ -150,13 +146,13 @@ class Logging
    <# Check Required Directories
     # -------------------------------
     # Documentation:
-    #  This function was created to check the directories
-    #   that this class requires.
+    #  This function will check to make sure that the logging directory, that will be used
+    #   within this class, currently exists within the host system's filesystem.
     #
     # ----
     #
-    #  Directories to Check:
-    #   - \Logs\Program
+    #  Directories to be checked:
+    #   - %LOCALAPPDATA%\<PROG_NAME>\Logs\Program
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -176,10 +172,10 @@ class Logging
         # ----------------------------------------
 
 
-        # Determine if the logging lock key was already set by another function
+        # Determine if the logging lock key had already been set by another function within the program
         if ([Logging]::__GetLoggingLockKey())
         {
-            # Another function has already placed a logging lock, do not manipulate the main lock.
+            # Another function has already placed a logging lock, do not manipulate the main lock directly.
             $controlLockKey = $false;
         } # if : Logging lock key controlled outside
 
@@ -195,10 +191,10 @@ class Logging
 
 
 
-        # Check Program Log Directory
+        # Check the Program Log Directory
         if (([IOCommon]::CheckPathExists("$([Logging]::ProgramLogPath)", $true)) -eq $true)
         {
-            # All of the required directories are present in the filesystem
+            # All of the required directories are present within the filesystem
             $exitCode = $true;
         } # If : Check Directories Exists
 
@@ -209,11 +205,10 @@ class Logging
         } # Else : Directories does not exist
 
 
-        # If this function is controlling the Logging Lock Key, unlock it now - before leaving.
+        # If this function is controlling the Logging Lock Key, unlock it now - before leaving this function.
         if($controlLockKey)
         {
             # Because this function has the Logging Lock Key controlled, unlock it now to avoid conflicts.
-            #  -- NOTE: If other functions already has it set - do not touch it!
             [Logging]::__SetLoggingLockKey($false);
         } # If : This function controls the logging lock key
 
@@ -228,17 +223,18 @@ class Logging
    <# Create Directories
     # -------------------------------
     # Documentation:
-    #  This function will create the necessary directories
-    #   required for this class to operate successfully.
-    #  If the directories does not exist, then the directories
-    #   are to be created in the host's filesystem.
-    #  If the directories does exist, then nothing will be
-    #   created nor changed.
+    #  This function will create the necessary directories that will hold the log files
+    #   that are generated from this class.  If the directories do not exist in the
+    #   filesystem already, there is a chance that some operations might fail due to the
+    #   inability to safely store the log files generated by the functions within this
+    #   class.  If the directories do not already exist, this function will try to create
+    #   them automatically - without interacting with the end-user.  If the directories
+    #   already exist within the filesystem, then nothing will be performed.
     #
     # ----
     #
-    #  Directories to be created:
-    #   - \Logs\Program
+    #  Directories to be checked:
+    #   - %LOCALAPPDATA%\<PROG_NAME>\Logs\Program
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -258,7 +254,7 @@ class Logging
         # ----------------------------------------
 
 
-        # Determine if the logging lock key was already set by another function
+        # Determine if the logging lock key had already been set by another function
         if ([Logging]::__GetLoggingLockKey())
         {
             # Another function has already placed a logging lock, do not manipulate the main lock.
@@ -284,7 +280,6 @@ class Logging
             if($controlLockKey)
             {
                 # Because this function has the Logging Lock Key controlled, unlock it now to avoid conflicts.
-                #  -- NOTE: If other functions already has it set - do not touch it!
                 [Logging]::__SetLoggingLockKey($false);
             } # If : This function controls the logging lock key
 
@@ -296,13 +291,13 @@ class Logging
         # ----
 
 
-        # Because the directory was not detected, we must create it before we
+        # Because the logging directory was not detected, we must create the directory  before we
         #  can use it within the program.
 
         # Program Log Directory
         if(([IOCommon]::CheckPathExists("$([Logging]::ProgramLogPath)", $true)) -eq $false)
         {
-            # Program Log Directory does not exist, try to create it.
+            # Program's Log Directory does not exist, try to create it.
             if (([IOCommon]::MakeDirectory("$([Logging]::ProgramLogPath)")) -eq $false)
             {
                 # If this function is controlling the Logging Lock Key, unlock it now - before leaving.
@@ -315,21 +310,20 @@ class Logging
 
                 # Failure occurred.
                 return $false;
-            } # If : Failed to Create Directory
+            } # If : Failed to Create Program Log Directory
         } # Program Log Directory
 
 
         # ----
 
 
-        # Fail-safe; final assurance that the directories have been created successfully.
+        # Fail-safe; final assurance that the program's log directory had been created successfully.
         if(([Logging]::__CheckRequiredDirectories())-eq $true)
         {
             # If this function is controlling the Logging Lock Key, unlock it now - before leaving.
             if($controlLockKey)
             {
                 # Because this function has the Logging Lock Key controlled, unlock it now to avoid conflicts.
-                #  -- NOTE: If other functions already has it set - do not touch it!
                 [Logging]::__SetLoggingLockKey($false);
             } # If : This function controls the logging lock key
 
@@ -342,11 +336,11 @@ class Logging
         if($controlLockKey)
         {
             # Because this function has the Logging Lock Key controlled, unlock it now to avoid conflicts.
-            #  -- NOTE: If other functions already has it set - do not touch it!
             [Logging]::__SetLoggingLockKey($false);
         } # If : This function controls the logging lock key
 
-        # A general error occurred, the directories could not be created.
+
+        # A failure occurred during the Final Assurance check, the program's log directory could not be created.
         return $false;
     } # __CreateDirectories()
 
@@ -356,22 +350,20 @@ class Logging
    <# Write to Logfile [Write File]
     # -------------------------------
     # Documentation:
-    #  This function will take the provided message and
-    #   write it to the specific logfile.  Additionally,
-    #   this function will assure that the logfile can
-    #   be created to the host's filesystem.
+    #  This function will take the provided data (as a string) and write the information into a specific
+    #   logfile.  If incase the logfile does not exist, this function will try to create it on the host's
+    #   filesystem.
     # -------------------------------
     # Input:
     #  [string] Message
-    #   The readable message that will be written to the logfile.
+    #   The message that will be written to the logfile.
     # -------------------------------
     # Output:
     #  [bool] Status Code
     #    $false = Operation failed
     #             OR
-    #             Is locked; cannot write to secondary storage
-    #              due to Logging Lock Key value.
-    #    $true  = Operation was successful 
+    #             Logging Is locked; cannot write to secondary storage due to the Logging Lock Key value.
+    #    $true  = Operation was successful
     # -------------------------------
     #>
     Static Hidden [bool] __WriteLogFile([string] $message)
