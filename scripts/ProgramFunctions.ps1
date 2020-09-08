@@ -1,15 +1,10 @@
 ﻿<# Create Program Required Directories
  # -------------------------------
  # Documentation:
- #  This function will create the directories
- #   that is required to house program-data.
- #  These directories will be paramount for
- #   this program to operate successfully.
- #  If the directories do not exist, then the
- #   directories are to be created on the user's
- #   filesystem.
- #  If the directories does exist already, then
- #   nothing will be created nor changed.
+ #  This function will create the directories that is required to house program-data.  These directories
+ #   will be paramount for this program to operate successfully.  If the directories do not exist, then
+ #   the directories are to be created on the user's filesystem.  If the directories does exist already,
+ #   then nothing will be created nor changed.
  #
  # ----
  #
@@ -28,10 +23,10 @@
  # -------------------------------
  # Output:
  #  [bool] Exit code
- #    $false = Failure creating the new directories.
- #    $true  = Successfully created the new directories
+ #    $true  = Successfully created the new directories.
  #             OR
  #             Directories already existed, nothing to do.
+ #    $false = Failure creating the new directories.
  # -------------------------------
  #>
 function CreateDirectories()
@@ -39,12 +34,9 @@ function CreateDirectories()
     # First, check if the special directories exists.
     if((CheckSpecialDirectories) -eq $false)
     {
-        # Because one or more special directories does
-        #  not exist, we can not create directories where
-        #  the special paths does not exist.
-        #  Potentially incompatible Operating System or
-        #  filesystem structure is not supported by the
-        #  system.
+        # Because one or more special directories does not exist, we can not create directories where
+        #  the special paths does not exist.  Potentially incompatible Operating System or filesystem
+        #  structure is not supported by the system.
         return $false;
     } # If : Special Directories Not Exist.
 
@@ -52,12 +44,10 @@ function CreateDirectories()
     # ----
 
 
-    # Second, check if the directories already exist.
-    #  If they exist, than there is nothing to do.
+    # Second, check if the directories already exist.  If they exist, than there is nothing to do.
     if ((CheckProgramDirectories) -eq $true)
     {
-        # Because the directories exists within the
-        #  filesystem, there's nothing todo.
+        # Because the directories exists within the filesystem, there's nothing todo.
         return $true;
     } # If : Directories Exists
     
@@ -65,8 +55,7 @@ function CreateDirectories()
     # ----
 
 
-    # Because one or more directories did not exist, then
-    #  we must find it and create them.
+    # Because one or more directories did not exist, then we must find it and create them.
 
 
     # User-Data Directories
@@ -161,8 +150,7 @@ function CreateDirectories()
 <# Check Program Directories
  # -------------------------------
  # Documentation:
- #  This function will check to make sure that the
- #   required directories exists within the user's
+ #  This function will check to make sure that the required directories exists within the user's
  #   filesystem.
  #
  # ----
@@ -182,8 +170,8 @@ function CreateDirectories()
  # -------------------------------
  # Output:
  #  [bool] Exit code
- #    $false = One or more directories does not exist.
  #    $true = Directories exist
+ #    $false = One or more directories does not exist.
  # -------------------------------
  #>
 function CheckProgramDirectories()
@@ -203,8 +191,7 @@ function CheckProgramDirectories()
     else
     {
         # The directories does not exist.
-        #  Because one or more directories does not exist,
-        #  return an error signal.
+        #  Because one or more directories does not exist, return an error signal.
         return $false;
     } # Else : Directories not exist
 
@@ -229,8 +216,7 @@ function CheckProgramDirectories()
     else
     {
         # The directories does not exist.
-        #  Because one or more directories does not exist,
-        #  return an error signal.
+        #  Because one or more directories does not exist, return an error signal.
         return $false;
     } # Else : Directories not exist
 
@@ -251,27 +237,23 @@ function CheckProgramDirectories()
 <# Check Special Directories
  # -------------------------------
  # Documentation:
- #  This function will check to make sure that the
- #   defined special directories exists within the
- #   host system.
- #  Special Directories are defined as normally
- #   provided by the Operating System and usually
- #   required for the user's profile.
+ #  This function will check to make sure that the defined special directories exists within the
+ #   host system.  Special Directories are defined as normally provided by the Operating System
+ #   and usually required for the user's profile.
  # -------------------------------
  # Output:
  #  [bool] Exit Code
- #    $false = One or more special directories
- #              could not be detected, possibly missing.
- #    $true = All special directories exists; no errors. 
+ #    $true = All special directories exists; no errors.
+ #    $false = One or more special directories could not be detected, possibly missing.
  # -------------------------------
  #>
 function CheckSpecialDirectories()
 {
     # Declarations and Initializations
     # ----------------------------------------
-    [string] $pathMyDocuments = "$(FetchPathUserDocuments)";    # My Documents
-    [string] $pathLocalAppData = "$(FetchPathAppDataLocal)";    # Local AppData
-    [string] $pathRoamingAppData = "$(FetchPathAppDataRoaming)";# Roaming AppData
+    [string] $pathMyDocuments = "$(FetchPathUserDocuments)";        # My Documents
+    [string] $pathLocalAppData = "$(FetchPathAppDataLocal)";        # Local AppData
+    [string] $pathRoamingAppData = "$(FetchPathAppDataRoaming)";    # Roaming AppData
     # ----------------------------------------
 
 
