@@ -2,19 +2,14 @@
  # ------------------------------
  # ==============================
  # ==============================
- # This class holds the User Preferences within this
- #  program.  The user's preferences will give rise
- #  to what the user wants to do with this program
- #  and perform the task as the user's demands with
- #  minimal configuration after the first initial
- #  setup.  The goal of this program is to assure
- #  that the user can merely 'click-and-forget',
- #  thus the program should NOT stand in the way
- #  of the user's tasks.  With that in mind, it
- #  is paramount that the User Preferences should
- #  provide little headache as necessary; in-fact,
- #  all of the configurations within the classes
- #  provides that same principle.
+ # This class holds the User Preferences within this program.  The user's preferences
+ #  will give rise to what the user wants to do with this program and perform the task
+ #  as the user's demands with minimal configuration after the first initial setup.
+ # The goal of this program is to assure that the user can merely 'click-and-forget',
+ #  thus the program should NOT stand in the way of the user's tasks.  With that in
+ #  mind, it is paramount that the User Preferences should provide little headache as
+ #  necessary; in-fact, all of the configurations within the classes provides that same
+ #  principle.
  #>
 
 
@@ -29,6 +24,7 @@ class UserPreferences
 
     #region Singleton Instance
 
+# Singleton Instance of the object
     hidden static [UserPreferences] $_instance = $null;
 
     # Get the instance of this singleton object (Default)
@@ -51,25 +47,25 @@ class UserPreferences
     # Get the instance of this singleton object (With Args)
     #  Useful if we already know that we have to instantiate
     #  a new instance of this particular object.
-    static [UserPreferences] GetInstance([UserPreferencesCompressTool] $compressionTool,
-                                        [string] $projectPath,
-                                        [string] $outputBuildsPath,
-                                        [bool] $useGitFeatures,
-                                        [bool] $useWindowsExplorer,
-                                        [bool] $useBell,
-                                        [UserPreferencesEventAlarm] $notificationType)
+    static [UserPreferences] GetInstance([UserPreferencesCompressTool] $compressionTool,    # Which Compression Software to use
+                                        [string] $projectPath,                              # Project's absolute path
+                                        [string] $outputBuildsPath,                         # Output Builds absolute path
+                                        [bool] $useGitFeatures,                             # Utilize Git features (if software available)
+                                        [bool] $useWindowsExplorer,                         # Use Windows Explorer
+                                        [bool] $useBell,                                    # Use the Bell sound
+                                        [UserPreferencesEventAlarm] $notificationType)      # Notification type to user
     {
         # if there was no previous instance of the object - then create one.
         if ([UserPreferences]::_instance -eq $null)
         {
             # Create a new instance of the singleton object.
             [UserPreferences]::_instance = [UserPreferences]::new([UserPreferencesCompressTool] $compressionTool,
-                                                                [string] $projectPath,
-                                                                [string] $outputBuildsPath,
-                                                                [bool] $useGitFeatures,
-                                                                [bool] $useWindowsExplorer,
-                                                                [bool] $useBell,
-                                                                [UserPreferencesEventAlarm] $notificationType);
+                                                                    [string] $projectPath,
+                                                                    [string] $outputBuildsPath,
+                                                                    [bool] $useGitFeatures,
+                                                                    [bool] $useWindowsExplorer,
+                                                                    [bool] $useBell,
+                                                                    [UserPreferencesEventAlarm] $notificationType);
         }
 
         # Provide an instance of the object.
@@ -85,56 +81,52 @@ class UserPreferences
 
     # Compression Choice
     # ---------------
-    # The choice of which tool to generate an archive-datafile.
+    # The choice of which software tool will be used for generating archive data-files.
     Hidden [UserPreferencesCompressTool] $__compressionTool;
 
 
     # Project Path
     # ---------------
-    # The ZDoom based project in-which to compile.
+    # The absolute path of the ZDoom based project in-which to compile.
     Hidden [string] $__projectPath;
 
 
     # Project Builds Path
     # ---------------
-    # The builds output path.
+    # The absolute path of the builds output location.
     Hidden [string] $__outputBuildsPath;
 
 
     # Use Git Features
     # ---------------
-    # When true, this program will try to use Git's features.
+    # When true, this program will try to use Git functionality.
     Hidden [bool] $__useGitFeatures;
 
 
     # Use Windows Explorer
     # ---------------
-    # When true, this program will try to use Windows Explorer
-    #  to open directory paths; useful to show where the builds
-    #  are located within the user's filesystem.
+    # When true, this program will try to use Windows Explorer to open directory paths;
+    #  useful to show where the builds are located within the user's filesystem.
     Hidden [bool] $__useWindowsExplorer;
 
 
     # Use Bell [Alarm]
     # ---------------
-    # When true, this program will send a 'ding' sound when an
-    #  event takes place; errors, warnings, and\or successful
-    #  operations.
+    # When true, this program will send a 'ding' sound when an event takes place; errors,
+    #  warnings, and\or successful operations.
     Hidden [bool] $__ringMyDingaling;
 
 
     # Bell Events
     # ---------------
-    # The user can be able to pick which event is giving with an
-    #  audible notification.
+    # The user can be able to pick which event is giving with an audible notification.
     Hidden [UserPreferencesEventAlarm] $__notificationType;
 
 
     # Object GUID
     # ---------------
-    # Provides a unique identifier to the object, useful to
-    #  make sure that we are using the right object within
-    #  the software.
+    # Provides a unique identifier to the object, useful to make sure that we are using
+    #  the right object within the software.
     Hidden [GUID] $__objectGUID;
 
     #endregion
@@ -222,11 +214,11 @@ class UserPreferences
    <# Get Compression Tool Choice
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Compression Tool Choice variable.
+    #  Returns the value of the 'Software Compression Tool Choice' variable.
     # -------------------------------
     # Output:
-    #  [UserPreferencesCompressTool] Compression Tool Choice
-    #   the value of the Compression Tool Choice.
+    #  [UserPreferencesCompressTool] Software Compression Tool Choice
+    #   The value of the Software Compression Tool Choice.
     # -------------------------------
     #>
     [UserPreferencesCompressTool] GetCompressionTool()
@@ -240,11 +232,11 @@ class UserPreferences
    <# Get Project Path
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Project Path variable.
+    #  Returns the value of the 'Project Path' variable.
     # -------------------------------
     # Output:
     #  [string] Project Path
-    #   the value of the Project Path.
+    #   The value of the Project Path.
     # -------------------------------
     #>
     [string] GetProjectPath()
@@ -258,11 +250,11 @@ class UserPreferences
    <# Get Project Builds Path
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Project Builds Path variable.
+    #  Returns the value of the 'Project Builds Path' variable.
     # -------------------------------
     # Output:
     #  [string] Project Builds Path
-    #   the value of the Project Builds Path.
+    #   The value of the Project Builds Path.
     # -------------------------------
     #>
     [string] GetProjectBuildsPath()
@@ -276,11 +268,11 @@ class UserPreferences
    <# Get Use Git Features
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Use Git Features variable.
+    #  Returns the value of the 'Use Git Features' variable.
     # -------------------------------
     # Output:
     #  [bool] Use Git Features
-    #   the value of the Use Git Features.
+    #   The value of the Use Git Features.
     # -------------------------------
     #>
     [bool] GetUseGitFeatures()
@@ -294,11 +286,11 @@ class UserPreferences
    <# Get Use Windows Explorer
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Use Windows Explorer variable.
+    #  Returns the value of the Use 'Windows Explorer' variable.
     # -------------------------------
     # Output:
     #  [bool] Use Windows Explorer
-    #   the value of the Use Windows Explorer.
+    #   The value of the Use Windows Explorer.
     # -------------------------------
     #>
     [bool] GetUseWindowsExplorer()
@@ -312,11 +304,11 @@ class UserPreferences
    <# Get Use Bell
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Use Bell variable.
+    #  Returns the value of the Use 'Bell' variable.
     # -------------------------------
     # Output:
     #  [bool] Use Bell
-    #   the value of the Use Bell.
+    #   The value of the Use Bell.
     # -------------------------------
     #>
     [bool] GetUseBell()
@@ -329,11 +321,11 @@ class UserPreferences
    <# Get Bell Events
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Bell Events variable.
+    #  Returns the value of the 'Bell Events' variable.
     # -------------------------------
     # Output:
     #  [UserPreferencesEventAlarm] Bell Events
-    #   the value of the Bell Events.
+    #   The value of the Bell Events.
     # -------------------------------
     #>
     [UserPreferencesEventAlarm] GetBellEvents()
@@ -347,10 +339,10 @@ class UserPreferences
    <# Get Object GUID
     # -------------------------------
     # Documentation:
-    #  Returns the value of the object's Global Unique ID variable.
+    #  Returns the value of the object's 'Global Unique ID' variable.
     # -------------------------------
     # Output:
-    #  [GUID] Global Unique Idenifier (GUID)
+    #  [GUID] Global Unique Identifier (GUID)
     #   The value of the object's GUID.
     # -------------------------------
     #>
@@ -368,7 +360,12 @@ class UserPreferences
    <# Set Compression Tool Choice
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Compression Tool Choice variable.
+    #  Sets a new value for the 'Software Compression Tool Choice' variable.
+    # -------------------------------
+    # Input:
+    #  [UserPreferencesCompressTool] Software Compression Tool
+    #   A choice between the various compression software that is supported
+    #    within the application and is available on the user's system.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -378,10 +375,9 @@ class UserPreferences
     #>
     [bool] SetCompressionTool([UserPreferencesCompressTool] $newVal)
     {
-        # Because the value must fit within the
-        #  'UserPreferencesCompressTool' datatype, there really is
-        #  no point in checking if the new requested value is
-        #  'legal'.  Thus, we are going to trust the value and
+        # Because the value must fit within the 'UserPreferencesCompressTool'
+        #  datatype, there really is no point in checking if the new requested
+        #  value is 'legal'.  Thus, we are going to trust the value and
         #  automatically return success.
         $this.__compressionTool = $newVal;
 
@@ -395,7 +391,11 @@ class UserPreferences
    <# Set Project Path
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Project Path variable.
+    #  Sets a new value for the 'Project Path' variable.
+    # -------------------------------
+    # Input:
+    #  [string] Project Directory Path
+    #   The new location of the Project Directory Path.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -423,7 +423,11 @@ class UserPreferences
    <# Set Project Builds Path
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Project Builds Path variable.
+    #  Sets a new value for the 'Project Builds Path' variable.
+    # -------------------------------
+    # Input:
+    #  [string] Project Builds Directory Path
+    #   The new location of the Project Builds Directory Path.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -451,7 +455,14 @@ class UserPreferences
    <# Set Use Git Features
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Use Git Features variable.
+    #  Sets a new value for the 'Use Git Features' variable.
+    # -------------------------------
+    # Input:
+    #  [bool] Use Git Functionality
+    #   When true, this will allow the application to utilize functionality
+    #    from Git in order to perform certain tasks.  If the Git software was
+    #    not found on the user's system or if this value is false, then the
+    #    functionality will not be consumed.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -461,10 +472,10 @@ class UserPreferences
     #>
     [bool] SetUseGitFeatures([bool] $newVal)
     {
-        # Because the value is either true or false, there
-        #  really is no point in checking if the new requested
-        #  value is 'legal'.  Thus, we are going to trust the
-        #  value and automatically return success.
+        # Because the value is either true or false, there really is no
+        #  point in checking if the new requested value is 'legal'.
+        #  Thus, we are going to trust the value and automatically
+        #  return success.
         $this.__useGitFeatures = $newVal;
 
         # Successfully updated.
@@ -477,7 +488,12 @@ class UserPreferences
    <# Set Use Windows Explorer
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Use Windows Explorer variable.
+    #  Sets a new value for the 'Use Windows Explorer' variable.
+    # -------------------------------
+    # Input:
+    #  [bool] Use Windows Explorer Functionality
+    #   When true, this will allow the application to utilize functionality
+    #    from the Windows Explorer shell.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -487,10 +503,10 @@ class UserPreferences
     #>
     [bool] SetUseWindowsExplorer([bool] $newVal)
     {
-        # Because the value is either true or false, there
-        #  really is no point in checking if the new requested
-        #  value is 'legal'.  Thus, we are going to trust the
-        #  value and automatically return success.
+        # Because the value is either true or false, there really is no
+        #  point in checking if the new requested value is 'legal'.
+        #  Thus, we are going to trust the value and automatically
+        #  return success.
         $this.__useWindowsExplorer = $newVal;
 
         # Successfully updated.
@@ -503,7 +519,12 @@ class UserPreferences
    <# Set Use Bell
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Use Bell variable.
+    #  Sets a new value for the 'Use Bell' variable.
+    # -------------------------------
+    # Input:
+    #  [bool] Use the Bell Switch
+    #   When true, the application will notify the user by using the 'Bell' sound.
+    #    Though, the bell is essentially a 'Ding' from the Windows environment.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -513,10 +534,10 @@ class UserPreferences
     #>
     [bool] SetUseBell([bool] $newVal)
     {
-        # Because the value is either true or false, there
-        #  really is no point in checking if the new requested
-        #  value is 'legal'.  Thus, we are going to trust the
-        #  value and automatically return success.
+        # Because the value is either true or false, there really is no
+        #  point in checking if the new requested value is 'legal'.
+        #  Thus, we are going to trust the value and automatically
+        #  return success.
         $this.__ringMyDingaling = $newVal;
 
         # Successfully updated.
@@ -529,7 +550,11 @@ class UserPreferences
    <# Set Bell Events
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Bell Events variable.
+    #  Sets a new value for the 'Bell Events' variable.
+    # -------------------------------
+    # Input:
+    #  [UserPreferencesEventAlarm] Bell Events Type
+    #   User's choice of how the application will notify the end-user based on an event and\or action.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -539,10 +564,9 @@ class UserPreferences
     #>
     [bool] SetBellEvents([UserPreferencesEventAlarm] $newVal)
     {
-        # Because the value must fit within the
-        #  'UserPreferencesEventAlarm' datatype, there really is
-        #  no point in checking if the new requested value is
-        #  'legal'.  Thus, we are going to trust the value and
+        # Because the value must fit within the 'UserPreferencesEventAlarm'
+        #  datatype, there really is no point in checking if the new requested
+        #  value is 'legal'.  Thus, we are going to trust the value and
         #  automatically return success.
         $this.__notificationType = $newVal;
 
@@ -558,15 +582,16 @@ class UserPreferences
 
 <# User Preferences Compress Tool [ENUM]
  # -------------------------------
- # Associated with what type of compression tool
- #  should be used when wanting to compact a data
- #  into an archive-file.
+ # Associated with what type of compression tool software should be used when wanting to
+ #  compact a data into an archive-file.
+ #
+ # This provides a list of software that this application supports.
  # -------------------------------
  #>
 enum UserPreferencesCompressTool
 {
-    Default = 0;   # .NET
-    SevenZip = 1;  # 7Za (CLI)
+    Default = 0;    # Microsoft's .NET 4.5 (or later)
+    SevenZip = 1;   # 7Zip's 7Za (CLI)
 } # UserPreferencesCompressTool
 
 
@@ -574,17 +599,14 @@ enum UserPreferencesCompressTool
 
 <# User Preferences Event Alarm [ENUM]
  # -------------------------------
- # Associated with what type of audible notification
- #  the user wishes to receive.  These notifications
- #  are based on certain events that can occur during
- #  the program's run-time.
+ # Associated with what type of audible notification the user wishes to receive.  These
+ #  notifications are based on certain events that can occur during the program's run-time.
  # -------------------------------
  #>
 enum UserPreferencesEventAlarm
 {
-    Everything = 0;    # Everything will sound an alarm.
-    Success = 1;       # Only successful operations will
-                       #  sound an alarm.
-    Errors = 2;        # Only errors will sound an alarm.
-    Warnings = 3;      # Only warnings will sound an alarm.
+    Everything = 0;     # Everything will sound an alarm.
+    Success = 1;        # Only successful operations will sound an alarm.
+    Errors = 2;         # Only errors will sound an alarm.
+    Warnings = 3;       # Only warnings will sound an alarm.
 } # UserPreferencesEventAlarm
