@@ -2,13 +2,12 @@
  # ------------------------------
  # ==============================
  # ==============================
- # This class holds all information regarding the desired project
- #  that we will be essentially compiling.  Such information is
- #  essentially basic, such as: project name, code name, output -
- #  filename, and project URLs.  This is going to be helpful for
- #  the program to be much more moduler and yet also helpful for
+ # This class holds all information regarding the desired project that we will be essentially compiling.
+ #  Such information is essentially basic, such as: project name, code name, output filename, and project
+ #  URLs.  This is going to be helpful for the program to be much more modular and yet also helpful for
  #  the end-user that will be using this program tool.
  #>
+
 
 
 
