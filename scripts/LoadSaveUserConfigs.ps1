@@ -2,21 +2,16 @@
  # ------------------------------
  # ==============================
  # ==============================
- # This class will provide the ability to load and save the
- #  user's configurations to or from a specific file location.
- #  This will allow the ability for the user's preferences
- #  and settings from this program to be saved - making it
- #  usable for the next session.  Furthermore, loading from
- #  the user's preferences and settings - essentially picks
- #  up where the user last saved the program.
- #  This process is to be painless and easy as possible,
- #  having the user to reconfigure their settings and
- #  preferences is not only inconvienent but will be extremely
- #  frustrating.  If this functionality doesn't work flawlessly
- #  - then people will no longer use this program.
+ # This class will provide the ability to load and save the user's configurations to or from
+ #  a specific file location.  This will allow the ability for the user's preferences and
+ #  settings from this program to be saved - making it usable for the next session.  Furthermore,
+ #  loading from the user's preferences and settings - essentially picks up where the user last
+ #  saved the program.  This process is to be painless and easy as possible, having the user to
+ #  reconfigure their settings and preferences is not only inconvenient but will be extremely
+ #  frustrating.  If this functionality doesn't work flawlessly - then people will no longer use
+ #  this program.
  #
- # DEVELOPER NOTE: This class does NOT have a 
- #  Default Constructor.  This is because we must have a
+ # DEVELOPER NOTE: This class does NOT have a Default Constructor.  This is because we must have a
  #  legitimate path that is unique to the program.
  #>
 
