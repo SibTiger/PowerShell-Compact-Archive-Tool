@@ -1,15 +1,14 @@
 ﻿<# Initializations Driver
  # -------------------------------
  # Documentation:
- #  This function acts as a simple procedural driver for declaring and initializing
- #   variables that will be used within this program.  Such variables provide basic
- #   information regarding the program, such as the software name or version, while
- #   other variables may contain imperative information which is required for the
- #   software's internal functionality and basic support.
+ #  This function acts as a simple procedural driver for declaring and initializing variables that
+ #   will be used within this program.  Such variables provide basic information regarding the program,
+ #   such as the software name or version, while other variables may contain imperative information
+ #   which is required for the software's internal functionality and basic support.
  #
- #  NOTE: All variables defined within the sub-functions - are all global.  While these
- #         variables are global to the program's environment, some may be flagged as
- #         constant and others might be mutable.  Please review carefully.
+ #  NOTE: All variables defined within the sub-functions - are all global.  While these variables are
+ #         global to the program's environment, some may be flagged as constant and others might be
+ #         mutable.  Please review carefully.
  # -------------------------------
  #>
 function Initializations()
@@ -63,10 +62,9 @@ function InitializationProgramIdentity()
 <# Initialization: Program Data
  # -------------------------------
  # Documentation:
- #  This function will declare and initialize variables that will be used within
- #   the software - either by further enhancing functionality or to provide technical
- #   data.  Some variables housed in this function may allow the possibilty to be
- #   inter-changable at runtime.
+ #  This function will declare and initialize variables that will be used within the software - either
+ #   by further enhancing functionality or to provide technical data.  Some variables housed in this
+ #   function may allow the possibility to be inter-changeable at runtime.
  # -------------------------------
  #>
 function InitializationProgramData()
@@ -193,9 +191,8 @@ function InitializationDirectory()
 <# Fetch Path: AppData Local Directory
  # -------------------------------
  # Documentation:
- #  This function will find the currently logged-in user's
- #   AppData Local absolute path and return the value to the
- #   respected caller.
+ #  This function will find the currently logged-in user's AppData Local absolute path and return the
+ #   value to the respected caller.
  # -------------------------------
  # Output:
  #  [string] Local AppData Absolute Path
@@ -213,9 +210,8 @@ function FetchPathAppDataLocal()
 <# Fetch Path: AppData Roaming Directory
  # -------------------------------
  # Documentation:
- #  This function will find the currently logged-in user's
- #   AppData Roaming absolute path and return the value to the
- #   respected caller.
+ #  This function will find the currently logged-in user's AppData Roaming absolute path and return the
+ #   value to the respected caller.
  # -------------------------------
  # Output:
  #  [string] Roaming AppData Absolute Path
@@ -233,9 +229,8 @@ function FetchPathAppDataRoaming()
 <# Fetch Path: User's Document Directory
  # -------------------------------
  # Documentation:
- #  This function will find the currently logged-in user's
- #   Document's absolute path and return the value to the
- #   respected caller.
+ #  This function will find the currently logged-in user's Document's absolute path and return the value
+ #   to the respected caller.
  # -------------------------------
  # Output:
  #  [string] User's 'My Documents' Absolute Path
