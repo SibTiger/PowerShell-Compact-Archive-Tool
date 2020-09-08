@@ -27,44 +27,38 @@ class ProjectInformation
 
     # Project's Code Name (or Version Code Name)
     # ---------------
-    # The code name of the project or of that version.
+    # The code name of the overall project or version of the project.
     Static [string] $codeName = "Apostasy";
 
 
     # Output Filename
     # ---------------
-    # The filename of the archive data file in which this program
-    #  will create as requested by the end-user.
-    # NOTE: Remember that /idgames has an 8char limit
+    # The filename that will be used in compiled builds.
+    # NOTE: Remember that /idgames has a fixed 8char upper-limit!
     Static [string] $fileName = "alphecca";
 
 
     # Project's Website
     # ---------------
-    # The project's official website; which can be accessed by the
-    # end-user by request.  This can be helpful to the user, in-which
-    # they may check out the project's latest public announcements
-    # and insights regarding the project.
+    # The project's official website; which can be accessed by the end-user by request.  This can be
+    #  helpful to the user, in-which they may check out the project's latest public announcements and
+    #  insights regarding the project.
     Static [string] $urlWebsite = "https://github.com/SibTiger/Alphecca";
 
 
     # Project's Help Documentation
     # ---------------
-    # The project's official Wikipedia; which can be accessed by the
-    # end-user by request.  This can greatly be helpful to the user,
-    # as they may view the project's help-documentation for abroad
-    # reasons but not limited to using this very tool.
-    #  NOTE: Wiki's are usually provided in some Developer\Repositories
-    #  Web-Services, such as GitHub.
+    # The project's official Wikipedia; which can be accessed by the end-user by request.  This can
+    #  greatly be helpful to the user, as they may view the project's help-documentation for abroad
+    #  reasons but not limited to using this very tool.
+    # NOTE: Wiki's are usually provided in some Developer\Repositories Web-Services, such as GitHub.
     Static [string] $urlWiki = "https://github.com/SibTiger/Alphecca/wiki";
 
 
     # Project's Repository
     # ---------------
-    # The project's official repository; which can be accessed by the
-    # end-user by request.  This can allow the user to view the project's
-    # source code via their preferred web-browser.
-    # Prime example of Repositories:
-    #  GitHub, SourceForge, BitBucket, GitLab, and many more.
+    # The project's official repository; which can be accessed by the end-user by request.  This can
+    #  allow the user to view the project's source code via their preferred web-browser.  Prime example
+    #  of Repositories: GitHub, SourceForge, BitBucket, GitLab, and many more.
     Static [string] $urlSource = "https://github.com/SibTiger/Alphecca";
 } # ProjectInformation
