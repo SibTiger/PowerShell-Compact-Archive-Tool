@@ -16,9 +16,9 @@
  #    - %HomePath%\Documents\<PROG_NAME>\Builds\Development
  #
  #   - Program-Data Domain
+ #    - %APPDATA%\<PROG_NAME>
  #    - %LOCALAPPDATA%\<PROG_NAME>
  #    - %LOCALAPPDATA%\<PROG_NAME>\Logs
- #    - %APPDATA%\<PROG_NAME>
  #    - %LOCALAPPDATA%\<PROG_NAME>\Configs
  # -------------------------------
  # Output:
@@ -50,7 +50,7 @@ function CreateDirectories()
         # Because the directories exists within the filesystem, there's nothing todo.
         return $true;
     } # If : Directories Exists
-    
+
 
     # ----
 
@@ -70,7 +70,9 @@ function CreateDirectories()
         return $false;
     } # If : Program Root Directory Created
 
+
     # ----
+
 
     # Program Output Builds Directory
     if(([IOCommon]::MakeDirectory("$($_USERDATA_BUILDS_PATH_)")) -eq $false)
@@ -79,7 +81,9 @@ function CreateDirectories()
         return $false;
     } # If : Program Output Builds Directory Created
 
+
     # ----
+
 
     # Program Output Release Builds Directory
     if(([IOCommon]::MakeDirectory("$($_USERDATA_RELEASEBUILDS_PATH_)")) -eq $false)
@@ -88,7 +92,9 @@ function CreateDirectories()
         return $false;
     } # If : Program Output Release Builds Directory Created
 
+
     # ----
+
 
     # Program Output Dev. Builds Directory
     if(([IOCommon]::MakeDirectory("$($_USERDATA_DEVBUILDS_PATH_)")) -eq $false)
@@ -111,7 +117,9 @@ function CreateDirectories()
         return $false;
     } # If : Program Data Root [Local]
 
+
     # ----
+
 
     # Program Data Logs [Local]
     if(([IOCommon]::MakeDirectory("$($_PROGRAMDATA_LOGS_PATH_)")) -eq $false)
@@ -120,7 +128,9 @@ function CreateDirectories()
         return $false;
     } # If : Program Data Logs [Local]
 
+
     # ----
+
 
     # Program Data Root [Roaming]
     if(([IOCommon]::MakeDirectory("$($_PROGRAMDATA_ROOT_ROAMING_PATH_)")) -eq $false)
@@ -129,7 +139,9 @@ function CreateDirectories()
         return $false;
     } # If : Program Data Configs [Local]
 
+
     # ----
+
 
     # Program Data Configs [Roaming]
     if(([IOCommon]::MakeDirectory("$($_PROGRAMDATA_CONFIGS_PATH_)")) -eq $false)
@@ -163,9 +175,9 @@ function CreateDirectories()
  #    - %HomePath%\Documents\<PROG_NAME>\Builds\Development
  #
  #   - Program-Data Domain
+ #    - %APPDATA%\<PROG_NAME>
  #    - %LOCALAPPDATA%\<PROG_NAME>
  #    - %LOCALAPPDATA%\<PROG_NAME>\Logs
- #    - %APPDATA%\<PROG_NAME>
  #    - %LOCALAPPDATA%\<PROG_NAME>\Configs
  # -------------------------------
  # Output:
