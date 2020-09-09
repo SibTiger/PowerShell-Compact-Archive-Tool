@@ -17,6 +17,7 @@
 
 
 
+
  class LoadSaveUserConfiguration
  {
     # Member Variables :: Properties
@@ -37,6 +38,7 @@
     # The file name of the user configuration file.
     Hidden [string] $__configFileName;
 
+
     #endregion
 
 
@@ -53,10 +55,12 @@
     {
         # Configuration Path
         $this.__configPath = "$($configPath)";
-        
+
+
         # Configuration Filename
         $this.__configFileName = "UserConfig.xml";
     } # User Configuration : On-Load
+
 
     #endregion
 
@@ -67,11 +71,11 @@
    <# Get Configuration File Path
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Configuration Path variable.
+    #  Returns the value of the 'Configuration Path' variable.
     # -------------------------------
     # Output:
-    #  [string] Path of the Configuration file
-    #   the value of the Configuration file.
+    #  [string] Path of the Configuration
+    #   The value of the 'Configuration Path' variable.
     # -------------------------------
     #>
     [string] GetConfigPath()
@@ -85,17 +89,18 @@
    <# Get Configuration Filename
     # -------------------------------
     # Documentation:
-    #  Returns the value of the Configuration Filename variable.
+    #  Returns the value of the 'Configuration File Name' variable.
     # -------------------------------
     # Output:
     #  [string] Filename of the Configuration file
-    #   the value of the Configuration filename.
+    #   The value of the 'Configuration file Name' variable.
     # -------------------------------
     #>
     [string] GetConfigFileName()
     {
         return $this.__configFileName;
     } # GetConfigFileName()
+
 
     #endregion
 
@@ -106,7 +111,11 @@
    <# Set Configuration File Path
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Configuration Path variable.
+    #  Sets a new value for the 'Configuration Path' variable.
+    # -------------------------------
+    # Input:
+    #  [string] Configuration Path
+    #   The new location of the 'Configuration Path' directory.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -116,19 +125,18 @@
     #>
     [bool] SetConfigPath([string] $newVal)
     {
-        # Before we can use the newly requested directory, we
-        #  must first create it to assure that we can use that
-        #  requested path.
+        # Before we can use the newly requested directory, we must first create it to assure
+        #  that we can use that requested path.
         if (([IOCommon]::MakeDirectory("$($newVal)")) -eq $true)
         {
-            # Directory was successfully created, we will now
-            #  use that path as requested.
+            # Directory was successfully created, we will now use that path as requested.
             $this.__configPath = $newVal;
+
 
             # Successfully updated
             return $true
         } # If : Successfully Updated Path
-                
+
 
         # Failure to change value.
         return $false;
