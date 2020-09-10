@@ -127,15 +127,34 @@
     {
         # Before we can use the newly requested directory, we must first create it to assure
         #  that we can use that requested path.
-        if (([IOCommon]::MakeDirectory("$($newVal)")) -eq $true)
+
+
+        # Check if the directory already exists on the filesystem.
+        if ($([IOCommon]::CheckPathExists("$($newVal)", $true)) -eq $false)
         {
-            # Directory was successfully created, we will now use that path as requested.
+            # Because the directory does not exist, try to create it.
+            if (([IOCommon]::MakeDirectory("$($newVal)")) -eq $true)
+            {
+                # Directory was successfully created, we will now use that path as requested.
+                $this.__configPath = $newVal;
+
+
+                # Successfully updated
+                return $true
+            } # If : Successfully Updated Path
+        } # If : Directory does not Exist
+
+
+        # Directory already exists
+        else
+        {
+            # Use the directory as requested.
             $this.__configPath = $newVal;
 
 
             # Successfully updated
-            return $true
-        } # If : Successfully Updated Path
+            return $true;
+        } # else : Directory Exists
 
 
         # Failure to change value.
