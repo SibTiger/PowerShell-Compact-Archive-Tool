@@ -167,7 +167,11 @@
    <# Set Configuration Filename
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the Configuration Filename variable.
+    #  Sets a new value for the 'Configuration Filename' variable.
+    # -------------------------------
+    # Input:
+    #  [string] Configuration Filename
+    #   The new filename of the configuration file.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -180,9 +184,11 @@
         # Filename of the output file.
         $this.__configFileName = $newVal;
 
+
         # Successfully updated.
         return $true;
     } # SetConfigFileName()
+
 
     #endregion
 
