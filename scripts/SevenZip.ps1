@@ -141,7 +141,7 @@ class SevenZip
     SevenZip()
     {
         # Executable path to the 7z.exe
-        $this.__executablePath = "$($this.Find7Zip($true))";
+        $this.__executablePath = "$($this.Find7Zip())";
 
         # Compression Method
         $this.__compressionMethod = 0;
