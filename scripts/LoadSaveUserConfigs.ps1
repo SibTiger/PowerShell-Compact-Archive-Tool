@@ -393,42 +393,36 @@
    <# Save User Configuration
     # -------------------------------
     # Documentation:
-    #  This function will allow the ability to save
-    #  all of the user's settings and preferences to
-    #  a specific file.
+    #  This function will allow the ability to save all of the user's settings and
+    #   their preferences to a save file within the User's Configuration Directory.
     #
     # NOTE:
-    #  All program data and objects must be known in
-    #   order to use this function!
+    #  All program data and objects must be known in order to use this function!
     # -------------------------------
     # Parameters:
     #  [UserPreferences] User Preferences
-    #     User's general preferences when interacting
-    #      within the program.
+    #     User's general preferences when interacting within the program.
     #  [GitControl] Git Object
-    #     User's preferences and settings for using the
-    #      Git functionality.
+    #     User's preferences and settings for using the Git functionality.
     #  [SevenZip] 7Zip Object
-    #     User's preferences and settings for using the
-    #      7Zip functionality.
+    #     User's preferences and settings for using the 7Zip functionality.
     #  [DefaultCompress] PowerShell's Archive Object
-    #     User's preferences and settings for using the
-    #      PowerShell Archive functionality.
+    #     User's preferences and settings for using the PowerShell Archive functionality.
     # -------------------------------
     # Output:
     #  [bool] Exit code
-    #   $false = Failure to write save file.
-    #   $true = Successfully wrote the save file.
+    #   $true = Successfully generated the user's configuration file.
+    #   $false = Failure to generate the user's configuration file.
     # -------------------------------
     #>
-    [bool] Save([UserPreferences] $userPref, `
-                [GitControl] $gitObj, `
-                [SevenZip] $sevenZipObj, `
-                [DefaultCompress] $psArchive)
+    [bool] Save([UserPreferences] $userPref, `      # User's General Program Preferences
+                [GitControl] $gitObj, `             # User's Git Settings
+                [SevenZip] $sevenZipObj, `          # User's 7Zip Settings
+                [DefaultCompress] $psArchive)       # .NET Core's ZipArchive Settings
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode = $false;      # Operation status of the execution performed.
+        [bool] $exitCode = $false;          # Operation status of the execution performed.
         # ----------------------------------------
 
 
@@ -445,37 +439,106 @@
             # Because the directory does not exist, try to create it.
             if ($this.__CreateDirectories() -eq $false)
             {
-                # Because we could not create the directory, we
-                #  can not save the user's configuration.
+                # Because we could not create the directory, we can not save the user's configuration.
 
-                # Nothing more can be done, return an error.
-                return $false;
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to save the user's configuration file as the User Configuration Directory could not be created!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "User Configuration Directory: $($this.__configPath)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Nothing more can be done, return an error.
+            return $false;
             } # Inner-If : Try to Create Directories
         } # If : User Config. Directory Exists
+
 
         # ---------------------------
         # - - - - - - - - - - - - - -
 
 
         # Try to export the preferences and settings to the requested file.
-        try{
+        try
+        {
             Export-Clixml -Path "$($this.__configPath)\$($this.__configFileName)" `
                           -InputObject @($userPref, $gitObj, $sevenZipObj, $psArchive) `
                           -Encoding UTF8NoBOM `
                           -ErrorAction Stop;
 
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Successfully saved the user's configuration!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("User Configuration Directory: $($this.__configPath)`r`t" + `
+                                            "User Configuration File: $($this.__configFileName)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Update the status as successful
             $exitCode = $true;
-        } # TRY : EXECUTION
+        } # Try : Save User Configuration
 
         catch
         {
-            # Print a message that there was an error
-            Write-Host "Error Caught: $($_)";
+            # There was an error while saving the user's configuration file.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $displayErrorMessage = ("Unable to save the user configuration!`r`n" + `
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to save the user configuration!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("User Configuration Directory: $($this.__configPath)`r`n" + `
+                                        "`tUser Configuration File: $($this.__configFileName)`r`n" + `
+                                        "$([Logging]::GetExceptionInfo($_.Exception))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                    "Error");                       # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
 
             # Update the status as failure
             $exitCode = $false;
-        } # CATCH : ERROR
+        } # Catch : Error Creating User Configuration
 
 
         # Return the results
