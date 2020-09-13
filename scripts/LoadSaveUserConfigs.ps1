@@ -586,6 +586,7 @@
 
         # - - - - - - - - - - - - - - - - - - - - -
         # Objects:
+        #  Create new instances of the objects so that we may use them with the user's preferred configurations.
 
         # User Preferences
         [UserPreferences] $userPrefNew = [UserPreferences]::new();
@@ -634,55 +635,138 @@
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # return an error
+            # Because the User Configuration file cannot be found, return an error.
             return $false;
-        } # If : Path exists
+        } # If : User Configuration File Exists
+
 
         # ---------------------------
         # - - - - - - - - - - - - - -
 
 
-        # Try to import the preferences and settings from the requested file.
-        #  Then try to update all settings to match with user's request.
+        # Try to import the user's configuration preferences and settings from the file.
+        #  Then try to update all of the settings in the current environment to match with
+        #  the previously generated configuration file.
         try
         {
+            # Retrieve and cache the user's configuration file from the filesystem.
             $cacheUserConfig = Import-Clixml -Path "$($this.__configPath)\$($this.__configFileName)" `
                                              -ErrorAction Stop;
 
             # Try to load the user's configuration into the objects safely.
-            if ($this.LoadStepWise($cacheUserConfig, `
+            if ($this.LoadStepWise($cacheUserConfig,
                                    $userPref, `
                                    $gitObj, `
                                    $sevenZipObj, `
                                    $psArchive) -eq $true)
             {
+                # Successfully updated the object's preferences to match with the user's preferred environment.
 
-                # Update the status as successful
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = "Successfully loaded the user's configurations and is loaded into the program's environment!";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("User Configuration Directory: $($this.__configPath)`r`n" +
+                                            "`tUser Configuration File: $($this.__configFileName)");
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Verbose");                   # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
+                # Successfully loaded the user's environment.
                 $exitCode = $true;
             } # if : Successfully loaded environment
 
-            # If there was a general failure while loading the environment,
-            #  immediately stop - use the current environment.  User might
-            #  have to redo the entire environment again and re-save the file.
+            # If there was a general failure while loading the user's preferred environment, then immediately stop to avoid
+            #  corrupting the current environment.  Because the user's configuration file might had been corrupted or damaged,
+            #  The user might have to reconfigure their settings and generate a new save file.
             else
             {
-                # Display error message
-                Write-Host "General Error: A failure occurred when trying to " + `
-                            "load previously saved user configuration file!";
+                # Failure to load the user's settings.
 
-                # Update the status as failure
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Prep a message to display to the user for this error; temporary variable
+                [string] $displayErrorMessage = "Unable to load the user configuration!";
+
+                # Generate the initial message
+                [string] $logMessage = "Unable to load the user configuration!";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("The User Configuration file could be corrupted!`r`n" + `
+                                            "`t`tUser Configuration Directory: $($this.__configPath)`r`n" + `
+                                            "`t`tUser Configuration File: $($this.__configFileName)");
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
+
+                # Display a message to the user that something went horribly wrong
+                #  and log that same message for referencing purpose.
+                [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                        "Error");                       # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
+                # Update the operation status as a failure.
                 $exitCode = $false;
             } # else : Failure to load environment
-        } # TRY : EXECUTION
+        } # Try : Try to load the user's configuration file
 
+
+        # Something went horribly wrong; the user's configuration file cannot be loaded into the
+        #  program's current environment.
         catch
         {
-            # Print a message that there was an error
-            Write-Host "Error Caught: $($_)";
+            # Because an error was caught - we cannot load the user's preferred environment.
 
-            # Update the status as failure
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $displayErrorMessage = ("Unable to load the user configuration!`r`n" + `
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to load the user configuration!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("User Configuration Directory: $($this.__configPath)`r`n" + `
+                                        "`tUser Configuration File: $($this.__configFileName)`r`n" + `
+                                        "$([Logging]::GetExceptionInfo($_.Exception))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                    "Error");                       # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Update the status to indicate that a failure had been reached.
             $exitCode = $false;
-        } # CATCH : ERROR
+        } # Catch : Exception Reached while Reading Configuration File
 
 
         # Return the results
