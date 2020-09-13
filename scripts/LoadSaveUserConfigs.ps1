@@ -706,8 +706,8 @@
 
                 # Generate any additional information that might be useful
                 [string] $logAdditionalMSG = ("The User Configuration file could be corrupted!`r`n" + `
-                                            "`t`tUser Configuration Directory: $($this.__configPath)`r`n" + `
-                                            "`t`tUser Configuration File: $($this.__configFileName)");
+                                            "`tUser Configuration Directory: $($this.__configPath)`r`n" + `
+                                            "`tUser Configuration File: $($this.__configFileName)");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
