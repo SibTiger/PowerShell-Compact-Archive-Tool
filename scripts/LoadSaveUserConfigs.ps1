@@ -199,12 +199,14 @@
    <# Create Directories
     # -------------------------------
     # Documentation:
-    #  This function will create the necessary directories
-    #   required for this class to operate successfully.
-    #  If the directories do not exist, then the directories
-    #   are to be created on the user's filesystem.
-    #  If the directories does exist, then nothing will be
-    #   created nor changed.
+    #  This function will create the necessary directories that will hold the User
+    #   Configuration files that are generated from this class.  If the directories do
+    #   not exist on the filesystem already, there is a chance that some operations might
+    #   fail due to the inability to safely store the User Configuration files generated
+    #   by the functions within this class.  If the directories do not already exist, this
+    #   function will try to create them automatically - without interacting with the
+    #   end-user.  If the directories already exist within the filesystem, then nothing
+    #   will be performed.
     #
     # ----
     #
@@ -213,20 +215,40 @@
     # -------------------------------
     # Output:
     #  [bool] Exit code
-    #    $false = Failure creating the new directories.
-    #    $true  = Successfully created the new directories
+    #    $false = Failure creating the new directory.
+    #    $true  = Successfully created the new directory
     #             OR
-    #             Directories already existed, nothing to do.
+    #             Directory already existed, nothing to do.
     # -------------------------------
     #>
     Hidden [bool] __CreateDirectories()
     {
-        # First, check if the directories already exist?
-        if(($this.__CheckRequiredDirectories())-eq $true)
+        # First, check if the directory already exist.
+        if(($this.__CheckRequiredDirectories()) -eq $true)
         {
-            # The directories exist, no action is required.
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("The User Configuration directory already exists;" + `
+                                    " there is no need to create the directory again.");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("User Configuration Directory:`r`n" + `
+                                        "`t`tThe User Configuration Directory is:`t`t$($this.__configPath)`r`n");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # The directory exist, no action is required.
             return $true;
-        } # IF : Check if Directories Exists
+        } # IF : Check if Directory Exists
 
 
         # ----
@@ -235,30 +257,93 @@
         # Because one or all of the directories does not exist, we must first
         #  check which directory does not exist and then try to create it.
 
-        # User Configuration Path
+        # User Configuration Directory
         if(([IOCommon]::CheckPathExists("$($this.__configPath)", $true)) -eq $false)
         {
-            # The User Configuration Directory does not exist, try to create it.
+            # Root Log Directory does not exist, try to create it.
             if (([IOCommon]::MakeDirectory("$($this.__configPath)")) -eq $false)
             {
-                # Failure occurred.
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = "Couldn't create the User Configuration directory!";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = "The User Configuration directory path is: $($this.__configPath)";
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            "Error");                   # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
+                # Failure occurred; could not create directory.
                 return $false;
             } # If : Failed to Create Directory
-        } # User Configuration Path
+        } # If : Not Detected User Configuration Directory
 
 
         # ----
 
 
-        # Fail-safe; final assurance that the directories have been created successfully.
-        if(($this.__CheckRequiredDirectories())-eq $true)
+        # Fail-safe; final assurance that the directory have been created successfully.
+        if(($this.__CheckRequiredDirectories()) -eq $true)
         {
-            # The directories exist
-            return $true;
-        } # IF : Check if Directories Exists
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
 
-        
-        # A general error occurred, the directories could not be created.
+            # Generate the initial message
+            [string] $logMessage = "Successfully created the User Configuration directory!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "User Configuration Directory: $($this.__configPath)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # The directory exist
+            return $true;
+        } # IF : Check if Directory Exists
+
+
+        # ONLY REACHED UPON ERROR
+        # If the directory could not be detected - despite being created on the filesystem,
+        #  then something went horribly wrong.
+        else
+        {
+            # The directory could not be found.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Failed to detect the User Configuration directory!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "User Configuration Directory: $($this.__configPath)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # Else : If Directory Not Found
+
+
+        # A general error occurred; the directory could not be created.
         return $false;
     } # __CreateDirectories()
 
@@ -268,13 +353,13 @@
    <# Check Required Directories
     # -------------------------------
     # Documentation:
-    #  This function was created to check the directories
-    #   that this class requires.
+    #  This function will check to make sure that the User Configuration directory,
+    #   that is required for this class, currently exists within the host system's filesystem.
     #
     # ----
     #
     #  Directories to Check:
-    #   - User Configuration Path <Internal Program Defined>
+    #   - User Configuration Directory <Internal Program Defined>
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -284,16 +369,17 @@
     #>
     Hidden [bool] __CheckRequiredDirectories()
     {
-        # Check Configuration Path
+        # Check User Configuration Directory
         if ([IOCommon]::CheckPathExists("$($this.__configPath)", $true) -eq $true)
         {
-            # Required directories exists
+            # The User Configuration directory exists
             return $true;
         } # If : Check Directories Exists
 
+        # The directory does not exist
         else
         {
-            # Directories does not exist.
+            # The User Configuration Directory does not exist.
             return $false;
         } # Else : Directories does not exist
     } # __CheckRequiredDirectories()
