@@ -487,8 +487,8 @@
             [string] $logMessage = "Successfully saved the user's configuration!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("User Configuration Directory: $($this.__configPath)`r`t" + `
-                                            "User Configuration File: $($this.__configFileName)");
+            [string] $logAdditionalMSG = ("User Configuration Directory: $($this.__configPath)`r`n" + `
+                                            "`tUser Configuration File: $($this.__configFileName)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
