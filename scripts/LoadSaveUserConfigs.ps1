@@ -551,48 +551,39 @@
    <# Load User Configuration
     # -------------------------------
     # Documentation:
-    #  This function will allow the ability to load
-    #   all of the user's settings and preferences
-    #   that was previously stored in a specific
-    #   file.
+    #  This function will provide the ability to load the user's configuration and their settings that were
+    #   previously generated from a previous instance.
     #
     # NOTE:
-    #  All program data and objects will be updated
-    #   to adjust to user's preferred settings and
-    #   configurations.
+    #  All program data and objects will be updated to adjust to user's preferred settings and configurations.
     # -------------------------------
     # Parameters:
     #  [ref] {UserPreferences} User Preferences
-    #     User's general preferences when interacting
-    #      within the program.
+    #     User's general preferences when interacting within the program.
     #  [ref] {GitControl} Git Object
-    #     User's preferences and settings for using the
-    #      Git functionality.
+    #     User's preferences and settings for using the Git functionality.
     #  [ref] {SevenZip} 7Zip Object
-    #     User's preferences and settings for using the
-    #      7Zip functionality.
+    #     User's preferences and settings for using the 7Zip functionality.
     #  [ref] {DefaultCompress} PowerShell's Archive Object
-    #     User's preferences and settings for using the
-    #      PowerShell Archive functionality.
+    #     User's preferences and settings for using the PowerShell Archive functionality.
     # -------------------------------
     # Output:
     #  [bool] Exit code
-    #   $false = Failure to properly load configuration
-    #             file.
-    #   $true = Successfully loaded user's configurations.
+    #   $true = Successfully loaded the user's configurations.
+    #   $false = Failure to properly load the configuration file.
     # -------------------------------
     #>
-    [bool] Load([UserPreferences] $userPref, `
-                [GitControl] $gitObj, `
-                [SevenZip] $sevenZipObj, `
-                [DefaultCompress] $psArchive)
+    [bool] Load([UserPreferences] $userPref, `      # User's General Program Preferences
+                [GitControl] $gitObj, `             # User's Git Settings
+                [SevenZip] $sevenZipObj, `          # User's 7Zip Settings
+                [DefaultCompress] $psArchive)       # .NET Core's ZipArchive Settings
     {
         # Declarations and Initializations
         # -----------------------------------------
         [bool] $exitCode = $false;              # Operation status of the execution performed.
-        [Object[]] $cacheUserConfig = $null;    # This will hold the deserialized XML data
-                                                #  containing the user's preferred settings and
-                                                #  configurations regarding each object.
+        [Object[]] $cacheUserConfig = $null;    # This will hold the deserialized XML data containing the user's preferred
+                                                #  settings and configurations regarding each object.
+
         # - - - - - - - - - - - - - - - - - - - - -
         # Objects:
 
@@ -617,12 +608,31 @@
         #   This check is to make sure that nothing goes horribly wrong.
         # ---------------------------
 
+
         # Make sure that the file exists at the given location.
         if ([IOCommon]::CheckPathExists("$($this.__configPath)\$($this.__configFileName)", $true) -eq $false)
         {
-            # Because either the file or directory does not exist
-            #  at the provided location, we simply can not load
-            #  anything.
+            # Because either the file or the directory does not exist at the provided location, we simply can not load anything.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to load the user's configuration file; User Configuration Directory or User Configuration File was not found!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("User Configuration Directory: $($this.__configPath)`r`n" +
+                                        "`tUser Configuration File: $($this.__configFileName)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
 
             # return an error
             return $false;
