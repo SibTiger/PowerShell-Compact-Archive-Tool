@@ -1006,22 +1006,6 @@
 
 
 
-        # GIT SETTINGS -- FETCH COMMIT ID
-        try
-        {
-            # Set: Fetch Commit ID
-            $gitObj.SetFetchCommitID([bool]$cachedUserConfig[1].__fetchCommitID);
-        } # Try : Load Value from Config
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-            Write-Host "An error occurred while trying to set: __fetchCommitID FROM Git Settings!`r`n" `
-                       " - Tried to use value [$([bool]$cachedUserConfig[1].__fetchCommitID)] using $($gitObj.GetFetchCommitID()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
-        } # Catch : Unknown Value from Config.
-
-
-
         # GIT SETTINGS -- GENERATE REPORT
         try
         {
