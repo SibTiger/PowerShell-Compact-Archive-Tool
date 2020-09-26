@@ -978,7 +978,7 @@
         try
         {
             # Set: Executable Path
-            $gitObj.SetExecutablePath([string]$cachedUserConfig[1].__executablePath, $userPref.GetLogging());
+            $gitObj.SetExecutablePath([string]$cachedUserConfig[1].__executablePath);
         } # Try : Load Value from Config
         catch
         {
@@ -1115,7 +1115,7 @@
         try
         {
             # Set: Executable Path
-            $sevenZipObj.SetExecutablePath([string]$cachedUserConfig[2].__executablePath, $userPref.GetLogging());
+            $sevenZipObj.SetExecutablePath([string]$cachedUserConfig[2].__executablePath);
         } # Try : Load Value from Config
         catch
         {
