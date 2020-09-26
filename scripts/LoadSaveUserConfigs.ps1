@@ -848,8 +848,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __compressionTool FROM User Preferences!`r`n" `
-                       " - Tried to use value [$($[int32]$cachedUserConfig[0].__compressionTool)] using $($userPref.GetCompressionTool()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$($[int32]$cachedUserConfig[0].__compressionTool)] using $($userPref.GetCompressionTool()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -864,8 +864,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __notificationType FROM User Preferences!`r`n" `
-                       " - Tried to use value [$([int32]$cachedUserConfig[0].__notificationType)] using $($userPref.GetBellEvents()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([int32]$cachedUserConfig[0].__notificationType)] using $($userPref.GetBellEvents()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -880,8 +880,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __outputBuildsPath FROM User Preferences!`r`n" `
-                       " - Tried to use value [$([string]$cachedUserConfig[0].__outputBuildsPath)] using $($userPref.GetProjectBuildsPath()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([string]$cachedUserConfig[0].__outputBuildsPath)] using $($userPref.GetProjectBuildsPath()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -896,8 +896,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __projectPath FROM User Preferences!`r`n" `
-                       " - Tried to use value [$([string]$cachedUserConfig[0].__projectPath)] using $($userPref.GetProjectPath()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([string]$cachedUserConfig[0].__projectPath)] using $($userPref.GetProjectPath()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -912,8 +912,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __ringMyDingaling FROM User Preferences!`r`n" `
-                       " - Tried to use value [$([bool]$cachedUserConfig[0].__ringMyDingaling)] using $($userPref.GetUseBell()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([bool]$cachedUserConfig[0].__ringMyDingaling)] using $($userPref.GetUseBell()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -928,8 +928,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __useGitFeatures FROM User Preferences!`r`n" `
-                       " - Tried to use value [$([bool]$cachedUserConfig[0].__useGitFeatures)] using $($userPref.GetUseGitFeatures()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([bool]$cachedUserConfig[0].__useGitFeatures)] using $($userPref.GetUseGitFeatures()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -944,8 +944,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __useWindowsExplorer FROM User Preferences!`r`n" `
-                       " - Tried to use value [$([bool]$cachedUserConfig[0].__useWindowsExplorer)] using $($userPref.GetUseWindowsExplorer()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([bool]$cachedUserConfig[0].__useWindowsExplorer)] using $($userPref.GetUseWindowsExplorer()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -968,8 +968,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __changelogLimit FROM Git Settings!`r`n" `
-                       " - Tried to use value [$([int32]$cachedUserConfig[1].__changelogLimit)] using $($gitObj.GetChangelogLimit()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([int32]$cachedUserConfig[1].__changelogLimit)] using $($gitObj.GetChangelogLimit()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -984,8 +984,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __executablePath FROM Git Settings!`r`n" `
-                       " - Tried to use value [$([string]$cachedUserConfig[1].__executablePath)] using $($gitObj.GetExecutablePath()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([string]$cachedUserConfig[1].__executablePath)] using $($gitObj.GetExecutablePath()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -1000,8 +1000,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __fetchChangelog FROM Git Settings!`r`n" `
-                       " - Tried to use value [$([bool]$cachedUserConfig[1].__fetchChangelog)] using $($gitObj.GetFetchChangelog()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([bool]$cachedUserConfig[1].__fetchChangelog)] using $($gitObj.GetFetchChangelog()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -1016,8 +1016,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __generateReport FROM Git Settings!`r`n" `
-                       " - Tried to use value [$([bool]$cachedUserConfig[1].__generateReport)] using $($gitObj.GetGenerateReport()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([bool]$cachedUserConfig[1].__generateReport)] using $($gitObj.GetGenerateReport()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -1032,8 +1032,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __lengthCommitID FROM Git Settings!`r`n" `
-                       " - Tried to use value [$([int32]$cachedUserConfig[1].__lengthCommitID)] using $($gitObj.GetLengthCommitID()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([int32]$cachedUserConfig[1].__lengthCommitID)] using $($gitObj.GetLengthCommitID()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -1048,8 +1048,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __updateSource FROM Git Settings!`r`n" `
-                       " - Tried to use value [$([bool]$cachedUserConfig[1].__updateSource)] using $($gitObj.GetUpdateSource()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([bool]$cachedUserConfig[1].__updateSource)] using $($gitObj.GetUpdateSource()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -1064,8 +1064,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __rootLogPath FROM Git Settings!`r`n" `
-                       " - Tried to use value [$([string]$cachedUserConfig[1].__rootLogPath)] using $($gitObj.GetRootLogPath()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([string]$cachedUserConfig[1].__rootLogPath)] using $($gitObj.GetRootLogPath()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -1080,8 +1080,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __logPath FROM Git Settings!`r`n" `
-                       " - Tried to use value [$([string]$cachedUserConfig[1].__logPath)] using $($gitObj.GetLogPath()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([string]$cachedUserConfig[1].__logPath)] using $($gitObj.GetLogPath()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -1096,8 +1096,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __reportPath FROM Git Settings!`r`n" `
-                       " - Tried to use value [$([string]$cachedUserConfig[1].__reportPath)] using $($gitObj.GetReportPath()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([string]$cachedUserConfig[1].__reportPath)] using $($gitObj.GetReportPath()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -1121,8 +1121,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __executablePath FROM 7Zip Settings!`r`n" `
-                       " - Tried to use value [$([string]$cachedUserConfig[2].__executablePath)] using $($sevenZipObj.GetExecutablePath()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([string]$cachedUserConfig[2].__executablePath)] using $($sevenZipObj.GetExecutablePath()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -1138,8 +1138,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __algorithm7Zip FROM 7Zip Settings!`r`n" `
-                       " - Tried to use value [$([int32]$cachedUserConfig[2].__algorithm7Zip)] using $($sevenZipObj.GetAlgorithm7Zip()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([int32]$cachedUserConfig[2].__algorithm7Zip)] using $($sevenZipObj.GetAlgorithm7Zip()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -1155,8 +1155,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __algorithmZip FROM 7Zip Settings!`r`n" `
-                       " - Tried to use value [$([int32]$cachedUserConfig[2].__algorithmZip)] using $($sevenZipObj.GetAlgorithmZip()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([int32]$cachedUserConfig[2].__algorithmZip)] using $($sevenZipObj.GetAlgorithmZip()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -1172,8 +1172,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __compressionLevel FROM 7Zip Settings!`r`n" `
-                       " - Tried to use value [$([int32]$cachedUserConfig[2].__compressionLevel)] using $($sevenZipObj.GetCompressionLevel()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([int32]$cachedUserConfig[2].__compressionLevel)] using $($sevenZipObj.GetCompressionLevel()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -1189,8 +1189,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __compressionMethod FROM 7Zip Settings!`r`n" `
-                       " - Tried to use value [$([int32]$cachedUserConfig[2].__compressionMethod)] using $($sevenZipObj.GetCompressionMethod()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([int32]$cachedUserConfig[2].__compressionMethod)] using $($sevenZipObj.GetCompressionMethod()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -1206,8 +1206,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __generateReport FROM 7Zip Settings!`r`n" `
-                       " - Tried to use value [$([bool]$cachedUserConfig[2].__generateReport)] using $($sevenZipObj.GetGenerateReport()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([bool]$cachedUserConfig[2].__generateReport)] using $($sevenZipObj.GetGenerateReport()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -1223,8 +1223,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __useMultithread FROM 7Zip Settings!`r`n" `
-                       " - Tried to use value [$([bool]$cachedUserConfig[2].__useMultithread)] using $($sevenZipObj.GetUseMultithread()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([bool]$cachedUserConfig[2].__useMultithread)] using $($sevenZipObj.GetUseMultithread()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -1240,8 +1240,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __verifyBuild FROM 7Zip Settings!`r`n" `
-                       " - Tried to use value [$([bool]$cachedUserConfig[2].__verifyBuild)] using $($sevenZipObj.GetVerifyBuild()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([bool]$cachedUserConfig[2].__verifyBuild)] using $($sevenZipObj.GetVerifyBuild()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -1257,8 +1257,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __rootLogPath FROM 7Zip Settings!`r`n" `
-                       " - Tried to use value [$([string]$cachedUserConfig[2].__rootLogPath)] using $($sevenZipObj.GetRootLogPath()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([string]$cachedUserConfig[2].__rootLogPath)] using $($sevenZipObj.GetRootLogPath()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -1274,8 +1274,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __logPath FROM 7Zip Settings!`r`n" `
-                       " - Tried to use value [$([string]$cachedUserConfig[2].__logPath)] using $($sevenZipObj.GetLogPath()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([string]$cachedUserConfig[2].__logPath)] using $($sevenZipObj.GetLogPath()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -1291,8 +1291,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __reportPath FROM 7Zip Settings!`r`n" `
-                       " - Tried to use value [$([string]$cachedUserConfig[2].__reportPath)] using $($sevenZipObj.GetReportPath()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([string]$cachedUserConfig[2].__reportPath)] using $($sevenZipObj.GetReportPath()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -1316,8 +1316,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __compressionLevel FROM PowerShell's Archive Settings!`r`n" `
-                       " - Tried to use value [$([int32]$cachedUserConfig[3].__compressionLevel)] using $($psArchive.GetCompressionLevel()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([int32]$cachedUserConfig[3].__compressionLevel)] using $($psArchive.GetCompressionLevel()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -1333,8 +1333,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __generateReport FROM PowerShell's Archive Settings!`r`n" `
-                       " - Tried to use value [$([bool]$cachedUserConfig[3].__generateReport)] using $($psArchive.GetGenerateReport()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([bool]$cachedUserConfig[3].__generateReport)] using $($psArchive.GetGenerateReport()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -1350,8 +1350,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __verifyBuild FROM PowerShell's Archive Settings!`r`n" `
-                       " - Tried to use value [$([bool]$cachedUserConfig[3].__verifyBuild)] using $($psArchive.GetVerifyBuild()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([bool]$cachedUserConfig[3].__verifyBuild)] using $($psArchive.GetVerifyBuild()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -1367,8 +1367,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __rootLogPath FROM PowerShell's Archive Settings!`r`n" `
-                       " - Tried to use value [$([string]$cachedUserConfig[3].__rootLogPath)] using $($psArchive.GetRootLogPath()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([string]$cachedUserConfig[3].__rootLogPath)] using $($psArchive.GetRootLogPath()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -1384,8 +1384,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __logPath FROM PowerShell's Archive Settings!`r`n" `
-                       " - Tried to use value [$([string]$cachedUserConfig[3].__logPath)] using $($psArchive.GetLogPath()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([string]$cachedUserConfig[3].__logPath)] using $($psArchive.GetLogPath()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
@@ -1401,8 +1401,8 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
             Write-Host "An error occurred while trying to set: __reportPath FROM PowerShell's Archive Settings!`r`n" `
-                       " - Tried to use value [$([string]$cachedUserConfig[3].__reportPath)] using $($psArchive.GetReportPath()) instead.`r`n"
-                       " - Error Message Provided: $($_)";
+                       " - Tried to use value [$([string]$cachedUserConfig[3].__reportPath)] using $($psArchive.GetReportPath()) instead.`r`n" `
+                       " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
 
 
