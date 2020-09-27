@@ -808,11 +808,11 @@
     #   $false = Failure to properly load configuration file.
     # -------------------------------
     #>
-    [bool] LoadStepWise([Object[]] $cachedUserConfig, `
-                        [UserPreferences] $userPref, `
-                        [GitControl] $gitObj, `
-                        [SevenZip] $sevenZipObj, `
-                        [DefaultCompress] $psArchive)
+    [bool] LoadStepWise([Object[]] $cachedUserConfig, `         # User's Previously Saved Configuration, deserialized.
+                        [UserPreferences] $userPref, `          # User's generalized preferences.
+                        [GitControl] $gitObj, `                 # User's Git preferences.
+                        [SevenZip] $sevenZipObj, `              # User's 7Zip preferences
+                        [DefaultCompress] $psArchive)           # User's PowerShell's Archive preferences.
     {
         # STEPWISE ALGORITHM - WITH VALIDATION
         # =====================================
