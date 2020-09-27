@@ -785,6 +785,7 @@
     #   that a certain variable no longer works or if it was initialized improperly.
     #
     # NOTE:
+    #  Stepwise Algorithm With Validation
     #  This function will require validation to assure that the values are 'correct' to the program's
     #   specifications, but also matches with the user's preferred preferences.  The point of the validation
     #   process is to assure that the user's variables will automatically update if the program's requirements
@@ -814,22 +815,14 @@
                         [SevenZip] $sevenZipObj, `              # User's 7Zip preferences
                         [DefaultCompress] $psArchive)           # User's PowerShell's Archive preferences.
     {
-        # STEPWISE ALGORITHM - WITH VALIDATION
-        # =====================================
-        # - - - - - - - - - - - - - - - - - - -
-        # =====================================
-
-
-
-
         # STEP 1 - USER PREFERENCES
         # -------------------------------------
         # -------------------------------------
         # -------------------------------------
 
 
-
         # USER PREFERENCES -- COMPRESSION TOOL
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
         try
         {
             # Set: Compression Tool
@@ -846,6 +839,7 @@
 
 
         # USER PREFERENCES -- NOTIFICATION TYPE
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
         try
         {
             # Set: Notification Type
@@ -862,6 +856,7 @@
 
 
         # USER PREFERENCES -- OUTPUT BUILDS PATH
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
         try
         {
             # Set: Output Builds Path
@@ -878,6 +873,7 @@
 
 
         # USER PREFERENCES -- PROJECT PATH
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
         try
         {
             # Set: Project Path
@@ -894,6 +890,7 @@
 
 
         # USER PREFERENCES -- USE BELL
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
         try
         {
             # Set: Use Bell
@@ -910,6 +907,7 @@
 
 
         # USER PREFERENCES -- USE GIT FEATURES
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
         try
         {
             # Set: Use Git Features
@@ -926,6 +924,7 @@
 
 
         # USER PREFERENCES -- USE WINDOWS EXPLORER
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
         try
         {
             # Set: Use Windows Explorer
@@ -946,10 +945,12 @@
         # -------------------------------------
         # -------------------------------------
         # -------------------------------------
-        
+
+
 
 
         # GIT SETTINGS -- CHANGELOG LIMIT
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
         try
         {
             # Set: Changelog Limit
@@ -966,6 +967,7 @@
 
 
         # GIT SETTINGS -- EXECUTABLE PATH
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
         try
         {
             # Set: Executable Path
@@ -982,6 +984,7 @@
 
 
         # GIT SETTINGS -- FETCH CHANGELOG
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
         try
         {
             # Set: Fetch Changelog
@@ -998,6 +1001,7 @@
 
 
         # GIT SETTINGS -- GENERATE REPORT
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
         try
         {
             # Set: Generate Report
@@ -1014,6 +1018,7 @@
 
 
         # GIT SETTINGS -- COMMIT ID LENGTH
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
         try
         {
             # Set: Commit ID Length
@@ -1030,6 +1035,7 @@
 
 
         # GIT SETTINGS -- UPDATE SOURCE
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
         try
         {
             # Set: Update Source
@@ -1046,6 +1052,7 @@
 
 
         # GIT SETTINGS -- ROOT LOG PATH
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
         try
         {
             # Set: Root Log Path
@@ -1062,6 +1069,7 @@
 
 
         # GIT SETTINGS -- LOG PATH
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
         try
         {
             # Set: Log Path
@@ -1078,6 +1086,7 @@
 
 
         # GIT SETTINGS -- REPORT PATH
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
         try
         {
             # Set: Report Path
@@ -1092,12 +1101,13 @@
         } # Catch : Unknown Value from Config.
 
 
-        
-        
+
+
         # STEP 3 - 7ZIP SETTINGS
         # -------------------------------------
         # -------------------------------------
         # -------------------------------------
+
 
 
 
@@ -1296,6 +1306,7 @@
 
 
 
+
         # POWERSHELL'S ARCHIVE SETTINGS -- COMPRESSION LEVEL
         # - - - - - - - - - - - - - - - - - - - - - - -
         try
@@ -1395,6 +1406,7 @@
                        " - Tried to use value [$([string]$cachedUserConfig[3].__reportPath)] using $($psArchive.GetReportPath()) instead.`r`n" `
                        " - Error Message Provided: $($_)`r`n";
         } # Catch : Unknown Value from Config.
+
 
 
         # Everything was okay, return successful operation
