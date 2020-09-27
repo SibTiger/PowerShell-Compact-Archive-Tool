@@ -779,42 +779,33 @@
    <# Load User Configuration - Stepwise
     # -------------------------------
     # Documentation:
-    #  This function will try to properly load the user's
-    #  configuration to the program through a stepwise
-    #  process, this is a tedious process but assures that
-    #  the settings are accurately loaded into the environment.
+    #  This function will try to properly load the user's preferences to the program's current environment
+    #   in a step-wise process.  This is, on purpose, a tedious process in which each variable will be
+    #   inspected and loaded into the application's environment.  With such a process, it will come clear
+    #   that a certain variable no longer works or if it was initialized improperly.
     #
     # NOTE:
-    #  This function will require validation to assure the
-    #  values are 'correct' to the program's specifications,
-    #  yet are also what the user wants.  The point of
-    #  validation is to assure that if the user variables
-    #  changed or contain data that does not meet with the
-    #  program's constraints, then the program will
-    #  automatically adjust the variables to meet with the
-    #  needs that the program is expecting.
+    #  This function will require validation to assure that the values are 'correct' to the program's
+    #   specifications, but also matches with the user's preferred preferences.  The point of the validation
+    #   process is to assure that the user's variables will automatically update if the program's requirements
+    #   or resources had changed over time.  Try to keep things easy as much as possible for the end-user.
     # -------------------------------
     # Parameters:
     #  [Object[]] Cached User Configuration
-    #     The user's configuration that was deserialized.
+    #     The user's configuration information that was deserialized.
     #  [ref] {UserPreferences} User Preferences
-    #     User's general preferences when interacting
-    #      within the program.
+    #     User's general preferences when interacting within the program.
     #  [ref] {GitControl} Git Object
-    #     User's preferences and settings for using the
-    #      Git functionality.
+    #     User's preferences and settings for using the Git functionality.
     #  [ref] {SevenZip} 7Zip Object
-    #     User's preferences and settings for using the
-    #      7Zip functionality.
+    #     User's preferences and settings for using the 7Zip functionality.
     #  [ref] {DefaultCompress} PowerShell's Archive Object
-    #     User's preferences and settings for using the
-    #      PowerShell Archive functionality.
+    #     User's preferences and settings for using the PowerShell Archive functionality.
     # -------------------------------
     # Output:
     #  [bool] Exit code
-    #   $false = Failure to properly load configuration
-    #             file.
     #   $true = Successfully loaded user's configurations.
+    #   $false = Failure to properly load configuration file.
     # -------------------------------
     #>
     [bool] LoadStepWise([Object[]] $cachedUserConfig, `
