@@ -2428,7 +2428,7 @@
     {
         # Prep a message to display to the user for this error; temporary variable.
         [string] $displayErrorMessage = ("An error occurred while trying to set: $($usrVariableName) FROM $($usrVariableNiceName)!`r`n" + `
-                                    "`t- Tried to use value [$(usrVariableValue)] using $($usrVariableCurrentValue) instead.`r`n" + `
+                                    "`t- Tried to use value [$($usrVariableValue)] using $($usrVariableCurrentValue) instead.`r`n" + `
                                     "$([Logging]::GetExceptionInfoShort($exceptionInformation))");
 
         # Generate the initial message
