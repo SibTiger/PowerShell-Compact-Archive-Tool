@@ -2420,11 +2420,11 @@
     #     Provides an error, an exception object, for why the operation had failed.
     # -------------------------------
     #>
-    [void] LoadStepWiseError([string] $usrVariableName,
-                            [string] $usrVariableNiceName,
-                            [string] $usrVariableValue,
-                            [string] $usrVariableCurrentValue,
-                            [exception] $exceptionInformation)
+    [void] LoadStepWiseError([string] $usrVariableName,             # Variable Internal Name
+                            [string] $usrVariableNiceName,          # Variable Internal Nice Name Meaning
+                            [string] $usrVariableValue,             # Value of the User Variable
+                            [string] $usrVariableCurrentValue,      # Variable's current value
+                            [exception] $exceptionInformation)      # Exception Information
     {
         # Prep a message to display to the user for this error; temporary variable.
         [string] $displayErrorMessage = ("An error occurred while trying to set: $($usrVariableName) FROM $($usrVariableNiceName)!`r`n" + `
