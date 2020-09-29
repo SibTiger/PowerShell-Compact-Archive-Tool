@@ -2393,9 +2393,62 @@
 
 
 
-
         # Everything was okay, return a successful status
         return $true;
     } # LoadStepWise()
+
+
+
+
+   <# Load User Configuration - Error Procedure
+    # -------------------------------
+    # Documentation:
+    #  This function will unify how the error's are to be displayed to the user and on the
+    #   program's logfile.  When a variable from the user configuration cannot be loaded,
+    #   then this function will fire - which will present the information as needed.
+    # -------------------------------
+    # Parameters:
+    #  [string] User Variable Name
+    #     Variable's name that was being processed.
+    #  [string] User Variable Nice Name
+    #     Variable's nice name, with object meaning for debugging sakes.
+    #  [string] User Variable Value
+    #     User's configuration value that could not be loaded.
+    #  [string] User Variable Current Value
+    #     Program's original current value of the variable.
+    #  [Exception] Exception Details
+    #     Provides an error, an exception object, for why the operation had failed.
+    # -------------------------------
+    #>
+    [void] LoadStepWiseError([string] $usrVariableName,
+                            [string] $usrVariableNiceName,
+                            [string] $usrVariableValue,
+                            [string] $usrVariableCurrentValue,
+                            [exception] $exceptionInformation)
+    {
+        # Prep a message to display to the user for this error; temporary variable.
+        [string] $displayErrorMessage = ("An error occurred while trying to set: $($usrVariableName) FROM $($usrVariableNiceName)!`r`n" + `
+                                    "`t- Tried to use value [$(usrVariableValue)] using $($usrVariableCurrentValue) instead.`r`n" + `
+                                    "$([Logging]::GetExceptionInfoShort($exceptionInformation))");
+
+        # Generate the initial message
+        [string] $logMessage = "$($displayErrorMessage)";
+
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
+                                "`t- Variable was not found within the user's configuration.`r`n" + `
+                                "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
+                                "`t- Variable contains illegal characters.");
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                    "$($logAdditionalMSG)", `   # Additional information
+                                    "Error");                   # Message level
+
+        # Display a message to the user that something went horribly wrong
+        #  and log that same message for referencing purpose.
+        [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                "Error");                       # Message level
+    } # LoadStepWiseError()
     #endregion
  } # LoadSaveUserConfiguration
