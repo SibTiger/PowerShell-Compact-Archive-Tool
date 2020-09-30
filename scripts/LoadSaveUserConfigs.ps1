@@ -834,36 +834,12 @@
         {
             # Because the value was unknown, we will keep what value is already stored.
 
-
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __compressionTool FROM User Preferences!`r`n" + `
-                                        "`t- Tried to use value [$($[int32]$cachedUserConfig[0].__compressionTool)] using $($userPref.GetCompressionTool()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__compressionTool", `                              # Variable Name
+                                "User Preferences", `                                   # Category of Variable
+                                "$([string]$cachedUserConfig[0].__compressionTool)", `  # Value Stored in Config
+                                "$([string]$userPref.GetCompressionTool())", `          # Current Value
+                                $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
