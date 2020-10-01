@@ -835,8 +835,8 @@
             # Because the value was unknown, we will keep what value is already stored.
 
             # Provide error information to the user and logfile.
-            $this.LoadStepWiseError("__compressionTool", `                              # Variable Name
-                                "User Preferences", `                                   # Category of Variable
+            $this.LoadStepWiseError("__compressionTool", `                              # The Variable Name
+                                "User Preferences", `                                   # The Variable Category
                                 "$([string]$cachedUserConfig[0].__compressionTool)", `  # Value Stored in Config
                                 "$([string]$userPref.GetCompressionTool())", `          # Current Value
                                 $_.Exception);                                          # Exception Details
@@ -858,35 +858,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __notificationType FROM User Preferences!`r`n" + `
-                                        "`t- Tried to use value [$([int32]$cachedUserConfig[0].__notificationType)] using $($userPref.GetBellEvents()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters or incorrect Data Type.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__notificationType", `                                 # The Variable Name
+                                "User Preferences", `                                       # The Variable Category
+                                "$([string]$cachedUserConfig[0].__notificationType)", `     # Value Stored in Config
+                                "$([string]$userPref.GetBellEvents())", `                   # Current Value
+                                $_.Exception);                                              # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -905,35 +882,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __outputBuildsPath FROM User Preferences!`r`n" + `
-                                        "`t- Tried to use value [$([string]$cachedUserConfig[0].__outputBuildsPath)] using $($userPref.GetProjectBuildsPath()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__outputBuildsPath", `                                 # The Variable Name
+                                "User Preferences", `                                       # The Variable Category
+                                "$([string]$cachedUserConfig[0].__outputBuildsPath)", `     # Value Stored in Config
+                                "$([string]$userPref.GetProjectBuildsPath())", `            # Current Value
+                                $_.Exception);                                              # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -952,35 +906,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __projectPath FROM User Preferences!`r`n" + `
-                                        "`t- Tried to use value [$([string]$cachedUserConfig[0].__projectPath)] using $($userPref.GetProjectPath()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__projectPath", `                              # The Variable Name
+                                "User Preferences", `                               # The Variable Category
+                                "$([string]$cachedUserConfig[0].__projectPath)", `  # Value Stored in Config
+                                "$([string]$userPref.GetProjectPath())", `          # Current Value
+                                $_.Exception);                                      # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -999,35 +930,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __ringMyDingaling FROM User Preferences!`r`n" + `
-                                        "`t- Tried to use value [$([bool]$cachedUserConfig[0].__ringMyDingaling)] using $($userPref.GetUseBell()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__ringMyDingaling", `                              # The Variable Name
+                                "User Preferences", `                                   # The Variable Category
+                                "$([string]$cachedUserConfig[0].__ringMyDingaling))", ` # Value Stored in Config
+                                "$([string]$userPref.GetUseBell())", `                  # Current Value
+                                $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1046,35 +954,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __useGitFeatures FROM User Preferences!`r`n" + `
-                                        "`t- Tried to use value [$([bool]$cachedUserConfig[0].__useGitFeatures)] using $($userPref.GetUseGitFeatures()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__useGitFeatures", `                               # The Variable Name
+                                "User Preferences", `                                   # The Variable Category
+                                "$([string]$cachedUserConfig[0].__useGitFeatures))", `  # Value Stored in Config
+                                "$([string]$userPref.GetUseGitFeatures())", `           # Current Value
+                                $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1093,35 +978,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __useWindowsExplorer FROM User Preferences!`r`n" + `
-                                        "`t- Tried to use value [$([bool]$cachedUserConfig[0].__useWindowsExplorer)] using $($userPref.GetUseWindowsExplorer()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__useWindowsExplorer", `                               # The Variable Name
+                                "User Preferences", `                                       # The Variable Category
+                                "$([string]$cachedUserConfig[0].__useWindowsExplorer))", `  # Value Stored in Config
+                                "$([string]$userPref.GetUseWindowsExplorer())", `           # Current Value
+                                $_.Exception);                                              # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1147,35 +1009,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __changelogLimit FROM Git Settings!`r`n" + `
-                                        "`t- Tried to use value [$([int32]$cachedUserConfig[1].__changelogLimit)] using $($gitObj.GetChangelogLimit()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__changelogLimit", `                               # The Variable Name
+                                "Git Settings", `                                       # The Variable Category
+                                "$([string]$cachedUserConfig[1].__changelogLimit))", `  # Value Stored in Config
+                                "$([string]$gitObj.GetChangelogLimit())", `             # Current Value
+                                $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1194,35 +1033,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __executablePath FROM Git Settings!`r`n" + `
-                                        "`t- Tried to use value [$([string]$cachedUserConfig[1].__executablePath)] using $($gitObj.GetExecutablePath()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__executablePath", `                               # The Variable Name
+                                "Git Settings", `                                       # The Variable Category
+                                "$([string]$cachedUserConfig[1].__executablePath))", `  # Value Stored in Config
+                                "$([string]$gitObj.GetExecutablePath())", `             # Current Value
+                                $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1241,35 +1057,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __fetchChangelog FROM Git Settings!`r`n" + `
-                                        "`t- Tried to use value [$([bool]$cachedUserConfig[1].__fetchChangelog)] using $($gitObj.GetFetchChangelog()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__fetchChangelog", `                               # The Variable Name
+                                "Git Settings", `                                       # The Variable Category
+                                "$([string]$cachedUserConfig[1].__fetchChangelog))", `  # Value Stored in Config
+                                "$([string]$gitObj.GetFetchChangelog())", `             # Current Value
+                                $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1288,35 +1081,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __generateReport FROM Git Settings!`r`n" + `
-                                        "`t- Tried to use value [$([bool]$cachedUserConfig[1].__generateReport)] using $($gitObj.GetGenerateReport()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__generateReport", `                               # The Variable Name
+                                "Git Settings", `                                       # The Variable Category
+                                "$([string]$cachedUserConfig[1].__generateReport))", `  # Value Stored in Config
+                                "$([string]$gitObj.GetGenerateReport())", `             # Current Value
+                                $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1335,35 +1105,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __lengthCommitID FROM Git Settings!`r`n" + `
-                                        "`t- Tried to use value [$([int32]$cachedUserConfig[1].__lengthCommitID)] using $($gitObj.GetLengthCommitID()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__lengthCommitID", `                               # The Variable Name
+                                "Git Settings", `                                       # The Variable Category
+                                "$([string]$cachedUserConfig[1].__lengthCommitID))", `  # Value Stored in Config
+                                "$([string]$gitObj.GetLengthCommitID())", `             # Current Value
+                                $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1382,35 +1129,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __updateSource FROM Git Settings!`r`n" + `
-                                        "`t- Tried to use value [$([bool]$cachedUserConfig[1].__updateSource)] using $($gitObj.GetUpdateSource()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__updateSource", `                                 # The Variable Name
+                                "Git Settings", `                                       # The Variable Category
+                                "$([string]$cachedUserConfig[1].__updateSource))", `    # Value Stored in Config
+                                "$([string]$gitObj.GetUpdateSource())", `               # Current Value
+                                $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1429,35 +1153,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __rootLogPath FROM Git Settings!`r`n" + `
-                                        "`t- Tried to use value [$([string]$cachedUserConfig[1].__rootLogPath)] using $($gitObj.GetRootLogPath()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__rootLogPath", `                                  # The Variable Name
+                                "Git Settings", `                                       # The Variable Category
+                                "$([string]$cachedUserConfig[1].__rootLogPath))", `     # Value Stored in Config
+                                "$([string]$gitObj.GetRootLogPath())", `                # Current Value
+                                $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1476,35 +1177,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __logPath FROM Git Settings!`r`n" + `
-                                        "`t- Tried to use value [$([string]$cachedUserConfig[1].__logPath)] using $($gitObj.GetLogPath()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__logPath", `                                  # The Variable Name
+                                "Git Settings", `                                   # The Variable Category
+                                "$([string]$cachedUserConfig[1].__logPath))", `     # Value Stored in Config
+                                "$([string]$gitObj.GetLogPath())", `                # Current Value
+                                $_.Exception);                                      # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1523,35 +1201,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __reportPath FROM Git Settings!`r`n" + `
-                                        "`t- Tried to use value [$([string]$cachedUserConfig[1].__reportPath)] using $($gitObj.GetReportPath()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__reportPath", `                                   # The Variable Name
+                                "Git Settings", `                                       # The Variable Category
+                                "$([string]$cachedUserConfig[1].__reportPath))", `      # Value Stored in Config
+                                "$([string]$gitObj.GetReportPath())", `                 # Current Value
+                                $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1577,35 +1232,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __executablePath FROM 7Zip Settings!`r`n" + `
-                                        "`t- Tried to use value [$([string]$cachedUserConfig[2].__executablePath)] using $($sevenZipObj.GetExecutablePath()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__executablePath", `                               # The Variable Name
+                                "7Zip Settings", `                                      # The Variable Category
+                                "$([string]$cachedUserConfig[2].__executablePath))", `  # Value Stored in Config
+                                "$([string]$sevenZipObj.GetExecutablePath())", `        # Current Value
+                                $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1624,35 +1256,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __algorithm7Zip FROM 7Zip Settings!`r`n" + `
-                                        "`t- Tried to use value [$([int32]$cachedUserConfig[2].__algorithm7Zip)] using $($sevenZipObj.GetAlgorithm7Zip()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__algorithm7Zip", `                                # The Variable Name
+                                "7Zip Settings", `                                      # The Variable Category
+                                "$([string]$cachedUserConfig[2].__algorithm7Zip))", `   # Value Stored in Config
+                                "$([string]$sevenZipObj.GetAlgorithm7Zip())", `         # Current Value
+                                $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1671,35 +1280,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __algorithmZip FROM 7Zip Settings!`r`n" + `
-                                        "`t- Tried to use value [$([int32]$cachedUserConfig[2].__algorithmZip)] using $($sevenZipObj.GetAlgorithmZip()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__algorithmZip", `                                 # The Variable Name
+                                "7Zip Settings", `                                      # The Variable Category
+                                "$([string]$cachedUserConfig[2].__algorithmZip))", `    # Value Stored in Config
+                                "$([string]$sevenZipObj.GetAlgorithmZip())", `          # Current Value
+                                $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1718,35 +1304,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __compressionLevel FROM 7Zip Settings!`r`n" + `
-                                        "`t- Tried to use value [$([int32]$cachedUserConfig[2].__compressionLevel)] using $($sevenZipObj.GetCompressionLevel()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__compressionLevel", `                                 # The Variable Name
+                                "7Zip Settings", `                                          # The Variable Category
+                                "$([string]$cachedUserConfig[2].__compressionLevel))", `    # Value Stored in Config
+                                "$([string]$sevenZipObj.GetCompressionLevel())", `          # Current Value
+                                $_.Exception);                                              # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1765,35 +1328,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __compressionMethod FROM 7Zip Settings!`r`n" + `
-                                        "`t- Tried to use value [$([int32]$cachedUserConfig[2].__compressionMethod)] using $($sevenZipObj.GetCompressionMethod()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__compressionMethod", `                                # The Variable Name
+                                "7Zip Settings", `                                          # The Variable Category
+                                "$([string]$cachedUserConfig[2].__compressionMethod))", `   # Value Stored in Config
+                                "$([string]$sevenZipObj.GetCompressionMethod())", `         # Current Value
+                                $_.Exception);                                              # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1812,35 +1352,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __generateReport FROM 7Zip Settings!`r`n" + `
-                                        "`t- Tried to use value [$([bool]$cachedUserConfig[2].__generateReport)] using $($sevenZipObj.GetGenerateReport()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__generateReport", `                               # The Variable Name
+                                "7Zip Settings", `                                      # The Variable Category
+                                "$([string]$cachedUserConfig[2].__generateReport))", `  # Value Stored in Config
+                                "$([string]$sevenZipObj.GetGenerateReport())", `        # Current Value
+                                $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1859,35 +1376,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __useMultithread FROM 7Zip Settings!`r`n" + `
-                                        "`t- Tried to use value [$([bool]$cachedUserConfig[2].__useMultithread)] using $($sevenZipObj.GetUseMultithread()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__useMultithread", `                               # The Variable Name
+                                "7Zip Settings", `                                      # The Variable Category
+                                "$([string]$cachedUserConfig[2].__useMultithread))", `  # Value Stored in Config
+                                "$([string]$sevenZipObj.GetUseMultithread())", `        # Current Value
+                                $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1906,35 +1400,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __verifyBuild FROM 7Zip Settings!`r`n" + `
-                                        "`t- Tried to use value [$([bool]$cachedUserConfig[2].__verifyBuild)] using $($sevenZipObj.GetVerifyBuild()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__verifyBuild", `                                  # The Variable Name
+                                "7Zip Settings", `                                      # The Variable Category
+                                "$([string]$cachedUserConfig[2].__verifyBuild))", `     # Value Stored in Config
+                                "$([string]$sevenZipObj.GetVerifyBuild())", `           # Current Value
+                                $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1953,35 +1424,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __rootLogPath FROM 7Zip Settings!`r`n" + `
-                                        "`t- Tried to use value [$([string]$cachedUserConfig[2].__rootLogPath)] using $($sevenZipObj.GetRootLogPath()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__rootLogPath", `                                  # The Variable Name
+                                "7Zip Settings", `                                      # The Variable Category
+                                "$([string]$cachedUserConfig[2].__rootLogPath))", `     # Value Stored in Config
+                                "$([string]$sevenZipObj.GetRootLogPath())", `           # Current Value
+                                $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -2000,35 +1448,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __logPath FROM 7Zip Settings!`r`n" + `
-                                        "`t- Tried to use value [$([string]$cachedUserConfig[2].__logPath)] using $($sevenZipObj.GetLogPath()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__logPath", `                                  # The Variable Name
+                                "7Zip Settings", `                                  # The Variable Category
+                                "$([string]$cachedUserConfig[2].__logPath))", `     # Value Stored in Config
+                                "$([string]$sevenZipObj.GetLogPath())", `           # Current Value
+                                $_.Exception);                                      # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -2047,35 +1472,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __reportPath FROM 7Zip Settings!`r`n" + `
-                                        "`t- Tried to use value [$([string]$cachedUserConfig[2].__reportPath)] using $($sevenZipObj.GetReportPath()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__reportPath", `                                   # The Variable Name
+                                "7Zip Settings", `                                      # The Variable Category
+                                "$([string]$cachedUserConfig[2].__reportPath))", `      # Value Stored in Config
+                                "$([string]$sevenZipObj.GetReportPath())", `            # Current Value
+                                $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -2101,35 +1503,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __compressionLevel FROM PowerShell's Archive Settings!`r`n" + `
-                                        "`t- Tried to use value [$([int32]$cachedUserConfig[3].__compressionLevel)] using $($psArchive.GetCompressionLevel()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__compressionLevel", `                                 # The Variable Name
+                                "Archive Settings", `                                       # The Variable Category
+                                "$([string]$cachedUserConfig[3].__compressionLevel))", `    # Value Stored in Config
+                                "$([string]$psArchive.GetCompressionLevel())", `            # Current Value
+                                $_.Exception);                                              # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -2148,35 +1527,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __generateReport FROM PowerShell's Archive Settings!`r`n" + `
-                                        "`t- Tried to use value [$([bool]$cachedUserConfig[3].__generateReport)] using $($psArchive.GetGenerateReport()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__generateReport", `                                   # The Variable Name
+                                "Archive Settings", `                                       # The Variable Category
+                                "$([string]$cachedUserConfig[3].__generateReport))", `      # Value Stored in Config
+                                "$([string]$psArchive.GetGenerateReport())", `              # Current Value
+                                $_.Exception);                                              # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -2195,35 +1551,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __verifyBuild FROM PowerShell's Archive Settings!`r`n" + `
-                                        "`t- Tried to use value [$([bool]$cachedUserConfig[3].__verifyBuild)] using $($psArchive.GetVerifyBuild()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__verifyBuild", `                                  # The Variable Name
+                                "Archive Settings", `                                   # The Variable Category
+                                "$([string]$cachedUserConfig[3].__verifyBuild))", `     # Value Stored in Config
+                                "$([string]$psArchive.GetVerifyBuild())", `             # Current Value
+                                $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -2242,35 +1575,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __rootLogPath FROM PowerShell's Archive Settings!`r`n" + `
-                                        "`t- Tried to use value [$([string]$cachedUserConfig[3].__rootLogPath)] using $($psArchive.GetRootLogPath()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__rootLogPath", `                                  # The Variable Name
+                                "Archive Settings", `                                   # The Variable Category
+                                "$([string]$cachedUserConfig[3].__rootLogPath))", `     # Value Stored in Config
+                                "$([string]$psArchive.GetRootLogPath())", `             # Current Value
+                                $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -2289,35 +1599,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __logPath FROM PowerShell's Archive Settings!`r`n" + `
-                                        "`t- Tried to use value [$([string]$cachedUserConfig[3].__logPath)] using $($psArchive.GetLogPath()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__logPath", `                                  # The Variable Name
+                                "Archive Settings", `                               # The Variable Category
+                                "$([string]$cachedUserConfig[3].__logPath))", `     # Value Stored in Config
+                                "$([string]$psArchive.GetLogPath())", `             # Current Value
+                                $_.Exception);                                      # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -2336,35 +1623,12 @@
             # Because the value was unknown, we will keep what value is already stored.
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = ("An error occurred while trying to set: __reportPath FROM PowerShell's Archive Settings!`r`n" + `
-                                        "`t- Tried to use value [$([string]$cachedUserConfig[3].__reportPath)] using $($psArchive.GetReportPath()) instead.`r`n" + `
-                                        "$([Logging]::GetExceptionInfoShort($_.Exception))");
-
-            # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
-                                    "`t- Variable was not found within the user's configuration.`r`n" + `
-                                    "`t- The variable did not pass the validation process; the possible value was not correct.`r`n" + `
-                                    "`t- Variable contains illegal characters.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
+            # Provide error information to the user and logfile.
+            $this.LoadStepWiseError("__reportPath", `                                   # The Variable Name
+                                "Archive Settings", `                                   # The Variable Category
+                                "$([string]$cachedUserConfig[3].__reportPath))", `      # Value Stored in Config
+                                "$([string]$psArchive.GetReportPath())", `              # Current Value
+                                $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
