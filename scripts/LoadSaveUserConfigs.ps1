@@ -885,8 +885,8 @@
             # Provide error information to the user and logfile.
             $this.LoadStepWiseError("__outputBuildsPath", `                                 # The Variable Name
                                 "User Preferences", `                                       # The Variable Category
-                                "$([string]$cachedUserConfig[0].__outputBuildsPath)", `     # Value Stored in Config
-                                "$([string]$userPref.GetProjectBuildsPath())", `            # Current Value
+                                "$([string]$cachedUserConfig[0].__outputBuildsPath)", `     # Value Stored in User Config
+                                "$([string]$userPref.GetProjectBuildsPath())", `            # Current value of Variable
                                 $_.Exception);                                              # Exception Details
         } # Catch : Unknown Value from Config.
 
@@ -1648,22 +1648,22 @@
     #   then this function will fire - which will present the information as needed.
     # -------------------------------
     # Parameters:
-    #  [string] User Variable Name
-    #     Variable's name that was being processed.
-    #  [string] User Variable Nice Name
-    #     Variable's nice name, with object meaning for debugging sakes.
-    #  [string] User Variable Value
-    #     User's configuration value that could not be loaded.
-    #  [string] User Variable Current Value
-    #     Program's original current value of the variable.
+    #  [string] The Variable Name
+    #     The variable name that was being processed.
+    #  [string] The Variable Category
+    #     The category in which the variable belongs to within the program.
+    #  [string] Value Stored in User Configuration
+    #     The value that was previously stored in the user's configuration file.
+    #  [string] Current value of Variable
+    #     The current, possibly default, value of the variable at this present instance.
     #  [exception] Exception Details
     #     Provides an error, an exception object, for why the operation had failed.
     # -------------------------------
     #>
-    [void] LoadStepWiseError([string] $usrVariableName, `           # Variable Internal Name
-                            [string] $usrVariableNiceName, `        # Variable Internal Nice Name Meaning
-                            [string] $usrVariableValue, `           # Value of the User Variable
-                            [string] $usrVariableCurrentValue, `    # Variable's current value
+    [void] LoadStepWiseError([string] $usrVariableName, `           # The Variable Name
+                            [string] $usrVariableNiceName, `        # The Variable Category
+                            [string] $usrVariableValue, `           # Value Stored in User Config
+                            [string] $usrVariableCurrentValue, `    # Current value of Variable
                             [exception] $exceptionInformation)      # Exception Information
     {
         # Prep a message to display to the user for this error; temporary variable.
