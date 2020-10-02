@@ -1660,15 +1660,15 @@
     #     Provides an error, an exception object, for why the operation had failed.
     # -------------------------------
     #>
-    [void] LoadStepWiseError([string] $usrVariableName, `           # The Variable Name
-                            [string] $usrVariableNiceName, `        # The Variable Category
-                            [string] $usrVariableValue, `           # Value Stored in User Config
-                            [string] $usrVariableCurrentValue, `    # Current value of Variable
+    [void] LoadStepWiseError([string] $variableName, `              # The Variable Name
+                            [string] $variableCategory, `           # The Variable Category
+                            [string] $variableValueUserStored, `    # Value Stored in User Config
+                            [string] $variableValueCurrent, `       # Current value of Variable
                             [exception] $exceptionInformation)      # Exception Information
     {
         # Prep a message to display to the user for this error; temporary variable.
-        [string] $displayErrorMessage = ("An error occurred while trying to set: $($usrVariableName) FROM $($usrVariableNiceName)!`r`n" + `
-                                    "`t- Tried to use value [$($usrVariableValue)] using $($usrVariableCurrentValue) instead.`r`n" + `
+        [string] $displayErrorMessage = ("An error occurred while trying to set: $($variableName) FROM $($variableCategory)!`r`n" + `
+                                    "`t- Tried to use value [$($variableValueUserStored)] using $($variableValueCurrent) instead.`r`n" + `
                                     "$([Logging]::GetExceptionInfoShort($exceptionInformation))");
 
         # Generate the initial message
