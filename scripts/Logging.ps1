@@ -966,6 +966,15 @@ class Logging
                                     [string] $additionalInformation, `      # Additional information to be recorded
                                     [LogMessageLevel] $messageLevel)        # Severity of the message
     {
+        # Is the Debugging Functionality active?
+        #  If the functionality is deactivated - then abort any further actions, otherwise proceed onwards with the debugging procedure.
+        if ([Loggin]::DebugLoggingState() -eq $false)
+        {
+            # Logging is presently deactivated; do not perform any debug operations.
+            return;
+        } # IF : Abort Debug Feature
+
+
         # Because we have the information already provided for us, we will merely pass the
         #  data to the appropriate functions to properly record it in the logfile.
         [Logging]::__FormatLogMessage($messageLevel, `
