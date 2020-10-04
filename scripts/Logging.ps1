@@ -875,8 +875,14 @@ class Logging
         # Display the message to the end-user's screen.
         [IOCommon]::WriteToBuffer("$($msg)", "$($msgLevel)");
 
-        # Log the message to the logfile.
-        [Logging]::__FormatLogMessage("$($msgLevel)", "$($msg)", "$($null)") | Out-Null;
+
+        # Is the Debugging Functionality active?
+        #  If the functionality is deactivated - then we'ire finished at this point, otherwise proceed onwards by logging the message.
+        if ([Loggin]::DebugLoggingState() -eq $true)
+        {
+            # Log the message to the logfile.
+            [Logging]::__FormatLogMessage("$($msgLevel)", "$($msg)", "$($null)") | Out-Null;
+        } # IF : Debug Functionality Active
     } # DisplayMessage()
 
 
