@@ -3676,7 +3676,7 @@ class GitControl
                                       "Provided below is an overview of commits that" + `
                                       "  have been submitted to this project's repository.`r`n`r`n" + `
                                       "List of Commits:`r`n" + `
-                                      "$($this.MakeCommitGraphInfo($projectPath))");
+                                      "$($this.GenerateActivityLineGraph($projectPath))");
 
 
                     # Write the message to the report file
