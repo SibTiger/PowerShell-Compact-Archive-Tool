@@ -878,7 +878,7 @@ class Logging
 
         # Is the Debugging Functionality active?
         #  If the functionality is deactivated - then we'ire finished at this point, otherwise proceed onwards by logging the message.
-        if ([Loggin]::DebugLoggingState() -eq $true)
+        if ([Logging]::DebugLoggingState() -eq $true)
         {
             # Log the message to the logfile.
             [Logging]::__FormatLogMessage("$($msgLevel)", "$($msg)", "$($null)") | Out-Null;
@@ -968,7 +968,7 @@ class Logging
     {
         # Is the Debugging Functionality active?
         #  If the functionality is deactivated - then abort any further actions, otherwise proceed onwards with the debugging procedure.
-        if ([Loggin]::DebugLoggingState() -eq $false)
+        if ([Logging]::DebugLoggingState() -eq $false)
         {
             # Logging is presently deactivated; do not perform any debug operations.
             return;
