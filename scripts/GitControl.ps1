@@ -1284,7 +1284,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
+        if ($this.__CreateDirectories() -eq $false)
         {
             # Because the logging directories could not be created, we cannot log.
 
@@ -1504,7 +1504,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
+        if ($this.__CreateDirectories() -eq $false)
         {
             # Because the logging directories could not be created, we cannot log.
 
@@ -1700,7 +1700,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
+        if ($this.__CreateDirectories() -eq $false)
         {
             # Because the logging directories could not be created, we cannot log.
 
@@ -1909,7 +1909,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
+        if ($this.__CreateDirectories() -eq $false)
         {
             # Because the logging directories could not be created, we cannot log.
 
@@ -2198,7 +2198,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
+        if ($this.__CreateDirectories() -eq $false)
         {
             # Because the logging directories could not be created, we cannot log.
 
@@ -2382,7 +2382,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
+        if ($this.__CreateDirectories() -eq $false)
         {
             # Because the logging directories could not be created, we cannot log.
 
@@ -2576,7 +2576,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
+        if ($this.__CreateDirectories() -eq $false)
         {
             # Because the logging directories could not be created, we cannot log.
 
@@ -2783,7 +2783,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
+        if ($this.__CreateDirectories() -eq $false)
         {
             # Because the logging directories could not be created, we cannot log.
 
@@ -2972,7 +2972,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
+        if ($this.__CreateDirectories() -eq $false)
         {
             # Because the logging directories could not be created, we cannot log.
 
@@ -3257,7 +3257,7 @@ class GitControl
         # ---------------------------
 
         # Make sure that the Git Logging directories are ready for use (if required)
-        if (([Logging]::DebugLoggingState() -eq $true) -and ($this.__CreateDirectories() -eq $false))
+        if ($this.__CreateDirectories() -eq $false)
         {
             # Because the logging directories could not be created, we cannot log.
 
