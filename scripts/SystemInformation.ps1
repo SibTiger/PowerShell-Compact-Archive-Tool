@@ -3,8 +3,11 @@
  # ==============================
  # ==============================
  # This class is designed to provide information regarding the host system's configuration.
- #  The information collected will be based upon the system that is running the program, but
- #  
+ #  The information collected within this class can be used for debugging purposes.  As all
+ #  systems varies in hardware configurations, it can be useful to retrieve just the basic
+ #  information regarding the host's hardware and simple Operating System's environment.
+ #  The data collected within this source - cannot be used in an intrusive way that will
+ #  infringe upon the user's privacy.
  #>
 
 
