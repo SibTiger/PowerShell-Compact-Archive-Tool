@@ -23,7 +23,14 @@ class SystemInformation
     #region Private Functions
     # -------------------------------
     # Documentation:
-    #  This function will 
+    #  This function will try to detect the host's current Operating System in which the application is currently running.
+    #   With this, it can be possible for the application to change its behavior one way for an environment - while
+    #   different in another.  Thus, this function provides a gateway for cross-platform support.
+    # -------------------------------
+    # Output:
+    #  [string] Operating System
+    #   The detected Operating System that the application is presently running within.
+    # -------------------------------
     static Hidden [string] __OperatingSystem()
     {
         if ($IsWindows)
