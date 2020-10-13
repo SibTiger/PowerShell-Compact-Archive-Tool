@@ -21,12 +21,19 @@ class SystemInformation
 
 
     #region Private Functions
+
+    # Detect Operating System
     # -------------------------------
     # Documentation:
     #  This function will try to detect the host's current Operating System in which the
     #   application is currently running.  With this, it can be possible for the application
     #   to change its behavior one way for an environment - while different in another.  Thus,
     #   this function provides a gateway for cross-platform support.
+    #
+    # NOTE:
+    #   This function relies on PowerShell Core's environment in order to perform this operation.
+    #   Thus, using a legacy PowerShell version will not be sufficient for this function's
+    #   requirements.
     # -------------------------------
     # Output:
     #  [string] Operating System
