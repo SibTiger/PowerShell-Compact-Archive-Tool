@@ -23,9 +23,10 @@ class SystemInformation
     #region Private Functions
     # -------------------------------
     # Documentation:
-    #  This function will try to detect the host's current Operating System in which the application is currently running.
-    #   With this, it can be possible for the application to change its behavior one way for an environment - while
-    #   different in another.  Thus, this function provides a gateway for cross-platform support.
+    #  This function will try to detect the host's current Operating System in which the
+    #   application is currently running.  With this, it can be possible for the application
+    #   to change its behavior one way for an environment - while different in another.  Thus,
+    #   this function provides a gateway for cross-platform support.
     # -------------------------------
     # Output:
     #  [string] Operating System
@@ -33,27 +34,39 @@ class SystemInformation
     # -------------------------------
     static Hidden [string] __OperatingSystem()
     {
+        # Check if the host is running a Windows environment.
         if ($IsWindows)
         {
+            # Detected Windows
             return "Windows";
         } # If : Host Running Windows
 
+
+        # Check if the host is running a GNU\Linux environment.
         elseif ($IsLinux)
         {
+            # Detected Linux
             return "Linux";
         } # If : Host Running Linux
 
+
+        # Check if the host is running a Macintosh environment.
         elseif ($IsMacOS)
         {
+            # Detected Macintosh
             return "Macintosh";
         } # If : Host Running Macintosh OS
 
-        # 
+
+        # Unable to determine the host's environment
         else
         {
+            # Return an unknown instead.
             return "UNKNOWN"
         } # Else : Unknown Environment
     } # __OperatingSystem()
+
+
 
 
     # PowerShell Edition
