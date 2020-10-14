@@ -120,7 +120,24 @@ class SystemInformation
         } # else : Unknown POSH Edition
     } # __PowerShellEdition()
 
-    # Process ID
+
+
+
+
+    # Return Application's (PowerShell's) Process ID
+    # -------------------------------
+    # Documentation:
+    #  This function will provide the application's (or essentially the PowerShell's) Process ID
+    #   within the Operating System's environment.
+    #
+    # NOTE:
+    #   This function relies on PowerShell's environment to perform the main operation.  Luckily,
+    #    this works with the older versions of PowerShell.
+    # -------------------------------
+    # Output:
+    #  [int] PowerShell's Process ID
+    #   The Process ID of the PowerShell's instance (with the application active)
+    # -------------------------------
     static Hidden [int] __ProcessID()
     {
         return $PID;
