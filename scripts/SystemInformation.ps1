@@ -96,7 +96,7 @@ class SystemInformation
     static [string] PowerShellEdition()
     {
         # Check if the host PowerShell Edition is POSH .Net Core
-        if ($Global:PSEdition == "Core")
+        if ($Global:PSEdition -eq "Core")
         {
             # Detected PowerShell Core
             return "Core";
@@ -104,7 +104,7 @@ class SystemInformation
 
 
         # Check if the host PowerShell Edition is Legacy
-        elseif ($Global:PSEdition == "Desktop")
+        elseif ($Global:PSEdition -eq "Desktop")
         {
             # Detected PowerShell (5.1 and earlier)
             return "Legacy";
