@@ -76,7 +76,23 @@ class SystemInformation
 
 
 
-    # PowerShell Edition
+
+    # Detect PowerShell Edition
+    # -------------------------------
+    # Documentation:
+    #  This function will try to detect the PowerShell Edition that is running the application.
+    #   With this, it can be possible for the application to change its behavior one way for an
+    #   environment - while different in another.  Thus, it is possible for the application to
+    #   support multiple environments if possible.
+    #
+    # NOTE:
+    #   This function relies on PowerShell's environment to perform the main operation.  Luckily,
+    #    this works with the older versions of PowerShell.
+    # -------------------------------
+    # Output:
+    #  [string] PowerShell Edition
+    #   The detected PowerShell Edition that this application is presently running within.
+    # -------------------------------
     static Hidden [string] __PowerShellEdition()
     {
         # Check if the host PowerShell Edition is POSH .Net Core
