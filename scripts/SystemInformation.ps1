@@ -42,7 +42,7 @@ class SystemInformation
     static Hidden [string] __OperatingSystem()
     {
         # Check if the host is running a Windows environment.
-        if ($IsWindows)
+        if ($Global:IsWindows)
         {
             # Detected Windows
             return "Windows";
@@ -50,7 +50,7 @@ class SystemInformation
 
 
         # Check if the host is running a GNU\Linux environment.
-        elseif ($IsLinux)
+        elseif ($Global:IsLinux)
         {
             # Detected Linux
             return "Linux";
@@ -58,7 +58,7 @@ class SystemInformation
 
 
         # Check if the host is running a Macintosh environment.
-        elseif ($IsMacOS)
+        elseif ($Global:IsMacOS)
         {
             # Detected Macintosh
             return "Macintosh";
@@ -96,7 +96,7 @@ class SystemInformation
     static Hidden [string] __PowerShellEdition()
     {
         # Check if the host PowerShell Edition is POSH .Net Core
-        if ($PSEdition == "Core")
+        if ($Global:PSEdition == "Core")
         {
             # Detected PowerShell Core
             return "Core";
@@ -104,7 +104,7 @@ class SystemInformation
 
 
         # Check if the host PowerShell Edition is Legacy
-        elseif ($PSEdition == "Desktop")
+        elseif ($Global:PSEdition == "Desktop")
         {
             # Detected PowerShell (5.1 and earlier)
             return "Legacy";
@@ -140,8 +140,8 @@ class SystemInformation
     # -------------------------------
     static Hidden [int] __ProcessID()
     {
-        return $PID;
     }
+        return $Global:PID;
 
 
 
@@ -163,8 +163,8 @@ class SystemInformation
     # -------------------------------
     static Hidden [string] __WorkingDirectoryPath()
     {
-        return $PWD.Path;
     }
+        return $Global:PWD.Path;
 
 
 
@@ -188,7 +188,7 @@ class SystemInformation
     # -------------------------------
     static Hidden [string] __OutputEncoding()
     {
-        return $OutputEncoding.BodyName;
     }
+        return $Global:OutputEncoding.BodyName;
     #endregion
 } # SystemInformation
