@@ -79,21 +79,30 @@ class SystemInformation
     # PowerShell Edition
     static Hidden [string] __PowerShellEdition()
     {
+        # Check if the host PowerShell Edition is POSH .Net Core
         if ($PSEdition == "Core")
         {
+            # Detected PowerShell Core
             return "Core";
-        }
+        } # if : PowerShell Core
 
+
+        # Check if the host PowerShell Edition is Legacy
         elseif ($PSEdition == "Desktop")
         {
+            # Detected PowerShell (5.1 and earlier)
             return "Legacy";
-        }
+        } # if : PowerShell Legacy
 
+
+        # Unable to detect the PowerShell edition.
         else
         {
+            # Unable to detect PowerShell edition.
+            #  Return an unknown instead.
             return "UNKNOWN";
-        }
-    }
+        } # else : Unknown POSH Edition
+    } # __PowerShellEdition()
 
     # Process ID
     static Hidden [int] __ProcessID()
