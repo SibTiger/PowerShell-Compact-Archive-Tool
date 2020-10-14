@@ -39,7 +39,7 @@ class SystemInformation
     #  [string] Operating System
     #   The detected Operating System that the application is presently running within.
     # -------------------------------
-    static Hidden [string] __OperatingSystem()
+    static [string] OperatingSystem()
     {
         # Check if the host is running a Windows environment.
         if ($Global:IsWindows)
@@ -93,7 +93,7 @@ class SystemInformation
     #  [string] PowerShell Edition
     #   The detected PowerShell Edition that this application is presently running within.
     # -------------------------------
-    static Hidden [string] __PowerShellEdition()
+    static [string] PowerShellEdition()
     {
         # Check if the host PowerShell Edition is POSH .Net Core
         if ($Global:PSEdition == "Core")
@@ -138,7 +138,7 @@ class SystemInformation
     #  [int] PowerShell's Process ID
     #   The Process ID of the PowerShell's instance (with the application active)
     # -------------------------------
-    static Hidden [int] __ProcessID()
+    static [int] ProcessID()
     {
         return $Global:PID;
     } # __ProcessID()
@@ -161,7 +161,7 @@ class SystemInformation
     #  [string] User's Working Directory Full Path
     #   The full path of the User's Working Directory
     # -------------------------------
-    static Hidden [string] __WorkingDirectoryPath()
+    static [string] WorkingDirectoryPath()
     {
         return $Global:PWD.Path;
     } # __WorkingDirectoryPath()
@@ -186,7 +186,7 @@ class SystemInformation
     #  [string] PowerShell's Encoding
     #   PowerShell's Encoding setting
     # -------------------------------
-    static Hidden [string] __OutputEncoding()
+    static [string] OutputEncoding()
     {
         return $Global:OutputEncoding.BodyName;
     } # __OutputEncoding()
