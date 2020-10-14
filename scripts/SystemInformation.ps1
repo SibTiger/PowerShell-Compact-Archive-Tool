@@ -143,7 +143,24 @@ class SystemInformation
         return $PID;
     }
 
-    # Working Directory Path
+
+
+
+
+    # Return User's Working Directory Path
+    # -------------------------------
+    # Documentation:
+    #  This function will return the User's Working Directory path in which the PowerShell's
+    #   instance is presently using.
+    #
+    # NOTE:
+    #   This function relies on PowerShell's environment to perform the main operation.  Luckily,
+    #    this works with the older versions of PowerShell.
+    # -------------------------------
+    # Output:
+    #  [string] User's Working Directory Full Path
+    #   The full path of the User's Working Directory
+    # -------------------------------
     static Hidden [string] __WorkingDirectoryPath()
     {
         return $PWD.Path;
