@@ -1011,6 +1011,43 @@ class Logging
         } # If : Logging is enabled & available
     } # WriteToLogFile()
 
+
+
+
+   <# Write System Information
+    # -------------------------------
+    # Documentation:
+    #  This function will generate a string containing the host's system and
+    #   environment information.  With the information provided, it will be
+    #   written to the program's logfile.  The information can be useful tool
+    #   for debugging and diagnostics.
+    # -------------------------------
+    #>
+    static [void] WriteSystemInformation()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [string] $generatedSystemInformationMessage = $null;        # This will contain a long string message containing the host's environment.
+        # ----------------------------------------
+
+
+        # Generate the message containing the system and POSH environment
+        $generatedSystemInformationMessage = (
+                            "`t`tSYSTEM INFORMATION`r`n" + `
+                            "==================================`r`n" + `
+                            "Operating System: ---- $([SystemInformation]::OperatingSystem())`r`n" + `
+                            "PowerShell Edition: -- $([SystemInformation]::PowerShellEdition())`r`n" + `
+                            "Application PID: ----- $([SystemInformation]::ProcessID())`r`n" + `
+                            "Working Directory: --- $([SystemInformation]::WorkingDirectoryPath())`r`n" + `
+                            "Output Encoding: ----- $([SystemInformation]::OutputEncoding())");
+
+
+        # Apply the system and POSH environment details to the program's logfile.
+        [Logging]::LogProgramActivity($generatedSystemInformationMessage, `
+                                        $null, `
+                                        "Information");
+    } # WriteSystemInformation()
+
     #endregion
 } # Logging
 
