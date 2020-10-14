@@ -140,8 +140,8 @@ class SystemInformation
     # -------------------------------
     static Hidden [int] __ProcessID()
     {
-    }
         return $Global:PID;
+    } # __ProcessID()
 
 
 
@@ -163,8 +163,8 @@ class SystemInformation
     # -------------------------------
     static Hidden [string] __WorkingDirectoryPath()
     {
-    }
         return $Global:PWD.Path;
+    } # __WorkingDirectoryPath()
 
 
 
@@ -188,7 +188,7 @@ class SystemInformation
     # -------------------------------
     static Hidden [string] __OutputEncoding()
     {
-    }
         return $Global:OutputEncoding.BodyName;
+    } # __OutputEncoding()
     #endregion
 } # SystemInformation
