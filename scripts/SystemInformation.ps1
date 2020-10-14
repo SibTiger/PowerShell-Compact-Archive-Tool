@@ -190,5 +190,6 @@ class SystemInformation
     {
         return $Global:OutputEncoding.BodyName;
     } # __OutputEncoding()
+
     #endregion
 } # SystemInformation
