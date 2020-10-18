@@ -81,10 +81,15 @@ class IOCommon
     #   The message that is to be presented on the screen.
     #  [LogMessageLevel] Message Level
     #   The level of the message that is to be presented or formatted.
+    #  [bool] No New Line
+    #   When true, no new line will be issued once the message had been printed onto the host.
+    #   However, when false, a new line will be issued after the message had been drawn onto
+    #    the host.
     # -------------------------------
     #>
     static [void] WriteToBuffer([string] $msg,                      # Message
-                                [LogMessageLevel] $msgLevel)        # Message Level
+                                [LogMessageLevel] $msgLevel,        # Message Level
+                                [bool] $noNewLine)                  # No New Line
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -209,7 +214,7 @@ class IOCommon
             # Initialize the Object omitting background
             $messagePackage.Message = $msg;                             # Message
             $messagePackage.ForegroundColor = $textColourForeground;    # Foreground Colour
-            $messagePackage.NoNewLine = $false;                         # New Line after printed
+            $messagePackage.NoNewLine = $noNewLine;                     # New Line after printed
         } # If : No Text Background
 
         # Background was specified
@@ -219,7 +224,7 @@ class IOCommon
             $messagePackage.Message = $msg;                             # Message
             $messagePackage.ForegroundColor = $textColourForeground;    # Foreground Colour
             $messagePackage.BackgroundColor = $textColourBackground;    # Background Colour
-            $messagePackage.NoNewLine = $false;                         # New Line after printed
+            $messagePackage.NoNewLine = $noNewLine;                     # New Line after printed
         } # else : Text Background
 
 

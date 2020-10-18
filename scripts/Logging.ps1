@@ -873,7 +873,7 @@ class Logging
                                 [LogMessageLevel] $msgLevel)        # Message's severity level
     {
         # Display the message to the end-user's screen.
-        [IOCommon]::WriteToBuffer("$($msg)", "$($msgLevel)");
+        [IOCommon]::WriteToBuffer("$($msg)", "$($msgLevel)", $false);
 
 
         # Is the Debugging Functionality active?
