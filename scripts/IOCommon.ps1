@@ -71,6 +71,10 @@ class IOCommon
     #  This function will present the requested message on the screen with its
     #   appropriate formatting.  The formatting of the message is determined
     #   by its message level (or logged level).
+    #
+    # Thanks to Kieran Marron for publishing the "Write-Information With Colours".
+    #  LINK: https://blog.kieranties.com/2018/03/26/write-information-with-colours
+    #  This function now uses the Write-Information CMDLet instead of Write-Host.
     # -------------------------------
     # Input:
     #  [string] Message
@@ -86,6 +90,11 @@ class IOCommon
         # ----------------------------------------
         [string] $textColourBackground = $null;     # Text background color
         [string] $textColourForeground = $null;     # Text foreground color
+
+        # This will contain the message and message attributes that will be processed via
+        #  the Write-Information POSH CMDLet.
+        [System.Management.Automation.HostInformationMessage] $messagePackage = `
+                [System.Management.Automation.HostInformationMessage]::new();
         # ----------------------------------------
 
 
@@ -193,21 +202,30 @@ class IOCommon
         } # switch
 
 
-        # Display the message with the formatting specified
+        # Prepare the message that is to be displayed and redirected (Piped)
         # If there is no background specified, then do not use the background parameter.
         if ("$($textColourBackground)" -eq "$($null)")
         {
-            Write-Host -Object $msg `
-                    -ForegroundColor $textColourForeground;
-        } # if : No Text Background
+            # Initialize the Object omitting background
+            $messagePackage.Message = $msg;                             # Message
+            $messagePackage.ForegroundColor = $textColourForeground;    # Foreground Colour
+            $messagePackage.NoNewLine = $false;                         # New Line after printed
+        } # If : No Text Background
 
         # Background was specified
         else
         {
-            Write-Host -Object $msg `
-                    -ForegroundColor $textColourForeground `
-                    -BackgroundColor $textColourBackground;
+            # Initialize the Object including background
+            $messagePackage.Message = $msg;                             # Message
+            $messagePackage.ForegroundColor = $textColourForeground;    # Foreground Colour
+            $messagePackage.BackgroundColor = $textColourBackground;    # Background Colour
+            $messagePackage.NoNewLine = $false;                         # New Line after printed
         } # else : Text Background
+
+
+        # Provide the message to the end-user or host.
+        Write-Information $messagePackage `
+                        -InformationAction Continue;
     } # WriteToBuffer()
 
 
