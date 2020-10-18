@@ -3678,7 +3678,7 @@ class SevenZip
                     # * * * * * * * * * * * * * * * * * * *
 
 
-                    # Because a Run-Away occurred, 
+                    # Because a Run-Away occurred,
                     return $false;
                 } # Case : Default
             } # switch()
@@ -3952,7 +3952,7 @@ enum FileHashAlgorithm7Zip
 {
     crc32 = 0;          # Cyclic Redundancy Check (32bit)
     crc64 = 1;          # Cyclic Redundancy Check (64bit)
-    sha1 = 2;           # Secure Hash Algorithm 1 
+    sha1 = 2;           # Secure Hash Algorithm 1
     sha256 = 3;         # Secure Hash Algorithm 256
     blake2sp = 4;       # BLAKE2sp (Multi-Core)
 } # FileHashAlgorithm7Zip

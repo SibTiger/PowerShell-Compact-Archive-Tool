@@ -262,7 +262,7 @@ class IOCommon
         # ----------------------------------------
         [string] $commandDebugInfo = $null;     # This will contain any additional information that could be useful when
                                                 #  debugging, but only if the command target was found.
-        [bool] $exitCode = $false;              # The detection code that will be returned based on the results; 
+        [bool] $exitCode = $false;              # The detection code that will be returned based on the results;
                                                 #  if the command was found or not.
         # ----------------------------------------
 

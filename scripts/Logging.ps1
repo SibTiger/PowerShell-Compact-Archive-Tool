@@ -12,7 +12,7 @@
  #  clause to state that Telemetry is not being practiced here; if it were to change - this must be
  #  updated and user's choice must be allowed.
  #
- # If incase I forget to update the header (this comment block), add in Telemetry (yes, it is possible 
+ # If incase I forget to update the header (this comment block), add in Telemetry (yes, it is possible
  #  in a degree in PowerShell), and also I forgot to provide user choice to opt-in as well as opt-out,
  #  please violently throw feathers towards my direction.  Just make sure you first clean the feathers
  #  before throwing them at me, please.
@@ -82,7 +82,7 @@ class Logging
     #  This function will allow the possibility to temporarily pause or resume the logging functionality.
     #   This lock will prevent information from being logged in a recursive manner, which if not set
     #     properly during runtime may result into a Stack Overflow (not talking about the website).
-    #   - When true, a function 
+    #   - When true, a function
     #   - When setting this to true, the logging functionality will be locked or disabled temporarily.
     #      If a function is requesting an event or action to be logged, the request will be ignored.  Do
     #      keep in mind that the logging functionality will still operate as intended, however no logs will
@@ -474,7 +474,7 @@ class Logging
     # Output:
     #  [bool] Status Code
     #    $false = Operation failed
-    #    $true  = Operation was successful 
+    #    $true  = Operation was successful
     # -------------------------------
     #>
     static Hidden [bool] __FormatLogMessage([LogMessageLevel] $msgLevel, `      # Message level

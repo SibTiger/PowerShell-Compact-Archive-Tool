@@ -2,7 +2,7 @@
  # ------------------------------
  # ==============================
  # ==============================
- # This class allows the possibility to utilize Git features and functionality 
+ # This class allows the possibility to utilize Git features and functionality
  #  within this program.  With using Git, it is possible to update the project source,
  #  retrieve information regarding the latest commit or retrieve a history changelog
  #  of previous commits, obtain a short-hand SHA1 of the latest commit, get information
@@ -1144,7 +1144,7 @@ class GitControl
                                         # ------------------------------------------
                                         );
 
-        # This will hold the search results that were performed by another function.  If the first result was $null, 
+        # This will hold the search results that were performed by another function.  If the first result was $null,
         [System.IO.FileSystemInfo[]] $searchResult = $null;
         # ----------------------------------------
 
@@ -3182,7 +3182,7 @@ class GitControl
         # - - - -
         # >> Standard Textfile
         [string] $fileNameTXT = "$($this.__reportPath)\$([ProjectInformation]::projectName) - $($dateTime).txt";
-        
+
         # >> Portable Document File (PDF)
         [string] $fileNamePDF = "$($this.__reportPath)\$([ProjectInformation]::projectName) - $($dateTime).pdf";
         # - - - -
@@ -3754,7 +3754,7 @@ class GitControl
                     # * * * * * * * * * * * * * * * * * * *
 
 
-                    # Because a Run-Away occurred, 
+                    # Because a Run-Away occurred,
                     return $false;
                 } # Case : Default
             } # switch()

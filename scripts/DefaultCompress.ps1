@@ -2514,7 +2514,7 @@ class DefaultCompress
         # CREATE ARCHIVE DATAFILE
         # - - - - - - - - - - - - - - -
         # -----------------------------
-        
+
         # Execute the Compress-Archive CMDLet
         try
         {
@@ -3313,7 +3313,7 @@ class DefaultCompress
                     # * * * * * * * * * * * * * * * * * * *
 
 
-                    # Because a Run-Away occurred, 
+                    # Because a Run-Away occurred,
                     return $false;
                 } # Case : Default
             } # switch()
