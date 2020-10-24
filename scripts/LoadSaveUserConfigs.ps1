@@ -583,22 +583,6 @@
         [bool] $exitCode = $false;              # Operation status of the execution performed.
         [Object[]] $cacheUserConfig = $null;    # This will hold the deserialized XML data containing the user's preferred
                                                 #  settings and configurations regarding each object.
-
-        # - - - - - - - - - - - - - - - - - - - - -
-        # Objects:
-        #  Create new instances of the objects so that we may use them with the user's preferred configurations.
-
-        # User Preferences
-        [UserPreferences] $userPrefNew = [UserPreferences]::new();
-
-        # Git Settings
-        [GitControl] $gitObjNew = [GitControl]::new();
-
-        # 7Zip Settings
-        [SevenZip] $sevenZipObjNew = [SevenZip]::new();
-
-        # PowerShell's Archive Settings
-        [DefaultCompress] $psArchiveNew = [DefaultCompress]::new();
         # -----------------------------------------
 
 
