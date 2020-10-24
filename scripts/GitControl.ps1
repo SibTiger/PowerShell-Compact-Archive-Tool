@@ -978,7 +978,7 @@ class GitControl
     [bool] DetectGitExist()
     {
         # Make sure that the value is not empty (or null).
-        if ($this.__executablePath -eq $null)
+        if ($null -eq $this.__executablePath)
         {
             # No value was provided; unable to perform a check as nothing was provided.
 
@@ -1185,7 +1185,7 @@ class GitControl
             $searchResult = [IOCommon]::SearchFile("$($index)", "git.exe")
 
             # Determine if there were any valid results from the search.
-            if ($searchResult -ne $null)
+            if ($null -ne $searchResult)
             {
                 # Successfully found the executable!
 
@@ -3848,7 +3848,7 @@ class GitControl
         {
             # if this is the first entry in the variable, then just apply the item
             #  to the string without adding a appending the previous entries.
-            if (($knownExtensions -eq $null) -or
+            if (($null -eq $knownExtensions) -or
                 ($knownExtensions -eq ""))
             {
                 # First entry to the string.
