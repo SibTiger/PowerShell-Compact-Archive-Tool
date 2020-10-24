@@ -31,7 +31,7 @@ class UserPreferences
     static [UserPreferences] GetInstance()
     {
         # if there was no previous instance of the object - then create one.
-        if ([UserPreferences]::_instance -eq $null)
+        if ($null -eq [UserPreferences]::_instance)
         {
             # Create a new instance of the singleton object.
             [UserPreferences]::_instance = [UserPreferences]::new();
@@ -56,7 +56,7 @@ class UserPreferences
                                         [UserPreferencesEventAlarm] $notificationType)      # Notification type to user
     {
         # if there was no previous instance of the object - then create one.
-        if ([UserPreferences]::_instance -eq $null)
+        if ($null -eq [UserPreferences]::_instance)
         {
             # Create a new instance of the singleton object.
             [UserPreferences]::_instance = [UserPreferences]::new([UserPreferencesCompressTool] $compressionTool,
