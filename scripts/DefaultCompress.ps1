@@ -1244,7 +1244,7 @@ class DefaultCompress
         {
             # If there is information held in the STDOUT container, then we will convert the data from an array-list
             #  to a literal string.
-            if ($execSTDOUT -ne $null)
+            if ($null -ne $execSTDOUT)
             {
                 # Because there is information within the STDOUT container, we will convert it to a literal string.
                 #  But because we are going to display the information to a logfile, ultimately, present the data in
@@ -1286,7 +1286,7 @@ class DefaultCompress
 
             # If there is information held in the STDERR container, then we will transform the data from an object
             #  to a literal string.
-            if ($execSTDERR -ne $null)
+            if ($null -ne $execSTDERR)
             {
                 # Because of how the information is stored in the object, we can just store the data to a literal
                 #  string outright.
@@ -1540,7 +1540,7 @@ class DefaultCompress
 
 
         # If in case there is absolutely no data, do not try to process it - skip this step.
-        if ($archiveData -ne $null)
+        if ($null -ne $archiveData)
         {
             # We have a list of files from the archive file, try to generate a literal string
 
@@ -2133,7 +2133,7 @@ class DefaultCompress
                 # Because there is information within the STDOUT container, we will convert it to a literal string.
                 #  But because we are going to display the information to a logfile, ultimately, present the data in
                 #  a readable form for the end-user to easily decipher the report.
-                if ($execSTDOUT -ne $null)
+                if ($null -ne $execSTDOUT)
                 {
                     # HEADER
                     # - - - - - -
@@ -2172,7 +2172,7 @@ class DefaultCompress
 
                 # If there is information held within the STDERR container, then we will transform the
                 #  data from an object to a literal string.
-                if ($execSTDERR -ne $null)
+                if ($null -ne $execSTDERR)
                 {
                     # Because of how the information is stored in the object, we can just store the data to
                     #  a literal string outright.
@@ -2613,7 +2613,7 @@ class DefaultCompress
             {
                 # If the STDOUT contains the file path of the archive datafile,
                 #  then we will store it for logging purposes.
-                if ($execSTDOUT -ne $null)
+                if ($null -ne $execSTDOUT)
                 {
                     # Because we only created just one compressed datafile, we
                     #  will only have one output file - not multiple.  With that,
@@ -2630,7 +2630,7 @@ class DefaultCompress
                 #  no real changes or data manipulation, we can
                 #  just cast it and it works like magic!  I love
                 #  the simplicity!
-                if ($execSTDERR -ne $null)
+                if ($null -ne $execSTDERR)
                 {
                     # No need to filter or manipulate the data, just
                     #  cast it as is.  Everything we need is already
@@ -3412,7 +3412,7 @@ class DefaultCompress
         {
             # if this is the first entry in the variable, then just apply the item
             #  to the string without adding a appending the previous entries.
-            if (($knownExtensions -eq $null) -or
+            if (($null -eq $knownExtensions) -or
                 ($knownExtensions -eq ""))
             {
                 # First entry to the string.
