@@ -71,7 +71,7 @@ class SystemInformation
             # Return an unknown instead.
             return "UNKNOWN"
         } # Else : Unknown Environment
-    } # __OperatingSystem()
+    } # OperatingSystem()
 
 
 
@@ -118,7 +118,7 @@ class SystemInformation
             #  Return an unknown instead.
             return "UNKNOWN";
         } # else : Unknown POSH Edition
-    } # __PowerShellEdition()
+    } # PowerShellEdition()
 
 
 
@@ -141,7 +141,7 @@ class SystemInformation
     static [int] ProcessID()
     {
         return $Global:PID;
-    } # __ProcessID()
+    } # ProcessID()
 
 
 
@@ -164,7 +164,7 @@ class SystemInformation
     static [string] WorkingDirectoryPath()
     {
         return $Global:PWD.Path;
-    } # __WorkingDirectoryPath()
+    } # WorkingDirectoryPath()
 
 
 
@@ -189,7 +189,7 @@ class SystemInformation
     static [string] OutputEncoding()
     {
         return $Global:OutputEncoding.BodyName;
-    } # __OutputEncoding()
+    } # OutputEncoding()
 
     #endregion
 } # SystemInformation
