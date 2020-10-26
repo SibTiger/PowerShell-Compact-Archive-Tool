@@ -205,8 +205,8 @@ class SystemInformation
     # -------------------------------
     # Documentation:
     #  This function will provide the host's PowerShell Version that is presently being used while
-    #   running the application.  The Version of the host's POSH can be used as a way to determine
-    #   how to operate a specific task for that version, while others may use a different approach.
+    #   running the application.  The Version of the host's POSH can be used to determine how to
+    #   operate a specific task for that version, while others may use a different approach.
     # -------------------------------
     # Output:
     #  [string] PowerShell Version
