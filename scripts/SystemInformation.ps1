@@ -199,5 +199,6 @@ class SystemInformation
     {
         return "$((Get-Host).Version)";
     } # PowerShellVersion()
+
     #endregion
 } # SystemInformation
