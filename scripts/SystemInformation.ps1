@@ -201,6 +201,17 @@ class SystemInformation
 
 
 
+    # Detect PowerShell Version
+    # -------------------------------
+    # Documentation:
+    #  This function will provide the host's PowerShell Version that is presently being used while
+    #   running the application.  The Version of the host's POSH can be used as a way to determine
+    #   how to operate a specific task for that version, while others may use a different approach.
+    # -------------------------------
+    # Output:
+    #  [string] PowerShell Version
+    #   The detected PowerShell Version that this application is presently running within.
+    # -------------------------------
     static [string] PowerShellVersion()
     {
         return "$((Get-Host).Version)";
