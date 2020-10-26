@@ -87,7 +87,13 @@ class SystemInformation
     #
     # NOTE:
     #   This function relies on PowerShell's environment to perform the main operation.  Luckily,
-    #    this works with the older versions of PowerShell.
+    #    this works with the older versions of PowerShell.  however, backwards compatibility may
+    #    not be possible with ancient versions of PowerShell due to the OOP nature.  It should be
+    #    noted that OOP scripting was not really introduced until 5.0, any version prior will not
+    #    work correctly.  Further, if there are functions that use newer definitions or dotNET APIs,
+    #    that too will not work correctly.  As such, it is assumed that all works well and that the
+    #    host uses atleast PowerShell 5.0 or greater -- but it is unlikely due to newer technologies
+    #    and techniques.
     # -------------------------------
     # Output:
     #  [string] PowerShell Edition
