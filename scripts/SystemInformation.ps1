@@ -191,5 +191,13 @@ class SystemInformation
         return $Global:OutputEncoding.BodyName;
     } # OutputEncoding()
 
+
+
+
+
+    static [string] PowerShellVersion()
+    {
+        return "$((Get-Host).Version)";
+    } # PowerShellVersion()
     #endregion
 } # SystemInformation
