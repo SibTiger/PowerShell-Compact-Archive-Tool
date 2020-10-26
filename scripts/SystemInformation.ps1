@@ -92,7 +92,7 @@ class SystemInformation
     #    noted that OOP scripting was not really introduced until 5.0, any version prior will not
     #    work correctly.  Further, if there are functions that use newer definitions or dotNET APIs,
     #    that too will not work correctly.  As such, it is assumed that all works well and that the
-    #    host uses atleast PowerShell 5.0 or greater -- but it is unlikely due to newer technologies
+    #    host uses at least PowerShell 5.0 or greater -- but it is unlikely due to newer technologies
     #    and techniques.
     # -------------------------------
     # Output:
