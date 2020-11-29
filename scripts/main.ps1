@@ -21,7 +21,54 @@
 # --------------------------
 function main()
 {
+    # Clear the host's terminal buffer
+    [IOCommon]::ClearBuffer();
 
+
+    # Setup the program's environment
+    Initializations;
+
+
+    # Initialize the User Preference object.
+    [UserPreferences] $userPreferences = [UserPreferences]::New(0, `                                    # Compression Tool
+                                                            ".\", `                                     # Project Path
+                                                            "$($global:_USERDATA_BUILDS_PATH_)", `      # Output Builds Path
+                                                            $true, `                                    # Use Git Features
+                                                            $true, `                                    # Use Windows Explorer Features
+                                                            $true, `                                    # Use Bell Notification?
+                                                            0);                                         # Notification Type
+
+
+    # Initialize the Git Control object.
+    [GitControl] $gitControl = [GitControl]::New("git.exe", `               # Executable path to Git
+                                                $true, `                    # Update Project Files
+                                                [GitCommitLength]::short, ` # Commit ID Length
+                                                $true, `                    # Fetch Commit ID
+                                                $true, `                    # Fetch History Commit Changelog
+                                                50, `                       # History Commit Changelog Range
+                                                $false);                    # Create a report
+
+
+    # Initialize the 7Zip object
+    [SevenZip] $sevenZip = [SevenZip]::New("7z.exe",                                # Executable path to 7Zip
+                                            [SevenZipCompressionMethod]::Zip, `     # Compression Method 
+                                            [SevenZipAlgorithmZip]::Deflate, `      # Zip Algorithm
+                                            [SevenZipAlgorithm7Zip]::LZMA2, `       # 7Zip Algorithm
+                                            $true, `                                # Multithreaded Operations
+                                            [SevenCompressionLevel]::Normal, `      # Compression Level
+                                            $true, `                                # Verify Build
+                                            $false);                                # Create a report
+
+
+    # Initialize the dotNet Core Zip Archive object
+    [DefaultCompress] $psArchive = [DefaultCompress]::New([DefaultCompressionLevel]::Fastest, ` # Compression Level
+                                                            $true, `                            # Verify Build
+                                                            $false);                            # Create a report
+
+
+    # Initialize the Loading and Saving of User Configurations
+    [LoadSaveUserConfiguration] $loadSaveUserConfiguration = `
+                                [LoadSaveUserConfiguration]::New("$($Global:_PROGRAMDATA_CONFIGS_PATH_)");
 } # main()
 
 
