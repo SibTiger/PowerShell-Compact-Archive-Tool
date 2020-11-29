@@ -61,9 +61,9 @@ function main()
 
 
     # Initialize the dotNet Core Zip Archive object
-    [DefaultCompress] $psArchive = [DefaultCompress]::New([DefaultCompressionLevel]::Fastest, ` # Compression Level
-                                                            $true, `                            # Verify Build
-                                                            $false);                            # Create a report
+    [DefaultCompress] $defaultCompress = [DefaultCompress]::New([DefaultCompressionLevel]::Fastest, `   # Compression Level
+                                                            $true, `                                    # Verify Build
+                                                            $false);                                    # Create a report
 
 
     # Initialize the Loading and Saving of User Configurations
