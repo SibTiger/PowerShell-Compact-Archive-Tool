@@ -16,8 +16,7 @@
 # --------------------------
 # Documentation:
 #   This function is our entry point for the program.  This function will be in charge of setting up the environment,
-#   assuring host compatibility, executing the Main Menu (User Interaction), and then self termination once the user
-#   leaves the Main Menu.
+#   executing the Main Menu (User Interaction), and then self termination once the user leaves the Main Menu.
 # --------------------------
 function main()
 {
