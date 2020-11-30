@@ -73,6 +73,14 @@ function main()
     # Initialize the Loading and Saving of User Configurations
     [LoadSaveUserConfiguration] $loadSaveUserConfiguration = `
                                 [LoadSaveUserConfiguration]::New("$($Global:_PROGRAMDATA_CONFIGS_PATH_)");
+
+
+    # Execute the Main Menu; from here - the program will be entirely driven by User Interactions.
+    return ([MainMenu]::Main($userPreferences, `            # User Preferences
+                            $gitControl, `                  # Git Control
+                            $sevenZip, `                    # 7Zip
+                            $defaultCompress, `             # dotNet Core ZIP Archive
+                            $loadSaveUserConfiguration));   # Load\Save User Configuration
 } # main()
 
 
