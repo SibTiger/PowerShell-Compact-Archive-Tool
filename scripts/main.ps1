@@ -5,8 +5,13 @@
  # This source file will initialize the application's environment, assuring that the program can run within the host's
  #  PowerShell instance, provide a means for the user to interact within the software, and then - once the user had finished
  #  using the program - termination by safely closing the environment that had been created.
- #
  # Essentially, this is the spine of the entire program.  If the entry point fails, the entire application will fall apart.
+ #
+ #
+ # ----------------------------
+ # Exit Codes:
+ # 0 = Successfully 
+ # 1 = Compatibility Issue Determined
  #>
 
 
@@ -101,12 +106,14 @@ if ([SystemInformation]::PowerShellEdition() -eq "Legacy")
     Write-Output "`r`n`r`n";
 
 
-    # Terminate the script
-    return;
+    # Terminate the script with an error code
+    exit 1;
 } # if : Compatibility Issues
 
 
 
 
-# Execute the application
-main;
+# Execute the application and return the exit code from the Main Menu.
+#  The exit code could be an error or successful, this only depends on the
+#  operations that had been performed and what information had been gathered.
+exit main;
