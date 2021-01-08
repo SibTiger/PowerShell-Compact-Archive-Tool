@@ -42,7 +42,7 @@ class MainMenu
                     [DefaultCompress] $defaultCompress,                         # Default Compress (.NET) Settings
                     [LoadSaveUserConfiguration] $loadSaveUserConfiguration)     # Load\Save User Configuration
     {
-        return 5;
+        return 0;
     } # Main()
 
 
