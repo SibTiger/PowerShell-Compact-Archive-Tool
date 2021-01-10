@@ -42,6 +42,9 @@ class MainMenu
                     [DefaultCompress] $defaultCompress,                         # Default Compress (.NET) Settings
                     [LoadSaveUserConfiguration] $loadSaveUserConfiguration)     # Load\Save User Configuration
     {
+        # Draw Program Information Header
+        [MainMenu]::DrawProgramInformation();
+
         # Draw the Instructions so that the user knows how to interact with the application.
         [mainMenu]::DrawInstructions();
 
@@ -52,6 +55,26 @@ class MainMenu
         # Finished with the Main Menu; prepare to close the application
         return 0;
     } # Main()
+
+
+
+
+   <# Draw Program Information
+    # -------------------------------
+    # Documentation:
+    #  This function will display the Program Information to the user so that they are able
+    #   to see what version of the program is currently running.
+    # -------------------------------
+    #>
+    static [void] DrawProgramInformation()
+    {
+        # Display the program information
+
+        # For right now, I will need to figure out how the program information will be
+        # presented to the user.
+        [Logging]::DisplayMessage("<<< PROGRAM INFORMATION >>>", `  # Message to display
+                                    "Standard");                    # Message Level
+    } # DrawProgramInformation()
 
 
 
