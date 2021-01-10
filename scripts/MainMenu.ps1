@@ -42,6 +42,11 @@ class MainMenu
                     [DefaultCompress] $defaultCompress,                         # Default Compress (.NET) Settings
                     [LoadSaveUserConfiguration] $loadSaveUserConfiguration)     # Load\Save User Configuration
     {
+        # Draw the Main Menu to the user's screen
+        [MainMenu]::DrawMainMenu();
+
+
+        # Finished with the Main Menu; prepare to close the application
         return 0;
     } # Main()
 
@@ -57,6 +62,14 @@ class MainMenu
     #>
     static [void] DrawMainMenu()
     {
-        # Nothing to draw yet
+        # Display the main menu
+
+
+        # For right now, I do not know of how the menu is going to be interacted with the user.
+        #  Thus, for right now - just provide anything onto the screen and when I have a better
+        #  idea of how the program is going to interact with the user, then I will update this
+        #  accordingly.
+            [Logging]::DisplayMessage("<<< MAIN MENU HERE >>>", `   # Message to display
+                                        "Standard");                # Message level
     } # DrawMainMenu()
 } # MainMenu
