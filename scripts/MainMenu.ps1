@@ -42,6 +42,9 @@ class MainMenu
                     [DefaultCompress] $defaultCompress,                         # Default Compress (.NET) Settings
                     [LoadSaveUserConfiguration] $loadSaveUserConfiguration)     # Load\Save User Configuration
     {
+        # Draw the Instructions so that the user knows how to interact with the application.
+        [mainMenu]::DrawInstructions();
+
         # Draw the Main Menu to the user's screen
         [MainMenu]::DrawMainMenu();
 
@@ -49,6 +52,28 @@ class MainMenu
         # Finished with the Main Menu; prepare to close the application
         return 0;
     } # Main()
+
+
+
+
+   <# Draw Instructions
+    # -------------------------------
+    # Documentation:
+    #  This function will display the Main Menu instructions to the user so that they know
+    #   how to interact with the application.  The instructions are to be minimal but yet
+    #   concise so that the user can easily start using the program, but not to the point
+    #   of flooding the returning user.
+    # -------------------------------
+    #>
+    static [void] DrawInstructions()
+    {
+        # Display the instructions to the user
+
+        # For right now, I do not know of how the instructions are going to be presented to the
+        #  user.
+        [Logging]::DisplayMessage("<<< INSTRUCTIONS >>>", `     # Message to display
+                                    "Standard");                # Message Level
+    } # DrawInstructions()
 
 
 
