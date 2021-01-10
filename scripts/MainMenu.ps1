@@ -70,7 +70,7 @@ class MainMenu
         #  Thus, for right now - just provide anything onto the screen and when I have a better
         #  idea of how the program is going to interact with the user, then I will update this
         #  accordingly.
-            [Logging]::DisplayMessage("<<< MAIN MENU HERE >>>", `   # Message to display
-                                        "Standard");                # Message level
+        [Logging]::DisplayMessage("<<< MAIN MENU HERE >>>", `   # Message to display
+                                    "Standard");                # Message level
     } # DrawMainMenu()
 } # MainMenu
