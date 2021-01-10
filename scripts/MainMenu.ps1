@@ -59,6 +59,7 @@ class MainMenu
     #  This function will essentially draw the Main Menu selection onto the End-User's terminal
     #   buffer, thus providing what features and functionalities are available to the end-user
     #   and how the user can access them directly using their keyboard or other input devices.
+    # -------------------------------
     #>
     static [void] DrawMainMenu()
     {
