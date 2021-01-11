@@ -42,6 +42,13 @@ class MainMenu
                     [DefaultCompress] $defaultCompress,                         # Default Compress (.NET) Settings
                     [LoadSaveUserConfiguration] $loadSaveUserConfiguration)     # Load\Save User Configuration
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This variable will hold the user's input as they navigate within the main menu.
+        [string] $userInput = $null;
+        # ----------------------------------------
+
+
         # Draw Program Information Header
         [MainMenu]::DrawProgramInformation();
 
@@ -50,6 +57,9 @@ class MainMenu
 
         # Draw the Main Menu to the user's screen
         [MainMenu]::DrawMainMenu();
+
+        # Capture the user's input
+        $userInput = [MainMenu]::GetUserInput();
 
 
         # Finished with the Main Menu; prepare to close the application
