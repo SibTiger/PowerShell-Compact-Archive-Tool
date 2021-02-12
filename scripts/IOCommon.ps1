@@ -4290,6 +4290,46 @@ class IOCommon
 
 
 
+    #region Terminal Window Control
+
+   <# Get Terminal Window Title
+    # -------------------------------
+    # Documentation:
+    #  This function will retrieve the current Terminal's Window Title.
+    # -------------------------------
+    # Output:
+    #  [string] Terminal's Window Title
+    #   The current title of the window.
+    # -------------------------------
+    #>
+    static [string] GetTerminalWindowTitle()
+    {
+        # Return the Window Title as a string
+        return "$([string]($($Global:Host.UI.RawUI.WindowTitle)))";
+    } # GetTerminalWindowTitle()
+
+
+
+
+   <# Get Terminal Window Title
+    # -------------------------------
+    # Documentation:
+    #  This function will set the Terminal's Window Title.
+    # -------------------------------
+    # Input:
+    #  [string] New Window Title
+    #   The new window title that will be used for this terminal's window.
+    # -------------------------------
+    #>
+    static [void] SetTerminalWindowTitle([string] $newTitle)
+    {
+        $Global:Host.UI.RawUI.WindowTitle = "$($newTitle)";
+    } # SetTerminalWindowTitle()
+
+    #endregion
+
+
+
     #region Web Control
 
    <# Open Web Page
