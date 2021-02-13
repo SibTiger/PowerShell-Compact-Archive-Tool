@@ -25,6 +25,14 @@
 # --------------------------
 function main()
 {
+    # Declarations and Initializations
+    # ----------------------------------------
+    # This variable will the program's main exit level state.  This variable will be the main exit level
+    #  when the application terminates.
+    [int] $exitLevel = 0;
+    # ----------------------------------------
+
+
     # Clear the host's terminal buffer
     [IOCommon]::ClearBuffer();
 
@@ -75,12 +83,24 @@ function main()
                                 [LoadSaveUserConfiguration]::New("$($Global:_PROGRAMDATA_CONFIGS_PATH_)");
 
 
+    # Provide a new Window Title
+    [IOCommon]::SetTerminalWindowTitle("$($Global:_PROGRAMNAME_) (Version $($Global:_VERSION_)) for $([ProjectInformation]::projectName) - $([ProjectInformation]::codeName)");
+
+
     # Execute the Main Menu; from here - the program will be entirely driven by User Interactions.
-    return ([MainMenu]::Main($userPreferences, `            # User Preferences
-                            $gitControl, `                  # Git Control
-                            $sevenZip, `                    # 7Zip
-                            $defaultCompress, `             # dotNet Core ZIP Archive
-                            $loadSaveUserConfiguration));   # Load\Save User Configuration
+    $exitLevel = ([MainMenu]::Main($userPreferences, `              # User Preferences
+                                    $gitControl, `                  # Git Control
+                                    $sevenZip, `                    # 7Zip
+                                    $defaultCompress, `             # dotNet Core ZIP Archive
+                                    $loadSaveUserConfiguration));   # Load\Save User Configuration
+
+
+    # Restore the Window Title back to it's state.
+    [IOCommon]::SetTerminalWindowTitle("$($Global:_ENVIRONMENT_WINDOW_TITLE_ORIGINAL_)");
+
+
+    # Close the program
+    return $exitLevel;
 } # main()
 
 
