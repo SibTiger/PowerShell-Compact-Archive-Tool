@@ -78,12 +78,35 @@ class MainMenu
     #>
     static [void] DrawProgramInformation()
     {
-        # Display the program information
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This will hold the main border
+        [string] $border    = "----------------------------------------------------";
+        # This will help separate the contents
+        [string] $borderSub = "- - - - - - - - - - - - - - - - - - - - - - - - - - ";
+        # ----------------------------------------
 
-        # For right now, I will need to figure out how the program information will be
-        # presented to the user.
-        [Logging]::DisplayMessage("<<< PROGRAM INFORMATION >>>", `  # Message to display
-                                    "Standard");                    # Message Level
+
+        # Display the program information
+        [Logging]::DisplayMessage("$($border)");
+
+        # Show the full program name
+        [Logging]::DisplayMessage("`t$($Global:_PROGRAMNAME_)");
+
+        # Show the version, version name, and the release date of the version.
+        [Logging]::DisplayMessage("Version $($Global:_VERSION_) - $($Global:_VERSIONNAME_)`t`t$($Global:_RELEASEDATE_)");
+
+        # Change of contents
+        [Logging]::DisplayMessage("$($borderSub)");
+
+        # Show the intended supported project
+        [Logging]::DisplayMessage("Designed for $([ProjectInformation]::projectName) [$([ProjectInformation]::codeName)]");
+        [Logging]::DisplayMessage("$($border)");
+        [Logging]::DisplayMessage("$($border)");
+
+
+        # Provide some extra padding
+        [Logging]::DisplayMessage("`r`n`r`n");
     } # DrawProgramInformation()
 
 
