@@ -124,11 +124,16 @@ class MainMenu
     static [void] DrawInstructions()
     {
         # Display the instructions to the user
+        # Try to keep the instructions minimal yet impactful so that the user knows how to use the main menu.
 
-        # For right now, I do not know of how the instructions are going to be presented to the
-        #  user.
-        [Logging]::DisplayMessage("<<< INSTRUCTIONS >>>", `     # Message to display
-                                    "Standard");                # Message Level
+
+        # Show to the user that they are in the main menu screen
+        [Logging]::DisplayMessage("`t`t  Main Menu");
+        [Logging]::DisplayMessage("`t~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~`r`n");
+
+        # Instructions
+        [Logging]::DisplayMessage("Select from the following available options:");
+        [Logging]::DisplayMessage("------------------------------------------------");
     } # DrawInstructions()
 
 
