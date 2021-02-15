@@ -133,7 +133,7 @@ class MainMenu
 
         # Instructions
         [Logging]::DisplayMessage("Select from the following available options:");
-        [Logging]::DisplayMessage("------------------------------------------------");
+        [Logging]::DisplayMessage("----------------------------------------------------");
     } # DrawInstructions()
 
 
