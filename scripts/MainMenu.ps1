@@ -151,13 +151,22 @@ class MainMenu
     {
         # Display the main menu
 
+        # Generate Project and View Project Information
+        [Logging]::DisplayMessage(" [B] - Build $([ProjectInformation]::projectName)");
+        [Logging]::DisplayMessage(" [H] - Access $([ProjectInformation]::projectName) Homepage");
+        [Logging]::DisplayMessage(" [W] - Access $([ProjectInformation]::projectName) Wiki");
+        [Logging]::DisplayMessage(" [S] - Access $([ProjectInformation]::projectName) Source Code");
 
-        # For right now, I do not know of how the menu is going to be interacted with the user.
-        #  Thus, for right now - just provide anything onto the screen and when I have a better
-        #  idea of how the program is going to interact with the user, then I will update this
-        #  accordingly.
-        [Logging]::DisplayMessage("<<< MAIN MENU HERE >>>", `   # Message to display
-                                    "Standard");                # Message level
+        # Empty Space; help to provide some separation between the two different categories
+        [Logging]::DisplayMessage("$($null)");
+
+        # Program Tools
+        [Logging]::DisplayMessage(" [P] - Preferences");
+        [Logging]::DisplayMessage(" [U] - Update $($Global:_PROGRAMNAME_)");
+
+
+        # Terminate application
+        [Logging]::DisplayMessage(" [X] - Exit");
     } # DrawMainMenu()
 
 
