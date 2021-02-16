@@ -189,15 +189,8 @@ class MainMenu
     #>
     static [string] GetUserInput()
     {
-        # For right now, I do not know of how the menu is going to be interacted with the user.
-        #  Thus, for right now - just provide anything onto the screen and when I have a better
-        #  idea of how the program is going to interact with the user, then I will update this
-        #  accordingly.
-        [Logging]::DisplayMessage("<<< GET USER INPUT >>>", `   # Message to display
-                                    "Standard");                # Message level
-
-
-        # Get the user's input
+        # Retrieve the user's feedback and return their desired request such that it can be
+        #  evaulated further.
         return [Logging]::GetUserInput();
     } # GetUserInput()
 } # MainMenu
