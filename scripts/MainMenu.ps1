@@ -167,6 +167,10 @@ class MainMenu
 
         # Terminate application
         [Logging]::DisplayMessage(" [X] - Exit");
+
+
+        # Provide some extra padding
+        [Logging]::DisplayMessage("`r`n");
     } # DrawMainMenu()
 
 
