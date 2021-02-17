@@ -157,9 +157,6 @@ class MainMenu
         [Logging]::DisplayMessage(" [W] - Access $([ProjectInformation]::projectName) Wiki");
         [Logging]::DisplayMessage(" [S] - Access $([ProjectInformation]::projectName) Source Code");
 
-        # Empty Space; help to provide some separation between the two different categories
-        [Logging]::DisplayMessage("$($null)");
-
         # Program Tools
         [Logging]::DisplayMessage(" [P] - Preferences");
         [Logging]::DisplayMessage(" [U] - Update $($Global:_PROGRAMNAME_)");
