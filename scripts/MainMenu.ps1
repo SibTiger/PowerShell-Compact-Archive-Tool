@@ -186,6 +186,11 @@ class MainMenu
     #>
     static [string] GetUserInput()
     {
+        # Let the user know that the program is waiting on their response.
+        [Logging]::DisplayMessage("Waiting on your response. . .");
+        [Logging]::DisplayMessage("------------------------------");
+
+
         # Retrieve the user's feedback and return their desired request such that it can be
         #  evaulated further.
         return [Logging]::GetUserInput();
