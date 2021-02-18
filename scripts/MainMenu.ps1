@@ -50,7 +50,7 @@ class MainMenu
 
 
         # Draw Program Information Header
-        [MainMenu]::DrawProgramInformation();
+        [CommonCUI]::DrawProgramTitleHeader();
 
         # Draw the Instructions so that the user knows how to interact with the application.
         [mainMenu]::DrawInstructions();
