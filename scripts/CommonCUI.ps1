@@ -15,6 +15,29 @@
 
 class CommonCUI
 {
+    # Member Variables :: Properties
+    # =================================================
+    # =================================================
+
+
+    #region Private Variables (emulated)
+
+    # Border - Dash - Long
+    # ---------------
+    # A simple string that provides a long dashed border.
+    Hidden static [string] $borderDashLong = "----------------------------------------------------";
+
+
+    # Border - Dash Spaced - Long
+    # ---------------
+    # A simple string that provides a long dash spaced border.
+    Hidden static [string] $borderSubcategory = "- - - - - - - - - - - - - - - - - - - - - - - - - - ";
+
+
+    #endregion
+
+
+
    <# Draw Program Title Header
     # -------------------------------
     # Documentation:
@@ -25,17 +48,8 @@ class CommonCUI
     #>
     static [void] DrawProgramTitleHeader()
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # This will hold the main border
-        [string] $border    = "----------------------------------------------------";
-        # This will help separate the contents
-        [string] $borderSub = "- - - - - - - - - - - - - - - - - - - - - - - - - - ";
-        # ----------------------------------------
-
-
         # Display the program information
-        [Logging]::DisplayMessage("$($border)");
+        [Logging]::DisplayMessage("$([CommonCUI]::borderDashLong)");
 
         # Show the full program name
         [Logging]::DisplayMessage("`t$($Global:_PROGRAMNAME_)");
@@ -44,12 +58,12 @@ class CommonCUI
         [Logging]::DisplayMessage("Version $($Global:_VERSION_) - $($Global:_VERSIONNAME_)`t`t$($Global:_RELEASEDATE_)");
 
         # Change of contents
-        [Logging]::DisplayMessage("$($borderSub)");
+        [Logging]::DisplayMessage("$([CommonCUI]::borderSubcategory)");
 
         # Show the intended supported project
         [Logging]::DisplayMessage("Designed for $([ProjectInformation]::projectName) [$([ProjectInformation]::codeName)]");
-        [Logging]::DisplayMessage("$($border)");
-        [Logging]::DisplayMessage("$($border)");
+        [Logging]::DisplayMessage("$([CommonCUI]::borderDashLong)");
+        [Logging]::DisplayMessage("$([CommonCUI]::borderDashLong)");
 
 
         # Provide some extra padding
