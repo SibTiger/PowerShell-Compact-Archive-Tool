@@ -15,15 +15,44 @@
 
 class CommonCUI
 {
-   <# Main Menu Driver
+   <# Draw Program Title Header
     # -------------------------------
     # Documentation:
-    #   This function will output the program's title header onto the Terminal's
-    #   buffer (screen).
+    #  This function will display the Program's information to the user so that they
+    #   are able to see what version of the program is currently running within the
+    #   shell.
     # -------------------------------
     #>
-    static [void] ProgramTitleHeader()
+    static [void] DrawProgramTitleHeader()
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This will hold the main border
+        [string] $border    = "----------------------------------------------------";
+        # This will help separate the contents
+        [string] $borderSub = "- - - - - - - - - - - - - - - - - - - - - - - - - - ";
+        # ----------------------------------------
 
-    } # ProgramTitleHeader()
+
+        # Display the program information
+        [Logging]::DisplayMessage("$($border)");
+
+        # Show the full program name
+        [Logging]::DisplayMessage("`t$($Global:_PROGRAMNAME_)");
+
+        # Show the version, version name, and the release date of the version.
+        [Logging]::DisplayMessage("Version $($Global:_VERSION_) - $($Global:_VERSIONNAME_)`t`t$($Global:_RELEASEDATE_)");
+
+        # Change of contents
+        [Logging]::DisplayMessage("$($borderSub)");
+
+        # Show the intended supported project
+        [Logging]::DisplayMessage("Designed for $([ProjectInformation]::projectName) [$([ProjectInformation]::codeName)]");
+        [Logging]::DisplayMessage("$($border)");
+        [Logging]::DisplayMessage("$($border)");
+
+
+        # Provide some extra padding
+        [Logging]::DisplayMessage("`r`n`r`n");
+    } # DrawProgramTitleHeader()
 } # CommonCUI
