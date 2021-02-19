@@ -88,4 +88,22 @@ class CommonCUI
         [Logging]::DisplayMessage("`t`t  $sectionTitle");
         [Logging]::DisplayMessage("`t~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~`r`n");
     } # DrawSectionHeader()
+
+
+
+
+   <# Draw Menu Instructions
+    # -------------------------------
+    # Documentation:
+    #  This function will display the Menu instructions to the user so that they know
+    #   how to interact with the application.  The instructions are to be minimal but yet
+    #   concise so that the user can easily start using the program, but not to the point
+    #   of flooding the returning user.
+    # -------------------------------
+    #>
+    static [void] DrawMenuInstructions()
+    {
+        [Logging]::DisplayMessage("Select from the following available options:");
+        [Logging]::DisplayMessage("----------------------------------------------------");
+    } # DrawMenuInstructions()
 } # CommonCUI
