@@ -124,4 +124,25 @@ class CommonCUI
         [Logging]::DisplayMessage("Waiting on your response. . .");
         [Logging]::DisplayMessage("------------------------------");
     } # DrawWaitingForUserResponse()
+
+
+
+
+   <# Draw Menu List Item
+    # -------------------------------
+    # Documentation:
+    #  This will display a menu item with a 'Key' and a description for the 'key'.
+    # -------------------------------
+    # Input:
+    #  [char] Item Key
+    #   The character that the user selects.
+    #  [string] Item Description
+    #   The description for the menu item.
+    # -------------------------------
+    #>
+    static [void] DrawMenuItem([char] $itemKey,
+                                [string] $itemDescription)
+    {
+        [Logging]::DisplayMessage(" [$($itemKey)] - $($itemDescription)");
+    } # DrawMenuItem()
 } # CommonCUI
