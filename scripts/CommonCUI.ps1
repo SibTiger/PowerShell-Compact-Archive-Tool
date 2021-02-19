@@ -106,4 +106,22 @@ class CommonCUI
         [Logging]::DisplayMessage("Select from the following available options:");
         [Logging]::DisplayMessage("----------------------------------------------------");
     } # DrawMenuInstructions()
+
+
+
+
+   <# Draw Waiting for User Response
+    # -------------------------------
+    # Documentation:
+    #  Displays a string indicating to the user that the program is waiting for feedback
+    #   from the end-user.
+    #  NOTE: This function does not invoke User Input functionality.
+    # -------------------------------
+    #>
+    static [void] DrawWaitingForUserResponse()
+    {
+        # Let the user know that the program is waiting on their response.
+        [Logging]::DisplayMessage("Waiting on your response. . .");
+        [Logging]::DisplayMessage("------------------------------");
+    } # DrawWaitingForUserResponse()
 } # CommonCUI
