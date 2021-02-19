@@ -52,8 +52,12 @@ class MainMenu
         # Draw Program Information Header
         [CommonCUI]::DrawProgramTitleHeader();
 
-        # Draw the Instructions so that the user knows how to interact with the application.
-        [mainMenu]::DrawInstructions();
+        # Show to the user that they are in the main menu screen
+        [CommonCUI]::DrawSectionHeader("Main Menu");
+
+        # Display the instructions
+        [CommonCUI]::DrawMenuInstructions();
+
 
         # Draw the Main Menu to the user's screen
         [MainMenu]::DrawMainMenu();
@@ -65,76 +69,6 @@ class MainMenu
         # Finished with the Main Menu; prepare to close the application
         return 0;
     } # Main()
-
-
-
-
-   <# Draw Program Information
-    # -------------------------------
-    # Documentation:
-    #  This function will display the Program Information to the user so that they are able
-    #   to see what version of the program is currently running.
-    # -------------------------------
-    #>
-    static [void] DrawProgramInformation()
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # This will hold the main border
-        [string] $border    = "----------------------------------------------------";
-        # This will help separate the contents
-        [string] $borderSub = "- - - - - - - - - - - - - - - - - - - - - - - - - - ";
-        # ----------------------------------------
-
-
-        # Display the program information
-        [Logging]::DisplayMessage("$($border)");
-
-        # Show the full program name
-        [Logging]::DisplayMessage("`t$($Global:_PROGRAMNAME_)");
-
-        # Show the version, version name, and the release date of the version.
-        [Logging]::DisplayMessage("Version $($Global:_VERSION_) - $($Global:_VERSIONNAME_)`t`t$($Global:_RELEASEDATE_)");
-
-        # Change of contents
-        [Logging]::DisplayMessage("$($borderSub)");
-
-        # Show the intended supported project
-        [Logging]::DisplayMessage("Designed for $([ProjectInformation]::projectName) [$([ProjectInformation]::codeName)]");
-        [Logging]::DisplayMessage("$($border)");
-        [Logging]::DisplayMessage("$($border)");
-
-
-        # Provide some extra padding
-        [Logging]::DisplayMessage("`r`n`r`n");
-    } # DrawProgramInformation()
-
-
-
-
-   <# Draw Instructions
-    # -------------------------------
-    # Documentation:
-    #  This function will display the Main Menu instructions to the user so that they know
-    #   how to interact with the application.  The instructions are to be minimal but yet
-    #   concise so that the user can easily start using the program, but not to the point
-    #   of flooding the returning user.
-    # -------------------------------
-    #>
-    static [void] DrawInstructions()
-    {
-        # Display the instructions to the user
-        # Try to keep the instructions minimal yet impactful so that the user knows how to use the main menu.
-
-
-        # Show to the user that they are in the main menu screen
-        [Logging]::DisplayMessage("`t`t  Main Menu");
-        [Logging]::DisplayMessage("`t~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~`r`n");
-
-        # Instructions
-        [Logging]::DisplayMessage("Select from the following available options:");
-        [Logging]::DisplayMessage("----------------------------------------------------");
-    } # DrawInstructions()
 
 
 
@@ -152,18 +86,19 @@ class MainMenu
         # Display the main menu
 
         # Generate Project and View Project Information
-        [Logging]::DisplayMessage(" [B] - Build $([ProjectInformation]::projectName)");
-        [Logging]::DisplayMessage(" [H] - Access $([ProjectInformation]::projectName) Homepage");
-        [Logging]::DisplayMessage(" [W] - Access $([ProjectInformation]::projectName) Wiki");
-        [Logging]::DisplayMessage(" [S] - Access $([ProjectInformation]::projectName) Source Code");
+        [CommonCUI]::DrawMenuItem('B', "Build $([ProjectInformation]::projectName)");
+        [CommonCUI]::DrawMenuItem('H', "Access $([ProjectInformation]::projectName) Homepage");
+        [CommonCUI]::DrawMenuItem('W', "Access $([ProjectInformation]::projectName) Wiki");
+        [CommonCUI]::DrawMenuItem('S', "Access $([ProjectInformation]::projectName) Source Code");
+
 
         # Program Tools
-        [Logging]::DisplayMessage(" [P] - Preferences");
-        [Logging]::DisplayMessage(" [U] - Update $($Global:_PROGRAMNAME_)");
+        [CommonCUI]::DrawMenuItem('P', "Preferences");
+        [CommonCUI]::DrawMenuItem('U', "Update $($Global:_PROGRAMNAME_)");
 
 
         # Terminate application
-        [Logging]::DisplayMessage(" [X] - Exit");
+        [CommonCUI]::DrawMenuItem('X', "Exit");
 
 
         # Provide some extra padding
@@ -187,12 +122,10 @@ class MainMenu
     static [string] GetUserInput()
     {
         # Let the user know that the program is waiting on their response.
-        [Logging]::DisplayMessage("Waiting on your response. . .");
-        [Logging]::DisplayMessage("------------------------------");
-
+        [CommonCUI]::DrawWaitingForUserResponse();
 
         # Retrieve the user's feedback and return their desired request such that it can be
-        #  evaulated further.
+        #  evaluated further.
         return [Logging]::GetUserInput();
     } # GetUserInput()
 } # MainMenu
