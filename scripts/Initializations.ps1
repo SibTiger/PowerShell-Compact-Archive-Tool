@@ -55,7 +55,7 @@ function InitializationProgramIdentity()
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 
     # Release Date
-    Set-Variable -Name "_RELEASEDATE_" -Value "DD.MM.YYYY" `
+    Set-Variable -Name "_RELEASEDATE_" -Value "DD.MM.2021" `
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 } # InitializationProgramIdentity()
 
