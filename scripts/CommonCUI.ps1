@@ -69,4 +69,23 @@ class CommonCUI
         # Provide some extra padding
         [Logging]::DisplayMessage("`r`n`r`n");
     } # DrawProgramTitleHeader()
+
+
+
+
+   <# Draw Section Header
+    # -------------------------------
+    # Documentation:
+    #  This function will provide a header for the desired section.
+    # -------------------------------
+    # Input:
+    #  [string] Section Title
+    #   The title of the section that will be drawn.
+    # -------------------------------
+    #>
+    static [void] DrawSectionHeader([string] $sectionTitle)
+    {
+        [Logging]::DisplayMessage("`t`t  $sectionTitle");
+        [Logging]::DisplayMessage("`t~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~`r`n");
+    } # DrawSectionHeader()
 } # CommonCUI
