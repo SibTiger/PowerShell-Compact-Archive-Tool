@@ -110,17 +110,16 @@ class MainMenu
    <# Get User Input
     # -------------------------------
     # Documentation:
-    #  This function will ask the user to provide input so that they may navigate within the
-    #   Main Menu.
+    #  This function will retrieve the user's feedback associated with the Main Menu.
     # -------------------------------
     # Output:
     #  [string] User's Feedback
-    #   Returns the user's feedback for navigating the Main Menu
+    #   Returns the user's feedback
     # -------------------------------
     #>
     static [string] GetUserInput()
     {
-        # Let the user know that the program is waiting on their response.
+        # Let the user know that the program is currently waiting for their response.
         [CommonCUI]::DrawWaitingForUserResponse();
 
         # Retrieve the user's feedback and return their desired request such that it can be
