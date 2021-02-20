@@ -20,9 +20,9 @@ class MainMenu
    <# Main Menu Driver
     # -------------------------------
     # Documentation:
-    #   This function allows the user to see all available functionalities that exists within
-    #   the software and to drive the application as desired.  This function, essentially, is
-    #   a driver in which the user can perform various operations as needed.
+    #   This function allows the user to see and select from all the available
+    #   options that exists within the program.  This function is essentially
+    #   a driver in which the user can perform various operations as requested.
     # -------------------------------
     # Input:
     #  [UserPreferences] User Preferences
@@ -53,17 +53,16 @@ class MainMenu
         # Draw Program Information Header
         [CommonCUI]::DrawProgramTitleHeader();
 
-        # Show to the user that they are in the main menu screen
+        # Show the user that they are at the Main Menu
         [CommonCUI]::DrawSectionHeader("Main Menu");
 
         # Display the instructions
         [CommonCUI]::DrawMenuInstructions();
 
-
-        # Draw the Main Menu to the user's screen
+        # Draw the Main Menu list to the user
         [MainMenu]::DrawMainMenu();
 
-        # Capture the user's input
+        # Capture the user's feedback
         $userInput = [MainMenu]::GetUserInput();
 
 
