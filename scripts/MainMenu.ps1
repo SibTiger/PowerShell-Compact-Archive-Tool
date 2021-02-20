@@ -76,14 +76,13 @@ class MainMenu
    <# Draw Main Menu
     # -------------------------------
     # Documentation:
-    #  This function will essentially draw the Main Menu selection onto the End-User's terminal
-    #   buffer, thus providing what features and functionalities are available to the end-user
-    #   and how the user can access them directly using their keyboard or other input devices.
+    #  This function will essentially draw the Main Menu list the user.  Thus this function
+    #   provides what features and options are available to the user.
     # -------------------------------
     #>
     static [void] DrawMainMenu()
     {
-        # Display the main menu
+        # Display the Main Menu list
 
         # Generate Project and View Project Information
         [CommonCUI]::DrawMenuItem('B', "Build $([ProjectInformation]::projectName)");
