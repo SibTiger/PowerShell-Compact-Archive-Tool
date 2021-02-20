@@ -3,12 +3,13 @@
  # ==============================
  # ==============================
  # This class allows the ability for the user to interact with the application and to
- #  access functionality that is available within the program.  Thus, the main menu
- #  provides a way for the user to perform any essential task possible.  If the main
- #  menu object where to fail, then the user cannot perform any meaningful tasks within
- #  application.  The Main Menu will allow the End-User to drive the application by
- #  performing various tasks as expected, such as: accessing the User Settings, perform
- #  compile configurations, check program state, and other features if deemed available.
+ #  access the functionality that is available within the program.  Thus, the main menu
+ #  provides a way for the user to perform any essential task possible within the
+ #  application.  If the main menu object where to fail, for any reason at-all, then
+ #  the user cannot perform any meaningful tasks within application.  The Main Menu
+ #  will allow the user to perform requests to configure the application's settings,
+ #  compile the desired project, or to perform miscellaneous operations that are
+ #  available by the program's Main Menu.
  #>
 
 
