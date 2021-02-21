@@ -36,6 +36,11 @@ class MainMenu
     #  [LoadSaveUserConfiguration] Load\Save User Configuration
     #   Contains the user's preferences for the Load\Save user configuration.
     # -------------------------------
+    # Output:
+    #  [integer] Exit Level
+    #    0 = Everything was successful
+    #   !0 = An error was reached
+    # -------------------------------
     #>
     static [int] Main([UserPreferences] $userPreferences,                       # User Preferences
                     [GitControl] $gitControl,                                   # Git Control Settings
