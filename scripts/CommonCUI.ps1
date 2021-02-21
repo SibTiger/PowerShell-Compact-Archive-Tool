@@ -43,27 +43,37 @@ class CommonCUI
    <# Draw Program Title Header
     # -------------------------------
     # Documentation:
-    #  This function will display the Program's information to the user so that they
-    #   are able to see what version of the program is currently running within the
-    #   shell.
+    #  This function will display the Program's Title and Version Information on to
+    #   the terminal.  This allows the user to see what program is presently running
+    #   on the shell and the program's current version.
     # -------------------------------
     #>
     static [void] DrawProgramTitleHeader()
     {
-        # Display the program information
+        # Display the top border
         [Logging]::DisplayMessage("$([CommonCUI]::borderDashLong)");
+        # -------------------------------------------------------------------
 
-        # Show the full program name
+
+        # Display the program's full name
         [Logging]::DisplayMessage("`t$($Global:_PROGRAMNAME_)");
 
-        # Show the version, version name, and the release date of the version.
+        # Display the version number, version name, and when the version was released (or Dev. Released)
         [Logging]::DisplayMessage("Version $($Global:_VERSION_) - $($Global:_VERSIONNAME_)`t`t$($Global:_RELEASEDATE_)");
+        # -------------------------------------------------------------------
 
-        # Change of contents
+
+        # Display a sub-border to show that there is a change of content
         [Logging]::DisplayMessage("$([CommonCUI]::borderSubcategory)");
+        # -------------------------------------------------------------------
 
-        # Show the intended supported project
+
+        # Display the intended supported ZDoom project name and codename
         [Logging]::DisplayMessage("Designed for $([ProjectInformation]::projectName) [$([ProjectInformation]::codeName)]");
+        # -------------------------------------------------------------------
+
+
+        # Display the trailing borders to indicate the end of the Program Title.
         [Logging]::DisplayMessage("$([CommonCUI]::borderDashLong)");
         [Logging]::DisplayMessage("$([CommonCUI]::borderDashLong)");
 
