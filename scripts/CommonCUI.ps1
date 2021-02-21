@@ -152,18 +152,20 @@ class CommonCUI
    <# Draw Menu List Item
     # -------------------------------
     # Documentation:
-    #  This will display a menu item with a 'Key' and a description for the 'key'.
+    #  This function will format a menu item to a list.  The item will include a
+    #   Feedback Key and a brief description or information of the item being listed.
     # -------------------------------
     # Input:
-    #  [char] Item Key
-    #   The character that the user selects.
+    #  [char] Feedback Key
+    #   The character key that the user requests to access the item.
     #  [string] Item Description
-    #   The description for the menu item.
+    #   The description or information of the menu item.
     # -------------------------------
     #>
     static [void] DrawMenuItem([char] $itemKey,
                                 [string] $itemDescription)
     {
+        # Display the Menu Item as formatted.
         [Logging]::DisplayMessage(" [$($itemKey)] - $($itemDescription)");
     } # DrawMenuItem()
 } # CommonCUI
