@@ -131,4 +131,116 @@ class MainMenu
         #  evaluated further.
         return [Logging]::GetUserInput();
     } # GetUserInput()
+
+
+
+
+   <# Evaluate and Execute User's Request
+    # -------------------------------
+    # Documentation:
+    #  This function will evaluate and execute the user's desired request in respect to
+    #   the Menu options provided.
+    # -------------------------------
+    # Input:
+    #  [string] User's Request
+    #   This will provide the user's desired request to run an operation
+    #    or to access a specific functionality.
+    # -------------------------------
+    # Output:
+    #  [bool] User Stays at Menu
+    #   This defines if the user is to remain at the Menu screen.
+    #   $true  = User is to remain at the Menu.
+    #   $false = User requested to leave the Menu.
+    # -------------------------------
+    #>
+    static [bool] EvaluateExecuteUserRequest([string] $userRequest)
+    {
+        switch ($userRequest)
+        {
+            # Build the desired ZDoom project
+            "B"
+            {
+                # Build the desired ZDoom project
+                [Logging]::DisplayMessage("Build Project...");
+
+                # Finished
+                break;
+            } # Build ZDoom Project
+
+            # Access the ZDoom project's Homepage
+            "H"
+            {
+                # Access the ZDoom project's Homepage
+                [Logging]::DisplayMessage("Accessing Homepage...");
+
+                # Finished
+                break;
+            } # Access ZDoom project's Homepage
+
+            # Access the ZDoom project's Wiki Page
+            "W"
+            {
+                # Access the ZDoom project's Wiki page
+                [Logging]::DisplayMessage("Accessing Wiki...");
+
+                # Finished
+                break;
+            } # Access ZDoom project's Wiki
+
+
+            # Access the ZDoom project's Source Code Repository
+            "S"
+            {
+                # Access the ZDoom project's Source Code Repository
+                [Logging]::DisplayMessage("Accessing Source Code Repository");
+
+                # Finished
+                break;
+            } # Access ZDoom project's Repository
+
+            # Configure User Preferences
+            "P"
+            {
+                # Configure User Preferences
+                [Logging]::DisplayMessage("Configuring User Settings...");
+
+                # Finished
+                break;
+            } # Configure User Preferences
+
+            # Update Software
+            "U"
+            {
+                # Update software
+                [Logging]::DisplayMessage("Updating Software...");
+
+                # Finished
+                break;
+            } # Update Software
+
+            # Exit
+            {($_ -eq "X") -or ($_ -eq "Exit") -or ($_ -eq "Quit")}
+            {
+                # Exit
+                [Logging]::DisplayMessage("Terminating Software...");
+
+                # Return back to the menu
+                return $false;
+            } # Exit
+
+            # Unknown Option
+            default
+            {
+                # Unknown Option
+                [Logging]::DisplayMessage("<!> UNKNOWN OPTION PROVIDED <!>");
+
+                # Finished
+                break;
+            } # Unknown Option
+        } # Switch()
+
+
+        # Return back to the menu
+        return $true;
+    } # EvaluateExecuteUserRequest()
 } # MainMenu
