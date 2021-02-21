@@ -88,16 +88,20 @@ class CommonCUI
    <# Draw Section Header
     # -------------------------------
     # Documentation:
-    #  This function will provide a header for the desired section.
+    #  This function will display the section header to indicate where the user
+    #   is presently located within the program's layout.
     # -------------------------------
     # Input:
     #  [string] Section Title
-    #   The title of the section that will be drawn.
+    #   The title of the section that will be displayed.
     # -------------------------------
     #>
     static [void] DrawSectionHeader([string] $sectionTitle)
     {
+        # Display the section title
         [Logging]::DisplayMessage("`t`t  $sectionTitle");
+
+        # Display a fancy border
         [Logging]::DisplayMessage("`t~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~`r`n");
     } # DrawSectionHeader()
 
