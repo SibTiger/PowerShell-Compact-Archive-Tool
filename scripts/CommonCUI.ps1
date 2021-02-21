@@ -132,15 +132,17 @@ class CommonCUI
    <# Draw Waiting for User Response
     # -------------------------------
     # Documentation:
-    #  Displays a string indicating to the user that the program is waiting for feedback
-    #   from the end-user.
-    #  NOTE: This function does not invoke User Input functionality.
+    #  This will display a message indicating that the program is currently waiting for user's feedback.
+    #  NOTE: This function does NOT invoke the User Input functionality; this function should be
+    #         called first before requesting the user's actual feedback.
     # -------------------------------
     #>
     static [void] DrawWaitingForUserResponse()
     {
         # Let the user know that the program is waiting on their response.
         [Logging]::DisplayMessage("Waiting on your response. . .");
+
+        # Display a border to separate the input from the program's content.
         [Logging]::DisplayMessage("------------------------------");
     } # DrawWaitingForUserResponse()
 
