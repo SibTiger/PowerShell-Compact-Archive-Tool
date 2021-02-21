@@ -113,14 +113,17 @@ class CommonCUI
     # Documentation:
     #  This function will display the Menu instructions to the user so that they know
     #   how to interact with the application.  The instructions are to be minimal but yet
-    #   concise so that the user can easily start using the program, but not to the point
-    #   of flooding the returning user.
+    #   concise so that the user can easily start using the program without being
+    #   overwhelmed with an 6abundance of text.
     # -------------------------------
     #>
     static [void] DrawMenuInstructions()
     {
+        # Display the common menu instructions
         [Logging]::DisplayMessage("Select from the following available options:");
         [Logging]::DisplayMessage("----------------------------------------------------");
+
+        # Display a border
     } # DrawMenuInstructions()
 
 
