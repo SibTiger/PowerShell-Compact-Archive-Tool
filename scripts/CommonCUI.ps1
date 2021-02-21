@@ -121,9 +121,9 @@ class CommonCUI
     {
         # Display the common menu instructions
         [Logging]::DisplayMessage("Select from the following available options:");
-        [Logging]::DisplayMessage("----------------------------------------------------");
 
         # Display a border
+        [Logging]::DisplayMessage("$([CommonCUI]::borderDashLong)");
     } # DrawMenuInstructions()
 
 
