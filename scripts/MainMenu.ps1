@@ -52,23 +52,36 @@ class MainMenu
         # ----------------------------------------
         # This variable will hold the user's input as they navigate within the main menu.
         [string] $userInput = $null;
+
+        [bool] $mainMenuLoop = $true;
         # ----------------------------------------
 
+        # Open the Main Menu
+        #  Keep the user at the Main Menu until they request to leave the program
+        do
+        {
+            # Clear the terminal of all previous text; keep the space clean so that
+            #  it is easy for the user to read and follow along.
+            [IOCommon]::ClearBuffer();
 
-        # Draw Program Information Header
-        [CommonCUI]::DrawProgramTitleHeader();
+            # Draw Program Information Header
+            [CommonCUI]::DrawProgramTitleHeader();
 
-        # Show the user that they are at the Main Menu
-        [CommonCUI]::DrawSectionHeader("Main Menu");
+            # Show the user that they are at the Main Menu
+            [CommonCUI]::DrawSectionHeader("Main Menu");
 
-        # Display the instructions
-        [CommonCUI]::DrawMenuInstructions();
+            # Display the instructions
+            [CommonCUI]::DrawMenuInstructions();
 
-        # Draw the Main Menu list to the user
-        [MainMenu]::DrawMainMenu();
+            # Draw the Main Menu list to the user
+            [MainMenu]::DrawMainMenu();
 
-        # Capture the user's feedback
-        $userInput = [MainMenu]::GetUserInput();
+            # Capture the user's feedback
+            $userInput = [MainMenu]::GetUserInput();
+
+            # Execute the user's request
+            $mainMenuLoop = [MainMenu]::EvaluateExecuteUserRequest($userInput);
+        } while ($mainMenuLoop)
 
 
         # Finished with the Main Menu; prepare to close the application
