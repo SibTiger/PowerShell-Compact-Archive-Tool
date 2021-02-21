@@ -2,12 +2,14 @@
  # ------------------------------
  # ==============================
  # ==============================
- # This class will hold common Console User Interface instructions and procedures to
- #  reduce code duplication.  With the functions provided in this class, we can easily
- #  keep most of the User Interface content unified and consistent through out the
- #  entire program.  With the consistency of the UI, the end-user can easily navigate
- #  within the program with the outmost ease.  If we were not consistent, the user
- #  will easily get frustrated with the program.
+ # This class will hold various commonly used instructions and procedures that are
+ #  designed for the Console User Interface (CUI).  With these functions defined
+ #  within this object, we can easily keep the environment unified and consistent
+ #  throughout the entire program.  Further, these functions will help to reduce
+ #  code duplication as various other functions - outside from this class - can be
+ #  utilize these methods openly.  With the reduce of code duplication, we can
+ #  spend more time on implementation of other functionalities and to easily
+ #  maintain these member functions as necessary with minimal cost.
  #>
 
 
