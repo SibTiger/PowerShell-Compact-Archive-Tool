@@ -26,13 +26,13 @@ class CommonCUI
 
     # Border - Dash - Long
     # ---------------
-    # A simple string that provides a long dashed border.
+    # A simple string that provides a long-dashed border.
     Hidden static [string] $borderDashLong = "----------------------------------------------------";
 
 
     # Border - Dash Spaced - Long
     # ---------------
-    # A simple string that provides a long dash spaced border.
+    # A simple string that provides a long-dash spaced border.
     Hidden static [string] $borderSubcategory = "- - - - - - - - - - - - - - - - - - - - - - - - - - ";
 
 
