@@ -245,7 +245,11 @@ class MainMenu
             default
             {
                 # Unknown Option
-                [Logging]::DisplayMessage("<!> UNKNOWN OPTION PROVIDED <!>");
+                [Logging]::DisplayMessage("`r`n");
+                [Logging]::DisplayMessage("`t<!>`tIncorrect Option`t<!>");
+                [Logging]::DisplayMessage("$([CommonCUI]::borderDashLong)");
+                [Logging]::DisplayMessage("Your request could not be executed as the option was not valid!");
+                Read-Host -Prompt "Press the Enter key to continue..." | Out-Null;
 
                 # Finished
                 break;
