@@ -249,7 +249,9 @@ class MainMenu
                 [Logging]::DisplayMessage("`t<!>`tIncorrect Option`t<!>");
                 [Logging]::DisplayMessage("$([CommonCUI]::borderDashLong)");
                 [Logging]::DisplayMessage("Your request could not be executed as the option was not valid!");
-                Read-Host -Prompt "Press the Enter key to continue..." | Out-Null;
+                [Logging]::DisplayMessage("Press the Enter key to continue...");
+                (Get-Host).UI.ReadLine();
+
 
                 # Finished
                 break;
