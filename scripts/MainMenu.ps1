@@ -248,14 +248,10 @@ class MainMenu
             # Unknown Option
             default
             {
-                # Unknown Option
-                [Logging]::DisplayMessage("`r`n");
-                [Logging]::DisplayMessage("`t<!>`tIncorrect Option`t<!>");
-                [Logging]::DisplayMessage("$([CommonCUI]::borderDashLong)");
-                [Logging]::DisplayMessage("Your request could not be executed as the option was not valid!");
-                [Logging]::DisplayMessage("Press the Enter key to continue...");
-                (Get-Host).UI.ReadLine();
 
+                # Provide an error message to the user that the option
+                #  they chose is not available.
+                [CommonCUI]::DrawIncorrectMenuOption();
 
                 # Finished
                 break;

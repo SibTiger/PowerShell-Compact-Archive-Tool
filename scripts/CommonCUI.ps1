@@ -168,4 +168,28 @@ class CommonCUI
         # Display the Menu Item as formatted.
         [Logging]::DisplayMessage(" [$($itemKey)] - $($itemDescription)");
     } # DrawMenuItem()
+
+
+
+
+   <# Draw Incorrect Menu Option
+    # -------------------------------
+    # Documentation:
+    #  This function is intended to provide a friendly error message to the user, by
+    #   indicating that the menu option that they had selected - is not valid.
+    # -------------------------------
+    #>
+    static [void] DrawIncorrectMenuOption()
+    {
+        # Provided the error message
+        [Logging]::DisplayMessage("`r`n");
+        [Logging]::DisplayMessage("`t<!>`tIncorrect Option`t<!>");
+        [Logging]::DisplayMessage("$([CommonCUI]::borderDashLong)");
+        [Logging]::DisplayMessage("Your request could not be executed as the option was not valid!");
+
+        # The user will press the 'Enter' key in order to continue onwards; this will allow the user
+        #  time to read the message.
+        [Logging]::DisplayMessage("Press the Enter key to continue...");
+        (Get-Host).UI.ReadLine();
+    } # DrawIncorrectMenuOption()
 } # CommonCUI
