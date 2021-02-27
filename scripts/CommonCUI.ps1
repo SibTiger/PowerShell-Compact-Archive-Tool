@@ -175,8 +175,8 @@ class CommonCUI
    <# Draw Incorrect Menu Option
     # -------------------------------
     # Documentation:
-    #  This function is intended to provide a friendly error message to the user, by
-    #   indicating that the menu option that they had selected - is not valid.
+    #  This function is intended to provide a friendly error message to the user, by indicating
+    #   that the menu option that they had selected - is not available or valid.
     # -------------------------------
     #>
     static [void] DrawIncorrectMenuOption()
@@ -185,7 +185,7 @@ class CommonCUI
         [Logging]::DisplayMessage("`r`n");
         [Logging]::DisplayMessage("`t<!>`tIncorrect Option`t<!>");
         [Logging]::DisplayMessage("$([CommonCUI]::borderDashLong)");
-        [Logging]::DisplayMessage("Your request could not be executed as the option was not valid!");
+        [Logging]::DisplayMessage("Your request could not be executed as the option was not valid or not available at this time!");
 
         # The user will press the 'Enter' key in order to continue onwards; this will allow the user
         #  time to read the message.
