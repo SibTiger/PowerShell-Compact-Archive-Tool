@@ -248,9 +248,7 @@ class MainMenu
             # Unknown Option
             default
             {
-
-                # Provide an error message to the user that the option
-                #  they chose is not available.
+                # Provide an error message to the user that the option they chose is not available.
                 [CommonCUI]::DrawIncorrectMenuOption();
 
                 # Finished
