@@ -176,6 +176,15 @@ class MainMenu
                 # Build the desired ZDoom project
                 [Logging]::DisplayMessage("Build Project...");
 
+                # Not yet available!
+                [Logging]::DisplayMessage("`tYonkers!");
+                [Logging]::DisplayMessage("##################################");
+                [Logging]::DisplayMessage("");
+                [Logging]::DisplayMessage("This feature is not yet available!");
+                [Logging]::DisplayMessage("Please wait a bit more time so that I can construct this feature properly....");
+                [Logging]::DisplayMessage("`r`n");
+                PAUSE;
+
                 # Finished
                 break;
             } # Build ZDoom Project
@@ -186,6 +195,17 @@ class MainMenu
                 # Access the ZDoom project's Homepage
                 [Logging]::DisplayMessage("Accessing Homepage...");
 
+
+                # Not yet available!
+                [Logging]::DisplayMessage("`tYonkers!");
+                [Logging]::DisplayMessage("##################################");
+                [Logging]::DisplayMessage("");
+                [Logging]::DisplayMessage("This feature is not yet available!");
+                [Logging]::DisplayMessage("Please wait a bit more time so that I can construct this feature properly....");
+                [Logging]::DisplayMessage("`r`n");
+                PAUSE;
+
+
                 # Finished
                 break;
             } # Access ZDoom project's Homepage
@@ -195,6 +215,17 @@ class MainMenu
             {
                 # Access the ZDoom project's Wiki page
                 [Logging]::DisplayMessage("Accessing Wiki...");
+
+
+                # Not yet available!
+                [Logging]::DisplayMessage("`tYonkers!");
+                [Logging]::DisplayMessage("##################################");
+                [Logging]::DisplayMessage("");
+                [Logging]::DisplayMessage("This feature is not yet available!");
+                [Logging]::DisplayMessage("Please wait a bit more time so that I can construct this feature properly....");
+                [Logging]::DisplayMessage("`r`n");
+                PAUSE;
+
 
                 # Finished
                 break;
@@ -207,6 +238,17 @@ class MainMenu
                 # Access the ZDoom project's Source Code Repository
                 [Logging]::DisplayMessage("Accessing Source Code Repository");
 
+
+                # Not yet available!
+                [Logging]::DisplayMessage("`tYonkers!");
+                [Logging]::DisplayMessage("##################################");
+                [Logging]::DisplayMessage("");
+                [Logging]::DisplayMessage("This feature is not yet available!");
+                [Logging]::DisplayMessage("Please wait a bit more time so that I can construct this feature properly....");
+                [Logging]::DisplayMessage("`r`n");
+                PAUSE;
+
+
                 # Finished
                 break;
             } # Access ZDoom project's Repository
@@ -217,6 +259,17 @@ class MainMenu
                 # Configure User Preferences
                 [Logging]::DisplayMessage("Configuring User Settings...");
 
+
+                # Not yet available!
+                [Logging]::DisplayMessage("`tYonkers!");
+                [Logging]::DisplayMessage("##################################");
+                [Logging]::DisplayMessage("");
+                [Logging]::DisplayMessage("This feature is not yet available!");
+                [Logging]::DisplayMessage("Please wait a bit more time so that I can construct this feature properly....");
+                [Logging]::DisplayMessage("`r`n");
+                PAUSE;
+
+
                 # Finished
                 break;
             } # Configure User Preferences
@@ -226,6 +279,17 @@ class MainMenu
             {
                 # Update software
                 [Logging]::DisplayMessage("Updating Software...");
+
+
+                # Not yet available!
+                [Logging]::DisplayMessage("`tYonkers!");
+                [Logging]::DisplayMessage("##################################");
+                [Logging]::DisplayMessage("");
+                [Logging]::DisplayMessage("This feature is not yet available!");
+                [Logging]::DisplayMessage("Please wait a bit more time so that I can construct this feature properly....");
+                [Logging]::DisplayMessage("`r`n");
+                PAUSE;
+
 
                 # Finished
                 break;
