@@ -227,6 +227,7 @@ function MakeCompilerDriver()
                         "LoadSaveUserConfigs.ps1", `
                         "Logging.ps1", `
                         "SystemInformation.ps1", `
+                        "ProjectSiteSources.ps1", `
                         "MainMenu.ps1", `
                         "main.ps1");
 
