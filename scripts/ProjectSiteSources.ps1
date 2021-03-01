@@ -2,23 +2,22 @@
  # ------------------------------
  # ==============================
  # ==============================
- # This class will provide common functionalities for accessing the project's
- #  various websites.  A project may contain website locations for accessing
- #  traditional websites as well as Web services:
+ # This class will provide common functionalities for accessing various
+ #  websites.  Such websites could be related to a specific project.
+ #  A project may contain website locations for accessing traditional
+ #  websites as well as Web services:
  #   - Homepage
  #   - Repository
  #   - Wiki
  #   - Potentially More
  #  When wanting to view the desired websites, the functions within this object
  #  will take in account of the user's settings as well as if such URL's are
- #  available within the project.  To further elaborate regarding the user's
+ #  available to access.  To further elaborate regarding the user's
  #  settings, the user has the option allow Explorer Calls to be allowed,
  #  which if allowed - the user's preferred Internet Browser will automatically
  #  open to the desired webpage.  In contrast, if the Explorer Calls are
  #  disallowed, the website will only be displayed on to the terminal's output
- #  buffer.  But these options are only available if the project's sites are
- #  available, if the sites are not provided in the Project's Information -
- #  there's nothing to display.
+ #  buffer.  But these options are only available if the sites are available.
  #>
 
 
@@ -34,20 +33,20 @@
     # Documentation:
     #  This function will check to see if the website is presently available.
     #  The availability will be a factor in several places:
-    #   - Does site exist in the Project's Information?
+    #   - Does site exist with the given argument?
     #   - Is the website presently active?
     #  If both of these conditions are true, then the website is presently
     #  available for the user to access freely.  However if either of the
     #  conditions are false, then the website is not available or no valid
-    #  site URL was provided in the first place in the Project's Information.
+    #  site URL was provided.
     # -------------------------------
     # Input:
     #  [string] Site
-    #    The desired website to inspect its availability.
+    #    The desired website to inspect its availability state.
     # -------------------------------
     # Output:
     #  [bool] Availability Status
-    #    Determines if the Website is available for the user.
+    #    Determines if the desired Website is available for the user to access.
     #    - True : Website is available for the user.
     #    - False: Website is not available to the user.
     # -------------------------------
@@ -70,10 +69,13 @@
 
 
 
+
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # Private Functions - Check Site Availability
+
+
 
 
    <# Check Site Availability : Site Provided
@@ -81,9 +83,7 @@
     # Documentation:
     #  This function will check the site's string value and determine
     #   if the string is $Null.  If the String is null, then the site
-    #   was never given within the Project's Information.  This could
-    #   be due to the Project not having such resource or never provided
-    #   withing the Project's information.
+    #   was never provided.
     # -------------------------------
     # Input:
     #  [string] Site
@@ -132,7 +132,11 @@
     #   the queries, then that would mean that the webpage is not
     #   available for the user to access openly.
     #
-    # NOTES: This function is inspired by this question:
+    # NOTE: If the website takes a long time to reach or process requests,
+    #        then this function could temporarily lock the program until the
+    #        a timeout occurs from the site request.
+    #
+    # Developer NOTE: This function is inspired by this question:
     #  https://stackoverflow.com/a/20262872/11314373
     # -------------------------------
     # Input:
@@ -150,8 +154,8 @@
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # This will hold the main Website Request
-        [System.Net.HttpWebRequest] $siteRequest = $null;#[System.Net.HttpWebRequest]::Create("$($site)");
+        # This will hold the main Website to Request
+        [System.Net.HttpWebRequest] $siteRequest = $null;
 
         # This will hold the Site's response.
         [System.Net.HttpWebResponse] $siteResponse = $null;
@@ -176,7 +180,8 @@
         } # If : Website is not reachable
 
 
-        # Now that we had finished evaluating the website, close the site's response from the Request instance.
+        # Now that we had finished evaluating the website, close the site's response from the
+        #  Request instance.
         $siteResponse.Close();
 
 
