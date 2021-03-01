@@ -81,9 +81,8 @@
    <# Check Site Availability : Site Provided
     # -------------------------------
     # Documentation:
-    #  This function will check the site's string value and determine
-    #   if the string is $Null.  If the String is null, then the site
-    #   was never provided.
+    #  This function will check the site's string value and determine if the
+    #   string is $Null.  If the String is null, then the site was never populated.
     # -------------------------------
     # Input:
     #  [string] Site
