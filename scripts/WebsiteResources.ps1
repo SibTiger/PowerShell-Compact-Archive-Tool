@@ -54,8 +54,8 @@
     static [bool] CheckSiteAvailability([string] $site)
     {
         # Check the website's availability status
-        if (([ProjectSiteSources]::__CheckSiteAvailability_SiteProvided("$($site)") -and `
-            ([ProjectSiteSources]::__CheckSiteAvailability_SiteResponse("$($site)")))    `
+        if (([WebsiteResources]::__CheckSiteAvailability_SiteProvided("$($site)") -and `
+            ([WebsiteResources]::__CheckSiteAvailability_SiteResponse("$($site)")))    `
             -eq $true)
         {
             # The website is presently available for the user to access.
