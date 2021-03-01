@@ -1,4 +1,4 @@
-<# Project Website Services
+<# Website Resources
  # ------------------------------
  # ==============================
  # ==============================
@@ -23,7 +23,7 @@
 
 
 
- class ProjectSiteSources
+ class WebsiteResources
  {
     #region Check Website Availability and Status
 
@@ -192,4 +192,4 @@
 
 
     # endregion
- } # ProjectSiteSources
+ } # WebsiteResources
