@@ -25,6 +25,162 @@
 
  class WebsiteResources
  {
+    #region Access Web Sites
+
+
+   <# Access Web Site - Main Task [Private]
+    # -------------------------------
+    # Documentation:
+    #  This function will open the desired web page using the user's preferred
+    #   web browser.  Once this function had been called, there will be several
+    #   conditions that will be checked:
+    #   - Does the user allow Web Browser to be used?
+    #   - Is the site reachable?
+    #  The checks performed will determine if it is possible to open the web site
+    #   using the preferred Web Browser or to only output the web page URL to the
+    #   terminal's output buffer.
+    # -------------------------------
+    # Input:
+    #  [string] Site URL
+    #   The web page that will be accessed.
+    #  [string] Site Name
+    #   The name of the web page that we will be accessing.
+    #  [string] Version (Optional; nullable)
+    #   When checking for updates, this value will be visible to the user.
+    #  [bool] Update Behavioral
+    #   When true, this will cause some extra information to be present in
+    #   the terminal's output buffer.
+    #  [UserPreferences] User Preferences
+    #   User's present configuration; required for Web Browser settings
+    #  [bool] Ignore User Settings
+    #   When true, this will ignore the user's settings and forcefully open the
+    #   web page using the user's preferred Web Browser.
+    # -------------------------------
+    # Output:
+    #  [bool] Operation Status
+    #    - True : Successfully performed the operation.
+    #    - False: Unable to successfully open the web page.
+    # -------------------------------
+    #>
+    Hidden static [bool] __AccessWebSite([string] $siteURL,                 # The Site's URL to access
+                                        [string] $siteName,                 # The Site's name
+                                        [string] $projectVersion,           # The version of the target (Optional)
+                                        [bool] $update,                     # Perform the Update Behavioral
+                                        [UserPreferences] $userPreferences, # User Preferences
+                                        [bool] $ignoreUserSetting)          # Ignore User's Settings and open Web Browser
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This will provide the overall status of the entire operation.
+        [bool] $operationStatus = $true;
+        # ----------------------------------------
+
+
+        # Does the user allow for the Web Browsers to be used?
+        if (($userPreferences.GetUseWindowsExplorer() -eq $true) -or `
+            ($ignoreUserSetting -eq $true))
+        {
+            # Open the desired web page.
+            [Logging]::DisplayMessage("Accessing $($siteName). . .");
+            [Logging]::DisplayMessage("URL: $($siteURL)");
+
+            [IOCommon]::AccessWebpage("$($siteURL)");
+        }
+    } # AccessWebSite()
+
+
+
+
+   <# Access Web Site - General Web Page
+    # -------------------------------
+    # Documentation:
+    #  This function is a bridge to the AccessWebSite() member function.
+    #   This function will allow the user to view the content via the Web
+    #   Browser, if and only if, possible.
+    # -------------------------------
+    # Input:
+    #  [string] Site URL
+    #   The web page that will be accessed.
+    #  [string] Site Name
+    #   The name of the web page that we will be accessing.
+    #  [UserPreferences] User Preferences
+    #   User's present configuration; required for Web Browser settings
+    #  [bool] Ignore User Settings
+    #   When true, this will ignore the user's settings and forcefully open the
+    #   web page using the user's preferred Web Browser.
+    # -------------------------------
+    # Output:
+    #  [bool] Operation Status
+    #    - True : Successfully performed the operation.
+    #    - False: Unable to successfully open the web page.
+    # -------------------------------
+    #>
+    static [bool] AccessWebSite_General([string] $siteURL,                  # The Site's URL to access
+                                        [string] $siteName,                 # The Site's name
+                                        [UserPreferences] $userPreferences, # User Preferences
+                                        [bool] $ignoreUserSetting)          # Ignore User's Settings and open Web Browser
+    {
+        # Access the Main Function that will open the Web Browser functionality; return
+        #  the operation status back to the calling function.
+        return [WebsiteResources]::__AccessWebSite("$($siteURL)",           ` # Site URL
+                                                    "$($siteName)",         ` # Site's Name (or Nice name)
+                                                    "$($null)",             ` # Target's current version (we are not interested in this option)
+                                                    $false,                 ` # Update Protocol
+                                                    $userPreferences,       ` # User's Preferences
+                                                    $ignoreUserSetting);    ` # Forcefully Open the Web Browser
+    } # AccessWebSite_General()
+
+
+
+
+   <# Access Web Site - Update Web Page
+    # -------------------------------
+    # Documentation:
+    #  This function is a bridge to the AccessWebSite() member function.
+    #   This function will allow the user to view the content via the Web
+    #   Browser, if and only if, possible.
+    # -------------------------------
+    # Input:
+    #  [string] Site URL
+    #   The web page that will be accessed.
+    #  [string] Site Name
+    #   The name of the web page that we will be accessing.
+    #  [string] Version
+    #   When checking for updates, this value will be visible to the user.
+    #  [UserPreferences] User Preferences
+    #   User's present configuration; required for Web Browser settings
+    #  [bool] Ignore User Settings
+    #   When true, this will ignore the user's settings and forcefully open the
+    #   web page using the user's preferred Web Browser.
+    # -------------------------------
+    # Output:
+    #  [bool] Operation Status
+    #    - True : Successfully performed the operation.
+    #    - False: Unable to successfully open the web page.
+    # -------------------------------
+    #>
+    static [bool] AccessWebSite_Update([string] $siteURL,                   # The Site's URL to access
+                                        [string] $siteName,                 # The Site's name
+                                        [string] $projectVersion,           # The version of the target (Optional)
+                                        [UserPreferences] $userPreferences, # User Preferences
+                                        [bool] $ignoreUserSetting)          # Ignore User's Settings and open Web Browser
+    {
+        # Access the Main Function that will open the Web Browser functionality; return
+        #  the operation status back to the calling function.
+        return [WebsiteResources]::__AccessWebSite("$($siteURL)",           ` # Site URL
+                                                    "$($siteName)",         ` # Site's Name (or Nice Name)
+                                                    "$($projectVersion)",   ` # Target's current version
+                                                    $true,                  ` # Update Protocol
+                                                    $userPreferences,       ` # User's Preferences
+                                                    $ignoreUserSetting);    ` # Forcefully Open the Web Browser
+    } # AccessWebSite_Update()
+
+
+    #endregion
+
+
+
+
     #region Check Website Availability and Status
 
 
