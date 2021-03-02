@@ -4360,6 +4360,7 @@ class IOCommon
 
         # Make sure that the URL Address provided is an actual legitimate URL address.
         if ((($URLAddress -like 'http://*') -eq $true) -or `
+            (($URLAddress -like 'https://*') -eq $true) -or `
             (($URLAddress -like 'www.*') -eq $true))
         {
             # The address is legal.
