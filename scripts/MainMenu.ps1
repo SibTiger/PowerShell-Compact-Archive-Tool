@@ -80,7 +80,11 @@ class MainMenu
             $userInput = [MainMenu]::GetUserInput();
 
             # Execute the user's request
-            $mainMenuLoop = [MainMenu]::EvaluateExecuteUserRequest($userInput);
+            $mainMenuLoop = [MainMenu]::EvaluateExecuteUserRequest($userInput,          ` # User's Feedback
+                                                                $userPreferences,       ` # User's Preferences
+                                                                $gitControl,            ` # Git Control Settings
+                                                                $sevenZip,              ` # 7Zip Settings
+                                                                $defaultCompress);      ` # Default Compress (.NET) Settings
         } while ($mainMenuLoop)
 
 
@@ -158,6 +162,14 @@ class MainMenu
     #  [string] User's Request
     #   This will provide the user's desired request to run an operation
     #    or to access a specific functionality.
+    #  [UserPreferences] User's Preferences
+    #   Used in various areas; passes the User's Preferences.
+    #  [GitControl] Git Control
+    #   Holds the user's Git Control settings and configurations.
+    #  [SevenZip] 7Zip Control
+    #   Holds the user's 7Zip Control settings and configurations.
+    #  [DefaultCompress] Default Compress (.NET)
+    #   Holds the user's Default Compress (.NET) settings and configurations.
     # -------------------------------
     # Output:
     #  [bool] User Stays at Menu
@@ -166,7 +178,11 @@ class MainMenu
     #   $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    static [bool] EvaluateExecuteUserRequest([string] $userRequest)
+    static [bool] EvaluateExecuteUserRequest([string] $userRequest,                                 ` # User's Feedback from the Main Menu
+                                            [UserPreferences] $userPreferences,                     ` # User's Preferences
+                                            [GitControl] $gitControl,                               ` # Git Control Settings
+                                            [SevenZip] $sevenZip,                                   ` # 7Zip Settings
+                                            [DefaultCompress] $defaultCompress)                     ` # Default Compress (.NET) Settings
     {
         switch ($userRequest)
         {
