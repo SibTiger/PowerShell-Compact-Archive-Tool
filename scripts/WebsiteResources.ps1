@@ -86,6 +86,8 @@
 
             [IOCommon]::AccessWebpage("$($siteURL)");
         }
+
+        return $operationStatus;
     } # AccessWebSite()
 
 
