@@ -224,18 +224,13 @@ class MainMenu
             # Access the ZDoom project's Wiki Page
             "W"
             {
-                # Access the ZDoom project's Wiki page
-                [Logging]::DisplayMessage("Accessing Wiki...");
-
-
-                # Not yet available!
-                [Logging]::DisplayMessage("`tYonkers!");
-                [Logging]::DisplayMessage("##################################");
-                [Logging]::DisplayMessage("");
-                [Logging]::DisplayMessage("This feature is not yet available!");
-                [Logging]::DisplayMessage("Please wait a bit more time so that I can construct this feature properly....");
-                [Logging]::DisplayMessage("`r`n");
-                PAUSE;
+                # Open the webpage as requested
+                #  NOTE: We do not care about the return result as there's
+                #         nothing we can do at this present point.
+                [WebsiteResources]::AccessWebSite_General("$([ProjectInformation]::urlWiki)",           ` # Project's Wiki
+                                                        "$([ProjectInformation]::projectName) Wiki",    ` # Show page title
+                                                        $userPreferences,                               ` # User Preferences
+                                                        $false) | Out-Null;                             ` # Do not force Web Browser function
 
 
                 # Finished
