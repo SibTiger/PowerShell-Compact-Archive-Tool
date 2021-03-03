@@ -59,6 +59,30 @@ class IOCommon
         return [string] $stdInput;
     } # FetchUserInput()
 
+
+
+
+   <# Fetch Enter Key
+    # -------------------------------
+    # Documentation:
+    #  This function will require the user to provide the 'Enter' (or Return) key before
+    #   allowing the program to continue forward.  this may become helpful when the user
+    #   needs to see the provided messages before any other operation or tasks occurs.
+    # -------------------------------
+    #>
+    static [void] FetchEnterKey()
+    {
+        # The user will press the 'Enter' key in order to continue onwards with the algorithm
+        #  or program in general.
+        [IOCommon]::WriteToBuffer("Press the Enter Key to continue. . .", "Standard", $true);
+
+        # Wait for the user to provide the 'Enter' key character.
+        (Get-Host).UI.ReadLine();
+
+        # Finished waiting for the feedback from the user.
+        return;
+    } # FetchEnterKey()
+
     #endregion
 
 
