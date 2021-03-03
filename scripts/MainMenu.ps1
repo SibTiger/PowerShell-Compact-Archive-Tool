@@ -335,7 +335,9 @@ class MainMenu
             #         This can come handy if the user is in a panic - remember that the terminal
             #         is intimidating for some which may cause user's to panic, and this can be
             #         helpful if user's are just used to typing 'Exit' or perhaps 'Quit'.
-            {($_ -eq "X") -or ($_ -eq "Exit") -or ($_ -eq "Quit")}
+            {($_ -eq "X") -or       `
+                ($_ -eq "Exit") -or `
+                ($_ -eq "Quit")}    `
             {
                 # Exit
                 [Logging]::DisplayMessage("Terminating Software...");
