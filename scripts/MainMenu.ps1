@@ -281,18 +281,13 @@ class MainMenu
             # Update Software
             "U"
             {
-                # Update software
-                [Logging]::DisplayMessage("Updating Software...");
-
-
-                # Not yet available!
-                [Logging]::DisplayMessage("`tYonkers!");
-                [Logging]::DisplayMessage("##################################");
-                [Logging]::DisplayMessage("");
-                [Logging]::DisplayMessage("This feature is not yet available!");
-                [Logging]::DisplayMessage("Please wait a bit more time so that I can construct this feature properly....");
-                [Logging]::DisplayMessage("`r`n");
-                PAUSE;
+                # Open the webpage as requested
+                #  NOTE: We do not care about the return result as there's
+                #         nothing we can do at this present point.
+                [WebsiteResources]::AccessWebSite_Update("$([ProjectInformation]::urlSource)",      ` # Project's Repository
+                                                        "Update $($Global:_PROGRAMNAME_)",          ` # Show page title
+                                                        $userPreferences.Value,                     ` # User Preferences
+                                                        $false) | Out-Null;                         ` # Do not force Web Browser function
 
 
                 # Finished
