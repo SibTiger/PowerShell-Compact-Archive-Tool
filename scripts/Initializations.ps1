@@ -16,6 +16,9 @@ function Initializations()
     # Program Identity
     InitializationProgramIdentity;
 
+    # Program Websites
+    InitializationProgramSites;
+
     # Program Data and Internal Mutable Data
     InitializationProgramData
 
@@ -58,6 +61,36 @@ function InitializationProgramIdentity()
     Set-Variable -Name "_RELEASEDATE_" -Value "DD.MM.2021" `
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 } # InitializationProgramIdentity()
+
+
+
+
+<# Initialization: Program Identity
+ # -------------------------------
+ # Documentation:
+ #  This function will initialize variables that will provide helpful website links related
+ #   to the program.  Such website links could be: Source Repository, Wiki, Downloads,
+ #   homepage, and more if necessary.
+ # -------------------------------
+ #>
+function InitializationProgramSites()
+{
+    # Program Homepage
+    Set-Variable -Name "_PROGRAMSITEHOMEPAGE_" -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool" `
+     -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+
+    # Program Wiki
+    Set-Variable -Name "_PROGRAMSITEWIKI_" -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/wiki" `
+    -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+
+    # Program Downloads
+    Set-Variable -Name "_PROGRAMSITEDOWNLOADS_" -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/releases" `
+    -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+
+    # Program Source Repository
+    Set-Variable -Name "_PROGRAMSITESOURCEREPOSITORY_" -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool" `
+     -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+} # InitializationProgramSites()
 
 
 

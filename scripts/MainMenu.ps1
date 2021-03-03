@@ -284,7 +284,7 @@ class MainMenu
                 # Open the webpage as requested
                 #  NOTE: We do not care about the return result as there's
                 #         nothing we can do at this present point.
-                [WebsiteResources]::AccessWebSite_Update("$([ProjectInformation]::urlSource)",      ` # Project's Repository
+                [WebsiteResources]::AccessWebSite_Update("$($Global:_PROGRAMSITEDOWNLOADS_)",      ` # Project's Repository
                                                         "Update $($Global:_PROGRAMNAME_)",          ` # Show page title
                                                         $userPreferences.Value,                     ` # User Preferences
                                                         $false) | Out-Null;                         ` # Do not force Web Browser function
