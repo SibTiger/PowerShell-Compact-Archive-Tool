@@ -232,7 +232,8 @@ class MainMenu
 
 
             # Access the ZDoom project's Wiki Page
-            "W"
+            {($_ -eq "W") -or       `
+                ($_ -eq "$([ProjectInformation]::projectName) Wiki")}
             {
                 # Open the webpage as requested
                 #  NOTE: We do not care about the return result as there's
