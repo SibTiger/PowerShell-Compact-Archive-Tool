@@ -338,28 +338,261 @@
         [System.Net.HttpWebResponse] $siteResponse = $null;
 
         # Site Available and Ready to be accessed; this value will be returned.
-        [bool] $siteReady = $true;
+        [bool] $siteReady = $false;
         # ----------------------------------------
 
 
-        # Create and open the instance of the HTTP Request
-        $siteRequest = [System.Net.HttpWebRequest]::Create("$($site)");
 
-        # Now that the instance is supposedly open, now retrieve the site's response from the Request.
-        $siteResponse = $siteRequest.GetResponse();
+        # Try to create an HTTP Request
+        try
+        {
+            # Create and open the instance of the HTTP Request
+            $siteRequest = [System.Net.HttpWebRequest]::Create("$($site)");
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Successfully created a new HTTP Request instance!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("HTTP Request Created for: $($site)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # Try: Create HTTP Request
+
+
+        # Reached an error during the HTTP Request; unable to proceed any further
+        catch
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $displayErrorMessage = ("Unable to create a new HTTP Request for the desired web page:" + `
+                                            " $($site)`r`n" + `
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to create a new HTTP Request instance!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("HTTP Request Created for: $($site)`r`n" + `
+                                        "`tAssure that you have a stable connection to the WAN.`r`n" + `
+                                        "`tCould the website be done or invalid?`r`n" + `
+                                        "`tCheck your Security Software to allow HTTP\HTTPS requests" + `
+                                        " to the desired webpage.`r`n" + `
+                                        "$([Logging]::GetExceptionInfo($_.Exception))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                    "Error");                       # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Due to the fatal error, we cannot proceed forward with
+            #  opening the desired web page.
+            return $siteReady;
+        } # Catch: Unable to create HTTP Request
+
+
+        # - - - -
+
+
+        # Try to retrieve Response from the HTTP site source
+        try
+        {
+            # Now that the instance is supposedly open, now retrieve the site's response from the Request.
+            $siteResponse = $siteRequest.GetResponse();
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Successfully received an HTTP Response from the web server!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("HTTP Response Acquired By: $($site)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # Try: Try to retrieve response from HTTP site
+
+
+        # Reached an error during the HTTP Response; unable to proceed any further
+        catch
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $displayErrorMessage = ("Unable to retrieve HTTP Response from web server for" + `
+                                            " page: $($site)!`n`r" + `
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to obtain an HTTP Response from the web server!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("HTTP Response Invoked for: $($site)`r`n" + `
+                                        "`tAssure that you have a stable connection to the WAN`r`n" + `
+                                        "`tCould the website be done or invalid?`r`n" + `
+                                        "`tCheck your Security Software to allow HTTP\HTTPS requests" + `
+                                        " to the desired webpage.`r`n" + `
+                                        "$([Logging]::GetExceptionInfo($_.Exception))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                    "Error");                       # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Due to the fatal error, we cannot proceed forward with
+            #  opening the desired web page.
+            return $siteReady;
+        } # Catch: Unable to fetch HTTP Response
+
+
+        # - - - -
 
 
         # Evaluate the site's response.  Is the website available for us to access?
-        if ($siteResponse.StatusCode -ne "OK")
+        if ($siteResponse.StatusCode -eq "OK")
         {
-            # The website is not reachable; it is not possible to reach the website right now.
-            $siteReady = $false;
+            # The website is reachable; it is possible for us to access the website right now.
+            $siteReady = $true;
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Successfully received an OK signal from HTTP Response by the Web Server!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("HTTP Request Created for: $($site)`r`n" + `
+                                        "`tHTTP Response Status Code: $($siteResponse.StatusCode)" + `
+                                        " $([int] $($siteResponse.StatusCode))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
         } # If : Website is not reachable
 
 
-        # Now that we had finished evaluating the website, close the site's response from the
-        #  Request instance.
-        $siteResponse.Close();
+        # Website is not available presently.
+        else
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $displayErrorMessage = ("Website may not be presently available!`r`n" + `
+                                            "Website Address: $($site)`r`n" + `
+                                            "Response Status: $($siteResponse.StatusCode)");
+
+            # Generate the initial message
+            [string] $logMessage = "Website may not be available presently!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("HTTP Request Created for: $($site)`r`n" + `
+                                        "`tHTTP Response Status Code: $($siteResponse.StatusCode) $([int] $($siteResponse.StatusCode))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Warning");                 # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                    "Warning");                     # Message level
+            # * * * * * * * * * * * * * * * * * * *
+        }
+
+
+        # Try to close the HTTP Response connection
+        try
+        {
+            # Now that we had finished evaluating the website, close the site's response from the
+            #  Request instance.
+            $siteResponse.Close();
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Successfully closed connection to the web server!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Website: $($site)`r`n");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Verbose");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # try: Close HTTP Response Connection
+
+
+        # Unable to close the HTTP Response Connection
+        catch
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to close the connection to the web server!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Website: $($site)`r`n");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Warning");                 # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # Catch: Failure to close the HTTP Response Connection
+
 
 
         # Return the site's availability.
