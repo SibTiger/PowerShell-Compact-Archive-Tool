@@ -187,9 +187,8 @@ class CommonCUI
         [Logging]::DisplayMessage("$([CommonCUI]::borderDashLong)");
         [Logging]::DisplayMessage("Your request could not be executed as the option was not valid or not available at this time!");
 
-        # The user will press the 'Enter' key in order to continue onwards; this will allow the user
-        #  time to read the message.
-        [Logging]::DisplayMessage("Press the Enter key to continue...");
-        (Get-Host).UI.ReadLine();
+
+        # Wait for the user to provide feedback.
+        [Logging]::GetUserEnterKey();
     } # DrawIncorrectMenuOption()
 } # CommonCUI
