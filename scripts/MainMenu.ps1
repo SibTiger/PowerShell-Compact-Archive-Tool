@@ -209,6 +209,7 @@ class MainMenu
                 break;
             } # Build ZDoom Project
 
+
             # Access the ZDoom project's Homepage
             "H"
             {
@@ -224,6 +225,7 @@ class MainMenu
                 # Finished
                 break;
             } # Access ZDoom project's Homepage
+
 
             # Access the ZDoom project's Wiki Page
             "W"
@@ -258,6 +260,7 @@ class MainMenu
                 break;
             } # Access ZDoom project's Repository
 
+
             # Configure User Preferences
             "P"
             {
@@ -279,6 +282,7 @@ class MainMenu
                 break;
             } # Configure User Preferences
 
+
             # Update Software
             "U"
             {
@@ -294,6 +298,7 @@ class MainMenu
                 # Finished
                 break;
             } # Update Software
+
 
             # Access the Help Program's Documentation
             "?"
@@ -311,6 +316,7 @@ class MainMenu
                 break;
             } # Access ZDoom project's Repository
 
+
             # Exit
             #  NOTE: Allow the user's request when they type 'Exit' or 'Quit' instead of 'X'.
             #         This can come handy if the user is in a panic - remember that the terminal
@@ -324,6 +330,7 @@ class MainMenu
                 # Return back to the menu
                 return $false;
             } # Exit
+
 
             # Unknown Option
             default
