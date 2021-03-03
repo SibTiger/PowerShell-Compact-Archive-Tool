@@ -250,7 +250,9 @@ class MainMenu
 
 
             # Access the ZDoom project's Source Code Repository
-            "S"
+            {($_ -eq "S") -or               `
+                ($_ -eq "$([ProjectInformation]::projectName) Source Code") -or `
+                ($_ -eq "$([ProjectInformation]::projectName) Source")}
             {
                 # Open the webpage as requested
                 #  NOTE: We do not care about the return result as there's
