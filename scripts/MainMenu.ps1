@@ -269,7 +269,9 @@ class MainMenu
 
 
             # Configure User Preferences
-            "P"
+            {($_ -eq "P") -or           `
+                ($_ -eq "Settings") -or `
+                ($_ -eq "Preferences")}
             {
                 # Configure User Preferences
                 [Logging]::DisplayMessage("Configuring User Settings...");
