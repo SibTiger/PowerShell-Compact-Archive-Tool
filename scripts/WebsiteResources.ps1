@@ -85,7 +85,7 @@
         }
 
         return $operationStatus;
-    } # AccessWebSite()
+    } # __AccessWebSite()
 
 
 
