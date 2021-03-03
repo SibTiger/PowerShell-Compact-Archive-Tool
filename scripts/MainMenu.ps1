@@ -293,7 +293,8 @@ class MainMenu
 
 
             # Update Software
-            "U"
+            {($_ -eq "U") -or   `
+                ($_ -eq "update")}
             {
                 # Open the webpage as requested
                 #  NOTE: We do not care about the return result as there's
