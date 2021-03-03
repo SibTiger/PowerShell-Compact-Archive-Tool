@@ -311,7 +311,10 @@ class MainMenu
 
 
             # Access the Help Program's Documentation
-            "?"
+            {($_ -eq "?") -or           `
+                ($_ -eq "help") -or     `
+                ($_ -eq "helpme") -or   `
+                ($_ -eq "help me")}
             {
                 # Open the webpage as requested
                 #  NOTE: We do not care about the return result as there's
