@@ -191,7 +191,10 @@ class MainMenu
         switch ($userRequest)
         {
             # Build the desired ZDoom project
-            "B"
+            {($_ -eq "B") -or                   `
+                ($_ -eq "Build") -or            `
+                ($_ -eq "Make") -or             `
+                ($_ -eq "Build $([ProjectInformation]::projectName)")}
             {
                 # Build the desired ZDoom project
                 [Logging]::DisplayMessage("Build Project...");
