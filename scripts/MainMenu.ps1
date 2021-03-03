@@ -119,6 +119,7 @@ class MainMenu
         # Program Tools
         [CommonCUI]::DrawMenuItem('P', "Preferences");
         [CommonCUI]::DrawMenuItem('U', "Update $($Global:_PROGRAMNAME_)");
+        [CommonCUI]::DrawMenuItem('?', "Help Documentation");
 
 
         # Terminate application
@@ -293,6 +294,22 @@ class MainMenu
                 # Finished
                 break;
             } # Update Software
+
+            # Access the Help Program's Documentation
+            "?"
+            {
+                # Open the webpage as requested
+                #  NOTE: We do not care about the return result as there's
+                #         nothing we can do at this present point.
+                [WebsiteResources]::AccessWebSite_General("$($Global:_PROGRAMSITEWIKI_)",              ` # Project's Repository
+                                                        "$([ProjectInformation]::projectName) Wiki",    ` # Show page title
+                                                        $userPreferences.Value,                         ` # User Preferences
+                                                        $false) | Out-Null;                             ` # Do not force Web Browser function
+
+
+                # Finished
+                break;
+            } # Access ZDoom project's Repository
 
             # Exit
             #  NOTE: Allow the user's request when they type 'Exit' or 'Quit' instead of 'X'.
