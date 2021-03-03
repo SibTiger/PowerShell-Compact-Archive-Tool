@@ -45,8 +45,6 @@
     #   The web page that will be accessed.
     #  [string] Site Name
     #   The name of the web page that we will be accessing.
-    #  [string] Version (Optional; nullable)
-    #   When checking for updates, this value will be visible to the user.
     #  [bool] Update Behavioral
     #   When true, this will cause some extra information to be present in
     #   the terminal's output buffer.
@@ -64,7 +62,6 @@
     #>
     Hidden static [bool] __AccessWebSite([string] $siteURL,                 # The Site's URL to access
                                         [string] $siteName,                 # The Site's name
-                                        [string] $projectVersion,           # The version of the target (Optional)
                                         [bool] $update,                     # Perform the Update Behavioral
                                         [UserPreferences] $userPreferences, # User Preferences
                                         [bool] $ignoreUserSetting)          # Ignore User's Settings and open Web Browser
@@ -126,7 +123,6 @@
         #  the operation status back to the calling function.
         return [WebsiteResources]::__AccessWebSite("$($siteURL)",           ` # Site URL
                                                     "$($siteName)",         ` # Site's Name (or Nice name)
-                                                    "$($null)",             ` # Target's current version (we are not interested in this option)
                                                     $false,                 ` # Update Protocol
                                                     $userPreferences,       ` # User's Preferences
                                                     $ignoreUserSetting);    ` # Forcefully Open the Web Browser
@@ -147,8 +143,6 @@
     #   The web page that will be accessed.
     #  [string] Site Name
     #   The name of the web page that we will be accessing.
-    #  [string] Version
-    #   When checking for updates, this value will be visible to the user.
     #  [UserPreferences] User Preferences
     #   User's present configuration; required for Web Browser settings
     #  [bool] Ignore User Settings
@@ -163,7 +157,6 @@
     #>
     static [bool] AccessWebSite_Update([string] $siteURL,                   # The Site's URL to access
                                         [string] $siteName,                 # The Site's name
-                                        [string] $projectVersion,           # The version of the target (Optional)
                                         [UserPreferences] $userPreferences, # User Preferences
                                         [bool] $ignoreUserSetting)          # Ignore User's Settings and open Web Browser
     {
@@ -171,7 +164,6 @@
         #  the operation status back to the calling function.
         return [WebsiteResources]::__AccessWebSite("$($siteURL)",           ` # Site URL
                                                     "$($siteName)",         ` # Site's Name (or Nice Name)
-                                                    "$($projectVersion)",   ` # Target's current version
                                                     $true,                  ` # Update Protocol
                                                     $userPreferences,       ` # User's Preferences
                                                     $ignoreUserSetting);    ` # Forcefully Open the Web Browser
