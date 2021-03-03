@@ -73,16 +73,44 @@
         # ----------------------------------------
 
 
-        # Does the user allow for the Web Browsers to be used?
-        if (($userPreferences.GetUseWindowsExplorer() -eq $true) -or `
-            ($ignoreUserSetting -eq $true))
+        if ($update)
         {
-            # Open the desired web page.
-            [Logging]::DisplayMessage("Accessing $($siteName). . .");
-            [Logging]::DisplayMessage("URL: $($siteURL)");
+            # Does the user allow for the Web Browsers to be used?
+            if (($userPreferences.GetUseWindowsExplorer() -eq $true) -or `
+                ($ignoreUserSetting -eq $true))
+            {
+                # Open the desired web page.
+                [Logging]::DisplayMessage("Accessing $($siteName). . .");
+                [Logging]::DisplayMessage("URL: $($siteURL)");
 
-            [IOCommon]::AccessWebpage("$($siteURL)");
+                # Acess the pages
+                [IOCommon]::AccessWebpage("$($siteURL)");
+
+                # Display program information
+                [CommonCUI]::DrawUpdateProgramInformation();
+
+                # Provide extra spacing for readability sakes.
+                [Logging]::DisplayMessage("`r`n");
+
+                # Wait for the user to see the information provided on the terminal screen output buffer.
+                [Logging]::GetUserEnterKey();
+            }
         }
+
+        else
+        {
+            # Does the user allow for the Web Browsers to be used?
+            if (($userPreferences.GetUseWindowsExplorer() -eq $true) -or `
+                ($ignoreUserSetting -eq $true))
+            {
+                # Open the desired web page.
+                [Logging]::DisplayMessage("Accessing $($siteName). . .");
+                [Logging]::DisplayMessage("URL: $($siteURL)");
+
+                [IOCommon]::AccessWebpage("$($siteURL)");
+            }
+        }
+
 
         return $operationStatus;
     } # __AccessWebSite()
