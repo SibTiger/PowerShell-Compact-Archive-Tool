@@ -945,6 +945,25 @@ class Logging
 
 
 
+   <# Get User Enter Key
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the ability to capture the user's Enter Key request and
+    #   log the activity onto the program's logfile.  This will help with debugging purposes.
+    # -------------------------------
+    #>
+    static [void] GetUserEnterKey()
+    {
+        # Use the Fetch Enter Key as before; no changes.
+        [IOCommon]::FetchEnterKey();
+
+        # Provide the Fetch Enter Key activity and record it into the logfile.
+        [Logging]::__FormatLogMessage(7, "Press the Enter Key to continue. . .`r`n<<<ENTER KEY PROVIDED>>>", "$($null)") | Out-Null;
+    } # GetUserEnterKey()
+
+
+
+
    <# Log Program Activity
     # -------------------------------
     # Documentation:
