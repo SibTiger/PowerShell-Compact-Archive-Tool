@@ -191,4 +191,45 @@ class CommonCUI
         # Wait for the user to provide feedback.
         [Logging]::GetUserEnterKey();
     } # DrawIncorrectMenuOption()
+
+
+
+
+   <# Draw Update Program Information
+    # -------------------------------
+    # Documentation:
+    #  This function, usually combined with a Web Browser opened to a specific web site, will
+    #   display information regarding the current version of the program.  This information is
+    #   essential, such that the user knows what version is presently running or presently
+    #   already installed on the system as of right now.  Thus, provides the user with the
+    #   information if they need to update or if they are still using the latest and greatest
+    #   version available.
+    # -------------------------------
+    #>
+    static [void] DrawUpdateProgramInformation()
+    {
+        # Clear the Terminal's output buffer
+        [IOCommon]::ClearBuffer();
+
+        # Display the Program Title
+        [CommonCUI]::DrawProgramTitleHeader();
+
+
+        # Show the user that they are at the Program Update section
+        [CommonCUI]::DrawSectionHeader("Update $($Global:_PROGRAMNAME_)");
+
+
+        # Display the instructions for the user
+        [Logging]::DisplayMessage("Please check and download the latest version of $($Global:_PROGRAMNAME_).");
+        [Logging]::DisplayMessage("$([CommonCUI]::borderSubcategory)");
+
+        # Name of the program
+        [Logging]::DisplayMessage("Program Name:`r`n`t$($Global:_PROGRAMNAME_)");
+
+        # Program's Version information
+        [Logging]::DisplayMessage("Program Version:`r`n`t$($Global:_VERSION_) - (Version Name: $($Global:_VERSIONNAME_))");
+
+        # Program's Version Release Date
+        [Logging]::DisplayMessage("Version Released Date:`r`n`t$($Global:_RELEASEDATE_)");
+    } # DrawUpdateProgramInformation()
 } # CommonCUI
