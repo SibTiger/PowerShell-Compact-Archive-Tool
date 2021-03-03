@@ -84,10 +84,10 @@ class MainMenu
 
             # Execute the user's request
             $mainMenuLoop = [MainMenu]::EvaluateExecuteUserRequest($userInput,          ` # User's Feedback
-                                                                $userPreferences,       ` # User's Preferences
-                                                                $gitControl,            ` # Git Control Settings
-                                                                $sevenZip,              ` # 7Zip Settings
-                                                                $defaultCompress);      ` # Default Compress (.NET) Settings
+                                                                [ref] $userPreferences,       ` # User's Preferences
+                                                                [ref] $gitControl,            ` # Git Control Settings
+                                                                [ref] $sevenZip,              ` # 7Zip Settings
+                                                                [ref] $defaultCompress);      ` # Default Compress (.NET) Settings
         } while ($mainMenuLoop)
 
 
@@ -165,13 +165,13 @@ class MainMenu
     #  [string] User's Request
     #   This will provide the user's desired request to run an operation
     #    or to access a specific functionality.
-    #  [UserPreferences] User's Preferences
+    #  [UserPreferences] (REFERENCE) User's Preferences
     #   Used in various areas; passes the User's Preferences.
-    #  [GitControl] Git Control
+    #  [GitControl] (REFERENCE) Git Control
     #   Holds the user's Git Control settings and configurations.
-    #  [SevenZip] 7Zip Control
+    #  [SevenZip] (REFERENCE) 7Zip Control
     #   Holds the user's 7Zip Control settings and configurations.
-    #  [DefaultCompress] Default Compress (.NET)
+    #  [DefaultCompress] (REFERENCE) Default Compress (.NET)
     #   Holds the user's Default Compress (.NET) settings and configurations.
     # -------------------------------
     # Output:
@@ -181,11 +181,11 @@ class MainMenu
     #   $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    static [bool] EvaluateExecuteUserRequest([string] $userRequest,                                 ` # User's Feedback from the Main Menu
-                                            [UserPreferences] $userPreferences,                     ` # User's Preferences
-                                            [GitControl] $gitControl,                               ` # Git Control Settings
-                                            [SevenZip] $sevenZip,                                   ` # 7Zip Settings
-                                            [DefaultCompress] $defaultCompress)                     ` # Default Compress (.NET) Settings
+    static [bool] EvaluateExecuteUserRequest([string] $userRequest,     ` # User's Feedback from the Main Menu
+                                            [ref] $userPreferences,     ` # User's Preferences
+                                            [ref] $gitControl,          ` # Git Control Settings
+                                            [ref] $sevenZip,            ` # 7Zip Settings
+                                            [ref] $defaultCompress)     ` # Default Compress (.NET) Settings
     {
         switch ($userRequest)
         {
@@ -216,7 +216,7 @@ class MainMenu
                 #         nothing we can do at this present point.
                 [WebsiteResources]::AccessWebSite_General("$([ProjectInformation]::urlWebsite)",            ` # Project's Homepage
                                                         "$([ProjectInformation]::projectName) Homepage",    ` # Show page title
-                                                        $userPreferences,                                   ` # User Preferences
+                                                        $userPreferences.Value,                             ` # User Preferences
                                                         $false) | Out-Null;                                 ` # Do not force Web Browser function
 
 
@@ -232,7 +232,7 @@ class MainMenu
                 #         nothing we can do at this present point.
                 [WebsiteResources]::AccessWebSite_General("$([ProjectInformation]::urlWiki)",           ` # Project's Wiki
                                                         "$([ProjectInformation]::projectName) Wiki",    ` # Show page title
-                                                        $userPreferences,                               ` # User Preferences
+                                                        $userPreferences.Value,                         ` # User Preferences
                                                         $false) | Out-Null;                             ` # Do not force Web Browser function
 
 
@@ -249,7 +249,7 @@ class MainMenu
                 #         nothing we can do at this present point.
                 [WebsiteResources]::AccessWebSite_General("$([ProjectInformation]::urlSource)",                         ` # Project's Repository
                                                         "$([ProjectInformation]::projectName) Source Code Repository",  ` # Show page title
-                                                        $userPreferences,                                               ` # User Preferences
+                                                        $userPreferences.Value,                                         ` # User Preferences
                                                         $false) | Out-Null;                                             ` # Do not force Web Browser function
 
 
