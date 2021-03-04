@@ -216,6 +216,7 @@ class MainMenu
 
             # Access the ZDoom project's Homepage
             {($_ -eq "H") -or           `
+            #  NOTE: Allow the user's request when they type: '$project Homepage' or 'H'.
                 ($_ -eq "$([ProjectInformation]::projectName) Homepage")}
             {
                 # Open the webpage as requested
