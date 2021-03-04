@@ -83,11 +83,11 @@ class MainMenu
             $userInput = [MainMenu]::GetUserInput();
 
             # Execute the user's request
-            $mainMenuLoop = [MainMenu]::EvaluateExecuteUserRequest($userInput,          ` # User's Feedback
-                                                                [ref] $userPreferences,       ` # User's Preferences
-                                                                [ref] $gitControl,            ` # Git Control Settings
-                                                                [ref] $sevenZip,              ` # 7Zip Settings
-                                                                [ref] $defaultCompress);      ` # Default Compress (.NET) Settings
+            $mainMenuLoop = [MainMenu]::EvaluateExecuteUserRequest($userInput,              ` # User's Feedback
+                                                                [ref] $userPreferences,     ` # User's Preferences
+                                                                [ref] $gitControl,          ` # Git Control Settings
+                                                                [ref] $sevenZip,            ` # 7Zip Settings
+                                                                [ref] $defaultCompress);    ` # Default Compress (.NET) Settings
         } while ($mainMenuLoop)
 
 
