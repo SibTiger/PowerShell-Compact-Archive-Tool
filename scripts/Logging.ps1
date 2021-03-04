@@ -936,7 +936,7 @@ class Logging
         $userInput = [IOCommon]::FetchUserInput();
 
         # Provide the user's input into the logfile and record it.
-        [Logging]::__FormatLogMessage(7, "$($userInput)", "$($null)") | Out-Null;
+        [Logging]::__FormatLogMessage(7, ">>>>> $($userInput)", "$($null)") | Out-Null;
 
         # Return the user's request
         return "$($userInput)";
