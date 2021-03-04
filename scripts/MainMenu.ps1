@@ -299,6 +299,7 @@ class MainMenu
 
             # Update Software
             {($_ -eq "U") -or   `
+            #  NOTE: Allow the user's request when they type: 'Update' or 'U'.
                 ($_ -eq "update")}
             {
                 # Open the webpage as requested
