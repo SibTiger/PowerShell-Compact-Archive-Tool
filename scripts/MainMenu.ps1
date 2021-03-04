@@ -320,6 +320,7 @@ class MainMenu
             {($_ -eq "?") -or           `
                 ($_ -eq "help") -or     `
                 ($_ -eq "helpme") -or   `
+            #  NOTE: Allow the user's request when they type: 'Help', 'Helpme', 'Help me', as well as '?'.
                 ($_ -eq "help me")}
             {
                 # Open the webpage as requested
