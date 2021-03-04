@@ -84,11 +84,16 @@
             [Logging]::DisplayMessage("Accessing $($siteName). . .");
             [Logging]::DisplayMessage("URL: $($siteURL)");
 
-            # Access the pages
-            [IOCommon]::AccessWebpage("$($siteURL)");
 
-            # Because the operation was successful, update the Status Signal as appropriate.
-            $statusSignal = $true;
+            # Make sure that the site is available for us to access first.
+            if ([WebsiteResources]::__CheckSiteAvailability_SiteResponse("$($siteURL)") -eq $true)
+            {
+                # Access the desired webpage
+                [IOCommon]::AccessWebpage("$($siteURL)");
+
+                # Because the operation was successful, update the Status Signal as appropriate.
+                $statusSignal = $true;
+            } # If: Webpage was available
         } # If: Web Browsers Allowed
 
 
