@@ -274,6 +274,7 @@ class MainMenu
 
             # Configure User Preferences
             {($_ -eq "P") -or           `
+            #  NOTE: Allow the user's request when they type: 'Settings', 'Preferences', as well as 'P'.
                 ($_ -eq "Settings") -or `
                 ($_ -eq "Preferences")}
             {
