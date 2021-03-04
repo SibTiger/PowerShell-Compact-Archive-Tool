@@ -70,45 +70,132 @@
         # ----------------------------------------
         # This will provide the overall status of the entire operation.
         [bool] $operationStatus = $true;
+
+        # This will help to indicate if errors were made during the protocol
+        [bool] $statusSignal = $false;
         # ----------------------------------------
 
 
+        # Does the user allow for the Web Browsers to be used?
+        if (($userPreferences.GetUseWindowsExplorer() -eq $true) -or `
+            ($ignoreUserSetting -eq $true))
+        {
+            # Open the desired web page.
+            [Logging]::DisplayMessage("Accessing $($siteName). . .");
+            [Logging]::DisplayMessage("URL: $($siteURL)");
+
+            # Access the pages
+            [IOCommon]::AccessWebpage("$($siteURL)");
+
+            # Because the operation was successful, update the Status Signal as appropriate.
+            $statusSignal = $true;
+        } # If: Web Browsers Allowed
+
+
+        # User had request to not allow any use of the Web Browsers
+        elseif (($userPreferences.GetUseWindowsExplorer() -eq $false) -and `
+                ($ignoreUserSetting -eq $false) -and `
+                ($update -eq $false))
+        {
+            # Unable to open the desired web-page.  The user needs to configure
+            #  their settings to allow this program to use Web Browsers
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $displayErrorMessage = ("Unable to open the desired webpage due to your configuration!`r`n" + `
+                                            "Please allow Windows Explorer operations!");
+
+            # Generate the initial message
+            [string] $logMessage = "User disallows the use of a Web Browser, but requested use of a Web Browser!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Site Requested: $($siteURL)`r`n" + `
+                                        "`tSite Name: $($siteName)`r`n" + `
+                                        "`tUpdate Flag: $($update)`r`n" + `
+                                        "`tUser Setting: $($userPreferences.GetUseWindowsExplorer())`r`n" + `
+                                        "`tForce Web Browser: $($ignoreUserSetting)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Warning");                 # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                    "Warning");                     # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # Else: Web Browsers not Allowed
+
+
+        # Was an error reached?
+        if ($statusSignal -eq $false)
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $displayErrorMessage = ("Unable to open the desired webpage:" + `
+                                            " $($siteName)`r`n");
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to open the desired webpage!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Site Requested: $($siteURL)`r`n" + `
+                                        "`tSite Name: $($siteName)`r`n" + `
+                                        "`tUpdate Flag: $($update)`r`n" + `
+                                        "`tUser Setting: $($userPreferences.GetUseWindowsExplorer())`r`n" + `
+                                        "`tForce Web Browser: $($ignoreUserSetting)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        "Error");                   # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                    "Error");                       # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # If: Catch-All Errors
+
+
+
+        # If we are performing an update, we will provide some extra instructions.
         if ($update)
         {
-            # Does the user allow for the Web Browsers to be used?
-            if (($userPreferences.GetUseWindowsExplorer() -eq $true) -or `
-                ($ignoreUserSetting -eq $true))
+            # Display program information
+            [CommonCUI]::DrawUpdateProgramInformation();
+
+            # Provide extra spacing for readability sakes.
+            [Logging]::DisplayMessage("`r`n");
+
+
+            # If incase it was not possible to access the web site or use the web browser,
+            #  then merely provide the link instead.
+            if (($statusSignal -eq $true) -or `
+                    (($userPreferences.GetUseWindowsExplorer() -eq $false) -and `
+                    ($ignoreUserSetting -eq $false)))
             {
-                # Open the desired web page.
-                [Logging]::DisplayMessage("Accessing $($siteName). . .");
-                [Logging]::DisplayMessage("URL: $($siteURL)");
-
-                # Acess the pages
-                [IOCommon]::AccessWebpage("$($siteURL)");
-
-                # Display program information
-                [CommonCUI]::DrawUpdateProgramInformation();
+                # Provide a link on to the Terminal's Output Buffer
+                [Logging]::DisplayMessage("To access $($siteName), please visit the following Website:`r`n" + `
+                                        "`t$($siteURL)");
 
                 # Provide extra spacing for readability sakes.
                 [Logging]::DisplayMessage("`r`n");
+            } # if: Unable to access webpage
 
-                # Wait for the user to see the information provided on the terminal screen output buffer.
-                [Logging]::GetUserEnterKey();
-            }
-        }
 
-        else
-        {
-            # Does the user allow for the Web Browsers to be used?
-            if (($userPreferences.GetUseWindowsExplorer() -eq $true) -or `
-                ($ignoreUserSetting -eq $true))
-            {
-                # Open the desired web page.
-                [Logging]::DisplayMessage("Accessing $($siteName). . .");
-                [Logging]::DisplayMessage("URL: $($siteURL)");
-
-                [IOCommon]::AccessWebpage("$($siteURL)");
-            }
+            # Wait for the user to see the information provided on the terminal screen output buffer.
+            [Logging]::GetUserEnterKey();
         }
 
 
