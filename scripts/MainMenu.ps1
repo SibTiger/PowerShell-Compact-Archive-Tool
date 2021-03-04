@@ -254,6 +254,7 @@ class MainMenu
 
             # Access the ZDoom project's Source Code Repository
             {($_ -eq "S") -or               `
+            #  NOTE: Allow the user's request when they type: '$project Source Code', '$project Source', as well as 'S'.
                 ($_ -eq "$([ProjectInformation]::projectName) Source Code") -or `
                 ($_ -eq "$([ProjectInformation]::projectName) Source")}
             {
