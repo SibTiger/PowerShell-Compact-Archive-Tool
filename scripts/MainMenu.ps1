@@ -191,10 +191,10 @@ class MainMenu
         switch ($userRequest)
         {
             # Build the desired ZDoom project
-            {($_ -eq "B") -or                   `
-                ($_ -eq "Build") -or            `
-                ($_ -eq "Make") -or             `
             #  NOTE: Allow the user's request when they type: 'Build', 'Make', 'Build $project', as well as 'B'.
+            {($_ -eq "B") -or `
+                ($_ -eq "Build") -or `
+                ($_ -eq "Make") -or `
                 ($_ -eq "Build $([ProjectInformation]::projectName)")}
             {
                 # Build the desired ZDoom project
@@ -215,8 +215,8 @@ class MainMenu
 
 
             # Access the ZDoom project's Homepage
-            {($_ -eq "H") -or           `
             #  NOTE: Allow the user's request when they type: '$project Homepage' or 'H'.
+            {($_ -eq "H") -or `
                 ($_ -eq "$([ProjectInformation]::projectName) Homepage")}
             {
                 # Open the webpage as requested
@@ -234,8 +234,8 @@ class MainMenu
 
 
             # Access the ZDoom project's Wiki Page
-            {($_ -eq "W") -or       `
             #  NOTE: Allow the user's request when they type: '$project Wiki' or 'W'.
+            {($_ -eq "W") -or `
                 ($_ -eq "$([ProjectInformation]::projectName) Wiki")}
             {
                 # Open the webpage as requested
@@ -253,8 +253,8 @@ class MainMenu
 
 
             # Access the ZDoom project's Source Code Repository
-            {($_ -eq "S") -or               `
             #  NOTE: Allow the user's request when they type: '$project Source Code', '$project Source', as well as 'S'.
+            {($_ -eq "S") -or `
                 ($_ -eq "$([ProjectInformation]::projectName) Source Code") -or `
                 ($_ -eq "$([ProjectInformation]::projectName) Source")}
             {
@@ -273,8 +273,8 @@ class MainMenu
 
 
             # Configure User Preferences
-            {($_ -eq "P") -or           `
             #  NOTE: Allow the user's request when they type: 'Settings', 'Preferences', as well as 'P'.
+            {($_ -eq "P") -or `
                 ($_ -eq "Settings") -or `
                 ($_ -eq "Preferences")}
             {
@@ -298,8 +298,8 @@ class MainMenu
 
 
             # Update Software
-            {($_ -eq "U") -or   `
             #  NOTE: Allow the user's request when they type: 'Update' or 'U'.
+            {($_ -eq "U") -or `
                 ($_ -eq "update")}
             {
                 # Open the webpage as requested
@@ -317,10 +317,10 @@ class MainMenu
 
 
             # Access the Help Program's Documentation
-            {($_ -eq "?") -or           `
-                ($_ -eq "help") -or     `
-                ($_ -eq "helpme") -or   `
             #  NOTE: Allow the user's request when they type: 'Help', 'Helpme', 'Help me', as well as '?'.
+            {($_ -eq "?") -or `
+                ($_ -eq "help") -or `
+                ($_ -eq "helpme") -or `
                 ($_ -eq "help me")}
             {
                 # Open the webpage as requested
@@ -342,9 +342,9 @@ class MainMenu
             #         This can come handy if the user is in a panic - remember that the terminal
             #         is intimidating for some which may cause user's to panic, and this can be
             #         helpful if user's are just used to typing 'Exit' or perhaps 'Quit'.
-            {($_ -eq "X") -or       `
+            {($_ -eq "X") -or `
                 ($_ -eq "Exit") -or `
-                ($_ -eq "Quit")}    `
+                ($_ -eq "Quit")}
             {
                 # Exit
                 [Logging]::DisplayMessage("Terminating Software...");
