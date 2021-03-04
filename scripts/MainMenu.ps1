@@ -194,6 +194,7 @@ class MainMenu
             {($_ -eq "B") -or                   `
                 ($_ -eq "Build") -or            `
                 ($_ -eq "Make") -or             `
+            #  NOTE: Allow the user's request when they type: 'Build', 'Make', 'Build $project', as well as 'B'.
                 ($_ -eq "Build $([ProjectInformation]::projectName)")}
             {
                 # Build the desired ZDoom project
