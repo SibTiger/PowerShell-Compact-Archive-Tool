@@ -182,11 +182,11 @@ class MainMenu
     #   $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    static [bool] EvaluateExecuteUserRequest([string] $userRequest,     ` # User's Feedback from the Main Menu
-                                            [ref] $userPreferences,     ` # User's Preferences
-                                            [ref] $gitControl,          ` # Git Control Settings
-                                            [ref] $sevenZip,            ` # 7Zip Settings
-                                            [ref] $defaultCompress)     ` # Default Compress (.NET) Settings
+    static [bool] EvaluateExecuteUserRequest([string] $userRequest,     # User's Feedback from the Main Menu
+                                            [ref] $userPreferences,     # User's Preferences
+                                            [ref] $gitControl,          # Git Control Settings
+                                            [ref] $sevenZip,            # 7Zip Settings
+                                            [ref] $defaultCompress)     # Default Compress (.NET) Settings
     {
         switch ($userRequest)
         {
