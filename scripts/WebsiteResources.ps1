@@ -361,24 +361,10 @@
     #>
     Hidden static [bool] __CheckSiteAvailability_SiteProvided([string] $site)
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # This will provide the status of the site's string value.
-        [bool] $status = $true;
-        # ----------------------------------------
-
-
         # Check if the String of the site is null.
-        if ($site -eq "$($null)")
-        {
-            # Because the site string is null, the option to access the site is not possible.
-            #  As such, mark the site as not available.
-            return $false;
-        } # If: Site is $null
-
-
-        # Return the status of the value check.
-        return $status;
+        #  If the string is null\empty, then false will be provided.
+        #  Otherwise, true will be given.
+        return ($site -ne "$($null)");
     } # __CheckSiteAvailability_SiteProvided()
 
 
