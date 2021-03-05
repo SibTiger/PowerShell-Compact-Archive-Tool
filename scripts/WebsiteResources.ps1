@@ -323,18 +323,12 @@
     #>
     static [bool] CheckSiteAvailability([string] $site)
     {
-        # Check the website's availability status
-        if (([WebsiteResources]::__CheckSiteAvailability_SiteProvided("$($site)") -and `
-            ([WebsiteResources]::__CheckSiteAvailability_SiteResponse("$($site)")))    `
-            -eq $true)
-        {
-            # The website is presently available for the user to access.
-            return $true;
-        } # IF: Site is Available
-
-
-        # The site is not available
-        return $false;
+        # Check the website's availability status.
+        #   - Make sure that the string is not null\empty
+        #   - Make sure that the Web Host and site is reachable
+        return (([WebsiteResources]::__CheckSiteAvailability_SiteProvided("$($site)") -and `
+                ([WebsiteResources]::__CheckSiteAvailability_SiteResponse("$($site)"))) `
+                -eq $true);
     } # CheckSiteAvailability()
 
 
