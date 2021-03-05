@@ -86,7 +86,7 @@
 
 
             # Make sure that the site is available for us to access first.
-            if ([WebsiteResources]::__CheckSiteAvailability_SiteResponse("$($siteURL)") -eq $true)
+            if ([WebsiteResources]::CheckSiteAvailability("$($siteURL)") -eq $true)
             {
                 # Access the desired webpage
                 [IOCommon]::AccessWebpage("$($siteURL)");
