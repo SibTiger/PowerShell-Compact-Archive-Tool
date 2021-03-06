@@ -150,6 +150,9 @@ class IOCommon
 
                 # Text Background Colour
                 $textColourBackground = "Black";
+
+                # Break from the Switch
+                break;
             } # Standard MSG
 
 
@@ -161,6 +164,9 @@ class IOCommon
 
                 # Text Background Colour
                 $textColourBackground = "White";
+
+                # Break from the Switch
+                break;
             } # Confirmation MSG
 
 
@@ -172,6 +178,9 @@ class IOCommon
 
                 # Text Background Colour
                 $textColourBackground = "Black";
+
+                # Break from the Switch
+                break;
             } # Information MSG
 
 
@@ -183,6 +192,9 @@ class IOCommon
 
                 # Text Background Colour
                 $textColourBackground = "Black";
+
+                # Break from the Switch
+                break;
             } # Warning MSG
 
 
@@ -194,6 +206,9 @@ class IOCommon
 
                 # Text Background Colour
                 $textColourBackground = "Black";
+
+                # Break from the Switch
+                break;
             } # Error MSG
 
 
@@ -205,6 +220,9 @@ class IOCommon
 
                 # Text Background Colour
                 $textColourBackground = "Red";
+
+                # Break from the Switch
+                break;
             } # Fatal MSG
 
 
@@ -216,6 +234,9 @@ class IOCommon
 
                 # Text Background Colour
                 $textColourBackground = "DarkBlue";
+
+                # Break from the Switch
+                break;
             } # Verbose MSG
 
 
