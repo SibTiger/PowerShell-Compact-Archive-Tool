@@ -369,19 +369,8 @@
     #>
     Hidden [bool] __CheckRequiredDirectories()
     {
-        # Check User Configuration Directory
-        if ([IOCommon]::CheckPathExists("$($this.__configPath)", $true) -eq $true)
-        {
-            # The User Configuration directory exists
-            return $true;
-        } # If : Check Directories Exists
-
-        # The directory does not exist
-        else
-        {
-            # The User Configuration Directory does not exist.
-            return $false;
-        } # Else : Directories does not exist
+        # Check the User Configuration Directory
+        return ([IOCommon]::CheckPathExists("$($this.__configPath)", $true) -eq $true);
     } # __CheckRequiredDirectories()
 
     #endregion
