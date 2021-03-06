@@ -697,25 +697,9 @@ class GitControl
     #>
     Hidden [bool] __CheckRequiredDirectories()
     {
-        # Check Root Log Directory
-        if ((([IOCommon]::CheckPathExists("$($this.__rootLogPath)", $true)) -eq $true) -and `
-
-        # Check Report Path
-        (([IOCommon]::CheckPathExists("$($this.__reportPath)", $true)) -eq $true) -and `
-
-        # Check Log Path
-        (([IOCommon]::CheckPathExists("$($this.__logPath)", $true) -eq $true)))
-        {
-            # All of the directories exist
-            return $true;
-        } # If : Check Directories Exists
-
-        # One or more of the required directories was not found.
-        else
-        {
-            # Directories does not exist.
-            return $false;
-        } # Else : Directories does not exist
+        return (([IOCommon]::CheckPathExists("$($this.__rootLogPath)", $true) -eq $true) -and   ` # Check the Root Log Directory
+                ([IOCommon]::CheckPathExists("$($this.__reportPath)", $true) -eq $true) -and    ` # Check the Report Path Directory
+                ([IOCommon]::CheckPathExists("$($this.__logPath)", $true) -eq $true));            # Check the Log Path Directory
     } # __CheckRequiredDirectories()
 
 
