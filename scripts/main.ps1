@@ -41,6 +41,10 @@ function main()
     Initializations;
 
 
+    # Setup the program's directories
+    CreateDirectories;
+
+
     # Initialize the User Preference object.
     [UserPreferences] $userPreferences = [UserPreferences]::New(0, `                                    # Compression Tool
                                                             ".\", `                                     # Project Path
