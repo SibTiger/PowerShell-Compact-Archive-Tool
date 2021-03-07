@@ -56,16 +56,16 @@ function CreateDirectories()
 
 
     # Because one or more directories did not exist, then we must find it and create them.
-    return ( ` # Create the User Data Directories
-            ([IOCommon]::MakeDirectory("$($_USERDATA_ROOT_PATH_)") -eq $true) -and `            # The Program Root Directory
-            ([IOCommon]::MakeDirectory("$($_USERDATA_BUILDS_PATH_)") -eq $true) -and `          # The Program Output Builds Directory
-            ([IOCommon]::MakeDirectory("$($_USERDATA_RELEASEBUILDS_PATH_)") -eq $true) -and `   # The Program Output Release Builds Directory
-            ([IOCommon]::MakeDirectory("$($_USERDATA_DEVBUILDS_PATH_)") -eq $true) -and `       # The Program Output Dev. Builds Directory
+    return (# Create the User Data Directories
+            ([IOCommon]::MakeDirectory("$($_USERDATA_ROOT_PATH_)")              -eq $true) -and `   # The Program Root Directory
+            ([IOCommon]::MakeDirectory("$($_USERDATA_BUILDS_PATH_)")            -eq $true) -and `   # The Program Output Builds Directory
+            ([IOCommon]::MakeDirectory("$($_USERDATA_RELEASEBUILDS_PATH_)")     -eq $true) -and `   # The Program Output Release Builds Directory
+            ([IOCommon]::MakeDirectory("$($_USERDATA_DEVBUILDS_PATH_)")         -eq $true) -and `   # The Program Output Dev. Builds Directory
             # Program-Data Directories
-            ([IOCommon]::MakeDirectory("$($_PROGRAMDATA_ROOT_LOCAL_PATH_)") -eq $true) -and `   # The Program Data Root [Local]
-            ([IOCommon]::MakeDirectory("$($_PROGRAMDATA_LOGS_PATH_)") -eq $true) -and `         # The Program Data Logs [Local]
-            ([IOCommon]::MakeDirectory("$($_PROGRAMDATA_ROOT_ROAMING_PATH_)") -eq $true) -and ` # The Program Data Root [Roaming]
-            ([IOCommon]::MakeDirectory("$($_PROGRAMDATA_CONFIGS_PATH_)") -eq $true));           # The Program Data Configs [Roaming]
+            ([IOCommon]::MakeDirectory("$($_PROGRAMDATA_ROOT_LOCAL_PATH_)")     -eq $true) -and `   # The Program Data Root [Local]
+            ([IOCommon]::MakeDirectory("$($_PROGRAMDATA_LOGS_PATH_)")           -eq $true) -and `   # The Program Data Logs [Local]
+            ([IOCommon]::MakeDirectory("$($_PROGRAMDATA_ROOT_ROAMING_PATH_)")   -eq $true) -and `   # The Program Data Root [Roaming]
+            ([IOCommon]::MakeDirectory("$($_PROGRAMDATA_CONFIGS_PATH_)")        -eq $true));        # The Program Data Configs [Roaming]
 } # CreateDirectories()
 
 
