@@ -56,104 +56,16 @@ function CreateDirectories()
 
 
     # Because one or more directories did not exist, then we must find it and create them.
-
-
-    # User-Data Directories
-    # ++++++++++++++++++++++++++
-    # ++++++++++++++++++++++++++
-
-
-    # Program Root Directory
-    if(([IOCommon]::MakeDirectory("$($_USERDATA_ROOT_PATH_)")) -eq $false)
-    {
-        # Directory could not be created.
-        return $false;
-    } # If : Program Root Directory Created
-
-
-    # ----
-
-
-    # Program Output Builds Directory
-    if(([IOCommon]::MakeDirectory("$($_USERDATA_BUILDS_PATH_)")) -eq $false)
-    {
-        # Directory could not be created.
-        return $false;
-    } # If : Program Output Builds Directory Created
-
-
-    # ----
-
-
-    # Program Output Release Builds Directory
-    if(([IOCommon]::MakeDirectory("$($_USERDATA_RELEASEBUILDS_PATH_)")) -eq $false)
-    {
-        # Directory could not be created.
-        return $false;
-    } # If : Program Output Release Builds Directory Created
-
-
-    # ----
-
-
-    # Program Output Dev. Builds Directory
-    if(([IOCommon]::MakeDirectory("$($_USERDATA_DEVBUILDS_PATH_)")) -eq $false)
-    {
-        # Directory could not be created.
-        return $false;
-    } # If : Program Output Dev. Builds Directory Created
-
-
-
-    # Program-Data Directories
-    # ++++++++++++++++++++++++++
-    # ++++++++++++++++++++++++++
-
-
-    # Program Data Root [Local]
-    if(([IOCommon]::MakeDirectory("$($_PROGRAMDATA_ROOT_LOCAL_PATH_)")) -eq $false)
-    {
-        # Directory could not be created.
-        return $false;
-    } # If : Program Data Root [Local]
-
-
-    # ----
-
-
-    # Program Data Logs [Local]
-    if(([IOCommon]::MakeDirectory("$($_PROGRAMDATA_LOGS_PATH_)")) -eq $false)
-    {
-        # Directory could not be created.
-        return $false;
-    } # If : Program Data Logs [Local]
-
-
-    # ----
-
-
-    # Program Data Root [Roaming]
-    if(([IOCommon]::MakeDirectory("$($_PROGRAMDATA_ROOT_ROAMING_PATH_)")) -eq $false)
-    {
-        # Directory could not be created.
-        return $false;
-    } # If : Program Data Configs [Local]
-
-
-    # ----
-
-
-    # Program Data Configs [Roaming]
-    if(([IOCommon]::MakeDirectory("$($_PROGRAMDATA_CONFIGS_PATH_)")) -eq $false)
-    {
-        # Directory could not be created.
-        return $false;
-    } # If : Program Data Configs [Local]
-
-
-
-    # Return the Exit status if successful
-    return $true;
+    return ( ` # Create the User Data Directories
+            ([IOCommon]::MakeDirectory("$($_USERDATA_ROOT_PATH_)") -eq $true) -and `            # The Program Root Directory
+            ([IOCommon]::MakeDirectory("$($_USERDATA_BUILDS_PATH_)") -eq $true) -and `          # The Program Output Builds Directory
+            ([IOCommon]::MakeDirectory("$($_USERDATA_RELEASEBUILDS_PATH_)") -eq $true) -and `   # The Program Output Release Builds Directory
+            ([IOCommon]::MakeDirectory("$($_USERDATA_DEVBUILDS_PATH_)") -eq $true) -and `       # The Program Output Dev. Builds Directory
+            # Program-Data Directories
+            ([IOCommon]::MakeDirectory("$($_PROGRAMDATA_ROOT_LOCAL_PATH_)") -eq $true) -and `   # The Program Data Root [Local]
+            ([IOCommon]::MakeDirectory("$($_PROGRAMDATA_LOGS_PATH_)") -eq $true) -and `         # The Program Data Logs [Local]
+            ([IOCommon]::MakeDirectory("$($_PROGRAMDATA_ROOT_ROAMING_PATH_)") -eq $true) -and ` # The Program Data Root [Roaming]
+            ([IOCommon]::MakeDirectory("$($_PROGRAMDATA_CONFIGS_PATH_)") -eq $true));           # The Program Data Configs [Roaming]
 } # CreateDirectories()
 
 
