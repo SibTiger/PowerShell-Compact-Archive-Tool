@@ -27,6 +27,71 @@
 
 class SevenZip
 {
+    # Object Singleton Instance
+    # =================================================
+    # =================================================
+
+
+    #region Singleton Instance
+
+    # Singleton Instance of the object
+    hidden static [SevenZip] $_instance = $null;
+
+
+
+
+    # Get the instance of this singleton object (default)
+    static [SevenZip] GetInstance()
+    {
+        # If there was no previous instance of the object - then create one.
+        if ($null -eq [SevenZip]::_instance)
+        {
+            # Create a new instance of the singleton object.
+            [SevenZip]::_instance = [SevenZip]::new();
+        } # if : No Singleton Instance
+
+        # Provide an instance of the object.
+        return [SevenZip]::_instance;
+    } # GetInstance()
+
+
+
+
+    # Get the instance of this singleton object (with arguments).
+    #  This is useful if we already know the properties of this
+    #  new instance of the object.
+    static [SevenZip] GetInstance([string] $executablePath,                             # Executable Path
+                                    [SevenZipCompressionMethod] $compressionMethod,     # Create Zip or 7Zip archive datafiles
+                                    [SevenZipAlgorithmZip] $algorithmZip,               # Algorithm to use for ZIP
+                                    [SevenZipAlgorithm7Zip] $algorithm7Zip,             # Algorithm to use for the 7Zip
+                                    [bool] $useMultithread,                             # Use Multithreaded operations
+                                    [SevenCompressionLevel] $compressionLevel,          # Compression Level
+                                    [bool] $verifyBuild,                                # Verify Archive datafile
+                                    [bool] $generateReport)                             # Create report
+    {
+        # if there was no previous instance of the object, then create one.
+        if ($null -eq [SevenZip]::_instance)
+        {
+            # Create a new instance of the singleton object
+            [SevenZip]::_instance = [SevenZip]::new($executablePath,
+                                                    $compressionMethod,
+                                                    $algorithmZip,
+                                                    $algorithm7Zip,
+                                                    $useMultithread,
+                                                    $compressionLevel,
+                                                    $verifyBuild,
+                                                    $generateReport);
+        } # If: No Singleton Instance
+
+        # Provide an instance of the object.
+        return [SevenZip]::_instance;
+    } # GetInstance()
+
+    #endregion
+
+
+
+
     # Member Variables :: Properties
     # =================================================
     # =================================================
@@ -126,6 +191,13 @@ class SevenZip
     #  contents from within an archive datafile.
     Hidden [string] $__logPath;
 
+
+    # Object GUID
+    # ---------------
+    # Provides a unique identifier to the object, useful to make sure that we are using
+    #  the right object within the software.
+    Hidden [GUID] $__objectGUID;
+
     #endregion
 
 
@@ -172,6 +244,9 @@ class SevenZip
 
         # Log Directory Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
+
+        # Object Identifier (GUID)
+        $this.__objectGUID = [GUID]::NewGuid();
     } # Default Constructor
 
 
@@ -219,6 +294,9 @@ class SevenZip
 
         # Log Directory Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
+
+        # Object Identifier (GUID)
+        $this.__objectGUID = [GUID]::NewGuid();
     } # User Preference : On-Load
 
     #endregion
