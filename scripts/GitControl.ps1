@@ -176,6 +176,12 @@ class GitControl
     Hidden [string] $__logPath;
 
 
+    # Object GUID
+    # ---------------
+    # Provides a unique identifier to the object, useful to make sure that we are using
+    #  the right object within the software.
+    Hidden [GUID] $__objectGUID;
+
     #endregion
 
 
@@ -216,6 +222,9 @@ class GitControl
 
         # Log Directory Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
+
+        # Object Identifier (GUID)
+        $this.__objectGUID = [GUID]::NewGuid();
     } # Default Constructor
 
 
@@ -256,6 +265,9 @@ class GitControl
 
         # Log Directory Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
+
+        # Object Identifier (GUID)
+        $this.__objectGUID = [GUID]::NewGuid();
     } # User Preference : On-Load
 
     #endregion
@@ -423,6 +435,23 @@ class GitControl
         return $this.__rootLogPath;
     } # GetRootLogPath()
 
+
+
+
+   <# Get Object GUID
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the object's 'Global Unique ID' variable.
+    # -------------------------------
+    # Output:
+    #  [GUID] Global Unique Identifier (GUID)
+    #   The value of the object's GUID.
+    # -------------------------------
+    #>
+    [GUID] GetObjectGUID()
+    {
+        return $this.__objectGUID;
+    } # GetObjectGUID()
 
     #endregion
 
