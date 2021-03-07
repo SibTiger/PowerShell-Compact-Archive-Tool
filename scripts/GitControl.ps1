@@ -77,13 +77,13 @@ class GitControl
         if ($null -eq [GitControl]::_instance)
         {
             # Create a new instance of the singleton object
-            [GitControl]::_instance = [GitControl]::new([string]$executablePath,
-                                                        [bool]$updateSource,
-                                                        [GitCommitLength]$lengthCommitID,
-                                                        [bool]$fetchCommitID,
-                                                        [bool]$fetchChangelog,
-                                                        [int]$changelogLimit,
-                                                        [bool]$generateReport);
+            [GitControl]::_instance = [GitControl]::new($executablePath,
+                                                        $updateSource,
+                                                        $lengthCommitID,
+                                                        $fetchCommitID,
+                                                        $fetchChangelog,
+                                                        $changelogLimit,
+                                                        $generateReport);
         } # If: No Singleton Instance
 
         # Provide an instance of the object.
