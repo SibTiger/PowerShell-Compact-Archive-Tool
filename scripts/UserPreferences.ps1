@@ -29,6 +29,7 @@ class UserPreferences
 
 
 
+
     # Get the instance of this singleton object (Default)
     static [UserPreferences] GetInstance()
     {
