@@ -32,6 +32,69 @@
 
 class GitControl
 {
+    # Object Singleton Instance
+    # =================================================
+    # =================================================
+
+
+    #region Singleton Instance
+
+    # Singleton Instance of the object
+    hidden static [GitControl] $_instance = $null;
+
+
+
+
+    # Get the instance of this singleton object (default)
+    static [GitControl] GetInstance()
+    {
+        # If there was no previous instance of the object - then create one.
+        if ($null -eq [GitControl]::_instance)
+        {
+            # Create a new instance of the singleton object.
+            [GitControl]::_instance = [GitControl]::new();
+        } # if : No Singleton Instance
+
+        # Provide an instance of the object.
+        return [GitControl]::_instance;
+    } # GetInstance()
+
+
+
+
+    # Get the instance of this singleton object (with arguments).
+    #  This is useful if we already know the properties of this
+    #  new instance of the object.
+    static [GitControl] GetInstance([string]$executablePath,
+                                    [bool]$updateSource,
+                                    [GitCommitLength]$lengthCommitID,
+                                    [bool]$fetchCommitID,
+                                    [bool]$fetchChangelog,
+                                    [int]$changelogLimit,
+                                    [bool]$generateReport)
+    {
+        # if there was no previous instance of the object, then create one.
+        if ($null -eq [GitControl]::_instance)
+        {
+            # Create a new instance of the singleton object
+            [GitControl]::_instance = [GitControl]::new([string]$executablePath,
+                                                        [bool]$updateSource,
+                                                        [GitCommitLength]$lengthCommitID,
+                                                        [bool]$fetchCommitID,
+                                                        [bool]$fetchChangelog,
+                                                        [int]$changelogLimit,
+                                                        [bool]$generateReport);
+        } # If: No Singleton Instance
+
+        # Provide an instance of the object.
+        return [GitControl]::_instance;
+    } # GetInstance()
+
+    #endregion
+
+
+
+
     # Member Variables :: Properties
     # =================================================
     # =================================================
