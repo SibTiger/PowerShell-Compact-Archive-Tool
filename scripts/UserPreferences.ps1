@@ -38,7 +38,7 @@ class UserPreferences
         {
             # Create a new instance of the singleton object.
             [UserPreferences]::_instance = [UserPreferences]::new();
-        }
+        } # If: No Singleton Instance
 
         # Provide an instance of the object.
         return [UserPreferences]::_instance;
@@ -69,7 +69,7 @@ class UserPreferences
                                                                     [bool] $useWindowsExplorer,
                                                                     [bool] $useBell,
                                                                     [UserPreferencesEventAlarm] $notificationType);
-        }
+        } # If: No Singleton Instance
 
         # Provide an instance of the object.
         return [UserPreferences]::_instance;
