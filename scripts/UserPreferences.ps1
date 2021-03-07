@@ -24,7 +24,7 @@ class UserPreferences
 
     #region Singleton Instance
 
-# Singleton Instance of the object
+    # Singleton Instance of the object
     hidden static [UserPreferences] $_instance = $null;
 
     # Get the instance of this singleton object (Default)
