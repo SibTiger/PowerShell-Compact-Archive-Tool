@@ -191,10 +191,11 @@ class MainMenu
         switch ($userRequest)
         {
             # Build the desired ZDoom project
-            #  NOTE: Allow the user's request when they type: 'Build', 'Make', 'Build $project', as well as 'B'.
+            #  NOTE: Allow the user's request when they type: 'Build', 'Make', 'Make $project', 'Build $project', as well as 'B'.
             {($_ -eq "B") -or `
                 ($_ -eq "Build") -or `
                 ($_ -eq "Make") -or `
+                ($_ -eq "Make $([ProjectInformation]::projectName)") -or `
                 ($_ -eq "Build $([ProjectInformation]::projectName)")}
             {
                 # Build the desired ZDoom project
