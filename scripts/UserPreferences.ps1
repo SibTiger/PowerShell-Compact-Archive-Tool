@@ -62,13 +62,13 @@ class UserPreferences
         if ($null -eq [UserPreferences]::_instance)
         {
             # Create a new instance of the singleton object.
-            [UserPreferences]::_instance = [UserPreferences]::new([UserPreferencesCompressTool] $compressionTool,
-                                                                    [string] $projectPath,
-                                                                    [string] $outputBuildsPath,
-                                                                    [bool] $useGitFeatures,
-                                                                    [bool] $useWindowsExplorer,
-                                                                    [bool] $useBell,
-                                                                    [UserPreferencesEventAlarm] $notificationType);
+            [UserPreferences]::_instance = [UserPreferences]::new($compressionTool,
+                                                                $projectPath,
+                                                                $outputBuildsPath,
+                                                                $useGitFeatures,
+                                                                $useWindowsExplorer,
+                                                                $useBell,
+                                                                $notificationType);
         } # If: No Singleton Instance
 
         # Provide an instance of the object.
