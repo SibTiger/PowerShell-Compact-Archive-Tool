@@ -31,6 +31,61 @@
 
 class DefaultCompress
 {
+    # Object Singleton Instance
+    # =================================================
+    # =================================================
+
+
+    #region Singleton Instance
+
+    # Singleton Instance of the object
+    hidden static [DefaultCompress] $_instance = $null;
+
+
+
+
+    # Get the instance of this singleton object (Default)
+    static [DefaultCompress] GetInstance()
+    {
+        # if there was no previous instance of the object - then create one.
+        if ($null -eq [DefaultCompress]::_instance)
+        {
+            # Create a new instance of the singleton object.
+            [DefaultCompress]::_instance = [DefaultCompress]::new();
+        } # If: No Singleton Instance
+
+        # Provide an instance of the object.
+        return [DefaultCompress]::_instance;
+    } # GetInstance()
+
+
+
+
+    # Get the instance of this singleton object (With Args)
+    #  Useful if we already know that we have to instantiate
+    #  a new instance of this particular object.
+    static [DefaultCompress] GetInstance([DefaultCompressionLevel] $compressionLevel,   # Compression Level
+                                        [bool] $verifyBuild,                            # Verify Archive datafile
+                                        [bool] $generateReport)                         # Create report
+    {
+        # if there was no previous instance of the object - then create one.
+        if ($null -eq [DefaultCompress]::_instance)
+        {
+            # Create a new instance of the singleton object.
+            [DefaultCompress]::_instance = [DefaultCompress]::new($compressionLevel,
+                                                                    $verifyBuild,
+                                                                    $generateReport);
+        } # If: No Singleton Instance
+
+        # Provide an instance of the object.
+        return [DefaultCompress]::_instance;
+    } # GetInstance()
+
+    #endregion
+
+
+
+
     # Member Variables :: Properties
     # =================================================
     # =================================================
@@ -80,6 +135,13 @@ class DefaultCompress
     #  contents from within an archive datafile.
     Hidden [string] $__logPath;
 
+
+    # Object GUID
+    # ---------------
+    # Provides a unique identifier to the object, useful to make sure that we are using
+    #  the right object within the software.
+    Hidden [GUID] $__objectGUID;
+
     #endregion
 
 
@@ -111,6 +173,9 @@ class DefaultCompress
 
         # Log Directory Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
+
+        # Object Identifier (GUID)
+        $this.__objectGUID = [GUID]::NewGuid();
     } # Default Constructor
 
 
@@ -138,6 +203,9 @@ class DefaultCompress
 
         # Log Directory Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
+
+        # Object Identifier (GUID)
+        $this.__objectGUID = [GUID]::NewGuid();
     } # User Preference Constructor
 
     #endregion
