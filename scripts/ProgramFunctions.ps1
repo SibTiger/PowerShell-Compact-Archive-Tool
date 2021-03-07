@@ -138,37 +138,8 @@ function CheckSpecialDirectories()
     # ----------------------------------------
 
 
-    # Check the following:
-    # My Documents
-    if (([IOCommon]::CheckPathExists("$($pathMyDocuments)", $true)) -eq $false)
-    {
-        return $false;
-    } # If : My Documents
-
-
-    # ----
-
-
-    # Local AppData
-    if (([IOCommon]::CheckPathExists("$($pathLocalAppData)", $true)) -eq $false)
-    {
-        return $false;
-    } # If : Local AppData
-
-
-    # ----
-
-
-    # Roaming AppData
-    if (([IOCommon]::CheckPathExists("$($pathRoamingAppData)", $true)) -eq $false)
-    {
-        return $false;
-    } # If : Roaming AppData
-
-
-    # ----
-
-
-    # Everything was successful
-    return $true;
+    # Check the following special directories if they already exists within the host system.
+    return (([IOCommon]::CheckPathExists("$($pathMyDocuments)", $true) -eq $true)       -and ` # My Documents
+            ([IOCommon]::CheckPathExists("$($pathLocalAppData)", $true) -eq $true)      -and ` # Local AppData
+            ([IOCommon]::CheckPathExists("$($pathRoamingAppData)", $true) -eq $true));         # Roaming AppData
 } # CheckSpecialDirectories()
