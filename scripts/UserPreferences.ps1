@@ -17,7 +17,7 @@
 
 class UserPreferences
 {
-    # Member Variables :: Properties
+    # Object Singleton Instance
     # =================================================
     # =================================================
 
@@ -75,6 +75,11 @@ class UserPreferences
     #endregion
 
 
+
+
+    # Member Variables :: Properties
+    # =================================================
+    # =================================================
 
 
     #region Private Variables (emulated)
