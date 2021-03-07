@@ -20,6 +20,57 @@
 
  class LoadSaveUserConfiguration
  {
+    # Object Singleton Instance
+    # =================================================
+    # =================================================
+
+
+    #region Singleton Instance
+
+    # Singleton Instance of the object
+    hidden static [LoadSaveUserConfiguration] $_instance = $null;
+
+
+
+
+    # Get the instance of this singleton object (default)
+    static [LoadSaveUserConfiguration] GetInstance()
+    {
+        # if there was no previous instance of the object - then create one.
+        if ($null -eq [LoadSaveUserConfiguration]::_instance)
+        {
+            # Create a new instance of the singleton object.
+            [LoadSaveUserConfiguration]::_instance = [LoadSaveUserConfiguration]::new(".\");
+        } # If: No Singleton Instance
+
+        # Provide an instance of the object.
+        return [LoadSaveUserConfiguration]::_instance;
+    } # GetInstance()
+
+
+
+
+    # Get the instance of this singleton object (with arguments).
+    #  This is useful if we already know the properties of this
+    #  new instance of the object.
+    static [LoadSaveUserConfiguration] GetInstance([string]$configPath)     # Configuration Path
+    {
+        # if there was no previous instance of the object, then create one.
+        if ($null -eq [LoadSaveUserConfiguration]::_instance)
+        {
+            # Create a new instance of the singleton object
+            [LoadSaveUserConfiguration]::_instance = [LoadSaveUserConfiguration]::new($configPath);
+        } # If: No Singleton Instance
+
+        # Provide an instance of the object.
+        return [LoadSaveUserConfiguration]::_instance;
+    } # GetInstance()
+
+    #endregion
+
+
+
+
     # Member Variables :: Properties
     # =================================================
     # =================================================
@@ -37,6 +88,13 @@
     # ---------------
     # The file name of the user configuration file.
     Hidden [string] $__configFileName;
+
+
+    # Object GUID
+    # ---------------
+    # Provides a unique identifier to the object, useful to make sure that we are using
+    #  the right object within the software.
+    Hidden [GUID] $__objectGUID;
 
 
     #endregion
@@ -59,6 +117,10 @@
 
         # Configuration Filename
         $this.__configFileName = "UserConfig.xml";
+
+
+        # Object Identifier (GUID)
+        $this.__objectGUID = [GUID]::NewGuid();
     } # User Configuration : On-Load
 
 
@@ -101,6 +163,23 @@
         return $this.__configFileName;
     } # GetConfigFileName()
 
+
+
+
+   <# Get Object GUID
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the object's 'Global Unique ID' variable.
+    # -------------------------------
+    # Output:
+    #  [GUID] Global Unique Identifier (GUID)
+    #   The value of the object's GUID.
+    # -------------------------------
+    #>
+    [GUID] GetObjectGUID()
+    {
+        return $this.__objectGUID;
+    } # GetObjectGUID()
 
     #endregion
 
