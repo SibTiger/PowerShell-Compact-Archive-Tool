@@ -501,6 +501,24 @@ class SevenZip
     } # GetRootLogPath()
 
 
+
+
+   <# Get Object GUID
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the object's 'Global Unique ID' variable.
+    # -------------------------------
+    # Output:
+    #  [GUID] Global Unique Identifier (GUID)
+    #   The value of the object's GUID.
+    # -------------------------------
+    #>
+    [GUID] GetObjectGUID()
+    {
+        return $this.__objectGUID;
+    } # GetObjectGUID()
+
+
     #endregion
 
 
