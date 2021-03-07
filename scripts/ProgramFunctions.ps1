@@ -100,59 +100,16 @@ function CreateDirectories()
  #>
 function CheckProgramDirectories()
 {
-    # User-Data Directories
-    # -----
-
-    if ((([IOCommon]::CheckPathExists("$($_USERDATA_ROOT_PATH_)", $true)) -eq $true) -and `
-        (([IOCommon]::CheckPathExists("$($_USERDATA_BUILDS_PATH_)", $true)) -eq $true) -and `
-        (([IOCommon]::CheckPathExists("$($_USERDATA_RELEASEBUILDS_PATH_)", $true)) -eq $true) -and `
-        (([IOCommon]::CheckPathExists("$($_USERDATA_DEVBUILDS_PATH_)", $true)) -eq $true))
-    {
-        # The directories exists.
-        #  Nothing to do.
-    } # If : Directories Exists
-
-    else
-    {
-        # The directories does not exist.
-        #  Because one or more directories does not exist, return an error signal.
-        return $false;
-    } # Else : Directories not exist
-
-
-    # =====================
-    # ---------------------
-    # =====================
-
-
-    # Program-Data Directories
-    # ----
-
-    if ((([IOCommon]::CheckPathExists("$($_PROGRAMDATA_ROOT_LOCAL_PATH_)", $true)) -eq $true) -and `
-        (([IOCommon]::CheckPathExists("$($_PROGRAMDATA_LOGS_PATH_)", $true)) -eq $true) -and `
-        (([IOCommon]::CheckPathExists("$($_PROGRAMDATA_ROOT_ROAMING_PATH_)", $true)) -eq $true) -and `
-        (([IOCommon]::CheckPathExists("$($_PROGRAMDATA_CONFIGS_PATH_)", $true)) -eq $true))
-    {
-        # The directories exists.
-        #  Nothing to do.
-    } # If : Directories Exists
-
-    else
-    {
-        # The directories does not exist.
-        #  Because one or more directories does not exist, return an error signal.
-        return $false;
-    } # Else : Directories not exist
-
-
-    # =====================
-    # ---------------------
-    # =====================
-
-
-    # If we made it this far, then all the directories exists on the filesystem.
-    #  Return a success signal.
-    return $true;
+    return (# User-Data Directories
+            ([IOCommon]::CheckPathExists("$($_USERDATA_ROOT_PATH_)", $true)             -eq $true)  -and `
+            ([IOCommon]::CheckPathExists("$($_USERDATA_BUILDS_PATH_)", $true)           -eq $true)  -and `
+            ([IOCommon]::CheckPathExists("$($_USERDATA_RELEASEBUILDS_PATH_)", $true)    -eq $true)  -and `
+            ([IOCommon]::CheckPathExists("$($_USERDATA_DEVBUILDS_PATH_)", $true)        -eq $true)  -and `
+            # Program-Data Directories
+            ([IOCommon]::CheckPathExists("$($_PROGRAMDATA_ROOT_LOCAL_PATH_)", $true)    -eq $true)  -and `
+            ([IOCommon]::CheckPathExists("$($_PROGRAMDATA_LOGS_PATH_)", $true)          -eq $true)  -and `
+            ([IOCommon]::CheckPathExists("$($_PROGRAMDATA_ROOT_ROAMING_PATH_)", $true)  -eq $true)  -and `
+            ([IOCommon]::CheckPathExists("$($_PROGRAMDATA_CONFIGS_PATH_)", $true)       -eq $true));
 } # CheckProgramDirectories()
 
 
