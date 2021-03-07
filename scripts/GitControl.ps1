@@ -65,13 +65,13 @@ class GitControl
     # Get the instance of this singleton object (with arguments).
     #  This is useful if we already know the properties of this
     #  new instance of the object.
-    static [GitControl] GetInstance([string]$executablePath,
-                                    [bool]$updateSource,
-                                    [GitCommitLength]$lengthCommitID,
-                                    [bool]$fetchCommitID,
-                                    [bool]$fetchChangelog,
-                                    [int]$changelogLimit,
-                                    [bool]$generateReport)
+    static [GitControl] GetInstance([string]$executablePath,            # Executable Path
+                                    [bool]$updateSource,                # Update the Local Repository
+                                    [GitCommitLength]$lengthCommitID,   # Length of the Commit ID
+                                    [bool]$fetchCommitID,               # Fetch Commit ID
+                                    [bool]$fetchChangelog,              # Fetch Changelog History
+                                    [int]$changelogLimit,               # Maximum Log Entries
+                                    [bool]$generateReport)              # Create Report
     {
         # if there was no previous instance of the object, then create one.
         if ($null -eq [GitControl]::_instance)
