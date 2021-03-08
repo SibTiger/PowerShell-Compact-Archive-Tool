@@ -467,30 +467,30 @@
     # NOTE:
     #  All program data and objects must be known in order to use this function!
     # -------------------------------
-    # Parameters:
-    #  [UserPreferences] User Preferences
-    #     User's general preferences when interacting within the program.
-    #  [GitControl] Git Object
-    #     User's preferences and settings for using the Git functionality.
-    #  [SevenZip] 7Zip Object
-    #     User's preferences and settings for using the 7Zip functionality.
-    #  [DefaultCompress] PowerShell's Archive Object
-    #     User's preferences and settings for using the PowerShell Archive functionality.
-    # -------------------------------
     # Output:
     #  [bool] Exit code
     #   $true = Successfully generated the user's configuration file.
     #   $false = Failure to generate the user's configuration file.
     # -------------------------------
     #>
-    [bool] Save([UserPreferences] $userPref, `      # User's General Program Preferences
-                [GitControl] $gitObj, `             # User's Git Settings
-                [SevenZip] $sevenZipObj, `          # User's 7Zip Settings
-                [DefaultCompress] $psArchive)       # .NET Core's ZipArchive Settings
+    [bool] Save()
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [bool] $exitCode = $false;          # Operation status of the execution performed.
+        # Retrieve the User's Preferences
+        [UserPreferences] $userPref = [UserPreferences]::GetInstance();
+
+        # Retrieve the User's Git Control Settings
+        [GitControl] $gitObj = [GitControl]::GetInstance();
+
+        # Retrieve the User's 7Zip Settings
+        [SevenZip] $sevenZipObj = [SevenZip]::GetInstance();
+
+        # Retrieve the User's Default Compress Settings
+        [DefaultCompress] $psArchive = [DefaultCompress]::GetInstance();
+
+        # Operation status of the execution performed.
+        [bool] $exitCode = $false;
         # ----------------------------------------
 
 
