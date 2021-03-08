@@ -110,7 +110,7 @@ function InitializationProgramData()
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 
     # PowerShell Version Requirement
-    Set-Variable -Name "_POWERSHELLVERSION_" -Value 3 `
+    Set-Variable -Name "_POWERSHELLVERSION_" -Value 7 `
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 
     # Debug Logging functionality
