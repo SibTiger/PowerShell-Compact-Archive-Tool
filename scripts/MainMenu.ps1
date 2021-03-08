@@ -146,14 +146,6 @@ class MainMenu
     #  [string] User's Request
     #   This will provide the user's desired request to run an operation
     #    or to access a specific functionality.
-    #  [UserPreferences] (REFERENCE) User's Preferences
-    #   Used in various areas; passes the User's Preferences.
-    #  [GitControl] (REFERENCE) Git Control
-    #   Holds the user's Git Control settings and configurations.
-    #  [SevenZip] (REFERENCE) 7Zip Control
-    #   Holds the user's 7Zip Control settings and configurations.
-    #  [DefaultCompress] (REFERENCE) Default Compress (.NET)
-    #   Holds the user's Default Compress (.NET) settings and configurations.
     # -------------------------------
     # Output:
     #  [bool] User Stays at Menu
@@ -162,11 +154,7 @@ class MainMenu
     #   $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    static [bool] EvaluateExecuteUserRequest([string] $userRequest,     # User's Feedback from the Main Menu
-                                            [ref] $userPreferences,     # User's Preferences
-                                            [ref] $gitControl,          # Git Control Settings
-                                            [ref] $sevenZip,            # 7Zip Settings
-                                            [ref] $defaultCompress)     # Default Compress (.NET) Settings
+    static [bool] EvaluateExecuteUserRequest([string] $userRequest)
     {
         switch ($userRequest)
         {
@@ -205,7 +193,6 @@ class MainMenu
                 #         nothing we can do at this present point.
                 [WebsiteResources]::AccessWebSite_General("$([ProjectInformation]::urlWebsite)",            ` # Project's Homepage
                                                         "$([ProjectInformation]::projectName) Homepage",    ` # Show page title
-                                                        $userPreferences.Value,                             ` # User Preferences
                                                         $false) | Out-Null;                                 ` # Do not force Web Browser function
 
 
@@ -224,7 +211,6 @@ class MainMenu
                 #         nothing we can do at this present point.
                 [WebsiteResources]::AccessWebSite_General("$([ProjectInformation]::urlWiki)",           ` # Project's Wiki
                                                         "$([ProjectInformation]::projectName) Wiki",    ` # Show page title
-                                                        $userPreferences.Value,                         ` # User Preferences
                                                         $false) | Out-Null;                             ` # Do not force Web Browser function
 
 
@@ -244,7 +230,6 @@ class MainMenu
                 #         nothing we can do at this present point.
                 [WebsiteResources]::AccessWebSite_General("$([ProjectInformation]::urlSource)",                         ` # Project's Repository
                                                         "$([ProjectInformation]::projectName) Source Code Repository",  ` # Show page title
-                                                        $userPreferences.Value,                                         ` # User Preferences
                                                         $false) | Out-Null;                                             ` # Do not force Web Browser function
 
 
@@ -288,7 +273,6 @@ class MainMenu
                 #         nothing we can do at this present point.
                 [WebsiteResources]::AccessWebSite_Update("$($Global:_PROGRAMSITEDOWNLOADS_)",      ` # Project's Repository
                                                         "Update $($Global:_PROGRAMNAME_)",          ` # Show page title
-                                                        $userPreferences.Value,                     ` # User Preferences
                                                         $false) | Out-Null;                         ` # Do not force Web Browser function
 
 
@@ -309,7 +293,6 @@ class MainMenu
                 #         nothing we can do at this present point.
                 [WebsiteResources]::AccessWebSite_General("$($Global:_PROGRAMSITEWIKI_)",              ` # Project's Repository
                                                         "$([ProjectInformation]::projectName) Wiki",    ` # Show page title
-                                                        $userPreferences.Value,                         ` # User Preferences
                                                         $false) | Out-Null;                             ` # Do not force Web Browser function
 
 
