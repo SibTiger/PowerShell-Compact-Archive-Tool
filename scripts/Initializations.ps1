@@ -58,7 +58,8 @@ function InitializationProgramIdentity()
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 
     # Release Date
-    Set-Variable -Name "_RELEASEDATE_" -Value "DD.MM.2021" `
+    # Date Format: DD.MM.YYYY with leading zeros
+    Set-Variable -Name "_RELEASEDATE_" -Value "DD.04.2021" `
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 } # InitializationProgramIdentity()
 
