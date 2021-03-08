@@ -832,14 +832,6 @@
     # Parameters:
     #  [Object[]] Cached User Configuration
     #     The user's configuration information that was deserialized.
-    #  [ref] {UserPreferences} User Preferences
-    #     User's general preferences when interacting within the program.
-    #  [ref] {GitControl} Git Object
-    #     User's preferences and settings for using the Git functionality.
-    #  [ref] {SevenZip} 7Zip Object
-    #     User's preferences and settings for using the 7Zip functionality.
-    #  [ref] {DefaultCompress} PowerShell's Archive Object
-    #     User's preferences and settings for using the PowerShell Archive functionality.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -847,12 +839,26 @@
     #   $false = Failure to properly load configuration file.
     # -------------------------------
     #>
-    Hidden [bool] __LoadStepWise([Object[]] $cachedUserConfig, `        # User's Previously Saved Configuration, deserialized.
-                                [UserPreferences] $userPref, `          # User's generalized preferences.
-                                [GitControl] $gitObj, `                 # User's Git preferences.
-                                [SevenZip] $sevenZipObj, `              # User's 7Zip preferences
-                                [DefaultCompress] $psArchive)           # User's PowerShell's Archive preferences.
+    Hidden [bool] __LoadStepWise([Object[]] $cachedUserConfig)
     {
+        # Declarations and Initializations
+        # -----------------------------------------
+        # Retrieve the User's Preferences
+        [UserPreferences] $userPref = [UserPreferences]::GetInstance();
+
+        # Retrieve the User's Git Control Settings
+        [GitControl] $gitObj = [GitControl]::GetInstance();
+
+        # Retrieve the User's 7Zip Settings
+        [SevenZip] $sevenZipObj = [SevenZip]::GetInstance();
+
+        # Retrieve the User's Default Compress Settings
+        [DefaultCompress] $psArchive = [DefaultCompress]::GetInstance();
+        # -----------------------------------------
+
+
+
+
         # STEP 1 - USER PREFERENCES
         # -------------------------------------
         # -------------------------------------
