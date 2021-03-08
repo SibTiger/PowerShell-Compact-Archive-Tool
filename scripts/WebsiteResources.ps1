@@ -48,8 +48,6 @@
     #  [bool] Update Behavioral
     #   When true, this will cause some extra information to be present in
     #   the terminal's output buffer.
-    #  [UserPreferences] User Preferences
-    #   User's present configuration; required for Web Browser settings
     #  [bool] Ignore User Settings
     #   When true, this will ignore the user's settings and forcefully open the
     #   web page using the user's preferred Web Browser.
@@ -63,11 +61,13 @@
     Hidden static [bool] __AccessWebSite([string] $siteURL,                 # The Site's URL to access
                                         [string] $siteName,                 # The Site's name
                                         [bool] $update,                     # Perform the Update Behavioral
-                                        [UserPreferences] $userPreferences, # User Preferences
                                         [bool] $ignoreUserSetting)          # Ignore User's Settings and open Web Browser
     {
         # Declarations and Initializations
         # ----------------------------------------
+        # Retrieve the User's Preferences
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+
         # This will provide the overall status of the entire operation.
         [bool] $operationStatus = $true;
 
