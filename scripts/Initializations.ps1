@@ -106,7 +106,7 @@ function InitializationProgramSites()
 function InitializationProgramData()
 {
     # .NET Framework Requirement
-    Set-Variable -Name "_DOTNETFRAMEWORK_" -Value 5 `
+    Set-Variable -Name "_DOTNETFRAMEWORK_" -Value 3 `
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 
     # PowerShell Version Requirement
