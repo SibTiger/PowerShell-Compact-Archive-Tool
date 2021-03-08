@@ -42,11 +42,7 @@ function main()
 
 
     # Execute the Main Menu; from here - the program will be entirely driven by User Interactions.
-    $exitLevel = ([MainMenu]::Main($userPreferences, `              # User Preferences
-                                    $gitControl, `                  # Git Control
-                                    $sevenZip, `                    # 7Zip
-                                    $defaultCompress, `             # dotNet Core ZIP Archive
-                                    $loadSaveUserConfiguration));   # Load\Save User Configuration
+    $exitLevel = ([MainMenu]::Main());
 
 
     # Restore the Window Title back to it's state.
