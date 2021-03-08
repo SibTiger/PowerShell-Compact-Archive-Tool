@@ -24,29 +24,13 @@ class MainMenu
     #   options that exists within the program.  This function is essentially
     #   a driver in which the user can perform various operations as requested.
     # -------------------------------
-    # Input:
-    #  [UserPreferences] User Preferences
-    #   Contains the User Preferences for the generalized application.
-    #  [GitControl] Git Control User Settings
-    #   Contains the user's preferences for the Git Control functionality.
-    #  [SevenZip] 7Zip User Settings
-    #   Contains the user's preferences for the 7Zip functionality. 
-    #  [DefaultComnpress] Default Compression (.NET) User Settings
-    #   Contains the user's preferences for the Default Compression functionality.
-    #  [LoadSaveUserConfiguration] Load\Save User Configuration
-    #   Contains the user's preferences for the Load\Save user configuration.
-    # -------------------------------
     # Output:
     #  [integer] Exit Level
     #    0 = Everything was successful
     #   !0 = An error was reached
     # -------------------------------
     #>
-    static [int] Main([UserPreferences] $userPreferences,                       # User Preferences
-                    [GitControl] $gitControl,                                   # Git Control Settings
-                    [SevenZip] $sevenZip,                                       # 7Zip Settings
-                    [DefaultCompress] $defaultCompress,                         # Default Compress (.NET) Settings
-                    [LoadSaveUserConfiguration] $loadSaveUserConfiguration)     # Load\Save User Configuration
+    static [int] Main()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -83,11 +67,7 @@ class MainMenu
             $userInput = [MainMenu]::GetUserInput();
 
             # Execute the user's request
-            $mainMenuLoop = [MainMenu]::EvaluateExecuteUserRequest($userInput,              ` # User's Feedback
-                                                                [ref] $userPreferences,     ` # User's Preferences
-                                                                [ref] $gitControl,          ` # Git Control Settings
-                                                                [ref] $sevenZip,            ` # 7Zip Settings
-                                                                [ref] $defaultCompress);    ` # Default Compress (.NET) Settings
+            $mainMenuLoop = [MainMenu]::EvaluateExecuteUserRequest($userInput);
         } while ($mainMenuLoop)
 
 
