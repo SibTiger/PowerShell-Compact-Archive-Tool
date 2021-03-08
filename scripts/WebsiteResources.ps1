@@ -259,8 +259,6 @@
     #   The web page that will be accessed.
     #  [string] Site Name
     #   The name of the web page that we will be accessing.
-    #  [UserPreferences] User Preferences
-    #   User's present configuration; required for Web Browser settings
     #  [bool] Ignore User Settings
     #   When true, this will ignore the user's settings and forcefully open the
     #   web page using the user's preferred Web Browser.
@@ -273,7 +271,6 @@
     #>
     static [bool] AccessWebSite_Update([string] $siteURL,                   # The Site's URL to access
                                         [string] $siteName,                 # The Site's name
-                                        [UserPreferences] $userPreferences, # User Preferences
                                         [bool] $ignoreUserSetting)          # Ignore User's Settings and open Web Browser
     {
         # Access the Main Function that will open the Web Browser functionality; return
@@ -281,7 +278,6 @@
         return [WebsiteResources]::__AccessWebSite("$($siteURL)",           ` # Site URL
                                                     "$($siteName)",         ` # Site's Name (or Nice Name)
                                                     $true,                  ` # Update Protocol
-                                                    $userPreferences,       ` # User's Preferences
                                                     $ignoreUserSetting);    ` # Forcefully Open the Web Browser
     } # AccessWebSite_Update()
 
