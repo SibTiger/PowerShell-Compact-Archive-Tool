@@ -625,32 +625,22 @@
     # NOTE:
     #  All program data and objects will be updated to adjust to user's preferred settings and configurations.
     # -------------------------------
-    # Parameters:
-    #  [ref] {UserPreferences} User Preferences
-    #     User's general preferences when interacting within the program.
-    #  [ref] {GitControl} Git Object
-    #     User's preferences and settings for using the Git functionality.
-    #  [ref] {SevenZip} 7Zip Object
-    #     User's preferences and settings for using the 7Zip functionality.
-    #  [ref] {DefaultCompress} PowerShell's Archive Object
-    #     User's preferences and settings for using the PowerShell Archive functionality.
-    # -------------------------------
     # Output:
     #  [bool] Exit code
     #   $true = Successfully loaded the user's configurations.
     #   $false = Failure to properly load the configuration file.
     # -------------------------------
     #>
-    [bool] Load([UserPreferences] $userPref, `      # User's General Program Preferences
-                [GitControl] $gitObj, `             # User's Git Settings
-                [SevenZip] $sevenZipObj, `          # User's 7Zip Settings
-                [DefaultCompress] $psArchive)       # .NET Core's ZipArchive Settings
+    [bool] Load()
     {
         # Declarations and Initializations
         # -----------------------------------------
-        [bool] $exitCode = $false;              # Operation status of the execution performed.
-        [Object[]] $cacheUserConfig = $null;    # This will hold the deserialized XML data containing the user's preferred
-                                                #  settings and configurations regarding each object.
+        # Operation status of the execution performed.
+        [bool] $exitCode = $false;
+
+        # This will hold the deserialized XML data containing the user's preferred
+        #  settings and configurations regarding each object.
+        [Object[]] $cacheUserConfig = $null;
         # -----------------------------------------
 
 
@@ -706,11 +696,7 @@
                                              -ErrorAction Stop;
 
             # Try to load the user's configuration into the objects safely.
-            if ($this.__LoadStepWise($cacheUserConfig,
-                                    $userPref, `
-                                    $gitObj, `
-                                    $sevenZipObj, `
-                                    $psArchive) -eq $true)
+            if ($this.__LoadStepWise($cacheUserConfig) -eq $true)
             {
                 # Successfully updated the object's preferences to match with the user's preferred environment.
 
