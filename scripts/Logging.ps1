@@ -1089,4 +1089,4 @@ enum LogMessageLevel
     Fatal           = 5;    # Program death messages
     Verbose         = 6;    # Debug or detailed messages.
     UserInput       = 7;    # User Feedback\Input (STDIN\Keyboard)
-} # IOCommonBufferMessageLevel
+} # LogMessageLevel
