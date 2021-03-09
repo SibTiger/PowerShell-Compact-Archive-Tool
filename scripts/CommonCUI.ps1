@@ -209,7 +209,7 @@ class CommonCUI
     static [void] DrawUpdateProgramInformation()
     {
         # Clear the Terminal's output buffer
-        [IOCommon]::ClearBuffer();
+        [CommonIO]::ClearBuffer();
 
         # Display the Program Title
         [CommonCUI]::DrawProgramTitleHeader();

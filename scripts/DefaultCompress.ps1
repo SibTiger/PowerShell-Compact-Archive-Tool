@@ -617,10 +617,10 @@ class DefaultCompress
         #  check which directory does not exist and then try to create it.
 
         # Root Log Directory
-        if(([IOCommon]::CheckPathExists("$($this.__rootLogPath)", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists("$($this.__rootLogPath)", $true)) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (([IOCommon]::MakeDirectory("$($this.__rootLogPath)")) -eq $false)
+            if (([CommonIO]::MakeDirectory("$($this.__rootLogPath)")) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -650,10 +650,10 @@ class DefaultCompress
 
 
         # Log Directory
-        if(([IOCommon]::CheckPathExists("$($this.__logPath)", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists("$($this.__logPath)", $true)) -eq $false)
         {
             # Log Directory does not exist, try to create it.
-            if (([IOCommon]::MakeDirectory("$($this.__logPath)")) -eq $false)
+            if (([CommonIO]::MakeDirectory("$($this.__logPath)")) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -683,10 +683,10 @@ class DefaultCompress
 
 
         # Report Directory
-        if(([IOCommon]::CheckPathExists("$($this.__reportPath)", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists("$($this.__reportPath)", $true)) -eq $false)
         {
             # Report Directory does not exist, try to create it.
-            if (([IOCommon]::MakeDirectory("$($this.__reportPath)")) -eq $false)
+            if (([CommonIO]::MakeDirectory("$($this.__reportPath)")) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -801,9 +801,9 @@ class DefaultCompress
     #>
     Hidden [bool] __CheckRequiredDirectories()
     {
-        return (([IOCommon]::CheckPathExists("$($this.__rootLogPath)", $true) -eq $true) -and   ` # Check the Root Log Directory
-                ([IOCommon]::CheckPathExists("$($this.__rootLogPath)", $true) -eq $true) -and   ` # Check the Report Path Directory
-                ([IOCommon]::CheckPathExists("$($this.__logPath)", $true) -eq $true));            # Check the Log Path Directory
+        return (([CommonIO]::CheckPathExists("$($this.__rootLogPath)", $true) -eq $true) -and   ` # Check the Root Log Directory
+                ([CommonIO]::CheckPathExists("$($this.__rootLogPath)", $true) -eq $true) -and   ` # Check the Report Path Directory
+                ([CommonIO]::CheckPathExists("$($this.__logPath)", $true) -eq $true));            # Check the Log Path Directory
     } # __CheckRequiredDirectories()
 
 
@@ -933,13 +933,13 @@ class DefaultCompress
 
         # Get all the hash values that is associated with the given file.
         $archiveInfo = ("SHA256:`r`n" + `
-                        "`t$([IOCommon]::FileHash("$($file)", "sha256"))`r`n`r`n" + `
+                        "`t$([CommonIO]::FileHash("$($file)", "sha256"))`r`n`r`n" + `
                         "SHA384:`r`n" + `
-                        "`t$([IOCommon]::FileHash("$($file)", "sha384"))`r`n`r`n" + `
+                        "`t$([CommonIO]::FileHash("$($file)", "sha384"))`r`n`r`n" + `
                         "SHA512:`r`n" + `
-                        "`t$([IOCommon]::FileHash("$($file)", "sha512"))`r`n`r`n" + `
+                        "`t$([CommonIO]::FileHash("$($file)", "sha512"))`r`n`r`n" + `
                         "MD5:`r`n" + `
-                        "`t$([IOCommon]::FileHash("$($file)", "md5"))`r`n`r`n");
+                        "`t$([CommonIO]::FileHash("$($file)", "md5"))`r`n`r`n");
 
         # Return the result that was generated.
         return $archiveInfo;
@@ -1093,7 +1093,7 @@ class DefaultCompress
 
 
         # Make sure that the target archive file exists.
-        if ($([IOCommon]::CheckPathExists("$($targetFile)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($targetFile)", $true)) -eq $false)
         {
             # The target archive data file does not exist; we cannot perform a test on something
             #  that simply does not exist with the given file path.
@@ -1129,7 +1129,7 @@ class DefaultCompress
         # To test the archive data file, we will extract all of the contents to a temporary
         #  directory.  With that, we must first make a request to create a temporary directory.
         #  We will obtain the temporary directory's full path by using a reference.
-        if ($([IOCommon]::MakeTempDirectory("Verify", [ref] $tmpDirectory)) -eq $false)
+        if ($([CommonIO]::MakeTempDirectory("Verify", [ref] $tmpDirectory)) -eq $false)
         {
             # Because the temporary directory could not be created, we cannot continue any further.
 
@@ -1300,7 +1300,7 @@ class DefaultCompress
         finally
         {
             # Thrash the temporary directory, we no longer need it.
-            [IOCommon]::DeleteDirectory("$($tmpDirectory)") | Out-Null;
+            [CommonIO]::DeleteDirectory("$($tmpDirectory)") | Out-Null;
         } # Finally : Expunge Temporary Directory
 
 
@@ -1365,7 +1365,7 @@ class DefaultCompress
 
 
             # Create the logfiles as requested
-            [IOCommon]::PSCMDLetLogging($this.__logPath, `          # Log path for the STDOUT logfile.
+            [CommonIO]::PSCMDLetLogging($this.__logPath, `          # Log path for the STDOUT logfile.
                                         $this.__logPath, `          # Log path for the STDERR logfile.
                                         $this.__reportPath, `       # Report path and filename.
                                         $false, `                   # Is this a report?
@@ -1531,7 +1531,7 @@ class DefaultCompress
 
 
         # Make sure that the target archive file exists.
-        if ($([IOCommon]::CheckPathExists("$($file)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($file)", $true)) -eq $false)
         {
             # The target archive data file does not exist, we cannot examine something that is not present.
 
@@ -1712,7 +1712,7 @@ class DefaultCompress
 
 
             # Create the logfile as requested
-            [IOCommon]::PSCMDLetLogging($this.__logPath, `      # Log path for the STDOUT logfile.
+            [CommonIO]::PSCMDLetLogging($this.__logPath, `      # Log path for the STDOUT logfile.
                                         $this.__logPath, `      # Log path for the STDERR logfile.
                                         $this.__reportPath, `   # Report path and filename.
                                         $false, `               # Is this a report?
@@ -1876,7 +1876,7 @@ class DefaultCompress
 
 
         # Make sure that the target archive file exists.
-        if ($([IOCommon]::CheckPathExists("$($file)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($file)", $true)) -eq $false)
         {
             # The target archive data file does not exist, we cannot extract an archive file when
             #  it does not exist - with the given file path.
@@ -1906,7 +1906,7 @@ class DefaultCompress
 
 
         # Make sure that the desired output path currently exists
-        if ($([IOCommon]::CheckPathExists("$($outputPath)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($outputPath)", $true)) -eq $false)
         {
             # The requested output path does not currently exist; we cannot proceed any further.
 
@@ -1969,7 +1969,7 @@ class DefaultCompress
 
 
         # Does the extracting directory already exist?
-        if ([IOCommon]::CheckPathExists("$($extractPath)", $true) -eq $true)
+        if ([CommonIO]::CheckPathExists("$($extractPath)", $true) -eq $true)
         {
             # Because the directory already exists, we need to make it unique.  To accomplish
             #  the task of making the directory to be unique, we will add a timestamp to the
@@ -1985,7 +1985,7 @@ class DefaultCompress
 
 
         # Create the new extracting directory; if unable to create it, we cannot proceed any further.
-        if([IOCommon]::MakeDirectory("$($extractPath)") -eq $false)
+        if([CommonIO]::MakeDirectory("$($extractPath)") -eq $false)
         {
             # A failure occurred when trying to make the directory,
             #  we cannot continue as the extracting directory is not available.
@@ -2251,7 +2251,7 @@ class DefaultCompress
 
 
                 # Create the logfiles as requested
-                [IOCommon]::PSCMDLetLogging($this.__logPath, `          # Log path for the STDOUT logfile.
+                [CommonIO]::PSCMDLetLogging($this.__logPath, `          # Log path for the STDOUT logfile.
                                             $this.__logPath, `          # Log path for the STDERR logfile.
                                             $this.__reportPath, `       # Report path and filename.
                                             $false, `                   # Is this a report?
@@ -2433,7 +2433,7 @@ class DefaultCompress
 
 
         # Make sure that the desired output path currently exists
-        if ($([IOCommon]::CheckPathExists("$($outputPath)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($outputPath)", $true)) -eq $false)
         {
             # The requested output path does not currently exist; we cannot proceed any further.
 
@@ -2464,7 +2464,7 @@ class DefaultCompress
 
 
         # Check to make sure that the target path directory or file(s) already exists within the filesystem.
-        if ($([IOCommon]::CheckPathExists("$($targetDirectory)", $false) -eq $false))
+        if ($([CommonIO]::CheckPathExists("$($targetDirectory)", $false) -eq $false))
         {
             # The target directory does not exist; we cannot compact the requested data as the target directory
             #  does not exist with the given path.
@@ -2507,7 +2507,7 @@ class DefaultCompress
 
 
         # If the full path is not unique, try to make it unique.
-        if ([IOCommon]::CheckPathExists("$($archiveFileName).$($archiveFileExtension)", $true) -eq $true)
+        if ([CommonIO]::CheckPathExists("$($archiveFileName).$($archiveFileExtension)", $true) -eq $true)
         {
             # Because the filename already exists within the given output path, we can make it unique by adding in a timestamp
             #  to the filename.  However, in case we cannot make the filename unique (even with the timestamp), then the
@@ -2523,7 +2523,7 @@ class DefaultCompress
             $archiveFileName = "$($archiveFileName)_$($getDateTime)";
 
             # Check to make sure that the new filename is unique, if not - then we cannot proceed.
-            if ([IOCommon]::CheckPathExists("$($archiveFileName).$($archiveFileExtension)", $true) -eq $true)
+            if ([CommonIO]::CheckPathExists("$($archiveFileName).$($archiveFileExtension)", $true) -eq $true)
             {
                 # Because the archive file name is still not unique enough, we cannot proceed anymore.
                 #  This function will have to be aborted.
@@ -2710,7 +2710,7 @@ class DefaultCompress
 
 
                 # Create the logfiles
-                [IOCommon]::PSCMDLetLogging($this.__logPath, `
+                [CommonIO]::PSCMDLetLogging($this.__logPath, `
                                     $this.__logPath, `
                                     $this.__reportPath, `
                                     $false, `
@@ -2927,7 +2927,7 @@ class DefaultCompress
 
 
         # Make sure that the target archive file exists.
-        if ($([IOCommon]::CheckPathExists("$($archiveFile)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($archiveFile)", $true)) -eq $false)
         {
             # The target archive data file does not exist; we cannot perform a report on something
             #  when that file simply does not exist with the given file path.
@@ -2997,7 +2997,7 @@ class DefaultCompress
 
 
                     # Write the message to the report file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3054,7 +3054,7 @@ class DefaultCompress
 
 
                     # Write the message to the report file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3120,7 +3120,7 @@ class DefaultCompress
 
 
                     # Write the message to the report file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3188,7 +3188,7 @@ class DefaultCompress
 
 
                     # Write the message to the report file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3251,7 +3251,7 @@ class DefaultCompress
 
 
                     # Write the message to the report file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3308,7 +3308,7 @@ class DefaultCompress
 
 
                     # Write the message to the report file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3395,7 +3395,7 @@ class DefaultCompress
         if ($makePDF -eq $true)
         {
             # Create the PDF file as requested
-            if(([IOCommon]::CreatePDFFile("$($fileNameTXT)", "$($fileNamePDF)")) -eq $false)
+            if(([CommonIO]::CreatePDFFile("$($fileNameTXT)", "$($fileNamePDF)")) -eq $false)
             {
                 # Failure occurred while creating the PDF document.
 
@@ -3543,7 +3543,7 @@ class DefaultCompress
 
 
         # Because the directories exists - let's try to thrash the logs.
-        if(([IOCommon]::DeleteFile("$($this.__logPath)", $extLogs)) -eq $false)
+        if(([CommonIO]::DeleteFile("$($this.__logPath)", $extLogs)) -eq $false)
         {
             # Reached a failure upon removing the requested log files.
 
@@ -3578,7 +3578,7 @@ class DefaultCompress
 
         # Did the user also wanted to thrash the reports?
         if (($($expungeReports) -eq $true) -and `
-            ([IOCommon]::DeleteFile("$($this.__reportPath)", $extReports)) -eq $false)
+            ([CommonIO]::DeleteFile("$($this.__reportPath)", $extReports)) -eq $false)
         {
             # Reached a failure upon removing the requested log files.
 

@@ -209,10 +209,10 @@
 
 
         # Check if the directory already exists on the filesystem.
-        if ($([IOCommon]::CheckPathExists("$($newVal)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($newVal)", $true)) -eq $false)
         {
             # Because the directory does not exist, try to create it.
-            if (([IOCommon]::MakeDirectory("$($newVal)")) -eq $true)
+            if (([CommonIO]::MakeDirectory("$($newVal)")) -eq $true)
             {
                 # Directory was successfully created, we will now use that path as requested.
                 $this.__configPath = $newVal;
@@ -337,10 +337,10 @@
         #  check which directory does not exist and then try to create it.
 
         # User Configuration Directory
-        if(([IOCommon]::CheckPathExists("$($this.__configPath)", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists("$($this.__configPath)", $true)) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (([IOCommon]::MakeDirectory("$($this.__configPath)")) -eq $false)
+            if (([CommonIO]::MakeDirectory("$($this.__configPath)")) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -449,7 +449,7 @@
     Hidden [bool] __CheckRequiredDirectories()
     {
         # Check the User Configuration Directory
-        return ([IOCommon]::CheckPathExists("$($this.__configPath)", $true) -eq $true);
+        return ([CommonIO]::CheckPathExists("$($this.__configPath)", $true) -eq $true);
     } # __CheckRequiredDirectories()
 
     #endregion
@@ -653,7 +653,7 @@
 
 
         # Make sure that the file exists at the given location.
-        if ([IOCommon]::CheckPathExists("$($this.__configPath)\$($this.__configFileName)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists("$($this.__configPath)\$($this.__configFileName)", $true) -eq $false)
         {
             # Because either the file or the directory does not exist at the provided location, we simply can not load anything.
 

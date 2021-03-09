@@ -544,7 +544,7 @@ class SevenZip
     {
         # Because we are testing for an actual file, we must assure that
         #  the file really exists within the host's filesystem.
-        if(([IOCommon]::DetectCommand("$($newVal)", "Application")) -eq $false)
+        if(([CommonIO]::DetectCommand("$($newVal)", "Application")) -eq $false)
         {
             # Could not find the executable.
             return $false;
@@ -911,9 +911,9 @@ class SevenZip
     Hidden [bool] __CheckRequiredDirectories()
     {
         # Make sure the the following directories:
-        return (([IOCommon]::CheckPathExists("$($this.__rootLogPath)", $true) -eq $true) -and   ` # Check the Root Log Directory
-                ([IOCommon]::CheckPathExists("$($this.__reportPath)", $true) -eq $true) -and    ` # Check the Report Path Directory
-                ([IOCommon]::CheckPathExists("$($this.__logPath)", $true) -eq $true));            # Check the Log Path Directory
+        return (([CommonIO]::CheckPathExists("$($this.__rootLogPath)", $true) -eq $true) -and   ` # Check the Root Log Directory
+                ([CommonIO]::CheckPathExists("$($this.__reportPath)", $true) -eq $true) -and    ` # Check the Report Path Directory
+                ([CommonIO]::CheckPathExists("$($this.__logPath)", $true) -eq $true));            # Check the Log Path Directory
     } # __CheckRequiredDirectories()
 
 
@@ -985,10 +985,10 @@ class SevenZip
         #  check which directory does not exist and then try to create it.
 
         # Root Log Directory
-        if(([IOCommon]::CheckPathExists("$($this.__rootLogPath)", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists("$($this.__rootLogPath)", $true)) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (([IOCommon]::MakeDirectory("$($this.__rootLogPath)")) -eq $false)
+            if (([CommonIO]::MakeDirectory("$($this.__rootLogPath)")) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -1018,10 +1018,10 @@ class SevenZip
 
 
         # Log Directory
-        if(([IOCommon]::CheckPathExists("$($this.__logPath)", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists("$($this.__logPath)", $true)) -eq $false)
         {
             # Log Directory does not exist, try to create it.
-            if (([IOCommon]::MakeDirectory("$($this.__logPath)")) -eq $false)
+            if (([CommonIO]::MakeDirectory("$($this.__logPath)")) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -1051,10 +1051,10 @@ class SevenZip
 
 
         # Report Directory
-        if(([IOCommon]::CheckPathExists("$($this.__reportPath)", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists("$($this.__reportPath)", $true)) -eq $false)
         {
             # Report Directory does not exist, try to create it.
-            if (([IOCommon]::MakeDirectory("$($this.__reportPath)")) -eq $false)
+            if (([CommonIO]::MakeDirectory("$($this.__reportPath)")) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -1205,7 +1205,7 @@ class SevenZip
 
 
         # Check if the 7Zip executable was found.
-        if (([IOCommon]::DetectCommand("$($this.__executablePath)", "Application")) -eq $true)
+        if (([CommonIO]::DetectCommand("$($this.__executablePath)", "Application")) -eq $true)
         {
             # Successfully located the 7Zip executable.
 
@@ -1297,7 +1297,7 @@ class SevenZip
         foreach ($index in $path)
         {
             # Check the path to see if the 7Zip application was found with the given path.
-            if([IOCommon]::DetectCommand("$($index)", "Application") -eq $true)
+            if([CommonIO]::DetectCommand("$($index)", "Application") -eq $true)
             {
                 # Successfully found the executable
 
@@ -1479,7 +1479,7 @@ class SevenZip
 
 
         # Make sure that the archive data file exists within the provided path.
-        if ($([IOCommon]::CheckPathExists("$($file)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($file)", $true)) -eq $false)
         {
             # The requested file does not exist.  We cannot generate a hash value without the archive datafile.
 
@@ -1515,7 +1515,7 @@ class SevenZip
 
 
         # Execute the command to generate the desired hash information.
-        if ($([IOCommon]::ExecuteCommand("$($this.__executablePath)", `     # 7Zip Executable Path
+        if ($([CommonIO]::ExecuteCommand("$($this.__executablePath)", `     # 7Zip Executable Path
                                         "$($extCMDArgs)", `                 # Arguments to generate the hash from the archive data file.
                                         "$($sourceDir)", `                  # The working directory that 7Zip will start from.
                                         "$($this.__logPath)", `             # The Standard Output Directory path.
@@ -1827,7 +1827,7 @@ class SevenZip
 
 
         # Make sure that the archive data file exists within the provided path.
-        if ($([IOCommon]::CheckPathExists("$($file)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($file)", $true)) -eq $false)
         {
             # The archive data file does not exist with the provided path.
 
@@ -1862,7 +1862,7 @@ class SevenZip
 
 
         # Execute the command
-        if ($([IOCommon]::ExecuteCommand("$($this.__executablePath)", `     # 7Zip Executable Path
+        if ($([CommonIO]::ExecuteCommand("$($this.__executablePath)", `     # 7Zip Executable Path
                                         "$($extCMDArgs)", `                 # Arguments to generate the hash from the archive data file.
                                         "$($sourceDir)", `                  # The working directory that 7Zip will start from.
                                         "$($this.__logPath)", `             # The Standard Output Directory path.
@@ -1951,7 +1951,7 @@ class SevenZip
                 "BLAKE2sp:`r`n" + `
                 "  $($this.ArchiveHash("$($file)", "blake2sp"))`r`n`r`n" + `
                 "MD5:`r`n" + `
-                "   $([IOCommon]::FileHash("$($file)", "md5"))`r`n`r`n");
+                "   $([CommonIO]::FileHash("$($file)", "md5"))`r`n`r`n");
 
 
         # Return the file hash information.
@@ -2075,7 +2075,7 @@ class SevenZip
 
 
         # Make sure that the archive data file exists within the provided path.
-        if ($([IOCommon]::CheckPathExists("$($file)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($file)", $true)) -eq $false)
         {
             # The archive data file does not exist with the provided path.
 
@@ -2120,7 +2120,7 @@ class SevenZip
 
 
         # Execute the command
-        [IOCommon]::ExecuteCommand("$($this.__executablePath)", `   # 7Zip Executable Path
+        [CommonIO]::ExecuteCommand("$($this.__executablePath)", `   # 7Zip Executable Path
                                 "$($extCMDArgs)", `                 # Arguments to provide a list of all files within the archive file.
                                 "$($sourceDir)", `                  # The working directory that 7Zip will start from.
                                 "$($this.__logPath)", `             # The Standard Output Directory path.
@@ -2306,7 +2306,7 @@ class SevenZip
 
 
         # Make sure that the archive data file exists within the provided path.
-        if ($([IOCommon]::CheckPathExists("$($file)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($file)", $true)) -eq $false)
         {
             # The archive data file does not exist with the provided path.
 
@@ -2337,7 +2337,7 @@ class SevenZip
 
 
         # Make sure that the output path exists with the path provided.
-        if ($([IOCommon]::CheckPathExists("$($outputPath)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($outputPath)", $true)) -eq $false)
         {
             # The extract directory does not exist with the provided path.
 
@@ -2389,12 +2389,12 @@ class SevenZip
 
 
         # Does the extracting output directory already exist?
-        if ([IOCommon]::CheckPathExists("$($finalOutputPath)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists("$($finalOutputPath)", $true) -eq $false)
         {
             # Because the extracting directory has a unique name, it will be used as the final output path.
 
             # Create the new extracting directory
-            if([IOCommon]::MakeDirectory("$($finalOutputPath)") -eq $false)
+            if([CommonIO]::MakeDirectory("$($finalOutputPath)") -eq $false)
             {
                 # A failure occurred while trying to create the new extracting directory.  Because of this
                 #  failure, it is not possible to continue this operation.
@@ -2439,7 +2439,7 @@ class SevenZip
             $finalOutputPath = "$($finalOutputPath)_$($getDateTime)";
 
             # Now try to make the directory, if this fails - it is not possible to continue any further.
-            if([IOCommon]::MakeDirectory("$($finalOutputPath)") -eq $false)
+            if([CommonIO]::MakeDirectory("$($finalOutputPath)") -eq $false)
             {
                 # A failure occurred while trying to create the new extracting directory.  Because of this
                 #  failure, it is not possible to continue this operation.
@@ -2491,7 +2491,7 @@ class SevenZip
         $extCMDArgs = "$($extCMDArgs) -o`"$($finalOutputPath)`"";
 
         # Execute the command
-        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `       # 7Zip Executable Path
+        if ([CommonIO]::ExecuteCommand("$($this.__executablePath)", `       # 7Zip Executable Path
                                         "$($extCMDArgs)", `                 # Arguments to extract the desired archive data file.
                                         "$($sourceDir)", `                  # The working directory that 7Zip will start from.
                                         "$($this.__logPath)", `             # The Standard Output Directory Path.
@@ -2669,7 +2669,7 @@ class SevenZip
 
 
         # Make sure that the output directory exists within the provided path.
-        if ($([IOCommon]::CheckPathExists("$($outputPath)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($outputPath)", $true)) -eq $false)
         {
             # The output directory does not exist with the provided path.
 
@@ -2702,7 +2702,7 @@ class SevenZip
 
 
         # Make sure that the Target Directory, the data to be compacted, exists within the provided path.
-        if ($([IOCommon]::CheckPathExists("$($targetDirectory)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($targetDirectory)", $true)) -eq $false)
         {
             # The Target Directory does not exist within the provided path.
 
@@ -2832,7 +2832,7 @@ class SevenZip
 
 
         # Does the desired filename already exist within the output directory?
-        if ([IOCommon]::CheckPathExists("$($archiveFileNameFull)", $true) -eq $true)
+        if ([CommonIO]::CheckPathExists("$($archiveFileNameFull)", $true) -eq $true)
         {
             # Because there already exists a file with the same filename within the
             #  output directory, a timestamp will be attached to the filename.  This
@@ -2847,7 +2847,7 @@ class SevenZip
             # Recreate the filename with the timestamp attached to it.
             $archiveFileNameFull = "$($outputPath)\$($archiveFileName)_$($getDateTime).$($archiveFileExtension)";
 
-            if ([IOCommon]::CheckPathExists("$($archiveFileNameFull)", $true) -eq $true)
+            if ([CommonIO]::CheckPathExists("$($archiveFileNameFull)", $true) -eq $true)
             {
                 # Because there already exists a file already with the same filename
                 #  (including timestamp), it is not possible to move forward at this time.
@@ -3060,7 +3060,7 @@ class SevenZip
 
 
         # Execute the command
-        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `       # 7Zip Executable Path
+        if ([CommonIO]::ExecuteCommand("$($this.__executablePath)", `       # 7Zip Executable Path
                                         "$($extCMDArgs)", `                 # Arguments to generate the desired archive data file
                                         "$($sourceDir)", `                  # The working directory that the 7Zip will start from.
                                         "$($this.__logPath)", `             # The Standard Output Directory Path.
@@ -3305,7 +3305,7 @@ class SevenZip
 
 
         # Make sure that the target archive file exists.
-        if ($([IOCommon]::CheckPathExists("$($ArchiveFile)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($ArchiveFile)", $true)) -eq $false)
         {
             # The target archive data file does not exist; we cannot perform a report on something
             #  when that file simply does not exist with the given file path.
@@ -3373,7 +3373,7 @@ class SevenZip
 
 
                     # Write the message to the report file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3430,7 +3430,7 @@ class SevenZip
 
 
                     # Write the message to the report file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3496,7 +3496,7 @@ class SevenZip
 
 
                     # Write the message to the report file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3564,7 +3564,7 @@ class SevenZip
 
 
                     # Write the message to the report file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3627,7 +3627,7 @@ class SevenZip
 
 
                     # Write the message to the report file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3684,7 +3684,7 @@ class SevenZip
 
 
                     # Write the message to the report file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3771,7 +3771,7 @@ class SevenZip
         if ($makePDF -eq $true)
         {
             # Create the PDF file as requested
-            if(([IOCommon]::CreatePDFFile("$($fileNameTXT)", "$($fileNamePDF)")) -eq $false)
+            if(([CommonIO]::CreatePDFFile("$($fileNameTXT)", "$($fileNamePDF)")) -eq $false)
             {
                 # Failure occurred while creating the PDF document.
 
@@ -3919,7 +3919,7 @@ class SevenZip
 
 
         # Because the directories exists let's try to thrash the logs.
-        if(([IOCommon]::DeleteFile("$($this.__logPath)", $extLogs)) -eq $false)
+        if(([CommonIO]::DeleteFile("$($this.__logPath)", $extLogs)) -eq $false)
         {
             # Reached a failure upon removing the requested log files.
 
@@ -3954,7 +3954,7 @@ class SevenZip
 
         # Did the user also wanted to thrash the reports?
         if (($($expungeReports) -eq $true) -and `
-            ([IOCommon]::DeleteFile("$($this.__reportPath)", $extReports)) -eq $false)
+            ([CommonIO]::DeleteFile("$($this.__reportPath)", $extReports)) -eq $false)
         {
             # Reached a failure upon removing the requested log files.
 

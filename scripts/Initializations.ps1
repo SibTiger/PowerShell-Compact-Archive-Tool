@@ -124,7 +124,7 @@ function InitializationProgramData()
     #  'true', the user's logging preference will be ignored (regardless true or false)
     #  and will disallow events to be logged.
     # NOTE: This functionality is mainly utilized with the WriteToFile() function in the
-    #  IOCommon object.
+    #  CommonIO object.
     Set-Variable -Name "_LOGGINGLOCKKEY_" -Value $false `
         -Scope Global -ErrorAction SilentlyContinue;
 } # InitializationProgramData()
@@ -235,7 +235,7 @@ function InitializationDirectory()
  function InitializationEnvironment()
  {
      # PowerShell's Window Title
-     Set-Variable -Name "_ENVIRONMENT_WINDOW_TITLE_ORIGINAL_" -Value "$([IOCommon]::GetTerminalWindowTitle())" `
+     Set-Variable -Name "_ENVIRONMENT_WINDOW_TITLE_ORIGINAL_" -Value "$([CommonIO]::GetTerminalWindowTitle())" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
  } # InitializationEnvironment()
 

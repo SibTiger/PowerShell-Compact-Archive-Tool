@@ -34,11 +34,11 @@ function main()
 
 
     # Clear the host's terminal buffer
-    [IOCommon]::ClearBuffer();
+    [CommonIO]::ClearBuffer();
 
 
     # Provide a new Window Title
-    [IOCommon]::SetTerminalWindowTitle("$($Global:_PROGRAMNAME_) (Version $($Global:_VERSION_)) for $([ProjectInformation]::projectName) - $([ProjectInformation]::codeName)");
+    [CommonIO]::SetTerminalWindowTitle("$($Global:_PROGRAMNAME_) (Version $($Global:_VERSION_)) for $([ProjectInformation]::projectName) - $([ProjectInformation]::codeName)");
 
 
     # Execute the Main Menu; from here - the program will be entirely driven by User Interactions.
@@ -46,7 +46,7 @@ function main()
 
 
     # Restore the Window Title back to it's state.
-    [IOCommon]::SetTerminalWindowTitle("$($Global:_ENVIRONMENT_WINDOW_TITLE_ORIGINAL_)");
+    [CommonIO]::SetTerminalWindowTitle("$($Global:_ENVIRONMENT_WINDOW_TITLE_ORIGINAL_)");
 
 
     # Close the program

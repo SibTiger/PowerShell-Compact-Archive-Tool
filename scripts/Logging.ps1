@@ -192,7 +192,7 @@ class Logging
 
 
         # Check the Program Log Directory
-        if (([IOCommon]::CheckPathExists("$([Logging]::ProgramLogPath)", $true)) -eq $true)
+        if (([CommonIO]::CheckPathExists("$([Logging]::ProgramLogPath)", $true)) -eq $true)
         {
             # All of the required directories are present within the filesystem
             $exitCode = $true;
@@ -295,10 +295,10 @@ class Logging
         #  within the program.
 
         # Program Log Directory
-        if(([IOCommon]::CheckPathExists("$([Logging]::ProgramLogPath)", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists("$([Logging]::ProgramLogPath)", $true)) -eq $false)
         {
             # Program's Log Directory does not exist, try to create it.
-            if (([IOCommon]::MakeDirectory("$([Logging]::ProgramLogPath)")) -eq $false)
+            if (([CommonIO]::MakeDirectory("$([Logging]::ProgramLogPath)")) -eq $false)
             {
                 # If this function is controlling the Logging Lock Key, unlock it now - before leaving.
                 if($controlLockKey)
@@ -423,7 +423,7 @@ class Logging
 
 
         # Write the readable data to the logfile.
-        elseif (([IOCommon]::WriteToFile("$([Logging]::GetLogFilePath())", "$($message)")) -eq $false)
+        elseif (([CommonIO]::WriteToFile("$([Logging]::GetLogFilePath())", "$($message)")) -eq $false)
         {
             # The message could not be written to the logfile.  Provide an exit code of false to signify failure.
             $exitCode = $false;
@@ -822,7 +822,7 @@ class Logging
 
 
         # Because the logging directory exist, lets try to thrash the log files.
-        elseif (([IOCommon]::DeleteFile("$([Logging]::ProgramLogPath)", $extLogs)) -eq $false)
+        elseif (([CommonIO]::DeleteFile("$([Logging]::ProgramLogPath)", $extLogs)) -eq $false)
         {
             # Failure to remove the requested files
             $exitCode = $false;
@@ -873,7 +873,7 @@ class Logging
                                 [LogMessageLevel] $msgLevel)        # Message's severity level
     {
         # Display the message to the end-user's screen.
-        [IOCommon]::WriteToBuffer("$($msg)", "$($msgLevel)", $false);
+        [CommonIO]::WriteToBuffer("$($msg)", "$($msgLevel)", $false);
 
 
         # Is the Debugging Functionality active?
@@ -933,7 +933,7 @@ class Logging
 
 
         # Fetch user input, normally.
-        $userInput = [IOCommon]::FetchUserInput();
+        $userInput = [CommonIO]::FetchUserInput();
 
         # Provide the user's input into the logfile and record it.
         [Logging]::__FormatLogMessage(7, ">>>>> $($userInput)", "$($null)") | Out-Null;
@@ -955,7 +955,7 @@ class Logging
     static [void] GetUserEnterKey()
     {
         # Use the Fetch Enter Key as before; no changes.
-        [IOCommon]::FetchEnterKey();
+        [CommonIO]::FetchEnterKey();
 
         # Provide the Fetch Enter Key activity and record it into the logfile.
         [Logging]::__FormatLogMessage(7, "Press the Enter Key to continue. . .`r`n<<<ENTER KEY PROVIDED>>>", "$($null)") | Out-Null;
@@ -1026,7 +1026,7 @@ class Logging
         if ([Logging]::DebugLoggingState())
         {
             # Logging is available presently, write the file as requested.
-            [IOCommon]::WriteToFile("$($filePath)", "$($msg.Value.ToString())") | Out-Null;
+            [CommonIO]::WriteToFile("$($filePath)", "$($msg.Value.ToString())") | Out-Null;
         } # If : Logging is enabled & available
     } # WriteToLogFile()
 

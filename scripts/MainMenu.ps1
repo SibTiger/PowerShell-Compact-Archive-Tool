@@ -49,7 +49,7 @@ class MainMenu
         {
             # Clear the terminal of all previous text; keep the space clean so that
             #  it is easy for the user to read and follow along.
-            [IOCommon]::ClearBuffer();
+            [CommonIO]::ClearBuffer();
 
             # Draw Program Information Header
             [CommonCUI]::DrawProgramTitleHeader();

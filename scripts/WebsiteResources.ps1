@@ -89,7 +89,7 @@
             if ([WebsiteResources]::CheckSiteAvailability("$($siteURL)") -eq $true)
             {
                 # Access the desired webpage
-                [IOCommon]::AccessWebpage("$($siteURL)");
+                [CommonIO]::AccessWebpage("$($siteURL)");
 
                 # Because the operation was successful, update the Status Signal as appropriate.
                 $statusSignal = $true;

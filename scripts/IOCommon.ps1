@@ -20,7 +20,7 @@
 
 
 
-class IOCommon
+class CommonIO
 {
     # Member Functions :: Methods
     # =================================================
@@ -50,7 +50,7 @@ class IOCommon
     {
         # Because I love Python's input prompt, we will emulate it here.
         #  I find this to be easier on the user to unify an action from the end-user.
-        [IOCommon]::WriteToBuffer(">>>>> ", "Standard", $true);
+        [CommonIO]::WriteToBuffer(">>>>> ", "Standard", $true);
 
         # Get input from the user.
         [string] $stdInput = (Get-Host).UI.ReadLine();
@@ -74,7 +74,7 @@ class IOCommon
     {
         # The user will press the 'Enter' key in order to continue onwards with the algorithm
         #  or program in general.
-        [IOCommon]::WriteToBuffer("Press the Enter Key to continue. . .", "Standard", $true);
+        [CommonIO]::WriteToBuffer("Press the Enter Key to continue. . .", "Standard", $true);
 
         # Wait for the user to provide the 'Enter' key character.
         (Get-Host).UI.ReadLine();
@@ -497,7 +497,7 @@ class IOCommon
         # ---------------------------
 
         # Make sure that the executable exists before trying to use it.
-        if ($([IOCommon]::DetectCommand("$($command)", "Application")) -eq $false)
+        if ($([CommonIO]::DetectCommand("$($command)", "Application")) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -526,7 +526,7 @@ class IOCommon
 
 
         # Make sure that the Project path exists
-        if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -556,7 +556,7 @@ class IOCommon
 
 
         # Make sure that the Standard Output Path exists
-        if ($([IOCommon]::CheckPathExists("$($stdOutLogPath)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($stdOutLogPath)", $true)) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -586,7 +586,7 @@ class IOCommon
 
 
         # Make sure that the Standard Error path exists
-        if ($([IOCommon]::CheckPathExists("$($stdErrLogPath)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($stdErrLogPath)", $true)) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -620,7 +620,7 @@ class IOCommon
         if (("$($description)" -eq "") -or ("$($description)" -eq $null))
         {
             # Generate a new description using what information we have presently.
-            [string] $description = [IOCommon]::__ExecuteCommandCreateDescription("$($command)", "$($arguments)");
+            [string] $description = [CommonIO]::__ExecuteCommandCreateDescription("$($command)", "$($arguments)");
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -655,7 +655,7 @@ class IOCommon
         #  NOTE: This function will return the following if something goes horribly wrong:
         #        -255 = Failure to execute the extCMD or Command (May not exist or general error)
         #        -254 = Could not find the extCMD or Command
-        $externalCommandReturnCode = [IOCommon]::__ExecuteCommandRun($command, `                # Executable to run
+        $externalCommandReturnCode = [CommonIO]::__ExecuteCommandRun($command, `                # Executable to run
                                                                     $arguments, `               # Parameters for the executable
                                                                     $projectPath, `             # Project path (Working Directory)
                                                                     [ref] $containerStdOut, `   # Var. holds standard output
@@ -663,7 +663,7 @@ class IOCommon
 
 
         # Create the necessary logfiles or capture a specific input
-        [IOCommon]::__ExecuteCommandLog($stdOutLogPath, `           # Path for the Standard Output
+        [CommonIO]::__ExecuteCommandLog($stdOutLogPath, `           # Path for the Standard Output
                                         $stdErrLogPath, `           # Path for the Standard Error
                                         $reportPath, `              # Path for the report (isReport)
                                         $isReport, `                # Output should be in the report file
@@ -889,7 +889,7 @@ class IOCommon
             ElseIf ($isReport -eq $true)
             {
                 # Write the data to the report file.
-                [IOCommon]::WriteToFile("$($reportPath)", "$($outputResultOut.Value)") | Out-Null;
+                [CommonIO]::WriteToFile("$($reportPath)", "$($outputResultOut.Value)") | Out-Null;
             } # If : Generating a Report
 
 
@@ -1032,7 +1032,7 @@ class IOCommon
 
 
         # Check to see if the external command exists, if not - leave this function immediately.
-        if(([IOCommon]::DetectCommand("$($command)", "Application")) -eq $false)
+        if(([CommonIO]::DetectCommand("$($command)", "Application")) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -1258,7 +1258,7 @@ class IOCommon
         #  because the functionality already exists and works as
         #  intended.  Instead of simply just copying and pasting
         #  the same code, we will merely use the same function.
-        [IOCommon]::__ExecuteCommandLog($stdOutLogPath, `       # Path for the Standard Output
+        [CommonIO]::__ExecuteCommandLog($stdOutLogPath, `       # Path for the Standard Output
                                         $stdErrLogPath, `       # Path for the Standard Error
                                         $reportPath, `          # Path for the report (isReport)
                                         $isReport, `            # Output should be in the report file
@@ -1377,7 +1377,7 @@ class IOCommon
         Finally
         {
             # Assurance Fail-Safe; make sure that the file was successfully created on the filesystem.
-            if ([IOCommon]::CheckPathExists("$($file)", $true) -eq $false)
+            if ([CommonIO]::CheckPathExists("$($file)", $true) -eq $false)
             {
                 # Operation failed because the file could not be found.  This is certainly odd?
 
@@ -1488,7 +1488,7 @@ class IOCommon
         # ---------------------------
 
         # Check to make sure that the source file exists.
-        if ([IOCommon]::CheckPathExists("$($sourceFile)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists("$($sourceFile)", $true) -eq $false)
         {
             # The target file does not exist.
 
@@ -1729,7 +1729,7 @@ class IOCommon
 
 
         # Check to make sure that the PDF file was saved properly.
-        if ([IOCommon]::CheckPathExists("$($destinationFile)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists("$($destinationFile)", $true) -eq $false)
         {
             # The PDF was not found.
 
@@ -1943,10 +1943,10 @@ class IOCommon
 
 
         # First, does the parent of the temporary directory already exist?
-        if ($([IOCommon]::CheckPathExists("$($tempDirectoryPath)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($tempDirectoryPath)", $true)) -eq $false)
         {
             # Because the temporary directory does not exist, try to create it.
-            if ($([IOCommon]::MakeDirectory("$($tempDirectoryPath)")) -eq $false)
+            if ($([CommonIO]::MakeDirectory("$($tempDirectoryPath)")) -eq $false)
             {
                 # Failed to create the parent temporary directory.
 
@@ -1987,7 +1987,7 @@ class IOCommon
             } # inner-if : Create Directory Failed
 
             # Make sure that the parent temporary directory exists (after creating it)
-            elseif ($([IOCommon]::CheckPathExists("$($tempDirectoryPath)", $true)) -eq $false)
+            elseif ($([CommonIO]::CheckPathExists("$($tempDirectoryPath)", $true)) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -2063,7 +2063,7 @@ class IOCommon
 
         # First, we should check if the directory already exists.
         #  If the directory already exists, try to make it unique.
-        if ($([IOCommon]::CheckPathExists("$($finalDirectoryPath)", $true)) -eq $true)
+        if ($([CommonIO]::CheckPathExists("$($finalDirectoryPath)", $true)) -eq $true)
         {
             # Because the directory already exists, we need to make
             #  it unique to avoid data conflicts.
@@ -2076,7 +2076,7 @@ class IOCommon
             # Find a unique name
             while($status)
             {
-                if($([IOCommon]::CheckPathExists("$($finalDirectoryPath).$($repetitionCount)", $true)) -eq $false)
+                if($([CommonIO]::CheckPathExists("$($finalDirectoryPath).$($repetitionCount)", $true)) -eq $false)
                 {
                     # We found a unique name, now record it
                     $finalDirectoryPath = "$($finalDirectoryPath).$($repetitionCount)";
@@ -2132,7 +2132,7 @@ class IOCommon
 
 
         # Now that we have the name of the temporary sub-directory, create it
-        if ($([IOCommon]::MakeDirectory("$($finalDirectoryPath)")) -eq $false)
+        if ($([CommonIO]::MakeDirectory("$($finalDirectoryPath)")) -eq $false)
         {
             # Failed to create the temporary directory.
 
@@ -2198,7 +2198,7 @@ class IOCommon
 
 
         # Just for assurance sakes, does the directory exist?
-        if ($([IOCommon]::CheckPathExists("$($finalDirectoryPath)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($finalDirectoryPath)", $true)) -eq $false)
         {
             # The temporary directory was created, but we can't find it?
 
@@ -2287,7 +2287,7 @@ class IOCommon
         # Check to see if the path already exists, if it already exists -
         #  then there is nothing to be done.  If it does not exist, however,
         #  then try to create the requested directory.
-        if (([IOCommon]::CheckPathExists("$($path)", $true)) -eq $false)
+        if (([CommonIO]::CheckPathExists("$($path)", $true)) -eq $false)
         {
             # The requested path does not exist, try to create it.
             try
@@ -2522,7 +2522,7 @@ class IOCommon
 
 
         # First check to see if the directory exists.  If not, then there is nothing to do.
-        if(([IOCommon]::CheckPathExists("$($path)", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists("$($path)", $true)) -eq $false)
         {
             # The directory does not exist; no operation can be performed.
 
@@ -2686,7 +2686,7 @@ class IOCommon
 
         # First check to see if the directory exists,
         #  if not, then there is nothing to do.
-        if(([IOCommon]::CheckPathExists("$($path)", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists("$($path)", $true)) -eq $false)
         {
             # The directory does not exist; no operations can be performed.
 
@@ -2881,7 +2881,7 @@ class IOCommon
 
 
         # First make sure that the file or directory exists
-        if ([IOCommon]::CheckPathExists("$($path)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists("$($path)", $true) -eq $false)
         {
             # The directory or file does not exist; no operations can be performed.
 
@@ -3047,7 +3047,7 @@ class IOCommon
 
 
         # First make sure that the target directory exists with the given path.
-        if ([IOCommon]::CheckPathExists("$($targetDirectory)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists("$($targetDirectory)", $true) -eq $false)
         {
             # The target directory does not exist; no operations can be performed.
 
@@ -3079,7 +3079,7 @@ class IOCommon
 
 
         # Second make sure that the destination path is valid.
-        if ([IOCommon]::CheckPathExists("$($destinationPath)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists("$($destinationPath)", $true) -eq $false)
         {
             # The destination path does not exist; no operations can be performed.
 
@@ -3226,7 +3226,7 @@ class IOCommon
 
 
         # First make sure that the target directory exists with the given path.
-        if ([IOCommon]::CheckPathExists("$($targetDirectory)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists("$($targetDirectory)", $true) -eq $false)
         {
             # The target directory does not exist; no operations can be performed.
 
@@ -3269,7 +3269,7 @@ class IOCommon
 
 
         # Second make sure that the destination path is valid.
-        if ([IOCommon]::CheckPathExists("$($destinationPath)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists("$($destinationPath)", $true) -eq $false)
         {
             # The destination path does not exist; no operations can be performed.
 
@@ -3467,7 +3467,7 @@ class IOCommon
 
 
         # First make sure that the target directory exists with the given path.
-        if ([IOCommon]::CheckPathExists("$($targetDirectory)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists("$($targetDirectory)", $true) -eq $false)
         {
             # The target directory does not exist; no operations can be performed.
 
@@ -3498,11 +3498,11 @@ class IOCommon
 
 
         # Second make sure that the destination path is valid.
-        if ([IOCommon]::CheckPathExists("$($destinationPath)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists("$($destinationPath)", $true) -eq $false)
         {
             # Because the destination path does not exist, let's try to create it.
 
-            if ([IOCommon]::MakeDirectory("$($destinationPath)") -eq $false)
+            if ([CommonIO]::MakeDirectory("$($destinationPath)") -eq $false)
             {
                 # The destination path does not exist; no operations can be performed.
 
@@ -3670,7 +3670,7 @@ class IOCommon
 
 
         # First make sure that the target directory exists with the given path.
-        if ([IOCommon]::CheckPathExists("$($targetDirectory)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists("$($targetDirectory)", $true) -eq $false)
         {
             # The target directory does not exist; no operations can be performed.
 
@@ -3713,7 +3713,7 @@ class IOCommon
 
 
         # Second make sure that the destination path is valid.
-        if ([IOCommon]::CheckPathExists("$($destinationPath)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists("$($destinationPath)", $true) -eq $false)
         {
             # The destination path does not exist; no operations can be performed.
 
@@ -3928,7 +3928,7 @@ class IOCommon
 
 
         # Then make sure that the target item or path exists
-        if ([IOCommon]::CheckPathExists("$($targetItem)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists("$($targetItem)", $true) -eq $false)
         {
             # The target item does not exist; no operations can be performed.
 
@@ -4084,7 +4084,7 @@ class IOCommon
 
         # Make sure that the directory we want to inspect presently exist with the
         #  given path.
-        if ([IOCommon]::CheckPathExists("$($searchPath)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists("$($searchPath)", $true) -eq $false)
         {
             # The parent directory does not exist; no operations can be performed.
 
@@ -4232,7 +4232,7 @@ class IOCommon
 
 
         # Check if the source file actually exists within the user's filesystem
-        if ([IOCommon]::CheckPathExists("$($path)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists("$($path)", $true) -eq $false)
         {
             # The source file was not found.
 
@@ -4508,7 +4508,7 @@ class IOCommon
     } # AccessWebpage()
 
     #endregion
-} # IOCommon
+} # CommonIO
 
 
 

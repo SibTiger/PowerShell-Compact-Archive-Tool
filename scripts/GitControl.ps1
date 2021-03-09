@@ -479,7 +479,7 @@ class GitControl
         # Because we are testing for an actual file,
         #  we have to assure that the file really exists
         #  within the host's filesystem.
-        if(([IOCommon]::DetectCommand("$($newVal)", "Application")) -eq $false)
+        if(([CommonIO]::DetectCommand("$($newVal)", "Application")) -eq $false)
         {
             # Could not find the executable.
             return $false;
@@ -789,9 +789,9 @@ class GitControl
     #>
     Hidden [bool] __CheckRequiredDirectories()
     {
-        return (([IOCommon]::CheckPathExists("$($this.__rootLogPath)", $true) -eq $true) -and   ` # Check the Root Log Directory
-                ([IOCommon]::CheckPathExists("$($this.__reportPath)", $true) -eq $true) -and    ` # Check the Report Path Directory
-                ([IOCommon]::CheckPathExists("$($this.__logPath)", $true) -eq $true));            # Check the Log Path Directory
+        return (([CommonIO]::CheckPathExists("$($this.__rootLogPath)", $true) -eq $true) -and   ` # Check the Root Log Directory
+                ([CommonIO]::CheckPathExists("$($this.__reportPath)", $true) -eq $true) -and    ` # Check the Report Path Directory
+                ([CommonIO]::CheckPathExists("$($this.__logPath)", $true) -eq $true));            # Check the Log Path Directory
     } # __CheckRequiredDirectories()
 
 
@@ -863,10 +863,10 @@ class GitControl
         #  check which directory does not exist and then try to create it.
 
         # Root Log Directory
-        if(([IOCommon]::CheckPathExists("$($this.__rootLogPath)", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists("$($this.__rootLogPath)", $true)) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (([IOCommon]::MakeDirectory("$($this.__rootLogPath)")) -eq $false)
+            if (([CommonIO]::MakeDirectory("$($this.__rootLogPath)")) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -896,10 +896,10 @@ class GitControl
 
 
         # Log Directory
-        if(([IOCommon]::CheckPathExists("$($this.__logPath)", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists("$($this.__logPath)", $true)) -eq $false)
         {
             # Log Directory does not exist, try to create it.
-            if (([IOCommon]::MakeDirectory("$($this.__logPath)")) -eq $false)
+            if (([CommonIO]::MakeDirectory("$($this.__logPath)")) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -929,10 +929,10 @@ class GitControl
 
 
         # Report Directory
-        if(([IOCommon]::CheckPathExists("$($this.__reportPath)", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists("$($this.__reportPath)", $true)) -eq $false)
         {
             # Report Directory does not exist, try to create it.
-            if (([IOCommon]::MakeDirectory("$($this.__reportPath)")) -eq $false)
+            if (([CommonIO]::MakeDirectory("$($this.__reportPath)")) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -1084,7 +1084,7 @@ class GitControl
 
 
         # Check if the Git executable was found.
-        if (([IOCommon]::DetectCommand("$($this.__executablePath)", "Application")) -eq $true)
+        if (([CommonIO]::DetectCommand("$($this.__executablePath)", "Application")) -eq $true)
         {
             # Successfully located the Git executable.
 
@@ -1226,7 +1226,7 @@ class GitControl
 
 
         # First, lets try to test the system's %PATH%
-        if ([IOCommon]::DetectCommand("git.exe", "Application") -eq $true)
+        if ([CommonIO]::DetectCommand("git.exe", "Application") -eq $true)
         {
             # Successfully located Git within the host system's %PATH%.  Because the executable was found, we can stop this search.
 
@@ -1258,7 +1258,7 @@ class GitControl
         foreach ($index in $listDirectoryPath)
         {
             # Grab all of the results possible from this array's index.
-            $searchResult = [IOCommon]::SearchFile("$($index)", "git.exe")
+            $searchResult = [CommonIO]::SearchFile("$($index)", "git.exe")
 
             # Determine if there were any valid results from the search.
             if ($null -ne $searchResult)
@@ -1424,7 +1424,7 @@ class GitControl
 
 
         # Make sure that the Project Directory exists within the provided path.
-        if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # The project directory does not exist with the provided path, unable to proceed forward.
 
@@ -1491,7 +1491,7 @@ class GitControl
 
 
         # Execute the command
-        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `       # Git Executable Path
+        if ([CommonIO]::ExecuteCommand("$($this.__executablePath)", `       # Git Executable Path
                                         "$($extCMDArgs)", `                 # Arguments to update the local repo.
                                         "$($projectPath)", `                # The working directory that Git will start from.
                                         "$($this.__logPath)", `             # The Standard Output Directory Path.
@@ -1646,7 +1646,7 @@ class GitControl
 
 
         # Make sure that the Project Directory exists within the provided path.
-        if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # The project directory does not exist with the provided path, unable to proceed forward.
 
@@ -1681,7 +1681,7 @@ class GitControl
 
 
         # Execute the command
-        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `       # Git Executable Path
+        if ([CommonIO]::ExecuteCommand("$($this.__executablePath)", `       # Git Executable Path
                                         "$($extCMDArgs)", `                 # Arguments to switch the local repo's branch
                                         "$($projectPath)", `                # The working directory that Git will start from.
                                         "$($this.__logPath)", `             # The Standard Output Directory Path.
@@ -1840,7 +1840,7 @@ class GitControl
 
 
         # Make sure that the Project Directory exists within the provided path.
-        if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # The project directory does not exist with the provided path, unable to proceed forward.
 
@@ -1887,7 +1887,7 @@ class GitControl
 
 
         # Execute the command
-        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `       # Git Executable Path
+        if ([CommonIO]::ExecuteCommand("$($this.__executablePath)", `       # Git Executable Path
                                         "$($extCMDArgs)", `                 # Arguments to retrieve the Commit ID from Local Repo.
                                         "$($projectPath)", `                # The working directory that Git will start from.
                                         "$($this.__logPath)", `             # The Standard Output Directory Path.
@@ -2050,7 +2050,7 @@ class GitControl
 
 
         # Make sure that the Project Directory exists within the provided path.
-        if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # The project directory does not exist with the provided path, unable to proceed forward.
 
@@ -2188,7 +2188,7 @@ class GitControl
 
 
         # Execute the command
-        if([IOCommon]::ExecuteCommand("$($this.__executablePath)", `        # Git Executable Path
+        if([CommonIO]::ExecuteCommand("$($this.__executablePath)", `        # Git Executable Path
                                         "$($extCMDArgs)", `                 # Arguments to retrieve the Changelog\Commit History.
                                         "$($projectPath)", `                # The working directory that Git will start from.
                                         "$($this.__logPath)", `             # The Standard Output Directory Path.
@@ -2338,7 +2338,7 @@ class GitControl
 
 
         # Make sure that the Project Directory exists within the provided path.
-        if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # The project directory does not exist with the provided path, unable to proceed forward.
 
@@ -2372,7 +2372,7 @@ class GitControl
 
 
         # Execute the command
-        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `   # Git Executable Path
+        if ([CommonIO]::ExecuteCommand("$($this.__executablePath)", `   # Git Executable Path
                                     "$($extCMDArgs)", `                 # Arguments to retrieve the Active Branch
                                     "$($projectPath)", `                # The working directory that Git will start from.
                                     "$($this.__logPath)", `             # The Standard Output Directory Path.
@@ -2522,7 +2522,7 @@ class GitControl
 
 
         # Make sure that the Project Directory exists within the provided path.
-        if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # The project directory does not exist with the provided path, unable to proceed forward.
 
@@ -2556,7 +2556,7 @@ class GitControl
 
 
         # Execute the command
-        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `   # Git Executable Path
+        if ([CommonIO]::ExecuteCommand("$($this.__executablePath)", `   # Git Executable Path
                                     "$($extCMDArgs)", `                 # Arguments to retrieve all of the available branches within the local repo.
                                     "$($projectPath)", `                # The working directory that Git will start from.
                                     "$($this.__logPath)", `             # The Standard Output Directory Path.
@@ -2717,7 +2717,7 @@ class GitControl
 
 
         # Make sure that the Project Directory exists within the provided path.
-        if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # The project directory does not exist with the provided path, unable to proceed forward.
 
@@ -2768,7 +2768,7 @@ class GitControl
 
 
         # Execute the command
-        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `   # Git Executable Path
+        if ([CommonIO]::ExecuteCommand("$($this.__executablePath)", `   # Git Executable Path
                                         "$($extCMDArgs)", `             # Arguments to retrieve the Last-Known Activity of all branches from the Remote Repo.
                                         "$($projectPath)", `            # The working directory that Git will start from.
                                         "$($this.__logPath)", `         # The Standard Output Directory Path.
@@ -2924,7 +2924,7 @@ class GitControl
 
 
         # Make sure that the Project Directory exists within the provided path.
-        if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # The project directory does not exist with the provided path, unable to proceed forward.
 
@@ -2958,7 +2958,7 @@ class GitControl
 
 
         # Execute the command
-        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `   # Git Executable Path
+        if ([CommonIO]::ExecuteCommand("$($this.__executablePath)", `   # Git Executable Path
                                         "$($extCMDArgs)", `             # Arguments to retrieve a list of contributors that had been involved with the developments.
                                         "$($projectPath)", `            # The working directory that Git will start from.
                                         "$($this.__logPath)", `         # The Standard Output Directory Path.
@@ -3113,7 +3113,7 @@ class GitControl
 
 
         # Make sure that the Project Directory exists within the provided path.
-        if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # The project directory does not exist with the provided path, unable to proceed forward.
 
@@ -3165,7 +3165,7 @@ class GitControl
 
 
         # Execute the command
-        if ([IOCommon]::ExecuteCommand("$($this.__executablePath)", `   # Git Executable Path
+        if ([CommonIO]::ExecuteCommand("$($this.__executablePath)", `   # Git Executable Path
                                         "$($extCMDArgs)", `             # Arguments to retrieve the History Line Graph with the appropriate formatting.
                                         "$($projectPath)", `            # The working directory that Git will start from.
                                         "$($this.__logPath)", `         # The Standard Output Directory Path.
@@ -3400,7 +3400,7 @@ class GitControl
 
 
         # Make sure that the local repository exists.
-        if ($([IOCommon]::CheckPathExists("$($projectPath)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($projectPath)", $true)) -eq $false)
         {
             # The local repository does not exist with the provided path given.  It is not possible to create a report.
 
@@ -3470,7 +3470,7 @@ class GitControl
 
 
                     # Write the message to the report file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3526,7 +3526,7 @@ class GitControl
 
 
                     # Write the message to the report file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3591,7 +3591,7 @@ class GitControl
 
 
                     # Write the message to the report file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3646,7 +3646,7 @@ class GitControl
 
 
                     # Write the message to the report file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3701,7 +3701,7 @@ class GitControl
 
 
                     # Write the message to the report file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3756,7 +3756,7 @@ class GitControl
 
 
                     # Write the message to the report file
-                    if ([IOCommon]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3841,7 +3841,7 @@ class GitControl
         if ($makePDF -eq $true)
         {
             # Create the PDF file as requested
-            if(([IOCommon]::CreatePDFFile("$($fileNameTXT)", "$($fileNamePDF)")) -eq $false)
+            if(([CommonIO]::CreatePDFFile("$($fileNameTXT)", "$($fileNamePDF)")) -eq $false)
             {
                 # Failure occurred while creating the PDF document.
 
@@ -3985,7 +3985,7 @@ class GitControl
 
 
         # Because the directories exist, let's try to thrash the logs.
-        if(([IOCommon]::DeleteFile("$($this.__logPath)", $extLogs)) -eq $false)
+        if(([CommonIO]::DeleteFile("$($this.__logPath)", $extLogs)) -eq $false)
         {
             # Reached a failure upon removing the requested log files.
 
@@ -4020,7 +4020,7 @@ class GitControl
 
         # Did the user also wanted to thrash the reports?
         if (($($expungeReports) -eq $true) -and `
-            ([IOCommon]::DeleteFile("$($this.__reportPath)", $extReports)) -eq $false)
+            ([CommonIO]::DeleteFile("$($this.__reportPath)", $extReports)) -eq $false)
         {
             # Reached a failure upon removing the requested log files.
 
