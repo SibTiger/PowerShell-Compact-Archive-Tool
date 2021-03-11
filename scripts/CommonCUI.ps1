@@ -119,7 +119,7 @@ class CommonCUI
 
 
         # Generate the border to fit the size of the section title.
-        for ([int] $i = 0; $i -lt $sectionTitleCharacters; $i++)
+        for ([int] $i = 0; $i -lt ($sectionTitleCharacters * 2); $i++)
         {
             $borderGenerated = "$($borderGenerated)$($border) ";
         }
