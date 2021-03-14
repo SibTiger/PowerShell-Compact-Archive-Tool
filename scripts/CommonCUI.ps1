@@ -128,6 +128,11 @@ class CommonCUI
 
 
         # Determine the size needed to render the border for the sectional title
+        #  The algorithm works like this:
+        #   5 + (Section Title / 2) + 5
+        #  Thus, five border characters before the title, title length is divided by half,
+        #          then after the title is five more border characters.
+        #   I think this provides an even border for the majority of title sizes.
         $sectionTitleBorderLength = ($sectionTitleBorderPadding + ($sectionTitleCharacters  / 2));
 
 
