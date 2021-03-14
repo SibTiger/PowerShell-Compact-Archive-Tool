@@ -617,4 +617,5 @@ enum UserPreferencesEventAlarm
     Success = 1;        # Only successful operations will sound an alarm.
     Errors = 2;         # Only errors will sound an alarm.
     Warnings = 3;       # Only warnings will sound an alarm.
+    Disable = 4;        # Do not provide any sounds regardless of any events.
 } # UserPreferencesEventAlarm
