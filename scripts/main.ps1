@@ -125,7 +125,6 @@ CreateDirectories;
 [GitControl] $gitControl = [GitControl]::GetInstance("git.exe", `               # Executable path to Git
                                                     $true, `                    # Update Project Files
                                                     [GitCommitLength]::short, ` # Commit ID Length
-                                                    $true, `                    # Fetch Commit ID
                                                     $true, `                    # Fetch History Commit Changelog
                                                     50, `                       # History Commit Changelog Range
                                                     $false);                    # Create a report
