@@ -170,7 +170,7 @@ class UserPreferences
         $this.__ringMyDingaling = $true;
 
         # Bell Events
-        $this.__notificationType = 0;
+        $this.__notificationType = [UserPreferencesEventAlarm]::Everything;
 
         # Object Identifier (GUID)
         $this.__objectGUID = [GUID]::NewGuid();
