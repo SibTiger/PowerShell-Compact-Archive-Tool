@@ -201,7 +201,7 @@ class GitControl
         $this.__updateSource = $true;
 
         # Length of the Commit ID
-        $this.__lengthCommitID = 0;
+        $this.__lengthCommitID = [GitCommitLength]::short;
 
         # Fetch the changelog History
         $this.__fetchChangelog = $true;
