@@ -130,10 +130,7 @@ CreateDirectories;
 
 
 # Initialize the dotNet Core Zip Archive object
-[DefaultCompress] $defaultCompress = `
-                    [DefaultCompress]::GetInstance([DefaultCompressionLevel]::Fastest, `    # Compression Level
-                                                    $true, `                                # Verify Build
-                                                    $false);                                # Create a report
+[DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
 
 
 # Initialize the Loading and Saving of User Configurations
