@@ -228,7 +228,7 @@ class SevenZip
         $this.__useMultithread = $true;
 
         # Compression Level
-        $this.__compressionLevel = 2;
+        $this.__compressionLevel = [SevenCompressionLevel]::Normal;
 
         # Verify Build
         $this.__verifyBuild = $true;
