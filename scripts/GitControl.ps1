@@ -68,7 +68,6 @@ class GitControl
     static [GitControl] GetInstance([string]$executablePath,            # Executable Path
                                     [bool]$updateSource,                # Update the Local Repository
                                     [GitCommitLength]$lengthCommitID,   # Length of the Commit ID
-                                    [bool]$fetchCommitID,               # Fetch Commit ID
                                     [bool]$fetchChangelog,              # Fetch Changelog History
                                     [int]$changelogLimit,               # Maximum Log Entries
                                     [bool]$generateReport)              # Create Report
@@ -80,7 +79,6 @@ class GitControl
             [GitControl]::_instance = [GitControl]::new($executablePath,
                                                         $updateSource,
                                                         $lengthCommitID,
-                                                        $fetchCommitID,
                                                         $fetchChangelog,
                                                         $changelogLimit,
                                                         $generateReport);
@@ -234,7 +232,6 @@ class GitControl
     GitControl([string]$executablePath,
                 [bool]$updateSource,
                 [GitCommitLength]$lengthCommitID,
-                [bool]$fetchCommitID,
                 [bool]$fetchChangelog,
                 [int]$changelogLimit,
                 [bool]$generateReport)
