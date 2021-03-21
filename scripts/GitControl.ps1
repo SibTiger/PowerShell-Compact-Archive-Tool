@@ -197,7 +197,7 @@ class GitControl
     GitControl()
     {
         # Executable path to the Git.exe
-        $this.__executablePath = "git.exe";
+        $this.__executablePath = "$($this.FindGit())";
 
         # Update Source
         $this.__updateSource = $true;
