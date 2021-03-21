@@ -152,7 +152,7 @@ class UserPreferences
     UserPreferences()
     {
         # Compression Tool
-        $this.__compressionTool = 0;
+        $this.__compressionTool = [UserPreferencesCompressTool]::Default;
 
         # Project Path
         $this.__projectPath = ".\";
