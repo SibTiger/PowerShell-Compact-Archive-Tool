@@ -121,13 +121,8 @@ CreateDirectories;
                                                 0);                                         # Notification Type
 
 
-# Initialize the Git Control object.
-[GitControl] $gitControl = [GitControl]::GetInstance("git.exe", `               # Executable path to Git
-                                                    $true, `                    # Update Project Files
-                                                    [GitCommitLength]::short, ` # Commit ID Length
-                                                    $true, `                    # Fetch History Commit Changelog
-                                                    50, `                       # History Commit Changelog Range
-                                                    $false);                    # Create a report
+# Initialize a default Git Control object.
+[GitControl] $gitControl = [GitControl]::GetInstance()
 
 
 # Initialize the 7Zip object
