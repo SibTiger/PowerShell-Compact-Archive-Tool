@@ -127,7 +127,8 @@ CreateDirectories;
 
 
 # Initialize the Loading and Saving of User Configurations
-[LoadSaveUserConfiguration] $loadSaveUserConfiguration = [LoadSaveUserConfiguration]::GetInstance();
+[LoadSaveUserConfiguration] $loadSaveUserConfiguration = `
+                                [LoadSaveUserConfiguration]::GetInstance();
 
 #endregion
 
