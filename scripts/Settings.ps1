@@ -61,7 +61,7 @@ class Settings
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the Main Menu list to the user
-            [MainMenu]::DrawMainSettingsMenu();
+            [Settings]::DrawMainSettingsMenu();
         } while ($mainSettingsMenuLoop)
     } # MainSettingsMenu()
 
