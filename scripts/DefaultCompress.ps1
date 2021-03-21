@@ -157,7 +157,7 @@ class DefaultCompress
     DefaultCompress()
     {
         # Compression Level
-        $this.__compressionLevel = 0;
+        $this.__compressionLevel = [DefaultCompressionLevel]::Fastest;
 
         # Verify Build
         $this.__verifyBuild = $true;
