@@ -30,7 +30,7 @@ class Settings
     #   provided for the desired member variables.
     # -------------------------------
     #>
-    static [void] Main()
+    static [void] MainSettingsMenu()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -63,7 +63,7 @@ class Settings
             # Draw the Main Menu list to the user
             [MainMenu]::DrawMainSettingsMenu();
         } while ($mainSettingsMenuLoop)
-    } # Main()
+    } # MainSettingsMenu()
 
 
 
