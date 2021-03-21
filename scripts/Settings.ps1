@@ -34,21 +34,24 @@ class Settings
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # This variable will hold the user's input as they navigate within the main settings menu.
+        # This variable will hold the user's input as they navigate within the
+        #  main settings menu.
         [string] $userInput = $null;
 
-        # This variable will determine if the user is to remain within the Main Settings Menu loop.
-        #  If the user wanted to return back to the Main Menu, this variable's state will be set as
-        #  false.  Thus, with a false value - they may return back to the Main Menu.
+        # This variable will determine if the user is to remain within the Main
+        #  Settings Menu loop.  If the user wanted to return back to the Main
+        #  Menu, this variable's state will be set as false.  Thus, with a false
+        #  value - they may return back to the Main Menu.
         [bool] $mainSettingsMenuLoop = $true;
         # ----------------------------------------
 
         # Open the Main Settings Menu
-        #  Keep the user at the Main Settings Menu until they request to return back to the Main Menu.
+        #  Keep the user at the Main Settings Menu until they request to return
+        #  back to the Main Menu.
         do
         {
-            # Clear the terminal of all previous text; keep the space clean so that
-            #  it is easy for the user to read and follow along.
+            # Clear the terminal of all previous text; keep the space clean so
+            #  that it is easy for the user to read and follow along.
             [CommonIO]::ClearBuffer();
 
             # Draw Program Information Header
@@ -74,8 +77,9 @@ class Settings
 <# Draw Main Settings Menu
     # -------------------------------
     # Documentation:
-    #  This function will essentially draw the Main Settings Menu list to the user.  Thus this function
-    #   provides to the user as to what classes are available to configure.
+    #  This function will essentially draw the Main Settings Menu list to the
+    #   user.  Thus this function provides to the user as to what classes are
+    #   available to configure.
     # -------------------------------
     #>
     static [void] DrawMainSettingsMenu()
@@ -122,7 +126,8 @@ class Settings
    <# Get User Input
     # -------------------------------
     # Documentation:
-    #  This function will retrieve the user's feedback associated with any of the Settings Menus.
+    #  This function will retrieve the user's feedback associated with any
+    #   of the Settings Menus.
     # -------------------------------
     # Output:
     #  [string] User's Feedback
@@ -131,10 +136,12 @@ class Settings
     #>
     static [string] GetUserInput()
     {
-        # Let the user know that the program is currently waiting for their response.
+        # Let the user know that the program is currently waiting for their
+        #  response.
         [CommonCUI]::DrawWaitingForUserResponse();
 
-        # Retrieve the user's feedback and return their desired request such that it can be
+        # Retrieve the user's feedback and return their desired request such
+        #  that it can be
         #  evaluated further.
         return [Logging]::GetUserInput();
     } # GetUserInput()
@@ -145,9 +152,9 @@ class Settings
    <# Is 7Zip Available?
     # -------------------------------
     # Documentation:
-    #  This function will determine if the 7Zip functionality is available on the host system.
-    #   In order for this operation to work, we will use the 7Zip object to check if such
-    #   feature is present.
+    #  This function will determine if the 7Zip functionality is available
+    #   on the host system.  In order for this operation to work, we will
+    #   use the 7Zip object to check if such feature is present.
     # -------------------------------
     # Output:
     #  [bool] 7Zip Availability
@@ -174,9 +181,9 @@ class Settings
    <# Is Git Available?
     # -------------------------------
     # Documentation:
-    #  This function will determine if the Git functionality is available on the host system.
-    #   In order for this operation to work, we will use the Git object to check if such
-    #   feature is present.
+    #  This function will determine if the Git functionality is available
+    #   on the host system.  In order for this operation to work, we will
+    #   use the Git object to check if such feature is present.
     # -------------------------------
     # Output:
     #  [bool] Git Availability
