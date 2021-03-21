@@ -357,6 +357,19 @@ class CommonIO
         } # Try - Find Command
 
 
+
+        # Caught an error
+        catch
+        {
+            # Because the Get-Command could not find the executable binary file, this
+            #  condition will be triggered.  There's really nothing to do within this
+            #  condition - but to help prevent from the application from prematurely
+            #  terminating.  Everything is handled within the Finally condition.
+            ;
+        } # Catch - Error; Command not Found
+
+
+
         # Process any further protocol after the detection
         Finally
         {
