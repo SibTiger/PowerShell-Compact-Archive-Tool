@@ -219,7 +219,7 @@ class SevenZip
         $this.__compressionMethod = [SevenZipCompressionMethod]::Zip;
 
         # Algorithm [Zip]
-        $this.__algorithmZip = 0;
+        $this.__algorithmZip = [SevenZipAlgorithmZip]::Deflate;
 
         # Algorithm [7Zip]
         $this.__algorithm7Zip = 0;
