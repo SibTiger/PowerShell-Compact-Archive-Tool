@@ -244,18 +244,8 @@ class MainMenu
                 ($_ -eq "Settings") -or `
                 ($_ -eq "Preferences")}
             {
-                # Configure User Preferences
-                [Logging]::DisplayMessage("Configuring User Settings...");
-
-
-                # Not yet available!
-                [Logging]::DisplayMessage("`tYonkers!");
-                [Logging]::DisplayMessage("##################################");
-                [Logging]::DisplayMessage("");
-                [Logging]::DisplayMessage("This feature is not yet available!");
-                [Logging]::DisplayMessage("Please wait a bit more time so that I can construct this feature properly....");
-                [Logging]::DisplayMessage("`r`n");
-                PAUSE;
+                # Open the Preferences Main Menu
+                [Settings]::MainSettingsMenu();
 
 
                 # Finished
