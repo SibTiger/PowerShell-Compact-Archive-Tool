@@ -216,7 +216,7 @@ class SevenZip
         $this.__executablePath = "$($this.Find7Zip())";
 
         # Compression Method
-        $this.__compressionMethod = 0;
+        $this.__compressionMethod = [SevenZipCompressionMethod]::Zip;
 
         # Algorithm [Zip]
         $this.__algorithmZip = 0;
