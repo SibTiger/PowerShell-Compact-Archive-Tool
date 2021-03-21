@@ -111,14 +111,7 @@ CreateDirectories;
 
 
 # Initialize the User Preference object.
-[UserPreferences] $userPreferences = `
-                    [UserPreferences]::GetInstance(0, `                                     # Compression Tool
-                                                ".\", `                                     # Project Path
-                                                "$($global:_USERDATA_BUILDS_PATH_)", `      # Output Builds Path
-                                                $true, `                                    # Use Git Features
-                                                $true, `                                    # Use Windows Explorer Features
-                                                $true, `                                    # Use Bell Notification?
-                                                0);                                         # Notification Type
+[UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
 
 
 # Initialize a default Git Control object.
