@@ -210,7 +210,7 @@ class GitControl
         $this.__changelogLimit = 50;
 
         # Generate Report
-        $this.__generateReport = $true;
+        $this.__generateReport = $false;
 
         # Log Root Directory Path
         $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\Git";
