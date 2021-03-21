@@ -40,7 +40,8 @@
         if ($null -eq [LoadSaveUserConfiguration]::_instance)
         {
             # Create a new instance of the singleton object.
-            [LoadSaveUserConfiguration]::_instance = [LoadSaveUserConfiguration]::new(".\");
+            [LoadSaveUserConfiguration]::_instance = `
+                    [LoadSaveUserConfiguration]::new("$($Global:_PROGRAMDATA_CONFIGS_PATH_)");
         } # If: No Singleton Instance
 
         # Provide an instance of the object.
