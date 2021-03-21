@@ -222,7 +222,7 @@ class SevenZip
         $this.__algorithmZip = [SevenZipAlgorithmZip]::Deflate;
 
         # Algorithm [7Zip]
-        $this.__algorithm7Zip = 0;
+        $this.__algorithm7Zip = [SevenZipAlgorithm7Zip]::LZMA2;
 
         # Multithreaded Support
         $this.__useMultithread = $true;
