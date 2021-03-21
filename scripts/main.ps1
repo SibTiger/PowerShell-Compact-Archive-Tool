@@ -126,14 +126,7 @@ CreateDirectories;
 
 
 # Initialize the 7Zip object
-[SevenZip] $sevenZip = [SevenZip]::GetInstance("7z.exe",                                # Executable path to 7Zip
-                                                [SevenZipCompressionMethod]::Zip, `     # Compression Method 
-                                                [SevenZipAlgorithmZip]::Deflate, `      # Zip Algorithm
-                                                [SevenZipAlgorithm7Zip]::LZMA2, `       # 7Zip Algorithm
-                                                $true, `                                # Multithreaded Operations
-                                                [SevenCompressionLevel]::Normal, `      # Compression Level
-                                                $true, `                                # Verify Build
-                                                $false);                                # Create a report
+[SevenZip] $sevenZip = [SevenZip]::GetInstance();
 
 
 # Initialize the dotNet Core Zip Archive object
