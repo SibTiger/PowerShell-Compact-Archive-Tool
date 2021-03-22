@@ -79,7 +79,7 @@ class Settings
     #   available to configure.
     # -------------------------------
     #>
-    static [void] DrawMainSettingsMenu()
+    hidden static [void] DrawMainSettingsMenu()
     {
         # Display the Main Settings Menu list
 
@@ -139,7 +139,7 @@ class Settings
     #   Returns the user's feedback
     # -------------------------------
     #>
-    static [string] GetUserInput()
+    hidden static [string] GetUserInput()
     {
         # Let the user know that the program is currently waiting for their
         #  response.
@@ -167,7 +167,7 @@ class Settings
     #   False, however, will mean that the 7Zip functionality is not available.
     # -------------------------------
     #>
-    static [bool] IsAvailable7Zip()
+    hidden static [bool] IsAvailable7Zip()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -196,7 +196,7 @@ class Settings
     #   False, however, will mean that the Git functionality is not available.
     # -------------------------------
     #>
-    static [bool] IsAvailableGit()
+    hidden static [bool] IsAvailableGit()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -226,7 +226,7 @@ class Settings
     #   False, however, will mean that the Zip functionality is not available.
     # -------------------------------
     #>
-    static [bool] IsAvailableZip()
+    hidden static [bool] IsAvailableZip()
     {
         # Declarations and Initializations
         # ----------------------------------------
