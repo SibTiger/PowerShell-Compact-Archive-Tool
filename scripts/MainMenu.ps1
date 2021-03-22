@@ -85,7 +85,7 @@ class MainMenu
     #   provides what features and options are available to the user.
     # -------------------------------
     #>
-    static [void] DrawMainMenu()
+    hidden static [void] DrawMainMenu()
     {
         # Display the Main Menu list
 
@@ -123,7 +123,7 @@ class MainMenu
     #   Returns the user's feedback
     # -------------------------------
     #>
-    static [string] GetUserInput()
+    hidden static [string] GetUserInput()
     {
         # Let the user know that the program is currently waiting for their response.
         [CommonCUI]::DrawWaitingForUserResponse();
@@ -154,7 +154,7 @@ class MainMenu
     #   $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    static [bool] EvaluateExecuteUserRequest([string] $userRequest)
+    hidden static [bool] EvaluateExecuteUserRequest([string] $userRequest)
     {
         switch ($userRequest)
         {
