@@ -65,6 +65,9 @@ class Settings
 
             # Capture the user's feedback
             $userInput = [Settings]::GetUserInput();
+
+            # Execute the user's request
+            $mainSettingsMenuLoop = [Settings]::EvaluateExecuteUserRequest($userInput);
         } while ($mainSettingsMenuLoop)
     } # MainSettingsMenu()
 
@@ -124,6 +127,32 @@ class Settings
         # Provide some extra padding
         [Logging]::DisplayMessage("`r`n");
     } # DrawMainSettingsMenu()
+
+
+
+
+   <# Evaluate and Execute User's Request
+    # -------------------------------
+    # Documentation:
+    #  This function will evaluate and execute the user's desired request in respect to
+    #   the Menu options provided.
+    # -------------------------------
+    # Input:
+    #  [string] User's Request
+    #   This will provide the user's desired request to run an operation or to access
+    #    a specific functionality.
+    # -------------------------------
+    # Output:
+    #  [bool] User Stays at Menu
+    #   This defines if the user is to remain at the Menu screen.
+    #   $true  = User is to remain at the Menu.
+    #   $false = User requested to leave the Menu.
+    # -------------------------------
+    #>
+    hidden static [bool] EvaluateExecuteUserRequest([string] $userRequest)
+    {
+        return $true;
+    } # EvaluateExecuteUserRequest()
 
 
 
