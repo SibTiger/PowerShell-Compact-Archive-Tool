@@ -153,6 +153,16 @@ class Settings
     {
         switch ($userRequest)
         {
+            # Unknown Option
+            default
+            {
+                # Provide an error message to the user that the option they chose is
+                #  not available.
+                [CommonCUI]::DrawIncorrectMenuOption();
+
+                # Finished
+                break;
+            } # Unknown Option
         } # Switch: Option Request
 
 
