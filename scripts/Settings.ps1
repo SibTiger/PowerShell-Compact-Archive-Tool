@@ -151,6 +151,12 @@ class Settings
     #>
     hidden static [bool] EvaluateExecuteUserRequest([string] $userRequest)
     {
+        switch ($userRequest)
+        {
+        } # Switch: Option Request
+
+
+
         return $true;
     } # EvaluateExecuteUserRequest()
 
