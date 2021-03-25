@@ -153,6 +153,29 @@ class Settings
     {
         switch ($userRequest)
         {
+            {($_ -eq "P") -or `
+            ($_ -eq "Configure General $([ProjectInformation]::projectName) Preferences") -or `
+            ($_ -eq "Configure General") -or `
+            ($_ -eq "Configure Program")}
+        {
+            # Configure General Program Preferences
+            [Logging]::DisplayMessage("Configure General Program Preferences...");
+
+            # Not yet available!
+            [Logging]::DisplayMessage("`tYonkers!");
+            [Logging]::DisplayMessage("##################################");
+            [Logging]::DisplayMessage("");
+            [Logging]::DisplayMessage("This feature is not yet available!");
+            [Logging]::DisplayMessage("`r`n");
+            PAUSE;
+
+            # Finished
+            break;
+        } # Configure General Program Preferences
+
+
+
+
             # Unknown Option
             default
             {
