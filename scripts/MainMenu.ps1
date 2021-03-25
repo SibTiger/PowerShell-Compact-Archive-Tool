@@ -288,7 +288,7 @@ class MainMenu
 
                 # Finished
                 break;
-            } # Access ZDoom project's Repository
+            } # Help Program's Documentation
 
 
             # Exit
