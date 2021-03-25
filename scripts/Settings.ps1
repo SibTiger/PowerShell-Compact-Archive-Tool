@@ -153,6 +153,10 @@ class Settings
     {
         switch ($userRequest)
         {
+            # Configure General Program Preferences
+            #  NOTE: Allow the user's request when they type: 'Configure General $project
+            #           Preferences', 'Configure General', 'Configure Program', as well
+            #           as 'P'.
             {($_ -eq "P") -or `
             ($_ -eq "Configure General $([ProjectInformation]::projectName) Preferences") -or `
             ($_ -eq "Configure General") -or `
