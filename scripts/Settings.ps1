@@ -161,23 +161,124 @@ class Settings
             ($_ -eq "Configure General $([ProjectInformation]::projectName) Preferences") -or `
             ($_ -eq "Configure General") -or `
             ($_ -eq "Configure Program")}
-        {
-            # Configure General Program Preferences
-            [Logging]::DisplayMessage("Configure General Program Preferences...");
+            {
+                # Configure General Program Preferences
+                [Logging]::DisplayMessage("Configure General Program Preferences...");
 
-            # Not yet available!
-            [Logging]::DisplayMessage("`tYonkers!");
-            [Logging]::DisplayMessage("##################################");
-            [Logging]::DisplayMessage("");
-            [Logging]::DisplayMessage("This feature is not yet available!");
-            [Logging]::DisplayMessage("`r`n");
-            PAUSE;
+                # Not yet available!
+                [Logging]::DisplayMessage("`tYonkers!");
+                [Logging]::DisplayMessage("##################################");
+                [Logging]::DisplayMessage("");
+                [Logging]::DisplayMessage("This feature is not yet available!");
+                [Logging]::DisplayMessage("`r`n");
+                PAUSE;
 
-            # Finished
-            break;
-        } # Configure General Program Preferences
+                # Finished
+                break;
+            } # Configure General Program Preferences
 
 
+            # Configure Zip Preferences
+            {($_ -eq "Z") -or `
+            ($_ -eq "Configure Zip Preferences") -or `
+            ($_ -eq "Configure Zip") -or `
+            ($_ -eq "Zip")}
+            {
+                # Configure Zip Preferences
+                [Logging]::DisplayMessage("Configure Zip Preferences...");
+
+                # Not yet available!
+                [Logging]::DisplayMessage("`tYonkers!");
+                [Logging]::DisplayMessage("##################################");
+                [Logging]::DisplayMessage("");
+                [Logging]::DisplayMessage("This feature is not yet available!");
+                [Logging]::DisplayMessage("`r`n");
+                PAUSE;
+
+                # Finished
+                break;
+            } # Configure Zip Preferences
+
+
+            # Configure 7Zip Preferences
+            {($_ -eq "7") -or `
+            ($_ -eq "Configure 7Zip Preferences") -or `
+            ($_ -eq "Configure 7Zip") -or `
+            ($_ -eq "7Zip")}
+            {
+                # Configure 7Zip Preferences
+                [Logging]::DisplayMessage("Configure 7Zip Preferences...");
+
+                # Not yet available!
+                [Logging]::DisplayMessage("`tYonkers!");
+                [Logging]::DisplayMessage("##################################");
+                [Logging]::DisplayMessage("");
+                [Logging]::DisplayMessage("This feature is not yet available!");
+                [Logging]::DisplayMessage("`r`n");
+                PAUSE;
+
+                # Finished
+                break;
+            } # Configure 7Zip Preferences
+
+
+                        # Configure Git Preferences
+                        {($_ -eq "G") -or `
+                        ($_ -eq "Configure Git Preferences") -or `
+                        ($_ -eq "Configure Git") -or `
+                        ($_ -eq "Git")}
+                        {
+                            # Configure Git Preferences
+                            [Logging]::DisplayMessage("Configure Zip Preferences...");
+            
+                            # Not yet available!
+                            [Logging]::DisplayMessage("`tYonkers!");
+                            [Logging]::DisplayMessage("##################################");
+                            [Logging]::DisplayMessage("");
+                            [Logging]::DisplayMessage("This feature is not yet available!");
+                            [Logging]::DisplayMessage("`r`n");
+                            PAUSE;
+            
+                            # Finished
+                            break;
+                        } # Configure Git Preferences
+
+
+            # Access the Help Program's Documentation
+            #  NOTE: Allow the user's request when they type: 'Help', 'Helpme', 'Help me', as well as '?'.
+            {($_ -eq "?") -or `
+                ($_ -eq "help") -or `
+                ($_ -eq "helpme") -or `
+                ($_ -eq "help me")}
+            {
+                # Open the webpage as requested
+                #  NOTE: We do not care about the return result as there's
+                #         nothing we can do at this present point.
+                [WebsiteResources]::AccessWebSite_General("$($Global:_PROGRAMSITEWIKI_)",              ` # Project's Repository
+                                                        "$([ProjectInformation]::projectName) Wiki",    ` # Show page title
+                                                        $false) | Out-Null;                             ` # Do not force Web Browser function
+
+
+                # Finished
+                break;
+            } # Access Help Program's Documentation
+
+
+            # Exit
+            #  NOTE: Allow the user's request when they type: 'Exit', 'Quit', as well as 'X'.
+            #         This can come handy if the user is in a panic - remember that the terminal
+            #         is intimidating for some which may cause user's to panic, and this can be
+            #         helpful if user's are just used to typing 'Exit' or perhaps 'Quit'.
+            {($_ -eq "X") -or `
+                ($_ -eq "Exit") -or `
+                ($_ -eq "Quit")}
+            {
+                # Exit
+                [Logging]::DisplayMessage("Returning...");
+
+                # Return back to the menu
+                return $false;
+            } # Exit
 
 
             # Unknown Option
