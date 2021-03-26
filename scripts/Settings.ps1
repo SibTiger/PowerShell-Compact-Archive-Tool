@@ -158,9 +158,9 @@ class Settings
             #           Preferences', 'Configure General', 'Configure Program', as well
             #           as 'P'.
             {($_ -eq "P") -or `
-            ($_ -eq "Configure General $([ProjectInformation]::projectName) Preferences") -or `
-            ($_ -eq "Configure General") -or `
-            ($_ -eq "Configure Program")}
+                ($_ -eq "Configure General $([ProjectInformation]::projectName) Preferences") -or `
+                ($_ -eq "Configure General") -or `
+                ($_ -eq "Configure Program")}
             {
                 # Configure General Program Preferences
                 [Logging]::DisplayMessage("Configure General Program Preferences...");
@@ -179,10 +179,12 @@ class Settings
 
 
             # Configure Zip Preferences
+            #  NOTE: Allow the user's request when they type: 'Configure Zip Preferences',
+            #           'Configure Zip', 'Zip', as well as 'Z'.
             {($_ -eq "Z") -or `
-            ($_ -eq "Configure Zip Preferences") -or `
-            ($_ -eq "Configure Zip") -or `
-            ($_ -eq "Zip")}
+                ($_ -eq "Configure Zip Preferences") -or `
+                ($_ -eq "Configure Zip") -or `
+                ($_ -eq "Zip")}
             {
                 # Configure Zip Preferences
                 [Logging]::DisplayMessage("Configure Zip Preferences...");
@@ -201,10 +203,13 @@ class Settings
 
 
             # Configure 7Zip Preferences
+            #  NOTE: Allow the user's request when they type: 'Configure 7Zip Preferences',
+            #           'Configure 7Zip', '7Zip', '7Z', as well as '7'.
             {($_ -eq "7") -or `
-            ($_ -eq "Configure 7Zip Preferences") -or `
-            ($_ -eq "Configure 7Zip") -or `
-            ($_ -eq "7Zip")}
+                ($_ -eq "Configure 7Zip Preferences") -or `
+                ($_ -eq "Configure 7Zip") -or `
+                ($_ -eq "7Zip") -or `
+                ($_ -eq "7Z")}
             {
                 # Configure 7Zip Preferences
                 [Logging]::DisplayMessage("Configure 7Zip Preferences...");
@@ -222,30 +227,33 @@ class Settings
             } # Configure 7Zip Preferences
 
 
-                        # Configure Git Preferences
-                        {($_ -eq "G") -or `
-                        ($_ -eq "Configure Git Preferences") -or `
-                        ($_ -eq "Configure Git") -or `
-                        ($_ -eq "Git")}
-                        {
-                            # Configure Git Preferences
-                            [Logging]::DisplayMessage("Configure Zip Preferences...");
-            
-                            # Not yet available!
-                            [Logging]::DisplayMessage("`tYonkers!");
-                            [Logging]::DisplayMessage("##################################");
-                            [Logging]::DisplayMessage("");
-                            [Logging]::DisplayMessage("This feature is not yet available!");
-                            [Logging]::DisplayMessage("`r`n");
-                            PAUSE;
-            
-                            # Finished
-                            break;
-                        } # Configure Git Preferences
+            # Configure Git Preferences
+            #  NOTE: Allow the user's request when they type: 'Configure Git Preferences',
+            #           'Configure Git', 'Git', as well as 'G'.
+            {($_ -eq "G") -or `
+                ($_ -eq "Configure Git Preferences") -or `
+                ($_ -eq "Configure Git") -or `
+                ($_ -eq "Git")}
+            {
+                # Configure Git Preferences
+                [Logging]::DisplayMessage("Configure Zip Preferences...");
+
+                # Not yet available!
+                [Logging]::DisplayMessage("`tYonkers!");
+                [Logging]::DisplayMessage("##################################");
+                [Logging]::DisplayMessage("");
+                [Logging]::DisplayMessage("This feature is not yet available!");
+                [Logging]::DisplayMessage("`r`n");
+                PAUSE;
+
+                # Finished
+                break;
+            } # Configure Git Preferences
 
 
             # Access the Help Program's Documentation
-            #  NOTE: Allow the user's request when they type: 'Help', 'Helpme', 'Help me', as well as '?'.
+            #  NOTE: Allow the user's request when they type: 'Help', 'Helpme',
+            #           'Help me', as well as '?'.
             {($_ -eq "?") -or `
                 ($_ -eq "help") -or `
                 ($_ -eq "helpme") -or `
@@ -265,13 +273,16 @@ class Settings
 
 
             # Exit
-            #  NOTE: Allow the user's request when they type: 'Exit', 'Quit', as well as 'X'.
+            #  NOTE: Allow the user's request when they type: 'Exit', 'Cancel', 'Return',
+            #         'Main Menu', as well as 'X'.
             #         This can come handy if the user is in a panic - remember that the terminal
             #         is intimidating for some which may cause user's to panic, and this can be
             #         helpful if user's are just used to typing 'Exit' or perhaps 'Quit'.
             {($_ -eq "X") -or `
                 ($_ -eq "Exit") -or `
-                ($_ -eq "Quit")}
+                ($_ -eq "Cancel") -or `
+                ($_ -eq "Return") -or `
+                ($_ -eq "Main Menu")}
             {
                 # Exit
                 [Logging]::DisplayMessage("Returning...");
