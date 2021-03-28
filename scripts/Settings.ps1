@@ -35,10 +35,10 @@ class Settings
         #  main settings menu.
         [string] $userInput = $null;
 
-        [bool] $mainSettingsMenuLoop = $true;
         # This variable will determine if the user is to remain within the current menu loop.
         #  If the user were to exit from the menu, this variable's state will be set as false.
         #  Thus, with a false value - they may leave the menu.
+        [bool] $menuLoop = $true;
         # ----------------------------------------
 
         # Open the Main Settings Menu
@@ -66,9 +66,8 @@ class Settings
             $userInput = [Settings]::GetUserInput();
 
             # Execute the user's request
-            $mainSettingsMenuLoop = [Settings]::EvaluateExecuteUserRequest($userInput);
-        } while ($mainSettingsMenuLoop)
-    } # MainSettingsMenu()
+            $menuLoop = [Settings]::EvaluateExecuteUserRequest($userInput);
+        } while ($menuLoop)
     } # Main()
 
 
