@@ -51,9 +51,31 @@ class SettingsGeneralProgram
 
             # Display the instructions to the user
             [CommonCUI]::DrawMenuInstructions();
+
+            # Draw the General Program settings menu list to the user
+            [SettingsGeneralProgram]::DrawMenu();
+
+            # Capture the user's feedback
+            #$userInput = []
         } while($menuLoop);
+    } # Main()
 
 
 
-    } # GeneralProgramSettingsMenu()
+
+   <# Draw Menu
+    # -------------------------------
+    # Documentation:
+    #  This function will essentially draw the menu list to the user.
+    #   Thus this function provides to the user as to what classes
+    #   are available to configure.
+    # -------------------------------
+    #>
+    hidden static [void] DrawMenu()
+    {
+        # Display the menu list
+
+
+        # 
+    } # DrawMenu()
 } # SettingsGeneralProgram
