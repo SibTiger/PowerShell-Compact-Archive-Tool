@@ -161,16 +161,9 @@ class Settings
                 ($_ -eq "Configure General") -or `
                 ($_ -eq "Configure Program")}
             {
-                # Configure General Program Preferences
-                [Logging]::DisplayMessage("Configure General Program Preferences...");
+                # Open the General Program preferences menu
+                [SettingsGeneralProgram]::Main();
 
-                # Not yet available!
-                [Logging]::DisplayMessage("`tYonkers!");
-                [Logging]::DisplayMessage("##################################");
-                [Logging]::DisplayMessage("");
-                [Logging]::DisplayMessage("This feature is not yet available!");
-                [Logging]::DisplayMessage("`r`n");
-                PAUSE;
 
                 # Finished
                 break;
