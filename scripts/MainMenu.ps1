@@ -37,10 +37,10 @@ class MainMenu
         # This variable will hold the user's input as they navigate within the main menu.
         [string] $userInput = $null;
 
-        [bool] $mainMenuLoop = $true;
         # This variable will determine if the user is to remain within the current menu loop.
         #  If the user were to exit from the menu, this variable's state will be set as false.
         #  Thus, with a false value - they may leave the menu.
+        [bool] $menuLoop = $true;
         # ----------------------------------------
 
         # Open the Main Menu
@@ -67,8 +67,8 @@ class MainMenu
             $userInput = [MainMenu]::GetUserInput();
 
             # Execute the user's request
-            $mainMenuLoop = [MainMenu]::EvaluateExecuteUserRequest($userInput);
-        } while ($mainMenuLoop)
+            $menuLoop = [MainMenu]::EvaluateExecuteUserRequest($userInput);
+        } while ($menuLoop)
 
 
         # Finished with the Main Menu; prepare to close the application
