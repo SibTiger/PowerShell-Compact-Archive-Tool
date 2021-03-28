@@ -282,7 +282,6 @@ class CommonCUI
 
 
 
-
    <# Get User Input
     # -------------------------------
     # Documentation:
