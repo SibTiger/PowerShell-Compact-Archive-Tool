@@ -35,11 +35,10 @@ class Settings
         #  main settings menu.
         [string] $userInput = $null;
 
-        # This variable will determine if the user is to remain within the Main
-        #  Settings Menu loop.  If the user wanted to return back to the Main
-        #  Menu, this variable's state will be set as false.  Thus, with a false
-        #  value - they may return back to the Main Menu.
         [bool] $mainSettingsMenuLoop = $true;
+        # This variable will determine if the user is to remain within the current menu loop.
+        #  If the user were to exit from the menu, this variable's state will be set as false.
+        #  Thus, with a false value - they may leave the menu.
         # ----------------------------------------
 
         # Open the Main Settings Menu
