@@ -218,6 +218,7 @@ function MakeCompilerDriver()
                         "Initializations.ps1", `
                         "CommonIO.ps1", `
                         "CommonCUI.ps1", `
+                        "CommonFunctions.ps1", `
                         "ProgramFunctions.ps1", `
                         "DefaultCompress.ps1", `
                         "GitControl.ps1", `
