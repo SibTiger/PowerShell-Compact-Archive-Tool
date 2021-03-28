@@ -53,7 +53,7 @@ class Settings
             # Draw Program Information Header
             [CommonCUI]::DrawProgramTitleHeader();
 
-            # Show the user that they are at the Main Menu
+            # Show the user that they are at the Main Settings Menu
             [CommonCUI]::DrawSectionHeader("User Preference Main Menu");
 
             # Display the instructions
