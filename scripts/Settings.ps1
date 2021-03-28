@@ -294,7 +294,7 @@ class Settings
         } # Switch: Option Request
 
 
-
+        # Finished with the operation; return back to the current menu.
         return $true;
     } # EvaluateExecuteUserRequest()
 } # Settings
