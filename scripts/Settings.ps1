@@ -284,10 +284,7 @@ class Settings
                 ($_ -eq "Return") -or `
                 ($_ -eq "Main Menu")}
             {
-                # Exit
-                [Logging]::DisplayMessage("Returning...");
-
-                # Return back to the menu
+                # Return back to the Program's Main Menu
                 return $false;
             } # Exit
 
