@@ -91,7 +91,7 @@ class Settings
 
 
         # Only show this option if it is available to the user
-        if ([Settings]::IsAvailableZip() -eq $true)
+        if ([CommonFunctions]::IsAvailableZip() -eq $true)
         {
             # Option is available, so display it on the settings main menu.
             [CommonCUI]::DrawMenuItem('Z', "Configure Zip Preferences");
@@ -99,7 +99,7 @@ class Settings
 
 
         # Only show this option if it is available to the user
-        if ([Settings]::IsAvailable7Zip() -eq $true)
+        if ([CommonFunctions]::IsAvailable7Zip() -eq $true)
         {
             # Option is available, so display it on the settings main menu.
             [CommonCUI]::DrawMenuItem('7', "Configure 7Zip Preferences");
@@ -107,7 +107,7 @@ class Settings
 
 
         # Only show this option if it available to the user
-        if ([Settings]::IsAvailableGit() -eq $true)
+        if ([CommonFunctions]::IsAvailableGit() -eq $true)
         {
             # Option is available, so display it on the settings main menu.
             [CommonCUI]::DrawMenuItem('G', "Configure Git Preferences");
@@ -323,92 +323,4 @@ class Settings
         #  evaluated further.
         return [Logging]::GetUserInput();
     } # GetUserInput()
-
-
-
-
-   <# Is 7Zip Available?
-    # -------------------------------
-    # Documentation:
-    #  This function will determine if the 7Zip functionality is available
-    #   on the host system.  In order for this operation to work, we will
-    #   use the 7Zip object to check if such feature is present.
-    # -------------------------------
-    # Output:
-    #  [bool] 7Zip Availability
-    #   When true, this will mean that 7Zip is available and can be used.
-    #   False, however, will mean that the 7Zip functionality is not available.
-    # -------------------------------
-    #>
-    hidden static [bool] IsAvailable7Zip()
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Latch onto the single instance of the 7Zip object
-        [SevenZip] $sevenZip = [SevenZip]::GetInstance();
-        # ----------------------------------------
-
-
-        # Return the results from the detection function
-        return $sevenZip.Detect7ZipExist();
-    } # IsAvailable7Zip()
-
-
-
-
-   <# Is Git Available?
-    # -------------------------------
-    # Documentation:
-    #  This function will determine if the Git functionality is available
-    #   on the host system.  In order for this operation to work, we will
-    #   use the Git object to check if such feature is present.
-    # -------------------------------
-    # Output:
-    #  [bool] Git Availability
-    #   When true, this will mean that Git is available and can be used.
-    #   False, however, will mean that the Git functionality is not available.
-    # -------------------------------
-    #>
-    hidden static [bool] IsAvailableGit()
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Latch onto the single instance of the Git object
-        [GitControl] $gitControl = [GitControl]::GetInstance();
-        # ----------------------------------------
-
-
-        # Return the results from the detection function
-        return $gitControl.DetectGitExist();
-    } # IsAvailableGit()
-
-
-
-
-   <# Is .NET Core ZIP Archive Available?
-    # -------------------------------
-    # Documentation:
-    #  This function will determine if the .NET Core Zip  functionality
-    #   is available on the host system.  In order for this operation
-    #   to work, we will use the Default Zip object to check if such
-    #   feature is present.
-    # -------------------------------
-    # Output:
-    #  [bool] .NET Core Zip Availability
-    #   When true, this will mean that Zip is available and can be used.
-    #   False, however, will mean that the Zip functionality is not available.
-    # -------------------------------
-    #>
-    hidden static [bool] IsAvailableZip()
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Latch onto the single instance of the Zip object
-        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
-        # ----------------------------------------
-
-
-        # Return the results from the detection function
-        return $defaultCompress.DetectCompressModule();
-    } # IsAvailableZip()
 } # Settings
