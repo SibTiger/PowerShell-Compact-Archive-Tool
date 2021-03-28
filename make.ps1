@@ -229,6 +229,7 @@ function MakeCompilerDriver()
                         "SystemInformation.ps1", `
                         "WebsiteResources.ps1", `
                         "Settings.ps1", `
+                        "SettingsGeneralProgram.ps1", `
                         "MainMenu.ps1", `
                         "main.ps1");
 
