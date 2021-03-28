@@ -27,7 +27,7 @@ class Settings
     #   provided for the desired member variables.
     # -------------------------------
     #>
-    static [void] MainSettingsMenu()
+    static [void] Main()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -70,6 +70,7 @@ class Settings
             $mainSettingsMenuLoop = [Settings]::EvaluateExecuteUserRequest($userInput);
         } while ($mainSettingsMenuLoop)
     } # MainSettingsMenu()
+    } # Main()
 
 
 

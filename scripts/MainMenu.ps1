@@ -245,7 +245,7 @@ class MainMenu
                 ($_ -eq "Preferences")}
             {
                 # Open the Preferences Main Menu
-                [Settings]::MainSettingsMenu();
+                [Settings]::Main();
 
 
                 # Finished
