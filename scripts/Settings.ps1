@@ -63,7 +63,7 @@ class Settings
             [Settings]::DrawMainSettingsMenu();
 
             # Capture the user's feedback
-            $userInput = [Settings]::GetUserInput();
+            $userInput = [CommonCUI]::GetUserInput();
 
             # Execute the user's request
             $menuLoop = [Settings]::EvaluateExecuteUserRequest($userInput);
@@ -297,30 +297,4 @@ class Settings
 
         return $true;
     } # EvaluateExecuteUserRequest()
-
-
-
-
-   <# Get User Input
-    # -------------------------------
-    # Documentation:
-    #  This function will retrieve the user's feedback associated with any
-    #   of the Settings Menus.
-    # -------------------------------
-    # Output:
-    #  [string] User's Feedback
-    #   Returns the user's feedback
-    # -------------------------------
-    #>
-    hidden static [string] GetUserInput()
-    {
-        # Let the user know that the program is currently waiting for their
-        #  response.
-        [CommonCUI]::DrawWaitingForUserResponse();
-
-        # Retrieve the user's feedback and return their desired request such
-        #  that it can be
-        #  evaluated further.
-        return [Logging]::GetUserInput();
-    } # GetUserInput()
 } # Settings

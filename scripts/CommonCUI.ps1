@@ -278,4 +278,34 @@ class CommonCUI
         # Program's Version Release Date
         [Logging]::DisplayMessage("Version Released Date:`r`n`t$($Global:_RELEASEDATE_)");
     } # DrawUpdateProgramInformation()
+
+
+
+
+
+   <# Get User Input
+    # -------------------------------
+    # Documentation:
+    #  This function will provide a centralized way to retrieve the user's feedback while following
+    #   a consistent behavior, which helps the user identify when the program is ready for interaction
+    #   with the end-user.
+    #
+    # NOTE: Do keep in mind that user interactions are logged.
+    # -------------------------------
+    # Output:
+    #  [string] User's Feedback
+    #   Returns the user's feedback
+    # -------------------------------
+    #>
+    static [string] GetUserInput()
+    {
+        # Let the user know that the program is currently waiting for their
+        #  response.
+        [CommonCUI]::DrawWaitingForUserResponse();
+
+        # Retrieve the user's feedback and return their desired request such
+        #  that it can be
+        #  evaluated further.
+        return [Logging]::GetUserInput();
+    } # GetUserInput()
 } # CommonCUI

@@ -64,7 +64,7 @@ class MainMenu
             [MainMenu]::DrawMainMenu();
 
             # Capture the user's feedback
-            $userInput = [MainMenu]::GetUserInput();
+            $userInput = [CommonCUI]::GetUserInput();
 
             # Execute the user's request
             $menuLoop = [MainMenu]::EvaluateExecuteUserRequest($userInput);
@@ -109,29 +109,6 @@ class MainMenu
         # Provide some extra padding
         [Logging]::DisplayMessage("`r`n");
     } # DrawMainMenu()
-
-
-
-
-   <# Get User Input
-    # -------------------------------
-    # Documentation:
-    #  This function will retrieve the user's feedback associated with the Main Menu.
-    # -------------------------------
-    # Output:
-    #  [string] User's Feedback
-    #   Returns the user's feedback
-    # -------------------------------
-    #>
-    hidden static [string] GetUserInput()
-    {
-        # Let the user know that the program is currently waiting for their response.
-        [CommonCUI]::DrawWaitingForUserResponse();
-
-        # Retrieve the user's feedback and return their desired request such that it can be
-        #  evaluated further.
-        return [Logging]::GetUserInput();
-    } # GetUserInput()
 
 
 
