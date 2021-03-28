@@ -33,5 +33,27 @@ class SettingsGeneralProgram
         #  Thus, with a false value - they may leave the menu.
         [bool] $menuLoop = $true;
         # ----------------------------------------
+
+        # Open the General Program settings
+        #  Keep the user at the General Program Settings Menu until they request to return
+        #  back to the previous menu.
+        do
+        {
+            # Clear the terminal of all previous text; keep the space clean so that it is easy
+            #  for the user to read and follow along.
+            [CommonIO]::ClearBuffer();
+
+            # Draw Program Information Header
+            [CommonCUI]::DrawProgramTitleHeader();
+
+            # Show the user that they are at the General Program Settings.
+            [CommonCUI]::DrawSectionHeader("General Program Preferences");
+
+            # Display the instructions to the user
+            [CommonCUI]::DrawMenuInstructions();
+        } while($menuLoop);
+
+
+
     } # GeneralProgramSettingsMenu()
 } # SettingsGeneralProgram
