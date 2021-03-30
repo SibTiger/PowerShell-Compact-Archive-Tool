@@ -80,7 +80,19 @@ class SettingsGeneralProgram
         [CommonCUI]::DrawMenuItem('G', "Git Features");
         [CommonCUI]::DrawMenuItem('E', "Windows Explorer Features");
         [CommonCUI]::DrawMenuItem('A', "Alarms");
-        
+
+
+
+        # Program Tools
+        [CommonCUI]::DrawMenuItem('?', "Help Documentation");
+
+
+        # Return back to the Main Menu
+        [CommonCUI]::DrawMenuItem('X', "Go back to Main Menu");
+
+
+        # Provide some extra padding
+        [Logging]::DisplayMessage("`r`n");
         # 
     } # DrawMenu()
 } # SettingsGeneralProgram
