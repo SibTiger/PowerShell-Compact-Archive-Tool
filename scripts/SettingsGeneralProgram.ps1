@@ -95,4 +95,84 @@ class SettingsGeneralProgram
         [Logging]::DisplayMessage("`r`n");
         # 
     } # DrawMenu()
+
+
+
+
+   <# Evaluate and Execute User's Request
+    # -------------------------------
+    # Documentation:
+    #  This function will evaluate and execute the user's desired request in respect to
+    #   the Menu options provided.
+    # -------------------------------
+    # Input:
+    #  [string] User's Request
+    #   This will provide the user's desired request to run an operation or to access
+    #    a specific functionality.
+    # -------------------------------
+    # Output:
+    #  [bool] User Stays at Menu
+    #   This defines if the user is to remain at the Menu screen.
+    #   $true  = User is to remain at the Menu.
+    #   $false = User requested to leave the Menu.
+    # -------------------------------
+    #>
+    hidden static [bool] EvaluateExecuteUserRequest([string] $userRequest)
+    {
+        switch ($userRequest)
+        {
+            # Access the Help Program's Documentation
+            #  NOTE: Allow the user's request when they type: 'Help', 'Helpme',
+            #           'Help me', as well as '?'.
+            {($_ -eq "?") -or `
+                ($_ -eq "help") -or `
+                ($_ -eq "helpme") -or `
+                ($_ -eq "help me")}
+            {
+                # Open the webpage as requested
+                #  NOTE: We do not care about the return result as there's
+                #         nothing we can do at this present point.
+                [WebsiteResources]::AccessWebSite_General("$($Global:_PROGRAMSITEWIKI_)",              ` # Project's Repository
+                                                        "$([ProjectInformation]::projectName) Wiki",    ` # Show page title
+                                                        $false) | Out-Null;                             ` # Do not force Web Browser function
+
+
+                # Finished
+                break;
+            } # Access Help Program's Documentation
+
+
+            # Exit
+            #  NOTE: Allow the user's request when they type: 'Exit', 'Cancel', 'Return',
+            #         'Main Menu', as well as 'X'.
+            #         This can come handy if the user is in a panic - remember that the terminal
+            #         is intimidating for some which may cause user's to panic, and this can be
+            #         helpful if user's are just used to typing 'Exit' or perhaps 'Quit'.
+            {($_ -eq "X") -or `
+                ($_ -eq "Exit") -or `
+                ($_ -eq "Cancel") -or `
+                ($_ -eq "Return") -or `
+                ($_ -eq "Main Menu")}
+            {
+                # Return back to the Program's Main Menu
+                return $false;
+            } # Exit
+
+
+            # Unknown Option
+            default
+            {
+                # Provide an error message to the user that the option they chose is
+                #  not available.
+                [CommonCUI]::DrawIncorrectMenuOption();
+
+                # Finished
+                break;
+            } # Unknown Option
+        } # Switch: Option Request
+
+
+        # Finished with the operation; return back to the current menu.
+        return $true;
+    } # EvaluateExecuteUserRequest()
 } # SettingsGeneralProgram
