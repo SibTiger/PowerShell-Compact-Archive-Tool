@@ -74,7 +74,7 @@ class SettingsGeneralProgram
     hidden static [void] DrawMenu()
     {
         # Display the menu list
-
+        
 
         # 
     } # DrawMenu()
