@@ -77,7 +77,8 @@ class SettingsGeneralProgram
         [CommonCUI]::DrawMenuItem('C', "Compression Tool");
         [CommonCUI]::DrawMenuItem('P', "Locate Project Path");
         [CommonCUI]::DrawMenuItem('O', "Compiled Builds Output Path");
-        [CommonCUI]::DrawMenuItem('B', "B");
+        [CommonCUI]::DrawMenuItem('G', "Git Features");
+        [CommonCUI]::DrawMenuItem('E', "Wi");
         # 
     } # DrawMenu()
 } # SettingsGeneralProgram
