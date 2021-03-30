@@ -75,7 +75,7 @@ class SettingsGeneralProgram
     {
         # Display the menu list
         [CommonCUI]::DrawMenuItem('C', "Compression Tool");
-
+        [CommonCUI]::DrawMenuItem('P', "Locate Project Build $([ProjectInformation]::projectName)");
         # 
     } # DrawMenu()
 } # SettingsGeneralProgram
