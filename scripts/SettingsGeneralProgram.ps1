@@ -74,7 +74,7 @@ class SettingsGeneralProgram
     hidden static [void] DrawMenu()
     {
         # Display the menu list
-        [CommonCUI]::DrawMenuItem('B', "Build $([ProjectInformation]::projectName)");
+        [CommonCUI]::DrawMenuItem('C', "Compression Tool");
 
         # 
     } # DrawMenu()
