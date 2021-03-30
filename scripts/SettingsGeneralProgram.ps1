@@ -78,7 +78,8 @@ class SettingsGeneralProgram
         [CommonCUI]::DrawMenuItem('P', "Locate Project Path");
         [CommonCUI]::DrawMenuItem('O', "Compiled Builds Output Path");
         [CommonCUI]::DrawMenuItem('G', "Git Features");
-        [CommonCUI]::DrawMenuItem('E', "Wi");
+        [CommonCUI]::DrawMenuItem('E', "Windows Explorer Features");
+        [CommonCUI]::DrawMenuItem('B', "");
         # 
     } # DrawMenu()
 } # SettingsGeneralProgram
