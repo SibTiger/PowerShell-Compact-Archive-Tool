@@ -57,6 +57,9 @@ class SettingsGeneralProgram
 
             # Capture the user's feedback
             $userInput = [CommonCUI]::GetUserInput();
+
+            # Execute the user's request
+            $menuLoop = [SettingsGeneralProgram]::EvaluateExecuteUserRequest($userInput);
         } while($menuLoop);
     } # Main()
 
