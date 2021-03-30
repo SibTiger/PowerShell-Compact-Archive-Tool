@@ -56,7 +56,7 @@ class SettingsGeneralProgram
             [SettingsGeneralProgram]::DrawMenu();
 
             # Capture the user's feedback
-            #$userInput = []
+            $userInput = [CommonCUI]::GetUserInput();
         } while($menuLoop);
     } # Main()
 
