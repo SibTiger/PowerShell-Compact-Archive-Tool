@@ -147,7 +147,7 @@ class SettingsGeneralProgram
 
             # Exit
             #  NOTE: Allow the user's request when they type: 'Exit', 'Cancel', 'Return',
-            #         'Main Menu', as well as 'X'.
+            #         'Settings Menu', as well as 'X'.
             #         This can come handy if the user is in a panic - remember that the terminal
             #         is intimidating for some which may cause user's to panic, and this can be
             #         helpful if user's are just used to typing 'Exit' or perhaps 'Quit'.
@@ -155,9 +155,9 @@ class SettingsGeneralProgram
                 ($_ -eq "Exit") -or `
                 ($_ -eq "Cancel") -or `
                 ($_ -eq "Return") -or `
-                ($_ -eq "Main Menu")}
+                ($_ -eq "Settings Menu")}
             {
-                # Return back to the Program's Main Menu
+                # Return back to the Setting's Main Menu
                 return $false;
             } # Exit
 
