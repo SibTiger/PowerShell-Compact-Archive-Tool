@@ -81,13 +81,15 @@ class SettingsGeneralProgram
         [CommonCUI]::DrawMenuItem('P', "Locate Project Path");
         [CommonCUI]::DrawMenuItem('O', "Compiled Builds Output Path");
         
+        
         # Tools and Features
         [CommonCUI]::DrawMenuItem('C', "Compression Tool");
         [CommonCUI]::DrawMenuItem('G', "Git Features");
         [CommonCUI]::DrawMenuItem('E', "Graphical User Interface Features");
         
         
-        [CommonCUI]::DrawMenuItem('A', "Alarms");
+        # Notifications
+        [CommonCUI]::DrawMenuItem('N', "Notifications");
 
 
 
@@ -101,7 +103,6 @@ class SettingsGeneralProgram
 
         # Provide some extra padding
         [Logging]::DisplayMessage("`r`n");
-        # 
     } # DrawMenu()
 
 
