@@ -98,7 +98,7 @@ class SettingsGeneralProgram
 
 
         # Return back to the Main Menu
-        [CommonCUI]::DrawMenuItem('X', "Go back to Main Menu");
+        [CommonCUI]::DrawMenuItem('X', "Go back to previous menu");
 
 
         # Provide some extra padding
