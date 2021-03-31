@@ -231,6 +231,9 @@ function MakeCompilerDriver()
                         "WebsiteResources.ps1", `
                         "Settings.ps1", `
                         "SettingsGeneralProgram.ps1", `
+                        "Settings7Zip.ps1", `
+                        "SettingsZip", `
+                        "SettingsGit", `
                         "MainMenu.ps1", `
                         "main.ps1");
 
