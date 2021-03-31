@@ -77,9 +77,11 @@ class SettingsGeneralProgram
     hidden static [void] DrawMenu()
     {
         # Display the menu list
-        [CommonCUI]::DrawMenuItem('C', "Compression Tool");
         [CommonCUI]::DrawMenuItem('P', "Locate Project Path");
         [CommonCUI]::DrawMenuItem('O', "Compiled Builds Output Path");
+        [CommonCUI]::DrawMenuItem('C', "Compression Tool");
+        
+        
         [CommonCUI]::DrawMenuItem('G', "Git Features");
         [CommonCUI]::DrawMenuItem('E', "Windows Explorer Features");
         [CommonCUI]::DrawMenuItem('A', "Alarms");
