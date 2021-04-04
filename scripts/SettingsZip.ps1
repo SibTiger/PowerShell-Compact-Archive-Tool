@@ -130,8 +130,12 @@
              {($_ -eq "V") -or `
                  ($_ -eq "Verify") -or `
                  ($_ -eq "Verify Build")}
+             {
+             } # Verify Build
              
              # Generate Report
+             {($_ -eq "G") -or `
+                 
              
              
              # Access the Help Program's Documentation
