@@ -34,8 +34,8 @@
          [bool] $menuLoop = $true;
          # ----------------------------------------
  
-         # Open the General Program settings
-         #  Keep the user at the General Program Settings Menu until they request to return
+         # Open the Zip Settings Menu
+         #  Keep the user at the Zip Settings Menu until they request to return
          #  back to the previous menu.
          do
          {
@@ -46,20 +46,20 @@
              # Draw Program Information Header
              [CommonCUI]::DrawProgramTitleHeader();
  
-             # Show the user that they are at the General Program Settings.
-             [CommonCUI]::DrawSectionHeader("General Program Preferences");
+             # Show the user that they are at the Zip Settings Menu.
+             [CommonCUI]::DrawSectionHeader("Zip Settings Menu");
  
              # Display the instructions to the user
              [CommonCUI]::DrawMenuInstructions();
  
-             # Draw the General Program settings menu list to the user
-             [SettingsGeneralProgram]::DrawMenu();
+             # Draw the Zip Settings Menu list to the user
+             [SettingsZip]::DrawMenu();
  
              # Capture the user's feedback
              $userInput = [CommonCUI]::GetUserInput();
  
              # Execute the user's request
-             $menuLoop = [SettingsGeneralProgram]::EvaluateExecuteUserRequest($userInput);
+             $menuLoop = [SettingsZip]::EvaluateExecuteUserRequest($userInput);
          } while($menuLoop);
      } # Main()
  
