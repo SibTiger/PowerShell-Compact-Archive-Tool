@@ -127,7 +127,8 @@
              } # Compression Level
              
              # Verify Build
-             {($_ -eq "
+             {($_ -eq "V") -or `
+                 ($_ -eq "Verify") -
              
              # Generate Report
              
