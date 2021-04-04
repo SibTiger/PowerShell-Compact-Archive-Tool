@@ -11,7 +11,7 @@
 
 
 
- class SettingsGeneralProgram
+ class SettingsGit
  {
     <# General Program Settings Menu Driver
      # -------------------------------
@@ -178,4 +178,4 @@
          # Finished with the operation; return back to the current menu.
          return $true;
      } # EvaluateExecuteUserRequest()
- } # SettingsGeneralProgram
+ } # SettingsGit
