@@ -122,15 +122,15 @@
              # Compression Level
              {($_ -eq "C") -or `
                  ($_ -eq "Compression Level") -or `
-                 ($_ -eq "Compress") -or `
-                 ($_ -eq "Verify Build after Compression")}
+                 ($_ -eq "Compress")}
              {
              } # Compression Level
              
              # Verify Build
              {($_ -eq "V") -or `
                  ($_ -eq "Verify") -or `
-                 ($_ -eq "Verify Build")}
+                 ($_ -eq "Verify Build") -or `
+                 ($_ -eq "Verify Build after Compression")}
              {
              } # Verify Build
              
