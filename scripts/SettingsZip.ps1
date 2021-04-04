@@ -136,7 +136,8 @@
              # Generate Report
              {($_ -eq "G") -or `
                  ($_ -eq "Generate Report") -or `
-                 ($_              
+                 ($_ -eq "Report") -or `
+                 ($_ -eq "             
              
              # Access the Help Program's Documentation
              #  NOTE: Allow the user's request when they type: 'Help', 'Helpme',
