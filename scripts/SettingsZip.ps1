@@ -131,7 +131,8 @@
              
              # Verify Build
              #  NOTE: Allow the user's request when they type: 'Verify',
-             #           'Verify Build', 'Verify Build as well as 'V'.
+             #           'Verify Build', 'Verify Build after Compression',
+             #           as well as 'V'.
              {($_ -eq "V") -or `
                  ($_ -eq "Verify") -or `
                  ($_ -eq "Verify Build") -or `
@@ -141,6 +142,8 @@
              
              
              # Generate Report
+             #  NOTE: Allow the user's request when they type: 'Report',
+             #           '', as well as 'C'.
              {($_ -eq "G") -or `
                  ($_ -eq "Generate Report") -or `
                  ($_ -eq "Report") -or `
