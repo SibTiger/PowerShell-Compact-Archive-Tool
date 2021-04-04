@@ -119,6 +119,10 @@
      {
          switch ($userRequest)
          {
+             # Compression Level
+             # Verify Build
+             # Generate Report
+             
              # Access the Help Program's Documentation
              #  NOTE: Allow the user's request when they type: 'Help', 'Helpme',
              #           'Help me', as well as '?'.
