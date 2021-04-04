@@ -27,13 +27,13 @@
          # This variable will hold the user's input as they navigate within the
          #  main settings menu.
          [string] $userInput = $null;
- 
+
          # This variable will determine if the user is to remain within the current menu loop.
          #  If the user were to exit from the menu, this variable's state will be set as false.
          #  Thus, with a false value - they may leave the menu.
          [bool] $menuLoop = $true;
          # ----------------------------------------
- 
+
          # Open the Zip Settings Menu
          #  Keep the user at the Zip Settings Menu until they request to return
          #  back to the previous menu.
@@ -42,30 +42,30 @@
              # Clear the terminal of all previous text; keep the space clean so that it is easy
              #  for the user to read and follow along.
              [CommonIO]::ClearBuffer();
- 
+
              # Draw Program Information Header
              [CommonCUI]::DrawProgramTitleHeader();
- 
+
              # Show the user that they are at the Zip Settings Menu.
              [CommonCUI]::DrawSectionHeader("Zip Settings Menu");
- 
+
              # Display the instructions to the user
              [CommonCUI]::DrawMenuInstructions();
- 
+
              # Draw the Zip Settings Menu list to the user
              [SettingsZip]::DrawMenu();
- 
+
              # Capture the user's feedback
              $userInput = [CommonCUI]::GetUserInput();
- 
+
              # Execute the user's request
              $menuLoop = [SettingsZip]::EvaluateExecuteUserRequest($userInput);
          } while($menuLoop);
      } # Main()
- 
- 
- 
- 
+
+
+
+
     <# Draw Menu
      # -------------------------------
      # Documentation:
@@ -84,20 +84,19 @@
 
          # Program Tools
          [CommonCUI]::DrawMenuItem('?', "Help Documentation");
- 
- 
+
+
          # Return back to the Main Menu
-         [CommonCUI]::DrawMenuItem('X', "Go back to Main Menu");
- 
- 
+         [CommonCUI]::DrawMenuItem('X', "Go back to previous Menu");
+
+
          # Provide some extra padding
          [Logging]::DisplayMessage("`r`n");
-         # 
      } # DrawMenu()
- 
- 
- 
- 
+
+
+
+
     <# Evaluate and Execute User's Request
      # -------------------------------
      # Documentation:
@@ -134,13 +133,13 @@
                  [WebsiteResources]::AccessWebSite_General("$($Global:_PROGRAMSITEWIKI_)",              ` # Project's Repository
                                                          "$([ProjectInformation]::projectName) Wiki",    ` # Show page title
                                                          $false) | Out-Null;                             ` # Do not force Web Browser function
- 
- 
+
+
                  # Finished
                  break;
              } # Access Help Program's Documentation
- 
- 
+
+
              # Exit
              #  NOTE: Allow the user's request when they type: 'Exit', 'Cancel', 'Return',
              #         'Settings Menu', as well as 'X'.
@@ -156,21 +155,21 @@
                  # Return back to the Setting's Main Menu
                  return $false;
              } # Exit
- 
- 
+
+
              # Unknown Option
              default
              {
                  # Provide an error message to the user that the option they chose is
                  #  not available.
                  [CommonCUI]::DrawIncorrectMenuOption();
- 
+
                  # Finished
                  break;
              } # Unknown Option
          } # Switch: Option Request
- 
- 
+
+
          # Finished with the operation; return back to the current menu.
          return $true;
      } # EvaluateExecuteUserRequest()
