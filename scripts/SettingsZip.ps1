@@ -121,7 +121,8 @@
          {
              # Compression Level
              {($_ -eq "C") -or `
-                 ($_ -eq "Compression Level")
+                 ($_ -eq "Compression Level") -or `
+                 ($_ -eq "Compress
              
              # Verify Build
              
