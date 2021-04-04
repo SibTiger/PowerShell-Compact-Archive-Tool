@@ -143,7 +143,8 @@
              
              # Generate Report
              #  NOTE: Allow the user's request when they type: 'Report',
-             #           '', as well as 'C'.
+             #           'Generate Report', 'Generate Report of Archive Datafile',
+             #           as well as 'G'.
              {($_ -eq "G") -or `
                  ($_ -eq "Generate Report") -or `
                  ($_ -eq "Report") -or `
