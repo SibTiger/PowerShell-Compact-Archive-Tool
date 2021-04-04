@@ -124,9 +124,10 @@
                  ($_ -eq "Compression Level") -or `
                  ($_ -eq "Compress")}
              {
-             } #
+             } # Compression Level
              
              # Verify Build
+             {($_ -eq "
              
              # Generate Report
              
