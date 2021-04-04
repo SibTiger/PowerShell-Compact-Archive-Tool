@@ -13,7 +13,7 @@
 
  class SettingsZip
  {
-    <# General Program Settings Menu Driver
+    <# Settings Zip Menu Driver
      # -------------------------------
      # Documentation:
      #  This function will allow the ability for the user to select which
