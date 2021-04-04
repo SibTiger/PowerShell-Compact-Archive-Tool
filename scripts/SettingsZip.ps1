@@ -128,7 +128,8 @@
              
              # Verify Build
              {($_ -eq "V") -or `
-                 ($_ -eq "Verify") -
+                 ($_ -eq "Verify") -or `
+                 ($_ -eq "Verify Build")}
              
              # Generate Report
              
