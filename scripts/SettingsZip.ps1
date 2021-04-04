@@ -77,15 +77,11 @@
      hidden static [void] DrawMenu()
      {
          # Display the menu list
-         [CommonCUI]::DrawMenuItem('C', "Compression Tool");
-         [CommonCUI]::DrawMenuItem('P', "Locate Project Path");
-         [CommonCUI]::DrawMenuItem('O', "Compiled Builds Output Path");
-         [CommonCUI]::DrawMenuItem('G', "Git Features");
-         [CommonCUI]::DrawMenuItem('E', "Windows Explorer Features");
-         [CommonCUI]::DrawMenuItem('A', "Alarms");
- 
- 
- 
+         [CommonCUI]::DrawMenuItem('C', "Compression Level");
+         [CommonCUI]::DrawMenuItem('V', "Verify Build after Compression");
+         [CommonCUI]::DrawMenuItem('R', "Generate Report of Archive Datafile");
+
+
          # Program Tools
          [CommonCUI]::DrawMenuItem('?', "Help Documentation");
  
