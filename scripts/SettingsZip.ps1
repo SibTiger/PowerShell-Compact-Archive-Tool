@@ -120,7 +120,8 @@
          switch ($userRequest)
          {
              # Compression Level
-             {($_ -eq "C"
+             {($_ -eq "C") -or `
+                 ($_ -eq "C
              
              # Verify Build
              
