@@ -126,6 +126,7 @@
              {
              } # Compression Level
              
+             
              # Verify Build
              {($_ -eq "V") -or `
                  ($_ -eq "Verify") -or `
@@ -133,6 +134,7 @@
                  ($_ -eq "Verify Build after Compression")}
              {
              } # Verify Build
+             
              
              # Generate Report
              {($_ -eq "G") -or `
