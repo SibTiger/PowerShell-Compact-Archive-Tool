@@ -130,6 +130,8 @@
              
              
              # Verify Build
+             #  NOTE: Allow the user's request when they type: 'Verify',
+             #           'Verify Build', 'Verify Build as well as 'V'.
              {($_ -eq "V") -or `
                  ($_ -eq "Verify") -or `
                  ($_ -eq "Verify Build") -or `
