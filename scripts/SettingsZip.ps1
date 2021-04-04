@@ -120,8 +120,8 @@
          switch ($userRequest)
          {
              # Compression Level
-             #  NOTE: Allow the user's request when they type: 'Compress', 'Compression Level',
-             #           ' as well as '?'.
+             #  NOTE: Allow the user's request when they type: 'Compress',
+             #           'Compression Level', as well as 'C'.
              {($_ -eq "C") -or `
                  ($_ -eq "Compression Level") -or `
                  ($_ -eq "Compress")}
