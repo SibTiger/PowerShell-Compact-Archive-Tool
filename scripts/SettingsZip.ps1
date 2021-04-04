@@ -137,7 +137,9 @@
              {($_ -eq "G") -or `
                  ($_ -eq "Generate Report") -or `
                  ($_ -eq "Report") -or `
-                 ($_ -eq "             
+                 ($_ -eq "Generate Report of Archive Datafile")}
+             {
+             } # Gene
              
              # Access the Help Program's Documentation
              #  NOTE: Allow the user's request when they type: 'Help', 'Helpme',
