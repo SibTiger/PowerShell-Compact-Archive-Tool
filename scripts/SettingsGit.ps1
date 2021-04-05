@@ -77,12 +77,12 @@ class SettingsGit
     hidden static [void] DrawMenu()
     {
         # Display the menu list
-        [CommonCUI]::DrawMenuItem('C', "Compression Tool");
-        [CommonCUI]::DrawMenuItem('P', "Locate Project Path");
-        [CommonCUI]::DrawMenuItem('O', "Compiled Builds Output Path");
-        [CommonCUI]::DrawMenuItem('G', "Git Features");
-        [CommonCUI]::DrawMenuItem('E', "Windows Explorer Features");
-        [CommonCUI]::DrawMenuItem('A', "Alarms");
+        [CommonCUI]::DrawMenuItem('B', "Browse for Git");
+        [CommonCUI]::DrawMenuItem('U', "Update Source");
+        [CommonCUI]::DrawMenuItem('S', "Size of Commit ID");
+        [CommonCUI]::DrawMenuItem('H', "Retrieve History");
+        [CommonCUI]::DrawMenuItem('L', "History Commit Size");
+        [CommonCUI]::DrawMenuItem('R', "Generate Report of Archive Datafile");
 
 
 
