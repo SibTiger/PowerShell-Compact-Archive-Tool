@@ -164,7 +164,7 @@ class SettingsZip
                 # Open the webpage as requested
                 #  NOTE: We do not care about the return result as there's
                 #         nothing we can do at this present point.
-                [WebsiteResources]::AccessWebSite_General("$($Global:_PROGRAMSITEWIKI_)",              ` # Project's Repository
+                [WebsiteResources]::AccessWebSite_General("$($Global:_PROGRAMSITEWIKI_)",               ` # Project's Repository
                                                         "$([ProjectInformation]::projectName) Wiki",    ` # Show page title
                                                         $false) | Out-Null;                             ` # Do not force Web Browser function
 
