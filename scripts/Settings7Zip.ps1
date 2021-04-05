@@ -77,12 +77,14 @@ class Settings7Zip
     hidden static [void] DrawMenu()
     {
         # Display the menu list
-        [CommonCUI]::DrawMenuItem('C', "Compression Tool");
-        [CommonCUI]::DrawMenuItem('P', "Locate Project Path");
-        [CommonCUI]::DrawMenuItem('O', "Compiled Builds Output Path");
-        [CommonCUI]::DrawMenuItem('G', "Git Features");
-        [CommonCUI]::DrawMenuItem('E', "Windows Explorer Features");
-        [CommonCUI]::DrawMenuItem('A', "Alarms");
+        [CommonCUI]::DrawMenuItem('B', "Browse for 7Zip");
+        [CommonCUI]::DrawMenuItem('S', "Compression Method");
+        [CommonCUI]::DrawMenuItem('Z', "Zip Algorithm");
+        [CommonCUI]::DrawMenuItem('7', "7Zip Algorithm");
+        [CommonCUI]::DrawMenuItem('M', "Multithreaded Operations");
+        [CommonCUI]::DrawMenuItem('C', "Compression Level");
+        [CommonCUI]::DrawMenuItem('V', "Verify Build after Compression");
+        [CommonCUI]::DrawMenuItem('R', "Generate Report of Archive Datafile");
 
 
 
