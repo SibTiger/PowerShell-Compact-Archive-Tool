@@ -178,16 +178,9 @@ class Settings
                 ($_ -eq "Configure Zip") -or `
                 ($_ -eq "Zip")}
             {
-                # Configure Zip Preferences
-                [Logging]::DisplayMessage("Configure Zip Preferences...");
+                # Open the Zip preferences menu
+                [SettingsZip]::Main();
 
-                # Not yet available!
-                [Logging]::DisplayMessage("`tYonkers!");
-                [Logging]::DisplayMessage("##################################");
-                [Logging]::DisplayMessage("");
-                [Logging]::DisplayMessage("This feature is not yet available!");
-                [Logging]::DisplayMessage("`r`n");
-                PAUSE;
 
                 # Finished
                 break;
@@ -203,16 +196,9 @@ class Settings
                 ($_ -eq "7Zip") -or `
                 ($_ -eq "7Z")}
             {
-                # Configure 7Zip Preferences
-                [Logging]::DisplayMessage("Configure 7Zip Preferences...");
+                # Open the 7Zip preferences menu
+                [Settings7Zip]::Main();
 
-                # Not yet available!
-                [Logging]::DisplayMessage("`tYonkers!");
-                [Logging]::DisplayMessage("##################################");
-                [Logging]::DisplayMessage("");
-                [Logging]::DisplayMessage("This feature is not yet available!");
-                [Logging]::DisplayMessage("`r`n");
-                PAUSE;
 
                 # Finished
                 break;
@@ -227,16 +213,9 @@ class Settings
                 ($_ -eq "Configure Git") -or `
                 ($_ -eq "Git")}
             {
-                # Configure Git Preferences
-                [Logging]::DisplayMessage("Configure Zip Preferences...");
+                # Open the Git preferences menu
+                [SettingsGit]::Main();
 
-                # Not yet available!
-                [Logging]::DisplayMessage("`tYonkers!");
-                [Logging]::DisplayMessage("##################################");
-                [Logging]::DisplayMessage("");
-                [Logging]::DisplayMessage("This feature is not yet available!");
-                [Logging]::DisplayMessage("`r`n");
-                PAUSE;
 
                 # Finished
                 break;
