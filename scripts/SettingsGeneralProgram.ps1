@@ -78,27 +78,27 @@ class SettingsGeneralProgram
     {
         # Display the menu list
         # Paths
-        [CommonCUI]::DrawMenuItem('P', "Locate Project Path");
-        [CommonCUI]::DrawMenuItem('O', "Compiled Builds Output Path");
+        [CommonCUI]::DrawMenuItem('P', "Locate Project Path", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('O', "Compiled Builds Output Path", "$($NULL)");
         
         
         # Tools and Features
-        [CommonCUI]::DrawMenuItem('C', "Compression Tool");
-        [CommonCUI]::DrawMenuItem('G', "Git Features");
-        [CommonCUI]::DrawMenuItem('E', "Graphical User Interface Features");
+        [CommonCUI]::DrawMenuItem('C', "Compression Tool", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('G', "Git Features", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('E', "Graphical User Interface Features", "$($NULL)");
         
         
         # Notifications
-        [CommonCUI]::DrawMenuItem('N', "Notifications");
+        [CommonCUI]::DrawMenuItem('N', "Notifications", "$($NULL)");
 
 
 
         # Program Tools
-        [CommonCUI]::DrawMenuItem('?', "Help Documentation");
+        [CommonCUI]::DrawMenuItem('?', "Help Documentation", "$($NULL)");
 
 
         # Return back to the Main Menu
-        [CommonCUI]::DrawMenuItem('X', "Go back to previous menu");
+        [CommonCUI]::DrawMenuItem('X', "Go back to previous menu", "$($NULL)");
 
 
         # Provide some extra padding
