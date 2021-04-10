@@ -126,6 +126,131 @@ class Settings7Zip
     {
         switch ($userRequest)
         {
+            # Browse for 7Zip
+            #  NOTE: Allow the user's request when they type: 'Browse for 7Zip', 'Find 7Zip',
+            #           'Locate 7Zip', 'Browse 7Zip', as well as 'B'.
+            {($_ -eq "B") -or `
+                ($_ -eq "Browse for 7Zip") -or `
+                ($_ -eq "Find 7Zip") -or `
+                ($_ -eq "Locate 7Zip") -or `
+                ($_ -eq "Browse 7Zip")}
+            {
+                # Still working on this
+
+
+                # Finished
+                break;
+            } # Browse for 7Zip
+
+
+
+            # Compression Method
+            #  NOTE: Allow the user's request when they type: 'Compression Method' and 'S'.
+            {($_ -eq "S") -or `
+                ($_ -eq "Compression Method")}
+            {
+                # Still working on this
+
+
+                # Finished
+                break;
+            } # Compression Method
+
+
+
+            # Zip Algorithm
+            #  NOTE: Allow the user's request when they type: 'Zip Algorithm' and 'Z'.
+            {($_ -eq "Z") -or `
+                ($_ -eq "Zip Algorithm")}
+            {
+                # Still working on this
+
+
+                # Finished
+                break;
+            } # Zip Algorithm
+
+
+
+            # 7Zip Algorithm
+            #  NOTE: Allow the user's request when they type: '7Zip Algorithm' and '7'.
+            {($_ -eq "7") -or `
+                ($_ -eq "7Zip Algorithm")}
+            {
+                # Still working on this
+
+
+                # Finished
+                break;
+            } # 7Zip Algorithm
+
+
+
+            # Multithreaded Operations
+            #  NOTE: Allow the user's request when they type: 'Multithreaded Operations', 'Multithread', as well as 'M'.
+            {($_ -eq "M") -or `
+                ($_ -eq "Multithreaded Operations") -or `
+                ($_ -eq "Multithread")}
+            {
+                # Still working on this
+
+
+                # Finished
+                break;
+            } # Multithreaded Operations
+
+
+
+            # Compression Level
+            #  NOTE: Allow the user's request when they type: 'Compression Level' and 'C'.
+            {($_ -eq "C") -or `
+                ($_ -eq "Compression Level")}
+            {
+                # Still working on this
+
+
+                # Finished
+                break;
+            } # Compression Level
+
+
+
+            # Verify Build after Compression
+            #  NOTE: Allow the user's request when they type: 'Verify Build after Compression', 'Verify',
+            #           'Verify Build', 'Test Build', 'Test', as well as 'V'.
+            {($_ -eq "V") -or `
+                ($_ -eq "Verify Build after Compression") -or `
+                ($_ -eq "Verify") -or `
+                ($_ -eq "Verify Build") -or `
+                ($_ -eq "Test Build") -or `
+                ($_ -eq "Test")}
+            {
+                # Still working on this
+
+
+                # Finished
+                break;
+            } # Verify Build after Compression
+
+
+
+            # Generate Report of Archive Datafile
+            #  NOTE: Allow the user's request when they type: 'Report', 'Generate Report',
+            #           'Generate Report of Archive Datafile', as well as 'R'.
+            {($_ -eq "R") -or `
+                ($_ -eq "Generate Report") -or `
+                ($_ -eq "Report") -or `
+                ($_ -eq "Generate Report of Archive Datafile")}
+            {
+                # Still working on this
+
+
+                # Finished
+                break;
+            } # Generate Report of Archive Datafile
+
+
+
             # Access the Help Program's Documentation
             #  NOTE: Allow the user's request when they type: 'Help', 'Helpme',
             #           'Help me', as well as '?'.
@@ -147,6 +272,7 @@ class Settings7Zip
             } # Access Help Program's Documentation
 
 
+
             # Exit
             #  NOTE: Allow the user's request when they type: 'Exit', 'Cancel', 'Return',
             #         'Settings Menu', as well as 'X'.
@@ -164,6 +290,7 @@ class Settings7Zip
             } # Exit
 
 
+
             # Unknown Option
             default
             {
@@ -175,6 +302,7 @@ class Settings7Zip
                 break;
             } # Unknown Option
         } # Switch: Option Request
+
 
 
         # Finished with the operation; return back to the current menu.
