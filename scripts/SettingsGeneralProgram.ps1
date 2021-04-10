@@ -80,14 +80,14 @@ class SettingsGeneralProgram
         # Paths
         [CommonCUI]::DrawMenuItem('P', "Locate Project Path", "$($NULL)");
         [CommonCUI]::DrawMenuItem('O', "Compiled Builds Output Path", "$($NULL)");
-        
-        
+
+
         # Tools and Features
         [CommonCUI]::DrawMenuItem('C', "Compression Tool", "$($NULL)");
         [CommonCUI]::DrawMenuItem('G', "Git Features", "$($NULL)");
         [CommonCUI]::DrawMenuItem('E', "Graphical User Interface Features", "$($NULL)");
-        
-        
+
+
         # Notifications
         [CommonCUI]::DrawMenuItem('N', "Notifications", "$($NULL)");
 
@@ -138,6 +138,7 @@ class SettingsGeneralProgram
                 ($_ -eq "Locate Project")}
             {
                 # Still working on this
+
 
                 # Finished
                 break;
@@ -272,6 +273,7 @@ class SettingsGeneralProgram
                 # Provide an error message to the user that the option they chose is
                 #  not available.
                 [CommonCUI]::DrawIncorrectMenuOption();
+
 
                 # Finished
                 break;
