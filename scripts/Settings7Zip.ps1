@@ -186,7 +186,8 @@ class Settings7Zip
 
 
             # Multithreaded Operations
-            #  NOTE: Allow the user's request when they type: 'Multithreaded Operations', 'Multithread', as well as 'M'.
+            #  NOTE: Allow the user's request when they type: 'Multithreaded Operations',
+            #           'Multithread', as well as 'M'.
             {($_ -eq "M") -or `
                 ($_ -eq "Multithreaded Operations") -or `
                 ($_ -eq "Multithread")}
