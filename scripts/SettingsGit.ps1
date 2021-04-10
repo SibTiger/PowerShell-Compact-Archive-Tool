@@ -13,7 +13,7 @@
 
 class SettingsGit
 {
-<# General Program Settings Menu Driver
+   <# General Program Settings Menu Driver
     # -------------------------------
     # Documentation:
     #  This function will allow the ability for the user to select which
@@ -66,7 +66,7 @@ class SettingsGit
 
 
 
-<# Draw Menu
+   <# Draw Menu
     # -------------------------------
     # Documentation:
     #  This function will essentially draw the menu list to the user.
@@ -102,7 +102,7 @@ class SettingsGit
 
 
 
-<# Evaluate and Execute User's Request
+   <# Evaluate and Execute User's Request
     # -------------------------------
     # Documentation:
     #  This function will evaluate and execute the user's desired request in respect to
@@ -145,6 +145,7 @@ class SettingsGit
             } # Access Help Program's Documentation
 
 
+
             # Exit
             #  NOTE: Allow the user's request when they type: 'Exit', 'Cancel', 'Return',
             #         'Settings Menu', as well as 'X'.
@@ -169,10 +170,12 @@ class SettingsGit
                 #  not available.
                 [CommonCUI]::DrawIncorrectMenuOption();
 
+
                 # Finished
                 break;
             } # Unknown Option
         } # Switch: Option Request
+
 
 
         # Finished with the operation; return back to the current menu.
