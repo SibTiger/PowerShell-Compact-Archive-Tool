@@ -77,17 +77,17 @@ class SettingsZip
     hidden static [void] DrawMenu()
     {
         # Display the menu list
-        [CommonCUI]::DrawMenuItem('C', "Compression Level");
-        [CommonCUI]::DrawMenuItem('V', "Verify Build after Compression");
-        [CommonCUI]::DrawMenuItem('R', "Generate Report of Archive Datafile");
+        [CommonCUI]::DrawMenuItem('C', "Compression Level", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('V', "Verify Build after Compression", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('R', "Generate Report of Archive Datafile", "$($NULL)");
 
 
         # Program Tools
-        [CommonCUI]::DrawMenuItem('?', "Help Documentation");
+        [CommonCUI]::DrawMenuItem('?', "Help Documentation", $($NULL));
 
 
         # Return back to the Main Menu
-        [CommonCUI]::DrawMenuItem('X', "Go back to previous Menu");
+        [CommonCUI]::DrawMenuItem('X', "Go back to previous Menu", "$($NULL)");
 
 
         # Provide some extra padding
