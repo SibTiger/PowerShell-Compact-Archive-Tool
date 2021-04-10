@@ -120,37 +120,53 @@ class SettingsZip
         switch ($userRequest)
         {
             # Compression Level
-            #  NOTE: Allow the user's request when they type: 'Compress',
-            #           'Compression Level', as well as 'C'.
+            #  NOTE: Allow the user's request when they type: 'Compression Level' and 'C'.
             {($_ -eq "C") -or `
-                ($_ -eq "Compression Level") -or `
-                ($_ -eq "Compress")}
+                ($_ -eq "Compression Level")}
             {
+                # Still working on this
+
+
+                # Finished
+                break;
             } # Compression Level
 
 
-            # Verify Build
-            #  NOTE: Allow the user's request when they type: 'Verify',
-            #           'Verify Build', 'Verify Build after Compression',
-            #           as well as 'V'.
+
+            # Verify Build after Compression
+            #  NOTE: Allow the user's request when they type: 'Verify Build after Compression', 'Verify',
+            #           'Verify Build', 'Test Build', 'Test', as well as 'V'.
             {($_ -eq "V") -or `
+                ($_ -eq "Verify Build after Compression") -or `
                 ($_ -eq "Verify") -or `
                 ($_ -eq "Verify Build") -or `
-                ($_ -eq "Verify Build after Compression")}
+                ($_ -eq "Test Build") -or `
+                ($_ -eq "Test")}
             {
-            } # Verify Build
+                # Still working on this
 
 
-            # Generate Report
-            #  NOTE: Allow the user's request when they type: 'Report',
-            #           'Generate Report', 'Generate Report of Archive Datafile',
-            #           as well as 'G'.
-            {($_ -eq "G") -or `
+                # Finished
+                break;
+            } # Verify Build after Compression
+
+
+
+            # Generate Report of Archive Datafile
+            #  NOTE: Allow the user's request when they type: 'Report', 'Generate Report',
+            #           'Generate Report of Archive Datafile', as well as 'R'.
+            {($_ -eq "R") -or `
                 ($_ -eq "Generate Report") -or `
                 ($_ -eq "Report") -or `
                 ($_ -eq "Generate Report of Archive Datafile")}
             {
-            } # Generate Report
+                # Still working on this
+
+
+                # Finished
+                break;
+            } # Generate Report of Archive Datafile
+
 
 
             # Access the Help Program's Documentation
@@ -174,6 +190,7 @@ class SettingsZip
             } # Access Help Program's Documentation
 
 
+
             # Exit
             #  NOTE: Allow the user's request when they type: 'Exit', 'Cancel', 'Return',
             #         'Settings Menu', as well as 'X'.
@@ -191,6 +208,7 @@ class SettingsZip
             } # Exit
 
 
+
             # Unknown Option
             default
             {
@@ -198,10 +216,12 @@ class SettingsZip
                 #  not available.
                 [CommonCUI]::DrawIncorrectMenuOption();
 
+
                 # Finished
                 break;
             } # Unknown Option
         } # Switch: Option Request
+
 
 
         # Finished with the operation; return back to the current menu.
