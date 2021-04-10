@@ -173,10 +173,13 @@ class Settings
             # Configure Zip Preferences
             #  NOTE: Allow the user's request when they type: 'Configure Zip Preferences',
             #           'Configure Zip', 'Zip', as well as 'Z'.
-            {($_ -eq "Z") -or `
+            #       Further, only allow the option if and only if the feature is available
+            #           within the current session of the program's instance.
+            {(($_ -eq "Z") -or `
                 ($_ -eq "Configure Zip Preferences") -or `
                 ($_ -eq "Configure Zip") -or `
-                ($_ -eq "Zip")}
+                ($_ -eq "Zip")) -and `
+                    ([CommonFunctions]::IsAvailableZip() -eq $true)}
             {
                 # Open the Zip preferences menu
                 [SettingsZip]::Main();
@@ -190,11 +193,14 @@ class Settings
             # Configure 7Zip Preferences
             #  NOTE: Allow the user's request when they type: 'Configure 7Zip Preferences',
             #           'Configure 7Zip', '7Zip', '7Z', as well as '7'.
-            {($_ -eq "7") -or `
+            #       Further, only allow the option if and only if the feature is available
+            #           within the current session of the program's instance.
+            {(($_ -eq "7") -or `
                 ($_ -eq "Configure 7Zip Preferences") -or `
                 ($_ -eq "Configure 7Zip") -or `
                 ($_ -eq "7Zip") -or `
-                ($_ -eq "7Z")}
+                ($_ -eq "7Z")) -and `
+                    ([CommonFunctions]::IsAvailable7Zip() -eq $true)}
             {
                 # Open the 7Zip preferences menu
                 [Settings7Zip]::Main();
@@ -208,10 +214,13 @@ class Settings
             # Configure Git Preferences
             #  NOTE: Allow the user's request when they type: 'Configure Git Preferences',
             #           'Configure Git', 'Git', as well as 'G'.
-            {($_ -eq "G") -or `
+            #       Further, only allow the option if and only if the feature is available
+            #           within the current session of the program's instance.
+            {(($_ -eq "G") -or `
                 ($_ -eq "Configure Git Preferences") -or `
                 ($_ -eq "Configure Git") -or `
-                ($_ -eq "Git")}
+                ($_ -eq "Git")) -and `
+                    ([CommonFunctions]::IsAvailableGit() -eq $true)}
             {
                 # Open the Git preferences menu
                 [SettingsGit]::Main();
