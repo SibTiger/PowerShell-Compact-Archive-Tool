@@ -90,20 +90,20 @@ class MainMenu
         # Display the Main Menu list
 
         # Generate Project and View Project Information
-        [CommonCUI]::DrawMenuItem('B', "Build $([ProjectInformation]::projectName)");
-        [CommonCUI]::DrawMenuItem('H', "Access $([ProjectInformation]::projectName) Homepage");
-        [CommonCUI]::DrawMenuItem('W', "Access $([ProjectInformation]::projectName) Wiki");
-        [CommonCUI]::DrawMenuItem('S', "Access $([ProjectInformation]::projectName) Source Code");
+        [CommonCUI]::DrawMenuItem('B', "Build $([ProjectInformation]::projectName)", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('H', "Access $([ProjectInformation]::projectName) Homepage", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('W', "Access $([ProjectInformation]::projectName) Wiki", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('S', "Access $([ProjectInformation]::projectName) Source Code", "$($NULL)");
 
 
         # Program Tools
-        [CommonCUI]::DrawMenuItem('P', "Preferences");
-        [CommonCUI]::DrawMenuItem('U', "Update $($Global:_PROGRAMNAME_)");
-        [CommonCUI]::DrawMenuItem('?', "Help Documentation");
+        [CommonCUI]::DrawMenuItem('P', "Preferences", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('U', "Update $($Global:_PROGRAMNAME_)", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('?', "Help Documentation", "$($NULL)");
 
 
         # Terminate application
-        [CommonCUI]::DrawMenuItem('X', "Exit");
+        [CommonCUI]::DrawMenuItem('X', "Exit", "$($NULL)");
 
 
         # Provide some extra padding
