@@ -206,13 +206,41 @@ class CommonCUI
     #   The character key that the user requests to access the item.
     #  [string] Item Description
     #   The description or information of the menu item.
+    #  [string] Item Sub-Description (Optional)
+    #   This will provide further information regarding the menu item.
+    #   Ideal to provide information regarding the item's current state or essentially
+    #   what the item does within the current session.
+    #       NOTE: This can be nullable; it is not absolutely required.
     # -------------------------------
     #>
-    static [void] DrawMenuItem([char] $itemKey,
-                                [string] $itemDescription)
+    static [void] DrawMenuItem([char] $itemKey,                 # The hotkey for the menu item
+                                [string] $itemDescription,      # Brief description of the menu item
+                                [string] $itemSubDescription)   # More information regarding the item (Optional)
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # We will use this variable to determine how the menu item will be formatted.
+        [string] $displayMenuOutputFormatting = "$($NULL)";
+        # ----------------------------------------
+
+
+        # Was the Sub-Description omitted?
+        if ($itemSubDescription -eq "$($NULL)")
+        {
+            # Sub-Description was not provided
+            $displayMenuOutputFormatting = (" [$($itemKey)] - $($itemDescription)");
+        } # If : No Sub-Description Provided
+
+        # The Sub-Description was given
+        else
+        {
+            # Sub-Description was provided
+            $displayMenuOutputFormatting = (" [$($itemKey)] - $($itemDescription)`r`n`t$($itemSubDescription)");
+        } # Else : Sub-Description Provided
+
+
         # Display the Menu Item as formatted.
-        [Logging]::DisplayMessage(" [$($itemKey)] - $($itemDescription)");
+        [Logging]::DisplayMessage("$($displayMenuOutputFormatting)");
     } # DrawMenuItem()
 
 
