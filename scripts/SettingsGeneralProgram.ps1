@@ -130,6 +130,102 @@ class SettingsGeneralProgram
     {
         switch ($userRequest)
         {
+            # Locate the Project Path
+            #  NOTE: Allow the user's request when they type: 'Locate Project'
+            #           'Locate Project Path', as well as 'P'.
+            {($_ -eq "P") -or `
+                ($_ -eq "Locate Project Path") -or `
+                ($_ -eq "Locate Project")}
+            {
+                # Still working on this
+
+                # Finished
+                break;
+            } # Locate the Project Path
+
+
+
+            # Compiled Builds Output Path
+            #  NOTE: Allow the user's request when they type: 'Compiled Builds Output Path',
+            #           'Builds Output Path', 'Output Path', 'Compiled Output Path', as well as 'O'.
+            {($_ -eq "O") -or `
+                ($_ -eq "Compiled Builds Output Path") -or `
+                ($_ -eq "Builds Output Path") -or `
+                ($_ -eq "Output Path") -or `
+                ($_ -eq "Compiled Output Path")}
+            {
+                # Still working on this
+
+
+                # Finished
+                break;
+            } # Compiled Builds Output Path
+
+
+
+            # Compression Tool
+            #  NOTE: Allow the user's request when they type: 'Compression Tool', 'Compression',
+            #           as well as 'C'.
+            {($_ -eq "C") -or `
+                ($_ -eq "Compression Tool") -or `
+                ($_ -eq "Compression")}
+            {
+                # Still working on this
+
+
+                # Finished
+                break;
+            } # Compression Tool
+
+
+
+            # Git Features
+            #  NOTE: Allow the user's request when they type: 'Git Features', 'Git',
+            #           as well as 'G'.
+            {($_ -eq "G") -or `
+                ($_ -eq "Git Features") -or `
+                ($_ -eq "Git")}
+            {
+                # Still working on this
+
+
+                # Finished
+                break;
+            } # Git Features
+
+
+
+            # Graphical User Interface Features
+            #  NOTE: Allow the user's request when they type: 'Graphical User Interface Features',
+            #           'GUI Features', as well as 'E'.
+            {($_ -eq "E") -or `
+                ($_ -eq "Graphical User Interface Features") -or `
+                ($_ -eq "GUI Features")}
+            {
+                # Still working on this
+
+
+                # Finished
+                break;
+            } # Graphical User Interface Features
+
+
+
+            # Notifications
+            #  NOTE: Allow the user's request when they type: 'Notifications', 'Notify', and 'N'.
+            {($_ -eq "N") -or `
+                ($_ -eq "Notifications") -or `
+                ($_ -eq "Notify")}
+            {
+                # Still working on this
+
+
+                # Finished
+                break;
+            } # Notifications
+
+
+
             # Access the Help Program's Documentation
             #  NOTE: Allow the user's request when they type: 'Help', 'Helpme',
             #           'Help me', as well as '?'.
@@ -151,6 +247,7 @@ class SettingsGeneralProgram
             } # Access Help Program's Documentation
 
 
+
             # Exit
             #  NOTE: Allow the user's request when they type: 'Exit', 'Cancel', 'Return',
             #         'Settings Menu', as well as 'X'.
@@ -168,6 +265,7 @@ class SettingsGeneralProgram
             } # Exit
 
 
+
             # Unknown Option
             default
             {
@@ -179,6 +277,7 @@ class SettingsGeneralProgram
                 break;
             } # Unknown Option
         } # Switch: Option Request
+
 
 
         # Finished with the operation; return back to the current menu.
