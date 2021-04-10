@@ -77,21 +77,21 @@ class SettingsGit
     hidden static [void] DrawMenu()
     {
         # Display the menu list
-        [CommonCUI]::DrawMenuItem('B', "Browse for Git");
-        [CommonCUI]::DrawMenuItem('U', "Update Source");
-        [CommonCUI]::DrawMenuItem('S', "Size of Commit ID");
-        [CommonCUI]::DrawMenuItem('H', "Retrieve History");
-        [CommonCUI]::DrawMenuItem('L', "History Commit Size");
-        [CommonCUI]::DrawMenuItem('R', "Generate Report of Archive Datafile");
+        [CommonCUI]::DrawMenuItem('B', "Browse for Git", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('U', "Update Source", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('S', "Size of Commit ID", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('H', "Retrieve History", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('L', "History Commit Size", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('R', "Generate Report of Archive Datafile", "$($NULL)");
 
 
 
         # Program Tools
-        [CommonCUI]::DrawMenuItem('?', "Help Documentation");
+        [CommonCUI]::DrawMenuItem('?', "Help Documentation", "$($NULL)");
 
 
         # Return back to the Main Menu
-        [CommonCUI]::DrawMenuItem('X', "Go back to Main Menu");
+        [CommonCUI]::DrawMenuItem('X', "Go back to Main Menu", "$($NULL)");
 
 
         # Provide some extra padding
