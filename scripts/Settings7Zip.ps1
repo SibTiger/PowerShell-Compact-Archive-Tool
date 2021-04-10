@@ -77,23 +77,23 @@ class Settings7Zip
     hidden static [void] DrawMenu()
     {
         # Display the menu list
-        [CommonCUI]::DrawMenuItem('B', "Browse for 7Zip");
-        [CommonCUI]::DrawMenuItem('S', "Compression Method");
-        [CommonCUI]::DrawMenuItem('Z', "Zip Algorithm");
-        [CommonCUI]::DrawMenuItem('7', "7Zip Algorithm");
-        [CommonCUI]::DrawMenuItem('M', "Multithreaded Operations");
-        [CommonCUI]::DrawMenuItem('C', "Compression Level");
-        [CommonCUI]::DrawMenuItem('V', "Verify Build after Compression");
-        [CommonCUI]::DrawMenuItem('R', "Generate Report of Archive Datafile");
+        [CommonCUI]::DrawMenuItem('B', "Browse for 7Zip", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('S', "Compression Method", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('Z', "Zip Algorithm", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('7', "7Zip Algorithm", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('M', "Multithreaded Operations", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('C', "Compression Level", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('V', "Verify Build after Compression", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('R', "Generate Report of Archive Datafile", "$($NULL)");
 
 
 
         # Program Tools
-        [CommonCUI]::DrawMenuItem('?', "Help Documentation");
+        [CommonCUI]::DrawMenuItem('?', "Help Documentation", "$($NULL)");
 
 
         # Return back to the Main Menu
-        [CommonCUI]::DrawMenuItem('X', "Go back to Main Menu");
+        [CommonCUI]::DrawMenuItem('X', "Go back to Main Menu", "$($NULL)");
 
 
         # Provide some extra padding
