@@ -86,7 +86,7 @@ class Settings
         # Display the Main Settings Menu list
 
         # Generate Project and View Project Information
-        [CommonCUI]::DrawMenuItem('P', "Configure General $([ProjectInformation]::projectName) Preferences");
+        [CommonCUI]::DrawMenuItem('P', "Configure General $([ProjectInformation]::projectName) Preferences", "$($NULL)");
 
 
 
@@ -94,7 +94,7 @@ class Settings
         if ([CommonFunctions]::IsAvailableZip() -eq $true)
         {
             # Option is available, so display it on the settings main menu.
-            [CommonCUI]::DrawMenuItem('Z', "Configure Zip Preferences");
+            [CommonCUI]::DrawMenuItem('Z', "Configure Zip Preferences", "$($NULL)");
         } # if: Display .NET Core ZIP Option
 
 
@@ -102,7 +102,7 @@ class Settings
         if ([CommonFunctions]::IsAvailable7Zip() -eq $true)
         {
             # Option is available, so display it on the settings main menu.
-            [CommonCUI]::DrawMenuItem('7', "Configure 7Zip Preferences");
+            [CommonCUI]::DrawMenuItem('7', "Configure 7Zip Preferences", "$($NULL)");
         } # if: Display 7Zip Option
 
 
@@ -110,17 +110,17 @@ class Settings
         if ([CommonFunctions]::IsAvailableGit() -eq $true)
         {
             # Option is available, so display it on the settings main menu.
-            [CommonCUI]::DrawMenuItem('G', "Configure Git Preferences");
+            [CommonCUI]::DrawMenuItem('G', "Configure Git Preferences", "$($NULL)");
         } # if: Display Git Option
 
 
 
         # Program Tools
-        [CommonCUI]::DrawMenuItem('?', "Help Documentation");
+        [CommonCUI]::DrawMenuItem('?', "Help Documentation", "$($NULL)");
 
 
         # Return back to the Main Menu
-        [CommonCUI]::DrawMenuItem('X', "Go back to Main Menu");
+        [CommonCUI]::DrawMenuItem('X', "Go back to Main Menu", "$($NULL)");
 
 
         # Provide some extra padding
