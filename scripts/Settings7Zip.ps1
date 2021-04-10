@@ -13,7 +13,7 @@
 
 class Settings7Zip
 {
-<# General Program Settings Menu Driver
+   <# General Program Settings Menu Driver
     # -------------------------------
     # Documentation:
     #  This function will allow the ability for the user to select which
@@ -66,7 +66,7 @@ class Settings7Zip
 
 
 
-<# Draw Menu
+   <# Draw Menu
     # -------------------------------
     # Documentation:
     #  This function will essentially draw the menu list to the user.
@@ -98,13 +98,12 @@ class Settings7Zip
 
         # Provide some extra padding
         [Logging]::DisplayMessage("`r`n");
-        # 
     } # DrawMenu()
 
 
 
 
-<# Evaluate and Execute User's Request
+   <# Evaluate and Execute User's Request
     # -------------------------------
     # Documentation:
     #  This function will evaluate and execute the user's desired request in respect to
@@ -297,6 +296,7 @@ class Settings7Zip
                 # Provide an error message to the user that the option they chose is
                 #  not available.
                 [CommonCUI]::DrawIncorrectMenuOption();
+
 
                 # Finished
                 break;
