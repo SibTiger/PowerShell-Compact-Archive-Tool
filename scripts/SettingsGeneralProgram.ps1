@@ -137,7 +137,8 @@ class SettingsGeneralProgram
                 ($_ -eq "Locate Project Path") -or `
                 ($_ -eq "Locate Project")}
             {
-                # Still working on this
+                # Allow the user to update or verify the project path.
+                [SettingsGeneralProgram]::LocateProjectPath();
 
 
                 # Finished
@@ -285,4 +286,193 @@ class SettingsGeneralProgram
         # Finished with the operation; return back to the current menu.
         return $true;
     } # EvaluateExecuteUserRequest()
+
+
+
+
+   <# Locate Project Path
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the user the ability to customize the Project Path, so that this program
+    #   can perform compact the project as expected.
+    # -------------------------------
+    #>
+    hidden static [void] LocateProjectPath()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This variable will hold the user's input as they navigate within the menu.
+        [string] $userInput = $null;
+
+        # This variable will determine if the user is to remain within the current menu loop.
+        #  If the user were to exit from the menu, this variable's state will be set as false.
+        #  Thus, with a false value - they may leave the menu.
+        [bool] $menuLoop = $true;
+
+        # Retrieve the current instance of the User Preferences object; this contains the user's
+        #  generalized settings.
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+        # ----------------------------------------
+
+        # Open the Locate Project Path Configuration Menu
+        #  Keep the user within the menu until the request to return back to the previous menu.
+        do
+        {
+            # Clear the terminal  of all previous text; keep the space clean so that it is easy
+            #  for the user to read and follow along.
+            [CommonIO]::ClearBuffer();
+
+            # Draw Program Information Header
+            [CommonCUI]::DrawProgramTitleHeader();
+
+            # Show the user that they are at the Locate Project Path
+            [CommonCUI]::DrawSectionHeader("Locate Project Path");
+
+            # Provide the current project path
+            [Logging]::DisplayMessage("Current Project Path is the following:`r`n" + `
+                                        "`t$($userPreferences.GetProjectPath())");
+
+            # Provide some extra whitespacing so that it is easier to read for the user
+            [Logging]::DisplayMessage("`r`n");
+
+            # Display the instructions to the user
+            [CommonCUI]::DrawMenuInstructions();
+
+            # Draw the menu list to the user
+            [SettingsGeneralProgram]::DrawMenuLocateProjectPath();
+
+            # Capture the user's feedback
+            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+
+            # Execute the user's request
+            $menuLoop = [SettingsGeneralProgram]::EvaluateExecuteUserRequestLocateProjectPath($userInput);
+        } until ($menuLoop)
+    } # LocateProjectPath()
+
+
+
+
+   <# Draw Menu: Locate Project Path
+    # -------------------------------
+    # Documentation:
+    #  This function will essentially draw the menu list for the Locate Project Path to the user.
+    #   Thus this provides what options are available to the user in order to configure the
+    #   project path.
+    # -------------------------------
+    #>
+    hidden static [void] DrawMenuLocateProjectPath()
+    {
+        # Display the Menu List
+
+        # Change the Project Path
+        [CommonCUI]::DrawMenuItem('C', "Change Path", "$($NULL)");
+
+
+        # Make sure that the path is correct
+        [CommonCUI]::DrawMenuItem('T', "Test Path", "$($NULL)");
+
+
+        # Return back to the previous menu
+        [CommonCUI]::DrawMenuItem('X', "Cancel", "$($NULL)");
+
+
+        # Provide some extra padding
+        [Logging]::DisplayMessage("`r`n");
+    } # DrawMenuLocateProjectPath()
+
+
+
+
+   <# Evaluate and Execute User's Request: Locate Project Path
+    # -------------------------------
+    # Documentation:
+    #  This function will evaluate and execute the user's desired request in respect to
+    #   the Menu options provided.
+    # -------------------------------
+    # Input:
+    #  [string] User's Request
+    #   This will provide the user's desired request to run an operation or to access
+    #    a specific functionality.
+    # -------------------------------
+    # Output:
+    #  [bool] User Stays at Menu
+    #   This defines if the user is to remain at the Menu screen.
+    #   $true  = User is to remain at the Menu.
+    #   $false = User requested to leave the Menu.
+    # -------------------------------
+    #>
+    hidden static [bool] EvaluateExecuteUserRequestLocateProjectPath([string] $userRequest)
+    {
+        switch ($userRequest)
+        {
+            # Change the Project Path
+            #  NOTE: Allow the user's request when they type: 'Change Path', 'Change',
+            #           'Update Path', 'Update', as well as 'C'.
+            {($_ -eq "C") -or `
+                ($_ -eq "Change Path") -or `
+                ($_ -eq "Change") -or `
+                ($_ -eq "Update Path") -or `
+                ($_ -eq "Update")}
+            {
+                # Still working on this
+
+
+                # Finished
+                break;
+            } # Change Path
+
+
+
+            # Test the Project Path
+            #  NOTE: Allow the user's request when they type: 'Test Path', 'Verify', 'Verify Path',
+            #           as well as 'T'.
+            {($_ -eq "T") -or `
+                ($_ -eq "Test Path") -or `
+                ($_ -eq "Verify") -or `
+                ($_ -eq "Verify Path")}
+            {
+                # Still working on this
+
+
+                # Finished
+                break;
+            } # Test Path
+
+
+
+            # Exit
+            #  NOTE: Allow the user's request when they type: 'Exit', 'Cancel', 'Return',
+            #         as well as 'X'.
+            #         This can come handy if the user is in a panic - remember that the terminal
+            #         is intimidating for some which may cause user's to panic, and this can be
+            #         helpful if user's are just used to typing 'Exit' or perhaps 'Quit'.
+            {($_ -eq "X") -or `
+                ($_ -eq "Exit") -or `
+                ($_ -eq "Cancel") -or `
+                ($_ -eq "Return")}
+            {
+                # Return back to the previous menu
+                return $false;
+            } # Exit
+
+
+
+            # Unknown Option
+            default
+            {
+                # Provide an error message to the user that the option they chose is
+                #  not available.
+                [CommonCUI]::DrawIncorrectMenuOption();
+
+
+                # Finished
+                break;
+            } # Unknown Option
+        } # Switch : Evaluate User's Request
+
+
+
+        # Finished with the operation; return back to the current menu.
+        return $true;
+    } # EvaluateExecuteUserRequestLocateProjectPath()
 } # SettingsGeneralProgram
