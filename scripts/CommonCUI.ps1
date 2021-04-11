@@ -182,11 +182,55 @@ class CommonCUI
     #  NOTE: This function does NOT invoke the User Input functionality; this function should be
     #         called first before requesting the user's actual feedback.
     # -------------------------------
+    # Input:
+    #  [DrawWaitingForUserInputText] Type of Text to Display
+    #   This will provide a visual sense as to what type of input that the program is expecting from
+    #   the end-user.
+    # -------------------------------
     #>
-    static [void] DrawWaitingForUserResponse()
+    static [void] DrawWaitingForUserResponse([DrawWaitingForUserInputText] $typeOfTextToDisplay)
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [string] $stringToDisplay = $null;      # This will show the type of response that the program
+                                                #  is expecting from the end user.
+        # ----------------------------------------
+
+
+        # Determine what message is to be displayed to the user in regards to what input is expected.
+        switch ($typeOfTextToDisplay)
+        {
+            # Waiting on your response
+            0
+            {
+                $stringToDisplay = "Waiting on your response. . .";
+                break;
+            } # Waiting on your response
+
+
+
+            # Please provide a new path
+            1
+            {
+                $stringToDisplay = "Please provide a new path or `"Cancel`" to cancel. . .";
+                break;
+            } # Please provide a new path
+
+
+
+            # Incorrect enumerator value; use the 'Waiting on your response' as the default
+            #  response.
+            default
+            {
+                $stringToDisplay = "Waiting on your response. . .";
+            } # Default
+        } # Switch: Determine Message
+
+
+
+
         # Let the user know that the program is waiting on their response.
-        [Logging]::DisplayMessage("Waiting on your response. . .");
+        [Logging]::DisplayMessage("$($stringToDisplay)");
 
         # Display a border to separate the input from the program's content.
         [Logging]::DisplayMessage("------------------------------");
@@ -319,16 +363,21 @@ class CommonCUI
     #
     # NOTE: Do keep in mind that user interactions are logged.
     # -------------------------------
+    # Input:
+    #  [DrawWaitingForUserInputText] Type of Text to Display
+    #   This will provide a visual sense as to what type of input that the program is expecting from
+    #   the end-user.
+    # -------------------------------
     # Output:
     #  [string] User's Feedback
     #   Returns the user's feedback
     # -------------------------------
     #>
-    static [string] GetUserInput()
+    static [string] GetUserInput([DrawWaitingForUserInputText] $typeOfTextToDisplay)
     {
         # Let the user know that the program is currently waiting for their
         #  response.
-        [CommonCUI]::DrawWaitingForUserResponse();
+        [CommonCUI]::DrawWaitingForUserResponse($typeOfTextToDisplay);
 
         # Retrieve the user's feedback and return their desired request such
         #  that it can be
@@ -336,3 +385,18 @@ class CommonCUI
         return [Logging]::GetUserInput();
     } # GetUserInput()
 } # CommonCUI
+
+
+
+
+<# Draw Waiting for User Input Text [ENUM]
+ # -------------------------------
+ # Which text will be displayed to the user in regards to the type of
+ #  input that the program is expecting.
+ # -------------------------------
+ #>
+enum DrawWaitingForUserInputText
+{
+    WaitingOnYourResponse   = 0;    # This will display "Waiting on your response. . ."
+    PleaseProvideANewPath   = 1;    # This will display "Please provide a new path or 'Cancel' to cancel. . ."
+} # DrawWaitingForUserInputText
