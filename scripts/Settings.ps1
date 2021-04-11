@@ -63,7 +63,7 @@ class Settings
             [Settings]::DrawMainSettingsMenu();
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput();
+            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
 
             # Execute the user's request
             $menuLoop = [Settings]::EvaluateExecuteUserRequest($userInput);
