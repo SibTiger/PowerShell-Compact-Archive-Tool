@@ -64,7 +64,7 @@ class MainMenu
             [MainMenu]::DrawMainMenu();
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput();
+            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
 
             # Execute the user's request
             $menuLoop = [MainMenu]::EvaluateExecuteUserRequest($userInput);
