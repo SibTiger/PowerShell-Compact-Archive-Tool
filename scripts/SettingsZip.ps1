@@ -56,7 +56,7 @@ class SettingsZip
             [SettingsZip]::DrawMenu();
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput();
+            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
 
             # Execute the user's request
             $menuLoop = [SettingsZip]::EvaluateExecuteUserRequest($userInput);
