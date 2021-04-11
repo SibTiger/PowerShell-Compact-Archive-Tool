@@ -170,6 +170,7 @@ class Settings
             } # Configure General Program Preferences
 
 
+
             # Configure Zip Preferences
             #  NOTE: Allow the user's request when they type: 'Configure Zip Preferences',
             #           'Configure Zip', 'Zip', as well as 'Z'.
@@ -188,6 +189,7 @@ class Settings
                 # Finished
                 break;
             } # Configure Zip Preferences
+
 
 
             # Configure 7Zip Preferences
@@ -211,6 +213,7 @@ class Settings
             } # Configure 7Zip Preferences
 
 
+
             # Configure Git Preferences
             #  NOTE: Allow the user's request when they type: 'Configure Git Preferences',
             #           'Configure Git', 'Git', as well as 'G'.
@@ -229,6 +232,7 @@ class Settings
                 # Finished
                 break;
             } # Configure Git Preferences
+
 
 
             # Access the Help Program's Documentation
@@ -252,6 +256,7 @@ class Settings
             } # Access Help Program's Documentation
 
 
+
             # Exit
             #  NOTE: Allow the user's request when they type: 'Exit', 'Cancel', 'Return',
             #         'Main Menu', as well as 'X'.
@@ -269,6 +274,7 @@ class Settings
             } # Exit
 
 
+
             # Unknown Option
             default
             {
@@ -280,6 +286,7 @@ class Settings
                 break;
             } # Unknown Option
         } # Switch: Option Request
+
 
 
         # Finished with the operation; return back to the current menu.
