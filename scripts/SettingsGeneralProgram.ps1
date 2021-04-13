@@ -478,6 +478,7 @@ class SettingsGeneralProgram
     
     
     
-    hidden static [void] LocateProjectPath()
+    hidden static [void] LocateProjectPathNewPath()
     {
+    } # 
 } # SettingsGeneralProgram
