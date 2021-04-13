@@ -413,7 +413,8 @@ class SettingsGeneralProgram
                 ($_ -eq "Update Path") -or `
                 ($_ -eq "Update")}
             {
-                # Still working on this
+                # Configure the 
+                LocateProjectPathNewPath();
 
 
                 # Finished
