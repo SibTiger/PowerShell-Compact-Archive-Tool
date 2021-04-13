@@ -413,7 +413,7 @@ class SettingsGeneralProgram
                 ($_ -eq "Update Path") -or `
                 ($_ -eq "Update")}
             {
-                # Configure the 
+                # Configure the path of the project source directory.
                 LocateProjectPathNewPath();
 
 
@@ -485,10 +485,11 @@ class SettingsGeneralProgram
     # -------------------------------
     # Documentation:
     #  This function will allow the user the ability to configure the path of
-    #   the Project directory.
+    #   the Project source directory.
     # -------------------------------
     #>
     hidden static [void] LocateProjectPathNewPath()
     {
+    
     } # LocateProjectPathNewPath()
 } # SettingsGeneralProgram
