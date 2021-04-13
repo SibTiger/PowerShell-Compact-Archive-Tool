@@ -474,10 +474,10 @@ class SettingsGeneralProgram
         # Finished with the operation; return back to the current menu.
         return $true;
     } # EvaluateExecuteUserRequestLocateProjectPath()
+    
+    
+    
+    
+    hidden static [void] LocateProjectPath()
+    {
 } # SettingsGeneralProgram
-
-
-
-
-
-    hidden static [void] 
