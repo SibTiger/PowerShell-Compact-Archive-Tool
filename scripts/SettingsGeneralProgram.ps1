@@ -480,6 +480,12 @@ class SettingsGeneralProgram
     
     
     
+   <# Configure Locate Project Path
+    # -------------------------------
+    # Documentation:
+    #  This function will wwill allow
+    # -------------------------------
+    #>
     hidden static [void] LocateProjectPathNewPath()
     {
     } # LocateProjectPathNewPath()
