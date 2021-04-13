@@ -490,6 +490,6 @@ class SettingsGeneralProgram
     #>
     hidden static [void] LocateProjectPathNewPath()
     {
-    
+        # Provide some extra spacing as we will continue to use the same a
     } # LocateProjectPathNewPath()
 } # SettingsGeneralProgram
