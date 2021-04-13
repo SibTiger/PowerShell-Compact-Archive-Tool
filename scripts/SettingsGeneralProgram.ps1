@@ -92,7 +92,6 @@ class SettingsGeneralProgram
         [CommonCUI]::DrawMenuItem('N', "Notifications", "$($NULL)");
 
 
-
         # Program Tools
         [CommonCUI]::DrawMenuItem('?', "Help Documentation", "$($NULL)");
 
