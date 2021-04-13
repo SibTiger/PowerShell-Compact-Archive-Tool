@@ -483,8 +483,8 @@ class SettingsGeneralProgram
    <# Configure Locate Project Path
     # -------------------------------
     # Documentation:
-    #  This function will allow the ability to configure the path of
-the Project directory.
+    #  This function will allow the user the ability to configure the path of
+    #   the Project directory.
     # -------------------------------
     #>
     hidden static [void] LocateProjectPathNewPath()
