@@ -493,6 +493,6 @@ class SettingsGeneralProgram
         # Provide some extra spacing as we will continue to use the same content
         #  area without clearing the terminal screen.  Thus, we are going to move
         #  a few lines down and apply the newer content below.
-        
+        [Logging]::DisplayMessage("\r\n\r");
     } # LocateProjectPathNewPath()
 } # SettingsGeneralProgram
