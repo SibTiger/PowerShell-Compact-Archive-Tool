@@ -388,7 +388,6 @@ class CommonCUI
 
 
 
-
    <# Browse for Target File
     # -------------------------------
     # Documentation:
