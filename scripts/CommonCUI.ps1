@@ -416,25 +416,17 @@ class CommonCUI
     #>
     hidden static [bool] BrowseForTargetFile([ref] $pathToTarget)
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # We will use this path so that we can evaluate the user's response
-        #   and also validate if the location exists.
-        [string] $newlyProvidedPath = $NULL;
-        # ----------------------------------------
-
-
         # Ask the user to provide a new path
-        [Logging]::DisplayMessage("Please provide a new path:" + `
+        [Logging]::DisplayMessage("Please provide a new path:`r`n" + `
                                 "-------------------------------------------------");
 
 
         # Obtain the user's feedback
-        $newlyProvidedPath = [Logging]::GetUserInput();
+        $pathToTarget.Value = [Logging]::GetUserInput();
 
 
         # Now that we have the user's feedback, check to make sure that the directory or file exists.
-        return $([CommonCUI]::CheckPathExists("$($newlyProvidedPath)"), $true);
+        return $([CommonIO]::CheckPathExists("$($pathToTarget.Value)", $true));
     } # BrowseForTargetFile()
 } # CommonCUI
 
