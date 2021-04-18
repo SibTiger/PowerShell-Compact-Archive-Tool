@@ -408,8 +408,8 @@ class SettingsGeneralProgram
     # Output:
     #  [bool] User Stays at Menu
     #   This defines if the user is to remain at the Menu screen.
-    #   $true  = User is to remain at the Menu.
-    #   $false = User requested to leave the Menu.
+    #       $true  = User is to remain at the Menu.
+    #       $false = User requested to leave the Menu.
     # -------------------------------
     #>
     hidden static [bool] EvaluateExecuteUserRequestLocateProjectPath([string] $userRequest)
