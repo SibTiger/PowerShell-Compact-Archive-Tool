@@ -524,8 +524,8 @@ class SettingsGeneralProgram
                                         "`r`n`r`n");
 
 
-                # Allow the user to see the message
-                PAUSE;
+                # Wait for the user to provide feedback; thus allowing the user to see the message.
+                [Logging]::GetUserEnterKey();
             } # if : User Provided incorrect path
         } # else : Path is invalid
     } # LocateProjectPathNewPath()
