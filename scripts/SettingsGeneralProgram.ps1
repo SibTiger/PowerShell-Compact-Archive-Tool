@@ -517,7 +517,7 @@ class SettingsGeneralProgram
         # Determine if the path that were provided is valid and can be used by the program.
         if ([CommonCUI]::BrowseForTargetFile([ref] $newProjectPath))
         {
-            # Because the path is valid, we will use the requested
+            # Because the path is valid, we will use the requested target directory.
             $userPreferences.SetProjectPath("$($newProjectPath)");
         } # if: Path is valid
 
