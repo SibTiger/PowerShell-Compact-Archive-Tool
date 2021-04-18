@@ -426,7 +426,7 @@ class SettingsGeneralProgram
                 ($_ -eq "Update")}
             {
                 # Configure the path of the project source directory.
-                LocateProjectPathNewPath();
+                [SettingsGeneralProgram]::LocateProjectPathNewPath();
 
 
                 # Finished
