@@ -524,7 +524,7 @@ class SettingsGeneralProgram
         # The provided path is not valid
         else
         {
-            # If the user provided "Cancel" or 'X", then do not bother the user with an error message.
+            # If the user provided "Cancel" or "X", then do not bother the user with an error message.
             #  Otherwise, provide an error message as the path is incorrect.
             if (("$($newProjectPath)" -ne "Cancel") -and `
                 ("$($newProjectPath)" -ne "x"))
