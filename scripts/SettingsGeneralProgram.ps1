@@ -289,6 +289,18 @@ class SettingsGeneralProgram
 
 
 
+
+    #region Locate Project Path
+    #                                    Locate Project Path
+    # ==========================================================================================
+    # ------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------
+    # ==========================================================================================
+
+
+
+
+
    <# Locate Project Path
     # -------------------------------
     # Documentation:
@@ -529,4 +541,5 @@ class SettingsGeneralProgram
             } # if : User Provided incorrect path
         } # else : Path is invalid
     } # LocateProjectPathNewPath()
+    #endregion
 } # SettingsGeneralProgram
