@@ -328,8 +328,24 @@ class SettingsGeneralProgram
             [CommonCUI]::DrawSectionHeader("Locate Project Path");
 
             # Provide the current project path
-            [Logging]::DisplayMessage("Current Project Path is the following:`r`n" + `
-                                        "`t$($userPreferences.GetProjectPath())");
+            #  Determine how to present to the user that the path is valid or not.
+            if ([CommonIO]::CheckPathExists("$($userPreferences.GetProjectPath())", $true))
+            {
+                # The path was found, so provide a nice message to the user - letting them know
+                #  that the program can find the project files.
+                [Logging]::DisplayMessage("I can find the $($GLOBAL:projectName) Project files within the following path:");
+            } # if: Project Path was Found
+
+            # Display that the path is not valid
+            else
+            {
+                # The path was not found, so provide a nice message to the user - letting them know
+                #  that the program cannot find the project files.
+                [Logging]::DisplayMessage("I cannot find the $($GLOBAL:projectName) Project files within the following path:");
+            } # else: Project Path was Not Found
+
+            # Output the project's path
+            [Logging]::DisplayMessage("`t$($userPreferences.GetProjectPath())");
 
             # Provide some extra whitespacing so that it is easier to read for the user
             [Logging]::DisplayMessage("`r`n");
