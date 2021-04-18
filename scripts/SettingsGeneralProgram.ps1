@@ -345,7 +345,7 @@ class SettingsGeneralProgram
 
             # Execute the user's request
             $menuLoop = [SettingsGeneralProgram]::EvaluateExecuteUserRequestLocateProjectPath($userInput);
-        } until ($menuLoop)
+        } while ($menuLoop)
     } # LocateProjectPath()
 
 
