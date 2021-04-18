@@ -329,7 +329,7 @@ class SettingsGeneralProgram
         #  Keep the user within the menu until the request to return back to the previous menu.
         do
         {
-            # Clear the terminal  of all previous text; keep the space clean so that it is easy
+            # Clear the terminal of all previous text; keep the space clean so that it is easy
             #  for the user to read and follow along.
             [CommonIO]::ClearBuffer();
 
