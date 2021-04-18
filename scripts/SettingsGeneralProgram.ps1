@@ -383,10 +383,6 @@ class SettingsGeneralProgram
         [CommonCUI]::DrawMenuItem('C', "Change Path", "$($NULL)");
 
 
-        # Make sure that the path is correct
-        [CommonCUI]::DrawMenuItem('T', "Test Path", "$($NULL)");
-
-
         # Return back to the previous menu
         [CommonCUI]::DrawMenuItem('X', "Cancel", "$($NULL)");
 
@@ -436,23 +432,6 @@ class SettingsGeneralProgram
                 # Finished
                 break;
             } # Change Path
-
-
-
-            # Test the Project Path
-            #  NOTE: Allow the user's request when they type: 'Test Path', 'Verify', 'Verify Path',
-            #           as well as 'T'.
-            {($_ -eq "T") -or `
-                ($_ -eq "Test Path") -or `
-                ($_ -eq "Verify") -or `
-                ($_ -eq "Verify Path")}
-            {
-                # Still working on this
-
-
-                # Finished
-                break;
-            } # Test Path
 
 
 
