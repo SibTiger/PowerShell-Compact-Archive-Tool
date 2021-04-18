@@ -317,7 +317,7 @@ class SettingsGeneralProgram
 
         # This variable will determine if the user is to remain within the current menu loop.
         #  If the user were to exit from the menu, this variable's state will be set as false.
-        #  Thus, with a false value - they may leave the menu.
+        #  Thus, with a false value - they may leave from the menu.
         [bool] $menuLoop = $true;
 
         # Retrieve the current instance of the User Preferences object; this contains the user's
