@@ -413,7 +413,7 @@ class CommonCUI
     #   $false = The given path did not exist.
     # -------------------------------
     #>
-    hidden static [bool] BrowseForTargetFile([ref] $pathToTarget)
+    static [bool] BrowseForTargetFile([ref] $pathToTarget)
     {
         # Ask the user to provide a new path
         [Logging]::DisplayMessage("Please provide a new path:`r`n" + `
