@@ -483,9 +483,50 @@ class SettingsGeneralProgram
     #>
     hidden static [void] LocateProjectPathNewPath()
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This will temporarily hold the user's requested path; if the path is valid -
+        #  then we will use the value already given from this variable to store it to the
+        #  Project Path variable.
+        [string] $newProjectPath = $NULL;
+
+        # We will use this instance so that we can apply the new location to the project.
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+        # ----------------------------------------
+
+
+
         # Provide some extra spacing as we will continue to use the same content
         #  area without clearing the terminal screen.  Thus, we are going to move
         #  a few lines down and apply the newer content below.
-        [Logging]::DisplayMessage("\r\n\r\n");
+        [Logging]::DisplayMessage("`r`n`r`n");
+
+
+        # Determine if the path that were provided is valid and can be used by the program.
+        if ([CommonCUI]::BrowseForTargetFile([ref] $newProjectPath))
+        {
+            # Because the path is valid, we will use the requested
+            $userPreferences.SetProjectPath("$($newProjectPath)");
+        } # if: Path is valid
+
+        # The provided path is not valid
+        else
+        {
+            # If the user provided "Cancel" or 'X", then do not bother the user with an error message.
+            #  Otherwise, provide an error message as the path is incorrect.
+            if (("$($newProjectPath)" -ne "Cancel") -and `
+                ("$($newProjectPath)" -ne "x"))
+            {
+                # Because the path is not valid, let the user know that the path does not exist
+                #  and will not be used as part of the project directory.
+                [Logging]::DisplayMessage("`r`n" + `
+                                        "The provided path does not exist and cannot be used as the Project Directory." + `
+                                        "`r`n`r`n");
+
+
+                # Allow the user to see the message
+                PAUSE;
+            } # if : User Provided incorrect path
+        } # else : Path is invalid
     } # LocateProjectPathNewPath()
 } # SettingsGeneralProgram
