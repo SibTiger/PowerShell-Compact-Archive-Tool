@@ -201,7 +201,7 @@ class CommonCUI
         switch ($typeOfTextToDisplay)
         {
             # Waiting on your response
-            0
+            ([DrawWaitingForUserInputText]::WaitingOnYourResponse)
             {
                 $stringToDisplay = "Waiting on your response. . .";
                 break;
@@ -209,8 +209,8 @@ class CommonCUI
 
 
 
-            # Please provide a new path
-            1
+            # Please provide a new path or "Cancel"
+            ([DrawWaitingForUserInputText]::PleaseProvideANewPath)
             {
                 $stringToDisplay = "Please provide a new path or `"Cancel`" to cancel. . .";
                 break;
