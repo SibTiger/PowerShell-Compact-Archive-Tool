@@ -416,8 +416,7 @@ class CommonCUI
     static [bool] BrowseForTargetFile([ref] $pathToTarget)
     {
         # Ask the user to provide a new path
-        [Logging]::DisplayMessage("Please provide a new path:`r`n" + `
-                                "-------------------------------------------------");
+        [CommonCUI]::DrawWaitingForUserResponse([DrawWaitingForUserInputText]::PleaseProvideANewPath);
 
 
         # Obtain the user's feedback
