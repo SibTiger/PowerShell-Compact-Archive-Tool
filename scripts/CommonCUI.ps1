@@ -255,31 +255,48 @@ class CommonCUI
     #   Ideal to provide information regarding the item's current state or essentially
     #   what the item does within the current session.
     #       NOTE: This can be nullable; it is not absolutely required.
+    #  [bool] Insert a New White Space
+    #   When true, this will add a new white space BELOW the current menu item that is
+    #   being drawn.  This can be useful to help the reader to see each item WITHOUT seeing
+    #   an abundance of clutter.  When false, however, there will be no additional white space
+    #   below the current menu item that is being drawn.
     # -------------------------------
     #>
     static [void] DrawMenuItem([char] $itemKey,                 # The hotkey for the menu item
                                 [string] $itemDescription,      # Brief description of the menu item
-                                [string] $itemSubDescription)   # More information regarding the item (Optional)
+                                [string] $itemSubDescription,   # More information regarding the item (Optional)
+                                [bool] $insertNewWhiteSpace)    # Provide a Whitespace to separate each menu items
     {
         # Declarations and Initializations
         # ----------------------------------------
         # We will use this variable to determine how the menu item will be formatted.
         [string] $displayMenuOutputFormatting = "$($NULL)";
+
+        # This will hold the whitespace (new line) characters, if and only if, requested
+        #  to be displayed.
+        [string] $provideWhiteSpace = "$($NULL)";
         # ----------------------------------------
+
+
+        # Are we supposed to provide a new line below the menu item?
+        if ($insertNewWhiteSpace)
+        {
+            $provideWhiteSpace = "`r`n";
+        } # if : Provide a new line
 
 
         # Was the Sub-Description omitted?
         if ($itemSubDescription -eq "$($NULL)")
         {
             # Sub-Description was not provided
-            $displayMenuOutputFormatting = (" [$($itemKey)] - $($itemDescription)");
+            $displayMenuOutputFormatting = (" [$($itemKey)] - $($itemDescription)$($provideWhiteSpace)");
         } # If : No Sub-Description Provided
 
         # The Sub-Description was given
         else
         {
             # Sub-Description was provided
-            $displayMenuOutputFormatting = (" [$($itemKey)] - $($itemDescription)`r`n`t$($itemSubDescription)");
+            $displayMenuOutputFormatting = (" [$($itemKey)] - $($itemDescription)`r`n`t$($itemSubDescription)$($provideWhiteSpace)");
         } # Else : Sub-Description Provided
 
 

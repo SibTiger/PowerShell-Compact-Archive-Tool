@@ -63,6 +63,9 @@ class MainMenu
             # Draw the Main Menu list to the user
             [MainMenu]::DrawMainMenu();
 
+            # Provide some extra padding
+            [Logging]::DisplayMessage("`r`n");
+
             # Capture the user's feedback
             $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
 
@@ -90,24 +93,20 @@ class MainMenu
         # Display the Main Menu list
 
         # Generate Project and View Project Information
-        [CommonCUI]::DrawMenuItem('B', "Build $([ProjectInformation]::projectName)", "$($NULL)");
-        [CommonCUI]::DrawMenuItem('H', "Access $([ProjectInformation]::projectName) Homepage", "$($NULL)");
-        [CommonCUI]::DrawMenuItem('W', "Access $([ProjectInformation]::projectName) Wiki", "$($NULL)");
-        [CommonCUI]::DrawMenuItem('S', "Access $([ProjectInformation]::projectName) Source Code", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('B', "Build $([ProjectInformation]::projectName)", "$($NULL)", $false);
+        [CommonCUI]::DrawMenuItem('H', "Access $([ProjectInformation]::projectName) Homepage", "$($NULL)", $false);
+        [CommonCUI]::DrawMenuItem('W', "Access $([ProjectInformation]::projectName) Wiki", "$($NULL)", $false);
+        [CommonCUI]::DrawMenuItem('S', "Access $([ProjectInformation]::projectName) Source Code", "$($NULL)", $false);
 
 
         # Program Tools
-        [CommonCUI]::DrawMenuItem('P', "Preferences", "$($NULL)");
-        [CommonCUI]::DrawMenuItem('U', "Update $($Global:_PROGRAMNAME_)", "$($NULL)");
-        [CommonCUI]::DrawMenuItem('?', "Help Documentation", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('P', "Preferences", "$($NULL)", $false);
+        [CommonCUI]::DrawMenuItem('U', "Update $($Global:_PROGRAMNAME_)", "$($NULL)", $false);
+        [CommonCUI]::DrawMenuItem('?', "Help Documentation", "$($NULL)", $false);
 
 
         # Terminate application
-        [CommonCUI]::DrawMenuItem('X', "Exit", "$($NULL)");
-
-
-        # Provide some extra padding
-        [Logging]::DisplayMessage("`r`n");
+        [CommonCUI]::DrawMenuItem('X', "Exit", "$($NULL)", $false);
     } # DrawMainMenu()
 
 

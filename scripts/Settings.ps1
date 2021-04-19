@@ -62,6 +62,9 @@ class Settings
             # Draw the Main Menu list to the user
             [Settings]::DrawMainSettingsMenu();
 
+            # Provide some extra padding
+            [Logging]::DisplayMessage("`r`n");
+
             # Capture the user's feedback
             $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
 
@@ -86,7 +89,10 @@ class Settings
         # Display the Main Settings Menu list
 
         # Generate Project and View Project Information
-        [CommonCUI]::DrawMenuItem('P', "Configure General $([ProjectInformation]::projectName) Preferences", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('P', `
+                                "Configure General $([ProjectInformation]::projectName) Preferences", `
+                                "$($NULL)", `
+                                $false);
 
 
 
@@ -94,7 +100,10 @@ class Settings
         if ([CommonFunctions]::IsAvailableZip() -eq $true)
         {
             # Option is available, so display it on the settings main menu.
-            [CommonCUI]::DrawMenuItem('Z', "Configure Zip Preferences", "$($NULL)");
+            [CommonCUI]::DrawMenuItem('Z', `
+                                    "Configure Zip Preferences", `
+                                    "$($NULL)", `
+                                    $false);
         } # if: Display .NET Core ZIP Option
 
 
@@ -102,7 +111,10 @@ class Settings
         if ([CommonFunctions]::IsAvailable7Zip() -eq $true)
         {
             # Option is available, so display it on the settings main menu.
-            [CommonCUI]::DrawMenuItem('7', "Configure 7Zip Preferences", "$($NULL)");
+            [CommonCUI]::DrawMenuItem('7', `
+                                    "Configure 7Zip Preferences", `
+                                    "$($NULL)", `
+                                    $false);
         } # if: Display 7Zip Option
 
 
@@ -110,21 +122,26 @@ class Settings
         if ([CommonFunctions]::IsAvailableGit() -eq $true)
         {
             # Option is available, so display it on the settings main menu.
-            [CommonCUI]::DrawMenuItem('G', "Configure Git Preferences", "$($NULL)");
+            [CommonCUI]::DrawMenuItem('G', `
+                                    "Configure Git Preferences", `
+                                    "$($NULL)", `
+                                    $false);
         } # if: Display Git Option
 
 
 
         # Program Tools
-        [CommonCUI]::DrawMenuItem('?', "Help Documentation", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('?', `
+                                "Help Documentation", `
+                                "$($NULL)", `
+                                $false);
 
 
         # Return back to the Main Menu
-        [CommonCUI]::DrawMenuItem('X', "Go back to Main Menu", "$($NULL)");
-
-
-        # Provide some extra padding
-        [Logging]::DisplayMessage("`r`n");
+        [CommonCUI]::DrawMenuItem('X', `
+                                "Go back to Main Menu", `
+                                "$($NULL)", `
+                                $false);
     } # DrawMainSettingsMenu()
 
 
