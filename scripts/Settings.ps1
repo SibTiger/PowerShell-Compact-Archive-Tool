@@ -90,9 +90,9 @@ class Settings
 
         # Generate Project and View Project Information
         [CommonCUI]::DrawMenuItem('P', `
-                                "Configure General $([ProjectInformation]::projectName) Preferences", `
-                                "$($NULL)", `
-                                $false);
+                                "General $($GLOBAL:_PROGRAMNAME_) Preferences", `
+                                "Configure the $($GLOBAL:_PROGRAMNAMESHORT_) generalized functionality and preferences.", `
+                                $true);
 
 
 
@@ -101,9 +101,9 @@ class Settings
         {
             # Option is available, so display it on the settings main menu.
             [CommonCUI]::DrawMenuItem('Z', `
-                                    "Configure Zip Preferences", `
-                                    "$($NULL)", `
-                                    $false);
+                                    "Zip Preferences", `
+                                    "Configure the Internal Zip's functionality and preferences.", `
+                                    $true);
         } # if: Display .NET Core ZIP Option
 
 
@@ -112,9 +112,9 @@ class Settings
         {
             # Option is available, so display it on the settings main menu.
             [CommonCUI]::DrawMenuItem('7', `
-                                    "Configure 7Zip Preferences", `
-                                    "$($NULL)", `
-                                    $false);
+                                    "7Zip Preferences", `
+                                    "Configure the 7Zip's functionality and preferences.", `
+                                    $true);
         } # if: Display 7Zip Option
 
 
@@ -123,9 +123,9 @@ class Settings
         {
             # Option is available, so display it on the settings main menu.
             [CommonCUI]::DrawMenuItem('G', `
-                                    "Configure Git Preferences", `
-                                    "$($NULL)", `
-                                    $false);
+                                    "Git Preferences", `
+                                    "Configure the Git's functionality and preferences.", `
+                                    $true);
         } # if: Display Git Option
 
 
@@ -133,8 +133,8 @@ class Settings
         # Program Tools
         [CommonCUI]::DrawMenuItem('?', `
                                 "Help Documentation", `
-                                "$($NULL)", `
-                                $false);
+                                "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Wiki documentation online.", `
+                                $true);
 
 
         # Return back to the Main Menu
