@@ -93,20 +93,49 @@ class MainMenu
         # Display the Main Menu list
 
         # Generate Project and View Project Information
-        [CommonCUI]::DrawMenuItem('B', "Build $([ProjectInformation]::projectName)", "$($NULL)", $false);
-        [CommonCUI]::DrawMenuItem('H', "Access $([ProjectInformation]::projectName) Homepage", "$($NULL)", $false);
-        [CommonCUI]::DrawMenuItem('W', "Access $([ProjectInformation]::projectName) Wiki", "$($NULL)", $false);
-        [CommonCUI]::DrawMenuItem('S', "Access $([ProjectInformation]::projectName) Source Code", "$($NULL)", $false);
+        [CommonCUI]::DrawMenuItem('B', `
+                                "Build $([ProjectInformation]::projectName)", `
+                                "Create a new build of the $([ProjectInformation]::projectName) ($([ProjectInformation]::codeName)) project.", `
+                                $true);
+
+        [CommonCUI]::DrawMenuItem('H', `
+                                "$([ProjectInformation]::projectName) Homepage", `
+                                "Access the $([ProjectInformation]::projectName)'s Homepage online.", `
+                                $true);
+
+        [CommonCUI]::DrawMenuItem('W', `
+                                "$([ProjectInformation]::projectName) Wiki", `
+                                "Access the $([ProjectInformation]::projectName)'s Wiki documentation online.", `
+                                $true);
+
+        [CommonCUI]::DrawMenuItem('S', `
+                                "$([ProjectInformation]::projectName) Source Code", `
+                                "Access the $([ProjectInformation]::projectName)'s source code online.", `
+                                $true);
 
 
         # Program Tools
-        [CommonCUI]::DrawMenuItem('P', "Preferences", "$($NULL)", $false);
-        [CommonCUI]::DrawMenuItem('U', "Update $($Global:_PROGRAMNAME_)", "$($NULL)", $false);
-        [CommonCUI]::DrawMenuItem('?', "Help Documentation", "$($NULL)", $false);
+        [CommonCUI]::DrawMenuItem('P', `
+                                "Preferences", `
+                                "Configure how $($GLOBAL:_PROGRAMNAME_) works within your desired environment.", `
+                                $true);
+
+        [CommonCUI]::DrawMenuItem('U', `
+                                "Update $($Global:_PROGRAMNAME_)", `
+                                "Check for new available versions of $($GLOBAL:_PROGRAMNAMESHORT_).", `
+                                $true);
+
+        [CommonCUI]::DrawMenuItem('?', `
+                                "Help Documentation", `
+                                "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Wiki documentation online.", `
+                                $true);
 
 
         # Terminate application
-        [CommonCUI]::DrawMenuItem('X', "Exit", "$($NULL)", $false);
+        [CommonCUI]::DrawMenuItem('X', `
+                                "Exit", `
+                                "Close the $($GLOBAL:_PROGRAMNAMESHORT_) program.", `
+                                $false);
     } # DrawMainMenu()
 
 
