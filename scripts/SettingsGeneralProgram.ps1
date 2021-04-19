@@ -929,15 +929,24 @@ class SettingsGeneralProgram
         # Display the Menu List
 
         # Use the Internal Zip support (this is from the .NET Core)
-        [CommonCUI]::DrawMenuItem('Z', "Internal ZIP", "$($NULL)", $false);
+        [CommonCUI]::DrawMenuItem('Z', `
+                                "Internal Zip", `
+                                "Use the built-in Zip functionality to create ZDoom PK3 WAD files.", `
+                                $true);
 
 
         # Use the 7Zip support (User must already have this installed)
-        [CommonCUI]::DrawMenuItem('7', "7Zip", "$($NULL)", $false);
+        [CommonCUI]::DrawMenuItem('7', `
+                                "7Zip", `
+                                "When available, use 7Zip's functionality to create ZDoom PK3 or PK7 WAD files.", `
+                                $true);
 
 
         # Return back to the previous menu
-        [CommonCUI]::DrawMenuItem('X', "Cancel", "$($NULL)", $false);
+        [CommonCUI]::DrawMenuItem('X', `
+                                "Cancel", `
+                                "Return back to the previous menu.", `
+                                $true);
     } # DrawMenuCompressionTool()
 
 
