@@ -422,11 +422,17 @@ class SettingsGeneralProgram
         # Display the Menu List
 
         # Change the Project Path
-        [CommonCUI]::DrawMenuItem('C', "Change Path", "$($NULL)", $false);
+        [CommonCUI]::DrawMenuItem('C', `
+                                "Change Path", `
+                                "Locate the directory that contains that $([ProjectInformation]::projectName) source files." , `
+                                $true);
 
 
         # Return back to the previous menu
-        [CommonCUI]::DrawMenuItem('X', "Cancel", "$($NULL)", $false);
+        [CommonCUI]::DrawMenuItem('X', `
+                                "Cancel", `
+                                "Return back to the previous menu.", `
+                                $false);
     } # DrawMenuLocateProjectPath()
 
 
