@@ -173,7 +173,9 @@ class SettingsGeneralProgram
                 ($_ -eq "Compression Tool") -or `
                 ($_ -eq "Compression")}
             {
-                # Still working on this
+                # Allow the user to specify their desired compression tool that the program will use
+                #  while generating archive data files.
+                [SettingsGeneralProgram]::CompressionTool();
 
 
                 # Finished
@@ -799,5 +801,211 @@ class SettingsGeneralProgram
             } # if : User Provided incorrect path
         } # else : Path is invalid
     } # CompiledBuildsOutputPathNewPath()
+    #endregion
+
+
+
+
+
+    #region Compression Tool
+    #                                     Compression Tool
+    # ==========================================================================================
+    # ------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------
+    # ==========================================================================================
+
+
+
+
+
+   <# Compression Tool
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the user the ability to customize which compression tool that
+    #   will be utilized by this program.
+    # -------------------------------
+    #>
+    hidden static [void] CompressionTool()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This variable will hold the user's input as they navigate within the menu.
+        [string] $userInput = $null;
+
+        # This variable will determine if the user is to remain within the current menu loop.
+        #  If the user were to exit from the menu, this variable's state will be set as false.
+        #  Thus, with a false value - they many leave from the menu.
+        [bool] $menuLoop = $true;
+
+        # Retrieve the current instance of the User Preferences object; this contains the user's
+        #  generalized settings.
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+        # ----------------------------------------
+
+        # Open the Compression Tool Configuration Menu
+        #  Keep the user within the menu until the request to return back to the previous menu.
+        do
+        {
+            # Clear the terminal of all previous text; keep the space clean so that it is easy
+            #  for the user to read and follow along.
+            [CommonIO]::ClearBuffer();
+
+            # Draw Program Information Header
+            [CommonCUI]::DrawProgramTitleHeader();
+
+            # Show the user that they are at the Compression Tool
+            [CommonCUI]::DrawSectionHeader("Compression Tool");
+
+            # Show to the user which Compression Tool is presently selected within the program.
+            [Logging]::DisplayMessage("I will use $($userPreferences.GetCompressionTool()) for compacting project files.")
+
+            #Provide some extra white spacing so that it is easier to read for the user
+            [Logging]::DisplayMessage("`r`n`r`n");
+
+            # Display the instructions to the user
+            [CommonCUI]::DrawMenuInstructions();
+
+            # Draw the menu list to the user
+            [SettingsGeneralProgram]::DrawMenuCompressionTool();
+
+            # Capture the user's feedback
+            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+
+            # Execute the user's request
+            $menuLoop = [SettingsGeneralProgram]::EvaluateExecuteUserRequestCompressionTool($userInput);
+        } while ($menuLoop);
+    } # CompressionTool()
+
+
+
+
+   <# Draw Menu: Compression Tool
+    # -------------------------------
+    # Documentation:
+    #  This function will essentially draw the menu list for the Compression Tool to the user.
+    #   Thus this provides what options are available to the user in order to configure what
+    #   compression tool that will be utilized by the program.
+    # -------------------------------
+    #>
+    hidden static [void] DrawMenuCompressionTool()
+    {
+        # Display the Menu List
+
+        # Use the Internal Zip support (this is from the .NET Core)
+        [CommonCUI]::DrawMenuItem('Z', "Internal ZIP", "$($NULL)");
+
+
+        # Use the 7Zip support (User must already have this installed)
+        [CommonCUI]::DrawMenuItem('7', "7Zip", "$($NULL)");
+
+
+        # Return back to the previous menu
+        [CommonCUI]::DrawMenuItem('X', "Cancel", "$($NULL)");
+
+
+        # Provide some extra padding
+        [Logging]::DisplayMessage("`r`n");
+    } # DrawMenuCompressionTool()
+
+
+
+
+   <# Evaluate and Execute User's Request: Compression Tool
+    # -------------------------------
+    # Documentation:
+    #  This function will evaluate and execute the user's desired request in respect to
+    #   the Menu options provided.
+    # -------------------------------
+    # Input:
+    #  [string] User's Request
+    #   This will provide the user's desired request to run an operation or to access
+    #    a specific functionality.
+    # -------------------------------
+    # Output:
+    #  [bool] User Stays at Menu
+    #   This defines if the user is to remain at the Menu screen.
+    #       $true  = User is to remain at the Menu.
+    #       $false = User requested to leave the Menu.
+    # -------------------------------
+    #>
+    hidden static [bool] EvaluateExecuteUserRequestCompressionTool([string] $userRequest)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the current instance of the User Preferences object; this contains the user's
+        #  generalized settings.
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+        # ----------------------------------------
+
+
+        switch ($userRequest)
+        {
+            # Internal Zip (.NET Core)
+            #  NOTE: Allow the user's request when they type: "Internal Zip", "Zip", "Default"
+            #           as well as 'Z'.
+            {($_ -eq "Z") -or `
+                ($_ -eq "Internal Zip") -or `
+                ($_ -eq "Zip") -or `
+                ($_ -eq "Default")}
+            {
+                # The user had selected to use the Internal Zip Compression Tool.
+                $userPreferences.SetCompressionTool([UserPreferencesCompressTool]::Default);
+
+                # Finished
+                break;
+            } # Selected Internal Zip
+
+
+
+            # 7Zip (External Tool; yet extremely handy and widely used)
+            #  NOTE: Allow the user's request when they type: "7Zip", "7Z", as well as "7"
+            {($_ -eq "7") -or `
+                ($_ -eq "7Zip") -or `
+                ($_ -eq "7Z")}
+            {
+                # The user had selected to use the 7Zip Compression Tool.
+                $userPreferences.SetCompressionTool([UserPreferencesCompressTool]::SevenZip);
+
+                # Finished
+                break;
+            } # Selected 7Zip
+
+
+
+            # Exit
+            #  NOTE: Allow the user's request when they type: 'Exit', 'Cancel', 'Return',
+            #         as well as 'X'.
+            #         This can come handy if the user is in a panic - remember that the terminal
+            #         is intimidating for some which may cause user's to panic, and this can be
+            #         helpful if user's are just used to typing 'Exit' or perhaps 'Quit'.
+            {($_ -eq "X") -or `
+                ($_ -eq "Exit") -or `
+                ($_ -eq "Cancel") -or `
+                ($_ -eq "Return")}
+            {
+                # Return back to the previous menu
+                return $false;
+            } # Exit
+
+
+
+            # Unknown Option
+            default
+            {
+                # Provide an error message to the user that the option they chose is
+                #  not available.
+                [CommonCUI]::DrawIncorrectMenuOption();
+
+
+                # Finished
+                break;
+            } # Unknown Option
+        } # Switch : Evaluate User's Request
+
+
+
+        # Finished with the operation; return back to the current menu.
+        return $true;
+    } # EvaluateExecuteUserRequestCompressionTool()
     #endregion
 } # SettingsGeneralProgram
