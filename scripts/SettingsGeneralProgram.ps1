@@ -874,12 +874,43 @@ class SettingsGeneralProgram
         # Retrieve the current instance of the User Preferences object; this contains the user's
         #  generalized settings.
         [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+
+        # We will use this string so that the user can understand the meaning of the enumerator value.
+        #  Generally speaking, the enumerator - while is a simple string, it is not meant to be displayed
+        #  as-is to the user.  thus, we will have to translate the meaning so the user knows the meaning
+        # behind the value.
+        [string] $selectedCompressionTool = $null;
         # ----------------------------------------
 
         # Open the Compression Tool Configuration Menu
         #  Keep the user within the menu until the request to return back to the previous menu.
         do
         {
+            # Determine the value of the selected compression tool and translate it so that the user
+            #  can understand the value.
+            switch ($userPreferences.GetCompressionTool())
+            {
+                "Default"
+                {
+                    $selectedCompressionTool = "Internal Zip"
+                    break;
+                }
+
+                "SevenZip"
+                {
+                    $selectedCompressionTool = "7Zip"
+                    break;
+                }
+
+                Default
+                {
+                    $selectedCompressionTool = "ERROR"
+                    break;
+                }
+            }
+
+
+
             # Clear the terminal of all previous text; keep the space clean so that it is easy
             #  for the user to read and follow along.
             [CommonIO]::ClearBuffer();
@@ -891,7 +922,7 @@ class SettingsGeneralProgram
             [CommonCUI]::DrawSectionHeader("Compression Tool");
 
             # Show to the user which Compression Tool is presently selected within the program.
-            [Logging]::DisplayMessage("I will use $($userPreferences.GetCompressionTool()) for compacting project files.")
+            [Logging]::DisplayMessage("I will use $($selectedCompressionTool) for compacting project files.")
 
             #Provide some extra white spacing so that it is easier to read for the user
             [Logging]::DisplayMessage("`r`n`r`n");
