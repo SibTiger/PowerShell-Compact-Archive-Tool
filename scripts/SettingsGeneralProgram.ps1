@@ -887,27 +887,31 @@ class SettingsGeneralProgram
         do
         {
             # Determine the value of the selected compression tool and translate it so that the user
-            #  can understand the value.
+            #  can understand the value.  Otherwise, it may confuse the user as they try to decipher
+            #  the meaning of the enumerator value as-is.
             switch ($userPreferences.GetCompressionTool())
             {
+                # dotNET Zip Archive (Built-in functionality)
                 "Default"
                 {
                     $selectedCompressionTool = "Internal Zip"
                     break;
-                }
+                } # Default
 
+                # 7Zip (External resource)
                 "SevenZip"
                 {
                     $selectedCompressionTool = "7Zip"
                     break;
-                }
+                } # 7Zip
 
+                # Unknown case
                 Default
                 {
                     $selectedCompressionTool = "ERROR"
                     break;
-                }
-            }
+                } # Error Case
+            } # Switch : Translate Enumerator Value
 
 
 
