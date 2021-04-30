@@ -894,21 +894,32 @@ class SettingsGeneralProgram
                 # dotNET Zip Archive (Built-in functionality)
                 "Default"
                 {
+                    # Set the string that will be displayed
                     $selectedCompressionTool = "Internal Zip"
+
+                    # Break from the switch
                     break;
                 } # Default
+
 
                 # 7Zip (External resource)
                 "SevenZip"
                 {
+                    # Set the string that will be displayed
                     $selectedCompressionTool = "7Zip"
+
+                    # Break from the switch
                     break;
                 } # 7Zip
+
 
                 # Unknown case
                 Default
                 {
+                    # Set the string that will be displayed
                     $selectedCompressionTool = "ERROR"
+
+                    # Break from the switch
                     break;
                 } # Error Case
             } # Switch : Translate Enumerator Value
