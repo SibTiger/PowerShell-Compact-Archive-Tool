@@ -150,6 +150,7 @@ class SettingsGeneralProgram
     #>
     hidden static [bool] EvaluateExecuteUserRequest([string] $userRequest)
     {
+        # Evaluate the user's request
         switch ($userRequest)
         {
             # Locate the Project Path
@@ -458,6 +459,7 @@ class SettingsGeneralProgram
     #>
     hidden static [bool] EvaluateExecuteUserRequestLocateProjectPath([string] $userRequest)
     {
+        # Evaluate the user's request
         switch ($userRequest)
         {
             # Change the Project Path
@@ -1026,6 +1028,7 @@ class SettingsGeneralProgram
         # ----------------------------------------
 
 
+        # Evaluate the user's request
         switch ($userRequest)
         {
             # Internal Zip (.NET Core)
