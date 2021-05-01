@@ -406,7 +406,7 @@ class SettingsGeneralProgram
 
             # Execute the user's request
             $menuLoop = [SettingsGeneralProgram]::EvaluateExecuteUserRequestLocateProjectPath($userInput);
-        } while ($menuLoop)
+        } while ($menuLoop);
     } # LocateProjectPath()
 
 
@@ -723,6 +723,7 @@ class SettingsGeneralProgram
     #>
     hidden static [bool] EvaluateExecuteUserRequestCompiledBuildsOutputPath([string] $userInput)
     {
+        # Evaluate the user's request
         switch ($userInput)
         {
             # Change the Compiled Builds Output Path
@@ -899,7 +900,7 @@ class SettingsGeneralProgram
                 "Default"
                 {
                     # Set the string that will be displayed
-                    $selectedCompressionTool = "Internal Zip"
+                    $selectedCompressionTool = "Internal Zip";
 
                     # Break from the switch
                     break;
@@ -910,7 +911,7 @@ class SettingsGeneralProgram
                 "SevenZip"
                 {
                     # Set the string that will be displayed
-                    $selectedCompressionTool = "7Zip"
+                    $selectedCompressionTool = "7Zip";
 
                     # Break from the switch
                     break;
@@ -921,7 +922,7 @@ class SettingsGeneralProgram
                 Default
                 {
                     # Set the string that will be displayed
-                    $selectedCompressionTool = "ERROR"
+                    $selectedCompressionTool = "ERROR";
 
                     # Break from the switch
                     break;
@@ -941,7 +942,7 @@ class SettingsGeneralProgram
             [CommonCUI]::DrawSectionHeader("Compression Tool");
 
             # Show to the user which Compression Tool is presently selected within the program.
-            [Logging]::DisplayMessage("I will use $($selectedCompressionTool) for compacting project files.")
+            [Logging]::DisplayMessage("I will use $($selectedCompressionTool) for compacting project files.");
 
             #Provide some extra white spacing so that it is easier to read for the user
             [Logging]::DisplayMessage("`r`n`r`n");
