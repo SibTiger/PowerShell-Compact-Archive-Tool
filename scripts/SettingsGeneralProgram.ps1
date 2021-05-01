@@ -233,7 +233,9 @@ class SettingsGeneralProgram
                 ($_ -eq "Graphical User Interface Features") -or `
                 ($_ -eq "GUI Features")}
             {
-                # Still working on this
+                # Allow the user to configure the state of the Use Windows Explorer variable, thus giving
+                #  the user the ability to benefit - if chosen so - of using Windows Explorer functionality.
+                [SettingsGeneralProgram]::UseWindowsExplorer();
 
 
                 # Finished
@@ -1675,5 +1677,240 @@ class SettingsGeneralProgram
         # Finished with the operation; return back to the current menu.
         return $true;
     } # EvaluateExecuteUserRequestNotificationTypes()
+    #endregion
+
+
+
+
+
+    #region Use Windows Explorer
+    #                                   Use Windows Explorer
+    # ==========================================================================================
+    # ------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------
+    # ==========================================================================================
+
+
+
+
+
+   <# Use Windows Explorer
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the user the ability to specify if the Windows Explorer
+    #   features and functionalities can be utilized within this program.
+    # -------------------------------
+    #>
+    hidden static [void] UseWindowsExplorer()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This variable will hold the user's input as they navigate within the menu.
+        [string] $userInput = $null;
+
+        # This variable will determine if the user is to remain within the current menu loop.
+        #  If the user were to exit from the menu, this variable's state will be set as false.
+        #  Thus, with a false value - they may leave from the menu.
+        [bool] $menuLoop = $true;
+
+        # Retrieve the current instance of the User Preferences object; this contains the user's
+        #  generalized settings.
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+
+        # We will use this variable to make the string that is displayed to the user - a bit easier to read.
+        #  Further, we could use a simple if conditional statement below where we ultimately just display the
+        #  results, but lets keep the code nicer to read for our own benefit instead.
+        [string] $decipherNiceString = $null;
+        # ----------------------------------------
+
+        # Open the Use Windows Explorer Configuration Menu
+        #  Keep the user within the menu until the request to return back to the previous menu.
+        do
+        {
+            # Determine the current state of the Use Windows Explorer variable and make it nicer for the user to understand.
+            if ($userPreferences.GetUseWindowsExplorer())
+            {
+                # The user currently has the Windows Explorer functionality presently activated
+                $decipherNiceString = "I will utilize the Windows Explorer to make it easier for you to find your files and to open websites.";
+            } # if: Windows Explorer are enabled
+
+            # Windows Explorer features not to be used within the program.
+            else
+            {
+                # The user currently has the Windows Explorer presently deactivated
+                $decipherNiceString = "I will not utilize any Windows Explorer's functionality.";
+            } # else: Windows Explorer are disabled
+
+
+
+            # Clear the terminal of all previous text; keep the space clean so that it is easy
+            #  for the user to read and follow along.
+            [CommonIO]::ClearBuffer();
+
+            # Draw Program Information Header
+            [CommonCUI]::DrawProgramTitleHeader();
+
+            # Show the user that they are at the Windows Explorer menu
+            [CommonCUI]::DrawSectionHeader("Windows Explorer");
+
+            # Show to the user the current state of the 'Use Windows Explorer' variable that is presently set within the program.
+            [Logging]::DisplayMessage("$($decipherNiceString)");
+
+            #Provide some extra white spacing so that it is easier to read for the user
+            [Logging]::DisplayMessage("`r`n`r`n");
+
+            # Display the instructions to the user
+            [CommonCUI]::DrawMenuInstructions();
+
+            # Draw the menu list to the user
+            [SettingsGeneralProgram]::DrawMenuUseWindowsExplorer();
+
+            # Provide some extra padding
+            [Logging]::DisplayMessage("`r`n");
+
+            # Capture the user's feedback
+            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+
+            # Execute the user's request
+            $menuLoop = [SettingsGeneralProgram]::EvaluateExecuteUserRequestUseWindowsExplorer($userInput);
+        } while ($menuLoop);
+    } # UseWindowsExplorer()
+
+
+
+
+   <# Draw Menu: Use Windows Explorer
+    # -------------------------------
+    # Documentation:
+    #  This function will essentially draw the menu list for the Use Windows Explorer functionality to the user.
+    #   Thus, this provides the ability to configure the state of Windows Explorer functionality within the program.
+    # -------------------------------
+    #>
+    hidden static [void] DrawMenuUseWindowsExplorer()
+    {
+        # Display the Menu List
+
+        # Allow the ability to utilize Windows Explorer functionality where available
+        [CommonCUI]::DrawMenuItem('E', `
+                                "Enable", `
+                                "Allow the program to open new windows and websites for you automatically.", `
+                                $true);
+
+
+        # Disallow the ability to utilize Windows Explorer functionality within the program.
+        [CommonCUI]::DrawMenuItem('D', `
+                                "Disable", `
+                                "Do not use any features from Windows Explorer within the program.", `
+                                $true);
+
+
+        # Return back to the previous menu
+        [CommonCUI]::DrawMenuItem('X', `
+                                "Cancel", `
+                                "Return back to the previous menu.", `
+                                $true);
+    } # DrawMenuUseWindowsExplorer()
+
+
+
+
+   <# Evaluate and Execute User's Request: Use Windows Explorer
+    # -------------------------------
+    # Documentation:
+    #  This function will evaluate and execute the user's desired request in respect to
+    #   the menu options that were provided to them.
+    # -------------------------------
+    # Input:
+    #  [string] User's Request
+    #   This will provide the user's desired request to run an operation or to access
+    #    a specific functionality.
+    # -------------------------------
+    # Output:
+    #  [bool] User Stays at Menu
+    #   This defines if the user is to remain at the Menu screen.
+    #       $true  = User is to remain at the Menu.
+    #       $false = User requested to leave the Menu.
+    # -------------------------------
+    #>
+    hidden static [bool] EvaluateExecuteUserRequestUseWindowsExplorer([string] $userRequest)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the current instance of the User Preferences object; this contains the user's
+        #  generalized settings.
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+        # ----------------------------------------
+
+
+        # Evaluate the user's request
+        switch ($userRequest)
+        {
+            # Allow Windows Explorer specific features
+            #  NOTE: Allow the user's request when they type: "True", "T", "On", as well as "E".
+            {($_ -eq "E") -or `
+                ($_ -eq "On") -or `
+                ($_ -eq "T") -or `
+                ($_ -eq "True")}
+            {
+                # The user had selected to enable the utilization of Windows Explorer functionality
+                #  within the program.
+                $userPreferences.SetUseWindowsExplorer($true);
+
+                # Finished
+                break;
+            } # Selected Enable Windows Explorer
+
+
+            # Disallow Windows Explorer
+            #  NOTE: Allow the user's request when they type: "False", "F", "Off", as well as "D".
+            {($_ -eq "D") -or `
+                ($_ -eq "Off") -or `
+                ($_ -eq "F") -or `
+                ($_ -eq "False")}
+            {
+                # The user had selected to disable all utilization of Windows Explorer functionality
+                #  within the program.
+                $userPreferences.SetUseWindowsExplorer($false);
+
+                # Finished
+                break;
+            } # Selected Disable Windows Explorer
+
+
+            # Exit
+            #  NOTE: Allow the user's request when they type: 'Exit', 'Cancel', 'Return',
+            #         as well as 'X'.
+            #         This can come handy if the user is in a panic - remember that the terminal
+            #         is intimidating for some which may cause user's to panic, and this can be
+            #         helpful if user's are just used to typing 'Exit' or perhaps 'Quit'.
+            {($_ -eq "X") -or `
+                ($_ -eq "Exit") -or `
+                ($_ -eq "Cancel") -or `
+                ($_ -eq "Return")}
+            {
+                # Return back to the previous menu
+                return $false;
+            } # Exit
+
+
+
+            # Unknown Option
+            default
+            {
+                # Provide an error message to the user that the option they chose is
+                #  not available.
+                [CommonCUI]::DrawIncorrectMenuOption();
+
+
+                # Finished
+                break;
+            } # Unknown Option
+        } # Switch : Evaluate User's Request
+
+
+
+        # Finished with the operation; return back to the current menu.
+        return $true;
+    } # EvaluateExecuteUserRequestUseWindowsExplorer()
     #endregion
 } # SettingsGeneralProgram
