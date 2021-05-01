@@ -215,7 +215,9 @@ class SettingsGeneralProgram
                 ($_ -eq "Git Features") -or `
                 ($_ -eq "Git")}
             {
-                # Still working on this
+                # Allow the user to configure the state of the Use Git Features variable, thus giving
+                #  them the ability to use or not use Git Features while compiling the project.
+                [SettingsGeneralProgram]::UseGitFeatures();
 
 
                 # Finished
@@ -1098,5 +1100,241 @@ class SettingsGeneralProgram
         # Finished with the operation; return back to the current menu.
         return $true;
     } # EvaluateExecuteUserRequestCompressionTool()
+    #endregion
+
+
+
+
+
+    #region Use Git Features
+    #                                     Use Git Features
+    # ==========================================================================================
+    # ------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------
+    # ==========================================================================================
+
+
+
+
+
+   <# Use Git Features
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the user the ability to determine if they wish to utilize Git
+    #   features and functionality while generating their builds with this program.
+    # -------------------------------
+    #>
+    hidden static [void] UseGitFeatures()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This variable will hold the user's input as they navigate within the menu.
+        [string] $userInput = $null;
+
+        # This variable will determine if the user is to remain within the current menu loop.
+        #  If the user were to exit from the menu, this variable's state will be set as false.
+        #  Thus, with a false value - they may leave from the menu.
+        [bool] $menuLoop = $true;
+
+        # Retrieve the current instance of the User Preferences object; this contains the user's
+        #  generalized settings.
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+
+        # We will use this variable to make the string that is displayed to the user - a bit easier to read.
+        #  Further, we could use a simple if conditional statement below where we ultimately just display the
+        #  results, but lets keep the code nicer to read for our own benefit instead.
+        [string] $useGitFeatureNiceString = $null;
+        # ----------------------------------------
+
+        # Open the Use Git Features Configuration Menu
+        #  Keep the user within the menu until the request to return back to the previous menu.
+        do
+        {
+            # Determine the current state of the Use Git Features variable and make it nicer for the user to understand.
+            if ($userPreferences.GetUseGitFeatures())
+            {
+                # The user currently has the Git Features presently activated
+                $useGitFeatureNiceString = "I will use Git features while managing and compacting the project files.";
+            } # if: Git Features are enabled
+
+            # Git features are not enabled
+            else
+            {
+                # The user currently has the Git Features presently deactivated
+                $useGitFeatureNiceString = "I will not use any Git features while managing and compacting the project files.";
+            } # else: Git Features are disabled
+
+
+
+            # Clear the terminal of all previous text; keep the space clean so that it is easy
+            #  for the user to read and follow along.
+            [CommonIO]::ClearBuffer();
+
+            # Draw Program Information Header
+            [CommonCUI]::DrawProgramTitleHeader();
+
+            # Show the user that they are at the Git Features
+            [CommonCUI]::DrawSectionHeader("Git Features");
+
+            # Show to the user the current state of the 'Use Git Features' variable that is presently set within the program.
+            [Logging]::DisplayMessage("$($useGitFeatureNiceString)");
+
+            #Provide some extra white spacing so that it is easier to read for the user
+            [Logging]::DisplayMessage("`r`n`r`n");
+
+            # Display the instructions to the user
+            [CommonCUI]::DrawMenuInstructions();
+
+            # Draw the menu list to the user
+            [SettingsGeneralProgram]::DrawMenuUseGitFeatures();
+
+            # Provide some extra padding
+            [Logging]::DisplayMessage("`r`n");
+
+            # Capture the user's feedback
+            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+
+            # Execute the user's request
+            $menuLoop = [SettingsGeneralProgram]::EvaluateExecuteUserRequestUseGitFeatures($userInput);
+        } while ($menuLoop);
+    } # UseGitFeatures()
+
+
+
+
+   <# Draw Menu: Use Git Features
+    # -------------------------------
+    # Documentation:
+    #  This function will essentially draw the menu list for the Use Git Features functionality
+    #   to the user.  Thus, this provides what options are available to the user in order to
+    #   configure the Git Features state for the program.
+    # -------------------------------
+    #>
+    hidden static [void] DrawMenuUseGitFeatures()
+    {
+        # Display the Menu List
+
+        # Allow the ability to utilize Git Features where available
+        [CommonCUI]::DrawMenuItem('E', `
+                                "Enable", `
+                                "Allow the ability to utilize Git features within the program automatically.", `
+                                $true);
+
+
+        # Disallow the ability to utilize Git Features within the program.
+        [CommonCUI]::DrawMenuItem('D', `
+                                "Disable", `
+                                "Do not use any Git features within the program.", `
+                                $true);
+
+
+        # Return back to the previous menu
+        [CommonCUI]::DrawMenuItem('X', `
+                                "Cancel", `
+                                "Return back to the previous menu.", `
+                                $true);
+    } # DrawMenuUseGitFeatures()
+
+
+
+
+   <# Evaluate and Execute User's Request: Use Git Features
+    # -------------------------------
+    # Documentation:
+    #  This function will evaluate and execute the user's desired request in respect to
+    #   the menu options that were provided to them.
+    # -------------------------------
+    # Input:
+    #  [string] User's Request
+    #   This will provide the user's desired request to run an operation or to access
+    #    a specific functionality.
+    # -------------------------------
+    # Output:
+    #  [bool] User Stays at Menu
+    #   This defines if the user is to remain at the Menu screen.
+    #       $true  = User is to remain at the Menu.
+    #       $false = User requested to leave the Menu.
+    # -------------------------------
+    #>
+    hidden static [bool] EvaluateExecuteUserRequestUseGitFeatures([string] $userRequest)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the current instance of the User Preferences object; this contains the user's
+        #  generalized settings.
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+        # ----------------------------------------
+
+
+        # Evaluate the user's request
+        switch ($userRequest)
+        {
+            # Allow Git Features
+            #  NOTE: Allow the user's request when they type: "True", "T", "On", as well as "E".
+            {($_ -eq "E") -or `
+                ($_ -eq "On") -or `
+                ($_ -eq "T") -or `
+                ($_ -eq "True")}
+            {
+                # The user had selected to enable the utilization of Git Features and Functionality
+                #  within the program.
+                $userPreferences.SetUseGitFeatures($true);
+
+                # Finished
+                break;
+            } # Selected Enable Git Features
+
+
+            # Disallow Git Features
+            #  NOTE: Allow the user's request when they type: "False", "F", "Off", as well as "D".
+            {($_ -eq "D") -or `
+                ($_ -eq "Off") -or `
+                ($_ -eq "F") -or `
+                ($_ -eq "False")}
+            {
+                # The user had selected to disable all utilization of Git Features and Functionality
+                #  within the program.
+                $userPreferences.SetUseGitFeatures($false);
+
+                # Finished
+                break;
+            } # Selected Disable Git Features
+
+
+            # Exit
+            #  NOTE: Allow the user's request when they type: 'Exit', 'Cancel', 'Return',
+            #         as well as 'X'.
+            #         This can come handy if the user is in a panic - remember that the terminal
+            #         is intimidating for some which may cause user's to panic, and this can be
+            #         helpful if user's are just used to typing 'Exit' or perhaps 'Quit'.
+            {($_ -eq "X") -or `
+                ($_ -eq "Exit") -or `
+                ($_ -eq "Cancel") -or `
+                ($_ -eq "Return")}
+            {
+                # Return back to the previous menu
+                return $false;
+            } # Exit
+
+
+
+            # Unknown Option
+            default
+            {
+                # Provide an error message to the user that the option they chose is
+                #  not available.
+                [CommonCUI]::DrawIncorrectMenuOption();
+
+
+                # Finished
+                break;
+            } # Unknown Option
+        } # Switch : Evaluate User's Request
+
+
+
+        # Finished with the operation; return back to the current menu.
+        return $true;
+    } # EvaluateExecuteUserRequestUseGitFeatures()
     #endregion
 } # SettingsGeneralProgram
