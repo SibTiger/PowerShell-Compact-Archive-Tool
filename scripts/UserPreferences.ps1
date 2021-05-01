@@ -55,7 +55,6 @@ class UserPreferences
                                         [string] $outputBuildsPath,                         # Output Builds absolute path
                                         [bool] $useGitFeatures,                             # Utilize Git features (if software available)
                                         [bool] $useWindowsExplorer,                         # Use Windows Explorer
-                                        [bool] $useBell,                                    # Use the Bell sound
                                         [UserPreferencesEventAlarm] $notificationType)      # Notification type to user
     {
         # if there was no previous instance of the object - then create one.
@@ -67,7 +66,6 @@ class UserPreferences
                                                                 $outputBuildsPath,
                                                                 $useGitFeatures,
                                                                 $useWindowsExplorer,
-                                                                $useBell,
                                                                 $notificationType);
         } # If: No Singleton Instance
 
@@ -118,13 +116,6 @@ class UserPreferences
     Hidden [bool] $__useWindowsExplorer;
 
 
-    # Use Bell [Alarm]
-    # ---------------
-    # When true, this program will send a 'ding' sound when an event takes place; errors,
-    #  warnings, and\or successful operations.
-    Hidden [bool] $__ringMyDingaling;
-
-
     # Bell Events
     # ---------------
     # The user can be able to pick which event is giving with an audible notification.
@@ -166,9 +157,6 @@ class UserPreferences
         # Use Windows Explorer
         $this.__useWindowsExplorer = $true;
 
-        # Use Bell
-        $this.__ringMyDingaling = $true;
-
         # Bell Events
         $this.__notificationType = [UserPreferencesEventAlarm]::Everything;
 
@@ -185,7 +173,6 @@ class UserPreferences
                     [string] $outputBuildsPath,
                     [bool] $useGitFeatures,
                     [bool] $useWindowsExplorer,
-                    [bool] $useBell,
                     [UserPreferencesEventAlarm] $notificationType)
     {
         # Compression Tool
@@ -202,9 +189,6 @@ class UserPreferences
 
         # Use Windows Explorer
         $this.__useWindowsExplorer = $useWindowsExplorer;
-
-        # Use Bell
-        $this.__ringMyDingaling = $useBell;
 
         # Bell Events
         $this.__notificationType = $notificationType;
@@ -306,23 +290,6 @@ class UserPreferences
         return $this.__useWindowsExplorer;
     } # GetUseWindowsExplorer()
 
-
-
-
-   <# Get Use Bell
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the Use 'Bell' variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Use Bell
-    #   The value of the Use Bell.
-    # -------------------------------
-    #>
-    [bool] GetUseBell()
-    {
-        return $this.__ringMyDingaling;
-    } # GetUseBell()
 
 
 
@@ -520,37 +487,6 @@ class UserPreferences
         # Successfully updated.
         return $true;
     } # SetUseWindowsExplorer()
-
-
-
-
-   <# Set Use Bell
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Use Bell' variable.
-    # -------------------------------
-    # Input:
-    #  [bool] Use the Bell Switch
-    #   When true, the application will notify the user by using the 'Bell' sound.
-    #    Though, the bell is essentially a 'Ding' from the Windows environment.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetUseBell([bool] $newVal)
-    {
-        # Because the value is either true or false, there really is no
-        #  point in checking if the new requested value is 'legal'.
-        #  Thus, we are going to trust the value and automatically
-        #  return success.
-        $this.__ringMyDingaling = $newVal;
-
-        # Successfully updated.
-        return $true;
-    } # SetUseBell()
 
 
 

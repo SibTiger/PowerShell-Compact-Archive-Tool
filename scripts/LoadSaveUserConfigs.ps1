@@ -961,30 +961,6 @@
 
 
 
-        # USER PREFERENCES -- USE BELL
-        # - - - - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Use Bell
-            $userPref.SetUseBell([bool]$cachedUserConfig[0].__ringMyDingaling);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__ringMyDingaling", `                                # The Variable Name
-                                    "User Preferences", `                                   # The Variable Category
-                                    "$([string]$cachedUserConfig[0].__ringMyDingaling))", ` # Value Stored in Config
-                                    "$([string]$userPref.GetUseBell())", `                  # Current Value
-                                    $_.Exception);                                          # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
         # USER PREFERENCES -- USE GIT FEATURES
         # - - - - - - - - - - - - - - - - - - - - - - - - - -
         try

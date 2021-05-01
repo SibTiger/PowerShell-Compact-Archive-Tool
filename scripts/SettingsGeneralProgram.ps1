@@ -1338,4 +1338,10 @@ class SettingsGeneralProgram
         return $true;
     } # EvaluateExecuteUserRequestUseGitFeatures()
     #endregion
+
+
+
+
+
+    
 } # SettingsGeneralProgram
