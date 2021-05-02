@@ -53,13 +53,13 @@ class Settings7Zip
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the General Program settings menu list to the user
-            [SettingsGeneralProgram]::DrawMenu();
+            [Settings7Zip]::DrawMenu();
 
             # Capture the user's feedback
             $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
 
             # Execute the user's request
-            $menuLoop = [SettingsGeneralProgram]::EvaluateExecuteUserRequest($userInput);
+            $menuLoop = [Settings7Zip]::EvaluateExecuteUserRequest($userInput);
         } while($menuLoop);
     } # Main()
 
