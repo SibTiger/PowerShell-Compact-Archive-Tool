@@ -159,7 +159,8 @@ class SettingsZip
                 ($_ -eq "Test Build") -or `
                 ($_ -eq "Test")}
             {
-                # Still working on this
+                # Allow the user the ability to verify a newly generated project build.
+                [SettingsZip]::VerifyBuild();
 
 
                 # Finished
@@ -515,5 +516,240 @@ class SettingsZip
         # Finished with the operation; return back to the current menu.
         return $true;
     } # EvaluateExecuteUserRequestCompressionLevel()
+    #endregion
+
+
+
+
+
+    #region Verify Build
+    #                                        Verify Build
+    # ==========================================================================================
+    # ------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------
+    # ==========================================================================================
+
+
+
+
+
+   <# Verify Build
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the user the ability to specify if the generated build should be
+    #   verified to assure a healthy archive datafile.
+    # -------------------------------
+    #>
+    hidden static [void] VerifyBuild()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This variable will hold the user's input as they navigate within the menu.
+        [string] $userInput = $null;
+
+        # This variable will determine if the user is to remain within the current menu loop.
+        #  If the user were to exit from the menu, this variable's state will be set as false.
+        #  Thus, with a false value - they may leave from the menu.
+        [bool] $menuLoop = $true;
+
+        # Retrieve the current instance of the User Preferences object; this contains the user's
+        #  generalized settings.
+        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+
+        # We will use this variable to make the string that is displayed to the user - a bit easier to read.
+        #  Further, we could use a simple if conditional statement below where we ultimately just display the
+        #  results, but lets keep the code nicer to read for our own benefit instead.
+        [string] $decipherNiceString = $null;
+        # ----------------------------------------
+
+        # Open the Verify Build Menu
+        #  Keep the user within the menu until they request to return back to the previous menu.
+        do
+        {
+            # Determine the current state of the Verify Build variable and make it nicer for the user to understand.
+            #  Is the Verify Build presently enabled?
+            if ($defaultCompress.GetVerifyBuild())
+            {
+                # Verify Build is presently set as enabled.
+                $decipherNiceString = "I will verify the newly compiled build's file integrity is healthy.";
+            } # if: Verify Build
+
+            # Is the Verify Build presently disabled?
+            else
+            {
+                # Verify Build is not presently set as enabled.
+                $decipherNiceString = "I will not verify the health of the newly compiled build.";
+            } # else: Do not verify build
+
+
+
+            # Clear the terminal of all previous text; keep the space clean so that it is easy
+            #  for the user to read and follow along.
+            [CommonIO]::ClearBuffer();
+
+            # Draw Program Information Header
+            [CommonCUI]::DrawProgramTitleHeader();
+
+            # Show the user that they are at the Verify Build menu
+            [CommonCUI]::DrawSectionHeader("Verify Build");
+
+            # Show the user the current state of the 'Verify Build' variable that is presently set within the program.
+            [Logging]::DisplayMessage("$($decipherNiceString)");
+
+            # Provide some extra white spacing so that it is easier to read for the user
+            [Logging]::DisplayMessage("`r`n`r`n");
+
+            # Display the instructions to the user
+            [CommonCUI]::DrawMenuInstructions();
+
+            # Draw the menu list to the user
+            [SettingsZip]::DrawMenuVerifyBuild();
+
+            # Provide some extra padding
+            [Logging]::DisplayMessage("`r`n");
+
+            # Capture the user's feedback
+            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+
+            # Execute the user's request
+            $menuLoop = [SettingsZip]::EvaluateExecuteUserRequestVerifyBuild($userInput);
+        } while ($menuLoop);
+    } # VerifyBuild()
+
+
+
+
+   <# Draw Menu: Verify Build
+    # -------------------------------
+    # Documentation:
+    #  This function will essentially draw the menu list for the Verify Build.
+    #  This provides the option if the user wants to test the newly generated
+    #  archive datafile's integrity or to skip the verification phase.
+    # -------------------------------
+    #>
+    hidden static [void] DrawMenuVerifyBuild()
+    {
+        # Display the Menu List
+
+        # Verify the integrity of the archive datafile.
+        [CommonCUI]::DrawMenuItem('V', `
+                                "Verify Build", `
+                                "Test the compiled build to assure that it is healthy.", `
+                                $true);
+
+
+        # Do not verify the integrity of the archive datafile.
+        [CommonCUI]::DrawMenuItem('N', `
+                                "Do not verify build", `
+                                "Do not test the health of the compiled build.", `
+                                $true);
+
+
+        # Return back to the previous menu
+        [CommonCUI]::DrawMenuItem('X', `
+                                "Cancel", `
+                                "Return back to the previous menu.", `
+                                $true);
+    } # DrawMenuVerifyBuild()
+
+
+
+
+   <# Evaluate and Execute User's Request: Verify Build
+    # -------------------------------
+    # Documentation:
+    #  This function will evaluate and execute the user's desired request in respect to
+    #   the menu options that were provided to them.
+    # -------------------------------
+    # Input:
+    #  [string] User's Request
+    #   This will provide the user's desired request to run an operation or to access
+    #    a specific functionality.
+    # -------------------------------
+    # Output:
+    #  [bool] User Stays at Menu
+    #   This defines if the user is to remain at the Menu screen.
+    #       $true  = User is to remain at the Menu.
+    #       $false = User requested to leave the Menu.
+    # -------------------------------
+    #>
+    hidden static [bool] EvaluateExecuteUserRequestVerifyBuild([string] $userRequest)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the current instance of the User Preferences object; this contains the user's
+        #  generalized settings.
+        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        # ----------------------------------------
+
+
+        # Evaluate the user's request
+        switch ($userRequest)
+        {
+            # Verify Build
+            #  NOTE: Allow the user's request when they type: "Verify", "Verify Build", "Test", "Test Build", as well as "V".
+            {($_ -eq "V") -or `
+                ($_ -eq "Verify") -or `
+                ($_ -eq "Verify Build") -or `
+                ($_ -eq "Test") -or `
+                ($_ -eq "Test Build")}
+            {
+                # The user had selected to verify the newly generated project build.
+                $defaultCompress.SetVerifyBuild($true);
+
+                # Finished
+                break;
+            } # Selected Verify Build
+
+
+            # Do not Verify Build
+            #  NOTE: Allow the user's request when they type: "Do not verify build", "Do not verify", as well as "N".
+            {($_ -eq "N") -or `
+                ($_ -eq "Do not verify build") -or `
+                ($_ -eq "Do not verify")}
+            {
+                # The user had selected to not verify the newly generated project build.
+                $defaultCompress.SetVerifyBuild($false);
+
+                # Finished
+                break;
+            } # Selected Fastest Compression
+
+
+            # Exit
+            #  NOTE: Allow the user's request when they type: 'Exit', 'Cancel', 'Return',
+            #         as well as 'X'.
+            #         This can come handy if the user is in a panic - remember that the terminal
+            #         is intimidating for some which may cause user's to panic, and this can be
+            #         helpful if user's are just used to typing 'Exit' or perhaps 'Quit'.
+            {($_ -eq "X") -or `
+                ($_ -eq "Exit") -or `
+                ($_ -eq "Cancel") -or `
+                ($_ -eq "Return")}
+            {
+                # Return back to the previous menu
+                return $false;
+            } # Exit
+
+
+
+            # Unknown Option
+            default
+            {
+                # Provide an error message to the user that the option they chose is
+                #  not available.
+                [CommonCUI]::DrawIncorrectMenuOption();
+
+
+                # Finished
+                break;
+            } # Unknown Option
+        } # Switch : Evaluate User's Request
+
+
+
+        # Finished with the operation; return back to the current menu.
+        return $true;
+    } # EvaluateExecuteUserRequestVerifyBuild()
     #endregion
 } # SettingsZip
