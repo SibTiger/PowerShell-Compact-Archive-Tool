@@ -186,7 +186,8 @@ class Settings7Zip
             {($_ -eq "S") -or `
                 ($_ -eq "Compression Method")}
             {
-                # Still working on this
+                # Allow the user to configure the compression method when using 7Zip.
+                [Settings7Zip]::CompressionMethod();
 
 
                 # Finished
@@ -382,8 +383,8 @@ class Settings7Zip
         #  Thus, with a false value - they may leave from the menu.
         [bool] $menuLoop = $true;
 
-        # Retrieve the current instance of the User Preferences object; this contains the user's
-        #  generalized settings.
+        # Retrieve the current instance of the 7Zip object; this contains the user's settings
+        #  when using the 7Zip application.
         [SevenZip] $sevenZip = [SevenZip]::GetInstance();
         # ----------------------------------------
 
