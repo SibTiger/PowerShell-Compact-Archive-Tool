@@ -77,21 +77,50 @@ class SettingsGit
     hidden static [void] DrawMenu()
     {
         # Display the menu list
-        [CommonCUI]::DrawMenuItem('B', "Browse for Git", "$($NULL)");
-        [CommonCUI]::DrawMenuItem('U', "Update Source", "$($NULL)");
-        [CommonCUI]::DrawMenuItem('S', "Size of Commit ID", "$($NULL)");
-        [CommonCUI]::DrawMenuItem('H', "Retrieve History", "$($NULL)");
-        [CommonCUI]::DrawMenuItem('L', "History Commit Size", "$($NULL)");
-        [CommonCUI]::DrawMenuItem('R', "Generate Report of Archive Datafile", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('B', `
+                                "Browse for Git", `
+                                "$($NULL)", `
+                                $true);
+
+        [CommonCUI]::DrawMenuItem('U', `
+                                "Update Source", `
+                                "$($NULL)", `
+                                $true);
+
+        [CommonCUI]::DrawMenuItem('S', `
+                                "Size of Commit ID", `
+                                "$($NULL)", `
+                                $true);
+
+        [CommonCUI]::DrawMenuItem('H', `
+                                "Retrieve History", `
+                                "$($NULL)", `
+                                $true);
+
+        [CommonCUI]::DrawMenuItem('L', `
+                                "History Commit Size", `
+                                "$($NULL)", `
+                                $true);
+
+        [CommonCUI]::DrawMenuItem('R', `
+                                "Generate Report of Archive Datafile", `
+                                "$($NULL)", `
+                                $true);
 
 
 
         # Program Tools
-        [CommonCUI]::DrawMenuItem('?', "Help Documentation", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('?', `
+                                "Help Documentation", `
+                                "$($NULL)", `
+                                $true);
 
 
         # Return back to the Main Menu
-        [CommonCUI]::DrawMenuItem('X', "Go back to Main Menu", "$($NULL)");
+        [CommonCUI]::DrawMenuItem('X', `
+                                "Go back to Main Menu", `
+                                "$($NULL)", `
+                                $true);
 
 
         # Provide some extra padding
