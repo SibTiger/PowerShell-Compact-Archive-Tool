@@ -610,4 +610,246 @@ class Settings7Zip
         } # else : Path is invalid
     } # Locate7ZipPathNewPath()
     #endregion
+
+
+
+
+
+    #region Compression Method
+    #                                    Compression Method
+    # ==========================================================================================
+    # ------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------
+    # ==========================================================================================
+
+
+
+
+
+   <# Compression Method
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the user the ability to decide which compression methodology
+    #   will be used when compacting a project's source into an archive datafile.
+    # -------------------------------
+    #>
+    hidden static [void] CompressionMethod()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This variable will hold the user's input as they navigate within the menu.
+        [string] $userInput = $null;
+
+        # This variable will determine if the user is to remain within the current menu loop.
+        #  If the user were to exit from the menu, this variable's state will be set as false.
+        #  Thus, with a false value - they may leave from the menu.
+        [bool] $menuLoop = $true;
+
+        # Retrieve the current instance of the 7Zip object; this contains the user's settings
+        #  when using the 7Zip application.
+        [SevenZip] $sevenZip = [SevenZip]::GetInstance();
+
+        # We will use this variable to make the string that is displayed to the user - a bit easier to read.
+        #  Further, we could use a simple if conditional statement below where we ultimately just display the
+        #  results, but lets keep the code nicer to read for our own benefit instead.
+        [string] $decipherNiceString = $null;
+        # ----------------------------------------
+
+        # Open the Compression Method Configuration menu
+        #  Keep the user within the menu until they request to return back to the previous menu.
+        do
+        {
+            # Determine the current state of the Compression Methodology variable, then make it easier for
+            #  the user to understand the current setting.
+            switch ($sevenZip.GetCompressionMethod())
+            {
+                "Zip"
+                {
+                    # Set the message such that the user knows that 'Zip' is presently set.
+                    $decipherNiceString = "I will have 7Zip create Zip archive datafiles while compiling new builds.";
+
+                    # Finished
+                    break;
+                } # Zip
+
+                "SevenZip"
+                {
+                    # Set the message such that the user knows that '7Zip' is presently set.
+                    $decipherNiceString = "I will have 7Zip create 7Zip archive datafiles while compiling new builds.";
+
+                    # Finished
+                    break;
+                } # 7Zip
+            } # Switch: Decipher Compression Method
+
+
+
+            # Clear the terminal of all previous text; keep the space clean so that it is easy
+            #  for the user to read and follow along.
+            [CommonIO]::ClearBuffer();
+
+            # Draw Program Information Header
+            [CommonCUI]::DrawProgramTitleHeader();
+
+            # Show the user that they are at the Compression Method menu
+            [CommonCUI]::DrawSectionHeader("Compression Method");
+
+            # Show to the user the current state of the 'Compression Method' variable that is presently set within the program.
+            [Logging]::DisplayMessage("$($decipherNiceString)");
+
+            # Provide some extra white spacing so that it is easier to read for the user
+            [Logging]::DisplayMessage("`r`n`r`n");
+
+            # Display the instructions to the user
+            [CommonCUI]::DrawMenuInstructions();
+
+            # Draw the menu list to the user
+            [Settings7Zip]::DrawMenuCompressionMethod();
+
+            # Provide some extra padding
+            [Logging]::DisplayMessage("`r`n");
+
+            # Capture the user's feedback
+            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+
+            # Execute the user's request
+            $menuLoop = [Settings7Zip]::EvaluateExecuteUserRequestCompressionMethod($userInput);
+        } while ($menuLoop);
+    } # CompressionMethod()
+
+
+
+
+   <# Draw Menu: Compression Method
+    # -------------------------------
+    # Documentation:
+    #  This function will essentially draw the menu list for the Compression Method to the user.
+    #   Thus, this provides what options are available in relation to the Compression Method in 7Zip.
+    # -------------------------------
+    #>
+    hidden static [void] DrawMenuCompressionMethod()
+    {
+        # Display the Menu List
+
+        # 7Zip Compression Data Structure
+        [CommonCUI]::DrawMenuItem('7', `
+                                "7Zip", `
+                                "Use 7Zip compression.", `
+                                $true);
+
+
+        # Zip Compression Data Structure
+        [CommonCUI]::DrawMenuItem('Z', `
+                                "Zip", `
+                                "Use ZZip compression.", `
+                                $true);
+
+
+        # Return back to the previous menu
+        [CommonCUI]::DrawMenuItem('X', `
+                                "Cancel", `
+                                "Return back to the previous menu.", `
+                                $true);
+    } # DrawMenuCompressionMethod()
+
+
+
+
+   <# Evaluate and Execute User's Request: Compression Method
+    # -------------------------------
+    # Documentation:
+    #  This function will evaluate and execute the user's desired request in respect to
+    #   the menu options that were provided to them.
+    # -------------------------------
+    # Input:
+    #  [string] User's Request
+    #   This will provide the user's desired request to run an operation or to access
+    #    a specific functionality.
+    # -------------------------------
+    # Output:
+    #  [bool] User Stays at Menu
+    #   This defines if the user is to remain at the Menu screen.
+    #       $true  = User is to remain at the Menu.
+    #       $false = User requested to leave the Menu.
+    # -------------------------------
+    #>
+    hidden static [bool] EvaluateExecuteUserRequestCompressionMethod([string] $userRequest)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the current instance of the 7Zip object; this contains the user's settings
+        #  when using the 7Zip application.
+        [SevenZip] $sevenZip = [SevenZip]::GetInstance();
+        # ----------------------------------------
+
+
+        # Evaluate the user's request
+        switch ($userRequest)
+        {
+            # Change to 7Zip Compression Method
+            #  NOTE: Allow the user's request when they type: '7Zip', '7Z', '7Za', as well as '7'.
+            {($_ -eq "7") -or `
+                ($_ -eq "7Zip") -or `
+                ($_ -eq "7Z") -or `
+                ($_ -eq "7Za")}
+            {
+                # Use the 7Zip Compression Methodology
+                $sevenZip.SetCompressionMethod([SevenZipCompressionMethod]::SevenZip);
+
+
+                # Finished
+                break;
+            } # Selected 7Zip Compression
+
+
+            # Change to Zip Compression Method
+            #  NOTE: Allow the user's request when they type: 'Zip' or 'Z'.
+            {($_ -eq "Z") -or `
+                ($_ -eq "Zip")}
+            {
+                # Use the Zip Compression Methodology
+                $sevenZip.SetCompressionMethod([SevenZipCompressionMethod]::Zip);
+
+
+                # Finished
+                break;
+            } # Selected Zip Compression
+
+
+            # Exit
+            #  NOTE: Allow the user's request when they type: 'Exit', 'Cancel', 'Return',
+            #         as well as 'X'.
+            #         This can come handy if the user is in a panic - remember that the terminal
+            #         is intimidating for some which may cause user's to panic, and this can be
+            #         helpful if user's are just used to typing 'Exit' or perhaps 'Quit'.
+            {($_ -eq "X") -or `
+                ($_ -eq "Exit") -or `
+                ($_ -eq "Cancel") -or `
+                ($_ -eq "Return")}
+            {
+                # Return back to the previous menu
+                return $false;
+            } # Exit
+
+
+
+            # Unknown Option
+            default
+            {
+                # Provide an error message to the user that the option they chose is
+                #  not available.
+                [CommonCUI]::DrawIncorrectMenuOption();
+
+
+                # Finished
+                break;
+            } # Unknown Option
+        } # Switch : Evaluate User's Request
+
+
+
+        # Finished with the operation; return back to the current menu.
+        return $true;
+    } # EvaluateExecuteUserRequestCompressionMethod()
+    #endregion
 } # Settings7Zip
