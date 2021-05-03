@@ -248,7 +248,8 @@ class Settings7Zip
             {($_ -eq "C") -or `
                 ($_ -eq "Compression Level")}
             {
-                # Still working on this
+                # Allow the user to customize the compression level while using 7Zip.
+                [Settings7Zip]::CompressionLevel();
 
 
                 # Finished
@@ -1657,5 +1658,305 @@ class Settings7Zip
         # Finished with the operation; return back to the current menu.
         return $true;
     } # EvaluateExecuteUserRequestUseMultithread()
+    #endregion
+
+
+
+
+
+    #region Compression Level
+    #                                     Compression Level
+    # ==========================================================================================
+    # ------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------
+    # ==========================================================================================
+
+
+
+
+
+   <# Compression Level
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the user the ability to determine which compression level will
+    #   be used during the compiling operation.
+    # -------------------------------
+    #>
+    hidden static [void] CompressionLevel()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This variable will hold the user's input as they navigate within the menu.
+        [string] $userInput = $null;
+
+        # This variable will determine if the user is to remain within the current menu loop.
+        #  If the user were to exit from the menu, this variable's state will be set as false.
+        #  Thus, with a false value - they may leave from the menu.
+        [bool] $menuLoop = $true;
+
+        # Retrieve the current instance of the 7Zip object; this contains the user's settings
+        #  when using the 7Zip application.
+        [SevenZip] $sevenZip = [SevenZip]::GetInstance();
+
+        # We will use this variable to make the string that is displayed to the user - a bit easier to read.
+        #  Further, we could use a simple if conditional statement below where we ultimately just display the
+        #  results, but lets keep the code nicer to read for our own benefit instead.
+        [string] $decipherNiceString = $null;
+        # ----------------------------------------
+
+        # Open the Compression Level Configuration menu
+        #  Keep the user within the menu until they request to return back to the previous menu.
+        do
+        {
+            # Determine the current state of the Compression Level enumerator value, then make it easier for
+            #  the user to understand the current setting.
+            switch ($sevenZip.GetCompressionLevel())
+            {
+                "Store"
+                {
+                    # Set the message such that the user knows that the compression level is set to "Store".
+                    $decipherNiceString = "I will have 7Zip only store the contents into an compiled build.";
+
+                    # Finished
+                    break;
+                } # Store
+
+                "Minimal"
+                {
+                    # Set the message such that the user knows that the compression level is set to "Minimal".
+                    $decipherNiceString = "I will have 7Zip use minimal compression while compiling the project build.";
+
+                    # Finished
+                    break;
+                } # Minimal
+
+                "Normal"
+                {
+                    # Set the message such that the user knows that the compression level is set to "Normal".
+                    $decipherNiceString = "I will have 7Zip use normal compression while compiling the project build.";
+
+                    # Finished
+                    break;
+                } # Normal
+
+                "Maximum"
+                {
+                    # Set the message such that the user knows that the compression level is set to "Maximum".
+                    $decipherNiceString = "I will have 7Zip use the maximum possible compression while compiling the project build.";
+
+                    # Finished
+                    break;
+                } # Maximum
+            } # Switch: Decipher Compression Level
+
+
+
+            # Clear the terminal of all previous text; keep the space clean so that it is easy
+            #  for the user to read and follow along.
+            [CommonIO]::ClearBuffer();
+
+            # Draw Program Information Header
+            [CommonCUI]::DrawProgramTitleHeader();
+
+            # Show the user that they are at the Compression Level menu
+            [CommonCUI]::DrawSectionHeader("Compression Level");
+
+            # Show to the user the current state of the 'Compression Level' variable that is presently set within the program.
+            [Logging]::DisplayMessage("$($decipherNiceString)");
+
+            # Provide some extra white spacing so that it is easier to read for the user
+            [Logging]::DisplayMessage("`r`n`r`n");
+
+            # Display the instructions to the user
+            [CommonCUI]::DrawMenuInstructions();
+
+            # Draw the menu list to the user
+            [Settings7Zip]::DrawMenuCompressionLevel();
+
+            # Provide some extra padding
+            [Logging]::DisplayMessage("`r`n");
+
+            # Capture the user's feedback
+            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+
+            # Execute the user's request
+            $menuLoop = [Settings7Zip]::EvaluateExecuteUserCompressionLevel($userInput);
+        } while ($menuLoop);
+    } # CompressionLevel()
+
+
+
+
+   <# Draw Menu: Compression Level
+    # -------------------------------
+    # Documentation:
+    #  This function will essentially draw the menu list for the Compression Level to the user.
+    #   Thus, this provides a list of available compression levels that are available to the user
+    #   while using 7Zip.
+    # -------------------------------
+    #>
+    hidden static [void] DrawMenuCompressionLevel()
+    {
+        # Display the Menu List
+
+        # Store
+        [CommonCUI]::DrawMenuItem('S', `
+                                "Store", `
+                                "Do not compress the contents; only store the contents which requires hardly any resources.", `
+                                $true);
+
+
+        # Minimal
+        [CommonCUI]::DrawMenuItem('L', `
+                                "Minimal", `
+                                "Lightly compress the contents; minimal compression requires very little resources.", `
+                                $true);
+
+
+        # Normal
+        [CommonCUI]::DrawMenuItem('N', `
+                                "Normal", `
+                                "Normally compress the contents; normal compression requires the standard use of resources.", `
+                                $true);
+
+
+        # Maximum
+        [CommonCUI]::DrawMenuItem('M', `
+                                "Maximum", `
+                                "Tightly compress the contents; requires more time and resources.", `
+                                $true);
+
+
+        # Return back to the previous menu
+        [CommonCUI]::DrawMenuItem('X', `
+                                "Cancel", `
+                                "Return back to the previous menu.", `
+                                $true);
+    } # DrawMenuCompressionLevel()
+
+
+
+
+   <# Evaluate and Execute User's Request: Compression Level
+    # -------------------------------
+    # Documentation:
+    #  This function will evaluate and execute the user's desired request in respect to
+    #   the menu options that were provided to them.
+    # -------------------------------
+    # Input:
+    #  [string] User's Request
+    #   This will provide the user's desired request to run an operation or to access
+    #    a specific functionality.
+    # -------------------------------
+    # Output:
+    #  [bool] User Stays at Menu
+    #   This defines if the user is to remain at the Menu screen.
+    #       $true  = User is to remain at the Menu.
+    #       $false = User requested to leave the Menu.
+    # -------------------------------
+    #>
+    hidden static [bool] EvaluateExecuteUserCompressionLevel([string] $userRequest)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # We will use this instance so that we can apply the new changes to the object.
+        [SevenZip] $sevenZip = [SevenZip]::GetInstance();
+        # ----------------------------------------
+
+
+        # Evaluate the user's request
+        switch ($userRequest)
+        {
+            # Change the Compression Level to Store
+            #  NOTE: Allow the user's request when they type: 'Store' or 'S'.
+            {($_ -eq "S") -or `
+                ($_ -eq "Store")}
+            {
+                # Use the Store Compression Level
+                $sevenZip.SetCompressionLevel([SevenCompressionLevel]::Store);
+
+
+                # Finished
+                break;
+            } # Selected Store
+
+
+            # Change the Compression Level to Minimal
+            #  NOTE: Allow the user's request when they type: 'Minimal' or 'L'.
+            {($_ -eq "L") -or `
+                ($_ -eq "Minimal")}
+            {
+                # Use the Minimal Compression Level
+                $sevenZip.SetCompressionLevel([SevenCompressionLevel]::Minimal);
+
+
+                # Finished
+                break;
+            } # Selected Minimal
+
+
+            # Change the Compression Level to Normal
+            #  NOTE: Allow the user's request when they type: 'Normal' or 'N'.
+            {($_ -eq "N") -or `
+                ($_ -eq "Normal")}
+            {
+                # Use the Normal Compression Level
+                $sevenZip.SetCompressionLevel([SevenCompressionLevel]::Normal);
+
+
+                # Finished
+                break;
+            } # Selected Normal
+
+
+            # Change the Compression Level to Maximum
+            #  NOTE: Allow the user's request when they type: 'Maximum' or 'M'.
+            {($_ -eq "M") -or `
+                ($_ -eq "Maximum")}
+            {
+                # Use the Maximum Compression Level
+                $sevenZip.SetCompressionLevel([SevenCompressionLevel]::Maximum);
+
+
+                # Finished
+                break;
+            } # Selected Maximum
+
+
+            # Exit
+            #  NOTE: Allow the user's request when they type: 'Exit', 'Cancel', 'Return',
+            #         as well as 'X'.
+            #         This can come handy if the user is in a panic - remember that the terminal
+            #         is intimidating for some which may cause user's to panic, and this can be
+            #         helpful if user's are just used to typing 'Exit' or perhaps 'Quit'.
+            {($_ -eq "X") -or `
+                ($_ -eq "Exit") -or `
+                ($_ -eq "Cancel") -or `
+                ($_ -eq "Return")}
+            {
+                # Return back to the previous menu
+                return $false;
+            } # Exit
+
+
+
+            # Unknown Option
+            default
+            {
+                # Provide an error message to the user that the option they chose is
+                #  not available.
+                [CommonCUI]::DrawIncorrectMenuOption();
+
+
+                # Finished
+                break;
+            } # Unknown Option
+        } # Switch : Evaluate User's Request
+
+
+
+        # Finished with the operation; return back to the current menu.
+        return $true;
+    } # EvaluateExecuteUserCompressionLevel()
     #endregion
 } # Settings7Zip
