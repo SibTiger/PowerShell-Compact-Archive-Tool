@@ -53,13 +53,13 @@ class SettingsGit
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the General Program settings menu list to the user
-            [SettingsGeneralProgram]::DrawMenu();
+            [SettingsGit]::DrawMenu();
 
             # Capture the user's feedback
             $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
 
             # Execute the user's request
-            $menuLoop = [SettingsGeneralProgram]::EvaluateExecuteUserRequest($userInput);
+            $menuLoop = [SettingsGit]::EvaluateExecuteUserRequest($userInput);
         } while($menuLoop);
     } # Main()
 
