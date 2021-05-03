@@ -13,7 +13,7 @@
 
 class SettingsGit
 {
-   <# General Program Settings Menu Driver
+   <# Settings Git Menu Driver
     # -------------------------------
     # Documentation:
     #  This function will allow the ability for the user to select which
@@ -34,8 +34,8 @@ class SettingsGit
         [bool] $menuLoop = $true;
         # ----------------------------------------
 
-        # Open the General Program settings
-        #  Keep the user at the General Program Settings Menu until they request to return
+        # Open the Git Settings
+        #  Keep the user at the Git Settings Menu until they request to return
         #  back to the previous menu.
         do
         {
@@ -46,13 +46,13 @@ class SettingsGit
             # Draw Program Information Header
             [CommonCUI]::DrawProgramTitleHeader();
 
-            # Show the user that they are at the General Program Settings.
-            [CommonCUI]::DrawSectionHeader("General Program Preferences");
+            # Show the user that they are at the Settings Git.
+            [CommonCUI]::DrawSectionHeader("Git Settings");
 
             # Display the instructions to the user
             [CommonCUI]::DrawMenuInstructions();
 
-            # Draw the General Program settings menu list to the user
+            # Draw the Git Settings menu list to the user
             [SettingsGit]::DrawMenu();
 
             # Capture the user's feedback
