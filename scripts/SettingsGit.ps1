@@ -209,6 +209,24 @@ class SettingsGit
 
 
 
+            # History
+            #  NOTE: Allow the user's request when they type: 'History', 'Changelog',
+            #           as well as 'H'.
+            {($_ -eq "H") -or `
+                ($_ -eq "History") -or `
+                ($_ -eq "Changelog")}
+            {
+                # Allow the ability for the user to specify if they wish to have the history
+                #  changelog from the project's repository.
+                [SettingsGit]::History()
+
+
+                # Finished
+                break;
+            } # History
+
+
+
             # Access the Help Program's Documentation
             #  NOTE: Allow the user's request when they type: 'Help', 'Helpme',
             #           'Help me', as well as '?'.
@@ -1010,5 +1028,240 @@ class SettingsGit
         # Finished with the operation; return back to the current menu.
         return $true;
     } # EvaluateExecuteUserRequestSizeCommitID()
+    #endregion
+
+
+
+
+
+    #region History
+    #                                     History
+    # ==========================================================================================
+    # ------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------
+    # ==========================================================================================
+
+
+
+
+
+   <# History
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the user to specify if they want the program to retrieve a list
+    #   of history (or a changelog) regarding all or some of the changes that had occurred into
+    #   the project's repository.
+    # -------------------------------
+    #>
+    hidden static [void] History()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This variable will hold the user's input as they navigate within the menu.
+        [string] $userInput = $null;
+
+        # This variable will determine if the user is to remain within the current menu loop.
+        #  If the user were to exit from the menu, this variable's state will be set as false.
+        #  Thus, with a false value - they may leave from the menu.
+        [bool] $menuLoop = $true;
+
+        # Retrieve the current instance of the Git object; this contains the user's settings
+        #  when using the Git application.
+        [GitControl] $gitControl = [GitControl]::GetInstance();
+
+        # We will use this variable to make the string that is displayed to the user - a bit easier to read.
+        #  Further, we could use a simple if conditional statement below where we ultimately just display the
+        #  results, but lets keep the code nicer to read for our own benefit instead.
+        [string] $decipherNiceString = $null;
+        # ----------------------------------------
+
+        # Open the History Configuration menu
+        #  Keep the user within the menu until they request to return back to the previous menu.
+        do
+        {
+            # Determine the current state of the History variable, then make it easier
+            #  for the user to understand the current setting.
+            # Obtain a history log
+            if ($gitControl.GetFetchChangelog())
+            {
+                # Set the message such that the user knows that the History will be retrieved.
+                $decipherNiceString = "I will retrieve a history changelog.";
+            } # if : Retrieve History
+
+            # Do not obtain history
+            else
+            {
+                # Set the message such that the user knows that the History will not be obtained.
+                $decipherNiceString = "I will not retrieve a history changelog.";
+            } # else : Do not retrieve history
+
+
+            # Clear the terminal of all previous text; keep the space clean so that it is easy
+            #  for the user to read and follow along.
+            [CommonIO]::ClearBuffer();
+
+            # Draw Program Information Header
+            [CommonCUI]::DrawProgramTitleHeader();
+
+            # Show the user that they are at the History Changelog menu
+            [CommonCUI]::DrawSectionHeader("History Changelog");
+
+            # Show to the user the current state of the History Changelog presently set within the program
+            [Logging]::DisplayMessage("$($decipherNiceString)");
+
+            # Provide some extra white spacing so that it is easier to read for the user
+            [Logging]::DisplayMessage("`r`n`r`n");
+
+            # Display the instructions to the user
+            [CommonCUI]::DrawMenuInstructions();
+
+            # Draw the menu list to the user
+            [SettingsGit]::DrawMenuHistory();
+
+            # Provide some extra padding
+            [Logging]::DisplayMessage("`r`n");
+
+            # Capture the user's feedback
+            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+
+            # Execute the user's request
+            $menuLoop = [SettingsGit]::EvaluateExecuteUserRequestHistory($userInput);
+        } while ($menuLoop);
+    } # History()
+
+
+
+
+   <# Draw Menu: History Changelog
+    # -------------------------------
+    # Documentation:
+    #  This function will essentially provide the menu list regarding the ability
+    #   to specify if the history changelog is to be retrieved from the project's repository.
+    # -------------------------------
+    #>
+    hidden static [void] DrawMenuHistory()
+    {
+        # Display the Menu List
+
+        # Retrieve the History Changelog
+        [CommonCUI]::DrawMenuItem('H', `
+                                "Retrieve History", `
+                                "$($NULL)", `
+                                $true);
+
+
+        # Do not retrieve the History Changelog
+        [CommonCUI]::DrawMenuItem('N', `
+                                "Do not Retrieve History", `
+                                "$($NULL)", `
+                                $true);
+
+
+        # Return back to the previous menu
+        [CommonCUI]::DrawMenuItem('X', `
+                                "Cancel", `
+                                "Return back to the previous menu.", `
+                                $true);
+    } # DrawMenuHistory()
+
+
+
+
+   <# Evaluate and Execute User's Request: History Changelog
+    # -------------------------------
+    # Documentation:
+    #  This function will evaluate and execute the user's desired request in respect to
+    #   the menu options that were provided to them.
+    # -------------------------------
+    # Input:
+    #  [string] User's Request
+    #   This will provide the user's desired request to run an operation or to access
+    #    a specific functionality.
+    # -------------------------------
+    # Output:
+    #  [bool] User Stays at Menu
+    #   This defines if the user is to remain at the Menu screen.
+    #       $true  = User is to remain at the Menu.
+    #       $false = User requested to leave the Menu.
+    # -------------------------------
+    #>
+    hidden static [bool] EvaluateExecuteUserRequestHistory([string] $userRequest)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the current instance of the Git object; this contains the user's settings
+        #  when using the Git application.
+        [GitControl] $gitControl = [GitControl]::GetInstance();
+        # ----------------------------------------
+
+
+        # Evaluate the user's request
+        switch ($userRequest)
+        {
+            # Obtain the History
+            #  NOTE: Allow the user's request when they type: "Retrieve History", "Retrieve Changelog", "History"
+            #           as well as 'H'.
+            {($_ -eq "H") -or `
+                ($_ -eq "Retrieve History") -or `
+                ($_ -eq "Retrieve Changelog") -or `
+                ($_ -eq "History")}
+            {
+                # Retrieve the history
+                $gitControl.SetFetchChangelog($true);
+
+                # Finished
+                break;
+            } # Obtain the History
+
+
+            # Do not obtain the History
+            #  NOTE: Allow the user's request when they type: "Do not retrieve History", "Do not tetrieve Changelog", as well as 'N'.
+            {($_ -eq "N") -or `
+                ($_ -eq "Do not retrieve History") -or `
+                ($_ -eq "Do not retrieve Changelog")}
+            {
+                # Retrieve the history
+                $gitControl.SetFetchChangelog($false);
+
+                # Finished
+                break;
+            } # Do not obtain the History
+
+
+            # Exit
+            #  NOTE: Allow the user's request when they type: 'Exit', 'Cancel', 'Return',
+            #         as well as 'X'.
+            #         This can come handy if the user is in a panic - remember that the terminal
+            #         is intimidating for some which may cause user's to panic, and this can be
+            #         helpful if user's are just used to typing 'Exit' or perhaps 'Quit'.
+            {($_ -eq "X") -or `
+                ($_ -eq "Exit") -or `
+                ($_ -eq "Cancel") -or `
+                ($_ -eq "Return")}
+            {
+                # Return back to the previous menu
+                return $false;
+            } # Exit
+
+
+
+            # Unknown Option
+            default
+            {
+                # Provide an error message to the user that the option they chose is
+                #  not available.
+                [CommonCUI]::DrawIncorrectMenuOption();
+
+
+                # Finished
+                break;
+            } # Unknown Option
+        } # Switch : Evaluate User's Request
+
+
+
+        # Finished with the operation; return back to the current menu.
+        return $true;
+    } # EvaluateExecuteUserRequestHistory()
     #endregion
 } # SettingsGit
