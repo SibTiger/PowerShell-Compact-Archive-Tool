@@ -103,7 +103,7 @@ class SettingsGit
                                 $true);
 
         [CommonCUI]::DrawMenuItem('R', `
-                                "Generate Report of Archive Datafile", `
+                                "Generate Report of Project Repository", `
                                 "$($NULL)", `
                                 $true);
 
