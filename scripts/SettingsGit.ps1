@@ -190,6 +190,25 @@ class SettingsGit
             } # Update Source
 
 
+
+            # Length of the Commit SHA ID
+            #  NOTE: Allow the user's request when they type: 'Size', 'Size of Commit ID',
+            #           as well as 'S'.
+            {($_ -eq "S") -or `
+                ($_ -eq "Size") -or `
+                ($_ -eq "Size of Commit ID")}
+            {
+                # Allow the user the ability to choose the size of the commit ID regarding the
+                #  project's repository.
+                [SettingsGit]::SizeCommitID()
+
+
+                # Finished
+                break;
+            } # Size of Commit ID
+
+
+
             # Access the Help Program's Documentation
             #  NOTE: Allow the user's request when they type: 'Help', 'Helpme',
             #           'Help me', as well as '?'.
@@ -746,5 +765,250 @@ class SettingsGit
         # Finished with the operation; return back to the current menu.
         return $true;
     } # EvaluateExecuteUserRequestUpdateSource()
+    #endregion
+
+
+
+
+
+    #region Size of Commit ID
+    #                                     Size of Commit ID
+    # ==========================================================================================
+    # ------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------
+    # ==========================================================================================
+
+
+
+
+
+   <# Size of Commit ID
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the user the ability to alter the length of the Commit ID that is
+    #   retrieved from the Git executable.
+    # -------------------------------
+    #>
+    hidden static [void] SizeCommitID()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This variable will hold the user's input as they navigate within the menu.
+        [string] $userInput = $null;
+
+        # This variable will determine if the user is to remain within the current menu loop.
+        #  If the user were to exit from the menu, this variable's state will be set as false.
+        #  Thus, with a false value - they may leave from the menu.
+        [bool] $menuLoop = $true;
+
+        # Retrieve the current instance of the Git object; this contains the user's settings
+        #  when using the Git application.
+        [GitControl] $gitControl = [GitControl]::GetInstance();
+
+        # We will use this variable to make the string that is displayed to the user - a bit easier to read.
+        #  Further, we could use a simple if conditional statement below where we ultimately just display the
+        #  results, but lets keep the code nicer to read for our own benefit instead.
+        [string] $decipherNiceString = $null;
+        # ----------------------------------------
+
+        # Open the Size of Commit ID Configuration menu
+        #  Keep the user within the menu until they request to return back to the previous menu.
+        do
+        {
+            # Determine the current state of the Size of Commit ID variable, then make it easier
+            #  for the user to understand the current setting.
+            switch ($gitControl.GetLengthCommitID())
+            {
+                "Short"
+                {
+                    # Set the message such that the user knows that the short Commit ID will be retrieved.
+                    $decipherNiceString = "I will use the short Commit SHA ID";
+
+                    # Finished
+                    break;
+                } # Short
+
+
+                "Long"
+                {
+                    # Set the message such that the user knows that the long Commit ID will be retrieved.
+                    $decipherNiceString = "I will use the long Commit SHA ID";
+                
+                    # Finished
+                    break;
+                } # Long
+            } # Switch : Commit ID Size
+
+
+            # Clear the terminal of all previous text; keep the space clean so that it is easy
+            #  for the user to read and follow along.
+            [CommonIO]::ClearBuffer();
+
+            # Draw Program Information Header
+            [CommonCUI]::DrawProgramTitleHeader();
+
+            # Show the user that they are at the Size of Commit ID menu
+            [CommonCUI]::DrawSectionHeader("Commit ID Length");
+
+            # Show to the user the current state of the Update Source presently set within the program
+            [Logging]::DisplayMessage("$($decipherNiceString)");
+
+            # Provide some extra white spacing so that it is easier to read for the user
+            [Logging]::DisplayMessage("`r`n`r`n");
+
+            # Display the instructions to the user
+            [CommonCUI]::DrawMenuInstructions();
+
+            # Draw the menu list to the user
+            [SettingsGit]::DrawMenuSizeCommitID();
+
+            # Provide some extra padding
+            [Logging]::DisplayMessage("`r`n");
+
+            # Capture the user's feedback
+            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+
+            # Execute the user's request
+            $menuLoop = [SettingsGit]::EvaluateExecuteUserRequestSizeCommitID($userInput);
+        } while ($menuLoop);
+    } # SizeCommitID()
+
+
+
+
+   <# Draw Menu: Update Source
+    # -------------------------------
+    # Documentation:
+    #  This function will essentially provide the menu list regarding the Length of
+    #   the Commit ID retrieved from the Git Executable.
+    # -------------------------------
+    #>
+    hidden static [void] DrawMenuSizeCommitID()
+    {
+        # Display the Menu List
+
+        # Enable the Update Source feature
+        [CommonCUI]::DrawMenuItem('S', `
+                                "Short Commit SHA ID", `
+                                "$($NULL)", `
+                                $true);
+
+
+        # Disable the Update Source feature
+        [CommonCUI]::DrawMenuItem('L', `
+                                "Long Commit SHA ID", `
+                                "$($NULL)", `
+                                $true);
+
+
+        # Return back to the previous menu
+        [CommonCUI]::DrawMenuItem('X', `
+                                "Cancel", `
+                                "Return back to the previous menu.", `
+                                $true);
+    } # DrawMenuSizeCommitID()
+
+
+
+
+   <# Evaluate and Execute User's Request: Commit SHA ID Length
+    # -------------------------------
+    # Documentation:
+    #  This function will evaluate and execute the user's desired request in respect to
+    #   the menu options that were provided to them.
+    # -------------------------------
+    # Input:
+    #  [string] User's Request
+    #   This will provide the user's desired request to run an operation or to access
+    #    a specific functionality.
+    # -------------------------------
+    # Output:
+    #  [bool] User Stays at Menu
+    #   This defines if the user is to remain at the Menu screen.
+    #       $true  = User is to remain at the Menu.
+    #       $false = User requested to leave the Menu.
+    # -------------------------------
+    #>
+    hidden static [bool] EvaluateExecuteUserRequestSizeCommitID([string] $userRequest)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the current instance of the Git object; this contains the user's settings
+        #  when using the Git application.
+        [GitControl] $gitControl = [GitControl]::GetInstance();
+        # ----------------------------------------
+
+
+        # Evaluate the user's request
+        switch ($userRequest)
+        {
+            # Provide the Short Commit ID
+            #  NOTE: Allow the user's request when they type: "Short", "Small", "Short Commit SHA ID"
+            #           as well as 'S'.
+            {($_ -eq "S") -or `
+                ($_ -eq "Short") -or `
+                ($_ -eq "Small") -or `
+                ($_ -eq "Short Commit SHA ID")}
+            {
+                # Only retrieve short Commit SHA ID's
+                $gitControl.SetLengthCommitID([GitCommitLength]::short);
+
+                # Finished
+                break;
+            } # Short Commit SHA ID
+
+
+            # Provide the Long Commit ID
+            #  NOTE: Allow the user's request when they type: "Long", "Large", "Long Commit SHA ID"
+            #           as well as 'L'.
+            {($_ -eq "L") -or `
+                ($_ -eq "Long") -or `
+                ($_ -eq "Large") -or `
+                ($_ -eq "Lonmg Commit SHA ID")}
+            {
+                # Only retrieve Long Commit SHA ID's
+                $gitControl.SetLengthCommitID([GitCommitLength]::long);
+
+                # Finished
+                break;
+            } # Long Commit SHA ID
+
+
+
+            # Exit
+            #  NOTE: Allow the user's request when they type: 'Exit', 'Cancel', 'Return',
+            #         as well as 'X'.
+            #         This can come handy if the user is in a panic - remember that the terminal
+            #         is intimidating for some which may cause user's to panic, and this can be
+            #         helpful if user's are just used to typing 'Exit' or perhaps 'Quit'.
+            {($_ -eq "X") -or `
+                ($_ -eq "Exit") -or `
+                ($_ -eq "Cancel") -or `
+                ($_ -eq "Return")}
+            {
+                # Return back to the previous menu
+                return $false;
+            } # Exit
+
+
+
+            # Unknown Option
+            default
+            {
+                # Provide an error message to the user that the option they chose is
+                #  not available.
+                [CommonCUI]::DrawIncorrectMenuOption();
+
+
+                # Finished
+                break;
+            } # Unknown Option
+        } # Switch : Evaluate User's Request
+
+
+
+        # Finished with the operation; return back to the current menu.
+        return $true;
+    } # EvaluateExecuteUserRequestSizeCommitID()
     #endregion
 } # SettingsGit
