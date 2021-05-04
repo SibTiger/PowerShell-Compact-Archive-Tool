@@ -227,6 +227,22 @@ class SettingsGit
 
 
 
+            # History Commit Size
+            #  NOTE: Allow the user's request when they type: 'History Commit Size' or 'L'
+            {($_ -eq "L") -or `
+                ($_ -eq "History Commit Size")}
+            {
+                # Allow the user to change how many commits are to be recorded into the
+                #  changelog history.
+                [SettingsGit]::HistoryCommitSize()
+
+
+                # Finished
+                break;
+            } # History Commit Size
+
+
+
             # Access the Help Program's Documentation
             #  NOTE: Allow the user's request when they type: 'Help', 'Helpme',
             #           'Help me', as well as '?'.
@@ -1263,5 +1279,241 @@ class SettingsGit
         # Finished with the operation; return back to the current menu.
         return $true;
     } # EvaluateExecuteUserRequestHistory()
+    #endregion
+
+
+
+
+
+    #region History Commit Size
+    #                                     History Commit Size
+    # ==========================================================================================
+    # ------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------
+    # ==========================================================================================
+
+
+
+
+
+   <# History Commit Size
+    # -------------------------------
+    # Documentation:
+    #  When the history (or changelog) is allowed to be retrieved, it is possible to specify how
+    #   many commits (or changes) are to be recorded into the changelog file.
+    # -------------------------------
+    #>
+    hidden static [void] HistoryCommitSize()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This variable will hold the user's input as they navigate within the menu.
+        [string] $userInput = $null;
+
+        # This variable will determine if the user is to remain within the current menu loop.
+        #  If the user were to exit from the menu, this variable's state will be set as false.
+        #  Thus, with a false value - they may leave from the menu.
+        [bool] $menuLoop = $true;
+
+        # Retrieve the current instance of the Git object; this contains the user's settings
+        #  when using the Git application.
+        [GitControl] $gitControl = [GitControl]::GetInstance();
+
+        # We will use this variable to make the string that is displayed to the user - a bit easier to read.
+        #  Further, we could use a simple if conditional statement below where we ultimately just display the
+        #  results, but lets keep the code nicer to read for our own benefit instead.
+        [string] $decipherNiceString = $null;
+        # ----------------------------------------
+
+        # Open the History Commit Size Configuration menu
+        #  Keep the user within the menu until they request to return back to the previous menu.
+        do
+        {
+            # Determine the current limit of how many commits are to be recorded in to the changelog file.
+            $decipherNiceString = "I will retrieve $($gitControl.GetChangelogLimit()) changes.";
+
+
+            # Clear the terminal of all previous text; keep the space clean so that it is easy
+            #  for the user to read and follow along.
+            [CommonIO]::ClearBuffer();
+
+            # Draw Program Information Header
+            [CommonCUI]::DrawProgramTitleHeader();
+
+            # Show the user that they are at the History Commit Size menu
+            [CommonCUI]::DrawSectionHeader("History Changelog Size Limit");
+
+            # Show to the user the current state of the History Commit Size presently set within the program
+            [Logging]::DisplayMessage("$($decipherNiceString)");
+
+            # Provide some extra white spacing so that it is easier to read for the user
+            [Logging]::DisplayMessage("`r`n`r`n");
+
+            # Display the instructions to the user
+            [CommonCUI]::DrawMenuInstructions();
+
+            # Draw the menu list to the user
+            [SettingsGit]::DrawMenuHistoryCommitSize();
+
+            # Provide some extra padding
+            [Logging]::DisplayMessage("`r`n");
+
+            # Capture the user's feedback
+            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+
+            # Execute the user's request
+            $menuLoop = [SettingsGit]::EvaluateExecuteUserRequestHistoryCommitSize($userInput);
+        } while ($menuLoop);
+    } # History()
+
+
+
+
+   <# Draw Menu: History Changelog Size
+    # -------------------------------
+    # Documentation:
+    #  This function will essentially provide the user the ability to change the History size
+    #   limit or to leave the setting as is.
+    # -------------------------------
+    #>
+    hidden static [void] DrawMenuHistoryCommitSize()
+    {
+        # Display the Menu List
+
+        # Change the History Changelog Commit Size Limit
+        [CommonCUI]::DrawMenuItem('C', `
+                                "Change changelog size limit", `
+                                "$($NULL)", `
+                                $true);
+
+
+        # Return back to the previous menu
+        [CommonCUI]::DrawMenuItem('X', `
+                                "Cancel", `
+                                "Return back to the previous menu.", `
+                                $true);
+    } # DrawMenuHistoryCommitSize()
+
+
+
+
+   <# Evaluate and Execute User's Request: History Changelog Limit
+    # -------------------------------
+    # Documentation:
+    #  This function will evaluate and execute the user's desired request in respect to
+    #   the menu options that were provided to them.
+    # -------------------------------
+    # Input:
+    #  [string] User's Request
+    #   This will provide the user's desired request to run an operation or to access
+    #    a specific functionality.
+    # -------------------------------
+    # Output:
+    #  [bool] User Stays at Menu
+    #   This defines if the user is to remain at the Menu screen.
+    #       $true  = User is to remain at the Menu.
+    #       $false = User requested to leave the Menu.
+    # -------------------------------
+    #>
+    hidden static [bool] EvaluateExecuteUserRequestHistoryCommitSize([string] $userRequest)
+    {
+        # Evaluate the user's request
+        switch ($userRequest)
+        {
+            # Change the History Size Limit
+            #  NOTE: Allow the user's request when they type: "Change changelog size limit", "Size", as well as 'C'.
+            {($_ -eq "C") -or `
+                ($_ -eq "Change changelog size limit") -or `
+                ($_ -eq "Size")}
+            {
+                # Retrieve the history
+                [SettingsGit]::HistoryCommitSizeNewSize();
+
+                # Finished
+                break;
+            } # Change History Commit Size
+
+
+            # Exit
+            #  NOTE: Allow the user's request when they type: 'Exit', 'Cancel', 'Return',
+            #         as well as 'X'.
+            #         This can come handy if the user is in a panic - remember that the terminal
+            #         is intimidating for some which may cause user's to panic, and this can be
+            #         helpful if user's are just used to typing 'Exit' or perhaps 'Quit'.
+            {($_ -eq "X") -or `
+                ($_ -eq "Exit") -or `
+                ($_ -eq "Cancel") -or `
+                ($_ -eq "Return")}
+            {
+                # Return back to the previous menu
+                return $false;
+            } # Exit
+
+
+
+            # Unknown Option
+            default
+            {
+                # Provide an error message to the user that the option they chose is
+                #  not available.
+                [CommonCUI]::DrawIncorrectMenuOption();
+
+
+                # Finished
+                break;
+            } # Unknown Option
+        } # Switch : Evaluate User's Request
+
+
+
+        # Finished with the operation; return back to the current menu.
+        return $true;
+    } # EvaluateExecuteUserRequestHistoryCommitSize()
+
+
+
+
+   <# Configure History Commit Size
+    # -------------------------------
+    # Documentation:
+    #  This function will provide the user the ability to specify how many
+    #   commits are to be recorded.
+    # -------------------------------
+    #>
+    hidden static [void] HistoryCommitSizeNewSize()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This will hold the new number provided by the user's input.
+        [int] $newSize = 0;
+
+        # Retrieve the current instance of the Git object; this contains the user's settings
+        #  when using the Git application.
+        [GitControl] $gitControl = [GitControl]::GetInstance();
+        # ----------------------------------------
+
+
+
+        # Provide some extra spacing as we will continue to use the same content
+        #  area without clearing the terminal screen.  Thus, we are going to move
+        #  a few lines down and apply the newer content below.
+        [Logging]::DisplayMessage("`r`n`r`n");
+
+
+        # Provide a message to the user asking how many changes should be recorded.
+        [Logging]::DisplayMessage("How many commits should be recorded? ");
+
+        # Obtain the user's input
+        $newSize = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+
+        # Make sure that the user did not provide 'Cancel' or 'X'; we do not want to
+        #  store string\char values as an integer.
+        if (("$($newSize)" -ne "Cancel") -and `
+            ("$($newSize)" -ne "x"))
+        {
+            # Set the new size accordingly
+            $gitControl.SetChangelogLimit($newSize);
+        } # If : Cancel not Provided
+    } # HistoryCommitSizeNewSize()
     #endregion
 } # SettingsGit
