@@ -470,7 +470,7 @@ class Settings7Zip
                                 $true);
 
 
-        # Change the 7Zip Path
+        # Manually find 7Zip
         [CommonCUI]::DrawMenuItem('M', `
                                 "Manually find 7Zip", `
                                 "Manually locate the 7Zip application.", `
