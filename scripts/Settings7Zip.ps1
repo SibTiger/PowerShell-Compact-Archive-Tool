@@ -471,9 +471,9 @@ class Settings7Zip
 
 
         # Change the 7Zip Path
-        [CommonCUI]::DrawMenuItem('C', `
-                                "Change Path", `
-                                "Locate the directory that contains the 7Zip application.", `
+        [CommonCUI]::DrawMenuItem('M', `
+                                "Manually find 7Zip", `
+                                "Manually locate the 7Zip application.", `
                                 $true);
 
 
@@ -522,17 +522,16 @@ class Settings7Zip
             } # Automatically Find 7Zip
 
 
-            # Change the 7Zip Path
+            # Manually find 7Zip
             #  NOTE: Allow the user's request when they type: 'Change Path', 'Change',
             #           'Update Path', 'Update', as well as 'C'.
-            {($_ -eq "C") -or `
-                ($_ -eq "Change Path") -or `
-                ($_ -eq "Change") -or `
-                ($_ -eq "Update Path") -or `
-                ($_ -eq "Update")}
+            {($_ -eq "M") -or `
+                ($_ -eq "Manually Find 7Zip") -or `
+                ($_ -eq "Manually") -or `
+                ($_ -eq "Manual")}
             {
                 # Configure the path of the 7Zip directory.
-                [Settings7Zip]::Locate7ZipPathNewPath();
+                [Settings7Zip]::Locate7ZipPathManually();
 
 
                 # Finished
@@ -638,14 +637,14 @@ class Settings7Zip
 
 
 
-   <# Configure Locate 7Zip Path
+   <# Configure Locate 7Zip Path Manually
     # -------------------------------
     # Documentation:
-    #  This function will allow the user the ability to configure the path of
-    #   the 7Zip directory.
+    #  This function will allow the user the ability to manually configure
+    #   the path of the 7Zip directory.
     # -------------------------------
     #>
-    hidden static [void] Locate7ZipPathNewPath()
+    hidden static [void] Locate7ZipPathManually()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -692,7 +691,7 @@ class Settings7Zip
                 [Logging]::GetUserEnterKey();
             } # if : User Provided incorrect path
         } # else : Path is invalid
-    } # Locate7ZipPathNewPath()
+    } # Locate7ZipPathManually()
     #endregion
 
 
