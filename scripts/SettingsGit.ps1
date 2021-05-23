@@ -426,10 +426,17 @@ class SettingsGit
     {
         # Display the Menu List
 
-        # Change the Git Path
-        [CommonCUI]::DrawMenuItem('C', `
-                                "Change Path", `
-                                "Locate the directory that contains the Git application.", `
+        # Automatically find Git
+        [CommonCUI]::DrawMenuItem('A', `
+                                "Automatically find Git", `
+                                "Try to automatically find the Git Application.", `
+                                $true);
+
+
+        # Manually find Git
+        [CommonCUI]::DrawMenuItem('M', `
+                                "Manually find Git", `
+                                "Manually locate the Git Application.", `
                                 $true);
 
 
@@ -466,22 +473,41 @@ class SettingsGit
         # Evaluate the user's request
         switch ($userRequest)
         {
-            # Change the Git Path
-            #  NOTE: Allow the user's request when they type: 'Change Path', 'Change',
-            #           'Update Path', 'Update', as well as 'C'.
-            {($_ -eq "C") -or `
-                ($_ -eq "Change Path") -or `
-                ($_ -eq "Change") -or `
-                ($_ -eq "Update Path") -or `
-                ($_ -eq "Update")}
+            # Automatically find Git
+            #  NOTE: Allow the user's request when they type: 'Automatically find Git',
+            #           'Automatically find', 'Automatically', 'Automatic', as well as 'A'.
+            {($_ -eq "A") -or `
+                ($_ -eq "Automatically find Git") -or `
+                ($_ -eq "Automatically find") -or `
+                ($_ -eq "Automatically") -or `
+                ($_ -eq "Automatic")}
             {
-                # Configure the path of the Git directory.
-                [SettingsGit]::LocateGitPathNewPath();
+                # Try to find the Git Application automatically.
+                [SettingsGit]::LocateGitPathAutomatically();
 
 
                 # Finished
                 break;
-            } # Change Path
+            } # Automatically find Git
+
+
+
+            # Manually find Git
+            #  NOTE: Allow the user's request when they type: 'Manually find Git',
+            #           'Manually', 'Manual', as well as 'M'.
+            {($_ -eq "M") -or `
+                ($_ -eq "Manually Find Git") -or `
+                ($_ -eq "Manually") -or `
+                ($_ -eq "Manual")}
+            {
+                # Find the Git Application manually
+                [SettingsGit]::LocateGitPathManually();
+
+
+                # Finished
+                break;
+            } # Manually find Git
+
 
 
             # Exit
@@ -523,14 +549,72 @@ class SettingsGit
 
 
 
-   <# Configure Locate Git Path
+   <# Configure Locate Git Path Automatically
     # -------------------------------
     # Documentation:
-    #  This function will allow the user the ability to configure the path of
-    #   the Git directory.
+    #  This function will try to find the Git application automatically
+    #   for the user.
     # -------------------------------
     #>
-    hidden static [void] LocateGitPathNewPath()
+    hidden static [void] LocateGitPathAutomatically()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This will hold the results provided by the Git Finder.
+        [string] $findGitResults = $null;
+
+        # Instantiate the Git Object so that we may utilize the
+        #  functions and properties as needed.
+        [GitControl] $gitControl = [GitControl]::GetInstance();
+        # ----------------------------------------
+
+
+        # Capture the results from the finder
+        $findGitResults = $gitControl.FindGit();
+
+
+        # Provide some extra spacing as we will continue to use the same content
+        #  area without clearing the terminal screen.  Thus, we are going to move
+        #  a few lines down and apply the newer content below.
+        [Logging]::DisplayMessage("`r`n`r`n");
+
+
+        # Now that we have the results from the finder, now determine
+        #  if we were able to automatically detect the Git Application.
+        if ($null -eq $findGitResults)
+        {
+            # Because we are unable to find Git automatically, there's
+            #  really nothing that we can do.
+            [Logging]::DisplayMessage("Unable to find the Git application!`r`nPlease be sure that it had been properly installed on your system!");
+        } # If : Cannot Find Git Automatically
+
+
+        # We were able to obtain a new location of where the Git Application resides within the system.
+        else
+        {
+            # Because we were able to find the Git Application, we can use the new value.
+            $gitControl.SetExecutablePath("$($findGitResults)");
+
+            # Let the user know that we were able to successfully find the Git Application
+            [Logging]::DisplayMessage("Successfully found the Git Application in:`r`n$($findGitResults)");
+        } # Else: Found Git
+
+
+        # Wait for the user to provide feedback; thus allowing the user to read the message.
+        [logging]::GetUserEnterKey();
+    } # LocateGitPathAutomatically()
+
+
+
+
+   <# Configure Locate Git Path Manually
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the user the ability to manually configure
+    #   the path of the Git directory.
+    # -------------------------------
+    #>
+    hidden static [void] LocateGitPathManually()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -577,7 +661,7 @@ class SettingsGit
                 [Logging]::GetUserEnterKey();
             } # if : User Provided incorrect path
         } # else : Path is invalid
-    } # LocateGitPathNewPath()
+    } # LocateGitPathManually()
     #endregion
 
 
