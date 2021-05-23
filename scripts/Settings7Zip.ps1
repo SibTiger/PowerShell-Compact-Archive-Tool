@@ -463,6 +463,13 @@ class Settings7Zip
     {
         # Display the Menu List
 
+        # Automatically find 7Zip
+        [CommonCUI]::DrawMenuItem('A', `
+                                "Automatically find 7Zip", `
+                                "Try to automatically find the 7Zip application.", `
+                                $true);
+
+
         # Change the 7Zip Path
         [CommonCUI]::DrawMenuItem('C', `
                                 "Change Path", `
@@ -503,6 +510,18 @@ class Settings7Zip
         # Evaluate the user's request
         switch ($userRequest)
         {
+            # Automatically find 7Zip
+            {($_ -eq "A")}
+            {
+                # Try to find the 7Zip Application automatically.
+                [Settings7Zip]::Locate7ZipPathAutomatically();
+
+
+                # Finished
+                break;
+            } # Automatically Find 7Zip
+
+
             # Change the 7Zip Path
             #  NOTE: Allow the user's request when they type: 'Change Path', 'Change',
             #           'Update Path', 'Update', as well as 'C'.
@@ -556,6 +575,65 @@ class Settings7Zip
         # Finished with the operation; return back to the current menu.
         return $true;
     } # EvaluateExecuteUserRequestLocate7ZipPath()
+
+
+
+
+   <# Configure Locate 7Zip Path Automatically
+    # -------------------------------
+    # Documentation:
+    #  This function will try to find the 7Zip application automatically
+    #   for the user.
+    # -------------------------------
+    #>
+    hidden static [void] Locate7ZipPathAutomatically()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This will hold the results provided by the 7Zip Finder.
+        [string] $find7ZipResults = $null;
+
+        # Instantiate the 7Zip Object so that we may utilize the
+        #  functions and properties as needed.
+        [SevenZip] $sevenZip = [SevenZip]::GetInstance();
+        # ----------------------------------------
+
+
+        # Capture the results from the finder
+        $find7ZipResults = $sevenZip.Find7Zip();
+
+
+        # Provide some extra spacing as we will continue to use the same content
+        #  area without clearing the terminal screen.  Thus, we are going to move
+        #  a few lines down and apply the newer content below.
+        [Logging]::DisplayMessage("`r`n`r`n");
+
+
+        # Now that we have the results from the finder, now determine
+        #  if we were able to automatically detect the 7Zip Application.
+        if ($null -eq $find7ZipResults)
+        {
+            # Because we are unable to find 7Zip automatically, there's
+            #  really nothing that we can do.
+            [Logging]::DisplayMessage("Unable to find the 7Zip application!`r`nPlease be sure that it had been properly installed on your system!");
+        } # If : Cannot Find 7Zip Automatically
+
+
+        # We were able to obtain a new location of where the 7Zip Application resides within the system.
+        else
+        {
+            # Because we were able to find the 7Zip application, we can use the new value.
+            $sevenZip.SetExecutablePath("$($find7ZipResults)");
+
+            # Let the user know that we were able to successfully find the 7Zip Application
+            [Logging]::DisplayMessage("Successfully found the 7Zip Application in:`r`n$($find7ZipResults)");
+        } # Else: Found 7Zip
+
+
+        # Wait for the user to provide feedback; thus allowing the user to read the message.
+        [logging]::GetUserEnterKey();
+    } # Locate7ZipPathAutomatically()
+
 
 
 
