@@ -511,7 +511,13 @@ class Settings7Zip
         switch ($userRequest)
         {
             # Automatically find 7Zip
-            {($_ -eq "A")}
+            #  NOTE: Allow the user's request when they type: 'Automatically find 7Zip',
+            #           'Automatically find', 'Automatically', 'Automatic', as well as 'A'.
+            {($_ -eq "A") -or `
+                ($_ -eq "Automatically find 7Zip") -or `
+                ($_ -eq "Automatically find") -or `
+                ($_ -eq "Automatically") -or `
+                ($_ -eq "Automatic")}
             {
                 # Try to find the 7Zip Application automatically.
                 [Settings7Zip]::Locate7ZipPathAutomatically();
