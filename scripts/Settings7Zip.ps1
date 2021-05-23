@@ -528,6 +528,7 @@ class Settings7Zip
             } # Automatically Find 7Zip
 
 
+
             # Manually find 7Zip
             #  NOTE: Allow the user's request when they type: 'Manually Find 7Zip',
             #           'Manually', 'Manual', as well as 'M'.
@@ -543,6 +544,7 @@ class Settings7Zip
                 # Finished
                 break;
             } # Manually Find 7Zip
+
 
 
             # Exit
