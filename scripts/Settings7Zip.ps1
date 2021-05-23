@@ -529,20 +529,20 @@ class Settings7Zip
 
 
             # Manually find 7Zip
-            #  NOTE: Allow the user's request when they type: 'Change Path', 'Change',
-            #           'Update Path', 'Update', as well as 'C'.
+            #  NOTE: Allow the user's request when they type: 'Manually Find 7Zip',
+            #           'Manually', 'Manual', as well as 'M'.
             {($_ -eq "M") -or `
                 ($_ -eq "Manually Find 7Zip") -or `
                 ($_ -eq "Manually") -or `
                 ($_ -eq "Manual")}
             {
-                # Configure the path of the 7Zip directory.
+                # Find the 7Zip Application manually.
                 [Settings7Zip]::Locate7ZipPathManually();
 
 
                 # Finished
                 break;
-            } # Change Path
+            } # Manually Find 7Zip
 
 
             # Exit
