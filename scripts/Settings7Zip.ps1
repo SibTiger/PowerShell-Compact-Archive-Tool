@@ -644,7 +644,6 @@ class Settings7Zip
 
 
 
-
    <# Configure Locate 7Zip Path Manually
     # -------------------------------
     # Documentation:
