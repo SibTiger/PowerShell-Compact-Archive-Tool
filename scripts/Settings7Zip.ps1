@@ -410,7 +410,7 @@ class Settings7Zip
 
             # Provide the current 7Zip path
             #  Determine how to present to the user that the path is valid or not.
-            if ([CommonIO]::CheckPathExists("$($sevenZip.GetExecutablePath())", $true))
+            if ($sevenZip.Detect7ZipExist())
             {
                 # The path was found, so provide a nice message to the user - letting them know that
                 #  the program can find the 7Zip application.
