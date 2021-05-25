@@ -373,7 +373,7 @@ class SettingsGit
 
             # Provide the current Git path
             #  Determine how to present to the user that the path is valid or not.
-            if ([CommonIO]::CheckPathExists("$($gitControl.GetExecutablePath())", $true))
+            if ($gitControl.DetectGitExist())
             {
                 # The path was found, so provide a nice message to the user - letting them know that
                 #  the program can find the Git application.
