@@ -125,7 +125,7 @@ class SettingsGit
 
         # Provide some extra padding
         [Logging]::DisplayMessage("`r`n");
-        # 
+        #
     } # DrawMenu()
 
 
@@ -968,7 +968,7 @@ class SettingsGit
                 {
                     # Set the message such that the user knows that the long Commit ID will be retrieved.
                     $decipherNiceString = "I will use the long Commit SHA ID";
-                
+
                     # Finished
                     break;
                 } # Long

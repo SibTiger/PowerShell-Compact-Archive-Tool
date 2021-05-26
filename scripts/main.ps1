@@ -10,7 +10,7 @@
  #
  # ----------------------------
  # Exit Codes:
- # 0 = Successfully 
+ # 0 = Successfully
  # 1 = Compatibility Issue Determined
  #>
 

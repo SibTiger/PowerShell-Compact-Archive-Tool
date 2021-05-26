@@ -418,7 +418,7 @@ class CommonCUI
     #   Because we are using the CUI, we cannot provide any nice user interface to help accomplish this task.
     #     I am aware that CUI's are for sure capable of pulling off fancy UIs, such as HTOP from the Linux realm,
     #     but - remember we are using Powershell.  We are severally limited in terms of the functionality that
-    #     is allowed. 
+    #     is allowed.
     # -------------------------------
     # Input:
     #  [string] (REFERENCE) Path to Target File
