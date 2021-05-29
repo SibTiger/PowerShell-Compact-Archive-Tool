@@ -4084,8 +4084,6 @@ class CommonIO
                                         "Verbose");                 # Message level
 
             # * * * * * * * * * * * * * * * * * * *
-
-
         } # Try : Find all instances
 
 
