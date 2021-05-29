@@ -1882,8 +1882,6 @@ class CommonIO
         # ----------------------------------------
         [string] $tempDirectoryPath  = $null;           # Absolute Path of the Temporary directory.
         [string] $tempDirectoryName  = $null;           # The name of the directory that we are going to create
-        [string] $finalDirectoryPath = $null;           # This will hold the complete absolute path to the new
-                                                        #  requested directory.
         [string] $dateTime           = $null;           # This will hold a time-stamp of when the directory was
                                                         #  requested to be created.
         [int] $repetitionMax         = 50;              # We should never really need this, but if in case we do
@@ -1919,7 +1917,7 @@ class CommonIO
 
 
         # Finally, put the entire directory paths together
-        $finalDirectoryPath = "$($tempDirectoryPath)\$($tempDirectoryName)";
+        $directoryPath.Value = "$($tempDirectoryPath)\$($tempDirectoryName)";
 
 
         # ---------------------------
@@ -2062,7 +2060,7 @@ class CommonIO
 
         # First, we should check if the directory already exists.
         #  If the directory already exists, try to make it unique.
-        if ($([CommonIO]::CheckPathExists("$($finalDirectoryPath)", $true)) -eq $true)
+        if ($([CommonIO]::CheckPathExists("$($directoryPath.Value)", $true)) -eq $true)
         {
             # Because the directory already exists, we need to make
             #  it unique to avoid data conflicts.
@@ -2075,10 +2073,10 @@ class CommonIO
             # Find a unique name
             while($status)
             {
-                if($([CommonIO]::CheckPathExists("$($finalDirectoryPath).$($repetitionCount)", $true)) -eq $false)
+                if($([CommonIO]::CheckPathExists("$($directoryPath.Value).$($repetitionCount)", $true)) -eq $false)
                 {
                     # We found a unique name, now record it
-                    $finalDirectoryPath = "$($finalDirectoryPath).$($repetitionCount)";
+                    $directoryPath.Value = "$($directoryPath.Value).$($repetitionCount)";
 
                     # Change the status variable; we can leave the loop.
                     $status = $false;
@@ -2131,7 +2129,7 @@ class CommonIO
 
 
         # Now that we have the name of the temporary sub-directory, create it
-        if ($([CommonIO]::MakeDirectory("$($finalDirectoryPath)")) -eq $false)
+        if ($([CommonIO]::MakeDirectory("$($directoryPath.Value)")) -eq $false)
         {
             # Failed to create the temporary directory.
 
@@ -2151,7 +2149,7 @@ class CommonIO
                                         "`t- Directory exceeds Character limit or depth limit (Root -> Leaf)`r`n" + `
                                         "`t- The user's temporary roaming directory (%TEMP%) could be locked.`r`n" + `
                                         "`t- Insufficient writing privileges within the temporary roaming directory (%TEMP%).`r`n" + `
-                                        "`tPath of the temporary directory: $($finalDirectoryPath)");
+                                        "`tPath of the temporary directory: $($directoryPath.Value)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -2182,7 +2180,7 @@ class CommonIO
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Parent temporary directory: $($tempDirectoryPath)`r`n" + `
-                                        "`tPath of the temporary directory: $($finalDirectoryPath)`r`n" + `
+                                        "`tPath of the temporary directory: $($directoryPath.Value)`r`n" + `
                                         "`tTime stamp: $($dateTime)`r`n" + `
                                         "`tRepetition counter was: $($repetitionCount)`r`n" + `
                                         "`tRepetition counter threshold was: $($repetitionMax)");
@@ -2197,7 +2195,7 @@ class CommonIO
 
 
         # Just for assurance sakes, does the directory exist?
-        if ($([CommonIO]::CheckPathExists("$($finalDirectoryPath)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists("$($directoryPath.Value)", $true)) -eq $false)
         {
             # The temporary directory was created, but we can't find it?
 
@@ -2214,7 +2212,7 @@ class CommonIO
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Parent temporary directory: $($tempDirectoryPath)`r`n" + `
-                                        "`tPath of the temporary directory: $($finalDirectoryPath)");
+                                        "`tPath of the temporary directory: $($directoryPath.Value)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -2234,19 +2232,6 @@ class CommonIO
             return $false;
         } # if : Directory does not exist
 
-
-
-        # Finalizing and Concluding
-        # - - - - - - - - - - - - - -
-        # Now that everything was set up and we now have the
-        #  directory ready for general use now, we will do the
-        #  final touches and close this function successfully.
-        # ---------------------------
-
-
-        # Record the absolute directory name; so that the previous
-        #  function may utilize it.
-        $directoryPath.Value = "$($finalDirectoryPath)";
 
 
         # Successfully finished with this function
