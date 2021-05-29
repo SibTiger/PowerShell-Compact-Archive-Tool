@@ -1884,8 +1884,6 @@ class CommonIO
         [string] $tempDirectoryName  = $null;           # The name of the directory that we are going to create
         [string] $finalDirectoryPath = $null;           # This will hold the complete absolute path to the new
                                                         #  requested directory.
-        [string] $timeNow            = $null;           # Holds the current time
-        [string] $dateNow            = $null;           # Holds the current date
         [string] $dateTime           = $null;           # This will hold a time-stamp of when the directory was
                                                         #  requested to be created.
         [int] $repetitionMax         = 50;              # We should never really need this, but if in case we do
@@ -1910,14 +1908,10 @@ class CommonIO
         $tempDirectoryPath = "$($env:TEMP)\$($Global:_PROGRAMNAME_)";
 
 
-        # Second, get the Date and Time (this is our request time)
-        # >> Date
-        $dateNow = "$(Get-Date -UFormat "%d-%b-%y")";
-        # >> Time
-        $timeNow = "$(Get-Date -UFormat "%H.%M.%S")";
-
-        # Now put the stamp together
-        $dateTime = "$($dateNow).$($timeNow)";
+        # Second, get the current Date and Time (this is our request time)
+        $dateTime = ("$(Get-Date -UFormat `"%d-%b-%y`")" + `    # Date
+                     "_" + `                                    # Separate the date and time with this character
+                     "$(Get-Date -UFormat `"%H.%M.%S`")");      # Time
 
 
         # Third, put the directory name together
