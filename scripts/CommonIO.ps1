@@ -3600,12 +3600,6 @@ class CommonIO
                         [string] $destinationPath,          # The destination path to copy the file(s) to.
                         [string[]] $includes)               # The file(s) that we want to duplicate from the target directory
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [bool] $exitCode = $false;              # Exit code that will be returned.
-        # ----------------------------------------
-
-
         # First make sure that the target directory exists with the given path.
         if ([CommonIO]::CheckPathExists("$($targetDirectory)", $true) -eq $false)
         {
@@ -3765,8 +3759,8 @@ class CommonIO
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Update the exit code to return as successful
-            $exitCode = $true;
+            # Operation was successful
+            return $true;
         } # Try : Copy the File(s)
 
         # An error occurred
@@ -3805,8 +3799,8 @@ class CommonIO
         } # Catch : Error occurred
 
 
-        # The operation is finished, return the status to the calling function.
-        return $exitCode;
+        # The operation had failed.
+        return $false;
     } # CopyFile()
 
 
