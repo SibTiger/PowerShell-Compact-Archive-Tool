@@ -2491,12 +2491,6 @@ class CommonIO
     #>
     static [bool] DeleteDirectory([string] $path)
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [bool] $exitCode = $false;       # Exit code that will be returned.
-        # ----------------------------------------
-
-
         # First check to see if the directory exists.  If not, then there is nothing to do.
         if(([CommonIO]::CheckPathExists("$($path)", $true)) -eq $false)
         {
@@ -2582,7 +2576,7 @@ class CommonIO
 
 
             # Successfully expunged the requested directory
-            $exitCode = $true;
+            return $true;
         } # Try : Delete Directory
 
         catch
@@ -2607,12 +2601,11 @@ class CommonIO
                                         "Error");                   # Message level
 
             # * * * * * * * * * * * * * * * * * * *
-
-
         } # Catch : Error Deleting Directory
 
-        # Return with exit code
-        return $exitCode;
+
+        # Return with an error
+        return $false;
     } # DeleteDirectory()
 
 
