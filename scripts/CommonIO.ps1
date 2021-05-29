@@ -2835,12 +2835,6 @@ class CommonIO
     static [bool] RenameItem([string] $path,        # Path of the directory or file we want to rename
                             [string] $newName)      # The new name we want to identify the object.
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [bool] $exitCode = $false;              # Exit code that will be returned.
-        # ----------------------------------------
-
-
         # First make sure that the file or directory exists
         if ([CommonIO]::CheckPathExists("$($path)", $true) -eq $false)
         {
@@ -2939,8 +2933,8 @@ class CommonIO
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Update the exit code to return as successful
-            $exitCode = $true;
+            # Operation was successful
+            return $true;
         } # Try : Rename the Item
 
         # An error occurred
@@ -2967,8 +2961,8 @@ class CommonIO
         } # Catch : Error occurred
 
 
-        # The operation is finished, return the status to the calling function.
-        return $exitCode;
+        # Operation had failed
+        return $false;
     } # RenameItem()
 
 
