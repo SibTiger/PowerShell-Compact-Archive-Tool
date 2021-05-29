@@ -2647,12 +2647,6 @@ class CommonIO
     static [bool] DeleteFile([string] $path, `      # Path of the directory to inspect
                             [string[]] $includes)   # List of files or requirements
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [bool] $exitCode = $false;       # Exit code that will be returned.
-        # ----------------------------------------
-
-
         # First check to see if the directory exists,
         #  if not, then there is nothing to do.
         if(([CommonIO]::CheckPathExists("$($path)", $true)) -eq $false)
@@ -2768,7 +2762,7 @@ class CommonIO
 
 
             # Successfully expunged the requested files
-            $exitCode = $true;
+            return $true;
         } # Try : Delete Files
 
         catch
@@ -2803,14 +2797,12 @@ class CommonIO
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
                                         "Error");                   # Message level
-
             # * * * * * * * * * * * * * * * * * * *
-
-
         } # Catch : Error Deleting Files
 
-        # Return with exit code
-        return $exitCode;
+
+        # Return with an error
+        return $false;
     } # DeleteFile()
 
 
