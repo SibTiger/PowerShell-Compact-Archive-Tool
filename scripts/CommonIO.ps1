@@ -2373,7 +2373,7 @@ class CommonIO
         } # Else : Directory already exists
 
 
-        # Return the exit code
+        # Return with an error
         return $false;
     } # MakeDirectory()
 
