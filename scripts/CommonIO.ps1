@@ -1484,10 +1484,6 @@ class CommonIO
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [float] $wordVersion = 0.0;     # Microsoft Word Version
-                                        #  This may not be needed, but just in case if there is
-                                        #  differences in other versions - we can try to deter
-                                        #  conflicts and correct the behavior if possible.
         [int] $wordPDFCode   = 17;      # The code to export a document in PDF format.
                                         #  https://docs.microsoft.com/en-us/office/vba/api/word.wdexportformat
         # ----------------------------------------
@@ -1673,10 +1669,6 @@ class CommonIO
         # Setup the Environment
         # -------------------
         # +++++++++++++++++++
-
-
-        # Get the version of MS Word.
-        $wordVersion = $msWord.Version;
 
 
         # Hide the instance; user does not need to see it.
