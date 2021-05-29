@@ -925,24 +925,16 @@ class DefaultCompress
     #>
     [string] FetchHashInformation([string] $file)
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [string] $archiveInfo = $null;      # This will hold our list of hash values
-                                            #  in a long string.
-        # ----------------------------------------
-
-        # Get all the hash values that is associated with the given file.
-        $archiveInfo = ("SHA256:`r`n" + `
-                        "`t$([CommonIO]::FileHash("$($file)", "sha256"))`r`n`r`n" + `
-                        "SHA384:`r`n" + `
-                        "`t$([CommonIO]::FileHash("$($file)", "sha384"))`r`n`r`n" + `
-                        "SHA512:`r`n" + `
-                        "`t$([CommonIO]::FileHash("$($file)", "sha512"))`r`n`r`n" + `
-                        "MD5:`r`n" + `
-                        "`t$([CommonIO]::FileHash("$($file)", "md5"))`r`n`r`n");
-
-        # Return the result that was generated.
-        return $archiveInfo;
+        # Get all the hash values that is associated with the given file and
+        #  return the results.
+        return ("SHA256:`r`n" + `
+                "`t$([CommonIO]::FileHash("$($file)", "sha256"))`r`n`r`n" + `
+                "SHA384:`r`n" + `
+                "`t$([CommonIO]::FileHash("$($file)", "sha384"))`r`n`r`n" + `
+                "SHA512:`r`n" + `
+                "`t$([CommonIO]::FileHash("$($file)", "sha512"))`r`n`r`n" + `
+                "MD5:`r`n" + `
+                "`t$([CommonIO]::FileHash("$($file)", "md5"))`r`n`r`n");
     } # FetchHashInformation()
 
 
