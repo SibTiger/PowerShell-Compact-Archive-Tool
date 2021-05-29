@@ -2262,12 +2262,6 @@ class CommonIO
     #>
     static [bool] MakeDirectory([string] $path)
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [bool] $exitCode = $false;      # Exit code that will be returned.
-        # ----------------------------------------
-
-
         # Check to see if the path already exists, if it already exists -
         #  then there is nothing to be done.  If it does not exist, however,
         #  then try to create the requested directory.
@@ -2313,7 +2307,7 @@ class CommonIO
 
 
                 # Successfully created the requested directory
-                $exitCode = $true;
+                return $true;
             } # try : Create directory.
 
             catch
@@ -2347,8 +2341,6 @@ class CommonIO
                                         "Error");                       # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
-
-
             } # Catch : Failed to Create Directory
         } # If : Directory does not exist
 
@@ -2377,12 +2369,12 @@ class CommonIO
 
 
             # Because the directory already exists, this is not really an error.
-            $exitCode = $true;
+            return $true
         } # Else : Directory already exists
 
 
         # Return the exit code
-        return $exitCode;
+        return $false;
     } # MakeDirectory()
 
 
