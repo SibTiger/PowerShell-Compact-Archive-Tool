@@ -4150,11 +4150,6 @@ class CommonIO
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $hashValue = $null;        # The hash value regarding specified file.
-
-        # SPECIAL OBJECTS
-        # - - - - - - - -
-
         # FileHashInfo; used for capturing the hash information from a specific data file.
         $hashInfo = New-Object -TypeName Microsoft.PowerShell.Commands.FileHashInfo;
         # ----------------------------------------
@@ -4201,9 +4196,6 @@ class CommonIO
                                     -Algorithm "$($hashAlgorithm)" `
                                     -ErrorAction Stop;
 
-            # From the cache data, get the hash and save it.
-            $hashValue = $hashInfo.Hash;
-
 
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -4215,7 +4207,7 @@ class CommonIO
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Requested file: $($path)`r`n" + `
                                         "`tRequested Hash Algorithm: $($hashAlgorithm)`r`n" + `
-                                        "`tHash value is: $($hashValue)");
+                                        "`tHash value is: $($hashInfo.Hash)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -4223,8 +4215,6 @@ class CommonIO
                                         "Verbose");                 # Message level
 
             # * * * * * * * * * * * * * * * * * * *
-
-
         } # Try : Get hash value
 
         # Catch if an error occurred
@@ -4251,13 +4241,11 @@ class CommonIO
                                         "Error");                   # Message level
 
             # * * * * * * * * * * * * * * * * * * *
-
-
         } # Catch : Failure to fetch value
 
 
         # Return the hash value of the file - if it was present.
-        return "$($hashValue)";
+        return "$($hashInfo.Hash)";
     } # FileHash()
 
     #endregion
