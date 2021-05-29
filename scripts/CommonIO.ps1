@@ -3403,12 +3403,6 @@ class CommonIO
     static [bool] CopyDirectory([string] $targetDirectory,      # The parent directory that we want to duplicate
                                 [string] $destinationPath)      # The destination directory to place duplicated data
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [bool] $exitCode = $false;              # Exit code that will be returned.
-        # ----------------------------------------
-
-
         # First make sure that the target directory exists with the given path.
         if ([CommonIO]::CheckPathExists("$($targetDirectory)", $true) -eq $false)
         {
@@ -3533,8 +3527,8 @@ class CommonIO
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Update the exit code to return as successful
-            $exitCode = $true;
+            # Operation was successful
+            return $true;
         } # Try : Copy the Directory
 
         # An error occurred
@@ -3561,8 +3555,8 @@ class CommonIO
         } # Catch : Error occurred
 
 
-        # The operation is finished, return the status to the calling function.
-        return $exitCode;
+        # The operation had failed.
+        return $false;
     } # CopyDirectory()
 
 
