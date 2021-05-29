@@ -4314,12 +4314,6 @@ class CommonIO
     #>
     static [bool] AccessWebpage([string] $URLAddress)
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [bool] $exitCode = $false;       # The operation exit code.
-        # ----------------------------------------
-
-
         # Make sure that the URL Address provided is an actual legitimate URL address.
         if ((($URLAddress -like 'http://*') -eq $true) -or `
             (($URLAddress -like 'https://*') -eq $true) -or `
@@ -4336,9 +4330,6 @@ class CommonIO
                 $debugInformation = Start-Process -FilePath "$($URLAddress)" `
                                                 -Verbose `
                                                 -ErrorAction Stop 4>&1;
-
-                # Successfully opened the requested webpage
-                $exitCode = $true;
 
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -4364,6 +4355,8 @@ class CommonIO
                 # * * * * * * * * * * * * * * * * * * *
 
 
+                # Successfully accessed the desired webpage
+                return $true;
             } # Try : Execute Task
 
             catch
@@ -4389,8 +4382,6 @@ class CommonIO
                                             "Error");                   # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
-
-
             } # Catch : Error
         } # If : URL Address is Legitimate
 
@@ -4416,12 +4407,11 @@ class CommonIO
                                         "Error");                   # Message level
 
             # * * * * * * * * * * * * * * * * * * *
-
-
         } # Else : URL Address is NOT Legitimate
 
-        # Return the operation status
-        return $exitCode;
+
+        # Failed to access the desired page or was not a valid address.
+        return $false;
     } # AccessWebpage()
 
     #endregion
