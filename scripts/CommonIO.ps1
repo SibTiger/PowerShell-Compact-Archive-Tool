@@ -2995,12 +2995,6 @@ class CommonIO
     static [bool] MoveDirectory([string] $targetDirectory,      # The directory we wish to move to another location.
                                 [string] $destinationPath)      # The new destination path that we want to relocate too.
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [bool] $exitCode = $false;              # Exit code that will be returned.
-        # ----------------------------------------
-
-
         # First make sure that the target directory exists with the given path.
         if ([CommonIO]::CheckPathExists("$($targetDirectory)", $true) -eq $false)
         {
@@ -3102,8 +3096,8 @@ class CommonIO
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Update the exit code to return as successful
-            $exitCode = $true;
+            # Operation was successful
+            return $true;
         } # Try : Move the Directory
 
         # An error occurred
@@ -3130,8 +3124,8 @@ class CommonIO
         } # Catch : Error occurred
 
 
-        # The operation is finished, return the status to the calling function.
-        return $exitCode;
+        # The operation is had failed
+        return $false;
     } # MoveDirectory()
 
 
