@@ -489,9 +489,6 @@
 
         # Retrieve the User's Default Compress Settings
         [DefaultCompress] $psArchive = [DefaultCompress]::GetInstance();
-
-        # Operation status of the execution performed.
-        [bool] $exitCode = $false;
         # ----------------------------------------
 
 
@@ -567,8 +564,8 @@
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Update the status as successful
-            $exitCode = $true;
+            # Operation was successful
+            return $true;
         } # Try : Save User Configuration
 
         catch
@@ -603,15 +600,11 @@
                                     "Error");                       # Message level
 
             # * * * * * * * * * * * * * * * * * * *
-
-
-            # Update the status as failure
-            $exitCode = $false;
         } # Catch : Error Creating User Configuration
 
 
-        # Return the results
-        return $exitCode;
+        # Return an error as something went wrong.
+        return $false;
     } # Save()
 
 
