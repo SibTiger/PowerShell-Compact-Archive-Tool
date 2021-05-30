@@ -1037,6 +1037,7 @@ class SettingsGeneralProgram
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
+                                "$($NULL)", `
                                 $true);
     } # DrawMenuCompressionTool()
 
