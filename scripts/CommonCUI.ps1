@@ -304,7 +304,7 @@ class CommonCUI
 
 
         # Was the Current Setting provided?
-        if ($itemCurrentSetting -eq "$($NULL)")
+        if ($itemCurrentSetting -ne "$($NULL)")
         {
             # Add the Current Setting
             $displayMenuOutputFormatting += ("`r`n`t`t$($itemCurrentSetting)");
