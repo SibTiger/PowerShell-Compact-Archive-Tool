@@ -36,16 +36,16 @@ class SystemInformation
     #   requirements.
     # -------------------------------
     # Output:
-    #  [string] Operating System
+    #  [SystemInformationOperatingSystem] Operating System
     #   The detected Operating System that the application is presently running within.
     # -------------------------------
-    static [string] OperatingSystem()
+    static [SystemInformationOperatingSystem] OperatingSystem()
     {
         # Check if the host is running a Windows environment.
         if ($Global:IsWindows)
         {
             # Detected Windows
-            return "Windows";
+            return [SystemInformationOperatingSystem]::Windows;
         } # If : Host Running Windows
 
 
@@ -53,7 +53,7 @@ class SystemInformation
         elseif ($Global:IsLinux)
         {
             # Detected Linux
-            return "Linux";
+            return [SystemInformationOperatingSystem]::Linux;
         } # If : Host Running Linux
 
 
@@ -61,7 +61,7 @@ class SystemInformation
         elseif ($Global:IsMacOS)
         {
             # Detected Macintosh
-            return "Macintosh";
+            return [SystemInformationOperatingSystem]::Macintosh;
         } # If : Host Running Macintosh OS
 
 
@@ -69,7 +69,7 @@ class SystemInformation
         else
         {
             # Return an unknown instead.
-            return "UNKNOWN"
+            return [SystemInformationOperatingSystem]::UNKNOWN;
         } # Else : Unknown Environment
     } # OperatingSystem()
 
@@ -219,3 +219,22 @@ class SystemInformation
 
     #endregion
 } # SystemInformation
+
+
+
+
+<# Operating System [ENUM]
+ # -------------------------------
+ # Provides a list of supported Operating Systems using PowerShell Core.
+ #
+ # List of supported Operating Systems using PowerShell Core:
+ #  - https://docs.microsoft.com/en-us/powershell/scripting/powershell-support-lifecycle#supported-platforms
+ # -------------------------------
+ #>
+ enum SystemInformationOperatingSystem
+ {
+    Windows = 0;    # Windows OS
+    Linux = 1;      # Linux
+    Macintosh = 2;  # Macintosh
+    UNKNOWN = 99;   # Unregistered
+ } # SystemInformationOperatingSystem
