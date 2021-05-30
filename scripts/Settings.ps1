@@ -41,6 +41,7 @@ class Settings
         [bool] $menuLoop = $true;
         # ----------------------------------------
 
+
         # Open the Main Settings Menu
         #  Keep the user at the Main Settings Menu until they request to return
         #  back to the Main Menu.
@@ -298,6 +299,7 @@ class Settings
                 # Provide an error message to the user that the option they chose is
                 #  not available.
                 [CommonCUI]::DrawIncorrectMenuOption();
+
 
                 # Finished
                 break;
