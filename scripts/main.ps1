@@ -56,12 +56,8 @@ function main()
 
 #region Prepare the program's environment
 
-
 # Setup the program's environment
 Initializations;
-
-
-
 
 # Setup the program's directories
 CreateDirectories;
@@ -72,7 +68,6 @@ CreateDirectories;
 
 
 #region Instantiate Singletons
-
 
 # Initialize the User Preference object.
 [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
@@ -95,6 +90,7 @@ CreateDirectories;
                                 [LoadSaveUserConfiguration]::GetInstance();
 
 #endregion
+
 
 
 
