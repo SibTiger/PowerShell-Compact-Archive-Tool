@@ -77,51 +77,6 @@ class SystemInformation
 
 
 
-    # Detect PowerShell Edition
-    # -------------------------------
-    # Documentation:
-    #  This function will try to detect the PowerShell Edition that is running the application.
-    #   With this, it can be possible for the application to change its behavior one way for an
-    #   environment - while different in another.  Thus, it is possible for the application to
-    #   support multiple environments if possible.
-    #
-    # NOTE:
-    #   This function relies on PowerShell's environment to perform the main operation.  Luckily,
-    #    this works with the older versions of PowerShell.  however, backwards compatibility may
-    #    not be possible with ancient versions of PowerShell due to the OOP nature.  It should be
-    #    noted that OOP scripting was not really introduced until 5.0, any version prior will not
-    #    work correctly.  Further, if there are functions that use newer definitions or dotNET APIs,
-    #    that too will not work correctly.  As such, it is assumed that all works well and that the
-    #    host uses at least PowerShell 5.0 or greater -- but it is unlikely due to newer technologies
-    #    and techniques.
-    # -------------------------------
-    # Output:
-    #  [SystemInformationPowerShellEdition] PowerShell Edition
-    #   The detected PowerShell Edition that this application is presently running within.
-    # -------------------------------
-    static [SystemInformationPowerShellEdition] PowerShellEdition()
-    {
-        # Check if the host PowerShell Edition is POSH .Net Core
-        if ($Global:PSEdition -eq "Core")
-        {
-            # Detected PowerShell Core
-            return [SystemInformationPowerShellEdition]::Core;
-        } # if : PowerShell Core
-
-
-        # Windows Desktop has selected.  Though, keep in mind that POSH 4.0 and earlier will not
-        #  provide any output.  Thus, it will be treated as a legacy.
-        else
-        {
-            # Detected PowerShell (5.1 and earlier)
-            return [SystemInformationPowerShellEdition]::Legacy;
-        } # else : PowerShell Legacy
-    } # PowerShellEdition()
-
-
-
-
-
     # Return Application's (PowerShell's) Process ID
     # -------------------------------
     # Documentation:
@@ -230,20 +185,3 @@ class SystemInformation
     Macintosh = 2;  # Macintosh
     UNKNOWN = 99;   # Unregistered
  } # SystemInformationOperatingSystem
-
-
-
-
-<# PowerShell Edition [ENUM]
- # -------------------------------
- # Provides a list of PowerShell Editions that are available.
- #
- # List of PowerShell Editions:
- #  - https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_powershell_editions
- # -------------------------------
- #>
- enum SystemInformationPowerShellEdition
- {
-    Core = 0;       # PowerShell Core
-    Legacy = 1;     # Windows PowerShell
- } # SystemInformationPowerShellEdition
