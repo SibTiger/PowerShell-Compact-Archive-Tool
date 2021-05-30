@@ -34,6 +34,7 @@ class SettingsZip
         [bool] $menuLoop = $true;
         # ----------------------------------------
 
+
         # Open the Zip Settings Menu
         #  Keep the user at the Zip Settings Menu until they request to return
         #  back to the previous menu.
