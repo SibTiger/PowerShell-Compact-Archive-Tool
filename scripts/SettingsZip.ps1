@@ -78,14 +78,21 @@ class SettingsZip
     hidden static [void] DrawMenu()
     {
         # Display the menu list
+
+
+        # Specify Compression Level
         [CommonCUI]::DrawMenuItem('C',
                                 "Compression Level",
                                 "$($NULL)",
                                 $true);
+
+        # Toggle the ability to check file's integrity
         [CommonCUI]::DrawMenuItem('V',
                                 "Verify Build after Compression",
                                 "$($NULL)",
                                 $true);
+
+        # Allow or disallow the ability to generate a report
         [CommonCUI]::DrawMenuItem('R',
                                 "Generate Report of Archive Datafile",
                                 "$($NULL)",
