@@ -629,9 +629,6 @@
     {
         # Declarations and Initializations
         # -----------------------------------------
-        # Operation status of the execution performed.
-        [bool] $exitCode = $false;
-
         # This will hold the deserialized XML data containing the user's preferred
         #  settings and configurations regarding each object.
         [Object[]] $cacheUserConfig = $null;
@@ -715,7 +712,7 @@
 
 
                 # Successfully loaded the user's environment.
-                $exitCode = $true;
+                return $true
             } # if : Successfully loaded environment
 
             # If there was a general failure while loading the user's preferred environment, then immediately stop to avoid
@@ -754,8 +751,8 @@
                 # * * * * * * * * * * * * * * * * * * *
 
 
-                # Update the operation status as a failure.
-                $exitCode = $false;
+                # Reached an error during the loading procedure
+                return $false;
             } # else : Failure to load environment
         } # Try : Try to load the user's configuration file
 
@@ -794,15 +791,11 @@
                                     "Error");                       # Message level
 
             # * * * * * * * * * * * * * * * * * * *
-
-
-            # Update the status to indicate that a failure had been reached.
-            $exitCode = $false;
         } # Catch : Exception Reached while Reading Configuration File
 
 
-        # Return the results
-        return $exitCode;
+        # Unable to load the user's settings.
+        return $false;
     } # Load()
 
 
