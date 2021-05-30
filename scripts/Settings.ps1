@@ -96,7 +96,6 @@ class Settings
                                 $true);
 
 
-
         # Only show this option if it is available to the user
         if ([CommonFunctions]::IsAvailableZip() -eq $true)
         {
@@ -128,7 +127,6 @@ class Settings
                                     "Configure the Git's functionality and preferences.", `
                                     $true);
         } # if: Display Git Option
-
 
 
         # Program Tools
