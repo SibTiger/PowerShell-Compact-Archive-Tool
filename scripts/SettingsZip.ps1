@@ -298,6 +298,7 @@ class SettingsZip
         [string] $decipherNiceString = $null;
         # ----------------------------------------
 
+
         # Open the Compression Level Menu
         #  Keep the user within the menu until they request to return back to the previous menu.
         do
@@ -571,6 +572,7 @@ class SettingsZip
         [string] $decipherNiceString = $null;
         # ----------------------------------------
 
+
         # Open the Verify Build Menu
         #  Keep the user within the menu until they request to return back to the previous menu.
         do
@@ -805,6 +807,7 @@ class SettingsZip
         #  results, but lets keep the code nicer to read for our own benefit instead.
         [string] $decipherNiceString = $null;
         # ----------------------------------------
+
 
         # Open the Generate Report Menu
         #  Keep the user within the menu until they request to return back to the previous menu.
