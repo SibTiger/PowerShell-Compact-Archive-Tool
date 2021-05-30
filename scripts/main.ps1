@@ -6,8 +6,6 @@
  #  PowerShell instance, provide a means for the user to interact within the software, and then - once the user had finished
  #  using the program - termination by safely closing the environment that had been created.
  # Essentially, this is the spine of the entire program.  If the entry point fails, the entire application will fall apart.
- #
- #
  # ----------------------------
  # Exit Codes:
  # 0 = Successfully
