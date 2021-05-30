@@ -232,12 +232,12 @@ function InitializationDirectory()
  #   Such information can be the window's position, title, colors, etc...
  # -------------------------------
  #>
- function InitializationEnvironment()
- {
-     # PowerShell's Window Title
-     Set-Variable -Name "_ENVIRONMENT_WINDOW_TITLE_ORIGINAL_" -Value "$([CommonIO]::GetTerminalWindowTitle())" `
-        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
- } # InitializationEnvironment()
+function InitializationEnvironment()
+{
+    # PowerShell's Window Title
+    Set-Variable -Name "_ENVIRONMENT_WINDOW_TITLE_ORIGINAL_" -Value "$([CommonIO]::GetTerminalWindowTitle())" `
+    -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+} # InitializationEnvironment()
 
 
 
