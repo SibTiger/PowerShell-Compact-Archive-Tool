@@ -426,6 +426,7 @@ class Settings7Zip
             # Show the user that they are at the Locate 7Zip Path menu
             [CommonCUI]::DrawSectionHeader("Locate 7Zip Path");
 
+
             # Provide the current 7Zip path
             #  Determine how to present to the user that the path is valid or not.
             if ($sevenZip.Detect7ZipExist())
@@ -442,6 +443,7 @@ class Settings7Zip
                 #  the program cannot find the 7Zip application.
                 [Logging]::DisplayMessage("I cannot find the 7Zip application within the provided path:")
             } # Else: 7Zip's path was not found
+
 
             # Output the project's path
             [Logging]::DisplayMessage("`t$($sevenZip.GetExecutablePath())");
