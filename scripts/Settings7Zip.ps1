@@ -78,41 +78,58 @@ class Settings7Zip
     hidden static [void] DrawMenu()
     {
         # Display the menu list
+
+
+        # Find the 7Zip Application
         [CommonCUI]::DrawMenuItem('B', `
                                 "Browse for 7Zip", `
                                 "$($NULL)", `
                                 $true);
 
+
+        # Select a Compression Method
         [CommonCUI]::DrawMenuItem('S', `
                                 "Compression Method", `
                                 "$($NULL)", `
                                 $true);
 
+
+        # Select a Zip Algorithm
         [CommonCUI]::DrawMenuItem('Z', `
                                 "Zip Algorithm", `
                                 "$($NULL)", `
                                 $true);
 
+
+        # Select a 7Zip Algorithm
         [CommonCUI]::DrawMenuItem('7', `
                                 "7Zip Algorithm", `
                                 "$($NULL)", `
                                 $true);
 
+
+        # Allow or disallow the ability to use Multithreading
         [CommonCUI]::DrawMenuItem('M', `
                                 "Multithreaded Operations", `
                                 "$($NULL)", `
                                 $true);
 
+
+        # Determine the Compression Level
         [CommonCUI]::DrawMenuItem('C', `
                                 "Compression Level", `
                                 "$($NULL)", `
                                 $true);
 
+
+        # Enable or disable the integrity check
         [CommonCUI]::DrawMenuItem('V', `
                                 "Verify Build after Compression", `
                                 "$($NULL)", `
                                 $true);
 
+
+        # Allow or disallow the ability to generate a new report
         [CommonCUI]::DrawMenuItem('R', `
                                 "Generate Report of Archive Datafile", `
                                 "$($NULL)", `
