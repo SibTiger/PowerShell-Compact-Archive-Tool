@@ -96,34 +96,26 @@ class SystemInformation
     #    and techniques.
     # -------------------------------
     # Output:
-    #  [string] PowerShell Edition
+    #  [SystemInformationPowerShellEdition] PowerShell Edition
     #   The detected PowerShell Edition that this application is presently running within.
     # -------------------------------
-    static [string] PowerShellEdition()
+    static [SystemInformationPowerShellEdition] PowerShellEdition()
     {
         # Check if the host PowerShell Edition is POSH .Net Core
         if ($Global:PSEdition -eq "Core")
         {
             # Detected PowerShell Core
-            return "Core";
+            return [SystemInformationPowerShellEdition]::Core;
         } # if : PowerShell Core
 
 
-        # Check if the host PowerShell Edition is Legacy
-        elseif ($Global:PSEdition -eq "Desktop")
-        {
-            # Detected PowerShell (5.1 and earlier)
-            return "Legacy";
-        } # if : PowerShell Legacy
-
-
-        # Unable to detect the PowerShell edition.
+        # Windows Desktop has selected.  Though, keep in mind that POSH 4.0 and earlier will not
+        #  provide any output.  Thus, it will be treated as a legacy.
         else
         {
-            # Unable to detect PowerShell edition.
-            #  Return an unknown instead.
-            return "UNKNOWN";
-        } # else : Unknown POSH Edition
+            # Detected PowerShell (5.1 and earlier)
+            return [SystemInformationPowerShellEdition]::Legacy;
+        } # else : PowerShell Legacy
     } # PowerShellEdition()
 
 
@@ -238,3 +230,20 @@ class SystemInformation
     Macintosh = 2;  # Macintosh
     UNKNOWN = 99;   # Unregistered
  } # SystemInformationOperatingSystem
+
+
+
+
+<# PowerShell Edition [ENUM]
+ # -------------------------------
+ # Provides a list of PowerShell Editions that are available.
+ #
+ # List of PowerShell Editions:
+ #  - https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_powershell_editions
+ # -------------------------------
+ #>
+ enum SystemInformationPowerShellEdition
+ {
+    Core = 0;       # PowerShell Core
+    Legacy = 1;     # Windows PowerShell
+ } # SystemInformationPowerShellEdition
