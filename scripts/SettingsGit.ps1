@@ -128,7 +128,6 @@ class SettingsGit
 
         # Provide some extra padding
         [Logging]::DisplayMessage("`r`n");
-        #
     } # DrawMenu()
 
 
