@@ -80,31 +80,37 @@ class SettingsGit
         # Display the menu list
 
 
+        # Find Git
         [CommonCUI]::DrawMenuItem('B', `
                                 "Browse for Git", `
                                 "$($NULL)", `
                                 $true);
 
+        # Allow or disallow the local repo. to be updated
         [CommonCUI]::DrawMenuItem('U', `
                                 "Update Source", `
                                 "$($NULL)", `
                                 $true);
 
+        # Determine length of Hash size
         [CommonCUI]::DrawMenuItem('S', `
                                 "Size of Commit ID", `
                                 "$($NULL)", `
                                 $true);
 
+        # Allow or disallow ability to retrieve changelog
         [CommonCUI]::DrawMenuItem('H', `
                                 "Retrieve History", `
                                 "$($NULL)", `
                                 $true);
 
+        # Specify the length of changes retrieved
         [CommonCUI]::DrawMenuItem('L', `
                                 "History Commit Size", `
                                 "$($NULL)", `
                                 $true);
 
+        # Enable or disable the ability to generate a report
         [CommonCUI]::DrawMenuItem('R', `
                                 "Generate Report of Project Repository", `
                                 "$($NULL)", `
