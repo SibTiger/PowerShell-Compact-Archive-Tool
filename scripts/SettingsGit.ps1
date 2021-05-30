@@ -78,6 +78,8 @@ class SettingsGit
     hidden static [void] DrawMenu()
     {
         # Display the menu list
+
+
         [CommonCUI]::DrawMenuItem('B', `
                                 "Browse for Git", `
                                 "$($NULL)", `
@@ -358,6 +360,7 @@ class SettingsGit
         [GitControl] $gitControl = [GitControl]::GetInstance();
         # ----------------------------------------
 
+
         # Open the Locate Git Path Configuration menu
         #  Keep the user within the menu until they request to return back to the previous menu.
         do
@@ -371,6 +374,7 @@ class SettingsGit
 
             # Show the user that they are at the Locate Git Path menu
             [CommonCUI]::DrawSectionHeader("Locate Git Path");
+
 
             # Provide the current Git path
             #  Determine how to present to the user that the path is valid or not.
@@ -388,6 +392,7 @@ class SettingsGit
                 #  the program cannot find the Git application.
                 [Logging]::DisplayMessage("I cannot find the Git application within the provided path:")
             } # Else: Git's path was not found
+
 
             # Output the project's path
             [Logging]::DisplayMessage("`t$($gitControl.GetExecutablePath())");
@@ -710,6 +715,7 @@ class SettingsGit
         [string] $decipherNiceString = $null;
         # ----------------------------------------
 
+
         # Open the Update Source Configuration menu
         #  Keep the user within the menu until they request to return back to the previous menu.
         do
@@ -946,6 +952,7 @@ class SettingsGit
         #  results, but lets keep the code nicer to read for our own benefit instead.
         [string] $decipherNiceString = $null;
         # ----------------------------------------
+
 
         # Open the Size of Commit ID Configuration menu
         #  Keep the user within the menu until they request to return back to the previous menu.
@@ -1193,6 +1200,7 @@ class SettingsGit
         [string] $decipherNiceString = $null;
         # ----------------------------------------
 
+
         # Open the History Configuration menu
         #  Keep the user within the menu until they request to return back to the previous menu.
         do
@@ -1426,6 +1434,7 @@ class SettingsGit
         #  results, but lets keep the code nicer to read for our own benefit instead.
         [string] $decipherNiceString = $null;
         # ----------------------------------------
+
 
         # Open the History Commit Size Configuration menu
         #  Keep the user within the menu until they request to return back to the previous menu.
@@ -1662,6 +1671,7 @@ class SettingsGit
         #  results, but lets keep the code nicer to read for our own benefit instead.
         [string] $decipherNiceString = $null;
         # ----------------------------------------
+
 
         # Open the Generate Report Menu
         #  Keep the user within the menu until they request to return back to the previous menu.
