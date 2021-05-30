@@ -4013,13 +4013,13 @@ class SevenZip
 
 
 <# File Hash Algorithm (7Zip) [ENUM]
-# -------------------------------
-# List of Hash Algorithms that is supported with the 7Zip Application.
-#
-# List of supported hash algorithms:
-#  - https://sevenzip.osdn.jp/chm/cmdline/commands/hash.htm
-# -------------------------------
-#>
+ # -------------------------------
+ # List of Hash Algorithms that is supported with the 7Zip Application.
+ #
+ # List of supported hash algorithms:
+ #  - https://sevenzip.osdn.jp/chm/cmdline/commands/hash.htm
+ # -------------------------------
+ #>
 enum FileHashAlgorithm7Zip
 {
     crc32 = 0;          # Cyclic Redundancy Check (32bit)
