@@ -411,6 +411,7 @@ class Settings7Zip
         [SevenZip] $sevenZip = [SevenZip]::GetInstance();
         # ----------------------------------------
 
+
         # Open the Locate 7Zip Path Configuration menu
         #  Keep the user within the menu until they request to return back to the previous menu.
         do
@@ -762,6 +763,7 @@ class Settings7Zip
         [string] $decipherNiceString = $null;
         # ----------------------------------------
 
+
         # Open the Compression Method Configuration menu
         #  Keep the user within the menu until they request to return back to the previous menu.
         do
@@ -1003,6 +1005,7 @@ class Settings7Zip
         #  results, but lets keep the code nicer to read for our own benefit instead.
         [string] $decipherNiceString = $null;
         # ----------------------------------------
+
 
         # Open the Algorithm Zip Configuration menu
         #  Keep the user within the menu until they request to return back to the previous menu.
@@ -1273,6 +1276,7 @@ class Settings7Zip
         [string] $decipherNiceString = $null;
         # ----------------------------------------
 
+
         # Open the Algorithm 7Zip Configuration menu
         #  Keep the user within the menu until they request to return back to the previous menu.
         do
@@ -1290,6 +1294,7 @@ class Settings7Zip
                     break;
                 } # LZMA2
 
+
                 "LZMA"
                 {
                     # Set the message such that the user knows that the 'LZMA' algorithm is currently set.
@@ -1299,6 +1304,7 @@ class Settings7Zip
                     break;
                 } # LZMA
 
+
                 "BZip2"
                 {
                     # Set the message such that the user knows that the 'BZip2' algorithm is currently set.
@@ -1307,6 +1313,7 @@ class Settings7Zip
                     # Finished
                     break;
                 } # BZip2
+
 
                 "PPMd"
                 {
@@ -1571,6 +1578,7 @@ class Settings7Zip
         [string] $decipherNiceString = $null;
         # ----------------------------------------
 
+
         # Open the Use Multithread Configuration menu
         #  Keep the user within the menu until they request to return back to the previous menu.
         do
@@ -1807,6 +1815,7 @@ class Settings7Zip
         [string] $decipherNiceString = $null;
         # ----------------------------------------
 
+
         # Open the Compression Level Configuration menu
         #  Keep the user within the menu until they request to return back to the previous menu.
         do
@@ -1824,6 +1833,7 @@ class Settings7Zip
                     break;
                 } # Store
 
+
                 "Minimal"
                 {
                     # Set the message such that the user knows that the compression level is set to "Minimal".
@@ -1833,6 +1843,7 @@ class Settings7Zip
                     break;
                 } # Minimal
 
+
                 "Normal"
                 {
                     # Set the message such that the user knows that the compression level is set to "Normal".
@@ -1841,6 +1852,7 @@ class Settings7Zip
                     # Finished
                     break;
                 } # Normal
+
 
                 "Maximum"
                 {
@@ -2107,6 +2119,7 @@ class Settings7Zip
         [string] $decipherNiceString = $null;
         # ----------------------------------------
 
+
         # Open the Verify Build Menu
         #  Keep the user within the menu until they request to return back to the previous menu.
         do
@@ -2341,6 +2354,7 @@ class Settings7Zip
         #  results, but lets keep the code nicer to read for our own benefit instead.
         [string] $decipherNiceString = $null;
         # ----------------------------------------
+
 
         # Open the Generate Report Menu
         #  Keep the user within the menu until they request to return back to the previous menu.
