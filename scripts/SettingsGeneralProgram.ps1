@@ -34,6 +34,7 @@ class SettingsGeneralProgram
         [bool] $menuLoop = $true;
         # ----------------------------------------
 
+
         # Open the General Program settings
         #  Keep the user at the General Program Settings Menu until they request to return
         #  back to the previous menu.
