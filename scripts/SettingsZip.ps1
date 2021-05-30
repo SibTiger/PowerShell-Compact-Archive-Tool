@@ -99,7 +99,7 @@ class SettingsZip
                                 $true);
 
 
-        # Program Tools
+        # Help Documentation
         [CommonCUI]::DrawMenuItem('?',
                                 "Help Documentation",
                                 "$($NULL)",
