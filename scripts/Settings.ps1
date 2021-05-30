@@ -100,6 +100,7 @@ class Settings
         if ([CommonFunctions]::IsAvailableZip() -eq $true)
         {
             # Option is available, so display it on the settings main menu.
+            #  Configure the dotNET Zip Archive settings
             [CommonCUI]::DrawMenuItem('Z', `
                                     "Zip Preferences", `
                                     "Configure the Internal Zip's functionality and preferences.", `
@@ -111,6 +112,7 @@ class Settings
         if ([CommonFunctions]::IsAvailable7Zip() -eq $true)
         {
             # Option is available, so display it on the settings main menu.
+            #  Configure the 7Zip Application settings
             [CommonCUI]::DrawMenuItem('7', `
                                     "7Zip Preferences", `
                                     "Configure the 7Zip's functionality and preferences.", `
@@ -122,6 +124,7 @@ class Settings
         if ([CommonFunctions]::IsAvailableGit() -eq $true)
         {
             # Option is available, so display it on the settings main menu.
+            #  Configure the Git Application settings
             [CommonCUI]::DrawMenuItem('G', `
                                     "Git Preferences", `
                                     "Configure the Git's functionality and preferences.", `
