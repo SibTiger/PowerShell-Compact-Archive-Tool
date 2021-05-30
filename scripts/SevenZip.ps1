@@ -1932,14 +1932,9 @@ class SevenZip
     #>
     [string] FetchHashInformation([string] $file)
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [string] $archiveInfo = $null;      # This will hold our list of the hash values
-        # ----------------------------------------
-
-        # Get all of the hash values that is associated with the archive file.
+        # Get all of the hash values that is associated with the archive file and return the results.
         #  NOTE: MD5 is also attached to the list as it is still commonly used and widely accepted.
-        $archiveInfo =(
+        return (
                 "CRC32:`r`n" + `
                 "  $($this.ArchiveHash("$($file)", "crc32"))`r`n`r`n" + `
                 "CRC64:`r`n" + `
@@ -1952,10 +1947,6 @@ class SevenZip
                 "  $($this.ArchiveHash("$($file)", "blake2sp"))`r`n`r`n" + `
                 "MD5:`r`n" + `
                 "   $([CommonIO]::FileHash("$($file)", "md5"))`r`n`r`n");
-
-
-        # Return the file hash information.
-        return $archiveInfo;
     } # FetchHashInformation()
 
 
