@@ -34,6 +34,7 @@ class Settings7Zip
         [bool] $menuLoop = $true;
         # ----------------------------------------
 
+
         # Open the 7Zip Settings
         #  Keep the user at the 7Zip Settings Menu until they request to return
         #  back to the previous menu.
