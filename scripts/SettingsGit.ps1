@@ -112,7 +112,7 @@ class SettingsGit
 
 
 
-        # Program Tools
+        # Help Documentation
         [CommonCUI]::DrawMenuItem('?', `
                                 "Help Documentation", `
                                 "$($NULL)", `
