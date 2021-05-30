@@ -34,6 +34,7 @@ class SettingsGit
         [bool] $menuLoop = $true;
         # ----------------------------------------
 
+
         # Open the Git Settings
         #  Keep the user at the Git Settings Menu until they request to return
         #  back to the previous menu.
