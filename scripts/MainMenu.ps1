@@ -96,21 +96,25 @@ class MainMenu
         [CommonCUI]::DrawMenuItem('B', `
                                 "Build $([ProjectInformation]::projectName)", `
                                 "Create a new build of the $([ProjectInformation]::projectName) ($([ProjectInformation]::codeName)) project.", `
+                                "$($NULL)", `
                                 $true);
 
         [CommonCUI]::DrawMenuItem('H', `
                                 "$([ProjectInformation]::projectName) Homepage", `
                                 "Access the $([ProjectInformation]::projectName)'s Homepage online.", `
+                                "$($NULL)", `
                                 $true);
 
         [CommonCUI]::DrawMenuItem('W', `
                                 "$([ProjectInformation]::projectName) Wiki", `
                                 "Access the $([ProjectInformation]::projectName)'s Wiki documentation online.", `
+                                "$($NULL)", `
                                 $true);
 
         [CommonCUI]::DrawMenuItem('S', `
                                 "$([ProjectInformation]::projectName) Source Code", `
                                 "Access the $([ProjectInformation]::projectName)'s source code online.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -118,16 +122,19 @@ class MainMenu
         [CommonCUI]::DrawMenuItem('P', `
                                 "Preferences", `
                                 "Configure how $($GLOBAL:_PROGRAMNAME_) works within your desired environment.", `
+                                "$($NULL)", `
                                 $true);
 
         [CommonCUI]::DrawMenuItem('U', `
                                 "Update $($Global:_PROGRAMNAME_)", `
                                 "Check for new available versions of $($GLOBAL:_PROGRAMNAMESHORT_).", `
+                                "$($NULL)", `
                                 $true);
 
         [CommonCUI]::DrawMenuItem('?', `
                                 "Help Documentation", `
                                 "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Wiki documentation online.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -135,6 +142,7 @@ class MainMenu
         [CommonCUI]::DrawMenuItem('X', `
                                 "Exit", `
                                 "Close the $($GLOBAL:_PROGRAMNAMESHORT_) program.", `
+                                "$($NULL)", `
                                 $false);
     } # DrawMainMenu()
 

@@ -84,18 +84,21 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('C',
                                 "Compression Level",
                                 "How tightly is the data compacted into the compressed file.",
+                                "$($NULL)", `
                                 $true);
 
         # Toggle the ability to check file's integrity
         [CommonCUI]::DrawMenuItem('V',
                                 "Verify Build after Compression",
                                 "Assure that the compressed file is healthy.",
+                                "$($NULL)", `
                                 $true);
 
         # Allow or disallow the ability to generate a report
         [CommonCUI]::DrawMenuItem('R',
                                 "Generate Report of Archive Datafile",
                                 "Provides detailed information regarding the newly generated compressed file.",
+                                "$($NULL)", `
                                 $true);
 
 
@@ -103,6 +106,7 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('?',
                                 "Help Documentation",
                                 "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Wiki documentation online.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -110,6 +114,7 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('X',
                                 "Go back to previous Menu",
                                 "$($NULL)",
+                                "$($NULL)", `
                                 $true);
 
 
@@ -390,6 +395,7 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('O', `
                                 "Optimal Compression", `
                                 "Tightly compress the contents; requires more time and resources.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -397,6 +403,7 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('F', `
                                 "Fastest Compression", `
                                 "Quickly compress the contents; expedites the compression while using little resources.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -404,6 +411,7 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('N', `
                                 "No Compression", `
                                 "Do not compress the contents; only store the contents which requires hardly any resources.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -411,6 +419,7 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
+                                "$($NULL)", `
                                 $true);
     } # DrawMenuUseCompressionLevel()
 
@@ -646,6 +655,7 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('V', `
                                 "Verify Build", `
                                 "Test the compiled build to assure that it is healthy.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -653,6 +663,7 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('N', `
                                 "Do not verify build", `
                                 "Do not test the health of the compiled build.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -660,6 +671,7 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
+                                "$($NULL)", `
                                 $true);
     } # DrawMenuVerifyBuild()
 
@@ -882,6 +894,7 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('R', `
                                 "Generate a report file", `
                                 "Generate a new technical report regarding the project's compiled build.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -889,6 +902,7 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('N', `
                                 "Do not generate a report file.", `
                                 "Do not create a technical report regarding the compiled build.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -896,6 +910,7 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
+                                "$($NULL)", `
                                 $true);
     } # DrawMenuGenerateReport()
 

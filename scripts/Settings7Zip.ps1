@@ -84,12 +84,14 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('B', `
                                 "Browse for 7Zip", `
                                 "$($NULL)", `
+                                "$($NULL)", `
                                 $true);
 
 
         # Select a Compression Method
         [CommonCUI]::DrawMenuItem('S', `
                                 "Compression Method", `
+                                "$($NULL)", `
                                 "$($NULL)", `
                                 $true);
 
@@ -98,12 +100,14 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('Z', `
                                 "Zip Algorithm", `
                                 "$($NULL)", `
+                                "$($NULL)", `
                                 $true);
 
 
         # Select a 7Zip Algorithm
         [CommonCUI]::DrawMenuItem('7', `
                                 "7Zip Algorithm", `
+                                "$($NULL)", `
                                 "$($NULL)", `
                                 $true);
 
@@ -112,12 +116,14 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('M', `
                                 "Multithreaded Operations", `
                                 "$($NULL)", `
+                                "$($NULL)", `
                                 $true);
 
 
         # Determine the Compression Level
         [CommonCUI]::DrawMenuItem('C', `
                                 "Compression Level", `
+                                "$($NULL)", `
                                 "$($NULL)", `
                                 $true);
 
@@ -126,12 +132,14 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('V', `
                                 "Verify Build after Compression", `
                                 "$($NULL)", `
+                                "$($NULL)", `
                                 $true);
 
 
         # Allow or disallow the ability to generate a new report
         [CommonCUI]::DrawMenuItem('R', `
                                 "Generate Report of Archive Datafile", `
+                                "$($NULL)", `
                                 "$($NULL)", `
                                 $true);
 
@@ -140,12 +148,14 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('?', `
                                 "Help Documentation", `
                                 "$($NULL)", `
+                                "$($NULL)", `
                                 $true);
 
 
         # Return back to the Main Menu
         [CommonCUI]::DrawMenuItem('X', `
                                 "Go back to Main Menu", `
+                                "$($NULL)", `
                                 "$($NULL)", `
                                 $true);
 
@@ -487,6 +497,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('A', `
                                 "Automatically find 7Zip", `
                                 "Try to automatically find the 7Zip application.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -494,6 +505,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('M', `
                                 "Manually find 7Zip", `
                                 "Manually locate the 7Zip application.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -501,6 +513,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
+                                "$($NULL)", `
                                 $true);
     } # DrawMenuLocate7ZipPath()
 
@@ -846,6 +859,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('7', `
                                 "7Zip", `
                                 "Use 7Zip compression.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -853,6 +867,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('Z', `
                                 "Zip", `
                                 "Use ZZip compression.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -860,6 +875,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
+                                "$($NULL)", `
                                 $true);
     } # DrawMenuCompressionMethod()
 
@@ -1098,12 +1114,14 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('D', `
                                 "Deflate", `
                                 "$($NULL)", `
+                                "$($NULL)", `
                                 $true);
 
 
         # LZMA
         [CommonCUI]::DrawMenuItem('L', `
                                 "LZMA", `
+                                "$($NULL)", `
                                 "$($NULL)", `
                                 $true);
 
@@ -1112,6 +1130,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('B', `
                                 "BZip2", `
                                 "$($NULL)", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -1119,6 +1138,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
+                                "$($NULL)", `
                                 $true);
     } # DrawMenuAlgorithmZip()
 
@@ -1380,12 +1400,14 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('2', `
                                 "LZMA2", `
                                 "$($NULL)", `
+                                "$($NULL)", `
                                 $true);
 
 
         # LZMA
         [CommonCUI]::DrawMenuItem('L', `
                                 "LZMA", `
+                                "$($NULL)", `
                                 "$($NULL)", `
                                 $true);
 
@@ -1394,12 +1416,14 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('B', `
                                 "BZip2", `
                                 "$($NULL)", `
+                                "$($NULL)", `
                                 $true);
 
 
         # PPMd
         [CommonCUI]::DrawMenuItem('P', `
                                 "PPMd", `
+                                "$($NULL)", `
                                 "$($NULL)", `
                                 $true);
 
@@ -1408,6 +1432,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
+                                "$($NULL)", `
                                 $true);
     } # DrawMenuAlgorithm7Zip()
 
@@ -1654,6 +1679,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('E', `
                                 "Enable Multithreaded Operations", `
                                 "Use multithreaded operations where available; this may speed up larger operations.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -1661,6 +1687,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('D', `
                                 "Disable Multithreaded Operations", `
                                 "Do not use multithreaded operations.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -1668,6 +1695,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
+                                "$($NULL)", `
                                 $true);
     } # DrawMenuUseMultithread()
 
@@ -1920,6 +1948,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('S', `
                                 "Store", `
                                 "Do not compress the contents; only store the contents which requires hardly any resources.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -1927,6 +1956,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('L', `
                                 "Minimal", `
                                 "Lightly compress the contents; minimal compression requires very little resources.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -1934,6 +1964,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('N', `
                                 "Normal", `
                                 "Normally compress the contents; normal compression requires the standard use of resources.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -1941,6 +1972,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('M', `
                                 "Maximum", `
                                 "Tightly compress the contents; requires more time and resources.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -1948,6 +1980,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
+                                "$($NULL)", `
                                 $true);
     } # DrawMenuCompressionLevel()
 
@@ -2195,6 +2228,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('V', `
                                 "Verify Build", `
                                 "Test the compiled build to assure that it is healthy.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -2202,6 +2236,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('N', `
                                 "Do not verify build", `
                                 "Do not test the health of the compiled build.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -2209,6 +2244,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
+                                "$($NULL)", `
                                 $true);
     } # DrawMenuVerifyBuild()
 
@@ -2431,6 +2467,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('R', `
                                 "Generate a report file", `
                                 "Generate a new technical report regarding the project's compiled build.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -2438,6 +2475,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('N', `
                                 "Do not generate a report file.", `
                                 "Do not create a technical report regarding the compiled build.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -2445,6 +2483,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
+                                "$($NULL)", `
                                 $true);
     } # DrawMenuGenerateReport()
 

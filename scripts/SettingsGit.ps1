@@ -84,11 +84,13 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('B', `
                                 "Browse for Git", `
                                 "$($NULL)", `
+                                "$($NULL)", `
                                 $true);
 
         # Allow or disallow the local repo. to be updated
         [CommonCUI]::DrawMenuItem('U', `
                                 "Update Source", `
+                                "$($NULL)", `
                                 "$($NULL)", `
                                 $true);
 
@@ -96,11 +98,13 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('S', `
                                 "Size of Commit ID", `
                                 "$($NULL)", `
+                                "$($NULL)", `
                                 $true);
 
         # Allow or disallow ability to retrieve changelog
         [CommonCUI]::DrawMenuItem('H', `
                                 "Retrieve History", `
+                                "$($NULL)", `
                                 "$($NULL)", `
                                 $true);
 
@@ -108,11 +112,13 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('L', `
                                 "History Commit Size", `
                                 "$($NULL)", `
+                                "$($NULL)", `
                                 $true);
 
         # Enable or disable the ability to generate a report
         [CommonCUI]::DrawMenuItem('R', `
                                 "Generate Report of Project Repository", `
+                                "$($NULL)", `
                                 "$($NULL)", `
                                 $true);
 
@@ -122,12 +128,14 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('?', `
                                 "Help Documentation", `
                                 "$($NULL)", `
+                                "$($NULL)", `
                                 $true);
 
 
         # Return back to the Main Menu
         [CommonCUI]::DrawMenuItem('X', `
                                 "Go back to Main Menu", `
+                                "$($NULL)", `
                                 "$($NULL)", `
                                 $true);
 
@@ -441,6 +449,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('A', `
                                 "Automatically find Git", `
                                 "Try to automatically find the Git Application.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -448,6 +457,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('M', `
                                 "Manually find Git", `
                                 "Manually locate the Git Application.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -455,6 +465,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
+                                "$($NULL)", `
                                 $true);
     } # DrawMenuLocateGitPath()
 
@@ -794,6 +805,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('U', `
                                 "Update Project's Source Files", `
                                 "Update the project to the current changes available on the remote master server.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -801,6 +813,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('N', `
                                 "Do not Update Project's Source Files", `
                                 "Do not update the project's source files with the latest changes made from the remote master server.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -808,6 +821,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
+                                "$($NULL)", `
                                 $true);
     } # DrawMenuUpdateSource()
 
@@ -1039,12 +1053,14 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('S', `
                                 "Short Commit SHA ID", `
                                 "$($NULL)", `
+                                "$($NULL)", `
                                 $true);
 
 
         # Disable the Update Source feature
         [CommonCUI]::DrawMenuItem('L', `
                                 "Long Commit SHA ID", `
+                                "$($NULL)", `
                                 "$($NULL)", `
                                 $true);
 
@@ -1053,6 +1069,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
+                                "$($NULL)", `
                                 $true);
     } # DrawMenuSizeCommitID()
 
@@ -1278,12 +1295,14 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('H', `
                                 "Retrieve History", `
                                 "$($NULL)", `
+                                "$($NULL)", `
                                 $true);
 
 
         # Do not retrieve the History Changelog
         [CommonCUI]::DrawMenuItem('N', `
                                 "Do not Retrieve History", `
+                                "$($NULL)", `
                                 "$($NULL)", `
                                 $true);
 
@@ -1292,6 +1311,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
+                                "$($NULL)", `
                                 $true);
     } # DrawMenuHistory()
 
@@ -1500,6 +1520,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('C', `
                                 "Change changelog size limit", `
                                 "$($NULL)", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -1507,6 +1528,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
+                                "$($NULL)", `
                                 $true);
     } # DrawMenuHistoryCommitSize()
 
@@ -1751,6 +1773,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('R', `
                                 "Generate a report file", `
                                 "Generate a new technical report regarding the project's repository.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -1758,6 +1781,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('N', `
                                 "Do not generate a report file.", `
                                 "Do not create a technical report regarding the project's repository.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -1765,6 +1789,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
+                                "$($NULL)", `
                                 $true);
     } # DrawMenuGenerateReport()
 

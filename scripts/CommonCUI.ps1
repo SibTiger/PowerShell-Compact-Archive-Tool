@@ -265,6 +265,7 @@ class CommonCUI
     static [void] DrawMenuItem([char] $itemKey,                 # The hotkey for the menu item
                                 [string] $itemDescription,      # Brief description of the menu item
                                 [string] $itemSubDescription,   # More information regarding the item (Optional)
+                                [string] $itemCurrentSetting,   # Provides an brief outlook regarding the current setting.
                                 [bool] $insertNewWhiteSpace)    # Provide a Whitespace to separate each menu items
     {
         # Declarations and Initializations
@@ -285,19 +286,39 @@ class CommonCUI
         } # if : Provide a new line
 
 
-        # Was the Sub-Description omitted?
-        if ($itemSubDescription -eq "$($NULL)")
-        {
-            # Sub-Description was not provided
-            $displayMenuOutputFormatting = (" [$($itemKey)] - $($itemDescription)$($provideWhiteSpace)");
-        } # If : No Sub-Description Provided
+        # Construct the bare minimal of the menu item string
+        $displayMenuOutputFormatting = (" [$($itemKey)] - $($itemDescription)");
 
-        # The Sub-Description was given
-        else
+
+
+
+        # Add in any other strings, if requested todo so.
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+        # Was the Sub-Description provided?
+        if ($itemSubDescription -ne "$($NULL)")
         {
-            # Sub-Description was provided
-            $displayMenuOutputFormatting = (" [$($itemKey)] - $($itemDescription)`r`n`t$($itemSubDescription)$($provideWhiteSpace)");
-        } # Else : Sub-Description Provided
+            # Add the Sub-Description
+            $displayMenuOutputFormatting += ("`r`n`t$($itemSubDescription)");
+        } # if : Item Sub Description Provided
+
+
+        # Was the Current Setting provided?
+        if ($itemCurrentSetting -eq "$($NULL)")
+        {
+            # Add the Current Setting
+            $displayMenuOutputFormatting += ("`r`n`t`t$($itemCurrentSetting)");
+        } # if : Item Current Setting Provided
+
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+        # Apply the extra whitespace padding, if it was requested
+        if ($insertNewWhiteSpace)
+        {
+            # Provide the extra whitespace
+            $displayMenuOutputFormatting += ("$($provideWhiteSpace)");
+        } # if : Apply Whitespace Padding
 
 
         # Display the Menu Item as formatted.

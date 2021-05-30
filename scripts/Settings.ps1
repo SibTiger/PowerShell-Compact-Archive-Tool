@@ -93,6 +93,7 @@ class Settings
         [CommonCUI]::DrawMenuItem('P', `
                                 "General $($GLOBAL:_PROGRAMNAME_) Preferences", `
                                 "Configure the $($GLOBAL:_PROGRAMNAMESHORT_) generalized functionality and preferences.", `
+                                "$($NULL)", `
                                 $true);
 
 
@@ -104,6 +105,7 @@ class Settings
             [CommonCUI]::DrawMenuItem('Z', `
                                     "Zip Preferences", `
                                     "Configure the Internal Zip's functionality and preferences.", `
+                                    "$($NULL)", `
                                     $true);
         } # if: Display .NET Core ZIP Option
 
@@ -116,6 +118,7 @@ class Settings
             [CommonCUI]::DrawMenuItem('7', `
                                     "7Zip Preferences", `
                                     "Configure the 7Zip's functionality and preferences.", `
+                                    "$($NULL)", `
                                     $true);
         } # if: Display 7Zip Option
 
@@ -128,6 +131,7 @@ class Settings
             [CommonCUI]::DrawMenuItem('G', `
                                     "Git Preferences", `
                                     "Configure the Git's functionality and preferences.", `
+                                    "$($NULL)", `
                                     $true);
         } # if: Display Git Option
 
@@ -136,12 +140,14 @@ class Settings
         [CommonCUI]::DrawMenuItem('?', `
                                 "Help Documentation", `
                                 "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Wiki documentation online.", `
+                                "$($NULL)", `
                                 $true);
 
 
         # Return back to the Main Menu
         [CommonCUI]::DrawMenuItem('X', `
                                 "Go back to Main Menu", `
+                                "$($NULL)", `
                                 "$($NULL)", `
                                 $false);
     } # DrawMainSettingsMenu()
