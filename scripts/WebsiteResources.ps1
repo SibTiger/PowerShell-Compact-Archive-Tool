@@ -660,7 +660,5 @@
         return $siteReady;
     } # __CheckSiteAvailability_SiteResponse()
 
-
-
     # endregion
  } # WebsiteResources
