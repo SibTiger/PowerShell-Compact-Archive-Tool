@@ -56,40 +56,6 @@ function main()
 
 
 
-# If incase the legacy PowerShell terminal is capable of reaching this point, immediately stop - before things go horribly wrong.
-if ([SystemInformation]::PowerShellEdition() -eq "Legacy")
-{
-    # Output a message to the PowerShell terminal about the fatal error
-    Write-Output ("<!>   COMPATIBILITY ISSUE DETERMINED   <!>`r`n" + `
-                  "==========================================`r`n" + `
-                  "`r`n" + `
-                  "Unable to run the desired application, $($MyInvocation.MyCommand.Name), due to" + `
-                  " compatibility issues with this PowerShell Version.  Please consider using the" + `
-                  " latest PowerShell Core available on GitHub.`r`n" + `
-                  "`r`n" + `
-                  "PowerShell Core GitHub Downloads:`r`n" + `
-                  "`thttps://github.com/PowerShell/PowerShell/releases`r`n" + `
-                  "PowerShell Official Documentation:`r`n" + `
-                  "`thttps://docs.microsoft.com/en-us/powershell/`r`n" + `
-                  "`r`n" + `
-                  "`r`n" + `
-                  "Press any key to terminate this session. . .");
-
-
-    # Wait for the user to provide any key
-    $null = [Console]::ReadKey($true) | Out-Null;
-
-
-    # Provide some extra padding so it is easier for the user to see the PowerShell's prompt
-    Write-Output "`r`n`r`n";
-
-
-    # Terminate the script with an error code
-    exit 1;
-} # if : Compatibility Issues
-
-
-
 #region Prepare the program's environment
 
 
