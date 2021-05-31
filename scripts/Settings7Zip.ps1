@@ -57,7 +57,7 @@ class Settings7Zip
             [Settings7Zip]::DrawMenu();
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [Settings7Zip]::EvaluateExecuteUserRequest($userInput);
@@ -471,7 +471,7 @@ class Settings7Zip
             [Logging]::DisplayMessage("`r`n");
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [Settings7Zip]::EvaluateExecuteUserRequestLocate7ZipPath($userInput);
@@ -787,7 +787,7 @@ class Settings7Zip
             #  the user to understand the current setting.
             switch ($sevenZip.GetCompressionMethod())
             {
-                "Zip"
+                ([SevenZipCompressionMethod]::Zip)
                 {
                     # Set the message such that the user knows that 'Zip' is presently set.
                     $decipherNiceString = "I will have 7Zip create Zip archive datafiles while compiling new builds.";
@@ -796,7 +796,7 @@ class Settings7Zip
                     break;
                 } # Zip
 
-                "SevenZip"
+                ([SevenZipCompressionMethod]::SevenZip)
                 {
                     # Set the message such that the user knows that '7Zip' is presently set.
                     $decipherNiceString = "I will have 7Zip create 7Zip archive datafiles while compiling new builds.";
@@ -834,7 +834,7 @@ class Settings7Zip
             [Logging]::DisplayMessage("`r`n");
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [Settings7Zip]::EvaluateExecuteUserRequestCompressionMethod($userInput);
@@ -1033,7 +1033,7 @@ class Settings7Zip
             #  the user to understand the current setting.
             switch ($sevenZip.GetAlgorithmZip())
             {
-                "Deflate"
+                ([SevenZipAlgorithmZip]::Deflate)
                 {
                     # Set the message such that the user knows that the 'Deflate' algorithm is currently set.
                     $decipherNiceString = "I will have 7Zip use the Deflate algorithm when compiling new builds.";
@@ -1042,7 +1042,7 @@ class Settings7Zip
                     break;
                 } # Deflate
 
-                "LZMA"
+                ([SevenZipAlgorithmZip]::LZMA)
                 {
                     # Set the message such that the user knows that the 'LZMA' algorithm is currently set.
                     $decipherNiceString = "I will have 7Zip use the LZMA algorithm when compiling new builds.";
@@ -1051,7 +1051,7 @@ class Settings7Zip
                     break;
                 } # LZMA
 
-                "BZip2"
+                ([SevenZipAlgorithmZip]::BZip2)
                 {
                     # Set the message such that the user knows that the 'BZip2' algorithm is currently set.
                     $decipherNiceString = "I will have 7Zip use the BZip2 algorithm when compiling new builds.";
@@ -1089,7 +1089,7 @@ class Settings7Zip
             [Logging]::DisplayMessage("`r`n");
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [Settings7Zip]::EvaluateExecuteUserRequestAlgorithmZip($userInput);
@@ -1307,7 +1307,7 @@ class Settings7Zip
             #  the user to understand the current setting.
             switch ($sevenZip.GetAlgorithm7Zip())
             {
-                "LZMA2"
+            ([SevenZipAlgorithm7Zip]::LZMA2)
                 {
                     # Set the message such that the user knows that the 'LZMA2' algorithm is currently set.
                     $decipherNiceString = "I will have 7Zip use the LZMA2 algorithm when compiling new builds.";
@@ -1317,7 +1317,7 @@ class Settings7Zip
                 } # LZMA2
 
 
-                "LZMA"
+                ([SevenZipAlgorithm7Zip]::LZMA)
                 {
                     # Set the message such that the user knows that the 'LZMA' algorithm is currently set.
                     $decipherNiceString = "I will have 7Zip use the LZMA algorithm when compiling new builds.";
@@ -1327,7 +1327,7 @@ class Settings7Zip
                 } # LZMA
 
 
-                "BZip2"
+                ([SevenZipAlgorithm7Zip]::BZip2)
                 {
                     # Set the message such that the user knows that the 'BZip2' algorithm is currently set.
                     $decipherNiceString = "I will have 7Zip use the BZip2 algorithm when compiling new builds.";
@@ -1337,7 +1337,7 @@ class Settings7Zip
                 } # BZip2
 
 
-                "PPMd"
+                ([SevenZipAlgorithm7Zip]::PPMd)
                 {
                     # Set the message such that the user knows that the 'PPMd' algorithm is currently set.
                     $decipherNiceString = "I will have 7Zip use the PPMd algorithm when compiling new builds.";
@@ -1375,7 +1375,7 @@ class Settings7Zip
             [Logging]::DisplayMessage("`r`n");
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [Settings7Zip]::EvaluateExecuteUserRequestAlgorithm7Zip($userInput);
@@ -1654,7 +1654,7 @@ class Settings7Zip
             [Logging]::DisplayMessage("`r`n");
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [Settings7Zip]::EvaluateExecuteUserRequestUseMultithread($userInput);
@@ -1854,7 +1854,7 @@ class Settings7Zip
             #  the user to understand the current setting.
             switch ($sevenZip.GetCompressionLevel())
             {
-                "Store"
+                ([SevenCompressionLevel]::Store)
                 {
                     # Set the message such that the user knows that the compression level is set to "Store".
                     $decipherNiceString = "I will have 7Zip only store the contents into an compiled build.";
@@ -1864,7 +1864,7 @@ class Settings7Zip
                 } # Store
 
 
-                "Minimal"
+                ([SevenCompressionLevel]::Minimal)
                 {
                     # Set the message such that the user knows that the compression level is set to "Minimal".
                     $decipherNiceString = "I will have 7Zip use minimal compression while compiling the project build.";
@@ -1874,7 +1874,7 @@ class Settings7Zip
                 } # Minimal
 
 
-                "Normal"
+                ([SevenCompressionLevel]::Normal)
                 {
                     # Set the message such that the user knows that the compression level is set to "Normal".
                     $decipherNiceString = "I will have 7Zip use normal compression while compiling the project build.";
@@ -1884,7 +1884,7 @@ class Settings7Zip
                 } # Normal
 
 
-                "Maximum"
+                ([SevenCompressionLevel]::Maximum)
                 {
                     # Set the message such that the user knows that the compression level is set to "Maximum".
                     $decipherNiceString = "I will have 7Zip use the maximum possible compression while compiling the project build.";
@@ -1922,7 +1922,7 @@ class Settings7Zip
             [Logging]::DisplayMessage("`r`n");
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [Settings7Zip]::EvaluateExecuteUserCompressionLevel($userInput);
@@ -2202,7 +2202,7 @@ class Settings7Zip
             [Logging]::DisplayMessage("`r`n");
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [Settings7Zip]::EvaluateExecuteUserRequestVerifyBuild($userInput);
@@ -2441,7 +2441,7 @@ class Settings7Zip
             [Logging]::DisplayMessage("`r`n");
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [Settings7Zip]::EvaluateExecuteUserRequestGenerateReport($userInput);

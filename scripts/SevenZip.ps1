@@ -966,9 +966,9 @@ class SevenZip
                                         "`t`tThe Report Directory is:`t$($this.__reportPath)`r`n");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1003,7 +1003,7 @@ class SevenZip
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                             "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -1036,7 +1036,7 @@ class SevenZip
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                             "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -1069,7 +1069,7 @@ class SevenZip
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                             "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -1100,9 +1100,9 @@ class SevenZip
                                         "`t`tThe Report Directory is:`t$($this.__reportPath)`r`n");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1136,7 +1136,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Else : If Directories Not Found
@@ -1191,9 +1191,9 @@ class SevenZip
             [string] $logAdditionalMSG = "7Zip Executable Path is: $($this.__executablePath)";
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Warning");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1221,9 +1221,9 @@ class SevenZip
             [string] $logAdditionalMSG = "7Zip Executable Path is: $($this.__executablePath)";
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1250,9 +1250,9 @@ class SevenZip
             [string] $logAdditionalMSG = "7Zip Executable Path is: $($this.__executablePath)";
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Warning");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1313,9 +1313,9 @@ class SevenZip
                 [string] $logAdditionalMSG = "7Zip was found in: $($index)";
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Verbose");                 # Message level
+                [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                            "$($logAdditionalMSG)", `       # Additional information
+                                            [LogMessageLevel]::Verbose);    # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -1342,9 +1342,9 @@ class SevenZip
                                     "`t`t- $($path -join "`r`n`t`t- ")");
 
         # Pass the information to the logging system
-        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                    "$($logAdditionalMSG)", `   # Additional information
-                                    "Warning");                 # Message level
+        [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                    "$($logAdditionalMSG)", `       # Additional information
+                                    [LogMessageLevel]::Warning);    # Message level
 
         # * * * * * * * * * * * * * * * * * * *
 
@@ -1435,7 +1435,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1468,7 +1468,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1500,7 +1500,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1547,7 +1547,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1598,7 +1598,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1635,7 +1635,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1693,7 +1693,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1785,7 +1785,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1816,7 +1816,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1847,7 +1847,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1893,7 +1893,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1936,17 +1936,17 @@ class SevenZip
         #  NOTE: MD5 is also attached to the list as it is still commonly used and widely accepted.
         return (
                 "CRC32:`r`n" + `
-                "  $($this.ArchiveHash("$($file)", "crc32"))`r`n`r`n" + `
+                "  $($this.ArchiveHash("$($file)", [FileHashAlgorithm7Zip]::crc32))`r`n`r`n" + `
                 "CRC64:`r`n" + `
-                "  $($this.ArchiveHash("$($file)", "crc64"))`r`n`r`n" + `
+                "  $($this.ArchiveHash("$($file)", [FileHashAlgorithm7Zip]::crc64))`r`n`r`n" + `
                 "SHA1:`r`n" + `
-                "  $($this.ArchiveHash("$($file)", "sha1"))`r`n`r`n" + `
+                "  $($this.ArchiveHash("$($file)", [FileHashAlgorithm7Zip]::sha1))`r`n`r`n" + `
                 "CRC256:`r`n" + `
-                "  $($this.ArchiveHash("$($file)", "sha256"))`r`n`r`n" + `
+                "  $($this.ArchiveHash("$($file)", [FileHashAlgorithm7Zip]::sha256))`r`n`r`n" + `
                 "BLAKE2sp:`r`n" + `
-                "  $($this.ArchiveHash("$($file)", "blake2sp"))`r`n`r`n" + `
+                "  $($this.ArchiveHash("$($file)", [FileHashAlgorithm7Zip]::blake2sp))`r`n`r`n" + `
                 "MD5:`r`n" + `
-                "   $([CommonIO]::FileHash("$($file)", "md5"))`r`n`r`n");
+                "   $([CommonIO]::FileHash("$($file)", [FileHashAlgorithmDotNet]::md5))`r`n`r`n");
     } # FetchHashInformation()
 
 
@@ -2024,7 +2024,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2055,7 +2055,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2086,7 +2086,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2147,9 +2147,9 @@ class SevenZip
                                             "`tShow Technical Information: $($showTechInfo)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Warning");                   # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2256,7 +2256,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2286,7 +2286,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2317,7 +2317,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2350,7 +2350,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2406,7 +2406,7 @@ class SevenZip
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                             "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -2451,7 +2451,7 @@ class SevenZip
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                             "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -2511,7 +2511,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2618,7 +2618,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2649,7 +2649,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2682,7 +2682,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2715,7 +2715,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2742,14 +2742,14 @@ class SevenZip
         # Inspect the user's preferred compiling method
         switch ($this.__compressionMethod)
         {
-            "Zip"
+            ([SevenZipCompressionMethod]::Zip)
             {
                 # Zip {PK3} Compression Method
                 $archiveFileExtension = "pk3";
                 break;
             } # Zip | PK3
 
-            "SevenZip"
+            ([SevenZipCompressionMethod]::SevenZip)
             {
                 # 7Zip {PK7} Compression Method
                 $archiveFileExtension = "pk7";
@@ -2787,7 +2787,7 @@ class SevenZip
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                             "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -2864,7 +2864,7 @@ class SevenZip
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                             "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -2911,19 +2911,21 @@ class SevenZip
         #  be utilized for this operation.
         switch ($this.__compressionMethod)
         {
-            "Zip"
+            ([SevenZipCompressionMethod]::Zip)
             {
                 # Zip {PK3} Compression Method
                 $extCMDArgs = "$($extCMDArgs) -tzip -mm=$($this.__algorithmZip)";
                 break;
             } # Zip | PK3
 
-            "SevenZip"
+
+            ([SevenZipCompressionMethod]::SevenZip)
             {
                 # 7Zip {PK7} Compression Method
                 $extCMDArgs = "$($extCMDArgs) -t7z -mm=$($this.__algorithm7Zip)";
                 break;
             } # 7Zip | PK7
+
 
             default
             {
@@ -2948,7 +2950,7 @@ class SevenZip
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                             "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -2978,28 +2980,28 @@ class SevenZip
         # Now append the desired compression level
         switch ($this.__compressionLevel)
         {
-            "Store"
+            ([SevenCompressionLevel]::Store)
             {
                 # No Compression
                 $extCMDArgs = "$($extCMDArgs) -mx=0";
                 break;
             } # Store {No Compression}
 
-            "Minimal"
+            ([SevenCompressionLevel]::Minimal)
             {
                 # Minimal Compression
                 $extCMDArgs = "$($extCMDArgs) -mx=3";
                 break;
             } # Minimal Compression
 
-            "Normal"
+            ([SevenCompressionLevel]::Normal)
             {
                 # Standard Compression
                 $extCMDArgs = "$($extCMDArgs) -mx=5";
                 break;
             } # Standard Compression
 
-            "Maximum"
+            ([SevenCompressionLevel]::Maximum)
             {
                 # Maximum-as-possible Compression
                 $extCMDArgs = "$($extCMDArgs) -mx=9";
@@ -3029,7 +3031,7 @@ class SevenZip
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                             "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -3082,7 +3084,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3211,9 +3213,9 @@ class SevenZip
                                         "`tRequested file to generate a report: $($archiveFile)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Warning");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3253,7 +3255,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3285,7 +3287,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3315,7 +3317,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3387,7 +3389,7 @@ class SevenZip
                         # Pass the information to the logging system
                         [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                                     "$($logAdditionalMSG)", `   # Additional information
-                                                    "Error");                   # Message level
+                                                    [LogMessageLevel]::Error);  # Message level
 
                         # * * * * * * * * * * * * * * * * * * *
 
@@ -3444,7 +3446,7 @@ class SevenZip
                         # Pass the information to the logging system
                         [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                                     "$($logAdditionalMSG)", `   # Additional information
-                                                    "Error");                   # Message level
+                                                    [LogMessageLevel]::Error);  # Message level
 
                         # * * * * * * * * * * * * * * * * * * *
 
@@ -3510,7 +3512,7 @@ class SevenZip
                         # Pass the information to the logging system
                         [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                                     "$($logAdditionalMSG)", `   # Additional information
-                                                    "Error");                   # Message level
+                                                    [LogMessageLevel]::Error);  # Message level
 
                         # * * * * * * * * * * * * * * * * * * *
 
@@ -3578,7 +3580,7 @@ class SevenZip
                         # Pass the information to the logging system
                         [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                                     "$($logAdditionalMSG)", `   # Additional information
-                                                    "Error");                   # Message level
+                                                    [LogMessageLevel]::Error);  # Message level
 
                         # * * * * * * * * * * * * * * * * * * *
 
@@ -3641,7 +3643,7 @@ class SevenZip
                         # Pass the information to the logging system
                         [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                                     "$($logAdditionalMSG)", `   # Additional information
-                                                    "Error");                   # Message level
+                                                    [LogMessageLevel]::Error);  # Message level
 
                         # * * * * * * * * * * * * * * * * * * *
 
@@ -3698,7 +3700,7 @@ class SevenZip
                         # Pass the information to the logging system
                         [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                                     "$($logAdditionalMSG)", `   # Additional information
-                                                    "Error");                   # Message level
+                                                    [LogMessageLevel]::Error);  # Message level
 
                         # * * * * * * * * * * * * * * * * * * *
 
@@ -3745,7 +3747,7 @@ class SevenZip
                     # Pass the information to the logging system
                     [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                                 "$($logAdditionalMSG)", `   # Additional information
-                                                "Error");                   # Message level
+                                                [LogMessageLevel]::Error);  # Message level
 
                     # * * * * * * * * * * * * * * * * * * *
 
@@ -3783,7 +3785,7 @@ class SevenZip
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                             "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -3895,9 +3897,9 @@ class SevenZip
                                         "`tRequested file extensions to delete: $($knownExtensions)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Warning");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3929,7 +3931,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3964,7 +3966,7 @@ class SevenZip
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3993,9 +3995,9 @@ class SevenZip
                                         "`tRequested file extensions to delete: $($knownExtensions)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # If: Everything was Successful

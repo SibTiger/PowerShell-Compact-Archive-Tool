@@ -319,9 +319,9 @@
                                         "`t`tThe User Configuration Directory is:`t`t$($this.__configPath)`r`n");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -356,7 +356,7 @@
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                             "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -384,9 +384,9 @@
             [string] $logAdditionalMSG = "User Configuration Directory: $($this.__configPath)";
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -417,7 +417,7 @@
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Else : If Directory Not Found
@@ -521,7 +521,7 @@
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -557,9 +557,9 @@
                                             "`tUser Configuration File: $($this.__configFileName)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                   # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -592,12 +592,12 @@
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
             [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Catch : Error Creating User Configuration
@@ -663,7 +663,7 @@
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -704,9 +704,9 @@
                                             "`tUser Configuration File: $($this.__configFileName)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Verbose");                   # Message level
+                [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                            "$($logAdditionalMSG)", `       # Additional information
+                                            [LogMessageLevel]::Verbose);    # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -741,12 +741,12 @@
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                             "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # Display a message to the user that something went horribly wrong
                 #  and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                        "Error");                       # Message level
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -783,12 +783,12 @@
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
             [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Catch : Exception Reached while Reading Configuration File
@@ -1690,12 +1690,12 @@
         # Pass the information to the logging system
         [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                     "$($logAdditionalMSG)", `   # Additional information
-                                    "Error");                   # Message level
+                                    [LogMessageLevel]::Error);  # Message level
 
         # Display a message to the user that something went horribly wrong
         #  and log that same message for referencing purpose.
         [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                "Error");                       # Message level
+                                    [LogMessageLevel]::Error);  # Message level
     } # __LoadStepWiseError()
     #endregion
  } # LoadSaveUserConfiguration

@@ -907,7 +907,7 @@ class Logging
     static [void] DisplayMessage([string] $msg)
     {
         # Access the DisplayMessage(arg0, arg1) with MSG Level set to standard severity.
-        [Logging]::DisplayMessage("$($msg)", "Standard");
+        [Logging]::DisplayMessage("$($msg)", [LogMessageLevel]::Standard);
     } # DisplayMessage()
 
 
@@ -1064,7 +1064,7 @@ class Logging
         # Apply the system and POSH environment details to the program's logfile.
         [Logging]::LogProgramActivity($generatedSystemInformationMessage, `
                                         $null, `
-                                        "Information");
+                                        [LogMessageLevel]::Information);
     } # WriteSystemInformation()
 
     #endregion

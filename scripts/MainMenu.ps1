@@ -67,7 +67,7 @@ class MainMenu
             [Logging]::DisplayMessage("`r`n");
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [MainMenu]::EvaluateExecuteUserRequest($userInput);

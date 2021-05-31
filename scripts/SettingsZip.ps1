@@ -57,7 +57,7 @@ class SettingsZip
             [SettingsZip]::DrawMenu();
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [SettingsZip]::EvaluateExecuteUserRequest($userInput);
@@ -176,7 +176,7 @@ class SettingsZip
         switch ($defaultCompress.GetCompressionLevel())
         {
             # Best Compression Possible
-            "Optimal"
+            ([DefaultCompressionLevel]::Optimal)
             {
                 # Set the string that will be displayed
                 $compressionLevel.Value = "Optimal Compression";
@@ -187,7 +187,7 @@ class SettingsZip
 
 
             # Favor Speed over Compression
-            "Fastest"
+            ([DefaultCompressionLevel]::Fastest)
             {
                 # Set the string that will be displayed
                 $compressionLevel.Value = "Fastest Compression";
@@ -198,7 +198,7 @@ class SettingsZip
 
 
             # Store; no compression
-            "NoCompression"
+            ([DefaultCompressionLevel]::NoCompression)
             {
                 # Set the string that will be displayed
                 $compressionLevel.Value = "No Compression";
@@ -454,7 +454,7 @@ class SettingsZip
             # Determine the current state of the Compression Level variable and make it nicer for the user to understand.
             switch ($defaultCompress.GetCompressionLevel())
             {
-                "Optimal"
+                ([DefaultCompressionLevel]::Optimal)
                 {
                     # Compression Level is currently set at the optimal setting
                     $decipherNiceString = "I will use the optimal compression setting while compacting the project files.";
@@ -464,7 +464,7 @@ class SettingsZip
                 } # Optimal
 
 
-                "Fastest"
+                ([DefaultCompressionLevel]::Fastest)
                 {
                     # Compression Level is currently set at the fastest setting
                     $decipherNiceString = "I will use the fastest compression rate possible while compacting the project files.";
@@ -474,7 +474,7 @@ class SettingsZip
                 } # Fastest
 
 
-                "NoCompression"
+                ([DefaultCompressionLevel]::NoCompression)
                 {
                     # Compression Level is currently set at no compression setting.
                     $decipherNiceString = "I will not use any compression while compacting the project files.";
@@ -512,7 +512,7 @@ class SettingsZip
             [Logging]::DisplayMessage("`r`n");
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [SettingsZip]::EvaluateExecuteUserRequestCompressionLevel($userInput);
@@ -772,7 +772,7 @@ class SettingsZip
             [Logging]::DisplayMessage("`r`n");
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [SettingsZip]::EvaluateExecuteUserRequestVerifyBuild($userInput);
@@ -1011,7 +1011,7 @@ class SettingsZip
             [Logging]::DisplayMessage("`r`n");
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [SettingsZip]::EvaluateExecuteUserRequestGenerateReport($userInput);

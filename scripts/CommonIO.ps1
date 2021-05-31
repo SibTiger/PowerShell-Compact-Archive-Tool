@@ -50,7 +50,9 @@ class CommonIO
     {
         # Because I love Python's input prompt, we will emulate it here.
         #  I find this to be easier on the user to unify an action from the end-user.
-        [CommonIO]::WriteToBuffer(">>>>> ", "Standard", $true);
+        [CommonIO]::WriteToBuffer(">>>>> ", `
+                                [LogMessageLevel]::Standard, `
+                                $true);
 
         # Get input from the user.
         [string] $stdInput = (Get-Host).UI.ReadLine();
@@ -74,7 +76,9 @@ class CommonIO
     {
         # The user will press the 'Enter' key in order to continue onwards with the algorithm
         #  or program in general.
-        [CommonIO]::WriteToBuffer("Press the Enter Key to continue. . .", "Standard", $true);
+        [CommonIO]::WriteToBuffer("Press the Enter Key to continue. . .", `
+                                [LogMessageLevel]::Standard, `
+                                $true);
 
         # Wait for the user to provide the 'Enter' key character.
         (Get-Host).UI.ReadLine();
@@ -132,7 +136,7 @@ class CommonIO
         {
             # If in case: User Input was provided - leave from this
             #  function without displaying the information.
-            "UserInput"
+            ([LogMessageLevel]::UserInput)
             {
                 # Because this function was called with a message level
                 #  of 'UserInput' (Only usable for capturing or evaluating
@@ -143,7 +147,7 @@ class CommonIO
 
 
             # Regular or standard messages
-            "Standard"
+            ([LogMessageLevel]::Standard)
             {
                 # Text Colour
                 $textColourForeground = "White";
@@ -157,7 +161,7 @@ class CommonIO
 
 
             # Confirmation messages
-            "Attention"
+            ([LogMessageLevel]::Attention)
             {
                 # Text Colour
                 $textColourForeground = "Black";
@@ -171,7 +175,7 @@ class CommonIO
 
 
             # Informational messages
-            "Information"
+            ([LogMessageLevel]::Information)
             {
                 # Text Colour
                 $textColourForeground = "DarkGray";
@@ -185,7 +189,7 @@ class CommonIO
 
 
             # Warning messages
-            "Warning"
+            ([LogMessageLevel]::Warning)
             {
                 # Text Colour
                 $textColourForeground = "Cyan";
@@ -199,7 +203,7 @@ class CommonIO
 
 
             # Error messages
-            "Error"
+            ([LogMessageLevel]::Error)
             {
                 # Text Colour
                 $textColourForeground = "Red";
@@ -213,7 +217,7 @@ class CommonIO
 
 
             # Critical error or very fatal messages
-            "Fatal"
+            ([LogMessageLevel]::Fatal)
             {
                 # Text Colour
                 $textColourForeground = "White";
@@ -227,7 +231,7 @@ class CommonIO
 
 
             # Verbose or debug messages
-            "Verbose"
+            ([LogMessageLevel]::Verbose)
             {
                 # Text Colour
                 $textColourForeground = "White";
@@ -374,12 +378,12 @@ class CommonIO
         Finally
         {
             # Message level that will be presented in the log file.
-            [string] $msgLevel = "Warning";
+            [LogMessageLevel] $msgLevel = [LogMessageLevel]::Warning;
 
             # If the operation was successful, change the message level accordingly
             if ($exitCode)
             {
-                $msgLevel = "Verbose";
+                $msgLevel = [LogMessageLevel]::Verbose;
             } # If : Successful operation
 
 
@@ -528,7 +532,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -558,7 +562,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -588,7 +592,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -618,7 +622,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -651,9 +655,9 @@ class CommonIO
                                         "`tDescription is now: $($description)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Warning");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -710,9 +714,9 @@ class CommonIO
                                     "`tExtCMD Exit Code: $($externalCommandReturnCode)");
 
         # Pass the information to the logging system
-        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                    "$($logAdditionalMSG)", `   # Additional information
-                                    "Verbose");                 # Message level
+        [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                    "$($logAdditionalMSG)", `       # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
 
         # * * * * * * * * * * * * * * * * * * *
 
@@ -924,9 +928,9 @@ class CommonIO
                                         "`t$($outputResultOut.Value)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -960,9 +964,9 @@ class CommonIO
                                         "`t$($outputResultErr.Value)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Warning");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1062,7 +1066,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1134,12 +1138,12 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
             [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1169,9 +1173,9 @@ class CommonIO
                                         "`tExit code provided by extCMD: $($processExec.ExitCode)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1372,12 +1376,12 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
             [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1414,12 +1418,12 @@ class CommonIO
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                             "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # Display a message to the user that something went horribly wrong
                 #  and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                        "Error");                       # Message level
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -1521,12 +1525,12 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
             [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1584,12 +1588,12 @@ class CommonIO
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                             "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # Display a message to the user that something went horribly wrong
                 #  and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                        "Error");                       # Message level
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -1613,9 +1617,9 @@ class CommonIO
                                             "`tDestination File: $($destinationFile)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Verbose");                 # Message level
+                [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                            "$($logAdditionalMSG)", `       # Additional information
+                                            [LogMessageLevel]::Verbose);    # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -1650,12 +1654,12 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
             [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1756,12 +1760,12 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
             [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1788,9 +1792,9 @@ class CommonIO
                                         "`tDestination file: $($destinationFile)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1968,12 +1972,12 @@ class CommonIO
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                             "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # Display a message to the user that something went horribly wrong
                 #  and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                        "Error");                       # Message level
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -2004,12 +2008,12 @@ class CommonIO
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                             "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # Display a message to the user that something went horribly wrong
                 #  and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                        "Error");                       # Message level
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -2031,9 +2035,9 @@ class CommonIO
                 [string] $logAdditionalMSG = "Path of the parent temporary directory: $($tempDirectoryPath)";
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Verbose");                 # Message level
+                [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                            "$($logAdditionalMSG)", `       # Additional information
+                                            [LogMessageLevel]::Verbose);    # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
             } # Else : Successfully created the parent temporary directory
@@ -2107,12 +2111,12 @@ class CommonIO
                     # Pass the information to the logging system
                     [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                                 "$($logAdditionalMSG)", `   # Additional information
-                                                "Error");                   # Message level
+                                                [LogMessageLevel]::Error);  # Message level
 
                     # Display a message to the user that something went horribly wrong
                     #  and log that same message for referencing purpose.
                     [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                            "Error");                       # Message level
+                                                [LogMessageLevel]::Error);  # Message level
 
                     # * * * * * * * * * * * * * * * * * * *
 
@@ -2154,12 +2158,12 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
             [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2186,9 +2190,9 @@ class CommonIO
                                         "`tRepetition counter threshold was: $($repetitionMax)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Else : Created working temporary directory
@@ -2217,12 +2221,12 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
             [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2299,9 +2303,9 @@ class CommonIO
                                             "$($debugInformationDirectory)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "Verbose");                 # Message level
+                [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                            "$($logAdditionalMSG)", `       # Additional information
+                                            [LogMessageLevel]::Verbose);    # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -2333,12 +2337,12 @@ class CommonIO
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                             "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # Display a message to the user that something went horribly wrong
                 #  and log that same message for referencing purpose.
                 [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                        "Error");                       # Message level
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
             } # Catch : Failed to Create Directory
@@ -2361,9 +2365,9 @@ class CommonIO
             [string] $logAdditionalMSG = "Directory Path: $($path)";
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Warning");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2434,12 +2438,12 @@ class CommonIO
         # --------------
 
         # This variable will hold the appropriate message level when presenting it to the log file.
-        [string] $msgLevel = "Warning";
+        [LogMessageLevel] $msgLevel = [LogMessageLevel]::Warning;
 
         # If the operation was successful, update the message level as 'Verbose'.
         if ($exitCode)
         {
-            $msgLevel = "Verbose";
+            $msgLevel = [LogMessageLevel]::Verbose;
         } # If : Successful Operation
 
 
@@ -2508,9 +2512,9 @@ class CommonIO
             [string] $logAdditionalMSG = "Directory Path: $($path)";
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Warning");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2568,9 +2572,9 @@ class CommonIO
                                         "`t-----------------------------------------------------------");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2598,7 +2602,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Catch : Error Deleting Directory
@@ -2677,9 +2681,9 @@ class CommonIO
                                         "$($includesStr)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Warning");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2754,9 +2758,9 @@ class CommonIO
                                         "`t-----------------------------------------------------------");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2796,7 +2800,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
             # * * * * * * * * * * * * * * * * * * *
         } # Catch : Error Deleting Files
 
@@ -2853,9 +2857,9 @@ class CommonIO
                                         "`tNew Requested Name: $($newName)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Warning");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2886,7 +2890,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2926,9 +2930,9 @@ class CommonIO
                                         "`t-----------------------------------------------------------");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2955,7 +2959,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Catch : Error occurred
@@ -3016,7 +3020,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3048,7 +3052,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3089,9 +3093,9 @@ class CommonIO
                                         "`t-----------------------------------------------------------");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3118,7 +3122,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Catch : Error occurred
@@ -3200,7 +3204,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3243,7 +3247,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3320,9 +3324,9 @@ class CommonIO
                                         "`t-----------------------------------------------------------");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3361,7 +3365,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Catch : Error occurred
@@ -3423,7 +3427,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3459,7 +3463,7 @@ class CommonIO
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                             "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -3520,9 +3524,9 @@ class CommonIO
                                         "`t-----------------------------------------------------------");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3549,7 +3553,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Catch : Error occurred
@@ -3632,7 +3636,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3675,7 +3679,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3752,9 +3756,9 @@ class CommonIO
                                         "`t-----------------------------------------------------------");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3793,7 +3797,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Catch : Error occurred
@@ -3847,7 +3851,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3877,7 +3881,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3905,9 +3909,9 @@ class CommonIO
             [string] $logAdditionalMSG = "Target Item Path: $($targetItem)";
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3933,9 +3937,9 @@ class CommonIO
             [string] $logAdditionalMSG = "Target Item Path: $($targetItem)";
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -3961,9 +3965,9 @@ class CommonIO
             [string] $logAdditionalMSG = "Target Item Path: $($targetItem)";
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Warning");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -4034,7 +4038,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -4079,9 +4083,9 @@ class CommonIO
                                         "`t-----------------------------------------------------------");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Try : Find all instances
@@ -4106,7 +4110,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Catch : Failed to find the binary file or path did not exist.
@@ -4175,7 +4179,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -4210,9 +4214,9 @@ class CommonIO
                                         "`tHash value is: $($hashInfo.Hash)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Try : Get hash value
@@ -4238,7 +4242,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Catch : Failure to fetch value
@@ -4348,9 +4352,9 @@ class CommonIO
                                             "`t-----------------------------------------------------------");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
-                                            "verbose");                 # Message level
+                [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                            "$($logAdditionalMSG)", `       # Additional information
+                                            [LogMessageLevel]::Verbose);    # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -4379,7 +4383,7 @@ class CommonIO
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                             "$($logAdditionalMSG)", `   # Additional information
-                                            "Error");                   # Message level
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
             } # Catch : Error
@@ -4404,7 +4408,7 @@ class CommonIO
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Else : URL Address is NOT Legitimate

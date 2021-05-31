@@ -60,7 +60,7 @@ class SettingsGeneralProgram
             [Logging]::DisplayMessage("`r`n");
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [SettingsGeneralProgram]::EvaluateExecuteUserRequest($userInput);
@@ -212,7 +212,7 @@ class SettingsGeneralProgram
         switch ($userPreferences.GetCompressionTool())
         {
             # dotNET Zip Archive (Built-in functionality)
-            "Default"
+            ([UserPreferencesCompressTool]::Default)
             {
                 # Set the string that will be displayed
                 $compressionTool.Value = "Internal Zip";
@@ -223,7 +223,7 @@ class SettingsGeneralProgram
 
 
             # 7Zip (External resource)
-            "SevenZip"
+            ([UserPreferencesCompressTool]::SevenZip)
             {
                 # Set the string that will be displayed
                 $compressionTool.Value = "7Zip";
@@ -298,7 +298,7 @@ class SettingsGeneralProgram
         # Notification Types
         switch ($userPreferences.GetBellEvents())
         {
-            "Everything"
+            ([UserPreferencesEventAlarm]::Everything)
             {
                 # Set the message such that the user knows that 'everything' is presently activated.
                 $notification.Value = "Everything";
@@ -308,7 +308,7 @@ class SettingsGeneralProgram
             } # Everything
 
 
-            "Success"
+            ([UserPreferencesEventAlarm]::Success)
             {
                 # Set the message such that the user knows that 'success' is presently activated.
                 $notification.Value = "Successful Operations";
@@ -318,7 +318,7 @@ class SettingsGeneralProgram
             } # Success
 
 
-            "Errors"
+            ([UserPreferencesEventAlarm]::Errors)
             {
                 # Set the message such that the user knows that 'errors' is presently activated.
                 $notification.Value = "Errors only";
@@ -328,7 +328,7 @@ class SettingsGeneralProgram
             } # Errors
 
 
-            "Warnings"
+            ([UserPreferencesEventAlarm]::Warnings)
             {
                 # Set the message such that the user knows that 'Warnings' is presently activated.
                 $notification.Value = "Warnings only";
@@ -338,7 +338,7 @@ class SettingsGeneralProgram
             } # Warnings
 
 
-            "Disable"
+            ([UserPreferencesEventAlarm]::Disable)
             {
                 # Set the message such that the user knows that 'Disable' is presently activated.
                 $notification.Value = "Disabled";
@@ -631,7 +631,7 @@ class SettingsGeneralProgram
             [Logging]::DisplayMessage("`r`n");
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [SettingsGeneralProgram]::EvaluateExecuteUserRequestLocateProjectPath($userInput);
@@ -899,7 +899,7 @@ class SettingsGeneralProgram
             [Logging]::DisplayMessage("`r`n");
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [SettingsGeneralProgram]::EvaluateExecuteUserRequestCompiledBuildsOutputPath($userInput);
@@ -1135,7 +1135,7 @@ class SettingsGeneralProgram
             switch ($userPreferences.GetCompressionTool())
             {
                 # dotNET Zip Archive (Built-in functionality)
-                "Default"
+                ([UserPreferencesCompressTool]::Default)
                 {
                     # Set the string that will be displayed
                     $selectedCompressionTool = "Internal Zip";
@@ -1146,7 +1146,7 @@ class SettingsGeneralProgram
 
 
                 # 7Zip (External resource)
-                "SevenZip"
+                ([UserPreferencesCompressTool]::SevenZip)
                 {
                     # Set the string that will be displayed
                     $selectedCompressionTool = "7Zip";
@@ -1195,7 +1195,7 @@ class SettingsGeneralProgram
             [Logging]::DisplayMessage("`r`n");
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [SettingsGeneralProgram]::EvaluateExecuteUserRequestCompressionTool($userInput);
@@ -1435,7 +1435,7 @@ class SettingsGeneralProgram
             [Logging]::DisplayMessage("`r`n");
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [SettingsGeneralProgram]::EvaluateExecuteUserRequestUseGitFeatures($userInput);
@@ -1637,7 +1637,7 @@ class SettingsGeneralProgram
             #  for the user to understand the meaning of it's current setting.
             switch ($userPreferences.GetBellEvents())
             {
-                "Everything"
+                ([UserPreferencesEventAlarm]::Everything)
                 {
                     # Set the message such that the user knows that 'everything' is presently activated.
                     $decipherNiceString = "I will alert you for all events that occur.";
@@ -1647,7 +1647,7 @@ class SettingsGeneralProgram
                 } # Everything
 
 
-                "Success"
+                ([UserPreferencesEventAlarm]::Success)
                 {
                     # Set the message such that the user knows that 'success' is presently activated.
                     $decipherNiceString = "I will only alert you if an operation was successful.";
@@ -1657,7 +1657,7 @@ class SettingsGeneralProgram
                 } # Success
 
 
-                "Errors"
+                ([UserPreferencesEventAlarm]::Errors)
                 {
                     # Set the message such that the user knows that 'errors' is presently activated.
                     $decipherNiceString = "I will only alert you if an operation had failed.";
@@ -1667,7 +1667,7 @@ class SettingsGeneralProgram
                 } # Errors
 
 
-                "Warnings"
+                ([UserPreferencesEventAlarm]::Warnings)
                 {
                     # Set the message such that the user knows that 'Warnings' is presently activated.
                     $decipherNiceString = "I will only alert you if a warning event had occurred.";
@@ -1677,7 +1677,7 @@ class SettingsGeneralProgram
                 } # Warnings
 
 
-                "Disable"
+                ([UserPreferencesEventAlarm]::Disable)
                 {
                     # Set the message such that the user knows that 'Disable' is presently activated.
                     $decipherNiceString = "I will not notify you regardless of an event.";
@@ -1715,7 +1715,7 @@ class SettingsGeneralProgram
             [Logging]::DisplayMessage("`r`n");
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [SettingsGeneralProgram]::EvaluateExecuteUserRequestNotificationTypes($userInput);
@@ -2022,7 +2022,7 @@ class SettingsGeneralProgram
             [Logging]::DisplayMessage("`r`n");
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [SettingsGeneralProgram]::EvaluateExecuteUserRequestUseWindowsExplorer($userInput);

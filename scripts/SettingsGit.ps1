@@ -57,7 +57,7 @@ class SettingsGit
             [SettingsGit]::DrawMenu();
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [SettingsGit]::EvaluateExecuteUserRequest($userInput);
@@ -423,7 +423,7 @@ class SettingsGit
             [Logging]::DisplayMessage("`r`n");
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [SettingsGit]::EvaluateExecuteUserRequestLocateGitPath($userInput);
@@ -780,7 +780,7 @@ class SettingsGit
             [Logging]::DisplayMessage("`r`n");
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [SettingsGit]::EvaluateExecuteUserRequestUpdateSource($userInput);
@@ -981,7 +981,7 @@ class SettingsGit
             #  for the user to understand the current setting.
             switch ($gitControl.GetLengthCommitID())
             {
-                "Short"
+                ([GitCommitLength]::short)
                 {
                     # Set the message such that the user knows that the short Commit ID will be retrieved.
                     $decipherNiceString = "I will use the short Commit SHA ID";
@@ -991,7 +991,7 @@ class SettingsGit
                 } # Short
 
 
-                "Long"
+                ([GitCommitLength]::long)
                 {
                     # Set the message such that the user knows that the long Commit ID will be retrieved.
                     $decipherNiceString = "I will use the long Commit SHA ID";
@@ -1028,7 +1028,7 @@ class SettingsGit
             [Logging]::DisplayMessage("`r`n");
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [SettingsGit]::EvaluateExecuteUserRequestSizeCommitID($userInput);
@@ -1270,7 +1270,7 @@ class SettingsGit
             [Logging]::DisplayMessage("`r`n");
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [SettingsGit]::EvaluateExecuteUserRequestHistory($userInput);
@@ -1495,7 +1495,7 @@ class SettingsGit
             [Logging]::DisplayMessage("`r`n");
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [SettingsGit]::EvaluateExecuteUserRequestHistoryCommitSize($userInput);
@@ -1642,7 +1642,7 @@ class SettingsGit
         [Logging]::DisplayMessage("How many commits should be recorded? ");
 
         # Obtain the user's input
-        $newSize = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+        $newSize = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
         # Make sure that the user did not provide 'Cancel' or 'X'; we do not want to
         #  store string\char values as an integer.
@@ -1747,7 +1747,7 @@ class SettingsGit
             [Logging]::DisplayMessage("`r`n");
 
             # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput("WaitingOnYourResponse");
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
             $menuLoop = [SettingsGit]::EvaluateExecuteUserRequestGenerateReport($userInput);

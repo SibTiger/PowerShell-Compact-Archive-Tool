@@ -125,14 +125,14 @@
                                         "`tForce Web Browser: $($ignoreUserSetting)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Warning");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
             [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Warning");                     # Message level
+                                    [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Else: Web Browsers not Allowed
@@ -162,12 +162,12 @@
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
             [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # If: Catch-All Errors
@@ -422,9 +422,9 @@
             [string] $logAdditionalMSG = ("HTTP Request Created for: $($site)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Try: Create HTTP Request
@@ -456,12 +456,12 @@
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
             [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -493,9 +493,9 @@
             [string] $logAdditionalMSG = ("HTTP Response Acquired By: $($site)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Try: Try to retrieve response from HTTP site
@@ -527,12 +527,12 @@
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
-                                        "Error");                   # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
             [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Error");                       # Message level
+                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -566,9 +566,9 @@
                                         " $([int] $($siteResponse.StatusCode))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # If : Website is not reachable
@@ -594,14 +594,14 @@
                                         "`tHTTP Response Status Code: $($siteResponse.StatusCode) $([int] $($siteResponse.StatusCode))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Warning");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
             [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                    "Warning");                     # Message level
+                                    [LogMessageLevel]::Warning);    # Message level
             # * * * * * * * * * * * * * * * * * * *
         }
 
@@ -625,9 +625,9 @@
             [string] $logAdditionalMSG = ("Website: $($site)`r`n");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Verbose");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # try: Close HTTP Response Connection
@@ -647,9 +647,9 @@
             [string] $logAdditionalMSG = ("Website: $($site)`r`n");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "Warning");                 # Message level
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Catch: Failure to close the HTTP Response Connection
