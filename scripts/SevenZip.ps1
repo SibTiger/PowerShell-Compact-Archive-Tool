@@ -4112,4 +4112,4 @@ enum SevenCompressionLevel
     Minimal = 1;        # Minimal compression    {3}
     Normal = 2;         # Standard compression   {5}
     Maximum = 3;        # Maximum compression    {9}
-} # DefaultCompressionLevel
+} # SevenCompressionLevel
