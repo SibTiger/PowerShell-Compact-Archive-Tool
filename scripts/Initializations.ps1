@@ -78,19 +78,19 @@ function InitializationProgramSites()
 {
     # Program Homepage
     Set-Variable -Name "_PROGRAMSITEHOMEPAGE_" -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool" `
-     -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+        -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 
     # Program Wiki
     Set-Variable -Name "_PROGRAMSITEWIKI_" -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/wiki" `
-    -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+        -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 
     # Program Downloads
     Set-Variable -Name "_PROGRAMSITEDOWNLOADS_" -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/releases" `
-    -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+        -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 
     # Program Source Repository
     Set-Variable -Name "_PROGRAMSITESOURCEREPOSITORY_" -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool" `
-     -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+        -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 } # InitializationProgramSites()
 
 
@@ -236,7 +236,7 @@ function InitializationEnvironment()
 {
     # PowerShell's Window Title
     Set-Variable -Name "_ENVIRONMENT_WINDOW_TITLE_ORIGINAL_" -Value "$([CommonIO]::GetTerminalWindowTitle())" `
-    -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 } # InitializationEnvironment()
 
 
