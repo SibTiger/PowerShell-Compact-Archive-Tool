@@ -927,7 +927,9 @@ class DefaultCompress
     {
         # Get all the hash values that is associated with the given file and
         #  return the results.
-        return ("SHA256:`r`n" + `
+        return ("SHA1:`r`n" + `
+                "`t$([CommonIO]::FileHash("$($file)", [FileHashAlgorithmDotNet]::sha1))`r`n`r`n" + `
+                "SHA256:`r`n" + `
                 "`t$([CommonIO]::FileHash("$($file)", [FileHashAlgorithmDotNet]::sha256))`r`n`r`n" + `
                 "SHA384:`r`n" + `
                 "`t$([CommonIO]::FileHash("$($file)", [FileHashAlgorithmDotNet]::sha384))`r`n`r`n" + `
