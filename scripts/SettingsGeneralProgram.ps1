@@ -84,11 +84,28 @@ class SettingsGeneralProgram
         # ----------------------------------------
         # Retrieve the user's preferences
         [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+
+
+        # Here are some variables that are used to help the user to understand the
+        #  meaning behind a particular setting.  Thus, instead of saying "True" or
+        #  an enumerator value that is not easy to decipher, we can break it down in
+        #  a way that it is easier to convey the point across to the user.
+        [string] $currentSettingCompressionTool = $NULL;    # Compression Tool
+        [string] $currentSettingGitFeatures = $NULL;        # Git Features
+        [string] $currentSettingWindowsExplorer = $NULL;    # Windows Explorer
+        [string] $currentSettingNotification = $NULL;       # Notifications
         # ----------------------------------------
 
 
-        # Display the menu list
+        # Retrieve the current settings and determine the wording before we generate the menu.
+        [SettingsGeneralProgram]::DrawMenuDecipherCurrentSettings([ref] $currentSettingCompressionTool, `
+                                                                [ref] $currentSettingGitFeatures, `
+                                                                [ref] $currentSettingWindowsExplorer, `
+                                                                [ref] $currentSettingNotification); `
 
+
+
+        # Display the menu list
 
         # Paths
         # - - - - - - -
@@ -114,28 +131,28 @@ class SettingsGeneralProgram
         [CommonCUI]::DrawMenuItem('C', `
                                 "Compression Tool", `
                                 "The tool that will be used to generate a PK3 or PK7 ZDoom file.", `
-                                "$($NULL)", `
+                                "Desired Compression Tool to use: $($currentSettingCompressionTool)", `
                                 $true);
 
         # Allow or disallow Git Functionality
         [CommonCUI]::DrawMenuItem('G', `
                                 "Git Features", `
                                 "Utilize Git's unique features during compiling a ZDoom project", `
-                                "$($NULL)", `
+                                "Ability to use Git Features is currently: $($currentSettingGitFeatures)", `
                                 $true);
 
         # Enable or disable the use of Windows Explorer features
         [CommonCUI]::DrawMenuItem('E', `
                                 "Graphical User Interface Features", `
                                 "Utilize graphical windows where possible [Windows Only]", `
-                                "$($NULL)", `
+                                "Ability to use Windows Explorer: $($currentSettingWindowsExplorer)", `
                                 $true);
 
         # Notifications
         [CommonCUI]::DrawMenuItem('N', `
                                 "Notifications", `
                                 "The ability for $($GLOBAL:_PROGRAMNAME_) to notify you of certain events.", `
-                                "$($NULL)", `
+                                "Notifications are currently set to: $($currentSettingNotification)", `
                                 $true);
 
 
@@ -155,6 +172,182 @@ class SettingsGeneralProgram
                                 "$($NULL)", `
                                 $false);
     } # DrawMenu()
+
+
+
+
+   <# Draw Menu: Decipher Current Settings
+    # -------------------------------
+    # Documentation:
+    #  This function will essentially provide the current settings to the desired
+    #   user's preferences in a way that it is to be drawn onto the menu.  The
+    #   settings, either as boolean or enumerators, will be translated such that
+    #   the user can easily see the current value and make a determination if
+    #   they wish to alter their settings.
+    # -------------------------------
+    # Input:
+    #  [string] (REFERENCE) Compression Tool
+    #   Determines which compression tool had been selected for compacting files.
+    #  [string] (REFERENCE) Git Features
+    #   Determines if the program is to use Git Features or not.
+    #  [string] (REFERENCE) Windows Explorer
+    #   Determines if the program will use Windows Explorer features or not.
+    #  [string] (REFERENCE) Notification Type
+    #   Determines how the notifications will be brought to the user's focus.
+    # -------------------------------
+    #>
+    hidden static [void] DrawMenuDecipherCurrentSettings([ref] $compressionTool, `  # Desired Compression Tool
+                                                        [ref] $gitFeatures, `       # Git Features
+                                                        [ref] $windowsExplorer, `   # Windows Explorer Features
+                                                        [ref] $notification)        # Notification Type
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the user's preferences
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+        # ----------------------------------------
+
+
+        # Compression Tool
+        switch ($userPreferences.GetCompressionTool())
+        {
+            # dotNET Zip Archive (Built-in functionality)
+            "Default"
+            {
+                # Set the string that will be displayed
+                $compressionTool.Value = "Internal Zip";
+
+                # Break from the switch
+                break;
+            } # Default
+
+
+            # 7Zip (External resource)
+            "SevenZip"
+            {
+                # Set the string that will be displayed
+                $compressionTool.Value = "7Zip";
+
+                # Break from the switch
+                break;
+            } # 7Zip
+
+
+            # Unknown case
+            Default
+            {
+                # Set the string that will be displayed
+                $compressionTool.Value = "ERROR";
+
+                # Break from the switch
+                break;
+            } # Error Case
+        } # Switch : Decipher Enumerator Value
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+        # Git Features
+        # Git Features are enabled
+        if ($userPreferences.GetUseGitFeatures())
+        {
+            # The user currently has the Git Features presently activated
+            $gitFeatures.Value = "On";
+        } # if: Git Features are enabled
+
+        # Git features are not enabled
+        else
+        {
+            # The user currently has the Git Features presently deactivated
+            $gitFeatures.Value = "Off";
+        } # else: Git Features are disabled
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+        # Windows Explorer
+        # Windows Explorer are enabled
+        if ($userPreferences.GetUseWindowsExplorer())
+        {
+            # The user currently has the Windows Explorer functionality presently activated
+            $windowsExplorer.Value = "On";
+        } # if: Windows Explorer are enabled
+
+        # Windows Explorer are not enabled
+        else
+        {
+            # The user currently has the Windows Explorer presently deactivated
+            $windowsExplorer.Value = "Off";
+        } # else: Windows Explorer are disabled
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+        # Notification Types
+        switch ($userPreferences.GetBellEvents())
+        {
+            "Everything"
+            {
+                # Set the message such that the user knows that 'everything' is presently activated.
+                $notification.Value = "Everything";
+
+                # Finished
+                break;
+            } # Everything
+
+
+            "Success"
+            {
+                # Set the message such that the user knows that 'success' is presently activated.
+                $notification.Value = "Successful Operations";
+
+                # Finished
+                break;
+            } # Success
+
+
+            "Errors"
+            {
+                # Set the message such that the user knows that 'errors' is presently activated.
+                $notification.Value = "Errors only";
+
+                # Finished
+                break;
+            } # Errors
+
+
+            "Warnings"
+            {
+                # Set the message such that the user knows that 'Warnings' is presently activated.
+                $notification.Value = "Warnings only";
+
+                # Finished
+                break;
+            } # Warnings
+
+
+            "Disable"
+            {
+                # Set the message such that the user knows that 'Disable' is presently activated.
+                $notification.Value = "Disabled";
+
+                # Finished
+                break;
+            } # Disable
+        } # Switch: Decipher Notification Type
+    } # DrawMenuDecipherCurrentSettings()
 
 
 
