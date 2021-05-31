@@ -77,28 +77,46 @@ class SettingsZip
     #>
     hidden static [void] DrawMenu()
     {
-        # Display the menu list
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Here are some variables that are used to help the user to understand the
+        #  meaning behind a particular setting.  Thus, instead of saying "True" or
+        #  an enumerator value that is not easy to decipher, we can break it down in
+        #  a way that it is easier to convey the point across to the user.
+        [string] $currentSettingCompressionLevel = $NULL;       # Compression Level
+        [string] $currentSettingVerifyBuild = $NULL;            # Verify Build
+        [string] $currentSettingGenerateReport = $NULL;         # Generate Report
+        # ----------------------------------------
 
+
+        # Retrieve the current settings and determine the wording before we generate the menu.
+        [SettingsZip]::DrawMenuDecipherCurrentSettings([ref] $currentSettingCompressionLevel, `
+                                                        [ref] $currentSettingVerifyBuild, `
+                                                        [ref] $currentSettingGenerateReport);
+
+
+
+        # Display the menu list
 
         # Specify Compression Level
         [CommonCUI]::DrawMenuItem('C',
                                 "Compression Level",
                                 "How tightly is the data compacted into the compressed file.",
-                                "$($NULL)", `
+                                "Compression level to use: $($currentSettingCompressionLevel)", `
                                 $true);
 
         # Toggle the ability to check file's integrity
         [CommonCUI]::DrawMenuItem('V',
                                 "Verify Build after Compression",
                                 "Assure that the compressed file is healthy.",
-                                "$($NULL)", `
+                                "Verify integrity of the newly generated build: $($currentSettingVerifyBuild)", `
                                 $true);
 
         # Allow or disallow the ability to generate a report
         [CommonCUI]::DrawMenuItem('R',
                                 "Generate Report of Archive Datafile",
                                 "Provides detailed information regarding the newly generated compressed file.",
-                                "$($NULL)", `
+                                "Create a report of the newly generated build: $($currentSettingGenerateReport)", `
                                 $true);
 
 
@@ -121,6 +139,131 @@ class SettingsZip
         # Provide some extra padding
         [Logging]::DisplayMessage("`r`n");
     } # DrawMenu()
+
+
+
+   <# Draw Menu: Decipher Current Settings
+    # -------------------------------
+    # Documentation:
+    #  This function will essentially provide the current settings to the desired
+    #   user's preferences in a way that it is to be drawn onto the menu.  The
+    #   settings, either as boolean or enumerators, will be translated such that
+    #   the user can easily see the current value and make a determination if
+    #   they wish to alter their settings.
+    # -------------------------------
+    # Input:
+    #  [string] (REFERENCE) Compression Level
+    #   Determines the current compression level that is presently configured.
+    #  [string] (REFERENCE) Verify Build
+    #   Determines if the newly generated build will be tested to assure its integrity.
+    #  [string] (REFERENCE) Generate Report
+    #   Determines if the user wanted a report of the newly generated report of the
+    #    newly generated compressed build.
+    # -------------------------------
+    #>
+    hidden static [void] DrawMenuDecipherCurrentSettings([ref] $compressionLevel, ` # Compression Level
+                                                        [ref] $verifyBuild, `       # Verify Build
+                                                        [ref] $generateReport)      # Generate Report
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the dotNET Archive object.
+        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        # ----------------------------------------
+
+
+        # Compression Level
+        switch ($defaultCompress.GetCompressionLevel())
+        {
+            # Best Compression Possible
+            "Optimal"
+            {
+                # Set the string that will be displayed
+                $compressionLevel.Value = "Optimal Compression";
+
+                # Break from the switch
+                break;
+            } # Optimal Compression
+
+
+            # Favor Speed over Compression
+            "Fastest"
+            {
+                # Set the string that will be displayed
+                $compressionLevel.Value = "Fastest Compression";
+
+                # Break from the switch
+                break;
+            } # Fastest Compression
+
+
+            # Store; no compression
+            "NoCompression"
+            {
+                # Set the string that will be displayed
+                $compressionLevel.Value = "No Compression";
+
+                # Break from the switch
+                break;
+            } # Store - No Compression
+
+
+            # Unknown case
+            Default
+            {
+                # Set the string that will be displayed
+                $compressionLevel.Value = "ERROR";
+
+                # Break from the switch
+                break;
+            } # Error Case
+        } # Switch : Decipher Enumerator Value
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+        # Verify Build
+        # Test the archive datafile's integrity
+        if ($defaultCompress.GetVerifyBuild())
+        {
+            # The user wishes to have the archive datafile tested, to assure
+            #  that it was compressed correctly.
+            $verifyBuild.Value = "Yes";
+        } # if: Test Archive Datefile
+
+        # Do not test the archive datafile's integrity
+        else
+        {
+            # The user does not wish to have the archive datafile tested.
+            $verifyBuild.Value = "No";
+        } # else: Do not test Archive Datafile
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+        # Generate Report
+        # Provide a new report regarding the newly generated archive file
+        if ($defaultCompress.GetGenerateReport())
+        {
+            # The user wants to have a report generated regarding the archive datafile.
+            $generateReport.Value = "Yes";
+        } # if: Create report
+
+        # Do not provide a new report regarding the newly generated archive file.
+        else
+        {
+            # The user does not want to have a report generated of the archive datafile.
+            $generateReport.Value = "No";
+        } # else: Do not create report
+    } # DrawMenuDecipherCurrentSettings()
 
 
 
