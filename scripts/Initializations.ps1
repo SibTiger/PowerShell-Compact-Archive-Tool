@@ -50,7 +50,7 @@ function InitializationProgramIdentity()
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 
     # Version
-    Set-Variable -Name "_VERSION_" -Value "0.01-Alpha" `
+    Set-Variable -Name "_VERSION_" -Value "0.50-Alpha" `
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 
     # Version Name
@@ -59,7 +59,7 @@ function InitializationProgramIdentity()
 
     # Release Date
     # Date Format: DD.MM.YYYY with leading zeros
-    Set-Variable -Name "_RELEASEDATE_" -Value "DD.04.2021" `
+    Set-Variable -Name "_RELEASEDATE_" -Value "DD.06.2021" `
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 } # InitializationProgramIdentity()
 
