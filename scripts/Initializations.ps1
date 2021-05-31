@@ -20,13 +20,13 @@ function Initializations()
     InitializationProgramSites;
 
     # Program Data and Internal Mutable Data
-    InitializationProgramData
+    InitializationProgramData;
 
     # Directory Locations
-    InitializationDirectory
+    InitializationDirectory;
 
     # Program environment
-    InitializationEnvironment
+    InitializationEnvironment;
 } # Initializations()
 
 
@@ -293,5 +293,5 @@ function FetchPathAppDataRoaming()
  #>
 function FetchPathUserDocuments()
 {
-    return "$($env:HOMEDRIVE)$($env:HOMEPATH)\Documents"
+    return "$($env:HOMEDRIVE)$($env:HOMEPATH)\Documents";
 } # FetchPathUserDocuments()
