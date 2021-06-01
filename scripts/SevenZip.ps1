@@ -911,9 +911,9 @@ class SevenZip
     Hidden [bool] __CheckRequiredDirectories()
     {
         # Make sure the the following directories:
-        return (([CommonIO]::CheckPathExists("$($this.__rootLogPath)", $true) -eq $true) -and   ` # Check the Root Log Directory
-                ([CommonIO]::CheckPathExists("$($this.__reportPath)", $true) -eq $true) -and    ` # Check the Report Path Directory
-                ([CommonIO]::CheckPathExists("$($this.__logPath)", $true) -eq $true));            # Check the Log Path Directory
+        return (([CommonIO]::CheckPathExists("$($this.GetRootLogPath())", $true) -eq $true) -and   ` # Check the Root Log Directory
+                ([CommonIO]::CheckPathExists("$($this.GetReportPath())", $true) -eq $true) -and    ` # Check the Report Path Directory
+                ([CommonIO]::CheckPathExists("$($this.GetLogPath())", $true) -eq $true));            # Check the Log Path Directory
     } # __CheckRequiredDirectories()
 
 
@@ -961,9 +961,9 @@ class SevenZip
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("7Zip Logging Directories:`r`n" + `
-                                        "`t`tThe Root Directory is:`t`t$($this.__rootLogPath)`r`n" + `
-                                        "`t`tThe Logging Directory is:`t$($this.__logPath)`r`n" + `
-                                        "`t`tThe Report Directory is:`t$($this.__reportPath)`r`n");
+                                        "`t`tThe Root Directory is:`t`t$($this.GetRootLogPath())`r`n" + `
+                                        "`t`tThe Logging Directory is:`t$($this.GetLogPath())`r`n" + `
+                                        "`t`tThe Report Directory is:`t$($this.GetReportPath())`r`n");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
@@ -985,10 +985,10 @@ class SevenZip
         #  check which directory does not exist and then try to create it.
 
         # Root Log Directory
-        if(([CommonIO]::CheckPathExists("$($this.__rootLogPath)", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists("$($this.GetRootLogPath())", $true)) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (([CommonIO]::MakeDirectory("$($this.__rootLogPath)")) -eq $false)
+            if (([CommonIO]::MakeDirectory("$($this.GetRootLogPath())")) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -998,7 +998,7 @@ class SevenZip
                 [string] $logMessage = "Couldn't create the 7Zip root logging and report directory!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = "The root directory path is: $($this.__rootLogPath)";
+                [string] $logAdditionalMSG = "The root directory path is: $($this.GetRootLogPath())";
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -1018,10 +1018,10 @@ class SevenZip
 
 
         # Log Directory
-        if(([CommonIO]::CheckPathExists("$($this.__logPath)", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists("$($this.GetLogPath())", $true)) -eq $false)
         {
             # Log Directory does not exist, try to create it.
-            if (([CommonIO]::MakeDirectory("$($this.__logPath)")) -eq $false)
+            if (([CommonIO]::MakeDirectory("$($this.GetLogPath())")) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -1031,7 +1031,7 @@ class SevenZip
                 [string] $logMessage = "Couldn't create the 7Zip logging directory!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = "The logging directory path is: $($this.__logPath)";
+                [string] $logAdditionalMSG = "The logging directory path is: $($this.GetLogPath())";
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -1051,10 +1051,10 @@ class SevenZip
 
 
         # Report Directory
-        if(([CommonIO]::CheckPathExists("$($this.__reportPath)", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists("$($this.GetReportPath())", $true)) -eq $false)
         {
             # Report Directory does not exist, try to create it.
-            if (([CommonIO]::MakeDirectory("$($this.__reportPath)")) -eq $false)
+            if (([CommonIO]::MakeDirectory("$($this.GetReportPath())")) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -1064,7 +1064,7 @@ class SevenZip
                 [string] $logMessage = "Couldn't create the 7Zip report directory!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = "The report directory path is: $($this.__reportPath)";
+                [string] $logAdditionalMSG = "The report directory path is: $($this.GetReportPath())";
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -1095,9 +1095,9 @@ class SevenZip
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("7Zip Logging Directories:`r`n" + `
-                                        "`t`tThe Root Directory is:`t`t$($this.__rootLogPath)`r`n" + `
-                                        "`t`tThe Logging Directory is:`t$($this.__logPath)`r`n" + `
-                                        "`t`tThe Report Directory is:`t$($this.__reportPath)`r`n");
+                                        "`t`tThe Root Directory is:`t`t$($this.GetRootLogPath())`r`n" + `
+                                        "`t`tThe Logging Directory is:`t$($this.GetLogPath())`r`n" + `
+                                        "`t`tThe Report Directory is:`t$($this.GetReportPath())`r`n");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
@@ -1129,9 +1129,9 @@ class SevenZip
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("7Zip Logging Directories:`r`n" + `
-                                        "`t`tThe Root Directory was:`t`t$($this.__rootLogPath)`r`n" + `
-                                        "`t`tThe Logging Directory was:`t$($this.__logPath)`r`n" + `
-                                        "`t`tThe Report Directory was:`t$($this.__reportPath)`r`n");
+                                        "`t`tThe Root Directory was:`t`t$($this.GetRootLogPath())`r`n" + `
+                                        "`t`tThe Logging Directory was:`t$($this.GetLogPath())`r`n" + `
+                                        "`t`tThe Report Directory was:`t$($this.GetReportPath())`r`n");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -1175,7 +1175,7 @@ class SevenZip
     [bool] Detect7ZipExist()
     {
         # Make sure that the value is not empty (or null).
-        if ($null -eq $this.__executablePath)
+        if ($null -eq $this.GetExecutablePath())
         {
             # No value was provided; unable to perform a check as nothing was provided.
 
@@ -1188,7 +1188,7 @@ class SevenZip
             [string] $logMessage = "Unable to find the 7Zip executable as there was no path provided!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "7Zip Executable Path is: $($this.__executablePath)";
+            [string] $logAdditionalMSG = "7Zip Executable Path is: $($this.GetExecutablePath())";
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
@@ -1205,7 +1205,7 @@ class SevenZip
 
 
         # Check if the 7Zip executable was found.
-        if (([CommonIO]::DetectCommand("$($this.__executablePath)", "Application")) -eq $true)
+        if (([CommonIO]::DetectCommand("$($this.GetExecutablePath())", "Application")) -eq $true)
         {
             # Successfully located the 7Zip executable.
 
@@ -1218,7 +1218,7 @@ class SevenZip
             [string] $logMessage = "Successfully located the 7Zip executable!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "7Zip Executable Path is: $($this.__executablePath)";
+            [string] $logAdditionalMSG = "7Zip Executable Path is: $($this.GetExecutablePath())";
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
@@ -1247,7 +1247,7 @@ class SevenZip
             [string] $logMessage = "Unable to find the 7Zip executable as the path was not valid!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "7Zip Executable Path is: $($this.__executablePath)";
+            [string] $logAdditionalMSG = "7Zip Executable Path is: $($this.GetExecutablePath())";
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
@@ -1515,12 +1515,12 @@ class SevenZip
 
 
         # Execute the command to generate the desired hash information.
-        if ($([CommonIO]::ExecuteCommand("$($this.__executablePath)", `     # 7Zip Executable Path
+        if ($([CommonIO]::ExecuteCommand("$($this.GetExecutablePath())", `  # 7Zip Executable Path
                                         "$($extCMDArgs)", `                 # Arguments to generate the hash from the archive data file.
                                         "$($sourceDir)", `                  # The working directory that 7Zip will start from.
-                                        "$($this.__logPath)", `             # The Standard Output Directory path.
-                                        "$($this.__logPath)", `             # The Error Output Directory path.
-                                        "$($this.__reportPath)", `          # The Report Directory path.
+                                        "$($this.GetLogPath())", `          # The Standard Output Directory path.
+                                        "$($this.GetLogPath())", `          # The Error Output Directory path.
+                                        "$($this.GetReportPath())", `       # The Report Directory path.
                                         "$($execReason)", `                 # The reason why we are running 7Zip; used for logging purposes.
                                         $false, `                           # Are we building a report?
                                         $true, `                            # We will be capturing the STDOUT - we will need to process it.
@@ -1862,12 +1862,12 @@ class SevenZip
 
 
         # Execute the command
-        if ($([CommonIO]::ExecuteCommand("$($this.__executablePath)", `     # 7Zip Executable Path
+        if ($([CommonIO]::ExecuteCommand("$($this.GetExecutablePath())", `  # 7Zip Executable Path
                                         "$($extCMDArgs)", `                 # Arguments to generate the hash from the archive data file.
                                         "$($sourceDir)", `                  # The working directory that 7Zip will start from.
-                                        "$($this.__logPath)", `             # The Standard Output Directory path.
-                                        "$($this.__logPath)", `             # The Error Output Directory path.
-                                        "$($this.__reportPath)", `          # The Report Directory path.
+                                        "$($this.GetLogPath())", `          # The Standard Output Directory path.
+                                        "$($this.GetLogPath())", `          # The Error Output Directory path.
+                                        "$($this.GetReportPath())", `       # The Report Directory path.
                                         "$($execReason)", `                 # The reason why we are running 7Zip; used for logging purposes.
                                         $false, `                           # Are we building a report?
                                         $true, `                            # We will be capturing the STDOUT - we will need to process it.
@@ -2111,16 +2111,16 @@ class SevenZip
 
 
         # Execute the command
-        [CommonIO]::ExecuteCommand("$($this.__executablePath)", `   # 7Zip Executable Path
-                                "$($extCMDArgs)", `                 # Arguments to provide a list of all files within the archive file.
-                                "$($sourceDir)", `                  # The working directory that 7Zip will start from.
-                                "$($this.__logPath)", `             # The Standard Output Directory path.
-                                "$($this.__logPath)", `             # The Error Output Directory path.
-                                "$($this.__reportPath)", `          # The Report Directory path.
-                                "$($execReason)", `                 # The reason why we are running 7Zip; used for logging purposes.
-                                $false, `                           # Are we building a report?
-                                $true, `                            # We will be capturing the STDOUT - we will need to process it.
-                                [ref]$outputResult) | Out-Null;     # Variable containing the STDOUT; used for processing.
+        [CommonIO]::ExecuteCommand("$($this.GetExecutablePath())", `    # 7Zip Executable Path
+                                "$($extCMDArgs)", `                     # Arguments to provide a list of all files within the archive file.
+                                "$($sourceDir)", `                      # The working directory that 7Zip will start from.
+                                "$($this.GetLogPath())", `              # The Standard Output Directory path.
+                                "$($this.GetLogPath())", `              # The Error Output Directory path.
+                                "$($this.GetReportPath())", `           # The Report Directory path.
+                                "$($execReason)", `                     # The reason why we are running 7Zip; used for logging purposes.
+                                $false, `                               # Are we building a report?
+                                $true, `                                # We will be capturing the STDOUT - we will need to process it.
+                                [ref]$outputResult) | Out-Null;         # Variable containing the STDOUT; used for processing.
 
 
         # Just for assurance; make sure that we have an actual list from the archive
@@ -2482,12 +2482,12 @@ class SevenZip
         $extCMDArgs = "$($extCMDArgs) -o`"$($finalOutputPath)`"";
 
         # Execute the command
-        if ([CommonIO]::ExecuteCommand("$($this.__executablePath)", `       # 7Zip Executable Path
+        if ([CommonIO]::ExecuteCommand("$($this.GetExecutablePath())", `    # 7Zip Executable Path
                                         "$($extCMDArgs)", `                 # Arguments to extract the desired archive data file.
                                         "$($sourceDir)", `                  # The working directory that 7Zip will start from.
-                                        "$($this.__logPath)", `             # The Standard Output Directory Path.
-                                        "$($this.__logPath)", `             # The Error Output Directory Path.
-                                        "$($this.__reportPath)", `          # The Report Directory Path.
+                                        "$($this.GetLogPath())", `          # The Standard Output Directory Path.
+                                        "$($this.GetLogPath())", `          # The Error Output Directory Path.
+                                        "$($this.GetReportPath())", `       # The Report Directory Path.
                                         "$($execReason)", `                 # The reason why we are running 7Zip; used for logging purposes.
                                         $false, `                           # Are we building a report?
                                         $false, `                           # Do we need to capture the STDOUT so we can process it further?
@@ -2740,7 +2740,7 @@ class SevenZip
         # ---------------------------------
 
         # Inspect the user's preferred compiling method
-        switch ($this.__compressionMethod)
+        switch ($this.GetCompressionMethod())
         {
             ([SevenZipCompressionMethod]::Zip)
             {
@@ -2779,7 +2779,7 @@ class SevenZip
                                             "`tFor more information regarding the Compression Methods, please see the ZDoom Wiki:`r`n" + `
                                             "`t`thttps://zdoom.org/wiki/Using_ZIPs_as_WAD_replacement`r`n" + `
                                             "`r`n" + `
-                                            "`tDesired Compression Method: $($this.__compressionMethod)`r`n" + `
+                                            "`tDesired Compression Method: $($this.GetCompressionMethod())`r`n" + `
                                             "`tPath of the Target Directory: $($targetDirectory)`r`n" + `
                                             "`tRequested Archive File to Create: $($archiveFileName)");
 
@@ -2909,12 +2909,12 @@ class SevenZip
 
         # Determine the desired compression method and the compression algorithm that will
         #  be utilized for this operation.
-        switch ($this.__compressionMethod)
+        switch ($this.GetCompressionMethod())
         {
             ([SevenZipCompressionMethod]::Zip)
             {
                 # Zip {PK3} Compression Method
-                $extCMDArgs = "$($extCMDArgs) -tzip -mm=$($this.__algorithmZip)";
+                $extCMDArgs = "$($extCMDArgs) -tzip -mm=$($this.GetAlgorithmZip())";
                 break;
             } # Zip | PK3
 
@@ -2922,7 +2922,7 @@ class SevenZip
             ([SevenZipCompressionMethod]::SevenZip)
             {
                 # 7Zip {PK7} Compression Method
-                $extCMDArgs = "$($extCMDArgs) -t7z -mm=$($this.__algorithm7Zip)";
+                $extCMDArgs = "$($extCMDArgs) -t7z -mm=$($this.GetAlgorithm7Zip())";
                 break;
             } # 7Zip | PK7
 
@@ -2942,7 +2942,7 @@ class SevenZip
 
                 # Generate any additional information that might be useful
                 [string] $logAdditionalMSG = ("The desired compression method is not supported for this operation!`r`n" + `
-                                            "`tSelected Compression Method: $($this.__compressionMethod)`r`n" + `
+                                            "`tSelected Compression Method: $($this.GetCompressionMethod())`r`n" + `
                                             "`t7Zip Arguments Generated thus far: $($extCMDArgs)`r`n" + `
                                             "`tRequested Archive File to Create: $($archiveFileName)");
 
@@ -2963,7 +2963,7 @@ class SevenZip
 
 
         # Append the Multithreading Value
-        if ($this.__useMultithread -eq $true)
+        if ($this.GetUseMultithread() -eq $true)
         {
             # Enable the multithreaded operations.
             $extCMDArgs = "$($extCMDArgs) -mmt=ON";
@@ -2978,7 +2978,7 @@ class SevenZip
 
 
         # Now append the desired compression level
-        switch ($this.__compressionLevel)
+        switch ($this.GetCompressionLevel())
         {
             ([SevenCompressionLevel]::Store)
             {
@@ -3023,7 +3023,7 @@ class SevenZip
 
                 # Generate any additional information that might be useful
                 [string] $logAdditionalMSG = ("The desired compression level is not supported!`r`n" + `
-                                            "`tSelected Compression Level: $($this.__compressionLevel)`r`n" + `
+                                            "`tSelected Compression Level: $($this.GetCompressionLevel())`r`n" + `
                                             "`t7Zip Arguments Generated thus far: $($extCMDArgs)`r`n" + `
                                             "`tRequested Archive File to Create: $($archiveFileName)");
 
@@ -3053,12 +3053,12 @@ class SevenZip
 
 
         # Execute the command
-        if ([CommonIO]::ExecuteCommand("$($this.__executablePath)", `       # 7Zip Executable Path
+        if ([CommonIO]::ExecuteCommand("$($this.GetExecutablePath())", `    # 7Zip Executable Path
                                         "$($extCMDArgs)", `                 # Arguments to generate the desired archive data file
                                         "$($sourceDir)", `                  # The working directory that the 7Zip will start from.
-                                        "$($this.__logPath)", `             # The Standard Output Directory Path.
-                                        "$($this.__logPath)", `             # The Error Output Directory Path.
-                                        "$($this.__reportPath)", `          # The Report Directory Path.
+                                        "$($this.GetLogPath())", `          # The Standard Output Directory Path.
+                                        "$($this.GetLogPath())", `          # The Error Output Directory Path.
+                                        "$($this.GetReportPath())", `       # The Report Directory Path.
                                         "$($execReason)", `                 # The reason why we are running 7Zip; used for logging purposes.
                                         $false, `                           # Are we building a report?
                                         $false, `                           # Do we need to capture the STDOUT so we can process it further?
@@ -3157,10 +3157,10 @@ class SevenZip
         # The following variables will hold the report's filename.
         # - - - -
         # >> Standard Textfile
-        [string] $fileNameTXT = "$($this.__reportPath)\$($fileNameExt) - $($dateTime).txt";
+        [string] $fileNameTXT = "$($this.GetReportPath())\$($fileNameExt) - $($dateTime).txt";
 
         # >> Portable Document File (PDF)
-        [string] $fileNamePDF = "$($this.__reportPath)\$($fileNameExt) - $($dateTime).pdf";
+        [string] $fileNamePDF = "$($this.GetReportPath())\$($fileNameExt) - $($dateTime).pdf";
         # - - - -
 
 
@@ -3195,7 +3195,7 @@ class SevenZip
 
 
         # Did the user want a report of the archive data file?
-        if ($this.__generateReport -eq $false)
+        if ($this.GetGenerateReport() -eq $false)
         {
             # The user does not wish to have a report generated; we will abort this operation by request.
 
@@ -3209,7 +3209,7 @@ class SevenZip
                                     " generate one (User Settings).");
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Current User Setting: $($this.__generateReport)`r`n" + `
+            [string] $logAdditionalMSG = ("Current User Setting: $($this.GetGenerateReport())`r`n" + `
                                         "`tRequested file to generate a report: $($archiveFile)");
 
             # Pass the information to the logging system
@@ -3912,7 +3912,7 @@ class SevenZip
 
 
         # Because the directories exists let's try to thrash the logs.
-        if(([CommonIO]::DeleteFile("$($this.__logPath)", $extLogs)) -eq $false)
+        if(([CommonIO]::DeleteFile("$($this.GetLogPath())", $extLogs)) -eq $false)
         {
             # Reached a failure upon removing the requested log files.
 
@@ -3947,7 +3947,7 @@ class SevenZip
 
         # Did the user also wanted to thrash the reports?
         if (($($expungeReports) -eq $true) -and `
-            ([CommonIO]::DeleteFile("$($this.__reportPath)", $extReports)) -eq $false)
+            ([CommonIO]::DeleteFile("$($this.GetReportPath())", $extReports)) -eq $false)
         {
             # Reached a failure upon removing the requested log files.
 

@@ -316,7 +316,7 @@
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("User Configuration Directory:`r`n" + `
-                                        "`t`tThe User Configuration Directory is:`t`t$($this.__configPath)`r`n");
+                                        "`t`tThe User Configuration Directory is:`t`t$($this.GetConfigPath())`r`n");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
@@ -338,10 +338,10 @@
         #  check which directory does not exist and then try to create it.
 
         # User Configuration Directory
-        if(([CommonIO]::CheckPathExists("$($this.__configPath)", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists("$($this.GetConfigPath())", $true)) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (([CommonIO]::MakeDirectory("$($this.__configPath)")) -eq $false)
+            if (([CommonIO]::MakeDirectory("$($this.GetConfigPath())")) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -351,7 +351,7 @@
                 [string] $logMessage = "Couldn't create the User Configuration directory!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = "The User Configuration directory path is: $($this.__configPath)";
+                [string] $logAdditionalMSG = "The User Configuration directory path is: $($this.GetConfigPath())";
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -381,7 +381,7 @@
             [string] $logMessage = "Successfully created the User Configuration directory!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "User Configuration Directory: $($this.__configPath)";
+            [string] $logAdditionalMSG = "User Configuration Directory: $($this.GetConfigPath())";
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
@@ -412,7 +412,7 @@
             [string] $logMessage = "Failed to detect the User Configuration directory!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "User Configuration Directory: $($this.__configPath)";
+            [string] $logAdditionalMSG = "User Configuration Directory: $($this.GetConfigPath())";
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -450,7 +450,7 @@
     Hidden [bool] __CheckRequiredDirectories()
     {
         # Check the User Configuration Directory
-        return ([CommonIO]::CheckPathExists("$($this.__configPath)", $true) -eq $true);
+        return ([CommonIO]::CheckPathExists("$($this.GetConfigPath())", $true) -eq $true);
     } # __CheckRequiredDirectories()
 
     #endregion
@@ -516,7 +516,7 @@
             [string] $logMessage = "Unable to save the user's configuration file as the User Configuration Directory could not be created!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "User Configuration Directory: $($this.__configPath)";
+            [string] $logAdditionalMSG = "User Configuration Directory: $($this.GetConfigPath())";
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -539,7 +539,7 @@
         # Try to export the preferences and settings to the requested file.
         try
         {
-            Export-Clixml -Path "$($this.__configPath)\$($this.__configFileName)" `
+            Export-Clixml -Path "$($this.GetConfigPath())\$($this.GetConfigFileName())" `
                           -InputObject @($userPref, $gitObj, $sevenZipObj, $psArchive) `
                           -Encoding UTF8NoBOM `
                           -ErrorAction Stop;
@@ -553,8 +553,8 @@
             [string] $logMessage = "Successfully saved the user's configuration!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("User Configuration Directory: $($this.__configPath)`r`n" + `
-                                            "`tUser Configuration File: $($this.__configFileName)");
+            [string] $logAdditionalMSG = ("User Configuration Directory: $($this.GetConfigPath())`r`n" + `
+                                            "`tUser Configuration File: $($this.GetConfigFileName())");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
@@ -585,8 +585,8 @@
             [string] $logMessage = "Unable to save the user configuration!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("User Configuration Directory: $($this.__configPath)`r`n" + `
-                                        "`tUser Configuration File: $($this.__configFileName)`r`n" + `
+            [string] $logAdditionalMSG = ("User Configuration Directory: $($this.GetConfigPath())`r`n" + `
+                                        "`tUser Configuration File: $($this.GetConfigFileName())`r`n" + `
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
@@ -644,7 +644,7 @@
 
 
         # Make sure that the file exists at the given location.
-        if ([CommonIO]::CheckPathExists("$($this.__configPath)\$($this.__configFileName)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists("$($this.GetConfigPath())\$($this.GetConfigFileName())", $true) -eq $false)
         {
             # Because either the file or the directory does not exist at the provided location, we simply can not load anything.
 
@@ -657,8 +657,8 @@
             [string] $logMessage = "Unable to load the user's configuration file; User Configuration Directory or User Configuration File was not found!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("User Configuration Directory: $($this.__configPath)`r`n" +
-                                        "`tUser Configuration File: $($this.__configFileName)");
+            [string] $logAdditionalMSG = ("User Configuration Directory: $($this.GetConfigPath())`r`n" +
+                                        "`tUser Configuration File: $($this.GetConfigFileName())");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -683,7 +683,7 @@
         try
         {
             # Retrieve and cache the user's configuration file from the filesystem.
-            $cacheUserConfig = Import-Clixml -Path "$($this.__configPath)\$($this.__configFileName)" `
+            $cacheUserConfig = Import-Clixml -Path "$($this.GetConfigPath())\$($this.GetConfigFileName())" `
                                              -ErrorAction Stop;
 
             # Try to load the user's configuration into the objects safely.
@@ -700,8 +700,8 @@
                 [string] $logMessage = "Successfully loaded the user's configurations and is loaded into the program's environment!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("User Configuration Directory: $($this.__configPath)`r`n" +
-                                            "`tUser Configuration File: $($this.__configFileName)");
+                [string] $logAdditionalMSG = ("User Configuration Directory: $($this.GetConfigPath())`r`n" +
+                                            "`tUser Configuration File: $($this.GetConfigFileName())");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
@@ -735,8 +735,8 @@
 
                 # Generate any additional information that might be useful
                 [string] $logAdditionalMSG = ("The User Configuration file could be corrupted!`r`n" + `
-                                            "`tUser Configuration Directory: $($this.__configPath)`r`n" + `
-                                            "`tUser Configuration File: $($this.__configFileName)");
+                                            "`tUser Configuration Directory: $($this.GetConfigPath())`r`n" + `
+                                            "`tUser Configuration File: $($this.GetConfigFileName())");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -776,8 +776,8 @@
             [string] $logMessage = "Unable to load the user configuration!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("User Configuration Directory: $($this.__configPath)`r`n" + `
-                                        "`tUser Configuration File: $($this.__configFileName)`r`n" + `
+            [string] $logAdditionalMSG = ("User Configuration Directory: $($this.GetConfigPath())`r`n" + `
+                                        "`tUser Configuration File: $($this.GetConfigFileName())`r`n" + `
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system

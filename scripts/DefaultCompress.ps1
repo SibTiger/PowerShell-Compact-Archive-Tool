@@ -593,9 +593,9 @@ class DefaultCompress
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Default Compress Logging Directories:`r`n" + `
-                                        "`t`tThe Root Directory is:`t`t$($this.__rootLogPath)`r`n" + `
-                                        "`t`tThe Logging Directory is:`t$($this.__logPath)`r`n" + `
-                                        "`t`tThe Report Directory is:`t$($this.__reportPath)`r`n");
+                                        "`t`tThe Root Directory is:`t`t$($this.GetRootLogPath())`r`n" + `
+                                        "`t`tThe Logging Directory is:`t$($this.GetLogPath())`r`n" + `
+                                        "`t`tThe Report Directory is:`t$($this.GetReportPath())`r`n");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
@@ -617,10 +617,10 @@ class DefaultCompress
         #  check which directory does not exist and then try to create it.
 
         # Root Log Directory
-        if(([CommonIO]::CheckPathExists("$($this.__rootLogPath)", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists("$($this.GetRootLogPath())", $true)) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (([CommonIO]::MakeDirectory("$($this.__rootLogPath)")) -eq $false)
+            if (([CommonIO]::MakeDirectory("$($this.GetRootLogPath())")) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -630,7 +630,7 @@ class DefaultCompress
                 [string] $logMessage = "Couldn't create the Default Compress's (dotNET Core) root logging and report directory!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = "The root directory path is: $($this.__rootLogPath)";
+                [string] $logAdditionalMSG = "The root directory path is: $($this.GetRootLogPath())";
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -650,10 +650,10 @@ class DefaultCompress
 
 
         # Log Directory
-        if(([CommonIO]::CheckPathExists("$($this.__logPath)", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists("$($this.GetLogPath())", $true)) -eq $false)
         {
             # Log Directory does not exist, try to create it.
-            if (([CommonIO]::MakeDirectory("$($this.__logPath)")) -eq $false)
+            if (([CommonIO]::MakeDirectory("$($this.GetLogPath())")) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -663,7 +663,7 @@ class DefaultCompress
                 [string] $logMessage = "Couldn't create the Default Compress's (dotNET Core) logging directory!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = "The logging directory path is: $($this.__logPath)";
+                [string] $logAdditionalMSG = "The logging directory path is: $($this.GetLogPath())";
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -683,10 +683,10 @@ class DefaultCompress
 
 
         # Report Directory
-        if(([CommonIO]::CheckPathExists("$($this.__reportPath)", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists("$($this.GetReportPath())", $true)) -eq $false)
         {
             # Report Directory does not exist, try to create it.
-            if (([CommonIO]::MakeDirectory("$($this.__reportPath)")) -eq $false)
+            if (([CommonIO]::MakeDirectory("$($this.GetReportPath())")) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -696,7 +696,7 @@ class DefaultCompress
                 [string] $logMessage = "Couldn't create the Default Compress's (dotNET Core) report directory!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = "The report directory path is: $($this.__reportPath)";
+                [string] $logAdditionalMSG = "The report directory path is: $($this.GetReportPath())";
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -727,9 +727,9 @@ class DefaultCompress
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Default Compress Logging Directories:`r`n" + `
-                                        "`t`tThe Root Directory is:`t`t$($this.__rootLogPath)`r`n" + `
-                                        "`t`tThe Logging Directory is:`t$($this.__logPath)`r`n" + `
-                                        "`t`tThe Report Directory is:`t$($this.__reportPath)`r`n");
+                                            "`t`tThe Root Directory is:`t`t$($this.GetRootLogPath())`r`n" + `
+                                            "`t`tThe Logging Directory is:`t$($this.GetLogPath())`r`n" + `
+                                            "`t`tThe Report Directory is:`t$($this.GetReportPath())`r`n");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
@@ -759,9 +759,9 @@ class DefaultCompress
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Default Compress Logging Directories:`r`n" + `
-                                        "`t`tThe Root Directory was:`t`t$($this.__rootLogPath)`r`n" + `
-                                        "`t`tThe Logging Directory was:`t$($this.__logPath)`r`n" + `
-                                        "`t`tThe Report Directory was:`t$($this.__reportPath)`r`n");
+                                            "`t`tThe Root Directory is:`t`t$($this.GetRootLogPath())`r`n" + `
+                                            "`t`tThe Logging Directory is:`t$($this.GetLogPath())`r`n" + `
+                                            "`t`tThe Report Directory is:`t$($this.GetReportPath())`r`n");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -801,9 +801,9 @@ class DefaultCompress
     #>
     Hidden [bool] __CheckRequiredDirectories()
     {
-        return (([CommonIO]::CheckPathExists("$($this.__rootLogPath)", $true) -eq $true) -and   ` # Check the Root Log Directory
-                ([CommonIO]::CheckPathExists("$($this.__rootLogPath)", $true) -eq $true) -and   ` # Check the Report Path Directory
-                ([CommonIO]::CheckPathExists("$($this.__logPath)", $true) -eq $true));            # Check the Log Path Directory
+        return (([CommonIO]::CheckPathExists("$($this.GetRootLogPath())", $true) -eq $true) -and   ` # Check the Root Log Directory
+                ([CommonIO]::CheckPathExists("$($this.GetReportPath())", $true) -eq $true) -and    ` # Check the Report Path Directory
+                ([CommonIO]::CheckPathExists("$($this.GetLogPath())", $true) -eq $true));            # Check the Log Path Directory
     } # __CheckRequiredDirectories()
 
 
@@ -1359,9 +1359,9 @@ class DefaultCompress
 
 
             # Create the logfiles as requested
-            [CommonIO]::PSCMDLetLogging($this.__logPath, `          # Log path for the STDOUT logfile.
-                                        $this.__logPath, `          # Log path for the STDERR logfile.
-                                        $this.__reportPath, `       # Report path and filename.
+            [CommonIO]::PSCMDLetLogging($this.GetLogPath(), `       # Log path for the STDOUT logfile.
+                                        $this.GetLogPath(), `       # Log path for the STDERR logfile.
+                                        $this.GetReportPath(), `    # Report path and filename.
                                         $false, `                   # Is this a report?
                                         $false, `                   # Should we receive the STDOUT or STDERR for further processing?
                                         "$($execReason)", `         # Reason for using the CMDLet.
@@ -1706,15 +1706,15 @@ class DefaultCompress
 
 
             # Create the logfile as requested
-            [CommonIO]::PSCMDLetLogging($this.__logPath, `      # Log path for the STDOUT logfile.
-                                        $this.__logPath, `      # Log path for the STDERR logfile.
-                                        $this.__reportPath, `   # Report path and filename.
-                                        $false, `               # Is this a report?
-                                        $false, `               # Should we receive the STDOUT or STDERR for further processing?
-                                        "$($execReason)", `     # Reason for the operation.
-                                        $null, `                # Return the STDOUT/STDERR for further processing.
-                                        [ref] $strSTDOUT, `     # STDOUT output from the CMDLet.
-                                        [ref] $strSTDERR);      # STDERR output from the CMDLet.
+            [CommonIO]::PSCMDLetLogging($this.GetLogPath(), `       # Log path for the STDOUT logfile.
+                                        $this.GetLogPath(), `       # Log path for the STDERR logfile.
+                                        $this.GetReportPath(), `    # Report path and filename.
+                                        $false, `                   # Is this a report?
+                                        $false, `                   # Should we receive the STDOUT or STDERR for further processing?
+                                        "$($execReason)", `         # Reason for the operation.
+                                        $null, `                    # Return the STDOUT/STDERR for further processing.
+                                        [ref] $strSTDOUT, `         # STDOUT output from the CMDLet.
+                                        [ref] $strSTDERR);          # STDERR output from the CMDLet.
         } # if: Log Results
 
 
@@ -2245,9 +2245,9 @@ class DefaultCompress
 
 
                 # Create the logfiles as requested
-                [CommonIO]::PSCMDLetLogging($this.__logPath, `          # Log path for the STDOUT logfile.
-                                            $this.__logPath, `          # Log path for the STDERR logfile.
-                                            $this.__reportPath, `       # Report path and filename.
+                [CommonIO]::PSCMDLetLogging($this.GetLogPath(), `       # Log path for the STDOUT logfile.
+                                            $this.GetLogPath(), `       # Log path for the STDERR logfile.
+                                            $this.GetReportPath(), `    # Report path and filename.
                                             $false, `                   # Is this a report?
                                             $false, `                   # Should we receive the STDOUT or STDERR for further processing?
                                             "$($execReason)", `         # Reason for using the CMDLet.
@@ -2585,7 +2585,7 @@ class DefaultCompress
             # Create the archive datafile.
             Compress-Archive -Path "$($targetDirectory)" `
                              -DestinationPath "$($archiveFileName).$($archiveFileExtension)" `
-                             -CompressionLevel $this.__compressionLevel `
+                             -CompressionLevel $this.GetCompressionLevel() `
                              -ErrorAction Stop `
                              -PassThru `
                              -OutVariable execSTDOUT `
@@ -2704,15 +2704,15 @@ class DefaultCompress
 
 
                 # Create the logfiles
-                [CommonIO]::PSCMDLetLogging($this.__logPath, `
-                                    $this.__logPath, `
-                                    $this.__reportPath, `
-                                    $false, `
-                                    $false, `
-                                    "$($execReason)", `
-                                    $null, `
-                                    [ref] $strSTDOUT, `
-                                    [ref] $strSTDERR );
+                [CommonIO]::PSCMDLetLogging($this.GetLogPath(), `
+                                            $this.GetLogPath(), `
+                                            $this.GetReportPath(), `
+                                            $false, `
+                                            $false, `
+                                            "$($execReason)", `
+                                            $null, `
+                                            [ref] $strSTDOUT, `
+                                            [ref] $strSTDERR );
             } # if : User requested logging
         } # finally : Log the activity in the log files
 
@@ -2781,10 +2781,10 @@ class DefaultCompress
         # The following variables will hold the report's filename.
         # - - - -
         # >> Standard Textfile
-        [string] $fileNameTXT = "$($this.__reportPath)\$($fileNameExt) - $($dateTime).txt";
+        [string] $fileNameTXT = "$($this.GetReportPath())\$($fileNameExt) - $($dateTime).txt";
 
         # >> Portable Document File (PDF)
-        [string] $fileNamePDF = "$($this.__reportPath)\$($fileNameExt) - $($dateTime).pdf";
+        [string] $fileNamePDF = "$($this.GetReportPath())\$($fileNameExt) - $($dateTime).pdf";
         # - - - -
 
 
@@ -2819,7 +2819,7 @@ class DefaultCompress
 
 
         # Did the user want a report of an archive data file?
-        if ($this.__generateReport -eq $false)
+        if ($this.GetGenerateReport() -eq $false)
         {
             # The user does not wish to have a report generated; we will abort this operation by request.
 
@@ -2833,7 +2833,7 @@ class DefaultCompress
                                     " generate one (User Settings).");
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Current User Setting: $($this.__generateReport)`r`n" + `
+            [string] $logAdditionalMSG = ("Current User Setting: $($this.GetGenerateReport())`r`n" + `
                                         "`tRequested file to generate a report: $($archiveFile)");
 
             # Pass the information to the logging system
@@ -3537,7 +3537,7 @@ class DefaultCompress
 
 
         # Because the directories exists - let's try to thrash the logs.
-        if(([CommonIO]::DeleteFile("$($this.__logPath)", $extLogs)) -eq $false)
+        if(([CommonIO]::DeleteFile("$($this.GetLogPath())", $extLogs)) -eq $false)
         {
             # Reached a failure upon removing the requested log files.
 
@@ -3572,7 +3572,7 @@ class DefaultCompress
 
         # Did the user also wanted to thrash the reports?
         if (($($expungeReports) -eq $true) -and `
-            ([CommonIO]::DeleteFile("$($this.__reportPath)", $extReports)) -eq $false)
+            ([CommonIO]::DeleteFile("$($this.GetReportPath())", $extReports)) -eq $false)
         {
             # Reached a failure upon removing the requested log files.
 

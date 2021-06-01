@@ -786,9 +786,9 @@ class GitControl
     #>
     Hidden [bool] __CheckRequiredDirectories()
     {
-        return (([CommonIO]::CheckPathExists("$($this.__rootLogPath)", $true) -eq $true) -and   ` # Check the Root Log Directory
-                ([CommonIO]::CheckPathExists("$($this.__reportPath)", $true) -eq $true) -and    ` # Check the Report Path Directory
-                ([CommonIO]::CheckPathExists("$($this.__logPath)", $true) -eq $true));            # Check the Log Path Directory
+        return (([CommonIO]::CheckPathExists("$($this.GetRootLogPath())", $true) -eq $true) -and   ` # Check the Root Log Directory
+                ([CommonIO]::CheckPathExists("$($this.GetReportPath())", $true) -eq $true) -and    ` # Check the Report Path Directory
+                ([CommonIO]::CheckPathExists("$($this.GetLogPath())", $true) -eq $true));            # Check the Log Path Directory
     } # __CheckRequiredDirectories()
 
 
@@ -836,9 +836,9 @@ class GitControl
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Git Logging Directories:`r`n" + `
-                                        "`t`tThe Root Directory is:`t`t$($this.__rootLogPath)`r`n" + `
-                                        "`t`tThe Logging Directory is:`t$($this.__logPath)`r`n" + `
-                                        "`t`tThe Report Directory is:`t$($this.__reportPath)`r`n");
+                                        "`t`tThe Root Directory is:`t`t$($this.GetRootLogPath())`r`n" + `
+                                        "`t`tThe Logging Directory is:`t$($this.GetLogPath())`r`n" + `
+                                        "`t`tThe Report Directory is:`t$($this.GetReportPath())`r`n");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
@@ -860,10 +860,10 @@ class GitControl
         #  check which directory does not exist and then try to create it.
 
         # Root Log Directory
-        if(([CommonIO]::CheckPathExists("$($this.__rootLogPath)", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists("$($this.GetRootLogPath())", $true)) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (([CommonIO]::MakeDirectory("$($this.__rootLogPath)")) -eq $false)
+            if (([CommonIO]::MakeDirectory("$($this.GetRootLogPath())")) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -873,7 +873,7 @@ class GitControl
                 [string] $logMessage = "Couldn't create the Git root logging and report directory!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = "The root directory path is: $($this.__rootLogPath)";
+                [string] $logAdditionalMSG = "The root directory path is: $($this.GetRootLogPath())";
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -893,10 +893,10 @@ class GitControl
 
 
         # Log Directory
-        if(([CommonIO]::CheckPathExists("$($this.__logPath)", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists("$($this.GetLogPath())", $true)) -eq $false)
         {
             # Log Directory does not exist, try to create it.
-            if (([CommonIO]::MakeDirectory("$($this.__logPath)")) -eq $false)
+            if (([CommonIO]::MakeDirectory("$($this.GetLogPath())")) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -906,7 +906,7 @@ class GitControl
                 [string] $logMessage = "Couldn't create the Git logging directory!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = "The logging directory path is: $($this.__logPath)";
+                [string] $logAdditionalMSG = "The logging directory path is: $($this.GetLogPath())";
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -926,10 +926,10 @@ class GitControl
 
 
         # Report Directory
-        if(([CommonIO]::CheckPathExists("$($this.__reportPath)", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists("$($this.GetReportPath())", $true)) -eq $false)
         {
             # Report Directory does not exist, try to create it.
-            if (([CommonIO]::MakeDirectory("$($this.__reportPath)")) -eq $false)
+            if (([CommonIO]::MakeDirectory("$($this.GetReportPath())")) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -939,7 +939,7 @@ class GitControl
                 [string] $logMessage = "Couldn't create the Git report directory!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = "The report directory path is: $($this.__reportPath)";
+                [string] $logAdditionalMSG = "The report directory path is: $($this.GetReportPath())";
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -970,9 +970,9 @@ class GitControl
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Git Logging Directories:`r`n" + `
-                                        "`t`tThe Root Directory is:`t`t$($this.__rootLogPath)`r`n" + `
-                                        "`t`tThe Logging Directory is:`t$($this.__logPath)`r`n" + `
-                                        "`t`tThe Report Directory is:`t$($this.__reportPath)`r`n");
+                                        "`t`tThe Root Directory is:`t`t$($this.GetRootLogPath())`r`n" + `
+                                        "`t`tThe Logging Directory is:`t$($this.GetLogPath())`r`n" + `
+                                        "`t`tThe Report Directory is:`t$($this.GetReportPath())`r`n");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
@@ -1004,9 +1004,9 @@ class GitControl
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Git Logging Directories:`r`n" + `
-                                        "`t`tThe Root Directory was:`t`t$($this.__rootLogPath)`r`n" + `
-                                        "`t`tThe Logging Directory was:`t$($this.__logPath)`r`n" + `
-                                        "`t`tThe Report Directory was:`t$($this.__reportPath)`r`n");
+                                        "`t`tThe Root Directory is:`t`t$($this.GetRootLogPath())`r`n" + `
+                                        "`t`tThe Logging Directory is:`t$($this.GetLogPath())`r`n" + `
+                                        "`t`tThe Report Directory is:`t$($this.GetReportPath())`r`n");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -1051,7 +1051,7 @@ class GitControl
     [bool] DetectGitExist()
     {
         # Make sure that the value is not empty (or null).
-        if ($null -eq $this.__executablePath)
+        if ($null -eq $this.GetExecutablePath())
         {
             # No value was provided; unable to perform a check as nothing was provided.
 
@@ -1064,7 +1064,7 @@ class GitControl
             [string] $logMessage = "Unable to find the Git executable as there was no path provided!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "Git Executable Path is: $($this.__executablePath)";
+            [string] $logAdditionalMSG = "Git Executable Path is: $($this.GetExecutablePath())";
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
@@ -1081,7 +1081,7 @@ class GitControl
 
 
         # Check if the Git executable was found.
-        if (([CommonIO]::DetectCommand("$($this.__executablePath)", "Application")) -eq $true)
+        if (([CommonIO]::DetectCommand("$($this.GetExecutablePath())", "Application")) -eq $true)
         {
             # Successfully located the Git executable.
 
@@ -1094,7 +1094,7 @@ class GitControl
             [string] $logMessage = "Successfully located the Git executable!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "Git Executable Path is: $($this.__executablePath)";
+            [string] $logAdditionalMSG = "Git Executable Path is: $($this.GetExecutablePath())";
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
@@ -1124,7 +1124,7 @@ class GitControl
             [string] $logMessage = "Unable to find the Git executable as the path was not valid!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "Git Executable Path is: $($this.__executablePath)";
+            [string] $logAdditionalMSG = "Git Executable Path is: $($this.GetExecutablePath())";
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
@@ -1455,7 +1455,7 @@ class GitControl
 
 
         # Did the user wanted the project's local repository to be updated?
-        if ($($this.__updateSource) -eq $false)
+        if ($($this.GetUpdateSource()) -eq $false)
         {
             # The user did not want the project's local repository to be updated; abort the operation.
 
@@ -1469,7 +1469,7 @@ class GitControl
 
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Current User Setting: $($this.__updateSource)`r`n" + `
+            [string] $logAdditionalMSG = ("Current User Setting: $($this.GetUpdateSource())`r`n" + `
                                         "`tPath of the Target Directory: $($projectPath)");
 
 
@@ -1488,12 +1488,12 @@ class GitControl
 
 
         # Execute the command
-        if ([CommonIO]::ExecuteCommand("$($this.__executablePath)", `       # Git Executable Path
+        if ([CommonIO]::ExecuteCommand("$($this.GetExecutablePath())", `    # Git Executable Path
                                         "$($extCMDArgs)", `                 # Arguments to update the local repo.
                                         "$($projectPath)", `                # The working directory that Git will start from.
-                                        "$($this.__logPath)", `             # The Standard Output Directory Path.
-                                        "$($this.__logPath)", `             # The Error Output Directory Path.
-                                        "$($this.__reportPath)", `          # The Report Directory Path.
+                                        "$($this.GetLogPath())", `          # The Standard Output Directory Path.
+                                        "$($this.GetLogPath())", `          # The Error Output Directory Path.
+                                        "$($this.GetReportPath())", `       # The Report Directory Path.
                                         "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
                                         $false, `                           # Are we building a report?
                                         $false, `                           # Do we need to capture the STDOUT so we can process it further?
@@ -1678,12 +1678,12 @@ class GitControl
 
 
         # Execute the command
-        if ([CommonIO]::ExecuteCommand("$($this.__executablePath)", `       # Git Executable Path
+        if ([CommonIO]::ExecuteCommand("$($this.GetExecutablePath())", `    # Git Executable Path
                                         "$($extCMDArgs)", `                 # Arguments to switch the local repo's branch
                                         "$($projectPath)", `                # The working directory that Git will start from.
-                                        "$($this.__logPath)", `             # The Standard Output Directory Path.
-                                        "$($this.__logPath)", `             # The Error Output Directory Path.
-                                        "$($this.__reportPath)", `          # The Report Directory Path.
+                                        "$($this.GetLogPath())", `          # The Standard Output Directory Path.
+                                        "$($this.GetLogPath())", `          # The Error Output Directory Path.
+                                        "$($this.GetReportPath())", `       # The Report Directory Path.
                                         "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
                                         $false, `                           # Are we building a report?
                                         $false, `                           # Do we need to capture the STDOUT so we can process it further?
@@ -1884,12 +1884,12 @@ class GitControl
 
 
         # Execute the command
-        if ([CommonIO]::ExecuteCommand("$($this.__executablePath)", `       # Git Executable Path
+        if ([CommonIO]::ExecuteCommand("$($this.GetExecutablePath)", `      # Git Executable Path
                                         "$($extCMDArgs)", `                 # Arguments to retrieve the Commit ID from Local Repo.
                                         "$($projectPath)", `                # The working directory that Git will start from.
-                                        "$($this.__logPath)", `             # The Standard Output Directory Path.
-                                        "$($this.__logPath)", `             # The Error Output Directory Path.
-                                        "$($this.__reportPath)", `          # The Report Directory Path.
+                                        "$($this.GetLogPath())", `          # The Standard Output Directory Path.
+                                        "$($this.GetLogPath())", `          # The Error Output Directory Path.
+                                        "$($this.GetReportPath())", `       # The Report Directory Path.
                                         "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
                                         $false, `                           # Are we building a report?
                                         $true, `                            # Do we need to capture the STDOUT so we can process it further?
@@ -2081,7 +2081,7 @@ class GitControl
 
 
         # Did the user requested a Changelog from the Commit History of the project's repository?
-        if ($this.__fetchChangelog -eq $false)
+        if ($this.GetFetchChangelog() -eq $false)
         {
             # The user does not wish to have a Changelog file; we will abort this operation by request via User Settings.
 
@@ -2095,7 +2095,7 @@ class GitControl
 
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Current User Setting: $($this.__fetchChangelog)`r`n" + `
+            [string] $logAdditionalMSG = ("Current User Setting: $($this.GetFetchChangelog())`r`n" + `
                                         "`tPath of the Target Directory: $($projectPath)");
 
 
@@ -2119,7 +2119,7 @@ class GitControl
         # How many commits are to be fetched from the project's local repository?
 
         # Retrieve all the commits that had ever been made to the Project's local repository?
-        if ($this.__changelogLimit -eq 0)
+        if ($this.GetChangelogLimit() -eq 0)
         {
             # User wants all the commits that had been made within the project's current selected branch from the localized repository.
             #  To provide this request - assure that the Changelog History Size is $null.
@@ -2129,10 +2129,10 @@ class GitControl
 
         # Make sure that the Changelog History size is not a negative number.  If it were to be negative - then simply negate the negative
         #  integer.
-        ElseIf($this.__changelogLimit -lt 0)
+        ElseIf($this.GetChangelogLimit() -lt 0)
         {
             # Negate the negative number; we will output the result to the logfile.
-            $changelogSize = "$($this.__changelogLimit * (-1))";
+            $changelogSize = "$($this.GetChangelogLimit() * (-1))";
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2143,7 +2143,7 @@ class GitControl
             [string] $logMessage = "The User's Commit History Limit setting is a negative integer.";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("User's Commit History Limit setting is: $($this.__changelogLimit)`r`n" + `
+            [string] $logAdditionalMSG = ("User's Commit History Limit setting is: $($this.GetChangelogLimit())`r`n" + `
                                         "`tTemporary Commit History Limit (Used in this operation): $($changelogSize)`r`n" + `
                                         "`tPath of the Project Directory: $($projectPath)");
 
@@ -2165,7 +2165,7 @@ class GitControl
         else
         {
             # Because the User's Setting is greater than zero, we will merely use the integer as is with no alterations necessary.
-            $changelogSize = " -$($this.__changelogLimit)";
+            $changelogSize = " -$($this.GetChangelogLimit())";
         } # Else : Number is greater than Zero
 
 
@@ -2185,11 +2185,11 @@ class GitControl
 
 
         # Execute the command
-        if([CommonIO]::ExecuteCommand("$($this.__executablePath)", `        # Git Executable Path
+        if([CommonIO]::ExecuteCommand("$($this.GetExecutablePath())", `     # Git Executable Path
                                         "$($extCMDArgs)", `                 # Arguments to retrieve the Changelog\Commit History.
                                         "$($projectPath)", `                # The working directory that Git will start from.
-                                        "$($this.__logPath)", `             # The Standard Output Directory Path.
-                                        "$($this.__logPath)", `             # The Error Output Directory Path.
+                                        "$($this.GetLogPath())", `          # The Standard Output Directory Path.
+                                        "$($this.GetLogPath())", `          # The Error Output Directory Path.
                                         "$($changelogPath)", `              # The Report Directory Path.
                                         "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
                                         $true, `                            # Are we building a report?
@@ -2369,16 +2369,16 @@ class GitControl
 
 
         # Execute the command
-        if ([CommonIO]::ExecuteCommand("$($this.__executablePath)", `   # Git Executable Path
-                                    "$($extCMDArgs)", `                 # Arguments to retrieve the Active Branch
-                                    "$($projectPath)", `                # The working directory that Git will start from.
-                                    "$($this.__logPath)", `             # The Standard Output Directory Path.
-                                    "$($this.__logPath)", `             # The Error Output Directory Path.
-                                    "$($this.__reportPath)", `          # The Report Directory Path.
-                                    "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
-                                    $false, `                           # Are we building a report?
-                                    $true, `                            # Do we need to capture the STDOUT so we can process it further?
-                                    [ref]$outputResult) -ne 0)          # Variable containing the STDOUT; if we need to process it.
+        if ([CommonIO]::ExecuteCommand("$($this.GetExecutablePath())", `    # Git Executable Path
+                                    "$($extCMDArgs)", `                     # Arguments to retrieve the Active Branch
+                                    "$($projectPath)", `                    # The working directory that Git will start from.
+                                    "$($this.GetLogPath())", `              # The Standard Output Directory Path.
+                                    "$($this.GetLogPath())", `              # The Error Output Directory Path.
+                                    "$($this.GetReportPath())", `           # The Report Directory Path.
+                                    "$($execReason)", `                     # The reason why we are running Git; used for logging purposes.
+                                    $false, `                               # Are we building a report?
+                                    $true, `                                # Do we need to capture the STDOUT so we can process it further?
+                                    [ref]$outputResult) -ne 0)              # Variable containing the STDOUT; if we need to process it.
         {
             # Failure to retrieve the currently active branch name from the local repository.
 
@@ -2553,16 +2553,16 @@ class GitControl
 
 
         # Execute the command
-        if ([CommonIO]::ExecuteCommand("$($this.__executablePath)", `   # Git Executable Path
-                                    "$($extCMDArgs)", `                 # Arguments to retrieve all of the available branches within the local repo.
-                                    "$($projectPath)", `                # The working directory that Git will start from.
-                                    "$($this.__logPath)", `             # The Standard Output Directory Path.
-                                    "$($this.__logPath)", `             # The Error Output Directory Path.
-                                    "$($this.__reportPath)", `          # The Report Directory Path.
-                                    "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
-                                    $false, `                           # Are we building a report?
-                                    $true, `                            # Do we need to capture the STDOUT so we can process it further?
-                                    [ref]$outputResult) -ne 0)          # Variable containing the STDOUT; if we need to process it.
+        if ([CommonIO]::ExecuteCommand("$($this.GetExecutablePath())", `    # Git Executable Path
+                                    "$($extCMDArgs)", `                     # Arguments to retrieve all of the available branches within the local repo.
+                                    "$($projectPath)", `                    # The working directory that Git will start from.
+                                    "$($this.GetLogPath())", `              # The Standard Output Directory Path.
+                                    "$($this.GetLogPath())", `              # The Error Output Directory Path.
+                                    "$($this.GetReportPath())", `           # The Report Directory Path.
+                                    "$($execReason)", `                     # The reason why we are running Git; used for logging purposes.
+                                    $false, `                               # Are we building a report?
+                                    $true, `                                # Do we need to capture the STDOUT so we can process it further?
+                                    [ref]$outputResult) -ne 0)              # Variable containing the STDOUT; if we need to process it.
         {
             # Failure to retrieve the currently active branch name from the local repository.
 
@@ -2765,16 +2765,16 @@ class GitControl
 
 
         # Execute the command
-        if ([CommonIO]::ExecuteCommand("$($this.__executablePath)", `   # Git Executable Path
-                                        "$($extCMDArgs)", `             # Arguments to retrieve the Last-Known Activity of all branches from the Remote Repo.
-                                        "$($projectPath)", `            # The working directory that Git will start from.
-                                        "$($this.__logPath)", `         # The Standard Output Directory Path.
-                                        "$($this.__logPath)", `         # The Error Output Directory Path.
-                                        "$($this.__reportPath)", `      # The Report Directory Path.
-                                        "$($execReason)", `             # The reason why we are running Git; used for logging purposes.
-                                        $false, `                       # Are we building a report?
-                                        $true, `                        # Do we need to capture the STDOUT so we can process it further?
-                                        [ref]$outputResult) -ne 0)      # Variable containing the STDOUT; if we need to process it.
+        if ([CommonIO]::ExecuteCommand("$($this.GetExecutablePath())", `    # Git Executable Path
+                                        "$($extCMDArgs)", `                 # Arguments to retrieve the Last-Known Activity of all branches from the Remote Repo.
+                                        "$($projectPath)", `                # The working directory that Git will start from.
+                                        "$($this.GetLogPath())", `          # The Standard Output Directory Path.
+                                        "$($this.GetLogPath())", `          # The Error Output Directory Path.
+                                        "$($this.GetReportPath())", `       # The Report Directory Path.
+                                        "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
+                                        $false, `                           # Are we building a report?
+                                        $true, `                            # Do we need to capture the STDOUT so we can process it further?
+                                        [ref]$outputResult) -ne 0)          # Variable containing the STDOUT; if we need to process it.
         {
             # Failure to retrieve the Last-Known Activity from the Branches on Remote Repo.
 
@@ -2955,16 +2955,16 @@ class GitControl
 
 
         # Execute the command
-        if ([CommonIO]::ExecuteCommand("$($this.__executablePath)", `   # Git Executable Path
-                                        "$($extCMDArgs)", `             # Arguments to retrieve a list of contributors that had been involved with the developments.
-                                        "$($projectPath)", `            # The working directory that Git will start from.
-                                        "$($this.__logPath)", `         # The Standard Output Directory Path.
-                                        "$($this.__logPath)", `         # The Error Output Directory Path.
-                                        "$($this.__reportPath)", `      # The Report Directory Path.
-                                        "$($execReason)", `             # The reason why we are running Git; used for logging purposes.
-                                        $false, `                       # Are we building a report?
-                                        $true, `                        # Do we need to capture the STDOUT so we can process it further?
-                                        [ref]$outputResult) -ne 0)      # Variable containing the STDOUT; if we need to process it.
+        if ([CommonIO]::ExecuteCommand("$($this.GetExecutablePath())", `    # Git Executable Path
+                                        "$($extCMDArgs)", `                 # Arguments to retrieve a list of contributors that had been involved with the developments.
+                                        "$($projectPath)", `                # The working directory that Git will start from.
+                                        "$($this.GetLogPath())", `          # The Standard Output Directory Path.
+                                        "$($this.GetLogPath())", `          # The Error Output Directory Path.
+                                        "$($this.GetReportPath())", `       # The Report Directory Path.
+                                        "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
+                                        $false, `                           # Are we building a report?
+                                        $true, `                            # Do we need to capture the STDOUT so we can process it further?
+                                        [ref]$outputResult) -ne 0)          # Variable containing the STDOUT; if we need to process it.
         {
             # Failure to retrieve a list of contributors.
 
@@ -3162,16 +3162,16 @@ class GitControl
 
 
         # Execute the command
-        if ([CommonIO]::ExecuteCommand("$($this.__executablePath)", `   # Git Executable Path
-                                        "$($extCMDArgs)", `             # Arguments to retrieve the History Line Graph with the appropriate formatting.
-                                        "$($projectPath)", `            # The working directory that Git will start from.
-                                        "$($this.__logPath)", `         # The Standard Output Directory Path.
-                                        "$($this.__logPath)", `         # The Error Output Directory Path.
-                                        "$($this.__reportPath)", `      # The Report Directory Path.
-                                        "$($execReason)", `             # The reason why we are running Git; used for logging purposes.
-                                        $false, `                       # Are we building a report?
-                                        $true, `                        # Do we need to capture the STDOUT so we can process it further?
-                                        [ref]$outputResult) -ne 0)      # Variable containing the STDOUT; if we need to process it.
+        if ([CommonIO]::ExecuteCommand("$($this.GetExecutablePath())", `    # Git Executable Path
+                                        "$($extCMDArgs)", `                 # Arguments to retrieve the History Line Graph with the appropriate formatting.
+                                        "$($projectPath)", `                # The working directory that Git will start from.
+                                        "$($this.GetLogPath())", `          # The Standard Output Directory Path.
+                                        "$($this.GetLogPath())", `          # The Error Output Directory Path.
+                                        "$($this.GetReportPath())", `       # The Report Directory Path.
+                                        "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
+                                        $false, `                           # Are we building a report?
+                                        $true, `                            # Do we need to capture the STDOUT so we can process it further?
+                                        [ref]$outputResult) -ne 0)          # Variable containing the STDOUT; if we need to process it.
         {
             # Failure to retrieve the History Line Graph
 
@@ -3254,10 +3254,10 @@ class GitControl
         # This will hold the report's filename.
         # - - - -
         # >> Standard Textfile
-        [string] $fileNameTXT = "$($this.__reportPath)\$([ProjectInformation]::projectName) - $($dateTime).txt";
+        [string] $fileNameTXT = "$($this.GetReportPath())\$([ProjectInformation]::projectName) - $($dateTime).txt";
 
         # >> Portable Document File (PDF)
-        [string] $fileNamePDF = "$($this.__reportPath)\$([ProjectInformation]::projectName) - $($dateTime).pdf";
+        [string] $fileNamePDF = "$($this.GetReportPath())\$([ProjectInformation]::projectName) - $($dateTime).pdf";
         # - - - -
 
 
@@ -3292,7 +3292,7 @@ class GitControl
 
 
         # Did the user want a report of the project's repository?
-        if ($this.__generateReport -eq $false)
+        if ($this.GetGenerateReport() -eq $false)
         {
             # The user does not wish to have a report generated; we will abort this operation by request.
 
@@ -3306,7 +3306,7 @@ class GitControl
                                     " generate one (User Settings).");
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Current User Setting: $($this.__generateReport)`r`n" + `
+            [string] $logAdditionalMSG = ("Current User Setting: $($this.GetGenerateReport())`r`n" + `
                                         "`tRequested repository to generate a report: $($projectPath)");
 
             # Pass the information to the logging system
@@ -3982,7 +3982,7 @@ class GitControl
 
 
         # Because the directories exist, let's try to thrash the logs.
-        if(([CommonIO]::DeleteFile("$($this.__logPath)", $extLogs)) -eq $false)
+        if(([CommonIO]::DeleteFile("$($this.GetLogPath())", $extLogs)) -eq $false)
         {
             # Reached a failure upon removing the requested log files.
 
@@ -4017,7 +4017,7 @@ class GitControl
 
         # Did the user also wanted to thrash the reports?
         if (($($expungeReports) -eq $true) -and `
-            ([CommonIO]::DeleteFile("$($this.__reportPath)", $extReports)) -eq $false)
+            ([CommonIO]::DeleteFile("$($this.GetReportPath())", $extReports)) -eq $false)
         {
             # Reached a failure upon removing the requested log files.
 
