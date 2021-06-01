@@ -1854,7 +1854,7 @@ class Settings7Zip
             #  the user to understand the current setting.
             switch ($sevenZip.GetCompressionLevel())
             {
-                ([SevenCompressionLevel]::Store)
+                ([SevenZipCompressionLevel]::Store)
                 {
                     # Set the message such that the user knows that the compression level is set to "Store".
                     $decipherNiceString = "I will have 7Zip only store the contents into an compiled build.";
@@ -1864,7 +1864,7 @@ class Settings7Zip
                 } # Store
 
 
-                ([SevenCompressionLevel]::Minimal)
+                ([SevenZipCompressionLevel]::Minimal)
                 {
                     # Set the message such that the user knows that the compression level is set to "Minimal".
                     $decipherNiceString = "I will have 7Zip use minimal compression while compiling the project build.";
@@ -1874,7 +1874,7 @@ class Settings7Zip
                 } # Minimal
 
 
-                ([SevenCompressionLevel]::Normal)
+                ([SevenZipCompressionLevel]::Normal)
                 {
                     # Set the message such that the user knows that the compression level is set to "Normal".
                     $decipherNiceString = "I will have 7Zip use normal compression while compiling the project build.";
@@ -1884,7 +1884,7 @@ class Settings7Zip
                 } # Normal
 
 
-                ([SevenCompressionLevel]::Maximum)
+                ([SevenZipCompressionLevel]::Maximum)
                 {
                     # Set the message such that the user knows that the compression level is set to "Maximum".
                     $decipherNiceString = "I will have 7Zip use the maximum possible compression while compiling the project build.";
@@ -2023,7 +2023,7 @@ class Settings7Zip
                 ($_ -eq "Store")}
             {
                 # Use the Store Compression Level
-                $sevenZip.SetCompressionLevel([SevenCompressionLevel]::Store);
+                $sevenZip.SetCompressionLevel([SevenZipCompressionLevel]::Store);
 
 
                 # Finished
@@ -2037,7 +2037,7 @@ class Settings7Zip
                 ($_ -eq "Minimal")}
             {
                 # Use the Minimal Compression Level
-                $sevenZip.SetCompressionLevel([SevenCompressionLevel]::Minimal);
+                $sevenZip.SetCompressionLevel([SevenZipCompressionLevel]::Minimal);
 
 
                 # Finished
@@ -2051,7 +2051,7 @@ class Settings7Zip
                 ($_ -eq "Normal")}
             {
                 # Use the Normal Compression Level
-                $sevenZip.SetCompressionLevel([SevenCompressionLevel]::Normal);
+                $sevenZip.SetCompressionLevel([SevenZipCompressionLevel]::Normal);
 
 
                 # Finished
@@ -2065,7 +2065,7 @@ class Settings7Zip
                 ($_ -eq "Maximum")}
             {
                 # Use the Maximum Compression Level
-                $sevenZip.SetCompressionLevel([SevenCompressionLevel]::Maximum);
+                $sevenZip.SetCompressionLevel([SevenZipCompressionLevel]::Maximum);
 
 
                 # Finished

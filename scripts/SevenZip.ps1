@@ -65,7 +65,7 @@ class SevenZip
                                     [SevenZipAlgorithmZip] $algorithmZip,               # Algorithm to use for ZIP
                                     [SevenZipAlgorithm7Zip] $algorithm7Zip,             # Algorithm to use for the 7Zip
                                     [bool] $useMultithread,                             # Use Multithreaded operations
-                                    [SevenCompressionLevel] $compressionLevel,          # Compression Level
+                                    [SevenZipCompressionLevel] $compressionLevel,          # Compression Level
                                     [bool] $verifyBuild,                                # Verify Archive datafile
                                     [bool] $generateReport)                             # Create report
     {
@@ -151,7 +151,7 @@ class SevenZip
     #   - 0 is no compression
     #   - 5 is standard compression
     #   - 9 is the maximum compression possible
-    Hidden [SevenCompressionLevel] $__compressionLevel;
+    Hidden [SevenZipCompressionLevel] $__compressionLevel;
 
 
     # Verify Build
@@ -228,7 +228,7 @@ class SevenZip
         $this.__useMultithread = $true;
 
         # Compression Level
-        $this.__compressionLevel = [SevenCompressionLevel]::Normal;
+        $this.__compressionLevel = [SevenZipCompressionLevel]::Normal;
 
         # Verify Build
         $this.__verifyBuild = $true;
@@ -258,7 +258,7 @@ class SevenZip
             [SevenZipAlgorithmZip] $algorithmZip,
             [SevenZipAlgorithm7Zip] $algorithm7Zip,
             [bool] $useMultithread,
-            [SevenCompressionLevel] $compressionLevel,
+            [SevenZipCompressionLevel] $compressionLevel,
             [bool] $verifyBuild,
             [bool] $generateReport)
     {
@@ -401,11 +401,11 @@ class SevenZip
     #  Returns the value of the 'Compression Level' variable.
     # -------------------------------
     # Output:
-    #  [SevenCompressionLevel] Compression Level
+    #  [SevenZipCompressionLevel] Compression Level
     #   The value of the 'Compression Level'.
     # -------------------------------
     #>
-    [SevenCompressionLevel] GetCompressionLevel()
+    [SevenZipCompressionLevel] GetCompressionLevel()
     {
         return $this.__compressionLevel;
     } # GetCompressionLevel()
@@ -688,7 +688,7 @@ class SevenZip
     #  Sets a new value for the 'Compression Level' variable.
     # -------------------------------
     # Input:
-    #  [SevenCompressionLevel] Compression Level
+    #  [SevenZipCompressionLevel] Compression Level
     #   The desired compression level for compacting newly generated
     #    archive data files.
     # -------------------------------
@@ -698,9 +698,9 @@ class SevenZip
     #   false = Failure; could not set a new value.
     # -------------------------------
     #>
-    [bool] SetCompressionLevel([SevenCompressionLevel] $newVal)
+    [bool] SetCompressionLevel([SevenZipCompressionLevel] $newVal)
     {
-        # Because the value must fit within the 'SevenCompressionLevel'
+        # Because the value must fit within the 'SevenZipCompressionLevel'
         #  datatype, there really is no point in checking if the new
         #  requested value is 'legal'.  Thus, we are going to trust the
         #  value and automatically return success.
@@ -2980,28 +2980,28 @@ class SevenZip
         # Now append the desired compression level
         switch ($this.GetCompressionLevel())
         {
-            ([SevenCompressionLevel]::Store)
+            ([SevenZipCompressionLevel]::Store)
             {
                 # No Compression
                 $extCMDArgs = "$($extCMDArgs) -mx=0";
                 break;
             } # Store {No Compression}
 
-            ([SevenCompressionLevel]::Minimal)
+            ([SevenZipCompressionLevel]::Minimal)
             {
                 # Minimal Compression
                 $extCMDArgs = "$($extCMDArgs) -mx=3";
                 break;
             } # Minimal Compression
 
-            ([SevenCompressionLevel]::Normal)
+            ([SevenZipCompressionLevel]::Normal)
             {
                 # Standard Compression
                 $extCMDArgs = "$($extCMDArgs) -mx=5";
                 break;
             } # Standard Compression
 
-            ([SevenCompressionLevel]::Maximum)
+            ([SevenZipCompressionLevel]::Maximum)
             {
                 # Maximum-as-possible Compression
                 $extCMDArgs = "$($extCMDArgs) -mx=9";
@@ -4108,10 +4108,10 @@ enum SevenZipAlgorithm7Zip
  #  - https://sevenzip.osdn.jp/chm/cmdline/switches/method.htm#SevenZipX
  # -------------------------------
  #>
-enum SevenCompressionLevel
+enum SevenZipCompressionLevel
 {
     Store = 0;          # Store [No Compression] {0}
     Minimal = 1;        # Minimal compression    {3}
     Normal = 2;         # Standard compression   {5}
     Maximum = 3;        # Maximum compression    {9}
-} # SevenCompressionLevel
+} # SevenZipCompressionLevel
