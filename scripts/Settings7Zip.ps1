@@ -83,7 +83,7 @@ class Settings7Zip
         # Find the 7Zip Application
         [CommonCUI]::DrawMenuItem('B', `
                                 "Browse for 7Zip", `
-                                "$($NULL)", `
+                                "Find the 7Zip Application on your computer.", `
                                 "$($NULL)", `
                                 $true);
 
@@ -115,7 +115,7 @@ class Settings7Zip
         # Allow or disallow the ability to use Multithreading
         [CommonCUI]::DrawMenuItem('M', `
                                 "Multithreaded Operations", `
-                                "$($NULL)", `
+                                "Allow 7Zip to utilize multithreaded operations.", `
                                 "$($NULL)", `
                                 $true);
 
@@ -123,7 +123,7 @@ class Settings7Zip
         # Determine the Compression Level
         [CommonCUI]::DrawMenuItem('C', `
                                 "Compression Level", `
-                                "$($NULL)", `
+                                "How tightly is the data compacted into the compressed file.", `
                                 "$($NULL)", `
                                 $true);
 
@@ -131,7 +131,7 @@ class Settings7Zip
         # Enable or disable the integrity check
         [CommonCUI]::DrawMenuItem('V', `
                                 "Verify Build after Compression", `
-                                "$($NULL)", `
+                                "Assure that the compressed file is healthy.", `
                                 "$($NULL)", `
                                 $true);
 
@@ -139,7 +139,7 @@ class Settings7Zip
         # Allow or disallow the ability to generate a new report
         [CommonCUI]::DrawMenuItem('R', `
                                 "Generate Report of Archive Datafile", `
-                                "$($NULL)", `
+                                "Provides detailed information regarding the newly generated compressed file.", `
                                 "$($NULL)", `
                                 $true);
 
@@ -147,7 +147,7 @@ class Settings7Zip
         # Help Documentation
         [CommonCUI]::DrawMenuItem('?', `
                                 "Help Documentation", `
-                                "$($NULL)", `
+                                "Access the PSCAT Wiki documentation online.", `
                                 "$($NULL)", `
                                 $true);
 
