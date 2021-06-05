@@ -83,17 +83,23 @@ class Settings7Zip
         #  meaning behind a particular setting.  Thus, instead of saying "True" or
         #  an enumerator value that is not easy to decipher, we can break it down in
         #  a way that it is easier to convey the point across to the user.
-        [string] $currentSettingCompressionLevel = $NULL;       # Compression Level
-        [string] $currentSettingVerifyBuild = $NULL;            # Verify Build
-        [string] $currentSettingGenerateReport = $NULL;         # Generate Report
-        [string] $currentSettingMultithreadedOperations = $NULL;
-        [string] $currentSettingCompressionMethod = $NULL;
-
-
+        [string] $currentSettingCompressionLevel = $NULL;           # Compression Level
+        [string] $currentSettingVerifyBuild = $NULL;                # Verify Build
+        [string] $currentSettingGenerateReport = $NULL;             # Generate Report
+        [string] $currentSettingMultithreadedOperations = $NULL;    # Multithreaded Operations
+        [string] $currentSettingCompressionMethod = $NULL;          # Compression Method
 
         # Retrieve the 7Zip object
         [SevenZip] $sevenZip = [SevenZip]::GetInstance();
         # ----------------------------------------
+
+
+        # Retrieve the current settings and determine the wording before we generate the menu.
+        [Settings7Zip]::DrawMenuDecipherCurrentSettings([ref] $currentSettingCompressionMethod, `           # Compression Level
+                                                        [ref] $currentSettingMultithreadedOperations, `     # Multithreaded Operations
+                                                        [ref] $currentSettingCompressionLevel, `            # Compression Level
+                                                        [ref] $currentSettingVerifyBuild, `                 # Verify Build
+                                                        [ref] $currentSettingGenerateReport);               # Generate Report
 
 
 
@@ -183,6 +189,214 @@ class Settings7Zip
         # Provide some extra padding
         [Logging]::DisplayMessage("`r`n");
     } # DrawMenu()
+
+
+
+
+   <# Draw Menu: Decipher Current Settings
+    # -------------------------------
+    # Documentation:
+    #  This function will essentially provide the current settings to the desired
+    #   user's preferences in a way that it is to be drawn onto the menu.  The
+    #   settings, either as boolean or enumerators, will be translated such that
+    #   the user can easily see the current value and make a determination if
+    #   they wish to alter their settings.
+    # -------------------------------
+    # Input:
+    #  [string] (REFERENCE) Compression Method
+    #   Determines which compression method will be used, either 7Zip or Zip.
+    #  [string] (REFERENCE) Multithreaded Operations
+    #   Specifies if 7Zip can utilize more than just one Core\Microprocessor from the host.
+    #  [string] (REFERENCE) Compression Level
+    #   Determines the current compression level that is presently configured.
+    #  [string] (REFERENCE) Verify Build
+    #   Determines if the newly generated build will be tested to assure its integrity.
+    #  [string] (REFERENCE) Generate Report
+    #   Determines if the user wanted a report of the newly generated report of the
+    #    newly generated compressed build.
+    # -------------------------------
+    #>
+    hidden static [void] DrawMenuDecipherCurrentSettings([ref] $compressionMethod, `        # Compression Method
+                                                        [ref] $multithreadedOperations, `   # Multithreaded Operations
+                                                        [ref] $compressionLevel, `          # Compression Level
+                                                        [ref] $verifyBuild, `               # Verify Build
+                                                        [ref] $generateReport)              # Generate Report
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the 7Zip object
+        [SevenZip] $sevenZip = [SevenZip]::GetInstance();
+        # ----------------------------------------
+
+
+        # Compression Method
+        switch ($sevenZip.GetCompressionMethod())
+        {
+            # Use Zip
+            ([SevenZipCompressionMethod]::Zip)
+            {
+                # Set the string that will be displayed
+                $compressionMethod.Value = "Zip [PK3]";
+
+                # Break from the switch
+                break;
+            } # Use Zip
+
+
+            # Use 7Zip
+            ([SevenZipCompressionMethod]::SevenZip)
+            {
+                # Set the string that will be displayed
+                $compressionMethod.Value = "7Zip [PK7]";
+
+                # Break from the switch
+                break;
+            } # Use 7Zip
+
+
+            # Unknown case
+            Default
+            {
+                # Set the string that will be displayed
+                $compressionMethod.Value = "ERROR";
+
+                # Break from the switch
+                break;
+            } # Error Case
+        } # Switch : Decipher Enumerator Value
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+        # Multithreaded Operations
+        # Allow 7Zip to use more than one Core\Microprocessor
+        if($sevenZip.GetUseMultithread())
+        {
+            # Set the string that will be displayed
+            $multithreadedOperations.Value = "Yes";
+        } # if: Use more than one Core\Processor
+
+        # Do not allow 7Zip to use more than one Core\Microprocessor
+        else
+        {
+            # Set the string that will be displayed
+            $multithreadedOperations.Value = "No";
+        } # else: Do not use more than one Core\Processor
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+        # Compression Level
+        switch ($sevenZip.GetCompressionLevel())
+        {
+            # Store; no compression
+            ([SevenZipCompressionLevel]::Store)
+            {
+                # Set the string that will be displayed
+                $compressionLevel.Value = "No Compression";
+
+                # Break from the switch
+                break;
+            } # Store - No Compression
+
+
+            # Minimal Compression
+            ([SevenZipCompressionLevel]::Minimal)
+            {
+                # Set the string that will be displayed
+                $compressionLevel.Value = "Fastest Compression";
+
+                # Break from the switch
+                break;
+            } # Minimal Compression
+
+
+            # Normal Compression
+            ([SevenZipCompressionLevel]::Normal)
+            {
+                # Set the string that will be displayed
+                $compressionLevel.Value = "Standard Compression";
+
+                # Break from the switch
+                break;
+            } # Normal Compression
+
+
+            # Maximum Compression
+            ([SevenZipCompressionLevel]::Maximum)
+            {
+                # Set the string that will be displayed
+                $compressionLevel.Value = "Optimal Compression";
+
+                # Break from the switch
+                break;
+            } # Maximum Compression
+
+
+            # Unknown case
+            Default
+            {
+                # Set the string that will be displayed
+                $compressionLevel.Value = "ERROR";
+
+                # Break from the switch
+                break;
+            } # Error Case
+        } # Switch : Decipher Enumerator Value
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+        # Verify Build
+        # Test the archive datafile's integrity
+        if ($sevenZip.GetVerifyBuild())
+        {
+            # The user wishes to have the archive datafile tested, to assure
+            #  that it was compressed correctly.
+            $verifyBuild.Value = "Yes";
+        } # if: Test Archive Datefile
+
+        # Do not test the archive datafile's integrity
+        else
+        {
+            # The user does not wish to have the archive datafile tested.
+            $verifyBuild.Value = "No";
+        } # else: Do not test Archive Datafile
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+        # Generate Report
+        # Provide a new report regarding the newly generated archive file
+        if ($sevenZip.GetGenerateReport())
+        {
+            # The user wants to have a report generated regarding the archive datafile.
+            $generateReport.Value = "Yes";
+        } # if: Create report
+
+        # Do not provide a new report regarding the newly generated archive file.
+        else
+        {
+            # The user does not want to have a report generated of the archive datafile.
+            $generateReport.Value = "No";
+        } # else: Do not create report
+    } # DrawMenuDecipherCurrentSettings()
 
 
 
