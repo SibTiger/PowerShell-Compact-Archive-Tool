@@ -112,7 +112,7 @@ class SettingsGeneralProgram
         # Find Project Path
         [CommonCUI]::DrawMenuItem('P', `
                                 "Locate Project Path", `
-                                "The directory that contains the $([ProjectInformation]::projectName) ($([ProjectInformation]::codeName)) source files", `
+                                "The directory that contains the $([ProjectInformation]::projectName) ($([ProjectInformation]::codeName)) project files", `
                                 "Project is located at: $($userPreferences.GetProjectPath())", `
                                 $true);
 
@@ -130,21 +130,21 @@ class SettingsGeneralProgram
         # Specify Compression Tool
         [CommonCUI]::DrawMenuItem('C', `
                                 "Compression Tool", `
-                                "The tool that will be used to generate a PK3 or PK7 ZDoom file.", `
+                                "Provides the ability to use a specific compression software to compile the $([ProjectInformation]::projectName) project files.", `
                                 "Desired Compression Tool to use: $($currentSettingCompressionTool)", `
                                 $true);
 
         # Allow or disallow Git Functionality
         [CommonCUI]::DrawMenuItem('G', `
                                 "Git Features", `
-                                "Utilize Git's unique features during compiling a ZDoom project", `
+                                "Utilize Git's unique features during compiling the $([ProjectInformation]::projectName) project", `
                                 "Ability to use Git Features is currently: $($currentSettingGitFeatures)", `
                                 $true);
 
         # Enable or disable the use of Windows Explorer features
         [CommonCUI]::DrawMenuItem('E', `
                                 "Graphical User Interface Features", `
-                                "Utilize graphical windows where possible [Windows Only]", `
+                                "Utilize Windows Explorer features where possible [Windows Only]", `
                                 "Ability to use Windows Explorer: $($currentSettingWindowsExplorer)", `
                                 $true);
 
