@@ -77,85 +77,105 @@ class Settings7Zip
     #>
     hidden static [void] DrawMenu()
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Here are some variables that are used to help the user to understand the
+        #  meaning behind a particular setting.  Thus, instead of saying "True" or
+        #  an enumerator value that is not easy to decipher, we can break it down in
+        #  a way that it is easier to convey the point across to the user.
+        [string] $currentSettingCompressionLevel = $NULL;       # Compression Level
+        [string] $currentSettingVerifyBuild = $NULL;            # Verify Build
+        [string] $currentSettingGenerateReport = $NULL;         # Generate Report
+        [string] $currentSettingMultithreadedOperations = $NULL;
+        [string] $currentSettingCompressionMethod = $NULL;
+
+
+
+        # Retrieve the 7Zip object
+        [SevenZip] $sevenZip = [SevenZip]::GetInstance();
+        # ----------------------------------------
+
+
+
         # Display the menu list
 
 
         # Find the 7Zip Application
         [CommonCUI]::DrawMenuItem('B', `
-                                "Browse for 7Zip", `
-                                "Find the 7Zip Application on your computer.", `
-                                "$($NULL)", `
+                                "Locate the 7Zip Application", `
+                                "Find the 7Zip application on your computer.", `
+                                "7Zip is located at: $($sevenZip.GetExecutablePath())", `
                                 $true);
 
 
         # Select a Compression Method
         [CommonCUI]::DrawMenuItem('S', `
-                                "Compression Method", `
-                                "$($NULL)", `
-                                "$($NULL)", `
+                                "Select Compression Method", `
+                                "Allows the ability to compact data using either Zip or 7Zip technology.", `
+                                "Use the desired Compression Method: $($currentSettingCompressionMethod)", `
                                 $true);
 
 
         # Select a Zip Algorithm
         [CommonCUI]::DrawMenuItem('Z', `
-                                "Zip Algorithm", `
-                                "$($NULL)", `
-                                "$($NULL)", `
+                                "Change Zip Algorithms", `
+                                "Allows the ability to use a different algorithm while using the Zip Compression Method", `
+                                "Current Zip Algorithm: $($sevenZip.GetAlgorithmZip())", `
                                 $true);
 
 
         # Select a 7Zip Algorithm
         [CommonCUI]::DrawMenuItem('7', `
-                                "7Zip Algorithm", `
-                                "$($NULL)", `
-                                "$($NULL)", `
+                                "Change 7Zip Algorithm", `
+                                "Allows the ability to use a different algorithm while using the 7Zip Compression Method", `
+                                "Current 7Zip Algorithm: $($sevenZip.GetAlgorithm7Zip())", `
                                 $true);
 
 
         # Allow or disallow the ability to use Multithreading
         [CommonCUI]::DrawMenuItem('M', `
-                                "Multithreaded Operations", `
-                                "Allow 7Zip to utilize multithreaded operations.", `
-                                "$($NULL)", `
+                                "Multithread Operations", `
+                                "Provides the ability to use more than one core or microprocessor.", `
+                                "Multithreaded Operations is presently: $($currentSettingMultithreadedOperations)", `
                                 $true);
 
 
-        # Determine the Compression Level
-        [CommonCUI]::DrawMenuItem('C', `
-                                "Compression Level", `
-                                "How tightly is the data compacted into the compressed file.", `
-                                "$($NULL)", `
+        # Specify Compression Level
+        [CommonCUI]::DrawMenuItem('C',
+                                "Compression Level",
+                                "How tightly is the data going to be compacted into the compressed file.",
+                                "Compression level to use: $($currentSettingCompressionLevel)", `
                                 $true);
 
 
-        # Enable or disable the integrity check
-        [CommonCUI]::DrawMenuItem('V', `
-                                "Verify Build after Compression", `
-                                "Assure that the compressed file is healthy.", `
-                                "$($NULL)", `
+        # Toggle the ability to check file's integrity
+        [CommonCUI]::DrawMenuItem('V',
+                                "Verify Build after Compression",
+                                "Assure that the data within the compressed file is healthy.",
+                                "Verify integrity of the newly generated build: $($currentSettingVerifyBuild)", `
                                 $true);
 
 
-        # Allow or disallow the ability to generate a new report
-        [CommonCUI]::DrawMenuItem('R', `
-                                "Generate Report of Archive Datafile", `
-                                "Provides detailed information regarding the newly generated compressed file.", `
-                                "$($NULL)", `
+        # Allow or disallow the ability to generate a report
+        [CommonCUI]::DrawMenuItem('R',
+                                "Generate Report of the Archive Datafile",
+                                "Provides a detailed report regarding the newly generated compressed file.",
+                                "Create a report of the newly generated build: $($currentSettingGenerateReport)", `
                                 $true);
 
 
         # Help Documentation
-        [CommonCUI]::DrawMenuItem('?', `
-                                "Help Documentation", `
-                                "Access the PSCAT Wiki documentation online.", `
+        [CommonCUI]::DrawMenuItem('?',
+                                "Help Documentation",
+                                "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Wiki documentation online.", `
                                 "$($NULL)", `
                                 $true);
 
 
         # Return back to the Main Menu
-        [CommonCUI]::DrawMenuItem('X', `
-                                "Go back to Main Menu", `
-                                "$($NULL)", `
+        [CommonCUI]::DrawMenuItem('X',
+                                "Go back to previous Menu",
+                                "$($NULL)",
                                 "$($NULL)", `
                                 $true);
 
