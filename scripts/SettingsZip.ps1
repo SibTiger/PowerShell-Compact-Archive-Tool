@@ -101,21 +101,21 @@ class SettingsZip
         # Specify Compression Level
         [CommonCUI]::DrawMenuItem('C',
                                 "Compression Level",
-                                "How tightly is the data compacted into the compressed file.",
+                                "How tightly is the data going to be compacted into the compressed file.",
                                 "Compression level to use: $($currentSettingCompressionLevel)", `
                                 $true);
 
         # Toggle the ability to check file's integrity
         [CommonCUI]::DrawMenuItem('V',
                                 "Verify Build after Compression",
-                                "Assure that the compressed file is healthy.",
+                                "Assure that the data within the compressed file is healthy.",
                                 "Verify integrity of the newly generated build: $($currentSettingVerifyBuild)", `
                                 $true);
 
         # Allow or disallow the ability to generate a report
         [CommonCUI]::DrawMenuItem('R',
-                                "Generate Report of Archive Datafile",
-                                "Provides detailed information regarding the newly generated compressed file.",
+                                "Generate Report of the Archive Datafile",
+                                "Provides a detailed report regarding the newly generated compressed file.",
                                 "Create a report of the newly generated build: $($currentSettingGenerateReport)", `
                                 $true);
 
