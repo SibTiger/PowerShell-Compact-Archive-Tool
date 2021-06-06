@@ -321,7 +321,7 @@ class SettingsGit
         else
         {
             # The user does not want us to have a report generated regarding the local repository.
-            $gitControl.Value = "No";
+            $generateReport.Value = "No";
         } # else: Do not create report
     } # DrawMenuDecipherCurrentSettings()
 
