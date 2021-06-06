@@ -1623,7 +1623,7 @@ class SettingsGit
         # Declarations and Initializations
         # ----------------------------------------
         # This will hold the new number provided by the user's input.
-        [int] $newSize = 0;
+        [string] $newSize = 0;
 
         # Retrieve the current instance of the Git object; this contains the user's settings
         #  when using the Git application.
@@ -1650,7 +1650,7 @@ class SettingsGit
             ("$($newSize)" -ne "x"))
         {
             # Set the new size accordingly
-            $gitControl.SetChangelogLimit($newSize);
+            $gitControl.SetChangelogLimit([int]$newSize);
         } # If : Cancel not Provided
     } # HistoryCommitSizeNewSize()
     #endregion
