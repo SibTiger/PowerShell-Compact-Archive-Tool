@@ -1847,21 +1847,22 @@ class SettingsGit
         } # If : Cancel not Provided
 
 
+
         # Input validation check
         # - - - - - - - - - - - - -
 
-        # Make sure that the input provided is not a negative number
-        if ([int32]$newSize -lt 0)
+        # Make sure that the user provided only numeric values; no symbols or alphabet characters
+        if ($newSize -notmatch "^\d+$")
         {
-            # 
-            [Logging]::DisplayMessage("Negative numbers cannot be used!");
+            # Not all of the characters are numeric based
+            [Logging]::DisplayMessage("Not a valid numeric value!");
 
             # Wait for the user to provide feedback; thus allowing the user to see the message.
             [Logging]::GetUserEnterKey();
 
             # Do not proceed any further
             return;
-        } # If: Input provided is a negative number
+        } # If: Input provided is not a valid
 
 
         # Set the new size accordingly
