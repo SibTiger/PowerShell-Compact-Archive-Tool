@@ -1348,7 +1348,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('D', `
                                 "Deflate", `
                                 "Standard compression algorithm; expeditiously compacts files and extracting resources at run-time.", `
-                                "Strengths: All general media", `
+                                "Best for: All general media", `
                                 $true);
 
 
@@ -1356,7 +1356,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('L', `
                                 "LZMA", `
                                 "Fastest ability to immediately decompress files at run-time, while takes much more time to compact files.", `
-                                "Strengths: All general media", `
+                                "Best for: All general media", `
                                 $true);
 
 
@@ -1364,7 +1364,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('B', `
                                 "BZip2", `
                                 "Compresses more efficiently than Deflate, but takes longer to compact the files into a container.", `
-                                "Strengths: Text files", `
+                                "Best for: Text files", `
                                 $true);
 
 
@@ -1634,7 +1634,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('2', `
                                 "LZMA2", `
                                 "Enhanced version of LZMA; provides multithreading functionalities.", `
-                                "Strengths: All general media", `
+                                "Best for: All general media", `
                                 $true);
 
 
@@ -1642,7 +1642,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('L', `
                                 "LZMA", `
                                 "Fastest ability to immediately decompress files at run-time, while takes much more time to compact files.", `
-                                "Strengths: All general media", `
+                                "Best for: All general media", `
                                 $true);
 
 
@@ -1650,7 +1650,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('B', `
                                 "BZip2", `
                                 "Compresses more efficiently than Deflate, but takes longer to compact the files into a container.", `
-                                "Strengths: Text files", `
+                                "Best for: Text files", `
                                 $true);
 
 
@@ -1658,7 +1658,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('P', `
                                 "PPMd", `
                                 "Compresses text-based data much more efficiently than the BZip2 algorithm, but takes longer to compact.", `
-                                "Strengths: Text files", `
+                                "Best for: Text files", `
                                 $true);
 
 
