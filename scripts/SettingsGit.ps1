@@ -573,16 +573,41 @@ class SettingsGit
     #>
     hidden static [bool] EvaluateExecuteUserRequest([string] $userRequest)
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # These variables will determine what menus are to be hidden from the user,
+        #  as the options are possibly not available or not ready for the user to
+        #  configure.
+        [bool] $showMenuLocateGit = $true;          # Locate Git
+        [bool] $showMenuUpdateSource = $true;       # Update Source
+        [bool] $showMenuCommitIDSize = $true;       # Commit ID Size
+        [bool] $showMenuRetrieveHistory = $true;    # Retrieve History
+        [bool] $showMenuHistorySize = $true;        # History Size
+        [bool] $ShowMenuGenerateReport = $true;     # Generate Report
+        # ----------------------------------------
+
+
+        # Determine what menus are available to the user.
+        [SettingsGit]::DrawMenuDetermineHiddenMenus([ref] $showMenuLocateGit, `         # Locate Git
+                                                    [ref] $showMenuUpdateSource, `      # Update Source
+                                                    [ref] $showMenuCommitIDSize, `      # Commit ID Size
+                                                    [ref] $showMenuRetrieveHistory, `   # Retrieve History
+                                                    [ref] $showMenuHistorySize, `       # History Size
+                                                    [ref] $ShowMenuGenerateReport);     # Generate Report
+
+
+
         switch ($userRequest)
         {
             # Browse for Git
             #  NOTE: Allow the user's request when they type: 'Browse for Git', 'Find Git',
             #           'Locate Git', 'Browse Git', as well as 'B'.
-            {($_ -eq "B") -or `
-                ($_ -eq "Browse for Git") -or `
-                ($_ -eq "Find Git") -or `
-                ($_ -eq "Locate Git") -or `
-                ($_ -eq "Browse Git")}
+            {($showMenuLocateGit) -and `
+                (($_ -eq "B") -or `
+                    ($_ -eq "Browse for Git") -or `
+                    ($_ -eq "Find Git") -or `
+                    ($_ -eq "Locate Git") -or `
+                    ($_ -eq "Browse Git"))}
             {
                 # Allow the user to locate the path to Git or verify Git's path.
                 [SettingsGit]::LocateGitPath()
@@ -597,10 +622,11 @@ class SettingsGit
             # Update Source
             #  NOTE: Allow the user's request when they type: 'Update Source', 'Update Project',
             #           'Update', as well as 'U'.
-            {($_ -eq "U") -or `
-                ($_ -eq "Update") -or `
-                ($_ -eq "Update Source") -or `
-                ($_ -eq "Update Project")}
+            {($showMenuUpdateSource) -and `
+                (($_ -eq "U") -or `
+                    ($_ -eq "Update") -or `
+                    ($_ -eq "Update Source") -or `
+                    ($_ -eq "Update Project"))}
             {
                 # Allow the user the ability to choose if they want to update the project's
                 #  source files or not to update the project's files.
@@ -616,9 +642,10 @@ class SettingsGit
             # Length of the Commit SHA ID
             #  NOTE: Allow the user's request when they type: 'Size', 'Size of Commit ID',
             #           as well as 'S'.
-            {($_ -eq "S") -or `
-                ($_ -eq "Size") -or `
-                ($_ -eq "Size of Commit ID")}
+            {($showMenuCommitIDSize) -and `
+                (($_ -eq "S") -or `
+                    ($_ -eq "Size") -or `
+                    ($_ -eq "Size of Commit ID"))}
             {
                 # Allow the user the ability to choose the size of the commit ID regarding the
                 #  project's repository.
@@ -634,9 +661,10 @@ class SettingsGit
             # History
             #  NOTE: Allow the user's request when they type: 'History', 'Changelog',
             #           as well as 'H'.
-            {($_ -eq "H") -or `
-                ($_ -eq "History") -or `
-                ($_ -eq "Changelog")}
+            {($showMenuRetrieveHistory) -and `
+                (($_ -eq "H") -or `
+                    ($_ -eq "History") -or `
+                    ($_ -eq "Changelog"))}
             {
                 # Allow the ability for the user to specify if they wish to have the history
                 #  changelog from the project's repository.
@@ -651,8 +679,9 @@ class SettingsGit
 
             # History Commit Size
             #  NOTE: Allow the user's request when they type: 'History Commit Size' or 'L'
-            {($_ -eq "L") -or `
-                ($_ -eq "History Commit Size")}
+            {($showMenuHistorySize) -and `
+                (($_ -eq "L") -or `
+                ($_ -eq "History Commit Size"))}
             {
                 # Allow the user to change how many commits are to be recorded into the
                 #  changelog history.
@@ -668,9 +697,10 @@ class SettingsGit
             # Generate Report of Project's Repository
             #  NOTE: Allow the user's request when they type: 'Report', 'Generate Report',
             #           as well as 'R'.
-            {($_ -eq "R") -or `
-                ($_ -eq "Generate Report") -or `
-                ($_ -eq "Report")}
+            {($ShowMenuGenerateReport) -and `
+                (($_ -eq "R") -or `
+                    ($_ -eq "Generate Report") -or `
+                    ($_ -eq "Report"))}
             {
                 # Allow the user the ability to request reports regarding the project's repository.
                 [SettingsGit]::GenerateReport();
