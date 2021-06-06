@@ -1233,7 +1233,7 @@ class SettingsGit
         # Enable the Update Source feature
         [CommonCUI]::DrawMenuItem('S', `
                                 "Short Commit SHA ID", `
-                                "$($NULL)", `
+                                "Contains about seven characters.", `
                                 "$($NULL)", `
                                 $true);
 
@@ -1241,7 +1241,7 @@ class SettingsGit
         # Disable the Update Source feature
         [CommonCUI]::DrawMenuItem('L', `
                                 "Long Commit SHA ID", `
-                                "$($NULL)", `
+                                "Contains about forty-one characters.", `
                                 "$($NULL)", `
                                 $true);
 
