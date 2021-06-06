@@ -1712,7 +1712,7 @@ class SettingsGit
         # Change the History Changelog Commit Size Limit
         [CommonCUI]::DrawMenuItem('C', `
                                 "Change changelog size limit", `
-                                "$($NULL)", `
+                                "Specifies how many commits will be recorded into the History Changelog file.", `
                                 "$($NULL)", `
                                 $true);
 
