@@ -1647,7 +1647,19 @@ class SettingsGit
         do
         {
             # Determine the current limit of how many commits are to be recorded in to the changelog file.
-            $decipherNiceString = "I will retrieve $($gitControl.GetChangelogLimit()) changes.";
+            if ($gitControl.GetChangelogLimit() -eq 0)
+            {
+                # Retrieve _ALL_ changes possible
+                $decipherNiceString = "I will retrieve all changes.";
+            } # If: Record all changes
+
+            # Retrieve only a specific number of commits
+            else
+            {
+                # Only retrieve a specific number
+                $decipherNiceString = "I will retrieve $($gitControl.GetChangelogLimit()) changes.";
+            } # else: Limited amount of commits to record
+
 
 
             # Clear the terminal of all previous text; keep the space clean so that it is easy
