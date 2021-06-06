@@ -77,51 +77,80 @@ class SettingsGit
     #>
     hidden static [void] DrawMenu()
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Here are some variables that are used to help the user to understand the
+        #  meaning behind a particular setting.  Thus, instead of saying "True" or
+        #  an enumerator value that is not easy to decipher, we can break it down in
+        #  a way that it is easier to convey the point across to the user.
+        [string] $currentSettingUpdateSource = $NULL;           # Update Source
+        [string] $currentSettingCommitIDLength = $NULL;         # Commit ID Size
+        [string] $currentSettingRetrieveHistory = $NULL;        # Retrieve History
+        [string] $currentSettingHistoryCommitSize = $NULL;      # Changelog Size
+        [string] $currentSettingGenerateReport = $NULL;         # Generate Report
+
+        # Retrieve the Git Control object
+        [GitControl] $gitControl = [GitControl]::GetInstance()
+        # ----------------------------------------
+
+
+        # Retrieve the current settings and determine the wording before we generate the menu.
+        [SettingsGit]::DrawMenuDecipherCurrentSettings([ref] $currentSettingUpdateSource, `         # Update Source
+                                                        [ref] $currentSettingCommitIDLength, `      # Commit ID Size
+                                                        [ref] $currentSettingRetrieveHistory, `     # Retrieve History
+                                                        [ref] $currentSettingHistoryCommitSize, `   # Changelog Size
+                                                        [ref] $currentSettingGenerateReport);       # Generate Report
+
+
         # Display the menu list
 
 
         # Find Git
         [CommonCUI]::DrawMenuItem('B', `
-                                "Browse for Git", `
-                                "$($NULL)", `
-                                "$($NULL)", `
+                                "Locate the Git Application", `
+                                "Find the Git application on your computer.", `
+                                "Git is located at: $($gitControl.GetExecutablePath())", `
                                 $true);
+
 
         # Allow or disallow the local repo. to be updated
         [CommonCUI]::DrawMenuItem('U', `
                                 "Update Source", `
-                                "$($NULL)", `
-                                "$($NULL)", `
+                                "Allows the ability to update $([ProjectInformation]::projectName) project files.", `
+                                "Update $([ProjectInformation]::projectName) project files: $($currentSettingUpdateSource)", `
                                 $true);
+
 
         # Determine length of Hash size
         [CommonCUI]::DrawMenuItem('S', `
                                 "Size of Commit ID", `
-                                "$($NULL)", `
-                                "$($NULL)", `
+                                "When retrieving the latest commit SHA1 Commit ID, it can come in two sizes: Small or Large.", `
+                                "The Commit ID Size to use: $($currentSettingCommitIDLength)", `
                                 $true);
+
 
         # Allow or disallow ability to retrieve changelog
         [CommonCUI]::DrawMenuItem('H', `
                                 "Retrieve History", `
-                                "$($NULL)", `
-                                "$($NULL)", `
+                                "Allows the ability to retrieve a history changelog of $([ProjectInformation]::projectName)'s development.", `
+                                "Obtain a changelog history of the project: $($currentSettingRetrieveHistory)", `
                                 $true);
+
 
         # Specify the length of changes retrieved
         [CommonCUI]::DrawMenuItem('L', `
                                 "History Commit Size", `
-                                "$($NULL)", `
-                                "$($NULL)", `
+                                "Specifies how many commits are to be recorded into the Changelog history file.", `
+                                "How many commits will be recorded: $($currentSettingHistoryCommitSize)", `
                                 $true);
+
 
         # Enable or disable the ability to generate a report
         [CommonCUI]::DrawMenuItem('R', `
                                 "Generate Report of Project Repository", `
-                                "$($NULL)", `
-                                "$($NULL)", `
+                                "Provides a detailed report regarding $([ProjectInformation]::projectName)'s development.", `
+                                "Create a report of the latest developments: $($currentSettingGenerateReport)", `
                                 $true);
-
 
 
         # Help Documentation
@@ -143,6 +172,158 @@ class SettingsGit
         # Provide some extra padding
         [Logging]::DisplayMessage("`r`n");
     } # DrawMenu()
+
+
+
+
+   <# Draw Menu: Decipher Current Settings
+    # -------------------------------
+    # Documentation:
+    #  This function will essentially provide the current settings to the desired
+    #   user's preferences in a way that it is to be drawn onto the menu.  The
+    #   settings, either as boolean or enumerators, will be translated such that
+    #   the user can easily see the current value and make a determination if
+    #   they wish to alter their settings.
+    # -------------------------------
+    # Input:
+    #  [string] (REFERENCE) Update Source
+    #   Specifies if the local repository is to be updated on the host.
+    #  [string] (REFERENCE) Commit ID Length
+    #   Determines which size of the SHA1 Commit ID is to be obtained.
+    #  [string] (REFERENCE) Retrieve History
+    #   Determines if the Changelog History is to be retrieved.
+    #  [string] (REFERENCE) History Commit Size
+    #   Determines how many commits are to be recorded into the Changelog.
+    #  [string] (REFERENCE) Generate Report
+    #   Determines if the user wanted a report of the project's latest developments.
+    # -------------------------------
+    #>
+    hidden static [void] DrawMenuDecipherCurrentSettings([ref] $updateSource, `         # Update Project Files
+                                                        [ref] $commitIDLength, `        # Commit ID Length
+                                                        [ref] $retrieveHistory, `       # Retrieve History
+                                                        [ref] $historyCommitSize, `     # History Commit Size
+                                                        [ref] $generateReport)          # Generate Report
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the Git Control object
+        [GitControl] $gitControl = [GitControl]::GetInstance()
+        # ----------------------------------------
+
+
+        # Update Source
+        # Allow the local repository to be updated
+        if ($gitControl.GetUpdateSource())
+        {
+            # Set the string that will be displayed
+            $updateSource.Value = "Yes";
+        } # if: Update project files
+
+        # Do not update the local repository
+        else
+        {
+            # Set the string that will be displayed
+            $updateSource.Value = "No";
+        } # else: Do not update the project files
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+        # Commit ID Length
+        switch ($gitControl.GetLengthCommitID())
+        {
+            # SHA1 Size: Short
+            ([GitCommitLength]::short)
+            {
+                # Set the string that will be displayed
+                $commitIDLength.Value = "Short";
+            } # Short
+
+
+            # SHA Size: Long
+            ([GitCommitLength]::long)
+            {
+                # Set the string that will be displayed
+                $commitIDLength.Value = "Long";
+            } # Long
+
+
+            # Unknown case
+            Default
+            {
+                # Set the string that will be displayed
+                $commitIDLength.Value = "ERROR";
+
+                # Break from the switch
+                break;
+            } # Error Case
+        } # Switch : Decipher Enumerator Value
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+        # Retrieve History Changelog
+        # Allow the ability to obtain the project's history changelog.
+        if ($gitControl.GetFetchChangelog())
+        {
+            # Set the string that will be displayed
+            $retrieveHistory.Value = "Yes";
+        } # if: Obtain a changelog
+
+        # Do not obtain the project's history changelog.
+        else
+        {
+            # Set the string that will be displayed
+            $retrieveHistory.Value = "No";
+        } # else: Do not obtain a changelog
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+        # Changelog History Size
+        # Are we supposed to retrieve all of the commits?
+        if ($gitControl.GetChangelogLimit() -eq 0)
+        {
+            # Set the string that will be displayed
+            $historyCommitSize.Value = "All commits";
+        } # If: Record all commits
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+        # Generate Report
+        # Provide a new report regarding the latest developments within
+        #  the local repository
+        if ($gitControl.GetGenerateReport())
+        {
+            # The user wants to have a report generated regarding the local repository.
+            $generateReport.Value = "Yes";
+        } # if: Create report
+
+        # Do not provide a new report regarding the latest developments
+        #  within the local repository
+        else
+        {
+            # The user does not want us to have a report generated regarding the local repository.
+            $gitControl.Value = "No";
+        } # else: Do not create report
+    } # DrawMenuDecipherCurrentSettings()
 
 
 
