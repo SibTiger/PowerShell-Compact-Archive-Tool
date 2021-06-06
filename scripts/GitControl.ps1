@@ -140,7 +140,7 @@ class GitControl
     #  With this variable, it will help to avoid clutter in the changelog by only limiting
     #  to just the recent activity or a focus range of history.  Setting the value to zero
     #  may allow for all changes to be logged.
-    Hidden [int] $__changelogLimit;
+    Hidden [uint32] $__changelogLimit;
 
 
     # Generate Report
@@ -233,7 +233,7 @@ class GitControl
                 [bool]$updateSource,
                 [GitCommitLength]$lengthCommitID,
                 [bool]$fetchChangelog,
-                [int]$changelogLimit,
+                [uint32]$changelogLimit,
                 [bool]$generateReport)
     {
         # Executable path to the Git.exe
@@ -351,11 +351,11 @@ class GitControl
     #  Returns the value of the 'Changelog History Limit' variable.
     # -------------------------------
     # Output:
-    #  [int] Changelog History Limit
+    #  [uint32] Changelog History Limit
     #   The value of the 'Changelog History Limit'.
     # -------------------------------
     #>
-    [int] GetChangelogLimit()
+    [uint32] GetChangelogLimit()
     {
         return $this.__changelogLimit;
     } # GetChangelogLimit()
@@ -590,7 +590,7 @@ class GitControl
     #  Sets a new value for the 'Changelog History Limit' variable.
     # -------------------------------
     # Input:
-    #  [int] Changelog History Limit
+    #  [uint32] Changelog History Limit
     #   A maximum limit of commits is shown within the Changelog history.
     # -------------------------------
     # Output:
@@ -599,19 +599,9 @@ class GitControl
     #   false = Failure; could not set a new value.
     # -------------------------------
     #>
-    [bool] SetChangelogLimit([int] $newVal)
+    [bool] SetChangelogLimit([uint32] $newVal)
     {
-        # Make sure the requested change is legal.
-        #  Prevent negative numbers
-        if ($newVal -lt 0)
-        {
-            # The request was a negative number, we can not
-            #  use it.  It must be a zero or non-negative
-            #  value.
-            return $false;
-        } # IF : Negative Value
-
-        # Legal number, we can use it.
+        # We will not need to worry about checking the value for inaccuracies
         $this.__changelogLimit = $newVal;
 
         # Successfully updated.

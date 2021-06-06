@@ -1007,7 +1007,7 @@
         try
         {
             # Set: Changelog Limit
-            $gitObj.SetChangelogLimit([int32]$cachedUserConfig[1].__changelogLimit);
+            $gitObj.SetChangelogLimit([uint32]$cachedUserConfig[1].__changelogLimit);
         } # Try : Load Value from Config
 
         # Error trying to load variable into the current program's instance.

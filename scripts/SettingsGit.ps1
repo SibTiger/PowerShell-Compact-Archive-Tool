@@ -1837,14 +1837,35 @@ class SettingsGit
         # Obtain the user's input
         $newSize = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
-        # Make sure that the user did not provide 'Cancel' or 'X'; we do not want to
-        #  store string\char values as an integer.
-        if (("$($newSize)" -ne "Cancel") -and `
-            ("$($newSize)" -ne "x"))
+
+        # Cancel the operation if the user provided 'Cancel' or 'X'
+        if (("$($newSize)" -eq "Cancel") -or `
+            ("$($newSize)" -eq "x"))
         {
-            # Set the new size accordingly
-            $gitControl.SetChangelogLimit([int]$newSize);
+            # Abort the operation
+            return;
         } # If : Cancel not Provided
+
+
+        # Input validation check
+        # - - - - - - - - - - - - -
+
+        # Make sure that the input provided is not a negative number
+        if ([int32]$newSize -lt 0)
+        {
+            # 
+            [Logging]::DisplayMessage("Negative numbers cannot be used!");
+
+            # Wait for the user to provide feedback; thus allowing the user to see the message.
+            [Logging]::GetUserEnterKey();
+
+            # Do not proceed any further
+            return;
+        } # If: Input provided is a negative number
+
+
+        # Set the new size accordingly
+        $gitControl.SetChangelogLimit([uint32]$newSize);
     } # HistoryCommitSizeNewSize()
     #endregion
 
