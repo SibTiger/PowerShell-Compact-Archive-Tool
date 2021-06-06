@@ -87,6 +87,33 @@ class Settings
     #>
     hidden static [void] DrawMainSettingsMenu()
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This will hold a message that will be displayed to the user, in which
+        #   it indicates the current value of the Show Hidden Menus and Options
+        #   variable.
+        # NOTE: Use a space character as default, so the spacing is consistent
+        #        in the menu.
+        [string] $currentValueShowHiddenMenus = " ";
+
+        # Retrieve the User Preference object.
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+        # ----------------------------------------
+
+
+
+        # Determine the current value of the "Show Hidden Menus and Options" and
+        #  prepare a nice message to the user indicating the current value.
+        # Display hidden menus and options
+        if ($userPreferences.GetShowHiddenMenu())
+        {
+            # We are displaying hidden menus to the user.
+            $currentValueShowHiddenMenus = "Showing all hidden menus";
+        } # if: Display Hidden Menus
+
+
+
+
         # Display the Main Settings Menu list
 
         # Generate Project and View Project Information
@@ -144,6 +171,14 @@ class Settings
                                 $true);
 
 
+        # Show or Hide Hidden Menus and Options
+        [CommonCUI]::DrawMenuItem('~', `
+                                "Toggle Hidden Menus", `
+                                "$($currentValueShowHiddenMenus)", `
+                                "$($NULL)", `
+                                $true);
+
+
         # Return back to the Main Menu
         [CommonCUI]::DrawMenuItem('X', `
                                 "Go back to Main Menu", `
@@ -175,6 +210,14 @@ class Settings
     #>
     hidden static [bool] EvaluateExecuteUserRequest([string] $userRequest)
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the User Preference object.
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+        # ----------------------------------------
+
+
+
         switch ($userRequest)
         {
             # Configure General Program Preferences
@@ -279,6 +322,17 @@ class Settings
                 # Finished
                 break;
             } # Access Help Program's Documentation
+
+
+
+            # Toggle the Show Hidden Menus and Options
+            #  NOTE: Allow the user's request when they type: "Toggle hidden menus" and "~"
+            {($_ -eq "~") -or `
+                ($_ -eq "Toggle hidden menus")}
+            {
+                # Toggle the Show Hidden Menus and Options
+                $userPreferences.SetShowHiddenMenu(-not($userPreferences.GetShowHiddenMenu()));
+            } # Toggle Show Hidden Menus
 
 
 
