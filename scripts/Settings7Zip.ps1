@@ -1544,7 +1544,7 @@ class Settings7Zip
             ([SevenZipAlgorithm7Zip]::LZMA2)
                 {
                     # Set the message such that the user knows that the 'LZMA2' algorithm is currently set.
-                    $decipherNiceString = "I will have 7Zip use the LZMA2 algorithm when compiling new builds.";
+                    $decipherNiceString = "I will have 7Zip use the LZMA2 algorithm when compiling new 7Zip builds.";
 
                     # Finished
                     break;
@@ -1554,7 +1554,7 @@ class Settings7Zip
                 ([SevenZipAlgorithm7Zip]::LZMA)
                 {
                     # Set the message such that the user knows that the 'LZMA' algorithm is currently set.
-                    $decipherNiceString = "I will have 7Zip use the LZMA algorithm when compiling new builds.";
+                    $decipherNiceString = "I will have 7Zip use the LZMA algorithm when compiling new 7Zip builds.";
 
                     # Finished
                     break;
@@ -1564,7 +1564,7 @@ class Settings7Zip
                 ([SevenZipAlgorithm7Zip]::BZip2)
                 {
                     # Set the message such that the user knows that the 'BZip2' algorithm is currently set.
-                    $decipherNiceString = "I will have 7Zip use the BZip2 algorithm when compiling new builds.";
+                    $decipherNiceString = "I will have 7Zip use the BZip2 algorithm when compiling new 7Zip builds.";
 
                     # Finished
                     break;
@@ -1574,7 +1574,7 @@ class Settings7Zip
                 ([SevenZipAlgorithm7Zip]::PPMd)
                 {
                     # Set the message such that the user knows that the 'PPMd' algorithm is currently set.
-                    $decipherNiceString = "I will have 7Zip use the PPMd algorithm when compiling new builds.";
+                    $decipherNiceString = "I will have 7Zip use the PPMd algorithm when compiling new 7Zip builds.";
 
                     # Finished
                     break;
@@ -1633,32 +1633,32 @@ class Settings7Zip
         # LZMA2
         [CommonCUI]::DrawMenuItem('2', `
                                 "LZMA2", `
-                                "$($NULL)", `
-                                "$($NULL)", `
+                                "Enhanced version of LZMA; provides multithreading functionalities.", `
+                                "Strengths: All general media", `
                                 $true);
 
 
         # LZMA
         [CommonCUI]::DrawMenuItem('L', `
                                 "LZMA", `
-                                "$($NULL)", `
-                                "$($NULL)", `
+                                "Fastest ability to immediately decompress files at run-time, while takes much more time to compact files.", `
+                                "Strengths: All general media", `
                                 $true);
 
 
         # BZip2
         [CommonCUI]::DrawMenuItem('B', `
                                 "BZip2", `
-                                "$($NULL)", `
-                                "$($NULL)", `
+                                "Compresses more efficiently than Deflate, but takes longer to compact the files into a container.", `
+                                "Strengths: Text files", `
                                 $true);
 
 
         # PPMd
         [CommonCUI]::DrawMenuItem('P', `
                                 "PPMd", `
-                                "$($NULL)", `
-                                "$($NULL)", `
+                                "Compresses text-based data much more efficiently than the BZip2 algorithm, but takes longer to compact.", `
+                                "Strengths: Text files", `
                                 $true);
 
 
