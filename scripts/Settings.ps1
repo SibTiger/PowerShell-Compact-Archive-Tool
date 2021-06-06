@@ -103,7 +103,7 @@ class Settings
             # Option is available, so display it on the settings main menu.
             #  Configure the dotNET Zip Archive settings
             [CommonCUI]::DrawMenuItem('Z', `
-                                    "Zip Preferences", `
+                                    "Zip Preferences [PK3 Builds Only]", `
                                     "Configure the Internal Zip's functionality and preferences.", `
                                     "$($NULL)", `
                                     $true);
@@ -116,7 +116,7 @@ class Settings
             # Option is available, so display it on the settings main menu.
             #  Configure the 7Zip Application settings
             [CommonCUI]::DrawMenuItem('7', `
-                                    "7Zip Preferences", `
+                                    "7Zip Preferences [PK3 or PK7 Builds]", `
                                     "Configure the 7Zip's functionality and preferences.", `
                                     "$($NULL)", `
                                     $true);
