@@ -89,6 +89,18 @@ class Settings7Zip
         [string] $currentSettingMultithreadedOperations = $NULL;    # Multithreaded Operations
         [string] $currentSettingCompressionMethod = $NULL;          # Compression Method
 
+        # These variables will determine what menus are to be hidden from the user,
+        #  as the options are possibly not available or not ready for the user to
+        #  configure.
+        [bool] $showMenuLocate7Zip = $true;             # Locate 7Zip
+        [bool] $showMenuCompressionMethod = $true;      # Compression Method
+        [bool] $showMenuZipAlgorithms = $true;          # Zip Algorithms
+        [bool] $showMenu7ZipAlgorithms = $true;         # 7Zip Algorithms
+        [bool] $showMenuMultithread = $true;            # Multithreaded Operations
+        [bool] $showMenuCompressionLevel = $true;       # Compression Level
+        [bool] $showMenuVerifyBuild = $true;            # Verify Build
+        [bool] $ShowMenuGenerateReport = $true;         # Generate Report
+
         # Retrieve the 7Zip object
         [SevenZip] $sevenZip = [SevenZip]::GetInstance();
         # ----------------------------------------
@@ -102,72 +114,107 @@ class Settings7Zip
                                                         [ref] $currentSettingGenerateReport);               # Generate Report
 
 
+        # Determine what menus are to be displayed to the user.
+        [Settings7Zip]::DrawMenuDetermineHiddenMenus([ref] $showMenuLocate7Zip, `           # Locate 7Zip
+                                                    [ref] $showMenuCompressionMethod, `     # Compression Method
+                                                    [ref] $showMenuZipAlgorithms, `         # Zip Algorithms
+                                                    [ref] $showMenu7ZipAlgorithms, `        # 7Zip Algorithms
+                                                    [ref] $showMenuMultithread, `           # Multithreaded Operations
+                                                    [ref] $showMenuCompressionLevel, `      # Compression Level
+                                                    [ref] $showMenuVerifyBuild, `           # Verify Build
+                                                    [ref] $ShowMenuGenerateReport);         # Generate Report
+
+
 
         # Display the menu list
 
 
         # Find the 7Zip Application
-        [CommonCUI]::DrawMenuItem('B', `
-                                "Locate the 7Zip Application", `
-                                "Find the 7Zip application on your computer.", `
-                                "7Zip is located at: $($sevenZip.GetExecutablePath())", `
-                                $true);
+        if ($showMenuLocate7Zip)
+        {
+            [CommonCUI]::DrawMenuItem('B', `
+                                    "Locate the 7Zip Application", `
+                                    "Find the 7Zip application on your computer.", `
+                                    "7Zip is located at: $($sevenZip.GetExecutablePath())", `
+                                    $true);
+        } # If: Show Locate 7Zip
 
 
         # Select a Compression Method
-        [CommonCUI]::DrawMenuItem('S', `
-                                "Select Compression Method", `
-                                "Allows the ability to compact data using either Zip or 7Zip technology.", `
-                                "Use the desired Compression Method: $($currentSettingCompressionMethod)", `
-                                $true);
+        if ($showMenuCompressionMethod)
+        {
+            [CommonCUI]::DrawMenuItem('S', `
+                                    "Select Compression Method", `
+                                    "Allows the ability to compact data using either Zip or 7Zip technology.", `
+                                    "Use the desired Compression Method: $($currentSettingCompressionMethod)", `
+                                    $true);
+        } # If: Show Compression Method
 
 
         # Select a Zip Algorithm
-        [CommonCUI]::DrawMenuItem('Z', `
-                                "Change Zip Algorithms", `
-                                "Allows the ability to use a different algorithm while using the Zip Compression Method", `
-                                "Current Zip Algorithm: $($sevenZip.GetAlgorithmZip())", `
-                                $true);
+        if ($showMenuZipAlgorithms)
+        {
+            [CommonCUI]::DrawMenuItem('Z', `
+                                    "Change Zip Algorithms", `
+                                    "Allows the ability to use a different algorithm while using the Zip Compression Method", `
+                                    "Current Zip Algorithm: $($sevenZip.GetAlgorithmZip())", `
+                                    $true);
+        } # If: Show Zip Algorithm
 
 
         # Select a 7Zip Algorithm
-        [CommonCUI]::DrawMenuItem('7', `
-                                "Change 7Zip Algorithm", `
-                                "Allows the ability to use a different algorithm while using the 7Zip Compression Method", `
-                                "Current 7Zip Algorithm: $($sevenZip.GetAlgorithm7Zip())", `
-                                $true);
+        if ($showMenu7ZipAlgorithms)
+        {
+            [CommonCUI]::DrawMenuItem('7', `
+                                    "Change 7Zip Algorithm", `
+                                    "Allows the ability to use a different algorithm while using the 7Zip Compression Method", `
+                                    "Current 7Zip Algorithm: $($sevenZip.GetAlgorithm7Zip())", `
+                                    $true);
+        } # If: Show 7Zip Algorithm
 
 
         # Allow or disallow the ability to use Multithreading
-        [CommonCUI]::DrawMenuItem('M', `
-                                "Multithread Operations", `
-                                "Provides the ability to use more than one core or microprocessor.", `
-                                "Multithreaded Operations is presently: $($currentSettingMultithreadedOperations)", `
-                                $true);
+        if ($showMenuMultithread)
+        {
+            [CommonCUI]::DrawMenuItem('M', `
+                                    "Multithread Operations", `
+                                    "Provides the ability to use more than one core or microprocessor.", `
+                                    "Multithreaded Operations is presently: $($currentSettingMultithreadedOperations)", `
+                                    $true);
+        } # If: Show Multithread
 
 
         # Specify Compression Level
-        [CommonCUI]::DrawMenuItem('C',
-                                "Compression Level",
-                                "How tightly is the data going to be compacted into the compressed file.",
-                                "Compression level to use: $($currentSettingCompressionLevel)", `
-                                $true);
+        if ($showMenuCompressionLevel)
+        {
+            [CommonCUI]::DrawMenuItem('C',
+                                    "Compression Level",
+                                    "How tightly is the data going to be compacted into the compressed file.",
+                                    "Compression level to use: $($currentSettingCompressionLevel)", `
+                                    $true);
+        } # If: Show Compression Level
 
 
         # Toggle the ability to check file's integrity
-        [CommonCUI]::DrawMenuItem('V',
-                                "Verify Build after Compression",
-                                "Assure that the data within the compressed file is healthy.",
-                                "Verify integrity of the newly generated build: $($currentSettingVerifyBuild)", `
-                                $true);
+        if ($showMenuVerifyBuild)
+        {
+            [CommonCUI]::DrawMenuItem('V',
+                                    "Verify Build after Compression",
+                                    "Assure that the data within the compressed file is healthy.",
+                                    "Verify integrity of the newly generated build: $($currentSettingVerifyBuild)", `
+                                    $true);
+        } # If: Show Verify Build
 
 
         # Allow or disallow the ability to generate a report
-        [CommonCUI]::DrawMenuItem('R',
-                                "Generate Report of the Archive Datafile",
-                                "Provides a detailed report regarding the newly generated compressed file.",
-                                "Create a report of the newly generated build: $($currentSettingGenerateReport)", `
-                                $true);
+        if ($ShowMenuGenerateReport)
+        {
+            [CommonCUI]::DrawMenuItem('R',
+                                    "Generate Report of the Archive Datafile",
+                                    "Provides a detailed report regarding the newly generated compressed file.",
+                                    "Create a report of the newly generated build: $($currentSettingGenerateReport)", `
+                                    $true);
+        } # If: Show Generate Report
 
 
         # Help Documentation
@@ -400,6 +447,278 @@ class Settings7Zip
 
 
 
+   <# Draw Menu: Determine Hidden Menus
+    # -------------------------------
+    # Documentation:
+    #  This function will determine what menus and options are to be displayed
+    #   to the user.  Menus can be considered hidden if a particular setting,
+    #   feature, or environment is not available to the user or is not considered
+    #   ready to be used.  This can happen if a parent feature had been disabled,
+    #   thus causes a sub-feature to be hidden from the user.
+    #  This helps to declutter the menu screen by hiding sub-menus from the user
+    #   in-which have no effect as the main feature is disabled or configured in
+    #   a way that has no real effect.
+    # -------------------------------
+    # Input:
+    #  [bool] (REFERENCE) Locate 7Zip
+    #   Browse for the 7Zip Application on the host system.
+    #  [bool] (REFERENCE) Compression Method
+    #   Provides the ability for the user to switch between Zip and 7Zip.
+    #  [bool] (REFERENCE) Zip Algorithm
+    #   Provides the ability to use a specific Zip Algorithm.
+    #  [bool] (REFERENCE) 7Zip Algorithm
+    #   Provides the ability to use a specific 7Zip Algorithm.
+    #  [bool] (REFERENCE) Multithread
+    #   Allows the ability to use multithreaded operations where available.
+    #  [bool] (REFERENCE) Compression Level
+    #   Determines how tightly to compact the data within the archive datafile.
+    #  [bool] (REFERENCE) Verify Build
+    #   Determines if the archive datafile is to undergo an integrity check.
+    #  [bool] (REFERENCE) Generate Report
+    #   Determines if the user wanted a report of the project's latest developments.
+    # -------------------------------
+    #>
+    hidden static [void] DrawMenuDetermineHiddenMenus([ref] $showMenuLocate7Zip, `          # Locate Git
+                                                    [ref] $showMenuCompressionMethod, `     # Compression Method
+                                                    [ref] $showMenuZipAlgorithms, `         # Zip Algorithms
+                                                    [ref] $showMenu7ZipAlgorithms, `        # 7Zip Algorithms
+                                                    [ref] $showMenuMultithread, `           # Multithreaded Operations
+                                                    [ref] $showMenuCompressionLevel, `      # Compression Level
+                                                    [ref] $showMenuVerifyBuild, `           # Verify Build
+                                                    [ref] $ShowMenuGenerateReport)          # Generate Report
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the 7Zip object
+        [SevenZip] $sevenZip = [SevenZip]::GetInstance();
+
+        # Retrieve the User Preferences object
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+
+        # To help us out later, we will use this variable to determine if multithreading
+        #  is possible on the system.
+        [bool] $multithreadSystemDetected = $false;
+        # ----------------------------------------
+
+
+
+        # Show Menu: Locate 7Zip
+        #  Always show Locate 7Zip
+        $showMenuLocate7Zip.Value = $true;
+
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+
+        # Show Menu: Compression Method
+        #  Show the Compression Method if the following conditions are true:
+        #   - Compression Tool is 7Zip
+        #   - Found 7Zip
+        #   OR
+        #   - Show Hidden Menus
+        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) `
+                -and $sevenZip.Detect7ZipExist()) `
+                -or $userPreferences.GetShowHiddenMenu())
+        {
+            $showMenuCompressionMethod.Value = $true;
+        } # If: Compression Method is Visible
+
+        # Compression Method is hidden
+        else
+        {
+            $showMenuCompressionMethod.Value = $false;
+        } # Else: Compression Method is Hidden
+
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+
+        # Show Menu: Zip Algorithm
+        #  Show the Zip Algorithm if the following conditions are true:
+        #   - Compression Tool is 7Zip
+        #   - Found 7Zip
+        #   - Compression Method is Zip
+        #   OR
+        #   - Show Hidden Menus
+        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and `
+            ($sevenZip.Detect7ZipExist()) -and `
+            ($sevenZip.GetCompressionMethod() -eq [SevenZipCompressionMethod]::Zip)) -or `
+                $userPreferences.GetShowHiddenMenu())
+        {
+            $showMenuZipAlgorithms.Value = $true;
+        } # If: Zip Algorithm is Visible
+
+        # Zip Algorithm is hidden
+        else
+        {
+            $showMenuZipAlgorithms.Value = $false;
+        } # Else: Zip Algorithm is Hidden
+
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+
+        # Show Menu: 7Zip Algorithm
+        #  Show the 7Zip Algorithm if the following conditions are true:
+        #   - Compression Tool is 7Zip
+        #   - Found 7Zip
+        #   - Compression Method is 7Zip
+        #   OR
+        #   - Show Hidden Menus
+        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and `
+            ($sevenZip.Detect7ZipExist()) -and `
+            ($sevenZip.GetCompressionMethod() -eq [SevenZipCompressionMethod]::SevenZip)) -or `
+                $userPreferences.GetShowHiddenMenu())
+        {
+            $showMenu7ZipAlgorithms.Value = $true;
+        } # If: 7Zip Algorithm is Visible
+
+        # 7Zip Algorithm is hidden
+        else
+        {
+            $showMenu7ZipAlgorithms.Value = $false;
+        } # Else: 7Zip Algorithm is Hidden
+
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+
+        # Try to determine if the host supports multithreaded operations.
+        if (((Get-CimInstance Win32_ComputerSystem).NumberOfProcessors -gt 1) -or `
+            ((Get-CimInstance Win32_ComputerSystem).NumberOfLogicalProcessors -gt 1))
+        {
+            # System supports multithreaded operations
+            $multithreadSystemDetected = $true;
+        } # If: System Supports Multithreading
+
+
+        # Show Menu: Multithreaded Operations
+        #  Show the Multithreaded Operations if the following conditions are true:
+        #   - Compression Tool is 7Zip
+        #   - Found 7Zip
+        #   - Detected more than one core\microprocessor
+        #   OR
+        #   - Show Hidden Menus
+        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) `
+                -and $sevenZip.Detect7ZipExist() -and $multithreadSystemDetected) `
+                -or $userPreferences.GetShowHiddenMenu())
+        {
+            $showMenuMultithread.Value = $true;
+        } # If: Multithreaded Operations is Visible
+
+        # Multithreaded Operations is hidden
+        else
+        {
+            $showMenuMultithread.Value = $false;
+        } # Else: Multithreaded Operations is Hidden
+
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+
+        # Show Menu: Compression Level
+        #  Show the Compression Level if the following conditions are true:
+        #   - Compression Tool is 7Zip
+        #   - Found 7Zip
+        #   OR
+        #   - Show Hidden Menus
+        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) `
+                -and $sevenZip.Detect7ZipExist()) `
+                -or $userPreferences.GetShowHiddenMenu())
+        {
+            $showMenuCompressionLevel.Value = $true;
+        } # If: Compression Level is Visible
+
+        # Compression Level is hidden
+        else
+        {
+            $showMenuCompressionLevel.Value = $false;
+        } # Else: Compression Level is Hidden
+
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+
+        # Show Menu: Verify Build
+        #  Show the Verify Build if the following conditions are true:
+        #   - Compression Tool is 7Zip
+        #   - Found 7Zip
+        #   OR
+        #   - Show Hidden Menus
+        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) `
+                -and $sevenZip.Detect7ZipExist()) `
+                -or $userPreferences.GetShowHiddenMenu())
+        {
+            $showMenuVerifyBuild.Value = $true;
+        } # If: Verify Build is Visible
+
+        # Verify Build is hidden
+        else
+        {
+            $showMenuVerifyBuild.Value = $false;
+        } # Else: Verify Build is Hidden
+
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+
+        # Show Menu: Generate Report
+        #  Show the Generate Report if the following conditions are true:
+        #   - Compression Tool is 7Zip
+        #   - Found 7Zip
+        #   OR
+        #   - Show Hidden Menus
+        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) `
+                -and $sevenZip.Detect7ZipExist()) `
+                -or $userPreferences.GetShowHiddenMenu())
+        {
+            $ShowMenuGenerateReport.Value = $true;
+        } # If: Generate Reports is Visible
+
+        # Generate Reports is hidden
+        else
+        {
+            $ShowMenuGenerateReport.Value = $false;
+        } # Else: Generate Reports is Hidden
+    } # DrawMenuDetermineHiddenMenus()
+
+
+
 
    <# Evaluate and Execute User's Request
     # -------------------------------
@@ -421,16 +740,45 @@ class Settings7Zip
     #>
     hidden static [bool] EvaluateExecuteUserRequest([string] $userRequest)
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # These variables will determine what menus are to be hidden from the user,
+        #  as the options are possibly not available or not ready for the user to
+        #  configure.
+        [bool] $showMenuLocate7Zip = $true;             # Locate 7Zip
+        [bool] $showMenuCompressionMethod = $true;      # Compression Method
+        [bool] $showMenuZipAlgorithms = $true;          # Zip Algorithms
+        [bool] $showMenu7ZipAlgorithms = $true;         # 7Zip Algorithms
+        [bool] $showMenuMultithread = $true;            # Multithreaded Operations
+        [bool] $showMenuCompressionLevel = $true;       # Compression Level
+        [bool] $showMenuVerifyBuild = $true;            # Verify Build
+        [bool] $ShowMenuGenerateReport = $true;         # Generate Report
+        # ----------------------------------------
+
+
+        # Determine what menus are available to the user.
+        [Settings7Zip]::DrawMenuDetermineHiddenMenus([ref] $showMenuLocate7Zip, `           # Locate 7Zip
+                                                    [ref] $showMenuCompressionMethod, `     # Compression Method
+                                                    [ref] $showMenuZipAlgorithms, `         # Zip Algorithms
+                                                    [ref] $showMenu7ZipAlgorithms, `        # 7Zip Algorithms
+                                                    [ref] $showMenuMultithread, `           # Multithreaded Operations
+                                                    [ref] $showMenuCompressionLevel, `      # Compression Level
+                                                    [ref] $showMenuVerifyBuild, `           # Verify Build
+                                                    [ref] $ShowMenuGenerateReport);         # Generate Report
+
+
+
         switch ($userRequest)
         {
             # Browse for 7Zip
             #  NOTE: Allow the user's request when they type: 'Browse for 7Zip', 'Find 7Zip',
             #           'Locate 7Zip', 'Browse 7Zip', as well as 'B'.
-            {($_ -eq "B") -or `
-                ($_ -eq "Browse for 7Zip") -or `
-                ($_ -eq "Find 7Zip") -or `
-                ($_ -eq "Locate 7Zip") -or `
-                ($_ -eq "Browse 7Zip")}
+            {($showMenuLocate7Zip) -and `
+                (($_ -eq "B") -or `
+                    ($_ -eq "Browse for 7Zip") -or `
+                    ($_ -eq "Find 7Zip") -or `
+                    ($_ -eq "Locate 7Zip") -or `
+                    ($_ -eq "Browse 7Zip"))}
             {
                 # Allow the user to locate the path to 7Zip or verify 7Zip's path.
                 [Settings7Zip]::Locate7ZipPath()
@@ -444,8 +792,9 @@ class Settings7Zip
 
             # Compression Method
             #  NOTE: Allow the user's request when they type: 'Compression Method' and 'S'.
-            {($_ -eq "S") -or `
-                ($_ -eq "Compression Method")}
+            {($showMenuCompressionMethod) -and `
+                (($_ -eq "S") -or `
+                    ($_ -eq "Compression Method"))}
             {
                 # Allow the user to configure the compression method when using 7Zip.
                 [Settings7Zip]::CompressionMethod();
@@ -459,8 +808,9 @@ class Settings7Zip
 
             # Zip Algorithm
             #  NOTE: Allow the user's request when they type: 'Zip Algorithm' and 'Z'.
-            {($_ -eq "Z") -or `
-                ($_ -eq "Zip Algorithm")}
+            {($showMenuZipAlgorithms) -and `
+                (($_ -eq "Z") -or `
+                    ($_ -eq "Zip Algorithm"))}
             {
                 # Allow the user to configure the Zip algorithm
                 [Settings7Zip]::AlgorithmsZip()
@@ -474,8 +824,9 @@ class Settings7Zip
 
             # 7Zip Algorithm
             #  NOTE: Allow the user's request when they type: '7Zip Algorithm' and '7'.
-            {($_ -eq "7") -or `
-                ($_ -eq "7Zip Algorithm")}
+            {($showMenu7ZipAlgorithms) -and `
+                (($_ -eq "7") -or `
+                    ($_ -eq "7Zip Algorithm"))}
             {
                 # Allow the user to configure the 7Zip algorithm
                 [Settings7Zip]::Algorithms7Zip()
@@ -490,9 +841,10 @@ class Settings7Zip
             # Multithreaded Operations
             #  NOTE: Allow the user's request when they type: 'Multithreaded Operations',
             #           'Multithread', as well as 'M'.
-            {($_ -eq "M") -or `
-                ($_ -eq "Multithreaded Operations") -or `
-                ($_ -eq "Multithread")}
+            {($showMenuMultithread) -and `
+                (($_ -eq "M") -or `
+                    ($_ -eq "Multithreaded Operations") -or `
+                    ($_ -eq "Multithread"))}
             {
                 # Allow the user to enable or disable the Multithread feature in 7Zip
                 [Settings7Zip]::UseMultithread();
@@ -506,8 +858,9 @@ class Settings7Zip
 
             # Compression Level
             #  NOTE: Allow the user's request when they type: 'Compression Level' and 'C'.
-            {($_ -eq "C") -or `
-                ($_ -eq "Compression Level")}
+            {($showMenuCompressionLevel) -and `
+                (($_ -eq "C") -or `
+                    ($_ -eq "Compression Level"))}
             {
                 # Allow the user to customize the compression level while using 7Zip.
                 [Settings7Zip]::CompressionLevel();
@@ -522,12 +875,13 @@ class Settings7Zip
             # Verify Build after Compression
             #  NOTE: Allow the user's request when they type: 'Verify Build after Compression', 'Verify',
             #           'Verify Build', 'Test Build', 'Test', as well as 'V'.
-            {($_ -eq "V") -or `
-                ($_ -eq "Verify Build after Compression") -or `
-                ($_ -eq "Verify") -or `
-                ($_ -eq "Verify Build") -or `
-                ($_ -eq "Test Build") -or `
-                ($_ -eq "Test")}
+            {($showMenuVerifyBuild) -and `
+                (($_ -eq "V") -or `
+                    ($_ -eq "Verify Build after Compression") -or `
+                    ($_ -eq "Verify") -or `
+                    ($_ -eq "Verify Build") -or `
+                    ($_ -eq "Test Build") -or `
+                    ($_ -eq "Test"))}
             {
                 # Allow the user the ability to verify a newly generated project build.
                 [Settings7Zip]::VerifyBuild();
@@ -542,10 +896,11 @@ class Settings7Zip
             # Generate Report of Archive Datafile
             #  NOTE: Allow the user's request when they type: 'Report', 'Generate Report',
             #           'Generate Report of Archive Datafile', as well as 'R'.
-            {($_ -eq "R") -or `
-                ($_ -eq "Generate Report") -or `
-                ($_ -eq "Report") -or `
-                ($_ -eq "Generate Report of Archive Datafile")}
+            {($ShowMenuGenerateReport) -and `
+                (($_ -eq "R") -or `
+                    ($_ -eq "Generate Report") -or `
+                    ($_ -eq "Report") -or `
+                    ($_ -eq "Generate Report of Archive Datafile"))}
             {
                 # Allow the user the ability to request reports for the newly generated archive datafile.
                 [SettingsZip]::GenerateReport();
