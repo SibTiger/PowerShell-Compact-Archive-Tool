@@ -1092,16 +1092,16 @@ class Settings7Zip
         # 7Zip Compression Data Structure
         [CommonCUI]::DrawMenuItem('7', `
                                 "7Zip", `
-                                "Use 7Zip compression.", `
-                                "$($NULL)", `
+                                "Use 7Zip compression to create PK7 files.", `
+                                "Offers the best compression possible, but retrieving resources at run-time takes much longer.", `
                                 $true);
 
 
         # Zip Compression Data Structure
         [CommonCUI]::DrawMenuItem('Z', `
                                 "Zip", `
-                                "Use ZZip compression.", `
-                                "$($NULL)", `
+                                "Use Zip compression to create PK3 files.", `
+                                "Provides the best run-time experience, but compression will not be as strong as 7Zip files.", `
                                 $true);
 
 
