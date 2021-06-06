@@ -995,6 +995,30 @@
 
 
 
+        # USER PREFERENCES -- SHOW HIDDEN MENUS AND OPTIONS
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
+        try
+        {
+            # Set: Show Hidden Menus and Options
+            $userPref.SetShowHiddenMenu([string]$cachedUserConfig[0].__showHiddenMenu);
+        } # Try : Load Value from Config
+
+        # Error trying to load variable into the current program's instance.
+        catch
+        {
+            # Because the value was unknown, we will keep what value is already stored.
+
+
+            # Provide error information to the user and logfile.
+            $this.__LoadStepWiseError("__showHiddenMenu", `                                     # The Variable Name
+                                    "User Preferences", `                                       # The Variable Category
+                                    "$([string]$cachedUserConfig[0].__showHiddenMenu)", `       # Value Stored in Config
+                                    "$([string]$userPref.GetShowHiddenMenu())", `               # Current Value
+                                    $_.Exception);                                              # Exception Details
+        } # Catch : Unknown Value from Config.
+
+
+
 
         # STEP 2 - GIT SETTINGS
         # -------------------------------------
