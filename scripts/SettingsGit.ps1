@@ -300,6 +300,13 @@ class SettingsGit
             $historyCommitSize.Value = "All commits";
         } # If: Record all commits
 
+        # Show the numeric value instead
+        else
+        {
+            # Set the string that will be displayed
+            $historyCommitSize.Value = [string]$gitControl.GetChangelogLimit();
+        } # else: Show numeric value
+
 
 
         # - - - - - - - - - - - - - - - - - - - - - -
