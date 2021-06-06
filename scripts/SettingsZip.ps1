@@ -86,6 +86,13 @@ class SettingsZip
         [string] $currentSettingCompressionLevel = $NULL;       # Compression Level
         [string] $currentSettingVerifyBuild = $NULL;            # Verify Build
         [string] $currentSettingGenerateReport = $NULL;         # Generate Report
+
+        # These variables will determine what menus are to be hidden from the user,
+        #  as the options are possibly not available or not ready for the user to
+        #  configure.
+        [bool] $showMenuCompressionLevel = $true;   # Compression Level
+        [bool] $showMenuVerifyBuild = $true;        # Verify Build
+        [bool] $ShowMenuGenerateReport = $true;     # Generate Report
         # ----------------------------------------
 
 
@@ -95,29 +102,47 @@ class SettingsZip
                                                         [ref] $currentSettingGenerateReport);
 
 
+        # Determine what menus are to be displayed to the user.
+        [SettingsZip]::DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionLevel, `  # Compression Level
+                                                    [ref] $showMenuVerifyBuild, `       # Verify Build
+                                                    [ref] $ShowMenuGenerateReport);     # Generate Report
+
+
 
         # Display the menu list
 
+
         # Specify Compression Level
-        [CommonCUI]::DrawMenuItem('C',
-                                "Compression Level",
-                                "How tightly is the data going to be compacted into the compressed file.",
-                                "Compression level to use: $($currentSettingCompressionLevel)", `
-                                $true);
+        if ($showMenuCompressionLevel)
+        {
+            [CommonCUI]::DrawMenuItem('C',
+                                    "Compression Level",
+                                    "How tightly is the data going to be compacted into the compressed file.",
+                                    "Compression level to use: $($currentSettingCompressionLevel)", `
+                                    $true);
+        } # If: Show Compression Level
+
 
         # Toggle the ability to check file's integrity
-        [CommonCUI]::DrawMenuItem('V',
-                                "Verify Build after Compression",
-                                "Assure that the data within the compressed file is healthy.",
-                                "Verify integrity of the newly generated build: $($currentSettingVerifyBuild)", `
-                                $true);
+        if ($showMenuVerifyBuild)
+        {
+            [CommonCUI]::DrawMenuItem('V',
+                                    "Verify Build after Compression",
+                                    "Assure that the data within the compressed file is healthy.",
+                                    "Verify integrity of the newly generated build: $($currentSettingVerifyBuild)", `
+                                    $true);
+        } # If: Show Verify Build
+
 
         # Allow or disallow the ability to generate a report
-        [CommonCUI]::DrawMenuItem('R',
-                                "Generate Report of the Archive Datafile",
-                                "Provides a detailed report regarding the newly generated compressed file.",
-                                "Create a report of the newly generated build: $($currentSettingGenerateReport)", `
-                                $true);
+        if ($ShowMenuGenerateReport)
+        {
+            [CommonCUI]::DrawMenuItem('R',
+                                    "Generate Report of the Archive Datafile",
+                                    "Provides a detailed report regarding the newly generated compressed file.",
+                                    "Create a report of the newly generated build: $($currentSettingGenerateReport)", `
+                                    $true);
+        } # If: Show Generate Report
 
 
         # Help Documentation
@@ -268,6 +293,121 @@ class SettingsZip
 
 
 
+   <# Draw Menu: Determine Hidden Menus
+    # -------------------------------
+    # Documentation:
+    #  This function will determine what menus and options are to be displayed
+    #   to the user.  Menus can be considered hidden if a particular setting,
+    #   feature, or environment is not available to the user or is not considered
+    #   ready to be used.  This can happen if a parent feature had been disabled,
+    #   thus causes a sub-feature to be hidden from the user.
+    #  This helps to declutter the menu screen by hiding sub-menus from the user
+    #   in-which have no effect as the main feature is disabled or configured in
+    #   a way that has no real effect.
+    # -------------------------------
+    # Input:
+    #  [bool] (REFERENCE) Compression Level
+    #   Defines how tightly to compact the data into the archive datafile
+    #  [bool] (REFERENCE) Verify Build
+    #   Specifies if the archive data file is undergo an integrity check.
+    #  [bool] (REFERENCE) Generate Report
+    #   Determines if the user wanted a report of the newly compiled build.
+    # -------------------------------
+    #>
+    hidden static [void] DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionLevel, `    # Locate Git
+                                                    [ref] $showMenuVerifyBuild, `           # Update Source
+                                                    [ref] $ShowMenuGenerateReport)          # Generate Report
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the Default Compress object
+        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+
+        # Retrieve the User Preferences object
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+        # ----------------------------------------
+
+
+
+        # Show Menu: Compression Level
+        #  Show the Compression Level if the following conditions are true:
+        #   - Selected Compression Level is Default
+        #   - Found Compression Module
+        #   OR
+        #   - Show Hidden Menus
+        if ((($userPreferences.GetCompressionTool -eq [UserPreferencesCompressTool]::Default) `
+                -and $defaultCompress.DetectCompressModule()) `
+            -or $userPreferences.GetShowHiddenMenu())
+        {
+            $showMenuCompressionLevel.Value = $true;
+        } # If: Compression Level is Visible
+
+        # Compression Level is Hidden
+        else
+        {
+            $showMenuCompressionLevel.Value = $false;
+        } # Else: Compression Level is Hidden
+
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+
+        # Show Menu: Verify Build
+        #  Show the Verify Build if the following conditions are true:
+        #   - Selected Compression Level is Default
+        #   - Found Compression Module
+        #   OR
+        #   - Show Hidden Menus
+        if ((($userPreferences.GetCompressionTool -eq [UserPreferencesCompressTool]::Default) `
+                -and $defaultCompress.DetectCompressModule()) `
+            -or $userPreferences.GetShowHiddenMenu())
+        {
+            $showMenuVerifyBuild.Value = $true;
+        } # If: Verify Build is Visible
+
+        # Verify Build is Hidden
+        else
+        {
+            $showMenuVerifyBuild.Value = $false;
+        } # Else: Verify Build is Hidden
+
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+
+        # Show Menu: Generate Report
+        #  Show the Generate Report if the following conditions are true:
+        #   - Selected Compression Level is Default
+        #   - Found Compression Module
+        #   OR
+        #   - Show Hidden Menus
+        if ((($userPreferences.GetCompressionTool -eq [UserPreferencesCompressTool]::Default) `
+                -and $defaultCompress.DetectCompressModule()) `
+            -or $userPreferences.GetShowHiddenMenu())
+        {
+            $ShowMenuGenerateReport.Value = $true;
+        } # If: Generate Report is Visible
+
+        # Generate Report is Hidden
+        else
+        {
+            $ShowMenuGenerateReport.Value = $false;
+        } # Else: Generate Report is Hidden
+    } # DrawMenuDetermineHiddenMenus()
+
+
+
+
    <# Evaluate and Execute User's Request
     # -------------------------------
     # Documentation:
@@ -288,12 +428,31 @@ class SettingsZip
     #>
     hidden static [bool] EvaluateExecuteUserRequest([string] $userRequest)
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # These variables will determine what menus are to be hidden from the user,
+        #  as the options are possibly not available or not ready for the user to
+        #  configure.
+        [bool] $showMenuCompressionLevel = $true;   # Compression Level
+        [bool] $showMenuVerifyBuild = $true;        # Verify Build
+        [bool] $ShowMenuGenerateReport = $true;     # Generate Report
+        # ----------------------------------------
+
+
+        # Determine what menus are to be displayed to the user.
+        [SettingsZip]::DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionLevel, `  # Compression Level
+                                                    [ref] $showMenuVerifyBuild, `       # Verify Build
+                                                    [ref] $ShowMenuGenerateReport);     # Generate Report
+
+
+
         switch ($userRequest)
         {
             # Compression Level
             #  NOTE: Allow the user's request when they type: 'Compression Level' and 'C'.
-            {($_ -eq "C") -or `
-                ($_ -eq "Compression Level")}
+            {($showMenuCompressionLevel) -and `
+                (($_ -eq "C") -or `
+                    ($_ -eq "Compression Level"))}
             {
                 # Allow the user to customize the compression level setting.
                 [SettingsZip]::CompressionLevel();
@@ -308,12 +467,13 @@ class SettingsZip
             # Verify Build after Compression
             #  NOTE: Allow the user's request when they type: 'Verify Build after Compression', 'Verify',
             #           'Verify Build', 'Test Build', 'Test', as well as 'V'.
-            {($_ -eq "V") -or `
-                ($_ -eq "Verify Build after Compression") -or `
-                ($_ -eq "Verify") -or `
-                ($_ -eq "Verify Build") -or `
-                ($_ -eq "Test Build") -or `
-                ($_ -eq "Test")}
+            {($showMenuVerifyBuild) -and `
+                (($_ -eq "V") -or `
+                    ($_ -eq "Verify Build after Compression") -or `
+                    ($_ -eq "Verify") -or `
+                    ($_ -eq "Verify Build") -or `
+                    ($_ -eq "Test Build") -or `
+                    ($_ -eq "Test"))}
             {
                 # Allow the user the ability to verify a newly generated project build.
                 [SettingsZip]::VerifyBuild();
@@ -328,10 +488,11 @@ class SettingsZip
             # Generate Report of Archive Datafile
             #  NOTE: Allow the user's request when they type: 'Report', 'Generate Report',
             #           'Generate Report of Archive Datafile', as well as 'R'.
-            {($_ -eq "R") -or `
-                ($_ -eq "Generate Report") -or `
-                ($_ -eq "Report") -or `
-                ($_ -eq "Generate Report of Archive Datafile")}
+            {($ShowMenuGenerateReport) -and `
+                (($_ -eq "R") -or `
+                    ($_ -eq "Generate Report") -or `
+                    ($_ -eq "Report") -or `
+                    ($_ -eq "Generate Report of Archive Datafile"))}
             {
                 # Allow the user the ability to request reports for the newly generated archive datafile.
                 [SettingsZip]::GenerateReport();
