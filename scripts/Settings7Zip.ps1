@@ -1270,7 +1270,7 @@ class Settings7Zip
                 ([SevenZipAlgorithmZip]::Deflate)
                 {
                     # Set the message such that the user knows that the 'Deflate' algorithm is currently set.
-                    $decipherNiceString = "I will have 7Zip use the Deflate algorithm when compiling new builds.";
+                    $decipherNiceString = "I will have 7Zip use the Deflate algorithm when compiling new Zip builds.";
 
                     # Finished
                     break;
@@ -1279,7 +1279,7 @@ class Settings7Zip
                 ([SevenZipAlgorithmZip]::LZMA)
                 {
                     # Set the message such that the user knows that the 'LZMA' algorithm is currently set.
-                    $decipherNiceString = "I will have 7Zip use the LZMA algorithm when compiling new builds.";
+                    $decipherNiceString = "I will have 7Zip use the LZMA algorithm when compiling new Zip builds.";
 
                     # Finished
                     break;
@@ -1288,7 +1288,7 @@ class Settings7Zip
                 ([SevenZipAlgorithmZip]::BZip2)
                 {
                     # Set the message such that the user knows that the 'BZip2' algorithm is currently set.
-                    $decipherNiceString = "I will have 7Zip use the BZip2 algorithm when compiling new builds.";
+                    $decipherNiceString = "I will have 7Zip use the BZip2 algorithm when compiling new Zip builds.";
 
                     # Finished
                     break;
@@ -1347,24 +1347,24 @@ class Settings7Zip
         # Deflate
         [CommonCUI]::DrawMenuItem('D', `
                                 "Deflate", `
-                                "$($NULL)", `
-                                "$($NULL)", `
+                                "Standard compression algorithm; expeditiously compacts files and extracting resources at run-time.", `
+                                "Strengths: All general media", `
                                 $true);
 
 
         # LZMA
         [CommonCUI]::DrawMenuItem('L', `
                                 "LZMA", `
-                                "$($NULL)", `
-                                "$($NULL)", `
+                                "Fastest ability to immediately decompress files at run-time, while takes much more time to compact files.", `
+                                "Strengths: All general media", `
                                 $true);
 
 
         # BZip2
         [CommonCUI]::DrawMenuItem('B', `
                                 "BZip2", `
-                                "$($NULL)", `
-                                "$($NULL)", `
+                                "Compresses more efficiently than Deflate, but takes longer to compact the files into a container.", `
+                                "Strengths: Text files", `
                                 $true);
 
 
