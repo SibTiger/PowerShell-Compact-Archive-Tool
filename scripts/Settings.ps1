@@ -96,9 +96,23 @@ class Settings
         #        in the menu.
         [string] $currentValueShowHiddenMenus = " ";
 
+        # These variables will determine what menus are to be hidden from the user,
+        #  as the options are possibly not available or not ready for the user to
+        #  configure.
+        [bool] $showMenu7Zip = $true;   # 7Zip Menu
+        [bool] $showMenuZip = $true;    # Zip Menu
+        [bool] $showMenuGit = $true;    # Git Menu
+
         # Retrieve the User Preference object.
         [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
         # ----------------------------------------
+
+
+
+        # Determine what menus are to be displayed to the user.
+        [Settings]::DrawMenuDetermineHiddenMenus([ref] $showMenu7Zip, ` # 7Zip Menu
+                                                [ref] $showMenuZip, `   # Zip Menu
+                                                [ref] $showMenuGit);    # Git Menu
 
 
 
@@ -125,7 +139,7 @@ class Settings
 
 
         # Only show this option if it is available to the user
-        if ([CommonFunctions]::IsAvailableZip() -eq $true)
+        if (([CommonFunctions]::IsAvailableZip() -eq $true) -and $showMenuZip)
         {
             # Option is available, so display it on the settings main menu.
             #  Configure the dotNET Zip Archive settings
@@ -138,7 +152,7 @@ class Settings
 
 
         # Only show this option if it is available to the user
-        if ([CommonFunctions]::IsAvailable7Zip() -eq $true)
+        if (([CommonFunctions]::IsAvailable7Zip() -eq $true) -and $showMenu7Zip)
         {
             # Option is available, so display it on the settings main menu.
             #  Configure the 7Zip Application settings
@@ -151,7 +165,7 @@ class Settings
 
 
         # Only show this option if it available to the user
-        if ([CommonFunctions]::IsAvailableGit() -eq $true)
+        if (([CommonFunctions]::IsAvailableGit() -eq $true) -and $showMenuGit)
         {
             # Option is available, so display it on the settings main menu.
             #  Configure the Git Application settings
@@ -210,11 +224,25 @@ class Settings
     #>
     hidden static [bool] EvaluateExecuteUserRequest([string] $userRequest)
     {
-        # Declarations and Initializations
+                # Declarations and Initializations
         # ----------------------------------------
+        # These variables will determine what menus are to be hidden from the user,
+        #  as the options are possibly not available or not ready for the user to
+        #  configure.
+        [bool] $showMenu7Zip = $true;   # 7Zip Menu
+        [bool] $showMenuZip = $true;    # Zip Menu
+        [bool] $showMenuGit = $true;    # Git Menu
+
         # Retrieve the User Preference object.
         [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
         # ----------------------------------------
+
+
+
+        # Determine what menus are to be displayed to the user.
+        [Settings]::DrawMenuDetermineHiddenMenus([ref] $showMenu7Zip, ` # 7Zip Menu
+                                                [ref] $showMenuZip, `   # Zip Menu
+                                                [ref] $showMenuGit);    # Git Menu
 
 
 
@@ -248,7 +276,7 @@ class Settings
                 ($_ -eq "Configure Zip Preferences") -or `
                 ($_ -eq "Configure Zip") -or `
                 ($_ -eq "Zip")) -and `
-                    ([CommonFunctions]::IsAvailableZip() -eq $true)}
+                    ($showMenuZip)}
             {
                 # Open the Zip preferences menu
                 [SettingsZip]::Main();
@@ -270,7 +298,7 @@ class Settings
                 ($_ -eq "Configure 7Zip") -or `
                 ($_ -eq "7Zip") -or `
                 ($_ -eq "7Z")) -and `
-                    ([CommonFunctions]::IsAvailable7Zip() -eq $true)}
+                    ($showMenu7Zip)}
             {
                 # Open the 7Zip preferences menu
                 [Settings7Zip]::Main();
@@ -291,7 +319,7 @@ class Settings
                 ($_ -eq "Configure Git Preferences") -or `
                 ($_ -eq "Configure Git") -or `
                 ($_ -eq "Git")) -and `
-                    ([CommonFunctions]::IsAvailableGit() -eq $true)}
+                    ($showMenuGit)}
             {
                 # Open the Git preferences menu
                 [SettingsGit]::Main();
@@ -372,4 +400,112 @@ class Settings
         # Finished with the operation; return back to the current menu.
         return $true;
     } # EvaluateExecuteUserRequest()
+
+
+
+
+   <# Draw Menu: Determine Hidden Menus
+    # -------------------------------
+    # Documentation:
+    #  This function will determine what menus and options are to be displayed
+    #   to the user.  Menus can be considered hidden if a particular setting,
+    #   feature, or environment is not available to the user or is not considered
+    #   ready to be used.  This can happen if a parent feature had been disabled,
+    #   thus causes a sub-feature to be hidden from the user.
+    #  This helps to declutter the menu screen by hiding sub-menus from the user
+    #   in-which have no effect as the main feature is disabled or configured in
+    #   a way that has no real effect.
+    # -------------------------------
+    # Input:
+    #  [bool] (REFERENCE) 7Zip Menu
+    #   Provides the 7Zip Menu
+    #  [bool] (REFERENCE) Zip Menu
+    #   Provides the Zip Menu
+    #  [bool] (REFERENCE) Git Menu
+    #   Provides the Git Menu
+    # -------------------------------
+    #>
+    hidden static [void] DrawMenuDetermineHiddenMenus([ref] $showMenu7Zip, `    # 7Zip Menu
+                                                    [ref] $showMenuZip, `       # Zip Menu
+                                                    [ref] $showMenuGit)         # Git Menu
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the User Preferences object
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+        # ----------------------------------------
+
+
+
+        # Show 7Zip Menu
+        #  Show the 7Zip Menu if the following conditions are true:
+        #   - Found 7Zip
+        #   - Compression Tool is 7Zip
+        #   OR
+        #   - Show Hidden Menus
+        if ([CommonFunctions]::IsAvailable7Zip() -and `
+            ($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip))
+        {
+            $showMenu7Zip.Value = $true;
+        } # If: 7Zip Menu is Visible
+
+        # 7Zip Menu is Hidden
+        else
+        {
+            $showMenu7Zip.Value = $false;
+        } # Else: 7Zip Menu is Hidden
+
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+
+        # Show Zip Menu
+        #  Show the Zip Menu if the following conditions are true:
+        #   - Found Zip Module
+        #   - Compression Tool is Zip
+        #   OR
+        #   - Show Hidden Menus
+        if ([CommonFunctions]::IsAvailableZip() -and `
+            ($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::Default))
+        {
+            $showMenuZip.Value = $true;
+        } # If: Zip Menu is Visible
+
+        # Zip Menu is Hidden
+        else
+        {
+            $showMenuZip.Value = $false;
+        } # Else: Zip Menu is Hidden
+
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+
+        # Show Git Menu
+        #  Show the Git Menu if the following conditions are true:
+        #   - Found Git
+        #   - Use Git Features
+        #   OR
+        #   - Show Hidden Menus
+        if ([CommonFunctions]::IsAvailableGit() -and $userPreferences.GetUseGitFeatures())
+        {
+            $showMenuGit.Value = $true;
+        } # If: Git Menu is Visible
+
+        # Git Menu is Hidden
+        else
+        {
+            $showMenuGit.Value = $false;
+        } # Else: Git Menu is Hidden
+    } # DrawMenuDetermineHiddenMenus()
 } # Settings
