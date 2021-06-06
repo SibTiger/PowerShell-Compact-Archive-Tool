@@ -89,6 +89,16 @@ class SettingsGit
         [string] $currentSettingHistoryCommitSize = $NULL;      # Changelog Size
         [string] $currentSettingGenerateReport = $NULL;         # Generate Report
 
+        # These variables will determine what menus are to be hidden from the user,
+        #  as the options are possibly not available or not ready for the user to
+        #  configure.
+        [bool] $showMenuLocateGit = $true;          # Locate Git
+        [bool] $showMenuUpdateSource = $true;       # Update Source
+        [bool] $showMenuCommitIDSize = $true;       # Commit ID Size
+        [bool] $showMenuRetrieveHistory = $true;    # Retrieve History
+        [bool] $showMenuHistorySize = $true;        # History Size
+        [bool] $ShowMenuGenerateReport = $true;     # Generate Report
+
         # Retrieve the Git Control object
         [GitControl] $gitControl = [GitControl]::GetInstance()
         # ----------------------------------------
@@ -102,55 +112,83 @@ class SettingsGit
                                                         [ref] $currentSettingGenerateReport);       # Generate Report
 
 
+        # Determine what menus are to be displayed to the user.
+        [SettingsGit]::DrawMenuDetermineHiddenMenus([ref] $showMenuLocateGit, `         # Locate Git
+                                                    [ref] $showMenuUpdateSource, `      # Update Source
+                                                    [ref] $showMenuCommitIDSize, `      # Commit ID Size
+                                                    [ref] $showMenuRetrieveHistory, `   # Retrieve History
+                                                    [ref] $showMenuHistorySize, `       # History Size
+                                                    [ref] $ShowMenuGenerateReport);     # Generate Report
+
+
+
         # Display the menu list
 
 
         # Find Git
-        [CommonCUI]::DrawMenuItem('B', `
-                                "Locate the Git Application", `
-                                "Find the Git application on your computer.", `
-                                "Git is located at: $($gitControl.GetExecutablePath())", `
-                                $true);
+        if ($showMenuLocateGit)
+        {
+            [CommonCUI]::DrawMenuItem('B', `
+                                    "Locate the Git Application", `
+                                    "Find the Git application on your computer.", `
+                                    "Git is located at: $($gitControl.GetExecutablePath())", `
+                                    $true);
+        } # If: Show Locate Git
 
 
         # Allow or disallow the local repo. to be updated
-        [CommonCUI]::DrawMenuItem('U', `
-                                "Update Source", `
-                                "Allows the ability to update $([ProjectInformation]::projectName) project files.", `
-                                "Update $([ProjectInformation]::projectName) project files: $($currentSettingUpdateSource)", `
-                                $true);
+        if ($showMenuUpdateSource)
+        {
+            [CommonCUI]::DrawMenuItem('U', `
+                                    "Update Source", `
+                                    "Allows the ability to update $([ProjectInformation]::projectName) project files.", `
+                                    "Update $([ProjectInformation]::projectName) project files: $($currentSettingUpdateSource)", `
+                                    $true);
+        } # If: Show Update Source
 
 
         # Determine length of Hash size
-        [CommonCUI]::DrawMenuItem('S', `
-                                "Size of Commit ID", `
-                                "When retrieving the latest commit SHA1 Commit ID, it can come in two sizes: Small or Large.", `
-                                "The Commit ID Size to use: $($currentSettingCommitIDLength)", `
-                                $true);
+        if ($showMenuCommitIDSize)
+        {
+            [CommonCUI]::DrawMenuItem('S', `
+                                    "Size of Commit ID", `
+                                    "When retrieving the latest commit SHA1 Commit ID, it can come in two sizes: Small or Large.", `
+                                    "The Commit ID Size to use: $($currentSettingCommitIDLength)", `
+                                    $true);
+        } # If: Show Commit ID Size
 
 
         # Allow or disallow ability to retrieve changelog
-        [CommonCUI]::DrawMenuItem('H', `
-                                "Retrieve History", `
-                                "Allows the ability to retrieve a history changelog of $([ProjectInformation]::projectName)'s development.", `
-                                "Obtain a changelog history of the project: $($currentSettingRetrieveHistory)", `
-                                $true);
+        if ($showMenuRetrieveHistory)
+        {
+            [CommonCUI]::DrawMenuItem('H', `
+                                    "Retrieve History", `
+                                    "Allows the ability to retrieve a history changelog of $([ProjectInformation]::projectName)'s development.", `
+                                    "Obtain a changelog history of the project: $($currentSettingRetrieveHistory)", `
+                                    $true);
+        } # If: Show Retrieve History
 
 
         # Specify the length of changes retrieved
-        [CommonCUI]::DrawMenuItem('L', `
-                                "History Commit Size", `
-                                "Specifies how many commits are to be recorded into the Changelog history file.", `
-                                "How many commits will be recorded: $($currentSettingHistoryCommitSize)", `
-                                $true);
+        if ($showMenuHistorySize)
+        {
+            [CommonCUI]::DrawMenuItem('L', `
+                                    "History Commit Size", `
+                                    "Specifies how many commits are to be recorded into the Changelog history file.", `
+                                    "How many commits will be recorded: $($currentSettingHistoryCommitSize)", `
+                                    $true);
+        } # If: Show History Size
 
 
         # Enable or disable the ability to generate a report
-        [CommonCUI]::DrawMenuItem('R', `
-                                "Generate Report of Project Repository", `
-                                "Provides a detailed report regarding $([ProjectInformation]::projectName)'s development.", `
-                                "Create a report of the latest developments: $($currentSettingGenerateReport)", `
-                                $true);
+        if ($ShowMenuGenerateReport)
+        {
+            [CommonCUI]::DrawMenuItem('R', `
+                                    "Generate Report of Project Repository", `
+                                    "Provides a detailed report regarding $([ProjectInformation]::projectName)'s development.", `
+                                    "Create a report of the latest developments: $($currentSettingGenerateReport)", `
+                                    $true);
+        } # If: Show Generate Report
 
 
         # Help Documentation
@@ -331,6 +369,168 @@ class SettingsGit
             $generateReport.Value = "No";
         } # else: Do not create report
     } # DrawMenuDecipherCurrentSettings()
+
+
+
+
+   <# Draw Menu: Determine Hidden Menus
+    # -------------------------------
+    # Documentation:
+    #  This function will determine what menus and options are to be displayed
+    #   to the user.  Menus can be considered hidden if a particular setting,
+    #   feature, or environment is not available to the user or is not considered
+    #   ready to be used.  This can happen if a parent feature had been disabled,
+    #   thus causes a sub-feature to be hidden from the user.
+    #  This helps to declutter the menu screen by hiding sub-menus from the user
+    #   in-which have no effect as the main feature is disabled or configured in
+    #   a way that has no real effect.
+    # -------------------------------
+    # Input:
+    #  [bool] (REFERENCE) Locate Git
+    #   Browse for the Git Application on the host system.
+    #  [bool] (REFERENCE) Update Source
+    #   Update the local repository source files.
+    #  [bool] (REFERENCE) Commit ID Size
+    #   Determines the length of the SHA Commit ID Size
+    #  [bool] (REFERENCE) Retrieve History
+    #   Ability to retrieve a history changelog of the development.
+    #  [bool] (REFERENCE) History Size
+    #   How many commits will be recorded.
+    #  [bool] (REFERENCE) Generate Report
+    #   Determines if the user wanted a report of the project's latest developments.
+    # -------------------------------
+    #>
+    hidden static [void] DrawMenuDetermineHiddenMenus([ref] $showMenuLocateGit, `       # Locate Git
+                                                    [ref] $showMenuUpdateSource, `      # Update Source
+                                                    [ref] $showMenuCommitIDSize, `      # Commit ID Size
+                                                    [ref] $showMenuRetrieveHistory, `   # Retrieve History
+                                                    [ref] $showMenuHistorySize, `       # History Size
+                                                    [ref] $ShowMenuGenerateReport)      # Generate Report
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the Git Control object
+        [GitControl] $gitControl = [GitControl]::GetInstance()
+        # ----------------------------------------
+
+
+
+        # Show Menu: Locate Git
+        #  Always show Locate Git
+        $showMenuLocateGit.Value = $true;
+
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+
+        # Show Menu: Update Source
+        #  Only show the Update Source menu if the Git Application is available.
+        if ($gitControl.DetectGitExist())
+        {
+            $showMenuUpdateSource.Value = $true;
+        } # If: Update Source is Visible
+
+        # Update Source is hidden
+        else
+        {
+            $showMenuUpdateSource.Value = $false;
+        } # Else: Update Source is Hidden
+
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+
+        # Show Menu: Commit ID Size
+        #  Only show the Commit ID Size if the Git Application is available.
+        if ($gitControl.DetectGitExist())
+        {
+            $showMenuCommitIDSize.Value = $true;
+        } # If: Commit ID Size is Visible
+
+        # Commit ID Size is hidden
+        else
+        {
+            $showMenuCommitIDSize.Value = $false;
+        } # Else: Commit ID Size is Hidden
+
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+
+        # Show Menu: Retrieve History
+        #  Only show the Retrieve History if the Git Application is available.
+        if ($gitControl.DetectGitExist())
+        {
+            $showMenuRetrieveHistory.Value = $true;
+        } # If: Retrieve History is Visible
+
+        # Retrieve History is hidden
+        else
+        {
+            $showMenuRetrieveHistory.Value = $false;
+        } # Else: Retrieve History is Hidden
+
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+
+        # Show Menu: History Size
+        #  Show the History Size if the following conditions are true:
+        #   - Found Git
+        #   - Retrieve History is $true
+        if ($gitControl.DetectGitExist() -and $gitControl.GetFetchChangelog())
+        {
+            $showMenuHistorySize.Value = $true;
+        } # If: History Size is Visible
+
+        # History Size is hidden
+        else
+        {
+            $showMenuHistorySize.Value = $false;
+        } # Else: History Size is Hidden
+
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+
+        # Show Menu: Generate Report
+        #  Only show the Retrieve History if the Git Application is available.
+        if ($gitControl.DetectGitExist())
+        {
+            $ShowMenuGenerateReport.Value = $true;
+        } # If: Generate Reports is Visible
+
+        # Generate Reports is hidden
+        else
+        {
+            $ShowMenuGenerateReport.Value = $false;
+        } # Else: Generate Reports is Hidden
+    } # DrawMenuDetermineHiddenMenus()
 
 
 
