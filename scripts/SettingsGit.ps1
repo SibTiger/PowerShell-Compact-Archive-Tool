@@ -1475,7 +1475,7 @@ class SettingsGit
         # Retrieve the History Changelog
         [CommonCUI]::DrawMenuItem('H', `
                                 "Retrieve History", `
-                                "$($NULL)", `
+                                "Records the latest developments within the $([ProjectInformation]::projectName) project.", `
                                 "$($NULL)", `
                                 $true);
 
@@ -1483,7 +1483,7 @@ class SettingsGit
         # Do not retrieve the History Changelog
         [CommonCUI]::DrawMenuItem('N', `
                                 "Do not Retrieve History", `
-                                "$($NULL)", `
+                                "No changelog will be retrieved.", `
                                 "$($NULL)", `
                                 $true);
 
