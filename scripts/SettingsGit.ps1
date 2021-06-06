@@ -1835,7 +1835,7 @@ class SettingsGit
         [Logging]::DisplayMessage("How many commits should be recorded?`r`nNOTE: To retrieve all changes, use '0'.`r`n");
 
         # Obtain the user's input
-        $newSize = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
+        $newSize = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::ProvideNumericValue);
 
 
         # Cancel the operation if the user provided 'Cancel' or 'X'

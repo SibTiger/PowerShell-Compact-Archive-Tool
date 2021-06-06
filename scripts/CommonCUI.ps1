@@ -218,6 +218,15 @@ class CommonCUI
 
 
 
+            # Please provide a number or "Cancel"
+            ([DrawWaitingForUserInputText]::ProvideNumericValue)
+            {
+                $stringToDisplay = "Please provide a number or `"Cancel`" to cancel. . .";
+                break;
+            } # Please provide a number
+
+
+
             # Incorrect enumerator value; use the 'Waiting on your response' as the default
             #  response.
             default
@@ -479,4 +488,5 @@ enum DrawWaitingForUserInputText
 {
     WaitingOnYourResponse   = 0;    # This will display "Waiting on your response. . ."
     PleaseProvideANewPath   = 1;    # This will display "Please provide a new path or 'Cancel' to cancel. . ."
+    ProvideNumericValue     = 2;    # This will display "Please provide a number or 'Cancel' to cancel. . ."
 } # DrawWaitingForUserInputText
