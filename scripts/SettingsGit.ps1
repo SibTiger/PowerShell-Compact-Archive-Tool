@@ -1855,7 +1855,9 @@ class SettingsGit
         if ($newSize -notmatch "^\d+$")
         {
             # Not all of the characters are numeric based
-            [Logging]::DisplayMessage("Not a valid numeric value!");
+            [Logging]::DisplayMessage("`r`n" + `
+                                    "The provided value is not entirely a numeric value." + `
+                                    "`r`n`r`n");
 
             # Wait for the user to provide feedback; thus allowing the user to see the message.
             [Logging]::GetUserEnterKey();
