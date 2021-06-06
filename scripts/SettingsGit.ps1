@@ -1832,7 +1832,7 @@ class SettingsGit
 
 
         # Provide a message to the user asking how many changes should be recorded.
-        [Logging]::DisplayMessage("How many commits should be recorded? ");
+        [Logging]::DisplayMessage("How many commits should be recorded?`r`nNOTE: To retrieve all changes, use '0'.`r`n");
 
         # Obtain the user's input
         $newSize = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
