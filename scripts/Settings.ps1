@@ -272,11 +272,11 @@ class Settings
             #           'Configure Zip', 'Zip', as well as 'Z'.
             #       Further, only allow the option if and only if the feature is available
             #           within the current session of the program's instance.
-            {(($_ -eq "Z") -or `
+            {($showMenuZip) -and `
+                (($_ -eq "Z") -or `
                 ($_ -eq "Configure Zip Preferences") -or `
                 ($_ -eq "Configure Zip") -or `
-                ($_ -eq "Zip")) -and `
-                    ($showMenuZip)}
+                ($_ -eq "Zip"))}
             {
                 # Open the Zip preferences menu
                 [SettingsZip]::Main();
@@ -293,12 +293,12 @@ class Settings
             #           'Configure 7Zip', '7Zip', '7Z', as well as '7'.
             #       Further, only allow the option if and only if the feature is available
             #           within the current session of the program's instance.
-            {(($_ -eq "7") -or `
+            {($showMenu7Zip) -and `
+                (($_ -eq "7") -or `
                 ($_ -eq "Configure 7Zip Preferences") -or `
                 ($_ -eq "Configure 7Zip") -or `
                 ($_ -eq "7Zip") -or `
-                ($_ -eq "7Z")) -and `
-                    ($showMenu7Zip)}
+                ($_ -eq "7Z"))}
             {
                 # Open the 7Zip preferences menu
                 [Settings7Zip]::Main();
@@ -315,11 +315,11 @@ class Settings
             #           'Configure Git', 'Git', as well as 'G'.
             #       Further, only allow the option if and only if the feature is available
             #           within the current session of the program's instance.
-            {(($_ -eq "G") -or `
+            {($showMenuGit) -and `
+                (($_ -eq "G") -or `
                 ($_ -eq "Configure Git Preferences") -or `
                 ($_ -eq "Configure Git") -or `
-                ($_ -eq "Git")) -and `
-                    ($showMenuGit)}
+                ($_ -eq "Git"))}
             {
                 # Open the Git preferences menu
                 [SettingsGit]::Main();
