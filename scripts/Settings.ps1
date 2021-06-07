@@ -443,8 +443,9 @@ class Settings
         #   - Compression Tool is 7Zip
         #   OR
         #   - Show Hidden Menus
-        if ([CommonFunctions]::IsAvailable7Zip() -and `
-            ($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip))
+        if (([CommonFunctions]::IsAvailable7Zip() -and `
+            ($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip)) -or `
+            $userPreferences.GetShowHiddenMenu())
         {
             $showMenu7Zip.Value = $true;
         } # If: 7Zip Menu is Visible
@@ -470,8 +471,9 @@ class Settings
         #   - Compression Tool is Zip
         #   OR
         #   - Show Hidden Menus
-        if ([CommonFunctions]::IsAvailableZip() -and `
-            ($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::Default))
+        if (([CommonFunctions]::IsAvailableZip() -and `
+            ($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip)) -or `
+            $userPreferences.GetShowHiddenMenu())
         {
             $showMenuZip.Value = $true;
         } # If: Zip Menu is Visible
@@ -497,7 +499,8 @@ class Settings
         #   - Use Git Features
         #   OR
         #   - Show Hidden Menus
-        if ([CommonFunctions]::IsAvailableGit() -and $userPreferences.GetUseGitFeatures())
+        if (([CommonFunctions]::IsAvailableGit() -and $userPreferences.GetUseGitFeatures()) -or `
+            $userPreferences.GetShowHiddenMenu())
         {
             $showMenuGit.Value = $true;
         } # If: Git Menu is Visible
