@@ -139,7 +139,7 @@ class Settings
 
 
         # Only show this option if it is available to the user
-        if (([CommonFunctions]::IsAvailableZip() -eq $true) -and $showMenuZip)
+        if ($showMenuZip)
         {
             # Option is available, so display it on the settings main menu.
             #  Configure the dotNET Zip Archive settings
@@ -152,7 +152,7 @@ class Settings
 
 
         # Only show this option if it is available to the user
-        if (([CommonFunctions]::IsAvailable7Zip() -eq $true) -and $showMenu7Zip)
+        if ($showMenu7Zip)
         {
             # Option is available, so display it on the settings main menu.
             #  Configure the 7Zip Application settings
@@ -165,7 +165,7 @@ class Settings
 
 
         # Only show this option if it available to the user
-        if (([CommonFunctions]::IsAvailableGit() -eq $true) -and $showMenuGit)
+        if ($showMenuGit)
         {
             # Option is available, so display it on the settings main menu.
             #  Configure the Git Application settings
