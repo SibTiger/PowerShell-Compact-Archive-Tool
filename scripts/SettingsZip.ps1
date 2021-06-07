@@ -335,7 +335,7 @@ class SettingsZip
         #   - Found Compression Module
         #   OR
         #   - Show Hidden Menus
-        if ((($userPreferences.GetCompressionTool -eq [UserPreferencesCompressTool]::Default) `
+        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) `
                 -and $defaultCompress.DetectCompressModule()) `
             -or $userPreferences.GetShowHiddenMenu())
         {
@@ -363,7 +363,7 @@ class SettingsZip
         #   - Found Compression Module
         #   OR
         #   - Show Hidden Menus
-        if ((($userPreferences.GetCompressionTool -eq [UserPreferencesCompressTool]::Default) `
+        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) `
                 -and $defaultCompress.DetectCompressModule()) `
             -or $userPreferences.GetShowHiddenMenu())
         {
@@ -391,7 +391,7 @@ class SettingsZip
         #   - Found Compression Module
         #   OR
         #   - Show Hidden Menus
-        if ((($userPreferences.GetCompressionTool -eq [UserPreferencesCompressTool]::Default) `
+        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) `
                 -and $defaultCompress.DetectCompressModule()) `
             -or $userPreferences.GetShowHiddenMenu())
         {

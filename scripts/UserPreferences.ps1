@@ -149,7 +149,7 @@ class UserPreferences
     UserPreferences()
     {
         # Compression Tool
-        $this.__compressionTool = [UserPreferencesCompressTool]::Default;
+        $this.__compressionTool = [UserPreferencesCompressTool]::InternalZip;
 
         # Project Path
         $this.__projectPath = ".\";
@@ -596,8 +596,8 @@ class UserPreferences
  #>
 enum UserPreferencesCompressTool
 {
-    Default = 0;    # Microsoft's .NET 4.5 (or later)
-    SevenZip = 1;   # 7Zip's 7Za (CLI)
+    InternalZip = 0;    # Microsoft's .NET 4.5 (or later)
+    SevenZip = 1;       # 7Zip's 7Za (CLI)
 } # UserPreferencesCompressTool
 
 

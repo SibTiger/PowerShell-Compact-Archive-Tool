@@ -212,14 +212,14 @@ class SettingsGeneralProgram
         switch ($userPreferences.GetCompressionTool())
         {
             # dotNET Zip Archive (Built-in functionality)
-            ([UserPreferencesCompressTool]::Default)
+            ([UserPreferencesCompressTool]::InternalZip)
             {
                 # Set the string that will be displayed
                 $compressionTool.Value = "Internal Zip";
 
                 # Break from the switch
                 break;
-            } # Default
+            } # InternalZip
 
 
             # 7Zip (External resource)
@@ -1135,14 +1135,14 @@ class SettingsGeneralProgram
             switch ($userPreferences.GetCompressionTool())
             {
                 # dotNET Zip Archive (Built-in functionality)
-                ([UserPreferencesCompressTool]::Default)
+                ([UserPreferencesCompressTool]::InternalZip)
                 {
                     # Set the string that will be displayed
                     $selectedCompressionTool = "Internal Zip";
 
                     # Break from the switch
                     break;
-                } # Default
+                } # InternalZip
 
 
                 # 7Zip (External resource)
@@ -1284,7 +1284,7 @@ class SettingsGeneralProgram
                 ($_ -eq "Default")}
             {
                 # The user had selected to use the Internal Zip Compression Tool.
-                $userPreferences.SetCompressionTool([UserPreferencesCompressTool]::Default);
+                $userPreferences.SetCompressionTool([UserPreferencesCompressTool]::InternalZip);
 
                 # Finished
                 break;
