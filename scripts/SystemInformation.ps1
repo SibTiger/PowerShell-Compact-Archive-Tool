@@ -164,6 +164,42 @@ class SystemInformation
         return "$((Get-Host).Version)";
     } # PowerShellVersion()
 
+
+
+
+
+    # Detect Multiple Threads
+    # -------------------------------
+    # Documentation:
+    #   This function will perform a check on the system to determine if it can handle
+    #    multiple threads.  A system is determined to have support of multiple threads
+    #    if there are more than one physical microprocessor installed and presently
+    #    active within the system, OR if there is one or more microprocessors installed
+    #    but contains two or more logical threads.
+    #   Thus, for example, a Pentium 4 with Hyperthreading is to be considered a
+    #    multithreaded system.  However, a Pentium 3 with only one logical thread, is
+    #    not a multithreaded system.  Of course there are a lot of modern microprocessors,
+    #    with an abundance of configurations today, I am merely picking the most obvious.
+    # -------------------------------
+    # Output:
+    #  [bool] Multiple Threads
+    #   - True: The system is capable of supporting multiple threads.
+    #   - False: The system is incapable of supporting multiple threads.
+    # -------------------------------
+    static [bool] SupportMultipleThreads()
+    {
+        # Check to see if this system can handle multiple threads
+        if(((Get-CimInstance Win32_ComputerSystem).NumberOfProcessors -gt 1) -or `
+            (Get-CimInstance Win32_ComputerSystem).NumberOfLogicalProcessors -gt 1)
+            {
+                # This system can handle multiple threads
+                return $true;
+            } # if: Support Multithreads
+
+
+        # The host is incapable of supporting multithreads.
+        return $false;
+    } # SupportMultipleThreads()
     #endregion
 } # SystemInformation
 

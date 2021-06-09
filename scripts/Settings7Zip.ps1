@@ -604,8 +604,7 @@ class Settings7Zip
 
 
         # Try to determine if the host supports multithreaded operations.
-        if (((Get-CimInstance Win32_ComputerSystem).NumberOfProcessors -gt 1) -or `
-            ((Get-CimInstance Win32_ComputerSystem).NumberOfLogicalProcessors -gt 1))
+        if ([SystemInformation]::SupportMultipleThreads())
         {
             # System supports multithreaded operations
             $multithreadSystemDetected = $true;
