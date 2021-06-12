@@ -676,7 +676,7 @@ class CommonIO
                                                                     $arguments, `               # Parameters for the executable
                                                                     $projectPath, `             # Project path (Working Directory)
                                                                     [ref] $containerStdOut, `   # Var. holds standard output
-                                                                    [ref] $containerStdErr)     # Var. holds standard error
+                                                                    [ref] $containerStdErr);    # Var. holds standard error
 
 
         # Create the necessary logfiles or capture a specific input
@@ -688,7 +688,7 @@ class CommonIO
                                         $description, `             # Reason for why we are executing the command
                                         [ref] $callBack, `          # Store the output result in this variable
                                         [ref] $containerStdOut, `   # Executable STDOUT results provided in this var.
-                                        [ref] $containerStdErr)     # Executable STDERR results provided in this var.
+                                        [ref] $containerStdErr);    # Executable STDERR results provided in this var.
 
 
         # Do we need to copy the STDOUT to the pointer?
@@ -1041,10 +1041,10 @@ class CommonIO
         [System.Diagnostics.Process] $processExec = [System.Diagnostics.Process]::new();                    # Instantiate Process Object.
 
         # Redirection Standard Out (Asynchronous)
-        $asyncStdOut = New-Object -TypeName System.Runtime.CompilerServices.AsyncTaskMethodBuilder
+        $asyncStdOut = New-Object -TypeName System.Runtime.CompilerServices.AsyncTaskMethodBuilder;
 
         # Redirection Standard Error (Asynchronous)
-        $asyncStdErr = New-Object -TypeName System.Runtime.CompilerServices.AsyncTaskMethodBuilder
+        $asyncStdErr = New-Object -TypeName System.Runtime.CompilerServices.AsyncTaskMethodBuilder;
         # ----------------------------------------
 
 
@@ -1106,10 +1106,10 @@ class CommonIO
             # >> https://stackoverflow.com/a/36539226
             # -------
             # Standard Out (Asynchronous)
-            $asyncStdOut = $processExec.StandardOutput.ReadToEndAsync()
+            $asyncStdOut = $processExec.StandardOutput.ReadToEndAsync();
 
             # Standard Error (Asynchronous)
-            $asyncStdErr = $processExec.StandardError.ReadToEndAsync()
+            $asyncStdErr = $processExec.StandardError.ReadToEndAsync();
             # -------
 
             # Wait for the program to finish.
@@ -2143,7 +2143,7 @@ class CommonIO
             # --------------
 
             # Prep a message to display to the user for this error; temporary variable.
-            [string] $displayErrorMessage = "Unable to create a working temporary directory!"
+            [string] $displayErrorMessage = "Unable to create a working temporary directory!";
 
             # Generate the initial message
             [string] $logMessage = "$($displayErrorMessage)";
@@ -2373,7 +2373,7 @@ class CommonIO
 
 
             # Because the directory already exists, this is not really an error.
-            return $true
+            return $true;
         } # Else : Directory already exists
 
 
