@@ -71,7 +71,7 @@ class MainMenu
 
             # Execute the user's request
             $menuLoop = [MainMenu]::EvaluateExecuteUserRequest($userInput);
-        } while ($menuLoop)
+        } while ($menuLoop);
 
 
         # Finished with the Main Menu; prepare to close the application
