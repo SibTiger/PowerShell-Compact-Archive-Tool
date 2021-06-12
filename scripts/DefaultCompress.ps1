@@ -2253,7 +2253,7 @@ class DefaultCompress
                                             "$($execReason)", `         # Reason for using the CMDLet.
                                             $null, `                    # Returned STDOUT\STDERR for further processing.
                                             [ref] $strSTDOUT, `         # STDOUT output from the CMDLet.
-                                            [ref] $strSTDERR );         # STDERR output from the CMDLet.
+                                            [ref] $strSTDERR);          # STDERR output from the CMDLet.
             } # if : Logging Requested
         } # finally : Log the activity in the log files
 
