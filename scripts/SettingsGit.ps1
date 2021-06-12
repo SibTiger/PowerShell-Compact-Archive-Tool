@@ -100,7 +100,7 @@ class SettingsGit
         [bool] $ShowMenuGenerateReport = $true;     # Generate Report
 
         # Retrieve the Git Control object
-        [GitControl] $gitControl = [GitControl]::GetInstance()
+        [GitControl] $gitControl = [GitControl]::GetInstance();
         # ----------------------------------------
 
 
@@ -245,7 +245,7 @@ class SettingsGit
         # Declarations and Initializations
         # ----------------------------------------
         # Retrieve the Git Control object
-        [GitControl] $gitControl = [GitControl]::GetInstance()
+        [GitControl] $gitControl = [GitControl]::GetInstance();
         # ----------------------------------------
 
 
@@ -416,7 +416,7 @@ class SettingsGit
         # Declarations and Initializations
         # ----------------------------------------
         # Retrieve the Git Control object
-        [GitControl] $gitControl = [GitControl]::GetInstance()
+        [GitControl] $gitControl = [GitControl]::GetInstance();
 
         # Retrieve the User Preferences object
         [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
@@ -626,7 +626,7 @@ class SettingsGit
                     ($_ -eq "Browse Git"))}
             {
                 # Allow the user to locate the path to Git or verify Git's path.
-                [SettingsGit]::LocateGitPath()
+                [SettingsGit]::LocateGitPath();
 
 
                 # Finished
@@ -646,7 +646,7 @@ class SettingsGit
             {
                 # Allow the user the ability to choose if they want to update the project's
                 #  source files or not to update the project's files.
-                [SettingsGit]::UpdateSource()
+                [SettingsGit]::UpdateSource();
 
 
                 # Finished
@@ -665,7 +665,7 @@ class SettingsGit
             {
                 # Allow the user the ability to choose the size of the commit ID regarding the
                 #  project's repository.
-                [SettingsGit]::SizeCommitID()
+                [SettingsGit]::SizeCommitID();
 
 
                 # Finished
@@ -684,7 +684,7 @@ class SettingsGit
             {
                 # Allow the ability for the user to specify if they wish to have the history
                 #  changelog from the project's repository.
-                [SettingsGit]::History()
+                [SettingsGit]::History();
 
 
                 # Finished
@@ -701,7 +701,7 @@ class SettingsGit
             {
                 # Allow the user to change how many commits are to be recorded into the
                 #  changelog history.
-                [SettingsGit]::HistoryCommitSize()
+                [SettingsGit]::HistoryCommitSize();
 
 
                 # Finished
@@ -855,7 +855,7 @@ class SettingsGit
             {
                 # The path was not found, so provide a nice message to the user - letting them know that
                 #  the program cannot find the Git application.
-                [Logging]::DisplayMessage("I cannot find the Git application within the provided path:")
+                [Logging]::DisplayMessage("I cannot find the Git application within the provided path:");
             } # Else: Git's path was not found
 
 
@@ -1202,7 +1202,7 @@ class SettingsGit
             else
             {
                 # Set the message such that the user knows that this program will not try to update the project's source files.
-                $decipherNiceString = "I will not update the project's source files."
+                $decipherNiceString = "I will not update the project's source files.";
             } # else : Do not Update the Project's Source Files
 
 
