@@ -603,7 +603,7 @@
             [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
                                     [LogMessageLevel]::Warning);    # Message level
             # * * * * * * * * * * * * * * * * * * *
-        }
+        } # else: Site not Available
 
 
         # Try to close the HTTP Response connection
