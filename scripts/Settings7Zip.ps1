@@ -780,7 +780,7 @@ class Settings7Zip
                     ($_ -eq "Browse 7Zip"))}
             {
                 # Allow the user to locate the path to 7Zip or verify 7Zip's path.
-                [Settings7Zip]::Locate7ZipPath()
+                [Settings7Zip]::Locate7ZipPath();
 
 
                 # Finished
@@ -812,7 +812,7 @@ class Settings7Zip
                     ($_ -eq "Zip Algorithm"))}
             {
                 # Allow the user to configure the Zip algorithm
-                [Settings7Zip]::AlgorithmsZip()
+                [Settings7Zip]::AlgorithmsZip();
 
 
                 # Finished
@@ -828,7 +828,7 @@ class Settings7Zip
                     ($_ -eq "7Zip Algorithm"))}
             {
                 # Allow the user to configure the 7Zip algorithm
-                [Settings7Zip]::Algorithms7Zip()
+                [Settings7Zip]::Algorithms7Zip();
 
 
                 # Finished
@@ -1039,7 +1039,7 @@ class Settings7Zip
             {
                 # The path was not found, so provide a nice message to the user - letting them know that
                 #  the program cannot find the 7Zip application.
-                [Logging]::DisplayMessage("I cannot find the 7Zip application within the provided path:")
+                [Logging]::DisplayMessage("I cannot find the 7Zip application within the provided path:");
             } # Else: 7Zip's path was not found
 
 
@@ -1895,7 +1895,7 @@ class Settings7Zip
             #  the user to understand the current setting.
             switch ($sevenZip.GetAlgorithm7Zip())
             {
-            ([SevenZipAlgorithm7Zip]::LZMA2)
+                ([SevenZipAlgorithm7Zip]::LZMA2)
                 {
                     # Set the message such that the user knows that the 'LZMA2' algorithm is currently set.
                     $decipherNiceString = "I will have 7Zip use the LZMA2 algorithm when compiling new 7Zip builds.";
