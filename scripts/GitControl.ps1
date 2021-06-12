@@ -1237,7 +1237,7 @@ class GitControl
 
 
             # Because the Git executable was found via the system's $PATH, return 'git.exe'.
-            return "git.exe"
+            return "git.exe";
         } # If : Git Reachable via %PATH%
 
 
@@ -1245,7 +1245,7 @@ class GitControl
         foreach ($index in $listDirectoryPath)
         {
             # Grab all of the results possible from this array's index.
-            $searchResult = [CommonIO]::SearchFile("$($index)", "git.exe")
+            $searchResult = [CommonIO]::SearchFile("$($index)", "git.exe");
 
             # Determine if there were any valid results from the search.
             if ($null -ne $searchResult)
@@ -1949,7 +1949,7 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $fileName = "Changelog.txt"                        # The filename of the commit history (or changelog) filename
+        [string] $fileName = "Changelog.txt";                       # The filename of the commit history (or changelog) filename
         [string] $changelogSize = $null;                            # How many submitted commits to are to be retrieved?  This is our
                                                                     #  range of commits from the latest to the minimum requested by
                                                                     #  the user.  This variable is changeable via User Settings.
@@ -2627,7 +2627,7 @@ class GitControl
                                                         #  The output given will hold the last-known activity of all
                                                         #  of the branches that are available on the Remote Repository
                                                         #  server.
-        [string] $execReason = "Fetch Active Branches"  # Description; used for logging
+        [string] $execReason = "Fetch Active Branches"; # Description; used for logging
         # ----------------------------------------
 
 
