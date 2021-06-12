@@ -320,9 +320,6 @@ class SettingsZip
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Retrieve the Default Compress object
-        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
-
         # Retrieve the User Preferences object
         [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
         # ----------------------------------------
@@ -336,7 +333,7 @@ class SettingsZip
         #   OR
         #   - Show Hidden Menus
         if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) `
-                -and $defaultCompress.DetectCompressModule()) `
+                -and [CommonFunctions]::IsAvailableZip()) `
             -or $userPreferences.GetShowHiddenMenu())
         {
             $showMenuCompressionLevel.Value = $true;
@@ -364,7 +361,7 @@ class SettingsZip
         #   OR
         #   - Show Hidden Menus
         if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) `
-                -and $defaultCompress.DetectCompressModule()) `
+                -and [CommonFunctions]::IsAvailableZip()) `
             -or $userPreferences.GetShowHiddenMenu())
         {
             $showMenuVerifyBuild.Value = $true;
@@ -392,7 +389,7 @@ class SettingsZip
         #   OR
         #   - Show Hidden Menus
         if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) `
-                -and $defaultCompress.DetectCompressModule()) `
+                -and [CommonFunctions]::IsAvailableZip()) `
             -or $userPreferences.GetShowHiddenMenu())
         {
             $ShowMenuGenerateReport.Value = $true;
