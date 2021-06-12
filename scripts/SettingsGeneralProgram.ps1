@@ -94,6 +94,13 @@ class SettingsGeneralProgram
         [string] $currentSettingGitFeatures = $NULL;        # Git Features
         [string] $currentSettingWindowsExplorer = $NULL;    # Windows Explorer
         [string] $currentSettingNotification = $NULL;       # Notifications
+
+        # These variables will determine what menus are to be hidden from the user,
+        #  as the options are possibly not available or not ready for the user to
+        #  configure.
+        [bool] $showMenuCompressionTool = $true;            # Compression Tool
+        [bool] $showMenuGitFeatures = $true;                # Git Features
+        [bool] $showMenuWindowsFeatures = $true;            # Windows Features
         # ----------------------------------------
 
 
@@ -102,6 +109,12 @@ class SettingsGeneralProgram
                                                                 [ref] $currentSettingGitFeatures, `
                                                                 [ref] $currentSettingWindowsExplorer, `
                                                                 [ref] $currentSettingNotification); `
+
+
+        # Determine what menus are to be displayed to the user.
+        [SettingsGeneralProgram]::DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionTool, `    # Compression Tool
+                                                                [ref] $showMenuGitFeatures, `       # Git Features
+                                                                [ref] $showMenuWindowsFeatures);    # Windows Features
 
 
 
@@ -128,25 +141,34 @@ class SettingsGeneralProgram
         # Tools and Features
         # - - - - - - -
         # Specify Compression Tool
-        [CommonCUI]::DrawMenuItem('C', `
-                                "Compression Tool", `
-                                "Provides the ability to use a specific compression software to compile the $([ProjectInformation]::projectName) project files.", `
-                                "Desired Compression Tool to use: $($currentSettingCompressionTool)", `
-                                $true);
+        if ($showMenuCompressionTool)
+        {
+            [CommonCUI]::DrawMenuItem('C', `
+                                    "Compression Tool", `
+                                    "Provides the ability to use a specific compression software to compile the $([ProjectInformation]::projectName) project files.", `
+                                    "Desired Compression Tool to use: $($currentSettingCompressionTool)", `
+                                    $true);
+        } # if: Show Compression Tool
 
         # Allow or disallow Git Functionality
-        [CommonCUI]::DrawMenuItem('G', `
-                                "Git Features", `
-                                "Utilize Git's unique features during compiling the $([ProjectInformation]::projectName) project", `
-                                "Ability to use Git Features is currently: $($currentSettingGitFeatures)", `
-                                $true);
+        if ($showMenuGitFeatures)
+        {
+            [CommonCUI]::DrawMenuItem('G', `
+                                    "Git Features", `
+                                    "Utilize Git's unique features during compiling the $([ProjectInformation]::projectName) project", `
+                                    "Ability to use Git Features is currently: $($currentSettingGitFeatures)", `
+                                    $true);
+        } # if: Show Git Features
 
         # Enable or disable the use of Windows Explorer features
-        [CommonCUI]::DrawMenuItem('E', `
-                                "Graphical User Interface Features", `
-                                "Utilize Windows Explorer features where possible [Windows Only]", `
-                                "Ability to use Windows Explorer: $($currentSettingWindowsExplorer)", `
-                                $true);
+        if ($showMenuWindowsFeatures)
+        {
+            [CommonCUI]::DrawMenuItem('E', `
+                                    "Graphical User Interface Features", `
+                                    "Utilize Windows Explorer features where possible [Windows Only]", `
+                                    "Ability to use Windows Explorer: $($currentSettingWindowsExplorer)", `
+                                    $true);
+        } # if: Show Windows Features
 
         # Notifications
         [CommonCUI]::DrawMenuItem('N', `
@@ -352,6 +374,112 @@ class SettingsGeneralProgram
 
 
 
+   <# Draw Menu: Determine Hidden Menus
+    # -------------------------------
+    # Documentation:
+    #  This function will determine what menus and options are to be displayed
+    #   to the user.  Menus can be considered hidden if a particular setting,
+    #   feature, or environment is not available to the user or is not considered
+    #   ready to be used.  This can happen if a parent feature had been disabled,
+    #   thus causes a sub-feature to be hidden from the user.
+    #  This helps to declutter the menu screen by hiding sub-menus from the user
+    #   in-which have no effect as the main feature is disabled or configured in
+    #   a way that has no real effect.
+    # -------------------------------
+    # Input:
+    #  [bool] (REFERENCE) Compression Tool
+    #   User provides their preferred Compression Tool softwar.e
+    #  [bool] (REFERENCE) Use Git Features
+    #   Provides the ability to allow the use of Git Features.
+    #  [bool] (REFERENCE) Use Windows Features
+    #   Provides the ability to use Windows specific Features, where available.
+    # -------------------------------
+    #>
+    hidden static [void] DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionTool, `     # Compression Tool
+                                                    [ref] $showMenuGitFeatures, `           # Git Features
+                                                    [ref] $showMenuWindowsFeatures)         # Windows Features
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the User Preferences object
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+        # ----------------------------------------
+
+
+
+        # Show Menu: Compression Tool
+        #  Show the Compression Tool if the following conditions are true:
+        #   - Found dotNET Zip Archive
+        #   - Found 7Zip
+        #   OR
+        #   - Show Hidden Menus
+        if(([CommonFunctions]::IsAvailableZip() -and [CommonFunctions]::IsAvailable7Zip()) -or `
+            $userPreferences.GetShowHiddenMenu())
+        {
+            $showMenuCompressionTool.Value = $true;
+        } # If: Compression Tool is Visible
+
+        # Compression Tool is hidden
+        else
+        {
+            $showMenuCompressionTool.Value = $false;
+        } # Else: Compression Tool is hidden
+
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+
+        # Show Menu: Git Features
+        #  Show the Git Features if the following conditions are true:
+        #   - Found Git
+        #   OR
+        #   - Show Hidden Menus
+        if ([CommonFunctions]::IsAvailableGit() -or $userPreferences.GetShowHiddenMenu())
+        {
+            $showMenuGitFeatures.Value = $true;
+        } # If: Git Features is Visible
+
+        # Git Features is hidden
+        else
+        {
+            $showMenuGitFeatures.Value = $false;
+        } # Else: Git Features is Hidden
+
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+
+        # Show Menu: Windows Features
+        #  Show the Windows Features if the following conditions are true:
+        #   - Operating System is Windows
+        #   OR
+        #   - Show Hidden Menus
+        if (([SystemInformation]::OperatingSystem() -eq [SystemInformationOperatingSystem]::Windows) -or `
+            $userPreferences.GetShowHiddenMenu())
+        {
+            $showMenuWindowsFeatures.Value = $true;
+        } # If: Windows Features is Visible
+
+        # Windows Features is hidden
+        else
+        {
+            $showMenuWindowsFeatures.Value = $false;
+        } # Else: Windows Features is Hidden
+    } # DrawMenuDetermineHiddenMenus()
+
+
+
+
    <# Evaluate and Execute User's Request
     # -------------------------------
     # Documentation:
@@ -372,6 +500,24 @@ class SettingsGeneralProgram
     #>
     hidden static [bool] EvaluateExecuteUserRequest([string] $userRequest)
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # These variables will determine what menus are to be hidden from the user,
+        #  as the options are possibly not available or not ready for the user to
+        #  configure.
+        [bool] $showMenuCompressionTool = $true;            # Compression Tool
+        [bool] $showMenuGitFeatures = $true;                # Git Features
+        [bool] $showMenuWindowsFeatures = $true;            # Windows Features
+        # ----------------------------------------
+
+
+        # Determine what menus are to be displayed to the user.
+        [SettingsGeneralProgram]::DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionTool, `    # Compression Tool
+                                                                [ref] $showMenuGitFeatures, `       # Git Features
+                                                                [ref] $showMenuWindowsFeatures);    # Windows Features
+
+
+
         # Evaluate the user's request
         switch ($userRequest)
         {
@@ -415,9 +561,10 @@ class SettingsGeneralProgram
             # Compression Tool
             #  NOTE: Allow the user's request when they type: 'Compression Tool', 'Compression',
             #           as well as 'C'.
-            {($_ -eq "C") -or `
-                ($_ -eq "Compression Tool") -or `
-                ($_ -eq "Compression")}
+            {($showMenuCompressionTool) -and `
+                (($_ -eq "C") -or `
+                 ($_ -eq "Compression Tool") -or `
+                 ($_ -eq "Compression"))}
             {
                 # Allow the user to specify their desired compression tool that the program will use
                 #  while generating archive data files.
@@ -433,9 +580,10 @@ class SettingsGeneralProgram
             # Git Features
             #  NOTE: Allow the user's request when they type: 'Git Features', 'Git',
             #           as well as 'G'.
-            {($_ -eq "G") -or `
-                ($_ -eq "Git Features") -or `
-                ($_ -eq "Git")}
+            {($showMenuGitFeatures) -and `
+                (($_ -eq "G") -or `
+                 ($_ -eq "Git Features") -or `
+                 ($_ -eq "Git"))}
             {
                 # Allow the user to configure the state of the Use Git Features variable, thus giving
                 #  them the ability to use or not use Git Features while compiling the project.
@@ -451,9 +599,10 @@ class SettingsGeneralProgram
             # Graphical User Interface Features
             #  NOTE: Allow the user's request when they type: 'Graphical User Interface Features',
             #           'GUI Features', as well as 'E'.
-            {($_ -eq "E") -or `
-                ($_ -eq "Graphical User Interface Features") -or `
-                ($_ -eq "GUI Features")}
+            {($showMenuWindowsFeatures) -and `
+                (($_ -eq "E") -or `
+                 ($_ -eq "Graphical User Interface Features") -or `
+                 ($_ -eq "GUI Features"))}
             {
                 # Allow the user to configure the state of the Use Windows Explorer variable, thus giving
                 #  the user the ability to benefit - if chosen so - of using Windows Explorer functionality.
