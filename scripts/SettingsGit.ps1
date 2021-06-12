@@ -437,7 +437,7 @@ class SettingsGit
         #   - Found Git
         #   OR
         #   - Show Hidden Menus
-        if (($userPreferences.GetUseGitFeatures() -and $gitControl.DetectGitExist()) `
+        if (($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit()) `
                 -or $userPreferences.GetShowHiddenMenu())
         {
             $showMenuUpdateSource.Value = $true;
@@ -464,7 +464,7 @@ class SettingsGit
         #   - Found Git
         #   OR
         #   - Show Hidden Menus
-        if (($userPreferences.GetUseGitFeatures() -and $gitControl.DetectGitExist()) `
+        if (($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit()) `
                 -or $userPreferences.GetShowHiddenMenu())
         {
             $showMenuCommitIDSize.Value = $true;
@@ -491,7 +491,7 @@ class SettingsGit
         #   - Found Git
         #   OR
         #   - Show Hidden Menus
-        if (($userPreferences.GetUseGitFeatures() -and $gitControl.DetectGitExist()) `
+        if (($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit()) `
                 -or $userPreferences.GetShowHiddenMenu())
         {
             $showMenuRetrieveHistory.Value = $true;
@@ -519,7 +519,7 @@ class SettingsGit
         #   - Retrieve History is $true
         #   OR
         #   - Show Hidden Menus
-        if (($userPreferences.GetUseGitFeatures() -and $gitControl.DetectGitExist() `
+        if (($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit() `
                 -and $gitControl.GetFetchChangelog()) `
             -or $userPreferences.GetShowHiddenMenu())
         {
@@ -547,7 +547,7 @@ class SettingsGit
         #   - Found Git
         #   OR
         #   - Show Hidden Menus
-        if (($userPreferences.GetUseGitFeatures() -and $gitControl.DetectGitExist()) `
+        if (($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit()) `
             -or $userPreferences.GetShowHiddenMenu())
         {
             $ShowMenuGenerateReport.Value = $true;
