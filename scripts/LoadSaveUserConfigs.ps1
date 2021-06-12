@@ -220,7 +220,7 @@
 
 
                 # Successfully updated
-                return $true
+                return $true;
             } # If : Successfully Updated Path
         } # If : Directory does not Exist
 
@@ -712,7 +712,7 @@
 
 
                 # Successfully loaded the user's environment.
-                return $true
+                return $true;
             } # if : Successfully loaded environment
 
             # If there was a general failure while loading the user's preferred environment, then immediately stop to avoid
