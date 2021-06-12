@@ -522,7 +522,7 @@ class Settings7Zip
         #   OR
         #   - Show Hidden Menus
         if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) `
-                -and $sevenZip.Detect7ZipExist()) `
+                -and [CommonFunctions]::IsAvailable7Zip()) `
                 -or $userPreferences.GetShowHiddenMenu())
         {
             $showMenuCompressionMethod.Value = $true;
@@ -551,7 +551,7 @@ class Settings7Zip
         #   OR
         #   - Show Hidden Menus
         if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and `
-            ($sevenZip.Detect7ZipExist()) -and `
+            ([CommonFunctions]::IsAvailable7Zip()) -and `
             ($sevenZip.GetCompressionMethod() -eq [SevenZipCompressionMethod]::Zip)) -or `
                 $userPreferences.GetShowHiddenMenu())
         {
@@ -581,7 +581,7 @@ class Settings7Zip
         #   OR
         #   - Show Hidden Menus
         if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and `
-            ($sevenZip.Detect7ZipExist()) -and `
+            ([CommonFunctions]::IsAvailable7Zip()) -and `
             ($sevenZip.GetCompressionMethod() -eq [SevenZipCompressionMethod]::SevenZip)) -or `
                 $userPreferences.GetShowHiddenMenu())
         {
@@ -619,7 +619,7 @@ class Settings7Zip
         #   OR
         #   - Show Hidden Menus
         if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) `
-                -and $sevenZip.Detect7ZipExist() -and $multithreadSystemDetected) `
+                -and [CommonFunctions]::IsAvailable7Zip() -and $multithreadSystemDetected) `
                 -or $userPreferences.GetShowHiddenMenu())
         {
             $showMenuMultithread.Value = $true;
@@ -647,7 +647,7 @@ class Settings7Zip
         #   OR
         #   - Show Hidden Menus
         if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) `
-                -and $sevenZip.Detect7ZipExist()) `
+                -and [CommonFunctions]::IsAvailable7Zip()) `
                 -or $userPreferences.GetShowHiddenMenu())
         {
             $showMenuCompressionLevel.Value = $true;
@@ -675,7 +675,7 @@ class Settings7Zip
         #   OR
         #   - Show Hidden Menus
         if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) `
-                -and $sevenZip.Detect7ZipExist()) `
+                -and [CommonFunctions]::IsAvailable7Zip()) `
                 -or $userPreferences.GetShowHiddenMenu())
         {
             $showMenuVerifyBuild.Value = $true;
@@ -703,7 +703,7 @@ class Settings7Zip
         #   OR
         #   - Show Hidden Menus
         if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) `
-                -and $sevenZip.Detect7ZipExist()) `
+                -and [CommonFunctions]::IsAvailable7Zip()) `
                 -or $userPreferences.GetShowHiddenMenu())
         {
             $ShowMenuGenerateReport.Value = $true;
