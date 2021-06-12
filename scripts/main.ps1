@@ -82,7 +82,7 @@ CreateDirectories;
 
 
 # Initialize a default Git Control object.
-[GitControl] $gitControl = [GitControl]::GetInstance()
+[GitControl] $gitControl = [GitControl]::GetInstance();
 
 
 # Initialize the 7Zip object
