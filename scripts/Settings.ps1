@@ -71,7 +71,7 @@ class Settings
 
             # Execute the user's request
             $menuLoop = [Settings]::EvaluateExecuteUserRequest($userInput);
-        } while ($menuLoop)
+        } while ($menuLoop);
     } # Main()
 
 
