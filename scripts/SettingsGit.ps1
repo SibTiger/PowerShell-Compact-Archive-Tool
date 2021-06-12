@@ -279,6 +279,9 @@ class SettingsGit
             {
                 # Set the string that will be displayed
                 $commitIDLength.Value = "Short";
+
+                # Break from the switch
+                break;
             } # Short
 
 
@@ -287,6 +290,9 @@ class SettingsGit
             {
                 # Set the string that will be displayed
                 $commitIDLength.Value = "Long";
+
+                # Break from the switch
+                break;
             } # Long
 
 
