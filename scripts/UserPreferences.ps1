@@ -596,8 +596,8 @@ class UserPreferences
  #>
 enum UserPreferencesCompressTool
 {
-    InternalZip = 0;    # Microsoft's .NET 4.5 (or later)
-    SevenZip = 1;       # 7Zip's 7Za (CLI)
+    InternalZip = 0; # Microsoft's .NET 4.5 (or later)
+    SevenZip    = 1; # 7Zip's 7Za (CLI)
 } # UserPreferencesCompressTool
 
 
@@ -611,9 +611,9 @@ enum UserPreferencesCompressTool
  #>
 enum UserPreferencesEventAlarm
 {
-    Everything = 0;     # Everything will sound an alarm.
-    Success = 1;        # Only successful operations will sound an alarm.
-    Errors = 2;         # Only errors will sound an alarm.
-    Warnings = 3;       # Only warnings will sound an alarm.
-    Disable = 4;        # Do not provide any sounds regardless of any events.
+    Everything  = 0; # Everything will sound an alarm.
+    Success     = 1; # Only successful operations will sound an alarm.
+    Errors      = 2; # Only errors will sound an alarm.
+    Warnings    = 3; # Only warnings will sound an alarm.
+    Disable     = 4; # Do not provide any sounds regardless of any events.
 } # UserPreferencesEventAlarm

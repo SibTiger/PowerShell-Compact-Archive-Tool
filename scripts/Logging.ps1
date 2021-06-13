@@ -1081,12 +1081,12 @@ class Logging
  #>
 enum LogMessageLevel
 {
-    Standard        = 0;    # Regular messages
-    Attention       = 1;    # Confirmation messages
-    Information     = 2;    # Informational messages
-    Warning         = 3;    # Warning messages
-    Error           = 4;    # Error messages
-    Fatal           = 5;    # Program death messages
-    Verbose         = 6;    # Debug or detailed messages.
-    UserInput       = 7;    # User Feedback\Input (STDIN\Keyboard)
+    Standard        = 0; # Regular messages
+    Attention       = 1; # Confirmation messages
+    Information     = 2; # Informational messages
+    Warning         = 3; # Warning messages
+    Error           = 4; # Error messages
+    Fatal           = 5; # Program death messages
+    Verbose         = 6; # Debug or detailed messages.
+    UserInput       = 7; # User Feedback\Input (STDIN\Keyboard)
 } # LogMessageLevel

@@ -486,7 +486,7 @@ class CommonCUI
  #>
 enum DrawWaitingForUserInputText
 {
-    WaitingOnYourResponse   = 0;    # This will display "Waiting on your response. . ."
-    PleaseProvideANewPath   = 1;    # This will display "Please provide a new path or 'Cancel' to cancel. . ."
-    ProvideNumericValue     = 2;    # This will display "Please provide a number or 'Cancel' to cancel. . ."
+    WaitingOnYourResponse   = 0; # This will display "Waiting on your response. . ."
+    PleaseProvideANewPath   = 1; # This will display "Please provide a new path or 'Cancel' to cancel. . ."
+    ProvideNumericValue     = 2; # This will display "Please provide a number or 'Cancel' to cancel. . ."
 } # DrawWaitingForUserInputText

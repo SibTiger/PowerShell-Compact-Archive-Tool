@@ -3649,7 +3649,7 @@ class DefaultCompress
  #>
 enum DefaultCompressionLevel
 {
-    Optimal = 0;         # Best Compression (takes time)
-    Fastest = 1;         # Light Compression (little time)
-    NoCompression = 2;   # Store [No Compression]
+    Optimal         = 0; # Best Compression (takes time)
+    Fastest         = 1; # Light Compression (little time)
+    NoCompression   = 2; # Store [No Compression]
 } # DefaultCompressionLevel

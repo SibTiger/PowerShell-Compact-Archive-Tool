@@ -4081,6 +4081,6 @@ class GitControl
  #>
 enum GitCommitLength
 {
-    short = 0;   # Short Form contains seven characters
-    long = 1;    # Long Form contains forty-one characters
+    short   = 0; # Short Form contains seven characters
+    long    = 1; # Long Form contains forty-one characters
 } # GitCommitType

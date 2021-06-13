@@ -4435,9 +4435,9 @@ class CommonIO
  #>
 enum FileHashAlgorithmDotNet
 {
-    sha1 = 0;
-    sha256 = 1;
-    sha384 = 2;
-    sha512 = 3;
-    md5 = 4;
+    sha1    = 0;
+    sha256  = 1;
+    sha384  = 2;
+    sha512  = 3;
+    md5     = 4;
 } # FileHashAlgorithmDotNet

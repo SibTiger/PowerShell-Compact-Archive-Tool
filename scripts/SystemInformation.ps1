@@ -216,8 +216,8 @@ class SystemInformation
  #>
  enum SystemInformationOperatingSystem
  {
-    Windows = 0;    # Windows OS
-    Linux = 1;      # Linux
-    Macintosh = 2;  # Macintosh
-    UNKNOWN = 99;   # Unregistered
+    Windows     = 0;  # Windows OS
+    Linux       = 1;  # Linux
+    Macintosh   = 2;  # Macintosh
+    UNKNOWN     = 99; # Unregistered
  } # SystemInformationOperatingSystem

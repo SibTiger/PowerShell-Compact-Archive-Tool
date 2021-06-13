@@ -4024,11 +4024,11 @@ class SevenZip
  #>
 enum FileHashAlgorithm7Zip
 {
-    crc32 = 0;          # Cyclic Redundancy Check (32bit)
-    crc64 = 1;          # Cyclic Redundancy Check (64bit)
-    sha1 = 2;           # Secure Hash Algorithm 1
-    sha256 = 3;         # Secure Hash Algorithm 256
-    blake2sp = 4;       # BLAKE2sp (Multi-Core)
+    crc32       = 0; # Cyclic Redundancy Check (32bit)
+    crc64       = 1; # Cyclic Redundancy Check (64bit)
+    sha1        = 2; # Secure Hash Algorithm 1
+    sha256      = 3; # Secure Hash Algorithm 256
+    blake2sp    = 4; # BLAKE2sp (Multi-Core)
 } # FileHashAlgorithm7Zip
 
 
@@ -4046,8 +4046,8 @@ enum FileHashAlgorithm7Zip
  #>
 enum SevenZipCompressionMethod
 {
-    Zip = 0;            # Zip format [PK3]
-    SevenZip = 1;       # 7Zip format [PK7]
+    Zip         = 0; # Zip format [PK3]
+    SevenZip    = 1; # 7Zip format [PK7]
 } # SevenZipCompressionMethod
 
 
@@ -4066,9 +4066,9 @@ enum SevenZipCompressionMethod
  #>
 enum SevenZipAlgorithmZip
 {
-    Deflate = 0;        # Deflate Algorithm
-    LZMA = 1;           # LZMA Algorithm
-    BZip2 = 2;          # BZip2 Algorithm
+    Deflate = 0; # Deflate Algorithm
+    LZMA    = 1; # LZMA Algorithm
+    BZip2   = 2; # BZip2 Algorithm
 } # SevenZipAlgorithmZip
 
 
@@ -4087,10 +4087,10 @@ enum SevenZipAlgorithmZip
  #>
 enum SevenZipAlgorithm7Zip
 {
-    LZMA2 = 0;          # LZMA2 Algorithm
-    LZMA = 1;           # LZMA Algorithm
-    BZip2 = 2;          # BZip2 Algorithm
-    PPMd = 3;           # PPMd Algorithm
+    LZMA2   = 0; # LZMA2 Algorithm
+    LZMA    = 1; # LZMA Algorithm
+    BZip2   = 2; # BZip2 Algorithm
+    PPMd    = 3; # PPMd Algorithm
 } # SevenZipAlgorithm7Zip
 
 
@@ -4110,8 +4110,8 @@ enum SevenZipAlgorithm7Zip
  #>
 enum SevenZipCompressionLevel
 {
-    Store = 0;          # Store [No Compression] {0}
-    Minimal = 1;        # Minimal compression    {3}
-    Normal = 2;         # Standard compression   {5}
-    Maximum = 3;        # Maximum compression    {9}
+    Store   = 0; # Store [No Compression] {0}
+    Minimal = 1; # Minimal compression    {3}
+    Normal  = 2; # Standard compression   {5}
+    Maximum = 3; # Maximum compression    {9}
 } # SevenZipCompressionLevel
