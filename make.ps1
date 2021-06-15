@@ -235,6 +235,7 @@ function MakeCompilerDriver()
                         "SettingsZip.ps1", `
                         "SettingsGit.ps1", `
                         "MainMenu.ps1", `
+                        "Builder.ps1", `
                         "main.ps1");
 
     # Loop through each index in the array
