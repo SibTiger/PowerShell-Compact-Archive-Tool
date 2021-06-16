@@ -179,17 +179,9 @@ class MainMenu
                 ($_ -eq "Make $([ProjectInformation]::projectName)") -or `
                 ($_ -eq "Build $([ProjectInformation]::projectName)")}
             {
-                # Build the desired ZDoom project
-                [Logging]::DisplayMessage("Build Project...");
+                # Build the desired ZDoom based Project
+                [Builder]::Build();
 
-                # Not yet available!
-                [Logging]::DisplayMessage("`tYonkers!");
-                [Logging]::DisplayMessage("##################################");
-                [Logging]::DisplayMessage("");
-                [Logging]::DisplayMessage("This feature is not yet available!");
-                [Logging]::DisplayMessage("Please wait a bit more time so that I can construct this feature properly....");
-                [Logging]::DisplayMessage("`r`n");
-                PAUSE;
 
                 # Finished
                 break;
