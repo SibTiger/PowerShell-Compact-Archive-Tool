@@ -49,7 +49,7 @@ class Builder
 
         # To avoid compiling issues, we will merely return an error for now.
         return $false;
-    } # Builder()
+    } # Build()
 
 
 
