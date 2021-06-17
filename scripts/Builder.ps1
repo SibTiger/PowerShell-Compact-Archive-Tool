@@ -40,7 +40,7 @@ class Builder
     #   $true = The Project Build had successfully been created.
     # -------------------------------
     #>
-    static [bool] Build ()
+    static [bool] Build()
     {
         # Before we begin, we must make sure that the required resources
         #  are available for us to use within this operation.
