@@ -44,7 +44,12 @@ class Builder
     {
         # Before we begin, we must make sure that the required resources
         #  are available for us to use within this operation.
-        [Builder]::PrerequisiteCheck();
+        if (![Builder]::PrerequisiteCheck())
+        {
+            # Unable to compile the project as there is one or more
+            #  resources missing.
+            return $false;
+        } # if : Run Prerequisite Check
 
 
         # To avoid compiling issues, we will merely return an error for now.
