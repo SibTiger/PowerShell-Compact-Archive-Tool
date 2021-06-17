@@ -44,7 +44,9 @@ class Builder
     {
         # Before we begin, we must make sure that the required resources
         #  are available for us to use within this operation.
-        
+        [Builder]::PrerequisiteCheck();
+
+
         # To avoid compiling issues, we will merely return an error for now.
         return $false;
     } # Builder()
