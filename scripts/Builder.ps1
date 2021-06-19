@@ -150,6 +150,12 @@ class Builder
             # Debugging
             # --------------
 
+            # Generate a message to display to the user.
+            $displayErrorMessage = ("I cannot find the folder to store any new compiled builds!`r`n" + `
+                                    "`tPlease reconfigure the Output Path in the program's general settings!`r`n" + `
+                                    "`t`tOutput Path is presently: $($userPreferences.GetProjectBuildsPath())`r`n" + `
+                                    "`t`tPath Exists Detection Status: $([string][CommonIO]::CheckPathExists("$($userPreferences.GetProjectBuildsPath())", $true))");
+
             # Generate the initial message
             $logMessage = "Unable to find the Output Directory!";
 
@@ -161,6 +167,11 @@ class Builder
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
