@@ -115,10 +115,10 @@ class Builder
                                     "`t`tPath Exists Detection Status: $([string][CommonIO]::CheckPathExists("$($userPreferences.GetProjectPath())", $true))");
 
             # Generate the initial message
-            $logMessage = "Unable to find the project's source files!";
+            $logMessage = "Unable to find the $([ProjectInformation]::projectName) project's source files!";
 
             # Generate any additional information that might be useful
-            $logAdditionalMSG = ("Please reconfigure the location of the Project's Source.`r`n" + `
+            $logAdditionalMSG = ("Please reconfigure the location of the $([ProjectInformation]::projectName) Project's Source.`r`n" + `
                                 "`tProject Source Location is: $($userPreferences.GetProjectPath())`r`n" + `
                                 "`tProject Source Path Exists: $([string][CommonIO]::CheckPathExists("$($userPreferences.GetProjectPath())", $true))");
 
