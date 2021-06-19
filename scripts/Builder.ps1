@@ -94,6 +94,7 @@ class Builder
         # Debugging Variables
         [string] $logMessage = $NULL;           # Main message regarding the logged event.
         [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
+        [string] $displayErrorMessage = $NULL;  # Display message to the user.
         # ----------------------------------------
 
 
@@ -107,6 +108,12 @@ class Builder
             # Debugging
             # --------------
 
+            # Generate a message to display to the user.
+            $displayErrorMessage = ("I am unable to find the $([ProjectInformation]::projectName) source files!`r`n" + `
+                                    "`tPlease reconfigure the path for the $([ProjectInformation]::projectName) project!`r`n" + `
+                                    "`t`t$([ProjectInformation]::projectName) Project Path is presently: $($userPreferences.GetProjectPath())`r`n" + `
+                                    "`t`tPath Exists Detection Status: $([string][CommonIO]::CheckPathExists("$($userPreferences.GetProjectPath())", $true))");
+
             # Generate the initial message
             $logMessage = "Unable to find the project's source files!";
 
@@ -118,6 +125,11 @@ class Builder
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                         "$($logAdditionalMSG)", `   # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
