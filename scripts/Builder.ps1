@@ -249,6 +249,14 @@ class Builder
                     # Debugging
                     # --------------
 
+                    # Generate a message to display to the user.
+                    # Generate a message to display to the user.
+                    $displayErrorMessage = ("I am unable to find the 7Zip software on your computer!`r`n" + `
+                                        "`tPlease assure that 7Zip had been properly installed on your computer!`r`n" + `
+                                        "`t`tYou may download the latest version of 7Zip at the official website!`r`n" + `
+                                        "`t`thttps://www.7-zip.org/download.html`r`n" + `
+                                        "`t`t7Zip Detection Status: $([string][CommonFunctions]::IsAvailable7Zip())");
+
                     # Generate the initial message
                     $logMessage = "Unable to find the 7Zip Application!";
 
@@ -260,6 +268,11 @@ class Builder
                     # Pass the information to the logging system
                     [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                                 "$($logAdditionalMSG)", `   # Additional information
+                                                [LogMessageLevel]::Error);  # Message level
+
+                    # Display a message to the user that something went horribly wrong
+                    #  and log that same message for referencing purpose.
+                    [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
                                                 [LogMessageLevel]::Error);  # Message level
 
                     # * * * * * * * * * * * * * * * * * * *
