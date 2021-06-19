@@ -187,7 +187,7 @@ class Builder
         switch ($userPreferences.GetCompressionTool())
         {
             # dotNET Archive Zip
-            [UserPreferencesCompressTool]::InternalZip
+            ([UserPreferencesCompressTool]::InternalZip)
             {
                 # Make sure that the dotNET Archive Zip is available
                 if (![CommonFunctions]::IsAvailableZip())
@@ -237,7 +237,7 @@ class Builder
             } # dotNET Archive Zip
 
             # 7Zip
-            [UserPreferencesCompressTool]::SevenZip
+            ([UserPreferencesCompressTool]::SevenZip)
             {
                 # Make sure that the 7Zip is available
                 if (![CommonFunctions]::IsAvailable7Zip())
