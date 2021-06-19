@@ -341,6 +341,13 @@ class Builder
                 # Debugging
                 # --------------
 
+                # Generate a message to display to the user.
+                $displayErrorMessage = ("I am unable to find the Git Version Control software on your computer!`r`n" + `
+                                        "`tPlease assure that Git Version Control had been properly installed on your computer!`r`n" + `
+                                        "`t`tYou may download the latest version of Git at the official website!`r`n" + `
+                                        "`t`thttps://git-scm.com/`r`n" + `
+                                        "`t`Git Detection Status: $([string][CommonFunctions]::IsAvailableGit())");
+
                 # Generate the initial message
                 $logMessage = "Unable to find the Git Application!";
 
@@ -352,6 +359,11 @@ class Builder
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                             "$($logAdditionalMSG)", `   # Additional information
+                                            [LogMessageLevel]::Error);  # Message level
+
+                # Display a message to the user that something went horribly wrong
+                #  and log that same message for referencing purpose.
+                [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
                                             [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
