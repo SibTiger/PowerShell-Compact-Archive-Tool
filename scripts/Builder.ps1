@@ -250,7 +250,6 @@ class Builder
                     # --------------
 
                     # Generate a message to display to the user.
-                    # Generate a message to display to the user.
                     $displayErrorMessage = ("I am unable to find the 7Zip software on your computer!`r`n" + `
                                         "`tPlease assure that 7Zip had been properly installed on your computer!`r`n" + `
                                         "`t`tYou may download the latest version of 7Zip at the official website!`r`n" + `
