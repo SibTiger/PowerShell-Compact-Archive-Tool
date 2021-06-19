@@ -82,6 +82,18 @@ class Builder
         # Retrieve the current instance of the User Preferences object; this contains the user's
         #  generalized settings.
         [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+
+        # Retrieve the current instance of the user's Git Control object; this contains the user's
+        #  preferences as to how Git will be used within this application.
+        [GitControl] $gitControl = [GitControl]::GetInstance();
+
+        # Retrieve the current instance of the user's 7Zip object; this contains the user's
+        #  preferences as to how 7Zip will be utilized within this application.
+        [SevenZip] $sevenZip = [SevenZip]::GetInstance();
+
+        # Debugging Variables
+        [string] $logMessage = $NULL;           # Main message regarding the logged event.
+        [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
         # ----------------------------------------
 
 
@@ -89,6 +101,29 @@ class Builder
         if (![CommonIO]::CheckPathExists("$($userPreferences.GetProjectPath())", $true))
         {
             # Unable to find the project's source files; unable to continue.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            $logMessage = "Unable to find the project's source files!";
+
+            # Generate any additional information that might be useful
+            $logAdditionalMSG = ("Please reconfigure the location of the Project's Source.`r`n" + `
+                                "`tProject Source Location is: $($userPreferences.GetProjectPath())`r`n" + `
+                                "`tProject Source Path Exists: $([string][CommonIO]::CheckPathExists("$($userPreferences.GetProjectPath())", $true))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Because we cannot find the project's source files, we have to abort the operation.
             return $false;
         } # if : Check Project source files exists
 
@@ -97,6 +132,30 @@ class Builder
         if (![CommonIO]::CheckPathExists("$($userPreferences.GetProjectBuildsPath())", $true))
         {
             # Unable to find the output path directory; unable to continue.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            $logMessage = "Unable to find the Output Directory!";
+
+            # Generate any additional information that might be useful
+            $logAdditionalMSG = ("Please reconfigure the location of the Output Directory.`r`n" + `
+                                "`tOutput Directory Location is: $($userPreferences.GetProjectBuildsPath())`r`n" + `
+                                "`tOutput Directory Path Found: $([string][CommonIO]::CheckPathExists("$($userPreferences.GetProjectBuildsPath())", $true))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Because we cannot find the output directory, we have no place to place the
+            #  compiled build.  We cannot continue this operation.
             return $false;
         } # if : Check Output Path exists
 
@@ -111,6 +170,30 @@ class Builder
                 if (![CommonFunctions]::IsAvailableZip())
                 {
                     # Unable to find the dotNET Archive Zip
+
+
+                    # * * * * * * * * * * * * * * * * * * *
+                    # Debugging
+                    # --------------
+
+                    # Generate the initial message
+                    $logMessage = "Unable to find the dotNET Archive Zip Module!";
+
+                    # Generate any additional information that might be useful
+                    $logAdditionalMSG = ("Please assure that you are currently using the latest version of PowerShell Core!`r`n" + `
+                                        "`tPowerShell Version: $([SystemInformation]::PowerShellVersion())`r`n" + `
+                                        "`tOperating System: $([String][SystemInformation]::OperatingSystem())");
+
+                    # Pass the information to the logging system
+                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                "$($logAdditionalMSG)", `   # Additional information
+                                                [LogMessageLevel]::Error);  # Message level
+
+                    # * * * * * * * * * * * * * * * * * * *
+
+
+                    # Because we cannot find the default internal Archive Module within PowerShell, we
+                    #  cannot proceed forward with the compiling phase.
                     return $false;
                 } # If : Found Default Zip
 
@@ -125,6 +208,30 @@ class Builder
                 if (![CommonFunctions]::IsAvailable7Zip())
                 {
                     # Unable to find the 7Zip application
+
+
+                    # * * * * * * * * * * * * * * * * * * *
+                    # Debugging
+                    # --------------
+
+                    # Generate the initial message
+                    $logMessage = "Unable to find the 7Zip Application!";
+
+                    # Generate any additional information that might be useful
+                    $logAdditionalMSG = ("Please assure that you currently have 7Zip installed and that this program can detect it's installation path!`r`n" + `
+                                        "`t7Zip Path: $($sevenZip.GetExecutablePath())`r`n" + `
+                                        "`tFound 7Zip: $([String][CommonFunctions]::IsAvailable7Zip())");
+
+                    # Pass the information to the logging system
+                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                "$($logAdditionalMSG)", `   # Additional information
+                                                [LogMessageLevel]::Error);  # Message level
+
+                    # * * * * * * * * * * * * * * * * * * *
+
+
+                    # Because the user specified that we must use 7Zip in order to compile the builds,
+                    #  then we must abort the operation as we are unable to find the software.
                     return $false;
                 } # If : Found 7Zip
 
@@ -136,6 +243,29 @@ class Builder
             default
             {
                 # Unknown or Unsupported compression tool!
+
+
+                    # * * * * * * * * * * * * * * * * * * *
+                    # Debugging
+                    # --------------
+
+                    # Generate the initial message
+                    $logMessage = "Requested compression software is either unsupported or unknown!";
+
+                    # Generate any additional information that might be useful
+                    $logAdditionalMSG = ("Please reconfigure your preferred Compression Tool within the Program's Generalized Settings!`r`n" + `
+                                        "`tCompression Tool ID: $([uint]$userPreferences.GetCompressionTool())");
+
+                    # Pass the information to the logging system
+                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                "$($logAdditionalMSG)", `   # Additional information
+                                                [LogMessageLevel]::Error);  # Message level
+
+                    # * * * * * * * * * * * * * * * * * * *
+
+
+                # Because this compression tool is not support or simply unknown, have to abruptly
+                #  stop.
                 return $false;
             } # Unknown or Unsupported
         } # Switch : Determine Specified Compression Tool
@@ -148,9 +278,56 @@ class Builder
             if (![CommonFunctions]::IsAvailableGit())
             {
                 # Unable to find the Git application.
+
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                $logMessage = "Unable to find the Git Application!";
+
+                # Generate any additional information that might be useful
+                $logAdditionalMSG = ("Please assure that you currently have Git installed and that this program can detect it's installation path!`r`n" + `
+                                    "`tGit Path: $($gitControl.GetExecutablePath())`r`n" + `
+                                    "`tFound Git: $([String][CommonFunctions]::IsAvailableGit())");
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            [LogMessageLevel]::Error);  # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
+                # Because the user had requested that we utilize the Git software yet we are unable
+                #  to find it, we may not continue with the compiling operation.
                 return $false;
             } # if : Check if Git Exists
         } # if : Git Features Requested
+
+
+
+        # If we made it this far, that means that we have everything we need to compile this project!
+
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        $logMessage = "Found all of the resources necessary to compile $([ProjectInformation]::projectName)!";
+
+        # Generate any additional information that might be useful
+        $logAdditionalMSG = ("Prerequisite Check had successfully passed!");
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                    "$($logAdditionalMSG)", `       # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
 
 
         # If we made it to this point, then we have all of the resources
