@@ -385,6 +385,9 @@ class Builder
         # Debugging
         # --------------
 
+        # Generate a message to display to the user.
+        $displayErrorMessage = "We have all the resources that we need!";
+
         # Generate the initial message
         $logMessage = "Found all of the resources necessary to compile $([ProjectInformation]::projectName)!";
 
