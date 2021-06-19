@@ -296,6 +296,11 @@ class Builder
                     # Debugging
                     # --------------
 
+                    # Generate a message to display to the user.
+                    $displayErrorMessage = ("Please choose a valid Compression Tool within the Program's Generalized settings!`r`n" + `
+                                            "The current compression tool that you had requested is either no longer supported or unknown.`r`n" + `
+                                            "`tCurrent Compression Tool ID is: $([uint]$userPreferences.GetCompressionTool())");
+
                     # Generate the initial message
                     $logMessage = "Requested compression software is either unsupported or unknown!";
 
@@ -306,6 +311,11 @@ class Builder
                     # Pass the information to the logging system
                     [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                                 "$($logAdditionalMSG)", `   # Additional information
+                                                [LogMessageLevel]::Error);  # Message level
+
+                    # Display a message to the user that something went horribly wrong
+                    #  and log that same message for referencing purpose.
+                    [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
                                                 [LogMessageLevel]::Error);  # Message level
 
                     # * * * * * * * * * * * * * * * * * * *
