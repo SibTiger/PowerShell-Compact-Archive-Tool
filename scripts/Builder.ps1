@@ -199,6 +199,13 @@ class Builder
                     # Debugging
                     # --------------
 
+                    # Generate a message to display to the user.
+                    $displayErrorMessage = ("I am unable to find support for ZIP in this version of PowerShell!`r`n" + `
+                                        "`tPlease make sure that you are using the latest version of PowerShell Core!`r`n" + `
+                                        "`t`tYou may check out any new releases of the PowerShell Core at GitHub!`r`n" + `
+                                        "`t`thttps://github.com/PowerShell/PowerShell/releases`r`n" + `
+                                        "`t`tZIP Archive Module Detection Status: $([string][CommonFunctions]::IsAvailableZip())");
+
                     # Generate the initial message
                     $logMessage = "Unable to find the dotNET Archive Zip Module!";
 
@@ -211,6 +218,11 @@ class Builder
                     [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
                                                 "$($logAdditionalMSG)", `   # Additional information
                                                 [LogMessageLevel]::Error);  # Message level
+
+                    # Display a message to the user that something went horribly wrong
+                    #  and log that same message for referencing purpose.
+                    [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                    [LogMessageLevel]::Error);  # Message level
 
                     # * * * * * * * * * * * * * * * * * * *
 
