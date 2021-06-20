@@ -104,14 +104,24 @@ class Builder
         #  preferences as to how 7Zip will be utilized within this application.
         [SevenZip] $sevenZip = [SevenZip]::GetInstance();
 
+        # We will use this variable to cache the detection status of a particular item that we want
+        #  to check.  Instead of having to recall the exact same checking function over and over again,
+        #  we will use this variable to merely cache the value as we step through each process within
+        #  the checking proceedure.
+        [bool] $boolCacheValue = $false;
+
+
         # Debugging Variables
         [string] $logMessage = $NULL;           # Main message regarding the logged event.
         [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
         # ----------------------------------------
 
 
+        # Check the current status of the Project Path
+        $boolCacheValue = [CommonIO]::CheckPathExists("$($userPreferences.GetProjectPath())", $true);
+
         # Can we find the project's source files?
-        if (![CommonIO]::CheckPathExists("$($userPreferences.GetProjectPath())", $true))
+        if ($boolCacheValue -eq $false)
         {
             # Unable to find the project's source files; unable to continue.
 
@@ -124,7 +134,7 @@ class Builder
             [string] $displayErrorMessage = ("I am unable to find the $([ProjectInformation]::projectName) source files!`r`n" + `
                                             "Please reconfigure the path for the $([ProjectInformation]::projectName) project!`r`n" + `
                                             "`t- $([ProjectInformation]::projectName) Project Path is presently: $($userPreferences.GetProjectPath())`r`n" + `
-                                            "`t- Path Exists Detection Status: $([string][CommonIO]::CheckPathExists("$($userPreferences.GetProjectPath())", $true))");
+                                            "`t- Path Exists Detection Status: $([string]$boolCacheValue)");
 
             # Generate the initial message
             $logMessage = "Unable to find the $([ProjectInformation]::projectName) project's source files!";
@@ -132,7 +142,7 @@ class Builder
             # Generate any additional information that might be useful
             $logAdditionalMSG = ("Please reconfigure the location of the $([ProjectInformation]::projectName) Project's Source.`r`n" + `
                                 "`tProject Source Location is: $($userPreferences.GetProjectPath())`r`n" + `
-                                "`tProject Source Path Exists: $([string][CommonIO]::CheckPathExists("$($userPreferences.GetProjectPath())", $true))");
+                                "`tProject Source Path Exists: $([string]$boolCacheValue)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -152,8 +162,12 @@ class Builder
         } # if : Check Project source files exists
 
 
+
+        # Check the current status of the Output Path
+        $boolCacheValue = [CommonIO]::CheckPathExists("$($userPreferences.GetProjectBuildsPath())", $true);
+
         # Can we find the output path?
-        if (![CommonIO]::CheckPathExists("$($userPreferences.GetProjectBuildsPath())", $true))
+        if ($boolCacheValue -eq $false)
         {
             # Unable to find the output path directory; unable to continue.
 
@@ -166,7 +180,7 @@ class Builder
             [string] $displayErrorMessage = ("I cannot find the folder to store any new compiled builds!`r`n" + `
                                             "Please reconfigure the Output Path in the program's general settings!`r`n" + `
                                             "`t- Output Path is presently: $($userPreferences.GetProjectBuildsPath())`r`n" + `
-                                            "`t- Path Exists Detection Status: $([string][CommonIO]::CheckPathExists("$($userPreferences.GetProjectBuildsPath())", $true))");
+                                            "`t- Path Exists Detection Status: $([string]$boolCacheValue)");
 
             # Generate the initial message
             $logMessage = "Unable to find the Output Directory!";
@@ -174,7 +188,7 @@ class Builder
             # Generate any additional information that might be useful
             $logAdditionalMSG = ("Please reconfigure the location of the Output Directory.`r`n" + `
                                 "`tOutput Directory Location is: $($userPreferences.GetProjectBuildsPath())`r`n" + `
-                                "`tOutput Directory Path Found: $([string][CommonIO]::CheckPathExists("$($userPreferences.GetProjectBuildsPath())", $true))");
+                                "`tOutput Directory Path Found: $([string]$boolCacheValue)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -201,8 +215,11 @@ class Builder
             # dotNET Archive Zip
             ([UserPreferencesCompressTool]::InternalZip)
             {
+                # Check the current status of the Archive ZIP Module
+                $boolCacheValue = [CommonFunctions]::IsAvailableZip();
+
                 # Make sure that the dotNET Archive Zip is available
-                if (![CommonFunctions]::IsAvailableZip())
+                if ($boolCacheValue -eq $false)
                 {
                     # Unable to find the dotNET Archive Zip
 
@@ -215,7 +232,7 @@ class Builder
                     [string] $displayErrorMessage = ("I am unable to find support for ZIP in this version of PowerShell!`r`n" + `
                                                     "Please make sure that you are using the latest version of PowerShell Core!`r`n" + `
                                                     "`t- You are currently using PowerShell Core Version: $([SystemInformation]::PowerShellVersion())`r`n" + `
-                                                    "`t- ZIP Archive Module Detection Status: $([string][CommonFunctions]::IsAvailableZip())`r`n" + `
+                                                    "`t- ZIP Archive Module Detection Status: $([string]$boolCacheValue)`r`n" + `
                                                     "`t- You may check out any new releases of the PowerShell Core at GitHub!`r`n" + `
                                                     "`t`thttps://github.com/PowerShell/PowerShell/releases");
 
@@ -224,7 +241,7 @@ class Builder
 
                     # Generate any additional information that might be useful
                     $logAdditionalMSG = ("Please assure that you are currently using the latest version of PowerShell Core!`r`n" + `
-                                        "`tArchive ZIP Module Detection reported: $([string][CommonFunctions]::IsAvailableZip())`r`n" + `
+                                        "`tArchive ZIP Module Detection reported: $([string]$boolCacheValue)`r`n" + `
                                         "`tPowerShell Version: $([SystemInformation]::PowerShellVersion())`r`n" + `
                                         "`tOperating System: $([String][SystemInformation]::OperatingSystem())`r`n" + `
                                         "`tCheck for new versions of PowerShell Core at the provided official website:`r`n" + `
@@ -255,8 +272,11 @@ class Builder
             # 7Zip
             ([UserPreferencesCompressTool]::SevenZip)
             {
+                # Check the current status of the 7Zip application
+                $boolCacheValue = [CommonFunctions]::IsAvailable7Zip();
+
                 # Make sure that the 7Zip is available
-                if (![CommonFunctions]::IsAvailable7Zip())
+                if ($boolCacheValue -eq $false)
                 {
                     # Unable to find the 7Zip application
 
@@ -268,7 +288,7 @@ class Builder
                     # Generate a message to display to the user.
                     [string] $displayErrorMessage = ("I am unable to find the 7Zip software on your computer!`r`n" + `
                                                     "Please assure that 7Zip had been properly installed on your computer!`r`n" + `
-                                                    "`t- 7Zip Detection Status: $([string][CommonFunctions]::IsAvailable7Zip())`r`n" + `
+                                                    "`t- 7Zip Detection Status: $([string]$boolCacheValue)`r`n" + `
                                                     "`t- You may download the latest version of 7Zip at the official website!`r`n" + `
                                                     "`t`thttps://www.7-zip.org/download.html");
 
@@ -277,7 +297,7 @@ class Builder
 
                     # Generate any additional information that might be useful
                     $logAdditionalMSG = ("Please assure that you currently have 7Zip installed and that $($Global:_PROGRAMNAME_) can detect it's installation path!`r`n" + `
-                                        "`tFound 7Zip: $([String][CommonFunctions]::IsAvailable7Zip())`r`n" + `
+                                        "`tFound 7Zip: $([String]$boolCacheValue)`r`n" + `
                                         "`t7Zip Path: $($sevenZip.GetExecutablePath())`r`n" + `
                                         "`tInstall the latest version of 7Zip at the official website:`r`n" + `
                                         "`t`thttps://www.7-zip.org/download.html");
@@ -349,8 +369,11 @@ class Builder
         # Determine if the user wanted us to use Git Features
         if ($userPreferences.GetUseGitFeatures())
         {
+            # Check the current status of the Git application
+            $boolCacheValue = [CommonFunctions]::IsAvailableGit();
+
             # Assure that we are able to find the Git Application
-            if (![CommonFunctions]::IsAvailableGit())
+            if ($boolCacheValue -eq $false)
             {
                 # Unable to find the Git application.
 
@@ -362,7 +385,7 @@ class Builder
                 # Generate a message to display to the user.
                 [string] $displayErrorMessage = ("I am unable to find the Git Version Control software on your computer!`r`n" + `
                                                 "Please assure that Git Version Control had been properly installed on your computer!`r`n" + `
-                                                "`t- Git Detection Status: $([string][CommonFunctions]::IsAvailableGit())`r`n" + `
+                                                "`t- Git Detection Status: $([string]$boolCacheValue)`r`n" + `
                                                 "`t- You may download the latest version of Git at the official website!`r`n" + `
                                                 "`t`thttps://git-scm.com/");
 
@@ -371,7 +394,7 @@ class Builder
 
                 # Generate any additional information that might be useful
                 $logAdditionalMSG = ("Please assure that you currently have Git installed and that $($Global:_PROGRAMNAME_) can detect it's installation path!`r`n" + `
-                                    "`tFound Git: $([String][CommonFunctions]::IsAvailableGit())`r`n" + `
+                                    "`tFound Git: $([String]$boolCacheValue)`r`n" + `
                                     "`tGit Path: $($gitControl.GetExecutablePath())`r`n" + `
                                     "`tInstall the latest version of GIT at the official website:`r`n" + `
                                     "`t`thttps://git-scm.com/");
