@@ -260,7 +260,7 @@ class Builder
                     $logMessage = "Unable to find the 7Zip Application!";
 
                     # Generate any additional information that might be useful
-                    $logAdditionalMSG = ("Please assure that you currently have 7Zip installed and that this program can detect it's installation path!`r`n" + `
+                    $logAdditionalMSG = ("Please assure that you currently have 7Zip installed and that $($Global:_PROGRAMNAME_) can detect it's installation path!`r`n" + `
                                         "`t7Zip Path: $($sevenZip.GetExecutablePath())`r`n" + `
                                         "`tFound 7Zip: $([String][CommonFunctions]::IsAvailable7Zip())");
 
@@ -352,7 +352,7 @@ class Builder
                 $logMessage = "Unable to find the Git Application!";
 
                 # Generate any additional information that might be useful
-                $logAdditionalMSG = ("Please assure that you currently have Git installed and that this program can detect it's installation path!`r`n" + `
+                $logAdditionalMSG = ("Please assure that you currently have Git installed and that $($Global:_PROGRAMNAME_) can detect it's installation path!`r`n" + `
                                     "`tGit Path: $($gitControl.GetExecutablePath())`r`n" + `
                                     "`tFound Git: $([String][CommonFunctions]::IsAvailableGit())");
 
