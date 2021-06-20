@@ -107,7 +107,6 @@ class Builder
         # Debugging Variables
         [string] $logMessage = $NULL;           # Main message regarding the logged event.
         [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
-        [string] $displayErrorMessage = $NULL;  # Display message to the user.
         # ----------------------------------------
 
 
@@ -122,10 +121,10 @@ class Builder
             # --------------
 
             # Generate a message to display to the user.
-            $displayErrorMessage = ("I am unable to find the $([ProjectInformation]::projectName) source files!`r`n" + `
-                                    "Please reconfigure the path for the $([ProjectInformation]::projectName) project!`r`n" + `
-                                    "`t- $([ProjectInformation]::projectName) Project Path is presently: $($userPreferences.GetProjectPath())`r`n" + `
-                                    "`t- Path Exists Detection Status: $([string][CommonIO]::CheckPathExists("$($userPreferences.GetProjectPath())", $true))");
+            [string] $displayErrorMessage = ("I am unable to find the $([ProjectInformation]::projectName) source files!`r`n" + `
+                                            "Please reconfigure the path for the $([ProjectInformation]::projectName) project!`r`n" + `
+                                            "`t- $([ProjectInformation]::projectName) Project Path is presently: $($userPreferences.GetProjectPath())`r`n" + `
+                                            "`t- Path Exists Detection Status: $([string][CommonIO]::CheckPathExists("$($userPreferences.GetProjectPath())", $true))");
 
             # Generate the initial message
             $logMessage = "Unable to find the $([ProjectInformation]::projectName) project's source files!";
@@ -164,10 +163,10 @@ class Builder
             # --------------
 
             # Generate a message to display to the user.
-            $displayErrorMessage = ("I cannot find the folder to store any new compiled builds!`r`n" + `
-                                    "Please reconfigure the Output Path in the program's general settings!`r`n" + `
-                                    "`t- Output Path is presently: $($userPreferences.GetProjectBuildsPath())`r`n" + `
-                                    "`t- Path Exists Detection Status: $([string][CommonIO]::CheckPathExists("$($userPreferences.GetProjectBuildsPath())", $true))");
+            [string] $displayErrorMessage = ("I cannot find the folder to store any new compiled builds!`r`n" + `
+                                            "Please reconfigure the Output Path in the program's general settings!`r`n" + `
+                                            "`t- Output Path is presently: $($userPreferences.GetProjectBuildsPath())`r`n" + `
+                                            "`t- Path Exists Detection Status: $([string][CommonIO]::CheckPathExists("$($userPreferences.GetProjectBuildsPath())", $true))");
 
             # Generate the initial message
             $logMessage = "Unable to find the Output Directory!";
@@ -213,12 +212,12 @@ class Builder
                     # --------------
 
                     # Generate a message to display to the user.
-                    $displayErrorMessage = ("I am unable to find support for ZIP in this version of PowerShell!`r`n" + `
-                                        "Please make sure that you are using the latest version of PowerShell Core!`r`n" + `
-                                        "`t- You are currently using PowerShell Core Version: $([SystemInformation]::PowerShellVersion())`r`n" + `
-                                        "`t- ZIP Archive Module Detection Status: $([string][CommonFunctions]::IsAvailableZip())`r`n" + `
-                                        "`t- You may check out any new releases of the PowerShell Core at GitHub!`r`n" + `
-                                        "`t`thttps://github.com/PowerShell/PowerShell/releases");
+                    [string] $displayErrorMessage = ("I am unable to find support for ZIP in this version of PowerShell!`r`n" + `
+                                                    "Please make sure that you are using the latest version of PowerShell Core!`r`n" + `
+                                                    "`t- You are currently using PowerShell Core Version: $([SystemInformation]::PowerShellVersion())`r`n" + `
+                                                    "`t- ZIP Archive Module Detection Status: $([string][CommonFunctions]::IsAvailableZip())`r`n" + `
+                                                    "`t- You may check out any new releases of the PowerShell Core at GitHub!`r`n" + `
+                                                    "`t`thttps://github.com/PowerShell/PowerShell/releases");
 
                     # Generate the initial message
                     $logMessage = "Unable to find the dotNET Archive Zip Module!";
@@ -267,11 +266,11 @@ class Builder
                     # --------------
 
                     # Generate a message to display to the user.
-                    $displayErrorMessage = ("I am unable to find the 7Zip software on your computer!`r`n" + `
-                                        "Please assure that 7Zip had been properly installed on your computer!`r`n" + `
-                                        "`t- 7Zip Detection Status: $([string][CommonFunctions]::IsAvailable7Zip())`r`n" + `
-                                        "`t- You may download the latest version of 7Zip at the official website!`r`n" + `
-                                        "`t`thttps://www.7-zip.org/download.html");
+                    [string] $displayErrorMessage = ("I am unable to find the 7Zip software on your computer!`r`n" + `
+                                                    "Please assure that 7Zip had been properly installed on your computer!`r`n" + `
+                                                    "`t- 7Zip Detection Status: $([string][CommonFunctions]::IsAvailable7Zip())`r`n" + `
+                                                    "`t- You may download the latest version of 7Zip at the official website!`r`n" + `
+                                                    "`t`thttps://www.7-zip.org/download.html");
 
                     # Generate the initial message
                     $logMessage = "Unable to find the 7Zip Application!";
@@ -316,9 +315,9 @@ class Builder
                     # --------------
 
                     # Generate a message to display to the user.
-                    $displayErrorMessage = ("Please choose a valid Compression Tool within the Program's Generalized settings!`r`n" + `
-                                            "The current compression tool that you had requested is either no longer supported or unknown.`r`n" + `
-                                            "`t- Current Compression Tool ID is: $([uint]$userPreferences.GetCompressionTool())");
+                    [string] $displayErrorMessage = ("Please choose a valid Compression Tool within the Program's Generalized settings!`r`n" + `
+                                                    "The current compression tool that you had requested is either no longer supported or unknown.`r`n" + `
+                                                    "`t- Current Compression Tool ID is: $([uint]$userPreferences.GetCompressionTool())");
 
                     # Generate the initial message
                     $logMessage = "Requested compression software is either unsupported or unknown!";
@@ -361,11 +360,11 @@ class Builder
                 # --------------
 
                 # Generate a message to display to the user.
-                $displayErrorMessage = ("I am unable to find the Git Version Control software on your computer!`r`n" + `
-                                        "Please assure that Git Version Control had been properly installed on your computer!`r`n" + `
-                                        "`t- Git Detection Status: $([string][CommonFunctions]::IsAvailableGit())`r`n" + `
-                                        "`t- You may download the latest version of Git at the official website!`r`n" + `
-                                        "`t`thttps://git-scm.com/");
+                [string] $displayErrorMessage = ("I am unable to find the Git Version Control software on your computer!`r`n" + `
+                                                "Please assure that Git Version Control had been properly installed on your computer!`r`n" + `
+                                                "`t- Git Detection Status: $([string][CommonFunctions]::IsAvailableGit())`r`n" + `
+                                                "`t- You may download the latest version of Git at the official website!`r`n" + `
+                                                "`t`thttps://git-scm.com/");
 
                 # Generate the initial message
                 $logMessage = "Unable to find the Git Application!";
