@@ -183,6 +183,11 @@ class MainMenu
                 [Builder]::Build();
 
 
+                # Allow the user to read the results from the Builder before
+                #  refreshing the Main Menu screen.
+                [Logging]::GetUserEnterKey();
+
+
                 # Finished
                 break;
             } # Build ZDoom Project
