@@ -202,17 +202,21 @@ class Builder
                     # Generate a message to display to the user.
                     $displayErrorMessage = ("I am unable to find support for ZIP in this version of PowerShell!`r`n" + `
                                         "Please make sure that you are using the latest version of PowerShell Core!`r`n" + `
+                                        "`t- You are currently using PowerShell Core Version: $([SystemInformation]::PowerShellVersion())`r`n" + `
+                                        "`t- ZIP Archive Module Detection Status: $([string][CommonFunctions]::IsAvailableZip())`r`n" + `
                                         "`t- You may check out any new releases of the PowerShell Core at GitHub!`r`n" + `
-                                        "`t`thttps://github.com/PowerShell/PowerShell/releases`r`n" + `
-                                        "`t- ZIP Archive Module Detection Status: $([string][CommonFunctions]::IsAvailableZip())");
+                                        "`t`thttps://github.com/PowerShell/PowerShell/releases");
 
                     # Generate the initial message
                     $logMessage = "Unable to find the dotNET Archive Zip Module!";
 
                     # Generate any additional information that might be useful
                     $logAdditionalMSG = ("Please assure that you are currently using the latest version of PowerShell Core!`r`n" + `
+                                        "`tArchive ZIP Module Detection reported: $([string][CommonFunctions]::IsAvailableZip())`r`n" + `
                                         "`tPowerShell Version: $([SystemInformation]::PowerShellVersion())`r`n" + `
-                                        "`tOperating System: $([String][SystemInformation]::OperatingSystem())");
+                                        "`tOperating System: $([String][SystemInformation]::OperatingSystem())`r`n" + `
+                                        "`tCheck for new versions of PowerShell Core at the provided official website:`r`n" + `
+                                        "`t`thttps://github.com/PowerShell/PowerShell/releases");
 
                     # Pass the information to the logging system
                     [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -252,17 +256,19 @@ class Builder
                     # Generate a message to display to the user.
                     $displayErrorMessage = ("I am unable to find the 7Zip software on your computer!`r`n" + `
                                         "Please assure that 7Zip had been properly installed on your computer!`r`n" + `
+                                        "`t- 7Zip Detection Status: $([string][CommonFunctions]::IsAvailable7Zip())`r`n" + `
                                         "`t- You may download the latest version of 7Zip at the official website!`r`n" + `
-                                        "`t`thttps://www.7-zip.org/download.html`r`n" + `
-                                        "`t- 7Zip Detection Status: $([string][CommonFunctions]::IsAvailable7Zip())");
+                                        "`t`thttps://www.7-zip.org/download.html");
 
                     # Generate the initial message
                     $logMessage = "Unable to find the 7Zip Application!";
 
                     # Generate any additional information that might be useful
                     $logAdditionalMSG = ("Please assure that you currently have 7Zip installed and that $($Global:_PROGRAMNAME_) can detect it's installation path!`r`n" + `
+                                        "`tFound 7Zip: $([String][CommonFunctions]::IsAvailable7Zip())`r`n" + `
                                         "`t7Zip Path: $($sevenZip.GetExecutablePath())`r`n" + `
-                                        "`tFound 7Zip: $([String][CommonFunctions]::IsAvailable7Zip())");
+                                        "`tInstall the latest version of 7Zip at the official website:`r`n" + `
+                                        "`t`thttps://www.7-zip.org/download.html");
 
                     # Pass the information to the logging system
                     [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -344,17 +350,19 @@ class Builder
                 # Generate a message to display to the user.
                 $displayErrorMessage = ("I am unable to find the Git Version Control software on your computer!`r`n" + `
                                         "Please assure that Git Version Control had been properly installed on your computer!`r`n" + `
+                                        "`t- Git Detection Status: $([string][CommonFunctions]::IsAvailableGit())`r`n" + `
                                         "`t- You may download the latest version of Git at the official website!`r`n" + `
-                                        "`t`thttps://git-scm.com/`r`n" + `
-                                        "`t- Git Detection Status: $([string][CommonFunctions]::IsAvailableGit())");
+                                        "`t`thttps://git-scm.com/");
 
                 # Generate the initial message
                 $logMessage = "Unable to find the Git Application!";
 
                 # Generate any additional information that might be useful
                 $logAdditionalMSG = ("Please assure that you currently have Git installed and that $($Global:_PROGRAMNAME_) can detect it's installation path!`r`n" + `
+                                    "`tFound Git: $([String][CommonFunctions]::IsAvailableGit())`r`n" + `
                                     "`tGit Path: $($gitControl.GetExecutablePath())`r`n" + `
-                                    "`tFound Git: $([String][CommonFunctions]::IsAvailableGit())");
+                                    "`tInstall the latest version of GIT at the official website:`r`n" + `
+                                    "`t`thttps://git-scm.com/");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
