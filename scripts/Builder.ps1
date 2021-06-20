@@ -55,6 +55,10 @@ class Builder
         [CommonCUI]::DrawSectionHeader("Compiling the $([ProjectInformation]::projectName) [$([ProjectInformation]::codeName)] Project");
 
 
+        # Display the instructions
+        [CommonCUI]::CompileInstructions();
+
+
         # Before we begin, we must make sure that the required resources
         #  are available for us to use within this operation.
         if (![Builder]::PrerequisiteCheck())
