@@ -496,6 +496,42 @@ class CommonCUI
         # Now that we have the user's feedback, check to make sure that the directory or file exists.
         return $([CommonIO]::CheckPathExists("$($pathToTarget.Value)", $true));
     } # BrowseForTargetFile()
+
+
+
+
+   <# Draw Formatted List
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the ability to present a list to the user with the requested formatting style.
+    #   Thus, this function can allow: Bullet, Number, or just provide indention to the list.  When interacting
+    #   with this function, this function is only intended with one message - one item to display.  As such,
+    #   we do not support an array of messages that are to be provided in a list form.  In addition, this
+    #   function does not keep track of the list's flow.  Meaning, when providing an item to display -
+    #   it is possible to have the following:
+    #       - Parent                            [Position 0]
+    #           1 Step 1                        [Position 1]
+    #                       & Avoid the Goose   [Position 4]
+    #       - New Parent                        [Position 0]
+    #                           * Bonk!         [Position 5]
+    #   Essentially, when providing a list, you are in complete control.  Whatever is asked, you get it in return.
+    # -------------------------------
+    # Input:
+    #  [unsigned int] Position Level
+    #   Defines how many space characters will be drawn - to provide indentions.
+    #  [Char] Character Symbol
+    #   Optionally, can be used to provide a bullet or number like list.  Without
+    #    a symbol, the message will only carry indention.
+    #  [string] Message to Present
+    #   The message that will be displayed to the user with the list formatting.
+    # -------------------------------
+    #>
+    static [void] DrawFormattedList([uint] $position, `     # Level of the message
+                                    [char] $symbol, `       # Symbol to present before the message (Optional)
+                                    [string] $message)      # Message to present
+    {
+
+    } # DrawFormattedList()
 } # CommonCUI
 
 
