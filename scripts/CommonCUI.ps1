@@ -530,7 +530,37 @@ class CommonCUI
                                     [char] $symbol, `       # Symbol to present before the message (Optional)
                                     [string] $message)      # Message to present
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # We will use this as a way to provide indention to the message.
+        [string] $indentionSpacing = "  ";
 
+        # This will hold the final message that will be presented to the user.
+        [string] $formattedMessage = $NULL;
+        # ----------------------------------------
+
+
+        # Determine how much we are to indent the message?
+        for([uint] $i = 0; $i -lt $position; $i++)
+        {
+            # Provide the indention spacing
+            $formattedMessage += "$($indentionSpacing)";
+        } # for : Indention
+
+
+        # Apply the symbol, if it is used.
+        if ($NULL -ne $symbol)
+        {
+            $formattedMessage += "$([string]$symbol) ";
+        } # If : Attach symbol
+
+
+        # Attach the initial message
+        $formattedMessage += "$($message)";
+
+
+        # Display the final formatted message
+        [Logging]::DisplayMessage("$($formattedMessage)");
     } # DrawFormattedList()
 } # CommonCUI
 
