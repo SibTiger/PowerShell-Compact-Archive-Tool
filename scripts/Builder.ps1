@@ -394,10 +394,11 @@ class Builder
         # --------------
 
         # Generate the initial message
-        $logMessage = "Found all of the resources necessary to compile $([ProjectInformation]::projectName)!";
+        $logMessage = ("The Prerequisite Check had determined that we have all of the required" + `
+                        "resources necessary to compile the $([ProjectInformation]::projectName) project!");
 
         # Generate any additional information that might be useful
-        $logAdditionalMSG = ("Prerequisite Check had successfully passed!");
+        $logAdditionalMSG = "Prerequisite Check had successfully passed!";
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
