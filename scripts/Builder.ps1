@@ -52,7 +52,7 @@ class Builder
 
 
         # Show the user that they are at the Main Menu
-        [CommonCUI]::DrawSectionHeader("Compiling $([ProjectInformation]::projectName) [$([ProjectInformation]::codeName)");
+        [CommonCUI]::DrawSectionHeader("Compiling the $([ProjectInformation]::projectName) [$([ProjectInformation]::codeName)] Project");
 
 
         # Before we begin, we must make sure that the required resources
