@@ -175,6 +175,29 @@ class CommonCUI
 
 
 
+   <# Compile Instructions
+    # -------------------------------
+    # Documentation:
+    #  This function will display that the project is being compiled at this moment.
+    #   We will want to indicate to the user that they will have to patiently wait for
+    #   the operation to end.  From this approach, in general but possibly with
+    #   exceptions to the rule, the user is essentially hands-off during the compiling
+    #   process.  Thus, any feedback provided by the user - is on hold until we are
+    #   ready.
+    # -------------------------------
+    #>
+    static [void] CompileInstructions()
+    {
+        # Display the common menu instructions
+        [Logging]::DisplayMessage("Please wait patiently as $([ProjectInformation]::projectName) is being compiled. . .");
+
+        # Display a border
+        [Logging]::DisplayMessage("$([CommonCUI]::borderDashLong)");
+    } # CompileInstructions()
+
+
+
+
    <# Draw Waiting for User Response
     # -------------------------------
     # Documentation:
