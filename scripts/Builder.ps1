@@ -117,6 +117,12 @@ class Builder
         # ----------------------------------------
 
 
+
+
+        #              Project Path
+        # * * * * * * * * * * * * * * * * * * * *
+        # * * * * * * * * * * * * * * * * * * * *
+
         # Check the current status of the Project Path
         $boolCacheValue = [CommonIO]::CheckPathExists("$($userPreferences.GetProjectPath())", $true);
 
@@ -163,6 +169,11 @@ class Builder
 
 
 
+
+        #              Output Path
+        # * * * * * * * * * * * * * * * * * * * *
+        # * * * * * * * * * * * * * * * * * * * *
+
         # Check the current status of the Output Path
         $boolCacheValue = [CommonIO]::CheckPathExists("$($userPreferences.GetProjectBuildsPath())", $true);
 
@@ -208,6 +219,12 @@ class Builder
             return $false;
         } # if : Check Output Path exists
 
+
+
+
+        #            Compression Tool
+        # * * * * * * * * * * * * * * * * * * * *
+        # * * * * * * * * * * * * * * * * * * * *
 
         # Determine if the chosen compression tool is available for us to utilize.
         switch ($userPreferences.GetCompressionTool())
@@ -269,6 +286,7 @@ class Builder
                 break;
             } # dotNET Archive Zip
 
+
             # 7Zip
             ([UserPreferencesCompressTool]::SevenZip)
             {
@@ -324,6 +342,7 @@ class Builder
                 break;
             } # 7Zip
 
+
             # Unknown or Unsupported (Error Case)
             default
             {
@@ -365,6 +384,12 @@ class Builder
             } # Unknown or Unsupported
         } # Switch : Determine Specified Compression Tool
 
+
+
+
+        #           Git Functionality
+        # * * * * * * * * * * * * * * * * * * * *
+        # * * * * * * * * * * * * * * * * * * * *
 
         # Determine if the user wanted us to use Git Features
         if ($userPreferences.GetUseGitFeatures())
@@ -420,8 +445,12 @@ class Builder
 
 
 
-        # If we made it this far, that means that we have everything we need to compile this project!
 
+        #                  DONE!
+        # * * * * * * * * * * * * * * * * * * * *
+        # * * * * * * * * * * * * * * * * * * * *
+
+        # If we made it this far, that means that we have everything we need to compile this project!
 
 
         # * * * * * * * * * * * * * * * * * * *
