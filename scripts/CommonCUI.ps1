@@ -551,6 +551,8 @@ class CommonCUI
         # Apply the symbol, if it is used.
         if ($NULL -ne $symbol)
         {
+            # Attach the symbol now before we append the message onto the
+            #  message.
             $formattedMessage += "$([string]$symbol) ";
         } # If : Attach symbol
 
