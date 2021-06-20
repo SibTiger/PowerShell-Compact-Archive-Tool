@@ -45,6 +45,10 @@ class Builder
         # Clear the terminal of all previous text; keep the space clean so that
         #  it is easy for the user to read and follow along.
         [CommonIO]::ClearBuffer();
+
+
+        # Draw Program Information Header
+        [CommonCUI]::DrawProgramTitleHeader();
         # Before we begin, we must make sure that the required resources
         #  are available for us to use within this operation.
         if (![Builder]::PrerequisiteCheck())
