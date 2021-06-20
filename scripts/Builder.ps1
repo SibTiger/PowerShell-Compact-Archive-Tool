@@ -202,7 +202,7 @@ class Builder
                     # Generate a message to display to the user.
                     $displayErrorMessage = ("I am unable to find support for ZIP in this version of PowerShell!`r`n" + `
                                         "Please make sure that you are using the latest version of PowerShell Core!`r`n" + `
-                                        "`t -You may check out any new releases of the PowerShell Core at GitHub!`r`n" + `
+                                        "`t- You may check out any new releases of the PowerShell Core at GitHub!`r`n" + `
                                         "`t`thttps://github.com/PowerShell/PowerShell/releases`r`n" + `
                                         "`t- ZIP Archive Module Detection Status: $([string][CommonFunctions]::IsAvailableZip())");
 
