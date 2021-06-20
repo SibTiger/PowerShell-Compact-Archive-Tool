@@ -49,6 +49,12 @@ class Builder
 
         # Draw Program Information Header
         [CommonCUI]::DrawProgramTitleHeader();
+
+
+        # Show the user that they are at the Main Menu
+        [CommonCUI]::DrawSectionHeader("Compiling $([ProjectInformation]::projectName) [$([ProjectInformation]::codeName)");
+
+
         # Before we begin, we must make sure that the required resources
         #  are available for us to use within this operation.
         if (![Builder]::PrerequisiteCheck())
