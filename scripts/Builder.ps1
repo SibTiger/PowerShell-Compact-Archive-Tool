@@ -42,6 +42,26 @@ class Builder
     #>
     static [bool] Build()
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the user's configurations for the following objects:
+        [GitControl] $gitControl = [GitControl]::GetInstance();                 # Git Control
+        [SevenZip] $sevenZip = [SevenZip]::GetInstance();                       # 7Zip Object
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();  # User's Preferences
+        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();  # Default Zip Object
+
+        # Symbols that will be used when providing a list.
+        [char] $symbolParent     = '>';     # Main Operation
+        [char] $symbolInProgress = '-';     # Task presently running
+        [char] $symbolSuccessful = '-';     # Operation finished successfully
+        [char] $symbolFailure    = '!';     # Operation reached an error
+        [char] $symbolWarning    = '!';     # Reached a warning case
+
+        # Archive datafile's final destination path
+        [string] $compiledBuildPath = $null;
+        # ----------------------------------------
+
+
         # Clear the terminal of all previous text; keep the space clean so that
         #  it is easy for the user to read and follow along.
         [CommonIO]::ClearBuffer();
@@ -59,15 +79,183 @@ class Builder
         [CommonCUI]::CompileInstructions();
 
 
-        # Before we begin, we must make sure that the required resources
-        #  are available for us to use within this operation.
+
+
+        #region Prerequisite Check
+
+        #           Prerequisite Check
+        # * * * * * * * * * * * * * * * * * * * *
+        # * * * * * * * * * * * * * * * * * * * *
+
+
+        # Make sure that we have all of the resources that we are going to
+        #  need in order to successfully compile this project.
+        [CommonCUI]::DrawFormattedList(0, $symbolParent, "Prerequisite Check");
+        [CommonCUI]::DrawFormattedList(1, $symbolInProgress, "Performing a Prerequisite Check. . .");
+
+
+        # Invoke the Prerequisite Check and evaluate its feedback.  If it turns
+        #  out that we are missing one or more required resources, then we cannot
+        #  proceed with the compiling process.
         if (![Builder]::PrerequisiteCheck())
         {
-            # Unable to compile the project as there is one or more
-            #  resources missing.
-            return $false;
-        } # if : Run Prerequisite Check
+            # Because we are lacking a required resource, we cannot proceed with
+            #  this process.
 
+            # Show that this step had reached a fault
+            [CommonCUI]::DrawFormattedList(1, $symbolFailure, "Missing one or more resources!");
+            [CommonCUI]::DrawFormattedList(2, $null, "Unable to compile the project as requested.");
+
+            # We will return a failure signal, as we cannot proceed forward with
+            #  the compiling process.
+            return $false;
+        } # if : Evaluate Prerequisite Check
+
+
+        # Because we have all of the resources that we need - in order to compile this project, we can
+        #  proceed to the next step!
+
+        # Show that the Prerequisite Check had passed.
+        [CommonCUI]::DrawFormattedList(1, $symbolSuccessful, "Passed!");
+
+        #endregion
+
+
+
+
+        #region Update Source (Git)
+
+        #           Update Source (Git)
+        # * * * * * * * * * * * * * * * * * * * *
+        # * * * * * * * * * * * * * * * * * * * *
+
+
+        # If requested, we are going to update the project's source files.  Thus, we assure that the
+        #  user's local repository is always up to date with the remote repository
+        [CommonCUI]::DrawFormattedList(0, $symbolParent, "Update $([ProjectInformation]::projectName) source files");
+
+
+        # Before we perform this step, first we need to make sure that:
+        #  - Found Git
+        #  - Using Git features is allowed
+        #  - User allows us to update the local repository
+        if (([CommonFunctions]::IsAvailableGit() -eq $true) -and `
+            ($userPreferences.GetUseGitFeatures() -eq $true) -and `
+            ($gitControl.GetUpdateSource() -eq $true))
+        {
+            # We are allowed to update the Local Repository to match with the Remote Repository.
+
+            # Because we can update the project files, show the user that we are going to update
+            #  the project's source files.
+            [CommonCUI]::DrawFormattedList(1, $symbolInProgress, "Updating $([ProjectInformation]::projectName)'s Local Repository with the Remote Repository. . .");
+
+            # Update the Local Repository
+            if ($userPreferences.UpdateLocalRepository("$($userPreferences.GetProjectPath())"))
+            {
+                # Visually show to the user that the project's source files had been updated successfully.
+                [CommonCUI]::DrawFormattedList(1, $symbolSuccessful, "Successfully updated $([ProjectInformation]::projectName)'s Local Repository!");
+            } # If : Successfully Updated Local Repository
+
+            # Error had been reached while updating the Local Repository
+            else
+            {
+                # Visually show that an error had been reached
+                #  Instead of aborting the operation from here, we can try to continue instead.
+                [CommonCUI]::DrawFormattedList(1, $symbolFailure, "Failed to update $([ProjectInformation]::projectName)'s Local Repository with the Remote Repository!");
+                [CommonCUI]::DrawFormattedList(2, $null, "Please be cautious as this build maybe corrupted or incomplete!");
+            } # Else : Failed to Update Local Repository
+        } # If : Update Local Repository
+
+        # Unable to update the Local Repository
+        else
+        {
+            # We cannot update the source either due to user's request or unable to find the Git
+            #  application.
+            [CommonCUI]::DrawFormattedList(1, $symbolWarning, "Unable to update $([ProjectInformation]::projectName)'s source files; skipping this step instead.");
+        } # Else: Unable to Update Local Repository
+
+
+        # Show that we are finished updating the project's local repository
+        [CommonCUI]::DrawFormattedList(1, $symbolSuccessful, "Finished!");
+
+        #endregion
+
+
+
+
+        #region Compile Project
+
+        #             Compile Project
+        # * * * * * * * * * * * * * * * * * * * *
+        # * * * * * * * * * * * * * * * * * * * *
+
+
+        # Now to compile the project, using the user's preferred compiling tool and compiler settings.
+        [CommonCUI]::DrawFormattedList(0, $symbolParent, "Compile $([ProjectInformation]::projectName) source files.");
+
+
+
+        # Determine which compression tool we are going to use in order to generate this build,
+        #  and if that tool is available for us to use.
+        # Archive Zip (Default)
+        if ($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip)
+        {
+            # We will use the ZIP Archive module to compile this project.
+            [CommonCUI]::DrawFormattedList(1, $symbolInProgress, "Compiling $([ProjectInformation]::projectName) using ZIP Archive (Default). . .");
+
+
+            # Generate archive build
+            if ($defaultCompress.CreateArchive("$([ProjectInformation]::fileName)", `
+                                            "$($userPreferences.GetProjectBuildsPath())", `
+                                            "$($userPreferences.GetProjectPath())", `
+                                            [ref] $compiledBuildPath) -eq $false)
+            {
+                # Failed to generate the build
+                [CommonCUI]::DrawFormattedList(1, $symbolFailure, "Failed to compile $([ProjectInformation]::projectName)!");
+
+                # Because we had reached an error, return back with an error signal.
+                return $false;
+            } # If : Failed to generate build
+        } # if : Archive Zip (Default)
+
+        # 7Zip
+        elseif ($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip)
+        {
+            # We will use the 7Zip application to compile this project.
+            [CommonCUI]::DrawFormattedList(1, $symbolInProgress, "Compiling $([ProjectInformation]::projectName) using 7Zip. . .");
+        } # Else-if : 7Zip
+
+        # Fatal Error; either the tool is unknown or not ready
+        else
+        {
+            # Display a message to the user that an error had been reached
+            [CommonCUI]::DrawFormattedList(1, $symbolFailure, "Cannot compile $([ProjectInformation]::projectName) as the compiling software is not ready or not available at this time!");
+
+            # We cannot proceed forward with the operation.
+            return $false;
+        } # Else : Error
+
+
+
+
+
+
+
+
+
+        #endregion
+
+
+
+
+        #region Create Reports
+        #endregion
+
+
+
+
+        # Show that the compiling operation was successful.
+        [CommonCUI]::DrawFormattedList(0, $symbolParent, "Operation had been completed!");
 
         # To avoid compiling issues, we will merely return an error for now.
         return $false;
@@ -480,4 +668,10 @@ class Builder
         #  that we need to compile this project!
         return $true;
     } # PrerequisiteCheck()
+
+
+
+
+
+    
 } # Builder
