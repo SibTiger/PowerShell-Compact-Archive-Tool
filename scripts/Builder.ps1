@@ -675,3 +675,22 @@ class Builder
 
     
 } # Builder
+
+
+
+
+<# Builder Formatted List [ENUM]
+ # -------------------------------
+ # This will allow the ability to organize the type of messages that will be
+ #  used within the Builder.
+ # -------------------------------
+ #>
+ enum FormattedListBuilder
+ {
+     Parent         = 0; # Main Operation
+     Child          = 1; # Sub-Operation
+     InProgress     = 1; # Current Action
+     Successful     = 2; # Operation was successful
+     Warning        = 3; # A Warning had been raised
+     Failure        = 4; # Operation had reached a failure
+ } # FormattedListBuilder
