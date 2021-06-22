@@ -673,7 +673,34 @@ class Builder
 
 
 
-    
+   <# Display Message
+    # -------------------------------
+    # Documentation:
+    #  This function will act as a gateway into accessing the Formatted List.
+    # -------------------------------
+    # Input:
+    #  [unsigned int] Message Position
+    #   The position of the message that is to be displayed.  The position entails
+    #       as to how many indentions are required before displaying the message.
+    #  [FormattedListBuilder] Message Type
+    #   The type of message that is to be presented to the user.  This usually could
+    #   be a simple bullet list or provides a unique character for the message based
+    #   on certain events.
+    #  [string] Message String
+    #   The message that will be displayed to the user.
+    # -------------------------------
+    #>
+    hidden static [void] __DisplayMessage([uint] $messagePosition,              # How many indentions before message
+                                        [FormattedListBuilder] $messageType,    # Type of list or message
+                                        [string] $messageString)                # Initial message to display
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This will hold the desired bullet point symbol or any special symbol
+        #  that matches with the type of the message.
+        [char] $bulletCharacter = $null;
+        # ----------------------------------------
+    } # __DisplayMessage()
 } # Builder
 
 
