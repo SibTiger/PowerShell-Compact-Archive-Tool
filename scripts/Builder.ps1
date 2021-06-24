@@ -90,8 +90,8 @@ class Builder
 
         # Make sure that we have all of the resources that we are going to
         #  need in order to successfully compile this project.
-        [CommonCUI]::DrawFormattedList(0, $symbolParent, "Prerequisite Check");
-        [CommonCUI]::DrawFormattedList(1, $symbolInProgress, "Performing a Prerequisite Check. . .");
+        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Prerequisite Check");
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Performing a Prerequisite Check. . .");
 
 
         # Invoke the Prerequisite Check and evaluate its feedback.  If it turns
@@ -103,8 +103,8 @@ class Builder
             #  this process.
 
             # Show that this step had reached a fault
-            [CommonCUI]::DrawFormattedList(1, $symbolFailure, "Missing one or more resources!");
-            [CommonCUI]::DrawFormattedList(2, $null, "Unable to compile the project as requested.");
+            [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Failure, "Missing one or more resources!");
+            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "Unable to compile the project as requested.");
 
             # We will return a failure signal, as we cannot proceed forward with
             #  the compiling process.
@@ -116,7 +116,7 @@ class Builder
         #  proceed to the next step!
 
         # Show that the Prerequisite Check had passed.
-        [CommonCUI]::DrawFormattedList(1, $symbolSuccessful, "Passed!");
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Passed!");
 
         #endregion
 
