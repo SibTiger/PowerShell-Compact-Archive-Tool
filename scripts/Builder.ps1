@@ -810,8 +810,8 @@ class Builder
  {
      Parent         = 0; # Main Operation
      Child          = 1; # Sub-Operation
-     InProgress     = 1; # Current Action
-     Successful     = 2; # Operation was successful
-     Warning        = 3; # A Warning had been raised
-     Failure        = 4; # Operation had reached a failure
+     InProgress     = 2; # Current Action
+     Successful     = 3; # Operation was successful
+     Warning        = 4; # A Warning had been raised
+     Failure        = 5; # Operation had reached a failure
  } # FormattedListBuilder
