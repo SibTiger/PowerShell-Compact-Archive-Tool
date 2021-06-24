@@ -699,7 +699,99 @@ class Builder
         # This will hold the desired bullet point symbol or any special symbol
         #  that matches with the type of the message.
         [char] $bulletCharacter = $null;
+
+        # Symbols that will be used when providing a list.
+        [char] $symbolParent     = '>';     # Main Operation
+        [char] $symbolChild      = '-';     # Sub-Main Operation
+        [char] $symbolInProgress = '-';     # Task presently running
+        [char] $symbolSuccessful = '-';     # Operation finished successfully
+        [char] $symbolWarning    = '!';     # Reached a warning case
+        [char] $symbolFailure    = '!';     # Operation reached an error
         # ----------------------------------------
+
+        # Determine which symbol to use
+        switch ($messageType)
+        {
+            # Parent
+            ([FormattedListBuilder]::Parent)
+            {
+                # Use the Parent Symbol
+                $bulletCharacter = $symbolParent;
+
+                # Finished
+                break;
+            } # Parent
+
+
+            # Child
+            ([FormattedListBuilder]::Child)
+            {
+                # Use the Child Symbol
+                $bulletCharacter = $symbolChild;
+
+                # Finished
+                break;
+            } # Child
+
+
+            # In-Progress
+            ([FormattedListBuilder]::InProgress)
+            {
+                # Use the In-Progress Symbol
+                $bulletCharacter = $symbolInProgress;
+
+                # Finished
+                break;
+            } # In-Progress
+
+
+            # Successful
+            ([FormattedListBuilder]::Successful)
+            {
+                # Use the Successful Symbol
+                $bulletCharacter = $symbolSuccessful;
+
+                # Finished
+                break;
+            } # Successful
+
+
+            # Warning
+            ([FormattedListBuilder]::Warning)
+            {
+                # Use the Warning Symbol
+                $bulletCharacter = $symbolWarning;
+
+                # Finished
+                break;
+            } # Warning
+
+
+            # Failure
+            ([FormattedListBuilder]::Failure)
+            {
+                # Use the Failure Symbol
+                $bulletCharacter = $symbolFailure;
+
+                # Finished
+                break;
+            } # Failure
+
+
+            # No Symbol
+            default
+            {
+                # Do not use a symbol
+                break;
+            } # No Symbol
+        } # Switch : Determine Symbol to Use
+
+
+
+        # Provide the message
+        [CommonCUI]::DrawFormattedList($messagePosition,    # How many spaces to indent the message
+                                        $bulletCharacter,   # What symbol to use (optional)
+                                        $messageString);    # Message to display
     } # __DisplayMessage()
 } # Builder
 
