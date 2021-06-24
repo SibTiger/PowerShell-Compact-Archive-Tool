@@ -673,7 +673,7 @@ class Builder
 
 
 
-   <# Display Message
+   <# Display Bullet List Message
     # -------------------------------
     # Documentation:
     #  This function will act as a gateway into accessing the Formatted List.
@@ -690,7 +690,7 @@ class Builder
     #   The message that will be displayed to the user.
     # -------------------------------
     #>
-    hidden static [void] __DisplayMessage([uint] $messagePosition,              # How many indentions before message
+    hidden static [void] DisplayBulletListMessage([uint] $messagePosition,              # How many indentions before message
                                         [FormattedListBuilder] $messageType,    # Type of list or message
                                         [string] $messageString)                # Initial message to display
     {
@@ -794,7 +794,7 @@ class Builder
         [CommonCUI]::DrawFormattedList($messagePosition,    # How many spaces to indent the message
                                         $bulletCharacter,   # What symbol to use (optional)
                                         $messageString);    # Message to display
-    } # __DisplayMessage()
+    } # DisplayBulletListMessage()
 } # Builder
 
 
