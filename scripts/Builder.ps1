@@ -709,6 +709,8 @@ class Builder
         [char] $symbolFailure    = '!';     # Operation reached an error
         # ----------------------------------------
 
+
+
         # Determine which symbol to use
         switch ($messageType)
         {
