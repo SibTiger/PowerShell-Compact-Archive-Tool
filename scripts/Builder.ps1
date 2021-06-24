@@ -814,4 +814,5 @@ class Builder
      Successful     = 3; # Operation was successful
      Warning        = 4; # A Warning had been raised
      Failure        = 5; # Operation had reached a failure
+     NoSymbol       = 6; # No Symbol provided
  } # FormattedListBuilder
