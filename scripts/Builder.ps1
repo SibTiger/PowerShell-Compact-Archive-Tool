@@ -44,19 +44,6 @@ class Builder
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Retrieve the user's configurations for the following objects:
-        [GitControl] $gitControl = [GitControl]::GetInstance();                 # Git Control
-        [SevenZip] $sevenZip = [SevenZip]::GetInstance();                       # 7Zip Object
-        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();  # User's Preferences
-        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();  # Default Zip Object
-
-        # Symbols that will be used when providing a list.
-        [char] $symbolParent     = '>';     # Main Operation
-        [char] $symbolInProgress = '-';     # Task presently running
-        [char] $symbolSuccessful = '-';     # Operation finished successfully
-        [char] $symbolFailure    = '!';     # Operation reached an error
-        [char] $symbolWarning    = '!';     # Reached a warning case
-
         # Archive datafile's final destination path
         [string] $compiledBuildPath = $null;
         # ----------------------------------------
