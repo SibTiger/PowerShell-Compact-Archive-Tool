@@ -1913,6 +1913,10 @@ class GitControl
         } # if : Retrieve Commit ID
 
 
+        # Remove the extra whitespace that is attached at the end of the string.
+        $commitID = ($commitID -replace "`n$", "");
+
+
         # Successfully retrieved the Commit ID from the project's local repo.
         return $commitID;
     } # FetchCommitID()
