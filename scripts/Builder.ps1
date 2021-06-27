@@ -698,11 +698,6 @@ class Builder
         #  preferences as to how Git will be used within this application.
         [GitControl] $gitControl = [GitControl]::GetInstance();
 
-        # We will use this variable to cache the detection status of a particular item that we want
-        #  to check.  Instead of having to recall the exact same checking function over and over again,
-        #  we will use this variable to merely cache the value as we step through each process within
-        #  the checking procedure.
-        [bool] $boolCacheValue = $false;
         # ----------------------------------------
 
 
