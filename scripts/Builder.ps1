@@ -794,6 +794,116 @@ class Builder
 
 
 
+   <# Compile Project
+    # -------------------------------
+    # Documentation:
+    #  This function will try to compile the project's files into
+    #   one archive datafile.  This will make it possible to easily
+    #   distribute the project files to other users as well as
+    #   make it available onto servers.
+    # -------------------------------
+    # Input:
+    #  [string] Archive File Name
+    #   The requested name of the archive data file that is going to be created.
+    #  [string] (REFERENCE) File Path
+    #   The final absolute path of the archive datafile.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #   $false = Unable to compact the project files into an archive datafile.
+    #   $true = Successfully compacted the project files into an archive datafile.
+    # -------------------------------
+    #>
+    hidden static [bool] CompileProject([string] $archiveFileName,      # Requested archive datafile
+                                        [ref] $filePath)                # Absolute Path of the Archive datafile
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the current instance of the User Preferences object; this contains the user's
+        #  generalized settings.
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+
+        # Retrieve the current instance of the user's 7Zip object; this contains the user's
+        #  preferences as to how 7Zip will be utilized within this application.
+        [SevenZip] $sevenZip = [SevenZip]::GetInstance();
+
+        # Retrieve the current instance of the user's Default Compressing object; this contains
+        #  the user's preferences as to how the Archive ZIP module will be utilized within this
+        #  application.
+        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        # ----------------------------------------
+
+
+
+        # Show that we are about to compact the project's source files into an archive datafile.
+        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Compile $([ProjectInformation]::projectName)");
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Compiling $([ProjectInformation]::projectName). . .");
+
+
+        # Use the preferred compiler as requested by the user
+        switch ($userPreferences.GetCompressionTool())
+        {
+            # dotNET Core Archive ZIP PowerShell Module
+            ([UserPreferencesCompressTool]::InternalZip)
+            {
+                # Show that we are using the Archive ZIP Module
+                [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::InProgress, "Compacting using the default compression software. . .");
+
+                # Compact the files
+                if (!$defaultCompress.CreateArchive($archiveFileName,
+                                                    $userPreferences.GetProjectBuildsPath(),
+                                                    $userPreferences.GetProjectPath(),
+                                                    $archiveFileName))
+                {
+                    # An error had been reached while compacting the project's files.
+                    [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "An error occurred while compiling $([ProjectInformation]::projectName)!");
+                    [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please review the logs for more information!");
+                    [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
+                } # If : Compiling Project Reached an Error
+            } # dotNET Core Archive ZIP PowerShell Module
+
+
+            # 7Zip
+            ([UserPreferencesCompressTool]::SevenZip)
+            {
+                # Show that we are using the 7Zip software
+                [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::InProgress, "Compacting using the 7Zip compression software. . .");
+
+                # Compact the files
+                if (!$sevenZip.CreateArchive($archiveFileName,
+                                            $userPreferences.GetProjectBuildsPath(),
+                                            $userPreferences.GetProjectPath(),
+                                            $archiveFileName))
+                {
+                    # An error had been reached while compacting the project's files.
+                    [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "An error occurred while compiling $([ProjectInformation]::projectName)!");
+                    [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please review the logs for more information!");
+                    [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
+                } # If : Compiling Project Reached an Error
+            } # 7Zip
+
+
+            # Error Case
+            default
+            {
+                # Show that we could not determine the preferred compression tool
+                [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unknown or unsupported preferred compression software!");
+                [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
+            } # Error Case
+        } # Switch: Compile Project
+
+
+        # If we made it this far, that means that the operation was successful!
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully compiled $([ProjectInformation]::projectName)!");
+
+        # Operation was successful
+        return $true;
+    } # CompileProject()
+
+
+
+
+
    <# Display Bullet List Message
     # -------------------------------
     # Documentation:
