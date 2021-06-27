@@ -94,8 +94,6 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
 
-
-
         # Try to update the user's copy of the project files.
         if (![Builder]::UpdateProject())
         {
