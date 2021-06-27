@@ -123,7 +123,7 @@ class Builder
 
 
         # Show that the compiling operation was successful.
-        [CommonCUI]::DrawFormattedList(0, $symbolParent, "Operation had been completed!");
+        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Operation had been completed!");
 
         # To avoid compiling issues, we will merely return an error for now.
         return $false;
