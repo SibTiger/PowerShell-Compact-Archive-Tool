@@ -94,53 +94,15 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
 
-        # If requested, we are going to update the project's source files.  Thus, we assure that the
-        #  user's local repository is always up to date with the remote repository
-        [CommonCUI]::DrawFormattedList(0, $symbolParent, "Update $([ProjectInformation]::projectName) source files");
 
 
-        # Before we perform this step, first we need to make sure that:
-        #  - Found Git
-        #  - Using Git features is allowed
-        #  - User allows us to update the local repository
-        if (([CommonFunctions]::IsAvailableGit() -eq $true) -and `
-            ($userPreferences.GetUseGitFeatures() -eq $true) -and `
-            ($gitControl.GetUpdateSource() -eq $true))
+        # Try to update the user's copy of the project files.
+        if (![Builder]::UpdateProject())
         {
-            # We are allowed to update the Local Repository to match with the Remote Repository.
-
-            # Because we can update the project files, show the user that we are going to update
-            #  the project's source files.
-            [CommonCUI]::DrawFormattedList(1, $symbolInProgress, "Updating $([ProjectInformation]::projectName)'s Local Repository with the Remote Repository. . .");
-
-            # Update the Local Repository
-            if ($userPreferences.UpdateLocalRepository("$($userPreferences.GetProjectPath())"))
-            {
-                # Visually show to the user that the project's source files had been updated successfully.
-                [CommonCUI]::DrawFormattedList(1, $symbolSuccessful, "Successfully updated $([ProjectInformation]::projectName)'s Local Repository!");
-            } # If : Successfully Updated Local Repository
-
-            # Error had been reached while updating the Local Repository
-            else
-            {
-                # Visually show that an error had been reached
-                #  Instead of aborting the operation from here, we can try to continue instead.
-                [CommonCUI]::DrawFormattedList(1, $symbolFailure, "Failed to update $([ProjectInformation]::projectName)'s Local Repository with the Remote Repository!");
-                [CommonCUI]::DrawFormattedList(2, $null, "Please be cautious as this build maybe corrupted or incomplete!");
-            } # Else : Failed to Update Local Repository
-        } # If : Update Local Repository
-
-        # Unable to update the Local Repository
-        else
-        {
-            # We cannot update the source either due to user's request or unable to find the Git
-            #  application.
-            [CommonCUI]::DrawFormattedList(1, $symbolWarning, "Unable to update $([ProjectInformation]::projectName)'s source files; skipping this step instead.");
-        } # Else: Unable to Update Local Repository
-
-
-        # Show that we are finished updating the project's local repository
-        [CommonCUI]::DrawFormattedList(1, $symbolSuccessful, "Finished!");
+            # Because there was an error while attempting to update the user's
+            #  local copy of the project files, we cannot proceed.
+            return $false;
+        } # if : Update Local Project Files
 
 
 
