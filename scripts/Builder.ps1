@@ -734,14 +734,7 @@ class Builder
 
 
         # Try to update the local repository
-        if ($gitControl.UpdateLocalRepository($userPreferences.GetProjectPath()))
-        {
-            # Visually show to the user that the project's source files had been updated successfully.
-            [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully updated the $([ProjectInformation]::projectName)'s source files!");
-        } # If : Successfully updated the Local Repository
-
-        # Reached an error while updating the source files
-        else
+        if (!$gitControl.UpdateLocalRepository($userPreferences.GetProjectPath()))
         {
             # Show to the user that there was an error while attempting to update the local repository
             [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Failure, "An error had occurred while updating your copy of $([ProjectInformation]::projectName)!");
@@ -750,12 +743,12 @@ class Builder
 
             # Because we had reached an error, we cannot proceed forward.
             return $false;
-        } # Else : Failed to update the Local Repository
+        } # If : Failed to update the Local Repository
 
 
 
         # Show that the project's files had been updated!
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully updated $([ProjectInformation]::projectName)'s source files!");
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully updated the $([ProjectInformation]::projectName)'s source files!");
 
 
         # We successfully updated the user's local repository!
