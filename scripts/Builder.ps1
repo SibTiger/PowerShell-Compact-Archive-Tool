@@ -83,8 +83,8 @@ class Builder
         } # if : Evaluate Prerequisite Check
 
 
-        # Because we have all of the resources that we need - in order to compile this project, we can
-        #  proceed to the next step!
+        # Because we have all of the resources that we need - in order to compile
+        #  this project, we can proceed to the next step!
 
 
 
