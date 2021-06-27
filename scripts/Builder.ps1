@@ -698,6 +698,14 @@ class Builder
         #  preferences as to how Git will be used within this application.
         [GitControl] $gitControl = [GitControl]::GetInstance();
 
+        # We will use this to hold the local repository's last branch update Commit ID.
+        [string] $projectCommitIDNew = $NULL;           # Updated Local Repository Commit ID
+        [string] $projectCommitIDOld = $NULL;           # Before the Update Commit ID
+
+
+        # Debugging Variables
+        [string] $logMessage = $NULL;           # Main message regarding the logged event.
+        [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
         # ----------------------------------------
 
 
@@ -716,6 +724,27 @@ class Builder
             [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Warning, "Skipping this step as requested!");
             [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "You can change this in the Program's Generalized Settings.");
 
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            $logMessage = "The user does not wish to update the $([ProjectInformation]::projectName) local repository!";
+
+            # Generate any additional information that might be useful
+            $logAdditionalMSG = ("User's Preferences for using Git Features: $($userPreferences.GetUseGitFeatures())`r`n" + `
+                                "Git's Settings for Updating Project Source: $($gitControl.GetUpdateSource())");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Because the user had requested that this step be skipped, then we will
             #  provide a successful signal.  Ideally, there was no error here, other
             #  than following the user's request.
@@ -725,7 +754,12 @@ class Builder
 
 
         # If we made it this far, then we can try to update the project's source files.
+        # Retrieve the current Commit ID of the selected Branch:
+        $projectCommitIDOld = "$($gitControl.FetchCommitID("$($userPreferences.GetProjectPath())"))";
+
+        # Show the user the current operation that is about to take place
         [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Updating $([ProjectInformation]::projectName)'s source files. . .");
+        [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "Current Local Repository Commit ID: $($projectCommitIDOld)");
 
 
         # Try to update the local repository
@@ -735,6 +769,42 @@ class Builder
             [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Failure, "An error had occurred while updating your copy of $([ProjectInformation]::projectName)!");
             [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "If incase you made changes with the files, you may need to commit them before losing your work!");
             [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "If incase you not made any changes, you will need validate your Local Repository against the Remote Repository using Git!");
+            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
+
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate a message to display to the user.
+            [string] $displayErrorMessage = ("An error had occurred while updating your copy of $([ProjectInformation]::projectName)!`r`n" + `
+                                            "Please make sure of the following:`r`n" + `
+                                            "`t- If incase you had made some changes to the $([ProjectInformation]::projectName)'s source files, be sure to commit your work or undo the changes!`r`n" + `
+                                            "`t- If incase you had not made any changes to your copy of $([ProjectInformation]::projectName), then please validate your local copy of the project using Git SCM!`r`n" + `
+                                            "Because there exists changes that is causing conflicts with the update, it is not possible to proceed forward with the update!");
+
+            # Generate the initial message
+            $logMessage = "Unable to update the user's local repository for $([ProjectInformation]::projectName)!";
+
+            # Generate any additional information that might be useful
+            $logAdditionalMSG = "Make sure that all file conflicts at been corrected before proceeding.";
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+
 
             # Because we had reached an error, we cannot proceed forward.
             return $false;
@@ -742,8 +812,33 @@ class Builder
 
 
 
+        # Retrieve the new Commit ID of the Local Repository's current state.
+        $projectCommitIDNew = "$($gitControl.FetchCommitID("$($userPreferences.GetProjectPath())"))";
+
+
         # Show that the project's files had been updated!
         [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully updated the $([ProjectInformation]::projectName)'s source files!");
+        [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "New Local Repository Commit ID: $($projectCommitIDNew)");
+
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        $logMessage = "Successfully updated the $([ProjectInformation]::projectName) local repository!";
+
+        # Generate any additional information that might be useful
+        $logAdditionalMSG = ("Previous Parent Commit ID: $($projectCommitIDOld) `r`n" + `
+                            "New Parent Commit ID: $($projectCommitIDNew)");
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                    "$($logAdditionalMSG)", `       # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
 
 
         # We successfully updated the user's local repository!
