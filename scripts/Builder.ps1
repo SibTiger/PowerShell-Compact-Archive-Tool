@@ -709,6 +709,101 @@ class Builder
 
 
 
+   <# Git - Update Project
+    # -------------------------------
+    # Documentation:
+    #  This function will update the project's source files by
+    #   updating the local repository, which in turn - updates
+    #   the local working copy files at the same time.  In which
+    #   assures that the user has the latest version of the
+    #   project files within the selected branch.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #   $false = Failed to update the project source files
+    #   $true = Successfully updated the project source files
+    # -------------------------------
+    #>
+    hidden static [bool] UpdateProject()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the current instance of the User Preferences object; this contains the user's
+        #  generalized settings.
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+
+        # Retrieve the current instance of the user's Git Control object; this contains the user's
+        #  preferences as to how Git will be used within this application.
+        [GitControl] $gitControl = [GitControl]::GetInstance();
+
+        # We will use this variable to cache the detection status of a particular item that we want
+        #  to check.  Instead of having to recall the exact same checking function over and over again,
+        #  we will use this variable to merely cache the value as we step through each process within
+        #  the checking procedure.
+        [bool] $boolCacheValue = $false;
+        # ----------------------------------------
+
+
+
+
+        # Show that we are about to update the project source files
+        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Update $([ProjectInformation]::projectName)");
+
+
+
+        # First we will want to make sure that the user wanted us to update the project's source files
+        if (($userPreferences.GetUseGitFeatures -and $gitControl.GetUpdateSource) -eq $false)
+        {
+            # Because the user had requested we do not update the project source files, we will proceed
+            #  without updating the source files.
+            [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Warning, "Skipping this step as requested!");
+            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "You can change this in the Program's Generalized Settings.");
+
+            # Because the user had requested that this step be skipped, then we will
+            #  provide a successful signal.  Ideally, there was no error here, other
+            #  than following the user's request.
+            return $true;
+        } # If : Do not update project source files
+
+
+
+        # If we made it this far, then we can try to update the project's source files.
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Updating $([ProjectInformation]::projectName)'s source files. . .");
+
+
+        # Try to update the local repository
+        if ($gitControl.UpdateLocalRepository($userPreferences.GetProjectPathJ()))
+        {
+            # Visually show to the user that the project's source files had been updated successfully.
+            [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully updated the $([ProjectInformation]::projectName)'s source files!");
+        } # If : Successfully updated the Local Repository
+
+        # Reached an error while updating the source files
+        else
+        {
+            # Show to the user that there was an error while attempting to update the local repository
+            [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Failure, "An error had occurred while updating your copy of $([ProjectInformation]::projectName)!");
+            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "If incase you made changes with the files, you may need to commit them before losing your work!");
+            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "If incase you not made any changes, you will need validate your Local Repository against the Remote Repository using Git!");
+
+            # Because we had reached an error, we cannot proceed forward.
+            return $false;
+        } # Else : Failed to update the Local Repository
+
+
+
+        # Show that the project's files had been updated!
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully updated $([ProjectInformation]::projectName)'s source files!");
+
+
+        # We successfully updated the user's local repository!
+        return $true;
+    } # UpdateProject()
+
+
+
+
+
    <# Display Bullet List Message
     # -------------------------------
     # Documentation:
