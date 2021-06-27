@@ -734,7 +734,7 @@ class Builder
 
 
         # Try to update the local repository
-        if ($gitControl.UpdateLocalRepository($userPreferences.GetProjectPathJ()))
+        if ($gitControl.UpdateLocalRepository($userPreferences.GetProjectPath()))
         {
             # Visually show to the user that the project's source files had been updated successfully.
             [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully updated the $([ProjectInformation]::projectName)'s source files!");
