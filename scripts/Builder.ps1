@@ -73,9 +73,6 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
 
-
-
-
         # Make sure that we have all of the resources that we are going to
         #  need in order to successfully compile this project.
         if (![Builder]::PrerequisiteCheck())
@@ -84,7 +81,6 @@ class Builder
             #  this process.
             return $false;
         } # if : Evaluate Prerequisite Check
-
 
 
         # Because we have all of the resources that we need - in order to compile this project, we can
@@ -97,7 +93,6 @@ class Builder
         #           Update Source (Git)
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
-
 
         # If requested, we are going to update the project's source files.  Thus, we assure that the
         #  user's local repository is always up to date with the remote repository
