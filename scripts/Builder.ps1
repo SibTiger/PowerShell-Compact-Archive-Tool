@@ -68,7 +68,6 @@ class Builder
 
 
 
-        #region Prerequisite Check
 
         #           Prerequisite Check
         # * * * * * * * * * * * * * * * * * * * *
@@ -77,28 +76,19 @@ class Builder
 
 
 
-        # Invoke the Prerequisite Check and evaluate its feedback.  If it turns
-        #  out that we are missing one or more required resources, then we cannot
-        #  proceed with the compiling process.
+        # Make sure that we have all of the resources that we are going to
+        #  need in order to successfully compile this project.
         if (![Builder]::PrerequisiteCheck())
         {
             # Because we are lacking a required resource, we cannot proceed with
             #  this process.
-
-            # Show that this step had reached a fault
-            [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Failure, "Missing one or more resources!");
-            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "Unable to compile the project as requested.");
-
-            # We will return a failure signal, as we cannot proceed forward with
-            #  the compiling process.
             return $false;
         } # if : Evaluate Prerequisite Check
 
 
+
         # Because we have all of the resources that we need - in order to compile this project, we can
         #  proceed to the next step!
-
-        #endregion
 
 
 
