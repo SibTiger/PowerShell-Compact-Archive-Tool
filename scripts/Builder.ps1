@@ -125,8 +125,9 @@ class Builder
         # Show that the compiling operation was successful.
         [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Operation had been completed!");
 
-        # To avoid compiling issues, we will merely return an error for now.
-        return $false;
+
+        # Operation was successful!
+        return $true;
     } # Build()
 
 
