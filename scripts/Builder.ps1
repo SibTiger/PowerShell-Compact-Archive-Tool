@@ -709,7 +709,7 @@ class Builder
 
 
         # First we will want to make sure that the user wanted us to update the project's source files
-        if (($userPreferences.GetUseGitFeatures -and $gitControl.GetUpdateSource) -eq $false)
+        if (($userPreferences.GetUseGitFeatures() -and $gitControl.GetUpdateSource()) -eq $false)
         {
             # Because the user had requested we do not update the project source files, we will proceed
             #  without updating the source files.
