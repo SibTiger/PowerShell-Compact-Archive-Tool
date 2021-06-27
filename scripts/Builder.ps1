@@ -230,7 +230,7 @@ class Builder
    <# Prerequisite Check
     # -------------------------------
     # Documentation:
-    #  The function performs a validation check to assure that all
+    #  This function performs a validation check to assure that all
     #   of the required resources are available for the compiling
     #   process.  If incase we found one or more resources - that
     #   is imperative for the entire operation to work correctly -
