@@ -298,6 +298,12 @@ class Builder
 
 
 
+        # Show that the Prerequisite functionality is presently active
+        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Prerequisite Check");
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Performing a Prerequisite Check. . .");
+
+
+
         #              Project Path
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
@@ -309,6 +315,11 @@ class Builder
         if ($boolCacheValue -eq $false)
         {
             # Unable to find the project's source files; unable to continue.
+
+            # Show that the Project's source files could not be found.
+            [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Failure, "Unable to find $([ProjectInformation]::projectName) source files!");
+            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "Please reconfigure the program settings!");
+
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -360,6 +371,11 @@ class Builder
         if ($boolCacheValue -eq $false)
         {
             # Unable to find the output path directory; unable to continue.
+
+            # Show that the Output Directory could not be found.
+            [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Failure, "Unable to find the Output Directory!");
+            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "Please reconfigure the Program's Generalized Settings!");
+
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -419,6 +435,11 @@ class Builder
                 {
                     # Unable to find the dotNET Archive Zip
 
+                    # Show that this program cannot detect the dotNET Core Archive ZIP functionality.
+                    [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Failure, "Unable to find native support with Default ZIP functionality");
+                    [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "Please assure that you are using the latest version of PowerShell Core!");
+
+
 
                     # * * * * * * * * * * * * * * * * * * *
                     # Debugging
@@ -477,6 +498,11 @@ class Builder
                 {
                     # Unable to find the 7Zip application
 
+                    # Show that this program cannot find the 7Zip software installed on this system or the desired location.
+                    [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Failure, "Unable to find the 7Zip application installed!");
+                    [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "Please assure that you have 7Zip installed and that this program can find it as well.");
+
+
 
                     # * * * * * * * * * * * * * * * * * * *
                     # Debugging
@@ -527,6 +553,9 @@ class Builder
             {
                 # Unknown or Unsupported compression tool!
 
+                # Show that the preferred compression tool is not valid.
+                [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Failure, "Preferred Compression Tool is not supported or I don't know what it is!");
+                [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "Please reconfigure the Compression Tool within the Program Generalized Settings!");
 
                     # * * * * * * * * * * * * * * * * * * *
                     # Debugging
@@ -580,6 +609,11 @@ class Builder
             if ($boolCacheValue -eq $false)
             {
                 # Unable to find the Git application.
+
+                # Show that the preferred compression tool is not valid.
+                [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Failure, "Unable to find the Git SCM Version Control Application!");
+                [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "Please assure that you have Git installed and that this program can find it as well.");
+
 
 
                 # * * * * * * * * * * * * * * * * * * *
