@@ -757,6 +757,7 @@ class Builder
         # Retrieve the current Commit ID of the selected Branch:
         $projectCommitIDOld = "$($gitControl.FetchCommitID("$($userPreferences.GetProjectPath())"))";
 
+
         # Show the user the current operation that is about to take place
         [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Updating $([ProjectInformation]::projectName)'s source files. . .");
         [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "Current Local Repository Commit ID: $($projectCommitIDOld)");
