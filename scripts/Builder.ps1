@@ -93,7 +93,6 @@ class Builder
 
 
 
-        #region Update Source (Git)
 
         #           Update Source (Git)
         # * * * * * * * * * * * * * * * * * * * *
@@ -148,7 +147,6 @@ class Builder
         # Show that we are finished updating the project's local repository
         [CommonCUI]::DrawFormattedList(1, $symbolSuccessful, "Finished!");
 
-        #endregion
 
 
 
