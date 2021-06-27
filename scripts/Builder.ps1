@@ -359,6 +359,11 @@ class Builder
 
 
 
+        # Successfully found project files
+        [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Successful, "Found the $([ProjectInformation]::projectName) source files!");
+
+
+
 
         #              Output Path
         # * * * * * * * * * * * * * * * * * * * *
@@ -413,6 +418,11 @@ class Builder
             #  compiled build.  We cannot continue this operation.
             return $false;
         } # if : Check Output Path exists
+
+
+
+        # Successfully found output directory
+        [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Successful, "Found the Output Directory!");
 
 
 
@@ -482,6 +492,11 @@ class Builder
                     return $false;
                 } # If : Found Default Zip
 
+
+                # Successfully found native support with the Archive ZIP module
+                [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Successful, "Found native support with dotNET Core Archive ZIP!");
+
+
                 # Finished
                 break;
             } # dotNET Archive Zip
@@ -542,6 +557,11 @@ class Builder
                     #  then we must abort the operation as we are unable to find the software.
                     return $false;
                 } # If : Found 7Zip
+
+
+                # Successfully found 7Zip
+                [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Successful, "Found the 7Zip Application!");
+
 
                 # Finished
                 break;
@@ -656,6 +676,11 @@ class Builder
                 #  to find it, we may not continue with the compiling operation.
                 return $false;
             } # if : Check if Git Exists
+
+
+
+        # Successfully found Git SCM!
+        [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Successful, "Found the Git Application!");
         } # if : Git Features Requested
 
 
@@ -666,6 +691,12 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
 
         # If we made it this far, that means that we have everything we need to compile this project!
+
+
+        # Show that the Perquisite Check had passed!
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully found all the required resources!");
+
+
 
 
         # * * * * * * * * * * * * * * * * * * *
