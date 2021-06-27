@@ -75,10 +75,6 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
 
 
-        # Make sure that we have all of the resources that we are going to
-        #  need in order to successfully compile this project.
-        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Prerequisite Check");
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Performing a Prerequisite Check. . .");
 
 
         # Invoke the Prerequisite Check and evaluate its feedback.  If it turns
@@ -101,9 +97,6 @@ class Builder
 
         # Because we have all of the resources that we need - in order to compile this project, we can
         #  proceed to the next step!
-
-        # Show that the Prerequisite Check had passed.
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Passed!");
 
         #endregion
 
