@@ -106,73 +106,18 @@ class Builder
 
 
 
-        #region Compile Project
-
         #             Compile Project
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
 
-
-        # Now to compile the project, using the user's preferred compiling tool and compiler settings.
-        [CommonCUI]::DrawFormattedList(0, $symbolParent, "Compile $([ProjectInformation]::projectName) source files.");
-
-
-
-        # Determine which compression tool we are going to use in order to generate this build,
-        #  and if that tool is available for us to use.
-        # Archive Zip (Default)
-        if ($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip)
+        # Try to compact the
+        if (![Builder]::CompileProject())
         {
-            # We will use the ZIP Archive module to compile this project.
-            [CommonCUI]::DrawFormattedList(1, $symbolInProgress, "Compiling $([ProjectInformation]::projectName) using ZIP Archive (Default). . .");
-
-
-            # Generate archive build
-            if ($defaultCompress.CreateArchive("$([ProjectInformation]::fileName)", `
-                                            "$($userPreferences.GetProjectBuildsPath())", `
-                                            "$($userPreferences.GetProjectPath())", `
-                                            [ref] $compiledBuildPath) -eq $false)
-            {
-                # Failed to generate the build
-                [CommonCUI]::DrawFormattedList(1, $symbolFailure, "Failed to compile $([ProjectInformation]::projectName)!");
-
-                # Because we had reached an error, return back with an error signal.
-                return $false;
-            } # If : Failed to generate build
-        } # if : Archive Zip (Default)
-
-        # 7Zip
-        elseif ($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip)
-        {
-            # We will use the 7Zip application to compile this project.
-            [CommonCUI]::DrawFormattedList(1, $symbolInProgress, "Compiling $([ProjectInformation]::projectName) using 7Zip. . .");
-        } # Else-if : 7Zip
-
-        # Fatal Error; either the tool is unknown or not ready
-        else
-        {
-            # Display a message to the user that an error had been reached
-            [CommonCUI]::DrawFormattedList(1, $symbolFailure, "Cannot compile $([ProjectInformation]::projectName) as the compiling software is not ready or not available at this time!");
-
-            # We cannot proceed forward with the operation.
+            # Because there was an error while compiling the project's source
+            #  files, we will have to abort at this point.
             return $false;
-        } # Else : Error
+        } # if : Compile Project
 
-
-
-
-
-
-
-
-
-        #endregion
-
-
-
-
-        #region Create Reports
-        #endregion
 
 
 
