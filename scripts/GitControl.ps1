@@ -1874,7 +1874,7 @@ class GitControl
 
 
         # Execute the command
-        if ([CommonIO]::ExecuteCommand("$($this.GetExecutablePath)", `      # Git Executable Path
+        if ([CommonIO]::ExecuteCommand("$($this.GetExecutablePath())", `    # Git Executable Path
                                         "$($extCMDArgs)", `                 # Arguments to retrieve the Commit ID from Local Repo.
                                         "$($projectPath)", `                # The working directory that Git will start from.
                                         "$($this.GetLogPath())", `          # The Standard Output Directory Path.
