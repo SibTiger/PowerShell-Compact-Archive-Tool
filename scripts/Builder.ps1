@@ -557,33 +557,35 @@ class Builder
                 [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Failure, "Preferred Compression Tool is not supported or I don't know what it is!");
                 [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "Please reconfigure the Compression Tool within the Program Generalized Settings!");
 
-                    # * * * * * * * * * * * * * * * * * * *
-                    # Debugging
-                    # --------------
 
-                    # Generate a message to display to the user.
-                    [string] $displayErrorMessage = ("Please choose a valid Compression Tool within the Program's Generalized settings!`r`n" + `
-                                                    "The current compression tool that you had requested is either no longer supported or unknown.`r`n" + `
-                                                    "`t- Current Compression Tool ID is: $([uint]$userPreferences.GetCompressionTool())");
 
-                    # Generate the initial message
-                    $logMessage = "Requested compression software is either unsupported or unknown!";
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
 
-                    # Generate any additional information that might be useful
-                    $logAdditionalMSG = ("Please reconfigure your preferred Compression Tool within the Program's Generalized Settings!`r`n" + `
-                                        "`tCompression Tool ID: $([uint]$userPreferences.GetCompressionTool())");
+                # Generate a message to display to the user.
+                [string] $displayErrorMessage = ("Please choose a valid Compression Tool within the Program's Generalized settings!`r`n" + `
+                                                "The current compression tool that you had requested is either no longer supported or unknown.`r`n" + `
+                                                "`t- Current Compression Tool ID is: $([uint]$userPreferences.GetCompressionTool())");
 
-                    # Pass the information to the logging system
-                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                "$($logAdditionalMSG)", `   # Additional information
-                                                [LogMessageLevel]::Error);  # Message level
+                # Generate the initial message
+                $logMessage = "Requested compression software is either unsupported or unknown!";
 
-                    # Display a message to the user that something went horribly wrong
-                    #  and log that same message for referencing purpose.
-                    [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                                [LogMessageLevel]::Error);  # Message level
+                # Generate any additional information that might be useful
+                $logAdditionalMSG = ("Please reconfigure your preferred Compression Tool within the Program's Generalized Settings!`r`n" + `
+                                    "`tCompression Tool ID: $([uint]$userPreferences.GetCompressionTool())");
 
-                    # * * * * * * * * * * * * * * * * * * *
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            [LogMessageLevel]::Error);  # Message level
+
+                # Display a message to the user that something went horribly wrong
+                #  and log that same message for referencing purpose.
+                [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                            [LogMessageLevel]::Error);  # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
 
 
                 # Because this compression tool is not support or simply unknown, have to abruptly
