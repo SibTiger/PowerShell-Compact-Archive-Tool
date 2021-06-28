@@ -835,6 +835,27 @@ class Builder
         #  but we are more focused with the (G)ZDoom standards.
         #  Please see here regarding what formats are accepted.
         #    https://zdoom.org/wiki/Using_ZIPs_as_WAD_replacement
+        if($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip)
+        {
+            # The Internal Zip provided by the dotNet Core only provides zip capabilities.
+            #  Thus, PK3 is the only extension posible.
+            $fileExtension.Value = "pk3";
+        } # if : Compression Tool is InternalZip
+        elseif($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip)
+        {
+            # Because 7Zip supports Zip and 7Zip (obviously), it can support either PK3 or PK7.
+            if ($sevenZip.GetCompressionMethod() -eq [SevenZipCompressionMethod]::Zip)
+            {
+                 # Zip is selected, thus we will be using PK3
+                 $fileExtension.Value = "pk3";
+            } # if : 7Zip using Zip
+
+            elseif ($sevenZip.GetCompressionMethod() -eq [SevenZipCompressionMethod]::SevenZip)
+            {
+                 # 7Z is selected, thus we will be using PK7
+                 $fileExtension.Value = "pk7";
+            } # elseif : 7Zip using 7Z
+        } # else-if: Compression Tool is 7Zip
     } # GenerateArchiveFileName()
 
 
