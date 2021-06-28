@@ -825,6 +825,16 @@ class Builder
         #  preferences as to how 7Zip will be utilized within this application.
         [SevenZip] $sevenZip = [SevenZip]::GetInstance();
         # ----------------------------------------
+
+
+
+        # Determine the core file name of the archive data file.
+        $archiveFileName.Value = "$([ProjectInformation]::fileName)";
+
+        # Determine the file extension that we are going to use,
+        #  but we are more focused with the (G)ZDoom standards.
+        #  Please see here regarding what formats are accepted.
+        #    https://zdoom.org/wiki/Using_ZIPs_as_WAD_replacement
     } # GenerateArchiveFileName()
 
 
