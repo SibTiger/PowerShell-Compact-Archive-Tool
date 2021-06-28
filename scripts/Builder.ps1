@@ -831,6 +831,11 @@ class Builder
         #  the user's preferences as to how the Archive ZIP module will be utilized within this
         #  application.
         [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+
+
+        # Debugging Variables
+        [string] $logMessage = $NULL;           # Main message regarding the logged event.
+        [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
         # ----------------------------------------
 
 
