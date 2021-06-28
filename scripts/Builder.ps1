@@ -798,6 +798,39 @@ class Builder
 
 
 
+   <# Generate Archive Filename
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the ability to automatically generate
+    #   the archive filename as well as the file extension that will
+    #   be part of the filename.
+    # -------------------------------
+    # Input:
+    #  [string] (REFERENCE) Archive Filename
+    #   This will provide the archive datafile's name.
+    #  [string] (REFERENCE) File Extension
+    #   This will provide the file extension that will identify the file's data structure.
+    # -------------------------------
+    #>
+    hidden static [void] GenerateArchiveFileName([ref] $archiveFileName,    # Archive Filename
+                                                [ref] $fileExtension)       # Archive File Extension
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the current instance of the User Preferences object; this contains the user's
+        #  generalized settings.
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+
+        # Retrieve the current instance of the user's 7Zip object; this contains the user's
+        #  preferences as to how 7Zip will be utilized within this application.
+        [SevenZip] $sevenZip = [SevenZip]::GetInstance();
+        # ----------------------------------------
+    } # GenerateArchiveFileName()
+
+
+
+
+
    <# Compile Project
     # -------------------------------
     # Documentation:
