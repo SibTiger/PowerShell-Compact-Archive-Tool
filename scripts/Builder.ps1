@@ -831,31 +831,52 @@ class Builder
         # Determine the core file name of the archive data file.
         $archiveFileName.Value = "$([ProjectInformation]::fileName)";
 
+
+
         # Determine the file extension that we are going to use,
         #  but we are more focused with the (G)ZDoom standards.
         #  Please see here regarding what formats are accepted.
         #    https://zdoom.org/wiki/Using_ZIPs_as_WAD_replacement
+        # Archive Zip Module
         if($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip)
         {
             # The Internal Zip provided by the dotNet Core only provides zip capabilities.
-            #  Thus, PK3 is the only extension posible.
+            #  Thus, PK3 is the only extension possible.
             $fileExtension.Value = "pk3";
         } # if : Compression Tool is InternalZip
+
+
+        # 7Zip
         elseif($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip)
         {
             # Because 7Zip supports Zip and 7Zip (obviously), it can support either PK3 or PK7.
             if ($sevenZip.GetCompressionMethod() -eq [SevenZipCompressionMethod]::Zip)
             {
-                 # Zip is selected, thus we will be using PK3
-                 $fileExtension.Value = "pk3";
+                # Zip is selected, thus we will be using PK3
+                $fileExtension.Value = "pk3";
             } # if : 7Zip using Zip
 
             elseif ($sevenZip.GetCompressionMethod() -eq [SevenZipCompressionMethod]::SevenZip)
             {
-                 # 7Z is selected, thus we will be using PK7
-                 $fileExtension.Value = "pk7";
+                # 7Z is selected, thus we will be using PK7
+                $fileExtension.Value = "pk7";
             } # elseif : 7Zip using 7Z
+
+            # Error Case
+            else
+            {
+                # Unknown Compression Method; we cannot determine the type so set it as null.
+                $fileExtension.Value = $null;
+            } # Else : Error Case
         } # else-if: Compression Tool is 7Zip
+
+
+        # Unknown Compression Tool selected
+        else
+        {
+            # Unknown Compression Tool; we cannot determine the type so set it as null.
+            $fileExtension.Value = $null;
+        } # else : Unknown compression tool
     } # GenerateArchiveFileName()
 
 
