@@ -50,6 +50,9 @@ class Builder
         #
         # File Name of the archive datafile
         [string] $fileName = "$([ProjectInformation]::fileName)";
+
+        # The file extension of the archive datafile.
+        [string] $fileNameExtension = $null;
         # ----------------------------------------
 
 
