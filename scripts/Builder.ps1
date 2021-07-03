@@ -844,6 +844,10 @@ class Builder
         # ----------------------------------------
 
 
+        # Show that we gathering filename information
+        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Gathering filename information. . .");
+
+
 
         # Determine the core file name of the archive data file.
         $archiveFileName.Value = "$([ProjectInformation]::fileName)";
@@ -894,6 +898,13 @@ class Builder
             # Unknown Compression Tool; we cannot determine the type so set it as null.
             $fileExtension.Value = $null;
         } # else : Unknown compression tool
+
+
+    # Show the filename that has been generated.
+    [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully generated the filename!");
+    [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "File Name is `"$($archiveFileName.Value)`" with the file extension of `"$($fileExtension.Value)`".");
+    [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "The full filename is: $($archiveFileName.Value).$($fileExtension.Value)");
+
     } # GenerateArchiveFileName()
 
 
