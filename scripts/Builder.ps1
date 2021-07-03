@@ -96,6 +96,18 @@ class Builder
 
 
 
+        #        Generate Output Directory
+        # * * * * * * * * * * * * * * * * * * * *
+        # * * * * * * * * * * * * * * * * * * * *
+        # Determine and generate the output directory in which this compiled
+        #  build will be stored.
+
+        $compiledBuildPath = "$([Builder]::GenerateOutputPath())";
+
+
+
+
+
         #           Update Source (Git)
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
@@ -107,18 +119,6 @@ class Builder
             #  local copy of the project files, we cannot proceed.
             return $false;
         } # if : Update Local Project Files
-
-
-
-
-
-        #        Generate Output Directory
-        # * * * * * * * * * * * * * * * * * * * *
-        # * * * * * * * * * * * * * * * * * * * *
-        # Determine and generate the output directory in which this compiled
-        #  build will be stored.
-
-        $compiledBuildPath = "$([Builder]::GenerateOutputPath())";
 
 
 
