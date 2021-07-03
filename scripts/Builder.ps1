@@ -47,9 +47,8 @@ class Builder
         # Archive datafile's final destination path
         [string] $compiledBuildPath = $null;
 
-        #
-        # File Name of the archive datafile
-        [string] $fileName = "$([ProjectInformation]::fileName)";
+        # The file name for the archive datafile.
+        [string] $fileName = $null;
 
         # The file extension of the archive datafile.
         [string] $fileNameExtension = $null;
