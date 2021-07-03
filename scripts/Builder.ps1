@@ -904,7 +904,6 @@ class Builder
     [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully generated the filename!");
     [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "File Name is `"$($archiveFileName.Value)`" with the file extension of `"$($fileExtension.Value)`".");
     [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "The full filename is: $($archiveFileName.Value).$($fileExtension.Value)");
-
     } # GenerateArchiveFileName()
 
 
