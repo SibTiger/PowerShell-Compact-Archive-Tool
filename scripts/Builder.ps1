@@ -112,7 +112,7 @@ class Builder
 
 
 
-        #            Generate Filename           
+        #        Generate Output Directory
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
         # Determine and generate the output directory in which this compiled
