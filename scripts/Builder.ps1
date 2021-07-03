@@ -112,6 +112,21 @@ class Builder
 
 
 
+        #            Generate Filename           
+        # * * * * * * * * * * * * * * * * * * * *
+        # * * * * * * * * * * * * * * * * * * * *
+
+        # We will need to know the file name that will identify archive datafile,
+        #  as well as the file extension that will help to classify the archive
+        #  datafile's data structure.
+
+        [Builder]::GenerateArchiveFileName([ref] $fileName, `           # File Name
+                                            [ref] $fileNameExtension);  # Extension
+
+
+
+
+
         #             Compile Project
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
