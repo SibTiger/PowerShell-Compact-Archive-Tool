@@ -115,6 +115,18 @@ class Builder
         #            Generate Filename           
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
+        # Determine and generate the output directory in which this compiled
+        #  build will be stored.
+
+        $compiledBuildPath = "$([Builder]::GenerateOutputPath())";
+
+
+
+
+
+        #            Generate Filename           
+        # * * * * * * * * * * * * * * * * * * * *
+        # * * * * * * * * * * * * * * * * * * * *
 
         # We will need to know the file name that will identify archive datafile,
         #  as well as the file extension that will help to classify the archive
@@ -906,6 +918,46 @@ class Builder
     [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "File Name is `"$($archiveFileName.Value)`" with the file extension of `"$($fileExtension.Value)`".");
     [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "The full filename is: $($archiveFileName.Value).$($fileExtension.Value)");
     } # GenerateArchiveFileName()
+
+
+
+
+
+
+   <# Generate Output Path
+    # -------------------------------
+    # Documentation:
+    #  This function will determine the final location as to where the compiled build will be
+    #   located in the user's systems.  This will assure that development builds and production
+    #   builds are not combined and mixed into one directory.  As such, this will help to keep
+    #   the builds organized and prevent some human errors when trying to look for a particular
+    #   build or version.
+    # -------------------------------
+    #>
+    hidden static [string] GenerateOutputPath()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the current instance of the User Preferences object; this contains the user's
+        #  generalized settings.
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+        # ----------------------------------------
+
+
+        # Show that we determining the final output location
+        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Determining the Output Directory. . .");
+
+
+
+
+        # Show that we had concluded the output directory and everything is finished!
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "The compiled build will be stored under `"$($userPreferences.GetProjectBuildsPath())`"");
+
+
+        # We will store the archive file in the output directory as-is
+        return "$($userPreferences.GetProjectBuildsPath())";
+    } # GenerateOutputPath()
+
 
 
 
