@@ -826,32 +826,17 @@ class Builder
     # -------------------------------
     # Documentation:
     #  This function will allow the ability to automatically generate
-    #   the archive filename as well as the file extension that will
-    #   be part of the filename.
+    #   the archive filename.
     # -------------------------------
     #>
-    hidden static [string] GenerateArchiveFileName()       # Archive File Extension
+    hidden static [string] GenerateArchiveFileName()
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Retrieve the current instance of the User Preferences object; this contains the user's
-        #  generalized settings.
-        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
-
-        # Retrieve the current instance of the user's 7Zip object; this contains the user's
-        #  preferences as to how 7Zip will be utilized within this application.
-        [SevenZip] $sevenZip = [SevenZip]::GetInstance();
-
         # This will hold the filename for the archive data file
         [string] $archiveFileName = $null;
-
-        # This will hold the file extension for the archive datafile, which will help
-        #  identify the data structure of the archive datafile.
-        [string] $fileExtension = $null;
-
-        # This will hold the full filename
-        [string] $archiveFileNameFull = $null;
         # ----------------------------------------
+
 
 
         # Show that we gathering filename information
@@ -864,68 +849,15 @@ class Builder
 
 
 
-        # Determine the file extension that we are going to use,
-        #  but we are more focused with the (G)ZDoom standards.
-        #  Please see here regarding what formats are accepted.
-        #    https://zdoom.org/wiki/Using_ZIPs_as_WAD_replacement
-        # Archive Zip Module
-        if($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip)
-        {
-            # The Internal Zip provided by the dotNet Core only provides zip capabilities.
-            #  Thus, PK3 is the only extension possible.
-            $fileExtension = "pk3";
-        } # if : Compression Tool is InternalZip
-
-
-        # 7Zip
-        elseif($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip)
-        {
-            # Because 7Zip supports Zip and 7Zip (obviously), it can support either PK3 or PK7.
-            if ($sevenZip.GetCompressionMethod() -eq [SevenZipCompressionMethod]::Zip)
-            {
-                # Zip is selected, thus we will be using PK3
-                $fileExtension = "pk3";
-            } # if : 7Zip using Zip
-
-            elseif ($sevenZip.GetCompressionMethod() -eq [SevenZipCompressionMethod]::SevenZip)
-            {
-                # 7Z is selected, thus we will be using PK7
-                $fileExtension = "pk7";
-            } # elseif : 7Zip using 7Z
-
-            # Error Case
-            else
-            {
-                # Unknown Compression Method; we cannot determine the type so set it as null.
-                $fileExtension = $null;
-            } # Else : Error Case
-        } # else-if: Compression Tool is 7Zip
-
-
-        # Unknown Compression Tool selected
-        else
-        {
-            # Unknown Compression Tool; we cannot determine the type so set it as null.
-            $fileExtension = $null;
-        } # else : Unknown compression tool
-
-
-
-        # Generate the final filename
-        $archiveFileNameFull = "$($archiveFileName).$($fileExtension)";
-
-
 
         # Show the filename that has been generated.
         [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully generated the filename!");
-        [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "File Name is `"$($archiveFileName)`" with the file extension of `"$($fileExtension)`".");
-        [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "The full filename is: $($archiveFileNameFull)");
-
+        [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "File Name is `"$($archiveFileName)`".");
 
 
 
         # Return the full archive data file
-        return "$($archiveFileNameFull)";
+        return "$($archiveFileName)";
     } # GenerateArchiveFileName()
 
 
