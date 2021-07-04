@@ -50,7 +50,7 @@ function InitializationProgramIdentity()
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 
     # Version
-    Set-Variable -Name "_VERSION_" -Value "0.0.9001-Alpha" `
+    Set-Variable -Name "_VERSION_" -Value "1.0.0 Alpha" `
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 
     # Version Name
