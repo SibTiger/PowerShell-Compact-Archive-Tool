@@ -49,9 +49,6 @@ class Builder
 
         # The file name for the archive datafile.
         [string] $fileName = $null;
-
-        # The file extension of the archive datafile.
-        [string] $fileNameExtension = $null;
         # ----------------------------------------
 
 
@@ -131,9 +128,7 @@ class Builder
         # We will need to know the file name that will identify archive datafile,
         #  as well as the file extension that will help to classify the archive
         #  datafile's data structure.
-
-        [Builder]::GenerateArchiveFileName([ref] $fileName, `           # File Name
-                                            [ref] $fileNameExtension);  # Extension
+        $fileName = [Builder]::GenerateArchiveFileName();
 
 
 
@@ -144,7 +139,7 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
 
         # Try to compact the
-        if (![Builder]::CompileProject())
+        if (![Builder]::CompileProject($fileName, $compiledBuildPath))
         {
             # Because there was an error while compiling the project's source
             #  files, we will have to abort at this point.
@@ -834,15 +829,8 @@ class Builder
     #   the archive filename as well as the file extension that will
     #   be part of the filename.
     # -------------------------------
-    # Input:
-    #  [string] (REFERENCE) Archive Filename
-    #   This will provide the archive datafile's name.
-    #  [string] (REFERENCE) File Extension
-    #   This will provide the file extension that will identify the file's data structure.
-    # -------------------------------
     #>
-    hidden static [void] GenerateArchiveFileName([ref] $archiveFileName,    # Archive Filename
-                                                [ref] $fileExtension)       # Archive File Extension
+    hidden static [string] GenerateArchiveFileName()       # Archive File Extension
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -853,6 +841,16 @@ class Builder
         # Retrieve the current instance of the user's 7Zip object; this contains the user's
         #  preferences as to how 7Zip will be utilized within this application.
         [SevenZip] $sevenZip = [SevenZip]::GetInstance();
+
+        # This will hold the filename for the archive data file
+        [string] $archiveFileName = $null;
+
+        # This will hold the file extension for the archive datafile, which will help
+        #  identify the data structure of the archive datafile.
+        [string] $fileExtension = $null;
+
+        # This will hold the full filename
+        [string] $archiveFileNameFull = $null;
         # ----------------------------------------
 
 
@@ -862,7 +860,7 @@ class Builder
 
 
         # Determine the core file name of the archive data file.
-        $archiveFileName.Value = "$([ProjectInformation]::fileName)";
+        $archiveFileName = "$([ProjectInformation]::fileName)";
 
 
 
@@ -875,7 +873,7 @@ class Builder
         {
             # The Internal Zip provided by the dotNet Core only provides zip capabilities.
             #  Thus, PK3 is the only extension possible.
-            $fileExtension.Value = "pk3";
+            $fileExtension = "pk3";
         } # if : Compression Tool is InternalZip
 
 
@@ -886,20 +884,20 @@ class Builder
             if ($sevenZip.GetCompressionMethod() -eq [SevenZipCompressionMethod]::Zip)
             {
                 # Zip is selected, thus we will be using PK3
-                $fileExtension.Value = "pk3";
+                $fileExtension = "pk3";
             } # if : 7Zip using Zip
 
             elseif ($sevenZip.GetCompressionMethod() -eq [SevenZipCompressionMethod]::SevenZip)
             {
                 # 7Z is selected, thus we will be using PK7
-                $fileExtension.Value = "pk7";
+                $fileExtension = "pk7";
             } # elseif : 7Zip using 7Z
 
             # Error Case
             else
             {
                 # Unknown Compression Method; we cannot determine the type so set it as null.
-                $fileExtension.Value = $null;
+                $fileExtension = $null;
             } # Else : Error Case
         } # else-if: Compression Tool is 7Zip
 
@@ -908,15 +906,26 @@ class Builder
         else
         {
             # Unknown Compression Tool; we cannot determine the type so set it as null.
-            $fileExtension.Value = $null;
+            $fileExtension = $null;
         } # else : Unknown compression tool
 
 
 
-    # Show the filename that has been generated.
-    [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully generated the filename!");
-    [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "File Name is `"$($archiveFileName.Value)`" with the file extension of `"$($fileExtension.Value)`".");
-    [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "The full filename is: $($archiveFileName.Value).$($fileExtension.Value)");
+        # Generate the final filename
+        $archiveFileNameFull = "$($archiveFileName).$($fileExtension)";
+
+
+
+        # Show the filename that has been generated.
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully generated the filename!");
+        [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "File Name is `"$($archiveFileName)`" with the file extension of `"$($fileExtension)`".");
+        [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "The full filename is: $($archiveFileNameFull)");
+
+
+
+
+        # Return the full archive data file
+        return "$($archiveFileNameFull)";
     } # GenerateArchiveFileName()
 
 
