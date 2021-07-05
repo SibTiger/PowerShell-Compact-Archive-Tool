@@ -711,7 +711,7 @@ class Builder
 
             # Generate any additional information that might be useful
             $logAdditionalMSG = ("User's Preferences for using Git Features: $($userPreferences.GetUseGitFeatures())`r`n" + `
-                                "Git's Settings for Updating Project Source: $($gitControl.GetUpdateSource())");
+                                "`tGit's Settings for Updating Project Source: $($gitControl.GetUpdateSource())");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
@@ -815,7 +815,7 @@ class Builder
 
         # Generate any additional information that might be useful
         $logAdditionalMSG = ("Previous Parent Commit ID: $($projectCommitIDOld) `r`n" + `
-                            "New Parent Commit ID: $($projectCommitIDNew)");
+                            "`tNew Parent Commit ID: $($projectCommitIDNew)");
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
@@ -1001,10 +1001,10 @@ class Builder
 
                     # Generate any additional information that might be useful
                     $logAdditionalMSG = ("Compression Tool: Archive Module [Default]`r`n" + `
-                                        "Archive File Name Requested: $($archiveFileName)`r`n" + `
-                                        "Output Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
-                                        "Project Path: $($userPreferences.GetProjectPath())`r`n" + `
-                                        "Entire Path (Optional): $($filePath)");
+                                        "`tArchive File Name Requested: $($archiveFileName)`r`n" + `
+                                        "`tOutput Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
+                                        "`tProject Path: $($userPreferences.GetProjectPath())`r`n" + `
+                                        "`tEntire Path (Optional): $($filePath)");
 
                     # Pass the information to the logging system
                     [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -1053,10 +1053,10 @@ class Builder
 
                     # Generate any additional information that might be useful
                     $logAdditionalMSG = ("Compression Tool: 7Zip`r`n" + `
-                                        "Archive File Name Requested: $($archiveFileName)`r`n" + `
-                                        "Output Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
-                                        "Project Path: $($userPreferences.GetProjectPath())`r`n" + `
-                                        "Entire Path (Optional): $($filePath)");
+                                        "`tArchive File Name Requested: $($archiveFileName)`r`n" + `
+                                        "`tOutput Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
+                                        "`tProject Path: $($userPreferences.GetProjectPath())`r`n" + `
+                                        "`tEntire Path (Optional): $($filePath)");
 
                     # Pass the information to the logging system
                     [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -1095,9 +1095,9 @@ class Builder
 
                 # Generate any additional information that might be useful
                 $logAdditionalMSG = ("Compression Tool: $($userPreferences.GetCompressionTool())`r`n" + `
-                                    "Archive File Name Requested: $($archiveFileName)`r`n" + `
-                                    "Output Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
-                                    "Project Path: $($userPreferences.GetProjectPath())");
+                                    "`tArchive File Name Requested: $($archiveFileName)`r`n" + `
+                                    "`tOutput Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
+                                    "`tProject Path: $($userPreferences.GetProjectPath())");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -1127,11 +1127,11 @@ class Builder
         $logMessage = "Successfully compiled the $([ProjectInformation]::projectName) project!";
 
         # Generate any additional information that might be useful
-                            "Archive File Name Requested: $($archiveFileName)`r`n" + `
-                            "Output Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
-                            "Project Path: $($userPreferences.GetProjectPath())" + `
-                            "Entire Path: $($filePath)");
         $logAdditionalMSG = ("Compression Tool: $([string] $userPreferences.GetCompressionTool())`r`n" + `
+                            "`tArchive File Name Requested: $($archiveFileName)`r`n" + `
+                            "`tOutput Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
+                            "`tProject Path: $($userPreferences.GetProjectPath())" + `
+                            "`tEntire Path: $($filePath)");
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
