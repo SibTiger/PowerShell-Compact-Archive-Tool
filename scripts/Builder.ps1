@@ -1127,11 +1127,11 @@ class Builder
         $logMessage = "Successfully compiled the $([ProjectInformation]::projectName) project!";
 
         # Generate any additional information that might be useful
-        $logAdditionalMSG = ("Compression Tool: $($userPreferences.GetCompressionTool())`r`n" + `
                             "Archive File Name Requested: $($archiveFileName)`r`n" + `
                             "Output Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
                             "Project Path: $($userPreferences.GetProjectPath())" + `
                             "Entire Path: $($filePath)");
+        $logAdditionalMSG = ("Compression Tool: $([string] $userPreferences.GetCompressionTool())`r`n" + `
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
