@@ -1078,23 +1078,23 @@ class Builder
         # ----------------------------------------
 
 
-        # Show that we are about to check the compiled build's health
-        #  and integrity of its data structure.
-        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Checking the archive file's health");
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "File to inspect: $($compiledBuildFullPath)");
 
 
         # Did the user wanted us to check the health of the archive datafile?
         if (!((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) -and $defaultCompress.GetVerifyBuild()) -or `
             (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and $sevenZip.GetVerifyBuild())))
         {
-            # User does not want us to check the health of the newly created archive datafile
-            [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Warning, "User requested to skip this step!");
-
             # Even though we did not perform the check, we will still return a successful signal to keep the process running.
             return $true;
         } # if : Do Not Check Build Health
 
+
+
+
+        # Show that we are about to check the compiled build's health
+        #  and integrity of its data structure.
+        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Checking the archive file's health");
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "File to inspect: $($compiledBuildFullPath)");
 
 
         # Let the user know that the test is starting
