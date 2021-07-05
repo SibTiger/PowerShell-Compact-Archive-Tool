@@ -138,8 +138,8 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
 
-        # Try to compact the
         if (![Builder]::CompileProject($fileName, $compiledBuildPath))
+        # Try to compact the project files into an archive datafile.
         {
             # Because there was an error while compiling the project's source
             #  files, we will have to abort at this point.
