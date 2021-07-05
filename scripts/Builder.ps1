@@ -150,6 +150,22 @@ class Builder
 
 
 
+        #               Test Build
+        # * * * * * * * * * * * * * * * * * * * *
+        # * * * * * * * * * * * * * * * * * * * *
+
+        # Try to test the archive data file to assure that it is not damaged.
+        if (![Builder]::TestCompiledBuild($compiledBuildPath))
+        {
+            # Because the archive datafile is damaged or corrupted, we will have
+            #  to abort the operation as we reached an error.
+            return $false;
+        } # if : Test Compiled Build
+
+
+
+
+
         # Show that the compiling operation was successful.
         [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Operation had been completed!");
 
@@ -1019,6 +1035,113 @@ class Builder
 
 
 
+   <# Test Compiled Build
+    # -------------------------------
+    # Documentation:
+    #  This function will perform a test against the newly compiled
+    #   archive datafile, such that we may assure that the build is
+    #   healthy and consumable upon request.  If the build is damaged
+    #   during the compiling phase, then this function will report
+    #   that the build is not healthy - in which the user will need to
+    #   take specific action regarding that build if necessary.
+    # -------------------------------
+    # Input:
+    #  [string] Compiled Build Full Path
+    #   The requested archive datafile that will be tested; absolute
+    #    full path is required.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #   $false = The archive datafile is damaged or corrupted.
+    #   $true  = The archive datafile is healthy
+    #               OR
+    #            User did not want to test the archive datafile.
+    # -------------------------------
+    #>
+    hidden static [bool] TestCompiledBuild([string] $compiledBuildFullPath)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the current instance of the User Preferences object;
+        #  this contains the user's generalized settings.
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+
+
+        # Retrieve the current instance of the user's 7Zip object; this contains the user's
+        #  preferences as to how 7Zip will be utilized within this application.
+        [SevenZip] $sevenZip = [SevenZip]::GetInstance();
+
+
+        # Retrieve the current instance of the user's Default Compressing object; this contains
+        #  the user's preferences as to how the Archive ZIP module will be utilized within this
+        #  application.
+        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+
+
+        # This will store the exit condition provided by the test function.
+        [bool] $result = $false;
+        # ----------------------------------------
+
+
+        # Show that we are about to check the compiled build's health
+        #  and integrity of its data structure.
+        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Checking the archive file's health");
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "File to inspect: $($compiledBuildFullPath)");
+
+
+        # Did the user wanted us to check the health of the archive datafile?
+        if (!((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) -and $defaultCompress.GetVerifyBuild()) -or `
+            (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and $sevenZip.GetVerifyBuild())))
+        {
+            # User does not want us to check the health of the newly created archive datafile
+            [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Warning, "User requested to skip this step!");
+
+            # Even though we did not perform the check, we will still return a successful signal to keep the process running.
+            return $true;
+        } # if : Do Not Check Build Health
+
+
+
+        # Let the user know that the test is starting
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Checking build. . .");
+
+
+
+        # Perform the test.
+        #  Default Compression Tool
+        if (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) -and $defaultCompress.GetVerifyBuild())
+        {
+            # Check the compiled build using the Archive Module
+            $result = $defaultCompress.VerifyArchive("$($compiledBuildFullPath)");
+        } # if : Testing with Default Compression Tool
+
+        # 7Zip Compression Tool
+        elseif (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and $sevenZip.GetVerifyBuild())
+        {
+            # Check the compiled build using the 7Zip extCMD
+            $result = $sevenZip.VerifyArchive("$($compiledBuildFullPath)");
+        } # elseif : Testing with 7Zip Compression Tool
+
+        # Unknown Case
+        else
+        {
+            # Unknown condition was reached
+            [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Error, "Unable to check the file's health and data structure integrity!");
+
+            # Because an error had been reached, we will have to abort the operation
+            return $false;
+        } # else : Unknown Case \ Error Case
+
+
+
+        # Show that the operation was completed successfully
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully checked compiled build's health!");
+        [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "Result was: $([string] $result)");
+
+
+        # Return the result back to the calling function
+        return $result;
+    } # TestCompiledBuild()
    <# Display Bullet List Message
     # -------------------------------
     # Documentation:
