@@ -138,8 +138,8 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
 
-        if (![Builder]::CompileProject($fileName, $compiledBuildPath))
         # Try to compact the project files into an archive datafile.
+        if (![Builder]::CompileProject($fileName, [ref]$compiledBuildPath))
         {
             # Because there was an error while compiling the project's source
             #  files, we will have to abort at this point.
@@ -984,7 +984,7 @@ class Builder
                 if (!$defaultCompress.CreateArchive($archiveFileName,
                                                     $userPreferences.GetProjectBuildsPath(),
                                                     $userPreferences.GetProjectPath(),
-                                                    $archiveFileName))
+                                                    $filePath))
                 {
                     # An error had been reached while compacting the project's files.
                     [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "An error occurred while compiling $([ProjectInformation]::projectName)!");
@@ -1004,7 +1004,7 @@ class Builder
                 if (!$sevenZip.CreateArchive($archiveFileName,
                                             $userPreferences.GetProjectBuildsPath(),
                                             $userPreferences.GetProjectPath(),
-                                            $archiveFileName))
+                                            $filePath))
                 {
                     # An error had been reached while compacting the project's files.
                     [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "An error occurred while compiling $([ProjectInformation]::projectName)!");
