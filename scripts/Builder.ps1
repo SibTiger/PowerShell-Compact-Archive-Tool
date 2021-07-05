@@ -699,21 +699,9 @@ class Builder
 
 
 
-        # Show that we are about to update the project source files
-        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Update $([ProjectInformation]::projectName)");
-
-
-
         # First we will want to make sure that the user wanted us to update the project's source files
         if (($userPreferences.GetUseGitFeatures() -and $gitControl.GetUpdateSource()) -eq $false)
         {
-            # Because the user had requested we do not update the project source files, we will proceed
-            #  without updating the source files.
-            [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Warning, "Skipping this step as requested!");
-            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "You can change this in the Program's Generalized Settings.");
-
-
-
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
@@ -738,6 +726,13 @@ class Builder
             #  than following the user's request.
             return $true;
         } # If : Do not update project source files
+
+
+
+
+        # Show that we are about to update the project source files
+        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Update $([ProjectInformation]::projectName)");
+
 
 
 
