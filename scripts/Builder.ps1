@@ -985,6 +985,38 @@ class Builder
                     [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "An error occurred while compiling $([ProjectInformation]::projectName)!");
                     [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please review the logs for more information!");
                     [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
+
+
+
+                    # * * * * * * * * * * * * * * * * * * *
+                    # Debugging
+                    # --------------
+
+                    # Generate a message to display to the user.
+                    [string] $displayErrorMessage = ("Failed to compile $([ProjectInformation]::projectName)!" + `
+                                                    "Please inspect the logs for what could had caused the problem.");
+
+                    # Generate the initial message
+                    $logMessage = "An error had been reached while compiling $([ProjectInformation]::projectName)!";
+
+                    # Generate any additional information that might be useful
+                    $logAdditionalMSG = ("Compression Tool: Archive Module [Default]`r`n" + `
+                                        "Archive File Name Requested: $($archiveFileName)`r`n" + `
+                                        "Output Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
+                                        "Project Path: $($userPreferences.GetProjectPath())`r`n" + `
+                                        "Entire Path (Optional): $($filePath)");
+
+                    # Pass the information to the logging system
+                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                "$($logAdditionalMSG)", `   # Additional information
+                                                [LogMessageLevel]::Error);  # Message level
+
+                    # Display a message to the user that something went horribly wrong
+                    #  and log that same message for referencing purpose.
+                    [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                                [LogMessageLevel]::Error);  # Message level
+
+                    # * * * * * * * * * * * * * * * * * * *
                 } # If : Compiling Project Reached an Error
             } # dotNET Core Archive ZIP PowerShell Module
 
@@ -1005,6 +1037,38 @@ class Builder
                     [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "An error occurred while compiling $([ProjectInformation]::projectName)!");
                     [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please review the logs for more information!");
                     [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
+
+
+
+                    # * * * * * * * * * * * * * * * * * * *
+                    # Debugging
+                    # --------------
+
+                    # Generate a message to display to the user.
+                    [string] $displayErrorMessage = ("Failed to compile $([ProjectInformation]::projectName)!" + `
+                                                    "Please inspect the logs for what could had caused the problem.");
+
+                    # Generate the initial message
+                    $logMessage = "An error had been reached while compiling $([ProjectInformation]::projectName)!";
+
+                    # Generate any additional information that might be useful
+                    $logAdditionalMSG = ("Compression Tool: 7Zip`r`n" + `
+                                        "Archive File Name Requested: $($archiveFileName)`r`n" + `
+                                        "Output Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
+                                        "Project Path: $($userPreferences.GetProjectPath())`r`n" + `
+                                        "Entire Path (Optional): $($filePath)");
+
+                    # Pass the information to the logging system
+                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                                "$($logAdditionalMSG)", `   # Additional information
+                                                [LogMessageLevel]::Error);  # Message level
+
+                    # Display a message to the user that something went horribly wrong
+                    #  and log that same message for referencing purpose.
+                    [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                                [LogMessageLevel]::Error);  # Message level
+
+                    # * * * * * * * * * * * * * * * * * * *
                 } # If : Compiling Project Reached an Error
             } # 7Zip
 
@@ -1015,12 +1079,68 @@ class Builder
                 # Show that we could not determine the preferred compression tool
                 [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unknown or unsupported preferred compression software!");
                 [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
+
+
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate a message to display to the user.
+                [string] $displayErrorMessage = ("Unable to compile $([ProjectInformation]::projectName)!" + `
+                                                "The compression tool is unknown or unrecognizable");
+
+                # Generate the initial message
+                $logMessage = "Cannot compile the $([ProjectInformation]::projectName) project due to an unknown Compression Tool!";
+
+                # Generate any additional information that might be useful
+                $logAdditionalMSG = ("Compression Tool: $($userPreferences.GetCompressionTool())`r`n" + `
+                                    "Archive File Name Requested: $($archiveFileName)`r`n" + `
+                                    "Output Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
+                                    "Project Path: $($userPreferences.GetProjectPath())");
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                            "$($logAdditionalMSG)", `   # Additional information
+                                            [LogMessageLevel]::Error);  # Message level
+
+                # Display a message to the user that something went horribly wrong
+                #  and log that same message for referencing purpose.
+                [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                            [LogMessageLevel]::Error);  # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
             } # Error Case
         } # Switch: Compile Project
 
 
         # If we made it this far, that means that the operation was successful!
         [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully compiled $([ProjectInformation]::projectName)!");
+
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        $logMessage = "Successfully compiled the $([ProjectInformation]::projectName) project!";
+
+        # Generate any additional information that might be useful
+        $logAdditionalMSG = ("Compression Tool: $($userPreferences.GetCompressionTool())`r`n" + `
+                            "Archive File Name Requested: $($archiveFileName)`r`n" + `
+                            "Output Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
+                            "Project Path: $($userPreferences.GetProjectPath())" + `
+                            "Entire Path: $($filePath)");
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                    "$($logAdditionalMSG)", `   # Additional information
+                                    [LogMessageLevel]::Verbose);  # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
+
+
 
         # Operation was successful
         return $true;
