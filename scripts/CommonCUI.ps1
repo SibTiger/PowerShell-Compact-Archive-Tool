@@ -124,7 +124,7 @@ class CommonCUI
 
 
         # Display the section title
-        [Logging]::DisplayMessage("`t`t  $sectionTitle");
+        [Logging]::DisplayMessage("`t`t  $($sectionTitle)");
 
 
         # Determine the size needed to render the border for the sectional title
