@@ -1195,6 +1195,20 @@ class Builder
 
         # This will store the exit condition provided by the test function.
         [bool] $result = $false;
+
+        # This is equivalent to the result [boolean], but this will be displayed onto the terminal.
+        #  We will populated this value with a default value with 'Failed'.  We will update this value
+        #  if the test indicated that the build is healthy.
+        [string] $resultNiceValue = "Damaged; not healthy";
+
+        # With this variable, we can adjust the symbol that is provided when providing
+        #  the bullet message to the user.  By default, we will focus on the error.
+        [FormattedListBuilder] $resultSymbol = [FormattedListBuilder]::Error;
+
+
+        # Debugging Variables
+        [string] $logMessage = $NULL;           # Main message regarding the logged event.
+        [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
         # ----------------------------------------
 
 
@@ -1204,6 +1218,27 @@ class Builder
         if (!((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) -and $defaultCompress.GetVerifyBuild()) -or `
             (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and $sevenZip.GetVerifyBuild())))
         {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            $logMessage = "The user does not wish to check the health of the archive data file!";
+
+            # Generate any additional information that might be useful
+            $logAdditionalMSG = ("Desired Compression Tool: $([string]$userPreferences.GetCompressionTool())`r`n" + `
+                                "`tDefault Compression Verify Setting: $([string]$defaultCompress.GetVerifyBuild())`r`n" + `
+                                "`t7Zip Verify Setting: $([string]$sevenZip.GetVerifyBuild())");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                        "$($logAdditionalMSG)", `       # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+
             # Even though we did not perform the check, we will still return a successful signal to keep the process running.
             return $true;
         } # if : Do Not Check Build Health
@@ -1243,15 +1278,80 @@ class Builder
             # Unknown condition was reached
             [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Error, "Unable to check the file's health and data structure integrity!");
 
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate a message to display to the user.
+            [string] $displayErrorMessage = ("An error had occur while attempting to verify the archive data file!`r`n" + `
+                                            "Please assure that you had specified if you want the archive file to be tested.");
+
+            # Generate the initial message
+            $logMessage = "Unable to verify the archive data file due to an unknown or special rare event.";
+
+            # Generate any additional information that might be useful
+            $logAdditionalMSG = ("Desired Compression Tool: $([string]$userPreferences.GetCompressionTool())`r`n" + `
+                                "`tDefault Compression Verify Setting: $([string]$defaultCompress.GetVerifyBuild())`r`n" + `
+                                "`t7Zip Verify Setting: $([string]$sevenZip.GetVerifyBuild())");
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
+                                        "$($logAdditionalMSG)", `   # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+
             # Because an error had been reached, we will have to abort the operation
             return $false;
         } # else : Unknown Case \ Error Case
 
 
+        # Revise the Nice Result such that we indicate that the build is healthy
+        if ($result)
+        {
+            # We will show that the build is healthy
+            $resultNiceValue = "Healthy";
 
-        # Show that the operation was completed successfully
+            # Revise the symbol such that we do not push an error symbol
+            $resultSymbol = [FormattedListBuilder]::Child;
+        } # if : Archive is Healthy
+
+
+
+        # Show that the operation was successful and provide the condition of the build
         [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully checked compiled build's health!");
-        [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "Result was: $([string] $result)");
+        [Builder]::DisplayBulletListMessage(2, $resultSymbol, "The compiled build is: $([string] $resultNiceValue)!");
+
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        $logMessage = "Successfully checked the archive file; health of the build is [$($resultNiceValue)]!";
+
+        # Generate any additional information that might be useful
+        $logAdditionalMSG = ("Archive file checked: $($compiledBuildFullPath)`r`n" + `
+                            "`tNice Result Provided: $($resultNiceValue)`r`n" + `
+                            "`tResult Given: $($result)");
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
+                                    "$($logAdditionalMSG)", `       # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
 
 
         # Return the result back to the calling function
