@@ -4033,7 +4033,7 @@ class CommonIO
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Parent Directory Path: $($searchPath)`r`n" + `
-                                        "`File(s) to find: $($searchFile)`r`n");
+                                        "`tFile(s) to find: $($searchFile)`r`n");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -4104,7 +4104,7 @@ class CommonIO
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Parent Directory Path: $($searchPath)`r`n" + `
-                                        "`File(s) to find: $($searchFile)`r`n" + `
+                                        "`tFile(s) to find: $($searchFile)`r`n" + `
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
