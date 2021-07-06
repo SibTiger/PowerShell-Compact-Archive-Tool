@@ -1203,7 +1203,7 @@ class Builder
 
         # With this variable, we can adjust the symbol that is provided when providing
         #  the bullet message to the user.  By default, we will focus on the error.
-        [FormattedListBuilder] $resultSymbol = [FormattedListBuilder]::Error;
+        [FormattedListBuilder] $resultSymbol = [FormattedListBuilder]::Failure;
 
 
         # Debugging Variables
