@@ -1004,7 +1004,7 @@ class Builder
                                         "`tArchive File Name Requested: $($archiveFileName)`r`n" + `
                                         "`tOutput Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
                                         "`tProject Path: $($userPreferences.GetProjectPath())`r`n" + `
-                                        "`tEntire Path (Optional): $($filePath)");
+                                        "`tEntire Path (Optional): $($filePath.Value)");
 
                     # Pass the information to the logging system
                     [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -1056,7 +1056,7 @@ class Builder
                                         "`tArchive File Name Requested: $($archiveFileName)`r`n" + `
                                         "`tOutput Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
                                         "`tProject Path: $($userPreferences.GetProjectPath())`r`n" + `
-                                        "`tEntire Path (Optional): $($filePath)");
+                                        "`tEntire Path (Optional): $($filePath.Value)");
 
                     # Pass the information to the logging system
                     [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
@@ -1131,7 +1131,7 @@ class Builder
                             "`tArchive File Name Requested: $($archiveFileName)`r`n" + `
                             "`tOutput Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
                             "`tProject Path: $($userPreferences.GetProjectPath())" + `
-                            "`tEntire Path: $($filePath)");
+                            "`tEntire Path: $($filePath.Value)");
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
