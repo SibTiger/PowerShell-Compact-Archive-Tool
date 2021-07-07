@@ -1263,12 +1263,6 @@ class CommonIO
         [string] $callBack    = $null;                          # Allocate memory address if the stdout needs to
                                                                 #  be relocated, this is our medium in order to
                                                                 #  accomplish this.
-        [string] $cacheSTDOUT = "$($outputResultOut.Value)";    # Cache the STDOUT; because it is a pointer - we
-                                                                #  cannot directly use it as a pointer in another
-                                                                #  function call (At least in PowerShell).
-        [string] $cacheSTDERR = "$($outputResultErr.Value)";    # Cache the STDERR; because it is a pointer - we
-                                                                #  cannot directly use it as a pointer in another
-                                                                #  function call (At least in PowerShell).
         # ----------------------------------------
 
         # We will use the function named '__ExecuteCommandLog()'
@@ -1282,8 +1276,8 @@ class CommonIO
                                         $captureSTDOUT, `       # Capture the output from the CMDLet to a variable
                                         $description, `         # Reason for why we are executing the CMDLet
                                         [ref] $callBack, `      # Store the output result in this variable
-                                        [ref] $cacheSTDOUT, `   # CMDLet's STDOUT results provided in this var.
-                                        [ref] $cacheSTDERR);    # CMDLet's STDERR results provided in this var.
+                                        $outputResultOut, `     # CMDLet's STDOUT results provided in this var.
+                                        $outputResultErr);      # CMDLet's STDERR results provided in this var.
 
         # Are we redirecting the output?
         if ($captureSTDOUT -eq $true)
