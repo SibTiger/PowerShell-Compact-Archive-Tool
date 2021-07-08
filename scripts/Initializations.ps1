@@ -255,7 +255,7 @@ function InitializationEnvironment()
  #>
 function FetchPathAppDataLocal()
 {
-    return "$($env:LOCALAPPDATA)";
+    return $env:LOCALAPPDATA;
 } # FetchPathAppDataLocal()
 
 
@@ -274,7 +274,7 @@ function FetchPathAppDataLocal()
  #>
 function FetchPathAppDataRoaming()
 {
-    return "$($env:APPDATA)";
+    return $env:APPDATA;
 } # FetchPathAppDataRoaming()
 
 
