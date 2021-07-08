@@ -41,7 +41,7 @@
         {
             # Create a new instance of the singleton object.
             [LoadSaveUserConfiguration]::_instance = `
-                    [LoadSaveUserConfiguration]::new("$($Global:_PROGRAMDATA_CONFIGS_PATH_)");
+                    [LoadSaveUserConfiguration]::new($Global:_PROGRAMDATA_CONFIGS_PATH_);
         } # If: No Singleton Instance
 
         # Provide an instance of the object.
@@ -113,7 +113,7 @@
     LoadSaveUserConfiguration([string] $configPath)
     {
         # Configuration Path
-        $this.__configPath = "$($configPath)";
+        $this.__configPath = $configPath;
 
 
         # Configuration Filename
@@ -210,10 +210,10 @@
 
 
         # Check if the directory already exists on the filesystem.
-        if ($([CommonIO]::CheckPathExists("$($newVal)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists($newVal, $true)) -eq $false)
         {
             # Because the directory does not exist, try to create it.
-            if (([CommonIO]::MakeDirectory("$($newVal)")) -eq $true)
+            if (([CommonIO]::MakeDirectory($newVal)) -eq $true)
             {
                 # Directory was successfully created, we will now use that path as requested.
                 $this.__configPath = $newVal;
@@ -319,8 +319,8 @@
                                         "`t`tThe User Configuration Directory is:`t`t$($this.GetConfigPath())`r`n");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -338,10 +338,10 @@
         #  check which directory does not exist and then try to create it.
 
         # User Configuration Directory
-        if(([CommonIO]::CheckPathExists("$($this.GetConfigPath())", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists($this.GetConfigPath(), $true)) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (([CommonIO]::MakeDirectory("$($this.GetConfigPath())")) -eq $false)
+            if (([CommonIO]::MakeDirectory($this.GetConfigPath())) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -351,11 +351,11 @@
                 [string] $logMessage = "Couldn't create the User Configuration directory!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = "The User Configuration directory path is: $($this.GetConfigPath())";
+                [string] $logAdditionalMSG = "The User Configuration directory path is: " + $this.GetConfigPath();
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
                                             [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -381,11 +381,11 @@
             [string] $logMessage = "Successfully created the User Configuration directory!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "User Configuration Directory: $($this.GetConfigPath())";
+            [string] $logAdditionalMSG = "User Configuration Directory: " + $this.GetConfigPath();
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -412,11 +412,11 @@
             [string] $logMessage = "Failed to detect the User Configuration directory!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "User Configuration Directory: $($this.GetConfigPath())";
+            [string] $logAdditionalMSG = "User Configuration Directory: " + $this.GetConfigPath();
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -450,7 +450,7 @@
     Hidden [bool] __CheckRequiredDirectories()
     {
         # Check the User Configuration Directory
-        return ([CommonIO]::CheckPathExists("$($this.GetConfigPath())", $true) -eq $true);
+        return ([CommonIO]::CheckPathExists($this.GetConfigPath(), $true) -eq $true);
     } # __CheckRequiredDirectories()
 
     #endregion
@@ -516,11 +516,11 @@
             [string] $logMessage = "Unable to save the user's configuration file as the User Configuration Directory could not be created!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "User Configuration Directory: $($this.GetConfigPath())";
+            [string] $logAdditionalMSG = "User Configuration Directory: " + $this.GetConfigPath();
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -557,8 +557,8 @@
                                             "`tUser Configuration File: $($this.GetConfigFileName())");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -590,13 +590,13 @@
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -661,8 +661,8 @@
                                         "`tUser Configuration File: $($this.GetConfigFileName())");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -704,8 +704,8 @@
                                             "`tUser Configuration File: $($this.GetConfigFileName())");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                            "$($logAdditionalMSG)", `       # Additional information
+                [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                            $logAdditionalMSG, `            # Additional information
                                             [LogMessageLevel]::Verbose);    # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -739,14 +739,14 @@
                                             "`tUser Configuration File: $($this.GetConfigFileName())");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
                                             [LogMessageLevel]::Error);  # Message level
 
                 # Display a message to the user that something went horribly wrong
                 #  and log that same message for referencing purpose.
-                [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                            [LogMessageLevel]::Error);  # Message level
+                [Logging]::DisplayMessage($displayErrorMessage, `   # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -781,13 +781,13 @@
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -890,11 +890,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__notificationType", `                                   # The Variable Name
-                                    "User Preferences", `                                       # The Variable Category
-                                    "$([string]$cachedUserConfig[0].__notificationType)", `     # Value Stored in Config
-                                    "$([string]$userPref.GetBellEvents())", `                   # Current Value
-                                    $_.Exception);                                              # Exception Details
+            $this.__LoadStepWiseError("__notificationType", `                               # The Variable Name
+                                    "User Preferences", `                                   # The Variable Category
+                                    [string]$cachedUserConfig[0].__notificationType, `      # Value Stored in Config
+                                    [string]$userPref.GetBellEvents(), `                    # Current Value
+                                    $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -914,11 +914,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__outputBuildsPath", `                                   # The Variable Name
-                                    "User Preferences", `                                       # The Variable Category
-                                    "$([string]$cachedUserConfig[0].__outputBuildsPath)", `     # Value Stored in User Config
-                                    "$([string]$userPref.GetProjectBuildsPath())", `            # Current value of Variable
-                                    $_.Exception);                                              # Exception Details
+            $this.__LoadStepWiseError("__outputBuildsPath", `                               # The Variable Name
+                                    "User Preferences", `                                   # The Variable Category
+                                    [string]$cachedUserConfig[0].__outputBuildsPath, `      # Value Stored in User Config
+                                    [string]$userPref.GetProjectBuildsPath(), `             # Current value of Variable
+                                    $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -938,11 +938,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__projectPath", `                                # The Variable Name
-                                    "User Preferences", `                               # The Variable Category
-                                    "$([string]$cachedUserConfig[0].__projectPath)", `  # Value Stored in Config
-                                    "$([string]$userPref.GetProjectPath())", `          # Current Value
-                                    $_.Exception);                                      # Exception Details
+            $this.__LoadStepWiseError("__projectPath", `                            # The Variable Name
+                                    "User Preferences", `                           # The Variable Category
+                                    [string]$cachedUserConfig[0].__projectPath, `   # Value Stored in Config
+                                    [string]$userPref.GetProjectPath(), `           # Current Value
+                                    $_.Exception);                                  # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -962,11 +962,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__useGitFeatures", `                                 # The Variable Name
-                                    "User Preferences", `                                   # The Variable Category
-                                    "$([string]$cachedUserConfig[0].__useGitFeatures))", `  # Value Stored in Config
-                                    "$([string]$userPref.GetUseGitFeatures())", `           # Current Value
-                                    $_.Exception);                                          # Exception Details
+            $this.__LoadStepWiseError("__useGitFeatures", `                             # The Variable Name
+                                    "User Preferences", `                               # The Variable Category
+                                    [string]$cachedUserConfig[0].__useGitFeatures, `    # Value Stored in Config
+                                    [string]$userPref.GetUseGitFeatures(), `            # Current Value
+                                    $_.Exception);                                      # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -986,11 +986,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__useWindowsExplorer", `                                 # The Variable Name
-                                    "User Preferences", `                                       # The Variable Category
-                                    "$([string]$cachedUserConfig[0].__useWindowsExplorer))", `  # Value Stored in Config
-                                    "$([string]$userPref.GetUseWindowsExplorer())", `           # Current Value
-                                    $_.Exception);                                              # Exception Details
+            $this.__LoadStepWiseError("__useWindowsExplorer", `                             # The Variable Name
+                                    "User Preferences", `                                   # The Variable Category
+                                    [string]$cachedUserConfig[0].__useWindowsExplorer, `    # Value Stored in Config
+                                    [string]$userPref.GetUseWindowsExplorer(), `            # Current Value
+                                    $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1010,11 +1010,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__showHiddenMenu", `                                     # The Variable Name
-                                    "User Preferences", `                                       # The Variable Category
-                                    "$([string]$cachedUserConfig[0].__showHiddenMenu)", `       # Value Stored in Config
-                                    "$([string]$userPref.GetShowHiddenMenu())", `               # Current Value
-                                    $_.Exception);                                              # Exception Details
+            $this.__LoadStepWiseError("__showHiddenMenu", `                                 # The Variable Name
+                                    "User Preferences", `                                   # The Variable Category
+                                    [string]$cachedUserConfig[0].__showHiddenMenu, `        # Value Stored in Config
+                                    [string]$userPref.GetShowHiddenMenu(), `                # Current Value
+                                    $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1043,8 +1043,8 @@
             # Provide error information to the user and logfile.
             $this.__LoadStepWiseError("__changelogLimit", `                                 # The Variable Name
                                     "Git Settings", `                                       # The Variable Category
-                                    "$([string]$cachedUserConfig[1].__changelogLimit))", `  # Value Stored in Config
-                                    "$([string]$gitObj.GetChangelogLimit())", `             # Current Value
+                                    [string]$cachedUserConfig[1].__changelogLimit, `        # Value Stored in Config
+                                    [string]$gitObj.GetChangelogLimit(), `                  # Current Value
                                     $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
@@ -1065,11 +1065,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__executablePath", `                                 # The Variable Name
-                                    "Git Settings", `                                       # The Variable Category
-                                    "$([string]$cachedUserConfig[1].__executablePath))", `  # Value Stored in Config
-                                    "$([string]$gitObj.GetExecutablePath())", `             # Current Value
-                                    $_.Exception);                                          # Exception Details
+            $this.__LoadStepWiseError("__executablePath", `                             # The Variable Name
+                                    "Git Settings", `                                   # The Variable Category
+                                    [string]$cachedUserConfig[1].__executablePath, `    # Value Stored in Config
+                                    [string]$gitObj.GetExecutablePath(), `              # Current Value
+                                    $_.Exception);                                      # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1089,11 +1089,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__fetchChangelog", `                                 # The Variable Name
-                                    "Git Settings", `                                       # The Variable Category
-                                    "$([string]$cachedUserConfig[1].__fetchChangelog))", `  # Value Stored in Config
-                                    "$([string]$gitObj.GetFetchChangelog())", `             # Current Value
-                                    $_.Exception);                                          # Exception Details
+            $this.__LoadStepWiseError("__fetchChangelog", `                             # The Variable Name
+                                    "Git Settings", `                                   # The Variable Category
+                                    [string]$cachedUserConfig[1].__fetchChangelog, `    # Value Stored in Config
+                                    [string]$gitObj.GetFetchChangelog(), `              # Current Value
+                                    $_.Exception);                                      # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1113,11 +1113,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__generateReport", `                                 # The Variable Name
-                                    "Git Settings", `                                       # The Variable Category
-                                    "$([string]$cachedUserConfig[1].__generateReport))", `  # Value Stored in Config
-                                    "$([string]$gitObj.GetGenerateReport())", `             # Current Value
-                                    $_.Exception);                                          # Exception Details
+            $this.__LoadStepWiseError("__generateReport", `                             # The Variable Name
+                                    "Git Settings", `                                   # The Variable Category
+                                    [string]$cachedUserConfig[1].__generateReport, `    # Value Stored in Config
+                                    [string]$gitObj.GetGenerateReport(), `              # Current Value
+                                    $_.Exception);                                      # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1137,11 +1137,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__lengthCommitID", `                                 # The Variable Name
-                                    "Git Settings", `                                       # The Variable Category
-                                    "$([string]$cachedUserConfig[1].__lengthCommitID))", `  # Value Stored in Config
-                                    "$([string]$gitObj.GetLengthCommitID())", `             # Current Value
-                                    $_.Exception);                                          # Exception Details
+            $this.__LoadStepWiseError("__lengthCommitID", `                             # The Variable Name
+                                    "Git Settings", `                                   # The Variable Category
+                                    [string]$cachedUserConfig[1].__lengthCommitID, `    # Value Stored in Config
+                                    [string]$gitObj.GetLengthCommitID(), `              # Current Value
+                                    $_.Exception);                                      # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1161,11 +1161,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__updateSource", `                                   # The Variable Name
-                                    "Git Settings", `                                       # The Variable Category
-                                    "$([string]$cachedUserConfig[1].__updateSource))", `    # Value Stored in Config
-                                    "$([string]$gitObj.GetUpdateSource())", `               # Current Value
-                                    $_.Exception);                                          # Exception Details
+            $this.__LoadStepWiseError("__updateSource", `                               # The Variable Name
+                                    "Git Settings", `                                   # The Variable Category
+                                    [string]$cachedUserConfig[1].__updateSource, `      # Value Stored in Config
+                                    [string]$gitObj.GetUpdateSource(), `                # Current Value
+                                    $_.Exception);                                      # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1185,11 +1185,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__rootLogPath", `                                    # The Variable Name
-                                    "Git Settings", `                                       # The Variable Category
-                                    "$([string]$cachedUserConfig[1].__rootLogPath))", `     # Value Stored in Config
-                                    "$([string]$gitObj.GetRootLogPath())", `                # Current Value
-                                    $_.Exception);                                          # Exception Details
+            $this.__LoadStepWiseError("__rootLogPath", `                                # The Variable Name
+                                    "Git Settings", `                                   # The Variable Category
+                                    [string]$cachedUserConfig[1].__rootLogPath, `       # Value Stored in Config
+                                    [string]$gitObj.GetRootLogPath(), `                 # Current Value
+                                    $_.Exception);                                      # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1209,11 +1209,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__logPath", `                                    # The Variable Name
-                                    "Git Settings", `                                   # The Variable Category
-                                    "$([string]$cachedUserConfig[1].__logPath))", `     # Value Stored in Config
-                                    "$([string]$gitObj.GetLogPath())", `                # Current Value
-                                    $_.Exception);                                      # Exception Details
+            $this.__LoadStepWiseError("__logPath", `                                # The Variable Name
+                                    "Git Settings", `                               # The Variable Category
+                                    [string]$cachedUserConfig[1].__logPath, `       # Value Stored in Config
+                                    [string]$gitObj.GetLogPath(), `                 # Current Value
+                                    $_.Exception);                                  # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1233,11 +1233,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__reportPath", `                                     # The Variable Name
-                                    "Git Settings", `                                       # The Variable Category
-                                    "$([string]$cachedUserConfig[1].__reportPath))", `      # Value Stored in Config
-                                    "$([string]$gitObj.GetReportPath())", `                 # Current Value
-                                    $_.Exception);                                          # Exception Details
+            $this.__LoadStepWiseError("__reportPath", `                                 # The Variable Name
+                                    "Git Settings", `                                   # The Variable Category
+                                    [string]$cachedUserConfig[1].__reportPath, `        # Value Stored in Config
+                                    [string]$gitObj.GetReportPath(), `                  # Current Value
+                                    $_.Exception);                                      # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1266,8 +1266,8 @@
             # Provide error information to the user and logfile.
             $this.__LoadStepWiseError("__executablePath", `                                 # The Variable Name
                                     "7Zip Settings", `                                      # The Variable Category
-                                    "$([string]$cachedUserConfig[2].__executablePath))", `  # Value Stored in Config
-                                    "$([string]$sevenZipObj.GetExecutablePath())", `        # Current Value
+                                    [string]$cachedUserConfig[2].__executablePath, `        # Value Stored in Config
+                                    [string]$sevenZipObj.GetExecutablePath(), `             # Current Value
                                     $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
@@ -1288,11 +1288,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__algorithm7Zip", `                                  # The Variable Name
-                                    "7Zip Settings", `                                      # The Variable Category
-                                    "$([string]$cachedUserConfig[2].__algorithm7Zip))", `   # Value Stored in Config
-                                    "$([string]$sevenZipObj.GetAlgorithm7Zip())", `         # Current Value
-                                    $_.Exception);                                          # Exception Details
+            $this.__LoadStepWiseError("__algorithm7Zip", `                              # The Variable Name
+                                    "7Zip Settings", `                                  # The Variable Category
+                                    [string]$cachedUserConfig[2].__algorithm7Zip, `     # Value Stored in Config
+                                    [string]$sevenZipObj.GetAlgorithm7Zip(), `          # Current Value
+                                    $_.Exception);                                      # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1312,11 +1312,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__algorithmZip", `                                   # The Variable Name
-                                    "7Zip Settings", `                                      # The Variable Category
-                                    "$([string]$cachedUserConfig[2].__algorithmZip))", `    # Value Stored in Config
-                                    "$([string]$sevenZipObj.GetAlgorithmZip())", `          # Current Value
-                                    $_.Exception);                                          # Exception Details
+            $this.__LoadStepWiseError("__algorithmZip", `                               # The Variable Name
+                                    "7Zip Settings", `                                  # The Variable Category
+                                    [string]$cachedUserConfig[2].__algorithmZip, `      # Value Stored in Config
+                                    [string]$sevenZipObj.GetAlgorithmZip(), `           # Current Value
+                                    $_.Exception);                                      # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1336,11 +1336,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__compressionLevel", `                                   # The Variable Name
-                                    "7Zip Settings", `                                          # The Variable Category
-                                    "$([string]$cachedUserConfig[2].__compressionLevel))", `    # Value Stored in Config
-                                    "$([string]$sevenZipObj.GetCompressionLevel())", `          # Current Value
-                                    $_.Exception);                                              # Exception Details
+            $this.__LoadStepWiseError("__compressionLevel", `                               # The Variable Name
+                                    "7Zip Settings", `                                      # The Variable Category
+                                    [string]$cachedUserConfig[2].__compressionLevel, `      # Value Stored in Config
+                                    [string]$sevenZipObj.GetCompressionLevel(), `           # Current Value
+                                    $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1360,11 +1360,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__compressionMethod", `                                  # The Variable Name
-                                    "7Zip Settings", `                                          # The Variable Category
-                                    "$([string]$cachedUserConfig[2].__compressionMethod))", `   # Value Stored in Config
-                                    "$([string]$sevenZipObj.GetCompressionMethod())", `         # Current Value
-                                    $_.Exception);                                              # Exception Details
+            $this.__LoadStepWiseError("__compressionMethod", `                              # The Variable Name
+                                    "7Zip Settings", `                                      # The Variable Category
+                                    [string]$cachedUserConfig[2].__compressionMethod, `     # Value Stored in Config
+                                    [string]$sevenZipObj.GetCompressionMethod(), `          # Current Value
+                                    $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1386,8 +1386,8 @@
             # Provide error information to the user and logfile.
             $this.__LoadStepWiseError("__generateReport", `                                 # The Variable Name
                                     "7Zip Settings", `                                      # The Variable Category
-                                    "$([string]$cachedUserConfig[2].__generateReport))", `  # Value Stored in Config
-                                    "$([string]$sevenZipObj.GetGenerateReport())", `        # Current Value
+                                    [string]$cachedUserConfig[2].__generateReport, `        # Value Stored in Config
+                                    [string]$sevenZipObj.GetGenerateReport(), `             # Current Value
                                     $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
@@ -1410,8 +1410,8 @@
             # Provide error information to the user and logfile.
             $this.__LoadStepWiseError("__useMultithread", `                                 # The Variable Name
                                     "7Zip Settings", `                                      # The Variable Category
-                                    "$([string]$cachedUserConfig[2].__useMultithread))", `  # Value Stored in Config
-                                    "$([string]$sevenZipObj.GetUseMultithread())", `        # Current Value
+                                    [string]$cachedUserConfig[2].__useMultithread, `        # Value Stored in Config
+                                    [string]$sevenZipObj.GetUseMultithread(), `             # Current Value
                                     $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
@@ -1432,11 +1432,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__verifyBuild", `                                    # The Variable Name
-                                    "7Zip Settings", `                                      # The Variable Category
-                                    "$([string]$cachedUserConfig[2].__verifyBuild))", `     # Value Stored in Config
-                                    "$([string]$sevenZipObj.GetVerifyBuild())", `           # Current Value
-                                    $_.Exception);                                          # Exception Details
+            $this.__LoadStepWiseError("__verifyBuild", `                                # The Variable Name
+                                    "7Zip Settings", `                                  # The Variable Category
+                                    [string]$cachedUserConfig[2].__verifyBuild, `       # Value Stored in Config
+                                    [string]$sevenZipObj.GetVerifyBuild(), `            # Current Value
+                                    $_.Exception);                                      # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1456,11 +1456,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__rootLogPath", `                                    # The Variable Name
-                                    "7Zip Settings", `                                      # The Variable Category
-                                    "$([string]$cachedUserConfig[2].__rootLogPath))", `     # Value Stored in Config
-                                    "$([string]$sevenZipObj.GetRootLogPath())", `           # Current Value
-                                    $_.Exception);                                          # Exception Details
+            $this.__LoadStepWiseError("__rootLogPath", `                                # The Variable Name
+                                    "7Zip Settings", `                                  # The Variable Category
+                                    [string]$cachedUserConfig[2].__rootLogPath, `       # Value Stored in Config
+                                    [string]$sevenZipObj.GetRootLogPath(), `            # Current Value
+                                    $_.Exception);                                      # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1480,11 +1480,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__logPath", `                                    # The Variable Name
-                                    "7Zip Settings", `                                  # The Variable Category
-                                    "$([string]$cachedUserConfig[2].__logPath))", `     # Value Stored in Config
-                                    "$([string]$sevenZipObj.GetLogPath())", `           # Current Value
-                                    $_.Exception);                                      # Exception Details
+            $this.__LoadStepWiseError("__logPath", `                                # The Variable Name
+                                    "7Zip Settings", `                              # The Variable Category
+                                    [string]$cachedUserConfig[2].__logPath, `       # Value Stored in Config
+                                    [string]$sevenZipObj.GetLogPath(), `            # Current Value
+                                    $_.Exception);                                  # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1504,11 +1504,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__reportPath", `                                     # The Variable Name
-                                    "7Zip Settings", `                                      # The Variable Category
-                                    "$([string]$cachedUserConfig[2].__reportPath))", `      # Value Stored in Config
-                                    "$([string]$sevenZipObj.GetReportPath())", `            # Current Value
-                                    $_.Exception);                                          # Exception Details
+            $this.__LoadStepWiseError("__reportPath", `                                 # The Variable Name
+                                    "7Zip Settings", `                                  # The Variable Category
+                                    [string]$cachedUserConfig[2].__reportPath, `        # Value Stored in Config
+                                    [string]$sevenZipObj.GetReportPath(), `             # Current Value
+                                    $_.Exception);                                      # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1535,11 +1535,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__compressionLevel", `                                   # The Variable Name
-                                    "Archive Settings", `                                       # The Variable Category
-                                    "$([string]$cachedUserConfig[3].__compressionLevel))", `    # Value Stored in Config
-                                    "$([string]$psArchive.GetCompressionLevel())", `            # Current Value
-                                    $_.Exception);                                              # Exception Details
+            $this.__LoadStepWiseError("__compressionLevel", `                               # The Variable Name
+                                    "Archive Settings", `                                   # The Variable Category
+                                    [string]$cachedUserConfig[3].__compressionLevel, `      # Value Stored in Config
+                                    [string]$psArchive.GetCompressionLevel(), `             # Current Value
+                                    $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1559,11 +1559,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__generateReport", `                                     # The Variable Name
-                                    "Archive Settings", `                                       # The Variable Category
-                                    "$([string]$cachedUserConfig[3].__generateReport))", `      # Value Stored in Config
-                                    "$([string]$psArchive.GetGenerateReport())", `              # Current Value
-                                    $_.Exception);                                              # Exception Details
+            $this.__LoadStepWiseError("__generateReport", `                                 # The Variable Name
+                                    "Archive Settings", `                                   # The Variable Category
+                                    [string]$cachedUserConfig[3].__generateReport, `        # Value Stored in Config
+                                    [string]$psArchive.GetGenerateReport(), `               # Current Value
+                                    $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1583,11 +1583,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__verifyBuild", `                                    # The Variable Name
-                                    "Archive Settings", `                                   # The Variable Category
-                                    "$([string]$cachedUserConfig[3].__verifyBuild))", `     # Value Stored in Config
-                                    "$([string]$psArchive.GetVerifyBuild())", `             # Current Value
-                                    $_.Exception);                                          # Exception Details
+            $this.__LoadStepWiseError("__verifyBuild", `                                # The Variable Name
+                                    "Archive Settings", `                               # The Variable Category
+                                    [string]$cachedUserConfig[3].__verifyBuild, `       # Value Stored in Config
+                                    [string]$psArchive.GetVerifyBuild(), `              # Current Value
+                                    $_.Exception);                                      # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1607,11 +1607,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__rootLogPath", `                                    # The Variable Name
-                                    "Archive Settings", `                                   # The Variable Category
-                                    "$([string]$cachedUserConfig[3].__rootLogPath))", `     # Value Stored in Config
-                                    "$([string]$psArchive.GetRootLogPath())", `             # Current Value
-                                    $_.Exception);                                          # Exception Details
+            $this.__LoadStepWiseError("__rootLogPath", `                                # The Variable Name
+                                    "Archive Settings", `                               # The Variable Category
+                                    [string]$cachedUserConfig[3].__rootLogPath, `       # Value Stored in Config
+                                    [string]$psArchive.GetRootLogPath(), `              # Current Value
+                                    $_.Exception);                                      # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1631,11 +1631,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__logPath", `                                    # The Variable Name
-                                    "Archive Settings", `                               # The Variable Category
-                                    "$([string]$cachedUserConfig[3].__logPath))", `     # Value Stored in Config
-                                    "$([string]$psArchive.GetLogPath())", `             # Current Value
-                                    $_.Exception);                                      # Exception Details
+            $this.__LoadStepWiseError("__logPath", `                                # The Variable Name
+                                    "Archive Settings", `                           # The Variable Category
+                                    [string]$cachedUserConfig[3].__logPath, `       # Value Stored in Config
+                                    [string]$psArchive.GetLogPath(), `              # Current Value
+                                    $_.Exception);                                  # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1655,11 +1655,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__reportPath", `                                     # The Variable Name
-                                    "Archive Settings", `                                   # The Variable Category
-                                    "$([string]$cachedUserConfig[3].__reportPath))", `      # Value Stored in Config
-                                    "$([string]$psArchive.GetReportPath())", `              # Current Value
-                                    $_.Exception);                                          # Exception Details
+            $this.__LoadStepWiseError("__reportPath", `                                 # The Variable Name
+                                    "Archive Settings", `                               # The Variable Category
+                                    [string]$cachedUserConfig[3].__reportPath, `        # Value Stored in Config
+                                    [string]$psArchive.GetReportPath(), `               # Current Value
+                                    $_.Exception);                                      # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1703,7 +1703,7 @@
                                     "$([Logging]::GetExceptionInfoShort($exceptionInformation))");
 
         # Generate the initial message
-        [string] $logMessage = "$($displayErrorMessage)";
+        [string] $logMessage = $displayErrorMessage;
 
         # Generate any additional information that might be useful
         [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
@@ -1712,13 +1712,13 @@
                                 "`t- Variable contains illegal characters.");
 
         # Pass the information to the logging system
-        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                    "$($logAdditionalMSG)", `   # Additional information
+        [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                    $logAdditionalMSG, `        # Additional information
                                     [LogMessageLevel]::Error);  # Message level
 
         # Display a message to the user that something went horribly wrong
         #  and log that same message for referencing purpose.
-        [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+        [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                     [LogMessageLevel]::Error);  # Message level
     } # __LoadStepWiseError()
     #endregion
