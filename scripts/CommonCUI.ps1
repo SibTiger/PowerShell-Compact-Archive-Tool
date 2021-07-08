@@ -139,16 +139,16 @@ class CommonCUI
         # Generate the border to fit the size of the section title.
         for ([int] $i = 0; $i -lt $sectionTitleBorderLength; $i++)
         {
-            $borderGenerated = "$($borderGenerated)$($border) ";
+            $borderGenerated += " " + $border;
         } # for : Render Variable-Length Border
 
 
         # Append the new line characters
-        $borderGenerated = "$($borderGenerated)`r`n";
+        $borderGenerated += "`r`n";
 
 
         # Display a fancy border
-        [Logging]::DisplayMessage("$($borderGenerated)");
+        [Logging]::DisplayMessage($borderGenerated);
     } # DrawSectionHeader()
 
 
@@ -262,7 +262,7 @@ class CommonCUI
 
 
         # Let the user know that the program is waiting on their response.
-        [Logging]::DisplayMessage("$($stringToDisplay)");
+        [Logging]::DisplayMessage($stringToDisplay);
 
         # Display a border to separate the input from the program's content.
         [Logging]::DisplayMessage("------------------------------");
@@ -303,11 +303,11 @@ class CommonCUI
         # Declarations and Initializations
         # ----------------------------------------
         # We will use this variable to determine how the menu item will be formatted.
-        [string] $displayMenuOutputFormatting = "$($NULL)";
+        [string] $displayMenuOutputFormatting = $NULL;
 
         # This will hold the whitespace (new line) characters, if and only if, requested
         #  to be displayed.
-        [string] $provideWhiteSpace = "$($NULL)";
+        [string] $provideWhiteSpace = $NULL;
         # ----------------------------------------
 
 
@@ -328,7 +328,7 @@ class CommonCUI
         # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
         # Was the Sub-Description provided?
-        if ($itemSubDescription -ne "$($NULL)")
+        if ($itemSubDescription -ne $NULL)
         {
             # Add the Sub-Description
             $displayMenuOutputFormatting += ("`r`n`t$($itemSubDescription)");
@@ -336,7 +336,7 @@ class CommonCUI
 
 
         # Was the Current Setting provided?
-        if ($itemCurrentSetting -ne "$($NULL)")
+        if ($itemCurrentSetting -ne $NULL)
         {
             # Add the Current Setting
             $displayMenuOutputFormatting += ("`r`n`t`t$($itemCurrentSetting)");
@@ -349,12 +349,12 @@ class CommonCUI
         if ($insertNewWhiteSpace)
         {
             # Provide the extra whitespace
-            $displayMenuOutputFormatting += ("$($provideWhiteSpace)");
+            $displayMenuOutputFormatting += $provideWhiteSpace;
         } # if : Apply Whitespace Padding
 
 
         # Display the Menu Item as formatted.
-        [Logging]::DisplayMessage("$($displayMenuOutputFormatting)");
+        [Logging]::DisplayMessage($displayMenuOutputFormatting);
     } # DrawMenuItem()
 
 
@@ -372,7 +372,7 @@ class CommonCUI
         # Provided the error message
         [Logging]::DisplayMessage("`r`n");
         [Logging]::DisplayMessage("`t<!>`tIncorrect Option`t<!>");
-        [Logging]::DisplayMessage("$([CommonCUI]::borderDashLong)");
+        [Logging]::DisplayMessage([CommonCUI]::borderDashLong);
         [Logging]::DisplayMessage("Your request could not be executed as the option was not valid or not available at this time!");
 
 
@@ -409,7 +409,7 @@ class CommonCUI
 
         # Display the instructions for the user
         [Logging]::DisplayMessage("Please check and download the latest version of $($Global:_PROGRAMNAME_).");
-        [Logging]::DisplayMessage("$([CommonCUI]::borderSubcategory)");
+        [Logging]::DisplayMessage([CommonCUI]::borderSubcategory);
 
         # Name of the program
         [Logging]::DisplayMessage("Program Name:`r`n`t$($Global:_PROGRAMNAME_)");
@@ -494,7 +494,7 @@ class CommonCUI
 
 
         # Now that we have the user's feedback, check to make sure that the directory or file exists.
-        return $([CommonIO]::CheckPathExists("$($pathToTarget.Value)", $true));
+        return $([CommonIO]::CheckPathExists($pathToTarget.Value, $true));
     } # BrowseForTargetFile()
 
 
@@ -544,7 +544,7 @@ class CommonCUI
         for([uint] $i = 0; $i -lt $position; $i++)
         {
             # Provide the indention spacing
-            $formattedMessage += "$($indentionSpacing)";
+            $formattedMessage += $indentionSpacing;
         } # for : Indention
 
 
@@ -553,16 +553,16 @@ class CommonCUI
         {
             # Attach the symbol now before we append the message onto the
             #  message.
-            $formattedMessage += "$([string]$symbol) ";
+            $formattedMessage += [string]$symbol + " ";
         } # If : Attach symbol
 
 
         # Attach the initial message
-        $formattedMessage += "$($message)";
+        $formattedMessage += $message;
 
 
         # Display the final formatted message
-        [Logging]::DisplayMessage("$($formattedMessage)");
+        [Logging]::DisplayMessage($formattedMessage);
     } # DrawFormattedList()
 } # CommonCUI
 
