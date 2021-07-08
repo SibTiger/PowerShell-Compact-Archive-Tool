@@ -52,7 +52,7 @@ function main()
 
 
     # Restore the Window Title back to it's state.
-    [CommonIO]::SetTerminalWindowTitle("$($Global:_ENVIRONMENT_WINDOW_TITLE_ORIGINAL_)");
+    [CommonIO]::SetTerminalWindowTitle($Global:_ENVIRONMENT_WINDOW_TITLE_ORIGINAL_);
 
 
     # Close the program
