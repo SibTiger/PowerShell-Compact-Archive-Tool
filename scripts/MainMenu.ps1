@@ -96,25 +96,25 @@ class MainMenu
         [CommonCUI]::DrawMenuItem('B', `
                                 "Build $([ProjectInformation]::projectName)", `
                                 "Create a new build of the $([ProjectInformation]::projectName) ($([ProjectInformation]::codeName)) project.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
         [CommonCUI]::DrawMenuItem('H', `
                                 "$([ProjectInformation]::projectName) Homepage", `
                                 "Access the $([ProjectInformation]::projectName)'s Homepage online.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
         [CommonCUI]::DrawMenuItem('W', `
                                 "$([ProjectInformation]::projectName) Wiki", `
                                 "Access the $([ProjectInformation]::projectName)'s Wiki documentation online.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
         [CommonCUI]::DrawMenuItem('S', `
                                 "$([ProjectInformation]::projectName) Source Code", `
                                 "Access the $([ProjectInformation]::projectName)'s source code online.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -122,19 +122,19 @@ class MainMenu
         [CommonCUI]::DrawMenuItem('P', `
                                 "Preferences", `
                                 "Configure how $($GLOBAL:_PROGRAMNAME_) works within your desired environment.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
         [CommonCUI]::DrawMenuItem('U', `
                                 "Update $($Global:_PROGRAMNAME_)", `
                                 "Check for new available versions of $($GLOBAL:_PROGRAMNAMESHORT_).", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
         [CommonCUI]::DrawMenuItem('?', `
                                 "Help Documentation", `
                                 "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Wiki documentation online.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -142,7 +142,7 @@ class MainMenu
         [CommonCUI]::DrawMenuItem('X', `
                                 "Exit", `
                                 "Close the $($GLOBAL:_PROGRAMNAMESHORT_) program.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $false);
     } # DrawMainMenu()
 
@@ -201,7 +201,7 @@ class MainMenu
                 # Open the webpage as requested
                 #  NOTE: We do not care about the return result as there's
                 #         nothing we can do at this present point.
-                [WebsiteResources]::AccessWebSite_General("$([ProjectInformation]::urlWebsite)",            ` # Project's Homepage
+                [WebsiteResources]::AccessWebSite_General([ProjectInformation]::urlWebsite,                 ` # Project's Homepage
                                                         "$([ProjectInformation]::projectName) Homepage",    ` # Show page title
                                                         $false) | Out-Null;                                 ` # Do not force Web Browser function
 
@@ -219,7 +219,7 @@ class MainMenu
                 # Open the webpage as requested
                 #  NOTE: We do not care about the return result as there's
                 #         nothing we can do at this present point.
-                [WebsiteResources]::AccessWebSite_General("$([ProjectInformation]::urlWiki)",           ` # Project's Wiki
+                [WebsiteResources]::AccessWebSite_General([ProjectInformation]::urlWiki,                ` # Project's Wiki
                                                         "$([ProjectInformation]::projectName) Wiki",    ` # Show page title
                                                         $false) | Out-Null;                             ` # Do not force Web Browser function
 
@@ -238,7 +238,7 @@ class MainMenu
                 # Open the webpage as requested
                 #  NOTE: We do not care about the return result as there's
                 #         nothing we can do at this present point.
-                [WebsiteResources]::AccessWebSite_General("$([ProjectInformation]::urlSource)",                         ` # Project's Repository
+                [WebsiteResources]::AccessWebSite_General([ProjectInformation]::urlSource,                              ` # Project's Repository
                                                         "$([ProjectInformation]::projectName) Source Code Repository",  ` # Show page title
                                                         $false) | Out-Null;                                             ` # Do not force Web Browser function
 
@@ -271,7 +271,7 @@ class MainMenu
                 # Open the webpage as requested
                 #  NOTE: We do not care about the return result as there's
                 #         nothing we can do at this present point.
-                [WebsiteResources]::AccessWebSite_Update("$($Global:_PROGRAMSITEDOWNLOADS_)",      ` # Project's Repository
+                [WebsiteResources]::AccessWebSite_Update($Global:_PROGRAMSITEDOWNLOADS_,            ` # Project's Repository
                                                         "Update $($Global:_PROGRAMNAME_)",          ` # Show page title
                                                         $false) | Out-Null;                         ` # Do not force Web Browser function
 
@@ -291,7 +291,7 @@ class MainMenu
                 # Open the webpage as requested
                 #  NOTE: We do not care about the return result as there's
                 #         nothing we can do at this present point.
-                [WebsiteResources]::AccessWebSite_General("$($Global:_PROGRAMSITEWIKI_)",              ` # Project's Repository
+                [WebsiteResources]::AccessWebSite_General($Global:_PROGRAMSITEWIKI_,                    ` # Project's Repository
                                                         "$([ProjectInformation]::projectName) Wiki",    ` # Show page title
                                                         $false) | Out-Null;                             ` # Do not force Web Browser function
 
