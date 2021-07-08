@@ -127,17 +127,17 @@ class Logging
 
 
         # Get the current time
-        $cacheTime = "$(Get-Date -UFormat "%H.%M.%S")";
+        $cacheTime = Get-Date -UFormat "%H.%M.%S";
 
         # Get the current date
-        $cacheDate = "$(Get-Date -UFormat "%d-%b-%y")";
+        $cacheDate = Get-Date -UFormat "%d-%b-%y";
 
         # Now put it all together
-        $timestamp = "$($cacheDate) $($cacheTime)";
+        $timestamp = $cacheDate + " " + $cacheTime;
 
 
         # Return the timestamp
-        return "$($timestamp)";
+        return $timestamp;
     } # __GenerateTimestamp()
 
 
@@ -412,7 +412,7 @@ class Logging
 
         # Make sure that there is something to actually write, if there is no message - then
         #  there is no point in trying to write to the logfile.
-        elseif ("$($message)" -eq "$($null)")
+        elseif ($message -eq $null)
         {
             # Because the message is empty, there is really no point in written to the logfile.
             Write-Output "ERR! Message can not be recorded as it is null!";
@@ -423,7 +423,7 @@ class Logging
 
 
         # Write the readable data to the logfile.
-        elseif (([CommonIO]::WriteToFile("$([Logging]::GetLogFilePath())", "$($message)")) -eq $false)
+        elseif (([CommonIO]::WriteToFile([Logging]::GetLogFilePath(), $message)) -eq $false)
         {
             # The message could not be written to the logfile.  Provide an exit code of false to signify failure.
             $exitCode = $false;
@@ -516,7 +516,7 @@ class Logging
         #  some default message to indicate that something is wrong - but we managed to log the error regardless.
 
         # There was no initial message provided
-        if ("$($msg)" -eq "$($null)")
+        if ($msg -eq $null)
         {
             # Provide an default error message; helps to indicate that something went horribly wrong.
             $message = "<<UNKNOWN OR BLANK MESSAGE>>";
@@ -541,7 +541,7 @@ class Logging
         # Try to fetch the message level; the severity or what kind of message that is provided with the data.
 
         # The message level was not provided or is not obtainable.
-        if ("$($msgLevel)" -eq "$($null)")
+        if ($msgLevel -eq $null)
         {
             # The message level is unknown
             $messageLevel = "UNKNOWN";
@@ -566,10 +566,10 @@ class Logging
         # Any additional information provided, optional field.  This can be null (or merely empty).
 
         # No additional information provided
-        if ("$($additionalMsg)" -eq "$($null)")
+        if ($additionalMsg -eq $null)
         {
             # No additional information was provided
-            $messageAdditional = "$($null)";
+            $messageAdditional = $null;
         } # If: No Additional Information was Provided
 
         # Additional information was provided
@@ -577,7 +577,7 @@ class Logging
         {
             # There exists some additional information, format it in a way that it works in the final
             #  message form.
-            $messageAdditional = "Additional Information:`r`n`t$($additionalMsg)";
+            $messageAdditional = "Additional Information:`r`n`t" + $additionalMsg;
         } # Else: Additional Information was Provided
 
 
@@ -618,7 +618,7 @@ class Logging
 
 
         # Write the message to the logfile.
-        return [Logging]::__WriteLogFile("$($finalMessage)");
+        return [Logging]::__WriteLogFile($finalMessage);
     } # __FormatLogMessage()
 
     #endregion
@@ -873,7 +873,7 @@ class Logging
                                 [LogMessageLevel] $msgLevel)        # Message's severity level
     {
         # Display the message to the end-user's screen.
-        [CommonIO]::WriteToBuffer("$($msg)", "$($msgLevel)", $false);
+        [CommonIO]::WriteToBuffer($msg, $msgLevel, $false);
 
 
         # Is the Debugging Functionality active?
@@ -881,7 +881,7 @@ class Logging
         if ([Logging]::DebugLoggingState() -eq $true)
         {
             # Log the message to the logfile.
-            [Logging]::__FormatLogMessage("$($msgLevel)", "$($msg)", "$($null)") | Out-Null;
+            [Logging]::__FormatLogMessage($msgLevel, $msg, $null) | Out-Null;
         } # IF : Debug Functionality Active
     } # DisplayMessage()
 
@@ -907,7 +907,7 @@ class Logging
     static [void] DisplayMessage([string] $msg)
     {
         # Access the DisplayMessage(arg0, arg1) with MSG Level set to standard severity.
-        [Logging]::DisplayMessage("$($msg)", [LogMessageLevel]::Standard);
+        [Logging]::DisplayMessage($msg, [LogMessageLevel]::Standard);
     } # DisplayMessage()
 
 
@@ -936,10 +936,10 @@ class Logging
         $userInput = [CommonIO]::FetchUserInput();
 
         # Provide the user's input into the logfile and record it.
-        [Logging]::__FormatLogMessage(7, ">>>>> $($userInput)", "$($null)") | Out-Null;
+        [Logging]::__FormatLogMessage(7, ">>>>> $($userInput)", $null) | Out-Null;
 
         # Return the user's request
-        return "$($userInput)";
+        return $userInput;
     } # GetUserInput()
 
 
@@ -958,7 +958,7 @@ class Logging
         [CommonIO]::FetchEnterKey();
 
         # Provide the Fetch Enter Key activity and record it into the logfile.
-        [Logging]::__FormatLogMessage(7, "Press the Enter Key to continue. . .`r`n<<<ENTER KEY PROVIDED>>>", "$($null)") | Out-Null;
+        [Logging]::__FormatLogMessage(7, "Press the Enter Key to continue. . .`r`n<<<ENTER KEY PROVIDED>>>", $null) | Out-Null;
     } # GetUserEnterKey()
 
 
@@ -997,8 +997,8 @@ class Logging
         # Because we have the information already provided for us, we will merely pass the
         #  data to the appropriate functions to properly record it in the logfile.
         [Logging]::__FormatLogMessage($messageLevel, `
-                                    "$($message)", `
-                                    "$($additionalInformation)") | Out-Null;
+                                    $message, `
+                                    $additionalInformation) | Out-Null;
     } # LogProgramActivity()
 
 
@@ -1026,7 +1026,7 @@ class Logging
         if ([Logging]::DebugLoggingState())
         {
             # Logging is available presently, write the file as requested.
-            [CommonIO]::WriteToFile("$($filePath)", "$($msg.Value.ToString())") | Out-Null;
+            [CommonIO]::WriteToFile($filePath, $msg.Value.ToString()) | Out-Null;
         } # If : Logging is enabled & available
     } # WriteToLogFile()
 
