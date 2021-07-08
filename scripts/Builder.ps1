@@ -99,7 +99,7 @@ class Builder
         # Determine and generate the output directory in which this compiled
         #  build will be stored.
 
-        $compiledBuildPath = "$([Builder]::GenerateOutputPath())";
+        $compiledBuildPath = [Builder]::GenerateOutputPath();
 
 
 
@@ -235,7 +235,7 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
 
         # Check the current status of the Project Path
-        $boolCacheValue = [CommonIO]::CheckPathExists("$($userPreferences.GetProjectPath())", $true);
+        $boolCacheValue = [CommonIO]::CheckPathExists($userPreferences.GetProjectPath(), $true);
 
         # Can we find the project's source files?
         if ($boolCacheValue -eq $false)
@@ -268,13 +268,13 @@ class Builder
                                 "`tProject Source Path Exists: $([string]$boolCacheValue)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -297,7 +297,7 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
 
         # Check the current status of the Output Path
-        $boolCacheValue = [CommonIO]::CheckPathExists("$($userPreferences.GetProjectBuildsPath())", $true);
+        $boolCacheValue = [CommonIO]::CheckPathExists($userPreferences.GetProjectBuildsPath(), $true);
 
         # Can we find the output path?
         if ($boolCacheValue -eq $false)
@@ -330,14 +330,14 @@ class Builder
                                 "`tOutput Directory Path Found: $([string]$boolCacheValue)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                                        [LogMessageLevel]::Error);  # Message level
+            [Logging]::DisplayMessage($displayErrorMessage, `   # Message to display
+                                    [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -404,14 +404,14 @@ class Builder
                                         "`t`thttps://github.com/PowerShell/PowerShell/releases");
 
                     # Pass the information to the logging system
-                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                "$($logAdditionalMSG)", `   # Additional information
+                    [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                                $logAdditionalMSG, `        # Additional information
                                                 [LogMessageLevel]::Error);  # Message level
 
                     # Display a message to the user that something went horribly wrong
                     #  and log that same message for referencing purpose.
-                    [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
-                    [LogMessageLevel]::Error);  # Message level
+                    [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                                [LogMessageLevel]::Error);  # Message level
 
                     # * * * * * * * * * * * * * * * * * * *
 
@@ -471,13 +471,13 @@ class Builder
                                         "`t`thttps://www.7-zip.org/download.html");
 
                     # Pass the information to the logging system
-                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                "$($logAdditionalMSG)", `   # Additional information
+                    [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                                $logAdditionalMSG, `        # Additional information
                                                 [LogMessageLevel]::Error);  # Message level
 
                     # Display a message to the user that something went horribly wrong
                     #  and log that same message for referencing purpose.
-                    [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                    [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                                 [LogMessageLevel]::Error);  # Message level
 
                     # * * * * * * * * * * * * * * * * * * *
@@ -527,13 +527,13 @@ class Builder
                                     "`tCompression Tool ID: $([uint]$userPreferences.GetCompressionTool())");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
                                             [LogMessageLevel]::Error);  # Message level
 
                 # Display a message to the user that something went horribly wrong
                 #  and log that same message for referencing purpose.
-                [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                             [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -592,13 +592,13 @@ class Builder
                                     "`t`thttps://git-scm.com/");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
                                             [LogMessageLevel]::Error);  # Message level
 
                 # Display a message to the user that something went horribly wrong
                 #  and log that same message for referencing purpose.
-                [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                             [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -643,8 +643,8 @@ class Builder
         $logAdditionalMSG = "Prerequisite Check had successfully passed!";
 
         # Pass the information to the logging system
-        [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                    "$($logAdditionalMSG)", `       # Additional information
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
                                     [LogMessageLevel]::Verbose);    # Message level
 
         # * * * * * * * * * * * * * * * * * * *
@@ -714,8 +714,8 @@ class Builder
                                 "`tGit's Settings for Updating Project Source: $($gitControl.GetUpdateSource())");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -738,7 +738,7 @@ class Builder
 
         # If we made it this far, then we can try to update the project's source files.
         # Retrieve the current Commit ID of the selected Branch:
-        $projectCommitIDOld = "$($gitControl.FetchCommitID("$($userPreferences.GetProjectPath())"))";
+        $projectCommitIDOld = $gitControl.FetchCommitID($userPreferences.GetProjectPath());
 
 
         # Show the user the current operation that is about to take place
@@ -776,13 +776,13 @@ class Builder
 
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -797,7 +797,7 @@ class Builder
 
 
         # Retrieve the new Commit ID of the Local Repository's current state.
-        $projectCommitIDNew = "$($gitControl.FetchCommitID("$($userPreferences.GetProjectPath())"))";
+        $projectCommitIDNew = $gitControl.FetchCommitID($userPreferences.GetProjectPath());
 
 
         # Show that the project's files had been updated!
@@ -818,8 +818,8 @@ class Builder
                             "`tNew Parent Commit ID: $($projectCommitIDNew)");
 
         # Pass the information to the logging system
-        [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                    "$($logAdditionalMSG)", `       # Additional information
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
                                     [LogMessageLevel]::Verbose);    # Message level
 
         # * * * * * * * * * * * * * * * * * * *
@@ -868,7 +868,7 @@ class Builder
 
 
         # Return the full archive data file
-        return "$($archiveFileName)";
+        return $archiveFileName;
     } # GenerateArchiveFileName()
 
 
@@ -907,7 +907,7 @@ class Builder
 
 
         # We will store the archive file in the output directory as-is
-        return "$($userPreferences.GetProjectBuildsPath())";
+        return $userPreferences.GetProjectBuildsPath();
     } # GenerateOutputPath()
 
 
@@ -1007,13 +1007,13 @@ class Builder
                                         "`tEntire Path (Optional): $($filePath.Value)");
 
                     # Pass the information to the logging system
-                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                "$($logAdditionalMSG)", `   # Additional information
+                    [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                                $logAdditionalMSG, `        # Additional information
                                                 [LogMessageLevel]::Error);  # Message level
 
                     # Display a message to the user that something went horribly wrong
                     #  and log that same message for referencing purpose.
-                    [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                    [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                                 [LogMessageLevel]::Error);  # Message level
 
                     # * * * * * * * * * * * * * * * * * * *
@@ -1059,13 +1059,13 @@ class Builder
                                         "`tEntire Path (Optional): $($filePath.Value)");
 
                     # Pass the information to the logging system
-                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                "$($logAdditionalMSG)", `   # Additional information
+                    [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                                $logAdditionalMSG, `        # Additional information
                                                 [LogMessageLevel]::Error);  # Message level
 
                     # Display a message to the user that something went horribly wrong
                     #  and log that same message for referencing purpose.
-                    [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                    [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                                 [LogMessageLevel]::Error);  # Message level
 
                     # * * * * * * * * * * * * * * * * * * *
@@ -1100,13 +1100,13 @@ class Builder
                                     "`tProject Path: $($userPreferences.GetProjectPath())");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
                                             [LogMessageLevel]::Error);  # Message level
 
                 # Display a message to the user that something went horribly wrong
                 #  and log that same message for referencing purpose.
-                [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                             [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -1134,9 +1134,9 @@ class Builder
                             "`tEntire Path: $($filePath.Value)");
 
         # Pass the information to the logging system
-        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                    "$($logAdditionalMSG)", `   # Additional information
-                                    [LogMessageLevel]::Verbose);  # Message level
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
 
         # * * * * * * * * * * * * * * * * * * *
 
@@ -1231,8 +1231,8 @@ class Builder
                                 "`t7Zip Verify Setting: $([string]$sevenZip.GetVerifyBuild())");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1262,14 +1262,14 @@ class Builder
         if (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) -and $defaultCompress.GetVerifyBuild())
         {
             # Check the compiled build using the Archive Module
-            $result = $defaultCompress.VerifyArchive("$($compiledBuildFullPath)");
+            $result = $defaultCompress.VerifyArchive($compiledBuildFullPath);
         } # if : Testing with Default Compression Tool
 
         # 7Zip Compression Tool
         elseif (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and $sevenZip.GetVerifyBuild())
         {
             # Check the compiled build using the 7Zip extCMD
-            $result = $sevenZip.VerifyArchive("$($compiledBuildFullPath)");
+            $result = $sevenZip.VerifyArchive($compiledBuildFullPath);
         } # elseif : Testing with 7Zip Compression Tool
 
         # Unknown Case
@@ -1298,13 +1298,13 @@ class Builder
 
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1347,8 +1347,8 @@ class Builder
                             "`tResult Given: $($result)");
 
         # Pass the information to the logging system
-        [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                    "$($logAdditionalMSG)", `       # Additional information
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
                                     [LogMessageLevel]::Verbose);    # Message level
 
         # * * * * * * * * * * * * * * * * * * *
