@@ -328,7 +328,7 @@ class CommonCUI
         # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
         # Was the Sub-Description provided?
-        if ($itemSubDescription -ne $NULL)
+        if ($null -ne $itemSubDescription)
         {
             # Add the Sub-Description
             $displayMenuOutputFormatting += ("`r`n`t$($itemSubDescription)");
@@ -336,7 +336,7 @@ class CommonCUI
 
 
         # Was the Current Setting provided?
-        if ($itemCurrentSetting -ne $NULL)
+        if ($null -ne $itemCurrentSetting)
         {
             # Add the Current Setting
             $displayMenuOutputFormatting += ("`r`n`t`t$($itemCurrentSetting)");
