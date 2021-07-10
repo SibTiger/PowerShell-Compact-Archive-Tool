@@ -118,7 +118,7 @@ class SettingsZip
             [CommonCUI]::DrawMenuItem('C',
                                     "Compression Level",
                                     "How tightly is the data going to be compacted into the compressed file.",
-                                    "Compression level to use: $($currentSettingCompressionLevel)", `
+                                    "Compression level to use: $($currentSettingCompressionLevel)",
                                     $true);
         } # If: Show Compression Level
 
@@ -129,7 +129,7 @@ class SettingsZip
             [CommonCUI]::DrawMenuItem('V',
                                     "Verify Build after Compression",
                                     "Assure that the data within the compressed file is healthy.",
-                                    "Verify integrity of the newly generated build: $($currentSettingVerifyBuild)", `
+                                    "Verify integrity of the newly generated build: $($currentSettingVerifyBuild)",
                                     $true);
         } # If: Show Verify Build
 
@@ -140,7 +140,7 @@ class SettingsZip
             [CommonCUI]::DrawMenuItem('R',
                                     "Generate Report of the Archive Datafile",
                                     "Provides a detailed report regarding the newly generated compressed file.",
-                                    "Create a report of the newly generated build: $($currentSettingGenerateReport)", `
+                                    "Create a report of the newly generated build: $($currentSettingGenerateReport)",
                                     $true);
         } # If: Show Generate Report
 
@@ -148,16 +148,16 @@ class SettingsZip
         # Help Documentation
         [CommonCUI]::DrawMenuItem('?',
                                 "Help Documentation",
-                                "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Wiki documentation online.", `
-                                "$($NULL)", `
+                                "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Wiki documentation online.",
+                                $NULL,
                                 $true);
 
 
         # Return back to the Main Menu
         [CommonCUI]::DrawMenuItem('X',
                                 "Go back to previous Menu",
-                                "$($NULL)",
-                                "$($NULL)", `
+                                $NULL,
+                                $NULL,
                                 $true);
 
 
@@ -512,7 +512,7 @@ class SettingsZip
                 # Open the webpage as requested
                 #  NOTE: We do not care about the return result as there's
                 #         nothing we can do at this present point.
-                [WebsiteResources]::AccessWebSite_General("$($Global:_PROGRAMSITEWIKI_)",               ` # Project's Repository
+                [WebsiteResources]::AccessWebSite_General($Global:_PROGRAMSITEWIKI_,                    ` # Project's Repository
                                                         "$([ProjectInformation]::projectName) Wiki",    ` # Show page title
                                                         $false) | Out-Null;                             ` # Do not force Web Browser function
 
@@ -655,7 +655,7 @@ class SettingsZip
             [CommonCUI]::DrawSectionHeader("Compression Level");
 
             # Show to the user the current state of the 'Compression Level' variable that is presently set within the program.
-            [Logging]::DisplayMessage("$($decipherNiceString)");
+            [Logging]::DisplayMessage($decipherNiceString);
 
             # Provide some extra white spacing so that it is easier to read for the user
             [Logging]::DisplayMessage("`r`n`r`n");
@@ -696,7 +696,7 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('O', `
                                 "Optimal Compression", `
                                 "Tightly compress the contents; requires more time and resources.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -704,7 +704,7 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('F', `
                                 "Fastest Compression", `
                                 "Quickly compress the contents; expedites the compression while using little resources.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -712,7 +712,7 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('N', `
                                 "No Compression", `
                                 "Do not compress the contents; only store the contents which requires hardly any resources.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -720,7 +720,7 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
     } # DrawMenuUseCompressionLevel()
 
@@ -915,7 +915,7 @@ class SettingsZip
             [CommonCUI]::DrawSectionHeader("Verify Build");
 
             # Show the user the current state of the 'Verify Build' variable that is presently set within the program.
-            [Logging]::DisplayMessage("$($decipherNiceString)");
+            [Logging]::DisplayMessage($decipherNiceString);
 
             # Provide some extra white spacing so that it is easier to read for the user
             [Logging]::DisplayMessage("`r`n`r`n");
@@ -956,7 +956,7 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('V', `
                                 "Verify Build", `
                                 "Test the compiled build to assure that it is healthy.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -964,7 +964,7 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('N', `
                                 "Do not verify build", `
                                 "Do not test the health of the compiled build.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -972,7 +972,7 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
     } # DrawMenuVerifyBuild()
 
@@ -1154,7 +1154,7 @@ class SettingsZip
             [CommonCUI]::DrawSectionHeader("Generate Report");
 
             # Show the user the current state of the 'Generate Report' variable that is presently set within the program.
-            [Logging]::DisplayMessage("$($decipherNiceString)");
+            [Logging]::DisplayMessage($decipherNiceString);
 
             # Provide some extra white spacing so that it is easier to read for the user
             [Logging]::DisplayMessage("`r`n`r`n");
@@ -1195,7 +1195,7 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('R', `
                                 "Generate a report file", `
                                 "Generate a new technical report regarding the project's compiled build.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -1203,7 +1203,7 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('N', `
                                 "Do not generate a report file.", `
                                 "Do not create a technical report regarding the compiled build.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -1211,7 +1211,7 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
     } # DrawMenuGenerateReport()
 
