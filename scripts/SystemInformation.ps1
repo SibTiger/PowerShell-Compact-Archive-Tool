@@ -161,7 +161,7 @@ class SystemInformation
     # -------------------------------
     static [string] PowerShellVersion()
     {
-        return "$((Get-Host).Version)";
+        return [string]((Get-Host).Version);
     } # PowerShellVersion()
 
 
