@@ -1575,7 +1575,7 @@ class SevenZip
         # Make sure that the variable containing the Hash information, from 7Zip, is not empty.
         #  We need the variable to be initialized with some sort of data, if the data provided
         #  was empty (or null) - it is not possible to rigorously evaluate the output as needed.
-        if ("$($outputResult)" -eq "$($null)")
+        if ($null -eq $outputResult)
         {
             # The output cannot be evaluated; there is nothing to inspect.
 
@@ -2126,7 +2126,7 @@ class SevenZip
         # Just for assurance; make sure that we have an actual list from the archive
         #  file.  If in case the list was not retrieved successfully, then place an
         #  'ERR' to signify that an issue occurred, but still providing a value.
-        if ("$($outputResult)" -eq "$($null)")
+        if ($null -eq $outputResult)
         {
             # The Output from 7Zip contained no data.
 
