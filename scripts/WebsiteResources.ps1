@@ -353,7 +353,7 @@
         # Check if the String of the site is null.
         #  If the string is null\empty, then false will be provided.
         #  Otherwise, true will be given.
-        return ($site -ne "$($null)");
+        return ($null -ne $site);
     } # __CheckSiteAvailability_SiteProvided()
 
 
