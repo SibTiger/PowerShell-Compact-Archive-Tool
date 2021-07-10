@@ -195,7 +195,7 @@ class GitControl
     GitControl()
     {
         # Executable path to the Git.exe
-        $this.__executablePath = "$($this.FindGit())";
+        $this.__executablePath = $this.FindGit();
 
         # Update Source
         $this.__updateSource = $true;
@@ -476,7 +476,7 @@ class GitControl
         # Because we are testing for an actual file,
         #  we have to assure that the file really exists
         #  within the host's filesystem.
-        if(([CommonIO]::DetectCommand("$($newVal)", "Application")) -eq $false)
+        if(([CommonIO]::DetectCommand($newVal, "Application")) -eq $false)
         {
             # Could not find the executable.
             return $false;
@@ -776,9 +776,9 @@ class GitControl
     #>
     Hidden [bool] __CheckRequiredDirectories()
     {
-        return (([CommonIO]::CheckPathExists("$($this.GetRootLogPath())", $true) -eq $true) -and   ` # Check the Root Log Directory
-                ([CommonIO]::CheckPathExists("$($this.GetReportPath())", $true) -eq $true) -and    ` # Check the Report Path Directory
-                ([CommonIO]::CheckPathExists("$($this.GetLogPath())", $true) -eq $true));            # Check the Log Path Directory
+        return (([CommonIO]::CheckPathExists($this.GetRootLogPath(), $true) -eq $true) -and `   # Check the Root Log Directory
+                ([CommonIO]::CheckPathExists($this.GetReportPath(), $true) -eq $true) -and `    # Check the Report Path Directory
+                ([CommonIO]::CheckPathExists($this.GetLogPath(), $true) -eq $true));            # Check the Log Path Directory
     } # __CheckRequiredDirectories()
 
 
@@ -831,8 +831,8 @@ class GitControl
                                         "`t`tThe Report Directory is:`t$($this.GetReportPath())`r`n");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -850,10 +850,10 @@ class GitControl
         #  check which directory does not exist and then try to create it.
 
         # Root Log Directory
-        if(([CommonIO]::CheckPathExists("$($this.GetRootLogPath())", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists($this.GetRootLogPath(), $true)) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (([CommonIO]::MakeDirectory("$($this.GetRootLogPath())")) -eq $false)
+            if (([CommonIO]::MakeDirectory($this.GetRootLogPath())) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -866,8 +866,8 @@ class GitControl
                 [string] $logAdditionalMSG = "The root directory path is: $($this.GetRootLogPath())";
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
                                             [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -883,10 +883,10 @@ class GitControl
 
 
         # Log Directory
-        if(([CommonIO]::CheckPathExists("$($this.GetLogPath())", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists($this.GetLogPath(), $true)) -eq $false)
         {
             # Log Directory does not exist, try to create it.
-            if (([CommonIO]::MakeDirectory("$($this.GetLogPath())")) -eq $false)
+            if (([CommonIO]::MakeDirectory($this.GetLogPath())) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -896,11 +896,11 @@ class GitControl
                 [string] $logMessage = "Couldn't create the Git logging directory!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = "The logging directory path is: $($this.GetLogPath())";
+                [string] $logAdditionalMSG = "The logging directory path is: " + $this.GetLogPath();
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
                                             [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -916,10 +916,10 @@ class GitControl
 
 
         # Report Directory
-        if(([CommonIO]::CheckPathExists("$($this.GetReportPath())", $true)) -eq $false)
+        if(([CommonIO]::CheckPathExists($this.GetReportPath(), $true)) -eq $false)
         {
             # Report Directory does not exist, try to create it.
-            if (([CommonIO]::MakeDirectory("$($this.GetReportPath())")) -eq $false)
+            if (([CommonIO]::MakeDirectory($this.GetReportPath())) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -929,11 +929,11 @@ class GitControl
                 [string] $logMessage = "Couldn't create the Git report directory!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = "The report directory path is: $($this.GetReportPath())";
+                [string] $logAdditionalMSG = "The report directory path is: " + $this.GetReportPath();
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
                                             [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -965,8 +965,8 @@ class GitControl
                                         "`t`tThe Report Directory is:`t$($this.GetReportPath())`r`n");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -999,8 +999,8 @@ class GitControl
                                         "`t`tThe Report Directory is:`t$($this.GetReportPath())`r`n");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1054,11 +1054,11 @@ class GitControl
             [string] $logMessage = "Unable to find the Git executable as there was no path provided!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "Git Executable Path is: $($this.GetExecutablePath())";
+            [string] $logAdditionalMSG = "Git Executable Path is: " + $this.GetExecutablePath();
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1071,7 +1071,7 @@ class GitControl
 
 
         # Check if the Git executable was found.
-        if (([CommonIO]::DetectCommand("$($this.GetExecutablePath())", "Application")) -eq $true)
+        if (([CommonIO]::DetectCommand($this.GetExecutablePath(), "Application")) -eq $true)
         {
             # Successfully located the Git executable.
 
@@ -1084,11 +1084,11 @@ class GitControl
             [string] $logMessage = "Successfully located the Git executable!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "Git Executable Path is: $($this.GetExecutablePath())";
+            [string] $logAdditionalMSG = "Git Executable Path is: " + $this.GetExecutablePath();
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1117,8 +1117,8 @@ class GitControl
             [string] $logAdditionalMSG = "Git Executable Path is: $($this.GetExecutablePath())";
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1229,8 +1229,8 @@ class GitControl
             [string] $logAdditionalMSG = "Git was found within the system's %PATH%";
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1245,7 +1245,7 @@ class GitControl
         foreach ($index in $listDirectoryPath)
         {
             # Grab all of the results possible from this array's index.
-            $searchResult = [CommonIO]::SearchFile("$($index)", "git.exe");
+            $searchResult = [CommonIO]::SearchFile($index, "git.exe");
 
             # Determine if there were any valid results from the search.
             if ($null -ne $searchResult)
@@ -1261,18 +1261,18 @@ class GitControl
                 [string] $logMessage = "Successfully located the Git executable!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = "Git was found in: $($searchResult[0].FullName)";
+                [string] $logAdditionalMSG = "Git was found in: " + $searchResult[0].FullName;
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                            "$($logAdditionalMSG)", `       # Additional information
+                [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                            $logAdditionalMSG, `            # Additional information
                                             [LogMessageLevel]::Verbose);    # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
 
 
                 # Return the first result back to the calling function.
-                return "$($searchResult[0].FullName)";
+                return $searchResult[0].FullName;
             } # If : Search Found Git
         } # Foreach : Scan Known Directory List
 
@@ -1291,8 +1291,8 @@ class GitControl
                                     "`t`t- $($listDirectoryPath -join "`r`n`t`t- ")");
 
         # Pass the information to the logging system
-        [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                    "$($logAdditionalMSG)", `       # Additional information
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
                                     [LogMessageLevel]::Warning);    # Message level
 
         # * * * * * * * * * * * * * * * * * * *
@@ -1368,8 +1368,8 @@ class GitControl
                                         "`tAbsolute Path of the Project Directory: $($projectPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1381,7 +1381,7 @@ class GitControl
 
 
         # Make sure that the Git executable has been detected and is presently ready to be used.
-        if ($($this.DetectGitExist()) -eq $false)
+        if ($this.DetectGitExist() -eq $false)
         {
             # The Git executable was not detected.
 
@@ -1398,8 +1398,8 @@ class GitControl
                                         "`tAbsolute Path of the Project Directory: $($projectPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1411,7 +1411,7 @@ class GitControl
 
 
         # Make sure that the Project Directory exists within the provided path.
-        if ($([CommonIO]::CheckPathExists("$($projectPath)", $true)) -eq $false)
+        if ($([CommonIO]::CheckPathExists($projectPath, $true)) -eq $false)
         {
             # The project directory does not exist with the provided path, unable to proceed forward.
 
@@ -1429,8 +1429,8 @@ class GitControl
 
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1445,7 +1445,7 @@ class GitControl
 
 
         # Did the user wanted the project's local repository to be updated?
-        if ($($this.GetUpdateSource()) -eq $false)
+        if ($this.GetUpdateSource() -eq $false)
         {
             # The user did not want the project's local repository to be updated; abort the operation.
 
@@ -1464,8 +1464,8 @@ class GitControl
 
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1478,16 +1478,16 @@ class GitControl
 
 
         # Execute the command
-        if ([CommonIO]::ExecuteCommand("$($this.GetExecutablePath())", `    # Git Executable Path
-                                        "$($extCMDArgs)", `                 # Arguments to update the local repo.
-                                        "$($projectPath)", `                # The working directory that Git will start from.
-                                        "$($this.GetLogPath())", `          # The Standard Output Directory Path.
-                                        "$($this.GetLogPath())", `          # The Error Output Directory Path.
-                                        "$($this.GetReportPath())", `       # The Report Directory Path.
-                                        "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
-                                        $false, `                           # Are we building a report?
-                                        $false, `                           # Do we need to capture the STDOUT so we can process it further?
-                                        $null) -ne 0)                       # Variable containing the STDOUT; if we need to process it.
+        if ([CommonIO]::ExecuteCommand($this.GetExecutablePath(), `     # Git Executable Path
+                                        $extCMDArgs, `                  # Arguments to update the local repo.
+                                        $projectPath, `                 # The working directory that Git will start from.
+                                        $this.GetLogPath(), `           # The Standard Output Directory Path.
+                                        $this.GetLogPath(), `           # The Error Output Directory Path.
+                                        $this.GetReportPath(), `        # The Report Directory Path.
+                                        $execReason, `                  # The reason why we are running Git; used for logging purposes.
+                                        $false, `                       # Are we building a report?
+                                        $false, `                       # Do we need to capture the STDOUT so we can process it further?
+                                        $null) -ne 0)                   # Variable containing the STDOUT; if we need to process it.
         {
             # A failure had been reached; unable to update the local repository.
 
@@ -1501,12 +1501,12 @@ class GitControl
 
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Path of the Target Directory: $($projectPath)");
+            [string] $logAdditionalMSG = "Path of the Target Directory: " + $projectPath;
 
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1552,7 +1552,7 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $extCMDArgs = "checkout $($requestedBranch)";  # Arguments to be used when invoking the Git Executable.
+        [string] $extCMDArgs = "checkout " + $requestedBranch;  # Arguments to be used when invoking the Git Executable.
                                                                 #  This will allow Git to switch the local repository
                                                                 #  to another branch.
         [string] $execReason = "Switch Branch";                 # Description; used for logging
@@ -1589,8 +1589,8 @@ class GitControl
                                         "`tRequested Branch to Switch: $($requestedBranch)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1602,7 +1602,7 @@ class GitControl
 
 
         # Make sure that the Git executable has been detected and is presently ready to be used.
-        if ($($this.DetectGitExist()) -eq $false)
+        if ($this.DetectGitExist() -eq $false)
         {
             # The Git executable was not detected.
 
@@ -1620,8 +1620,8 @@ class GitControl
                                         "`tRequested Branch to Switch: $($requestedBranch)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1633,7 +1633,7 @@ class GitControl
 
 
         # Make sure that the Project Directory exists within the provided path.
-        if ($([CommonIO]::CheckPathExists("$($projectPath)", $true)) -eq $false)
+        if ([CommonIO]::CheckPathExists($projectPath, $true) -eq $false)
         {
             # The project directory does not exist with the provided path, unable to proceed forward.
 
@@ -1652,8 +1652,8 @@ class GitControl
 
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1668,16 +1668,16 @@ class GitControl
 
 
         # Execute the command
-        if ([CommonIO]::ExecuteCommand("$($this.GetExecutablePath())", `    # Git Executable Path
-                                        "$($extCMDArgs)", `                 # Arguments to switch the local repo's branch
-                                        "$($projectPath)", `                # The working directory that Git will start from.
-                                        "$($this.GetLogPath())", `          # The Standard Output Directory Path.
-                                        "$($this.GetLogPath())", `          # The Error Output Directory Path.
-                                        "$($this.GetReportPath())", `       # The Report Directory Path.
-                                        "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
-                                        $false, `                           # Are we building a report?
-                                        $false, `                           # Do we need to capture the STDOUT so we can process it further?
-                                        [ref]$null) -ne 0)                  # Variable containing the STDOUT; if we need to process it.
+        if ([CommonIO]::ExecuteCommand($this.GetExecutablePath(), `     # Git Executable Path
+                                        $extCMDArgs, `                  # Arguments to switch the local repo's branch
+                                        $projectPath, `                 # The working directory that Git will start from.
+                                        $this.GetLogPath(), `           # The Standard Output Directory Path.
+                                        $this.GetLogPath(), `           # The Error Output Directory Path.
+                                        $this.GetReportPath(), `        # The Report Directory Path.
+                                        $execReason, `                  # The reason why we are running Git; used for logging purposes.
+                                        $false, `                       # Are we building a report?
+                                        $false, `                       # Do we need to capture the STDOUT so we can process it further?
+                                        $null) -ne 0)                   # Variable containing the STDOUT; if we need to process it.
         {
             # A failure had been reached; unable to switch the project's local repository branch.
 
@@ -1696,8 +1696,8 @@ class GitControl
 
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1784,8 +1784,8 @@ class GitControl
                                         "`tAbsolute Path of the Project Directory: $($projectPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1797,7 +1797,7 @@ class GitControl
 
 
         # Make sure that the Git executable has been detected and is presently ready to be used.
-        if ($($this.DetectGitExist()) -eq $false)
+        if ($this.DetectGitExist() -eq $false)
         {
             # The Git executable was not detected.
 
@@ -1814,8 +1814,8 @@ class GitControl
                                         "`tAbsolute Path of the Project Directory: $($projectPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1827,7 +1827,7 @@ class GitControl
 
 
         # Make sure that the Project Directory exists within the provided path.
-        if ($([CommonIO]::CheckPathExists("$($projectPath)", $true)) -eq $false)
+        if ([CommonIO]::CheckPathExists($projectPath, $true) -eq $false)
         {
             # The project directory does not exist with the provided path, unable to proceed forward.
 
@@ -1845,8 +1845,8 @@ class GitControl
 
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1861,7 +1861,7 @@ class GitControl
 
 
         # Build the arguments necessary for retrieving the Commit ID by applying the user's request.
-        if($($this.GetLengthCommitID()) -eq [GitCommitLength]::short)
+        if($this.GetLengthCommitID() -eq [GitCommitLength]::short)
         {
             # Use Short Commit ID
             $extCMDArgs = "rev-parse --short HEAD";
@@ -1874,16 +1874,16 @@ class GitControl
 
 
         # Execute the command
-        if ([CommonIO]::ExecuteCommand("$($this.GetExecutablePath())", `    # Git Executable Path
-                                        "$($extCMDArgs)", `                 # Arguments to retrieve the Commit ID from Local Repo.
-                                        "$($projectPath)", `                # The working directory that Git will start from.
-                                        "$($this.GetLogPath())", `          # The Standard Output Directory Path.
-                                        "$($this.GetLogPath())", `          # The Error Output Directory Path.
-                                        "$($this.GetReportPath())", `       # The Report Directory Path.
-                                        "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
-                                        $false, `                           # Are we building a report?
-                                        $true, `                            # Do we need to capture the STDOUT so we can process it further?
-                                        [ref]$commitID) -ne 0)              # Variable containing the STDOUT; if we need to process it.
+        if ([CommonIO]::ExecuteCommand($this.GetExecutablePath(), `     # Git Executable Path
+                                        $extCMDArgs, `                  # Arguments to retrieve the Commit ID from Local Repo.
+                                        $projectPath, `                 # The working directory that Git will start from.
+                                        $this.GetLogPath(), `           # The Standard Output Directory Path.
+                                        $this.GetLogPath(), `           # The Error Output Directory Path.
+                                        $this.GetReportPath(), `        # The Report Directory Path.
+                                        $execReason, `                  # The reason why we are running Git; used for logging purposes.
+                                        $false, `                       # Are we building a report?
+                                        $true, `                        # Do we need to capture the STDOUT so we can process it further?
+                                        [ref]$commitID) -ne 0)          # Variable containing the STDOUT; if we need to process it.
         {
             # A failure had been reached; unable to retrieve the Commit ID from the project's local repository.
 
@@ -1897,12 +1897,12 @@ class GitControl
 
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Path of the Target Directory: $($projectPath)");
+            [string] $logAdditionalMSG = "Path of the Target Directory: " + $projectPath;
 
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1997,8 +1997,8 @@ class GitControl
                                         "`tAbsolute Path of the Project Directory: $($projectPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2010,7 +2010,7 @@ class GitControl
 
 
         # Make sure that the Git executable has been detected and is presently ready to be used.
-        if ($($this.DetectGitExist()) -eq $false)
+        if ($this.DetectGitExist() -eq $false)
         {
             # The Git executable was not detected.
 
@@ -2027,8 +2027,8 @@ class GitControl
                                         "`tAbsolute Path of the Project Directory: $($projectPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2041,7 +2041,7 @@ class GitControl
 
 
         # Make sure that the Project Directory exists within the provided path.
-        if ($([CommonIO]::CheckPathExists("$($projectPath)", $true)) -eq $false)
+        if ([CommonIO]::CheckPathExists($projectPath, $true) -eq $false)
         {
             # The project directory does not exist with the provided path, unable to proceed forward.
 
@@ -2059,8 +2059,8 @@ class GitControl
 
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2094,8 +2094,8 @@ class GitControl
 
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2117,7 +2117,7 @@ class GitControl
         {
             # User wants all the commits that had been made within the project's current selected branch from the localized repository.
             #  To provide this request - assure that the Changelog History Size is $null.
-            $changelogSize = "";
+            $changelogSize = $null;
         } # If : Fetch all Commits
 
 
@@ -2126,7 +2126,7 @@ class GitControl
         ElseIf($this.GetChangelogLimit() -lt 0)
         {
             # Negate the negative number; we will output the result to the logfile.
-            $changelogSize = "$($this.GetChangelogLimit() * (-1))";
+            $changelogSize = [string]($this.GetChangelogLimit() * (-1));
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2143,15 +2143,15 @@ class GitControl
 
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
 
             # Append the parameter denotion onto the variable
-            $changelogSize = " -$($changelogSize)";
+            $changelogSize = " -" + $changelogSize;
         } # If : Negated Negative Number; Error Protection
 
 
@@ -2159,7 +2159,7 @@ class GitControl
         else
         {
             # Because the User's Setting is greater than zero, we will merely use the integer as is with no alterations necessary.
-            $changelogSize = " -$($this.GetChangelogLimit())";
+            $changelogSize = " -" + $this.GetChangelogLimit();
         } # Else : Number is greater than Zero
 
 
@@ -2179,16 +2179,16 @@ class GitControl
 
 
         # Execute the command
-        if([CommonIO]::ExecuteCommand("$($this.GetExecutablePath())", `     # Git Executable Path
-                                        "$($extCMDArgs)", `                 # Arguments to retrieve the Changelog\Commit History.
-                                        "$($projectPath)", `                # The working directory that Git will start from.
-                                        "$($this.GetLogPath())", `          # The Standard Output Directory Path.
-                                        "$($this.GetLogPath())", `          # The Error Output Directory Path.
-                                        "$($changelogPath)", `              # The Report Directory Path.
-                                        "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
-                                        $true, `                            # Are we building a report?
-                                        $false, `                           # Do we need to capture the STDOUT so we can process it further?
-                                        $null) -ne 0)                       # Variable containing the STDOUT; if we need to process it.
+        if([CommonIO]::ExecuteCommand($this.GetExecutablePath(), `      # Git Executable Path
+                                        $extCMDArgs, `                  # Arguments to retrieve the Changelog\Commit History.
+                                        $projectPath, `                 # The working directory that Git will start from.
+                                        $this.GetLogPath(), `           # The Standard Output Directory Path.
+                                        $this.GetLogPath(), `           # The Error Output Directory Path.
+                                        $changelogPath, `               # The Report Directory Path.
+                                        $execReason, `                  # The reason why we are running Git; used for logging purposes.
+                                        $true, `                        # Are we building a report?
+                                        $false, `                       # Do we need to capture the STDOUT so we can process it further?
+                                        $null) -ne 0)                   # Variable containing the STDOUT; if we need to process it.
         {
             # Failure to retrieve the commit history or a general error had occurred.
 
@@ -2202,12 +2202,12 @@ class GitControl
 
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Path of the Target Directory: $($projectPath)");
+            [string] $logAdditionalMSG = "Path of the Target Directory: " + $projectPath;
 
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2286,8 +2286,8 @@ class GitControl
                                         "`tAbsolute Path of the Project Directory: $($projectPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2299,7 +2299,7 @@ class GitControl
 
 
         # Make sure that the Git executable has been detected and is presently ready to be used.
-        if ($($this.DetectGitExist()) -eq $false)
+        if ($this.DetectGitExist() -eq $false)
         {
             # The Git executable was not detected.
 
@@ -2316,8 +2316,8 @@ class GitControl
                                         "`tAbsolute Path of the Project Directory: $($projectPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2329,7 +2329,7 @@ class GitControl
 
 
         # Make sure that the Project Directory exists within the provided path.
-        if ($([CommonIO]::CheckPathExists("$($projectPath)", $true)) -eq $false)
+        if ([CommonIO]::CheckPathExists($projectPath, $true) -eq $false)
         {
             # The project directory does not exist with the provided path, unable to proceed forward.
 
@@ -2347,8 +2347,8 @@ class GitControl
 
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2363,16 +2363,16 @@ class GitControl
 
 
         # Execute the command
-        if ([CommonIO]::ExecuteCommand("$($this.GetExecutablePath())", `    # Git Executable Path
-                                    "$($extCMDArgs)", `                     # Arguments to retrieve the Active Branch
-                                    "$($projectPath)", `                    # The working directory that Git will start from.
-                                    "$($this.GetLogPath())", `              # The Standard Output Directory Path.
-                                    "$($this.GetLogPath())", `              # The Error Output Directory Path.
-                                    "$($this.GetReportPath())", `           # The Report Directory Path.
-                                    "$($execReason)", `                     # The reason why we are running Git; used for logging purposes.
-                                    $false, `                               # Are we building a report?
-                                    $true, `                                # Do we need to capture the STDOUT so we can process it further?
-                                    [ref]$outputResult) -ne 0)              # Variable containing the STDOUT; if we need to process it.
+        if ([CommonIO]::ExecuteCommand($this.GetExecutablePath(), `     # Git Executable Path
+                                    $extCMDArgs, `                      # Arguments to retrieve the Active Branch
+                                    $projectPath, `                     # The working directory that Git will start from.
+                                    $this.GetLogPath(), `               # The Standard Output Directory Path.
+                                    $this.GetLogPath(), `               # The Error Output Directory Path.
+                                    $this.GetReportPath(), `            # The Report Directory Path.
+                                    $execReason, `                      # The reason why we are running Git; used for logging purposes.
+                                    $false, `                           # Are we building a report?
+                                    $true, `                            # Do we need to capture the STDOUT so we can process it further?
+                                    [ref]$outputResult) -ne 0)          # Variable containing the STDOUT; if we need to process it.
         {
             # Failure to retrieve the currently active branch name from the local repository.
 
@@ -2386,12 +2386,12 @@ class GitControl
 
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Path of the Target Directory: $($projectPath)");
+            [string] $logAdditionalMSG = "Path of the Target Directory: " + $projectPath;
 
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2470,8 +2470,8 @@ class GitControl
                                         "`tAbsolute Path of the Project Directory: $($projectPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2483,7 +2483,7 @@ class GitControl
 
 
         # Make sure that the Git executable has been detected and is presently ready to be used.
-        if ($($this.DetectGitExist()) -eq $false)
+        if ($this.DetectGitExist() -eq $false)
         {
             # The Git executable was not detected.
 
@@ -2500,8 +2500,8 @@ class GitControl
                                         "`tAbsolute Path of the Project Directory: $($projectPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2513,7 +2513,7 @@ class GitControl
 
 
         # Make sure that the Project Directory exists within the provided path.
-        if ($([CommonIO]::CheckPathExists("$($projectPath)", $true)) -eq $false)
+        if ([CommonIO]::CheckPathExists($projectPath, $true) -eq $false)
         {
             # The project directory does not exist with the provided path, unable to proceed forward.
 
@@ -2531,8 +2531,8 @@ class GitControl
 
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2547,16 +2547,16 @@ class GitControl
 
 
         # Execute the command
-        if ([CommonIO]::ExecuteCommand("$($this.GetExecutablePath())", `    # Git Executable Path
-                                    "$($extCMDArgs)", `                     # Arguments to retrieve all of the available branches within the local repo.
-                                    "$($projectPath)", `                    # The working directory that Git will start from.
-                                    "$($this.GetLogPath())", `              # The Standard Output Directory Path.
-                                    "$($this.GetLogPath())", `              # The Error Output Directory Path.
-                                    "$($this.GetReportPath())", `           # The Report Directory Path.
-                                    "$($execReason)", `                     # The reason why we are running Git; used for logging purposes.
-                                    $false, `                               # Are we building a report?
-                                    $true, `                                # Do we need to capture the STDOUT so we can process it further?
-                                    [ref]$outputResult) -ne 0)              # Variable containing the STDOUT; if we need to process it.
+        if ([CommonIO]::ExecuteCommand($this.GetExecutablePath(), `     # Git Executable Path
+                                    $extCMDArgs, `                      # Arguments to retrieve all of the available branches within the local repo.
+                                    $projectPath, `                     # The working directory that Git will start from.
+                                    $this.GetLogPath(), `               # The Standard Output Directory Path.
+                                    $this.GetLogPath(), `               # The Error Output Directory Path.
+                                    $this.GetReportPath(), `            # The Report Directory Path.
+                                    $execReason, `                      # The reason why we are running Git; used for logging purposes.
+                                    $false, `                           # Are we building a report?
+                                    $true, `                            # Do we need to capture the STDOUT so we can process it further?
+                                    [ref]$outputResult) -ne 0)          # Variable containing the STDOUT; if we need to process it.
         {
             # Failure to retrieve the currently active branch name from the local repository.
 
@@ -2570,12 +2570,12 @@ class GitControl
 
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Path of the Target Directory: $($projectPath)");
+            [string] $logAdditionalMSG = "Path of the Target Directory: " + $projectPath;
 
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2664,8 +2664,8 @@ class GitControl
                                         "`tAbsolute Path of the Project Directory: $($projectPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2677,7 +2677,7 @@ class GitControl
 
 
         # Make sure that the Git executable has been detected and is presently ready to be used.
-        if ($($this.DetectGitExist()) -eq $false)
+        if ($this.DetectGitExist() -eq $false)
         {
             # The Git executable was not detected.
 
@@ -2695,8 +2695,8 @@ class GitControl
                                         "`tAbsolute Path of the Project Directory: $($projectPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2708,7 +2708,7 @@ class GitControl
 
 
         # Make sure that the Project Directory exists within the provided path.
-        if ($([CommonIO]::CheckPathExists("$($projectPath)", $true)) -eq $false)
+        if ([CommonIO]::CheckPathExists($projectPath, $true) -eq $false)
         {
             # The project directory does not exist with the provided path, unable to proceed forward.
 
@@ -2726,8 +2726,8 @@ class GitControl
 
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2759,16 +2759,16 @@ class GitControl
 
 
         # Execute the command
-        if ([CommonIO]::ExecuteCommand("$($this.GetExecutablePath())", `    # Git Executable Path
-                                        "$($extCMDArgs)", `                 # Arguments to retrieve the Last-Known Activity of all branches from the Remote Repo.
-                                        "$($projectPath)", `                # The working directory that Git will start from.
-                                        "$($this.GetLogPath())", `          # The Standard Output Directory Path.
-                                        "$($this.GetLogPath())", `          # The Error Output Directory Path.
-                                        "$($this.GetReportPath())", `       # The Report Directory Path.
-                                        "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
-                                        $false, `                           # Are we building a report?
-                                        $true, `                            # Do we need to capture the STDOUT so we can process it further?
-                                        [ref]$outputResult) -ne 0)          # Variable containing the STDOUT; if we need to process it.
+        if ([CommonIO]::ExecuteCommand($this.GetExecutablePath(), `     # Git Executable Path
+                                        $extCMDArgs, `                  # Arguments to retrieve the Last-Known Activity of all branches from the Remote Repo.
+                                        $projectPath, `                 # The working directory that Git will start from.
+                                        $this.GetLogPath(), `           # The Standard Output Directory Path.
+                                        $this.GetLogPath(), `           # The Error Output Directory Path.
+                                        $this.GetReportPath(), `        # The Report Directory Path.
+                                        $execReason, `                  # The reason why we are running Git; used for logging purposes.
+                                        $false, `                       # Are we building a report?
+                                        $true, `                        # Do we need to capture the STDOUT so we can process it further?
+                                        [ref]$outputResult) -ne 0)      # Variable containing the STDOUT; if we need to process it.
         {
             # Failure to retrieve the Last-Known Activity from the Branches on Remote Repo.
 
@@ -2782,12 +2782,12 @@ class GitControl
 
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Path of the Target Directory: $($projectPath)");
+            [string] $logAdditionalMSG = "Path of the Target Directory: " + $projectPath;
 
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2871,8 +2871,8 @@ class GitControl
                                         "`tAbsolute Path of the Project Directory: $($projectPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2884,7 +2884,7 @@ class GitControl
 
 
         # Make sure that the Git executable has been detected and is presently ready to be used.
-        if ($($this.DetectGitExist()) -eq $false)
+        if ($this.DetectGitExist() -eq $false)
         {
             # The Git executable was not detected.
 
@@ -2902,8 +2902,8 @@ class GitControl
                                         "`tAbsolute Path of the Project Directory: $($projectPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2915,7 +2915,7 @@ class GitControl
 
 
         # Make sure that the Project Directory exists within the provided path.
-        if ($([CommonIO]::CheckPathExists("$($projectPath)", $true)) -eq $false)
+        if ([CommonIO]::CheckPathExists($projectPath, $true) -eq $false)
         {
             # The project directory does not exist with the provided path, unable to proceed forward.
 
@@ -2933,8 +2933,8 @@ class GitControl
 
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2949,16 +2949,16 @@ class GitControl
 
 
         # Execute the command
-        if ([CommonIO]::ExecuteCommand("$($this.GetExecutablePath())", `    # Git Executable Path
-                                        "$($extCMDArgs)", `                 # Arguments to retrieve a list of contributors that had been involved with the developments.
-                                        "$($projectPath)", `                # The working directory that Git will start from.
-                                        "$($this.GetLogPath())", `          # The Standard Output Directory Path.
-                                        "$($this.GetLogPath())", `          # The Error Output Directory Path.
-                                        "$($this.GetReportPath())", `       # The Report Directory Path.
-                                        "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
-                                        $false, `                           # Are we building a report?
-                                        $true, `                            # Do we need to capture the STDOUT so we can process it further?
-                                        [ref]$outputResult) -ne 0)          # Variable containing the STDOUT; if we need to process it.
+        if ([CommonIO]::ExecuteCommand($this.GetExecutablePath(), `     # Git Executable Path
+                                        $extCMDArgs, `                  # Arguments to retrieve a list of contributors that had been involved with the developments.
+                                        $projectPath, `                 # The working directory that Git will start from.
+                                        $this.GetLogPath(), `           # The Standard Output Directory Path.
+                                        $this.GetLogPath(), `           # The Error Output Directory Path.
+                                        $this.GetReportPath(), `        # The Report Directory Path.
+                                        $execReason, `                  # The reason why we are running Git; used for logging purposes.
+                                        $false, `                       # Are we building a report?
+                                        $true, `                        # Do we need to capture the STDOUT so we can process it further?
+                                        [ref]$outputResult) -ne 0)      # Variable containing the STDOUT; if we need to process it.
         {
             # Failure to retrieve a list of contributors.
 
@@ -2972,12 +2972,12 @@ class GitControl
 
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Path of the Target Directory: $($projectPath)");
+            [string] $logAdditionalMSG = "Path of the Target Directory: " + $projectPath;
 
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3060,8 +3060,8 @@ class GitControl
                                         "`tAbsolute Path of the Project Directory: $($projectPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3073,7 +3073,7 @@ class GitControl
 
 
         # Make sure that the Git executable has been detected and is presently ready to be used.
-        if ($($this.DetectGitExist()) -eq $false)
+        if ($this.DetectGitExist() -eq $false)
         {
             # The Git executable was not detected.
 
@@ -3091,8 +3091,8 @@ class GitControl
                                         "`tAbsolute Path of the Project Directory: $($projectPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3104,7 +3104,7 @@ class GitControl
 
 
         # Make sure that the Project Directory exists within the provided path.
-        if ($([CommonIO]::CheckPathExists("$($projectPath)", $true)) -eq $false)
+        if ([CommonIO]::CheckPathExists($projectPath, $true) -eq $false)
         {
             # The project directory does not exist with the provided path, unable to proceed forward.
 
@@ -3122,8 +3122,8 @@ class GitControl
 
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3156,16 +3156,16 @@ class GitControl
 
 
         # Execute the command
-        if ([CommonIO]::ExecuteCommand("$($this.GetExecutablePath())", `    # Git Executable Path
-                                        "$($extCMDArgs)", `                 # Arguments to retrieve the History Line Graph with the appropriate formatting.
-                                        "$($projectPath)", `                # The working directory that Git will start from.
-                                        "$($this.GetLogPath())", `          # The Standard Output Directory Path.
-                                        "$($this.GetLogPath())", `          # The Error Output Directory Path.
-                                        "$($this.GetReportPath())", `       # The Report Directory Path.
-                                        "$($execReason)", `                 # The reason why we are running Git; used for logging purposes.
-                                        $false, `                           # Are we building a report?
-                                        $true, `                            # Do we need to capture the STDOUT so we can process it further?
-                                        [ref]$outputResult) -ne 0)          # Variable containing the STDOUT; if we need to process it.
+        if ([CommonIO]::ExecuteCommand($this.GetExecutablePath(), `     # Git Executable Path
+                                        $extCMDArgs, `                  # Arguments to retrieve the History Line Graph with the appropriate formatting.
+                                        $projectPath, `                 # The working directory that Git will start from.
+                                        $this.GetLogPath(), `           # The Standard Output Directory Path.
+                                        $this.GetLogPath(), `           # The Error Output Directory Path.
+                                        $this.GetReportPath(), `        # The Report Directory Path.
+                                        $execReason, `                  # The reason why we are running Git; used for logging purposes.
+                                        $false, `                       # Are we building a report?
+                                        $true, `                        # Do we need to capture the STDOUT so we can process it further?
+                                        [ref]$outputResult) -ne 0)      # Variable containing the STDOUT; if we need to process it.
         {
             # Failure to retrieve the History Line Graph
 
@@ -3179,12 +3179,12 @@ class GitControl
 
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Path of the Target Directory: $($projectPath)");
+            [string] $logAdditionalMSG = "Path of the Target Directory: " + $projectPath;
 
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3237,11 +3237,11 @@ class GitControl
         #  With this, it'll be available for the filename and inside the report.
         # - - - -
         # >> Date
-        [string] $dateNow = "$(Get-Date -UFormat "%d-%b-%y")";
+        [string] $dateNow = [string](Get-Date -UFormat "%d-%b-%y");
         # >> Time
-        [string] $timeNow = "$(Get-Date -UFormat "%H.%M.%S")";
+        [string] $timeNow = [string](Get-Date -UFormat "%H.%M.%S");
         # >> Date && Time
-        [string] $dateTime = "$($dateNow) $($timeNow)";
+        [string] $dateTime = $dateNow + " " + $timeNow;
         # - - - -
 
 
@@ -3304,8 +3304,8 @@ class GitControl
                                         "`tRequested repository to generate a report: $($projectPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3345,8 +3345,8 @@ class GitControl
                                         "`tRequested repository to generate a report: $($projectPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3358,7 +3358,7 @@ class GitControl
 
 
         # Make sure that the Git executable was detected.
-        if ($($this.DetectGitExist()) -eq $false)
+        if ($this.DetectGitExist() -eq $false)
         {
             # Because Git was not detected, it is not possible to proceed any further
             #  as the application is required to retrieve information about the project's
@@ -3378,8 +3378,8 @@ class GitControl
                                         "`tRequested repository to generate a report: $($projectPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3391,7 +3391,7 @@ class GitControl
 
 
         # Make sure that the local repository exists.
-        if ($([CommonIO]::CheckPathExists("$($projectPath)", $true)) -eq $false)
+        if ([CommonIO]::CheckPathExists($projectPath, $true) -eq $false)
         {
             # The local repository does not exist with the provided path given.  It is not possible to create a report.
 
@@ -3404,11 +3404,11 @@ class GitControl
             [string] $logMessage = "Unable to create a report on the project's repository because the local repository does not exist!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "Requested repository to generate a report: $($projectPath)";
+            [string] $logAdditionalMSG = "Requested repository to generate a report: " + $projectPath;
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3461,7 +3461,7 @@ class GitControl
 
 
                     # Write the message to the report file
-                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile($fileNameTXT, $outputContent) -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3482,8 +3482,8 @@ class GitControl
                                                     "$($outputContent)");
 
                         # Pass the information to the logging system
-                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                    "$($logAdditionalMSG)", `   # Additional information
+                        [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                                    $logAdditionalMSG, `        # Additional information
                                                     [LogMessageLevel]::Error);  # Message level
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -3517,7 +3517,7 @@ class GitControl
 
 
                     # Write the message to the report file
-                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile($fileNameTXT, $outputContent) -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3538,8 +3538,8 @@ class GitControl
                                                     "$($outputContent)");
 
                         # Pass the information to the logging system
-                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                    "$($logAdditionalMSG)", `   # Additional information
+                        [Logging]::LogProgramActivity($logMessage, `       # Initial message
+                                                    $logAdditionalMSG, `   # Additional information
                                                     [LogMessageLevel]::Error);  # Message level
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -3582,7 +3582,7 @@ class GitControl
 
 
                     # Write the message to the report file
-                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile($fileNameTXT, $outputContent) -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3603,8 +3603,8 @@ class GitControl
                                                     "$($outputContent)");
 
                         # Pass the information to the logging system
-                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                    "$($logAdditionalMSG)", `   # Additional information
+                        [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                                    $logAdditionalMSG, `        # Additional information
                                                     [LogMessageLevel]::Error);  # Message level
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -3637,7 +3637,7 @@ class GitControl
 
 
                     # Write the message to the report file
-                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile($fileNameTXT, $outputContent) -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3658,8 +3658,8 @@ class GitControl
                                                     "$($outputContent)");
 
                         # Pass the information to the logging system
-                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                    "$($logAdditionalMSG)", `   # Additional information
+                        [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                                    $logAdditionalMSG, `        # Additional information
                                                     [LogMessageLevel]::Error);  # Message level
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -3692,7 +3692,7 @@ class GitControl
 
 
                     # Write the message to the report file
-                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile($fileNameTXT, $outputContent) -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3713,8 +3713,8 @@ class GitControl
                                                     "$($outputContent)");
 
                         # Pass the information to the logging system
-                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                    "$($logAdditionalMSG)", `   # Additional information
+                        [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                                    $logAdditionalMSG, `        # Additional information
                                                     [LogMessageLevel]::Error);  # Message level
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -3747,7 +3747,7 @@ class GitControl
 
 
                     # Write the message to the report file
-                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile($fileNameTXT, $outputContent) -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3768,8 +3768,8 @@ class GitControl
                                                     "$($outputContent)");
 
                         # Pass the information to the logging system
-                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                    "$($logAdditionalMSG)", `   # Additional information
+                        [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                                    $logAdditionalMSG, `        # Additional information
                                                     [LogMessageLevel]::Error);  # Message level
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -3814,8 +3814,8 @@ class GitControl
                                                 "`tTried to write to report file: $($fileNameTXT)`r`n");
 
                     # Pass the information to the logging system
-                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                "$($logAdditionalMSG)", `   # Additional information
+                    [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                                $logAdditionalMSG, `        # Additional information
                                                 [LogMessageLevel]::Error);  # Message level
 
                     # * * * * * * * * * * * * * * * * * * *
@@ -3832,7 +3832,7 @@ class GitControl
         if ($makePDF -eq $true)
         {
             # Create the PDF file as requested
-            if(([CommonIO]::CreatePDFFile("$($fileNameTXT)", "$($fileNamePDF)")) -eq $false)
+            if([CommonIO]::CreatePDFFile($fileNameTXT, $fileNamePDF) -eq $false)
             {
                 # Failure occurred while creating the PDF document.
 
@@ -3851,8 +3851,8 @@ class GitControl
                                             "`tTried to create PDF file: $($fileNamePDF)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
                                             [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -3919,7 +3919,7 @@ class GitControl
                 ($knownExtensions -eq ""))
             {
                 # First entry to the string.
-                $knownExtensions = "$($item)";
+                $knownExtensions = $item;
             }# If: first entry
 
             # There is already information in the variable, append the new entry to the
@@ -3927,7 +3927,7 @@ class GitControl
             else
             {
                 # Append the entry to the string list.
-                $knownExtensions += ", $($item)";
+                $knownExtensions += ", " + $item;
             } # Else: Append entry
         } # Foreach: Known Logging Extensions
 
@@ -3939,7 +3939,7 @@ class GitControl
             foreach($item in $extReports)
             {
                 # Append the entry to the string list.
-                $knownExtensions += ", $($item)";
+                $knownExtensions += ", " + $item;
             } # Foreach: Known Report Extensions
         } # If: Reports are included in operation
 
@@ -3947,7 +3947,7 @@ class GitControl
 
         # Make sure that the logging directories exist.  If the directories are not
         #  available presently, then there is nothing that can be done at this time.
-        if (($this.__CheckRequiredDirectories()) -eq $false)
+        if ($this.__CheckRequiredDirectories() -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -3961,8 +3961,8 @@ class GitControl
                                         "`tRequested file extensions to delete: $($knownExtensions)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3976,7 +3976,7 @@ class GitControl
 
 
         # Because the directories exist, let's try to thrash the logs.
-        if(([CommonIO]::DeleteFile("$($this.GetLogPath())", $extLogs)) -eq $false)
+        if([CommonIO]::DeleteFile($this.GetLogPath(), $extLogs) -eq $false)
         {
             # Reached a failure upon removing the requested log files.
 
@@ -3993,8 +3993,8 @@ class GitControl
                                         "`tRequested file extensions to delete: $($knownExtensions)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -4010,8 +4010,8 @@ class GitControl
 
 
         # Did the user also wanted to thrash the reports?
-        if (($($expungeReports) -eq $true) -and `
-            ([CommonIO]::DeleteFile("$($this.GetReportPath())", $extReports)) -eq $false)
+        if (($expungeReports -eq $true) -and `
+            ([CommonIO]::DeleteFile($this.GetReportPath(), $extReports) -eq $false))
         {
             # Reached a failure upon removing the requested log files.
 
@@ -4028,8 +4028,8 @@ class GitControl
                                         "`tRequested file extensions to delete: $($knownExtensions)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -4059,8 +4059,8 @@ class GitControl
                                         "`tRequested file extensions to delete: $($knownExtensions)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
