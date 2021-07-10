@@ -412,7 +412,7 @@ class Logging
 
         # Make sure that there is something to actually write, if there is no message - then
         #  there is no point in trying to write to the logfile.
-        elseif ($message -eq $null)
+        elseif ($null -eq $message)
         {
             # Because the message is empty, there is really no point in written to the logfile.
             Write-Output "ERR! Message can not be recorded as it is null!";
@@ -516,7 +516,7 @@ class Logging
         #  some default message to indicate that something is wrong - but we managed to log the error regardless.
 
         # There was no initial message provided
-        if ($msg -eq $null)
+        if ($null -eq $msg)
         {
             # Provide an default error message; helps to indicate that something went horribly wrong.
             $message = "<<UNKNOWN OR BLANK MESSAGE>>";
@@ -541,7 +541,7 @@ class Logging
         # Try to fetch the message level; the severity or what kind of message that is provided with the data.
 
         # The message level was not provided or is not obtainable.
-        if ($msgLevel -eq $null)
+        if ($null -eq $msgLevel)
         {
             # The message level is unknown
             $messageLevel = "UNKNOWN";
@@ -566,7 +566,7 @@ class Logging
         # Any additional information provided, optional field.  This can be null (or merely empty).
 
         # No additional information provided
-        if ($additionalMsg -eq $null)
+        if ($null -eq $additionalMsg)
         {
             # No additional information was provided
             $messageAdditional = $null;
