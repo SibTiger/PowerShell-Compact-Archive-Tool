@@ -258,7 +258,7 @@ class CommonIO
 
         # Prepare the message that is to be displayed and redirected (Piped)
         # If there is no background specified, then do not use the background parameter.
-        if ("$($textColourBackground)" -eq "$($null)")
+        if ($null -eq $textColourBackground)
         {
             # Initialize the Object omitting background
             $messagePackage.Message = $msg;                             # Message
@@ -634,7 +634,7 @@ class CommonIO
 
         # Make sure that the description field has something meaningful,
         #  if not (by mistake) - use the executable and args as the description.
-        if (("$($description)" -eq "") -or ("$($description)" -eq $null))
+        if ($null -eq $description)
         {
             # Generate a new description using what information we have presently.
             [string] $description = [CommonIO]::__ExecuteCommandCreateDescription("$($command)", "$($arguments)");
