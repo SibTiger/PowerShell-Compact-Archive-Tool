@@ -1654,7 +1654,7 @@ class DefaultCompress
 
 
             # If there was information provided, then we will process it accordingly.
-            if ($logString -ne $null)
+            if ($null -ne $logString)
             {
                 # Because there exists data within the output, we will prepare the output in such a way that
                 #  it can be available within the Logfile in an elegant way.  Ultimately, we want the
