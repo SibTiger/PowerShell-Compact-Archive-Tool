@@ -2865,7 +2865,7 @@ class CommonIO
 
 
         # Make sure that the requested new name actually contains some sort of 'string'.
-        if (("$($newName)" -eq "") -or ($null -eq "$($newName)"))
+        if ($null -eq $newName)
         {
             # Because there was no new name given, we cannot proceed any further.
 
@@ -3827,7 +3827,7 @@ class CommonIO
     static [Char] DetermineItemType([string] $targetItem)
     {
         # First make sure that there was a path provided.
-        if (($targetItem -eq "") -or ($targetItem -eq "$($null)"))
+        if ($null -eq $targetItem)
         {
             # The target item does not exist; no operations can be performed.
 
