@@ -3915,8 +3915,7 @@ class GitControl
         {
             # if this is the first entry in the variable, then just apply the item
             #  to the string without adding a appending the previous entries.
-            if (($null -eq $knownExtensions) -or
-                ($knownExtensions -eq ""))
+            if ($null -eq $knownExtensions)
             {
                 # First entry to the string.
                 $knownExtensions = $item;
