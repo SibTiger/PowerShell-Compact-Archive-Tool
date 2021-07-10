@@ -195,15 +195,15 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('?',
                                 "Help Documentation",
                                 "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Wiki documentation online.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
         # Return back to the Main Menu
         [CommonCUI]::DrawMenuItem('X',
                                 "Go back to previous Menu",
-                                "$($NULL)",
-                                "$($NULL)", `
+                                $NULL,
+                                $NULL, `
                                 $true);
 
 
@@ -739,7 +739,7 @@ class SettingsGit
                 # Open the webpage as requested
                 #  NOTE: We do not care about the return result as there's
                 #         nothing we can do at this present point.
-                [WebsiteResources]::AccessWebSite_General("$($Global:_PROGRAMSITEWIKI_)",              ` # Project's Repository
+                [WebsiteResources]::AccessWebSite_General($Global:_PROGRAMSITEWIKI_,                    ` # Project's Repository
                                                         "$([ProjectInformation]::projectName) Wiki",    ` # Show page title
                                                         $false) | Out-Null;                             ` # Do not force Web Browser function
 
@@ -901,7 +901,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('A', `
                                 "Automatically find Git", `
                                 "Try to automatically find the Git Application.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -909,7 +909,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('M', `
                                 "Manually find Git", `
                                 "Manually locate the Git Application.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -917,7 +917,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
     } # DrawMenuLocateGitPath()
 
@@ -1067,7 +1067,7 @@ class SettingsGit
         else
         {
             # Because we were able to find the Git Application, we can use the new value.
-            $gitControl.SetExecutablePath("$($findGitResults)");
+            $gitControl.SetExecutablePath($findGitResults);
 
             # Let the user know that we were able to successfully find the Git Application
             [Logging]::DisplayMessage("Successfully found the Git Application in:`r`n$($findGitResults)");
@@ -1113,7 +1113,7 @@ class SettingsGit
         if ([CommonCUI]::BrowseForTargetFile([ref] $newPath))
         {
             # Because the path is valid, we will use the requested target directory.
-            $gitControl.SetExecutablePath("$($newPath)");
+            $gitControl.SetExecutablePath($newPath);
         } # if: Path is valid
 
         # The provided path is not valid
@@ -1121,8 +1121,8 @@ class SettingsGit
         {
             # If the user provided "Cancel" or "X", then do not bother the user with an error message.
             #  Otherwise, provide an error message as the path is incorrect.
-            if (("$($newPath)" -ne "Cancel") -and `
-                ("$($newPath)" -ne "x"))
+            if (($newPath -ne "Cancel") -and `
+                ($newPath -ne "x"))
             {
                 # Because the path is not valid, let the user know that the path does not exist
                 #  and will not be used.
@@ -1217,7 +1217,7 @@ class SettingsGit
             [CommonCUI]::DrawSectionHeader("Update Project Files");
 
             # Show to the user the current state of the Update Source presently set within the program
-            [Logging]::DisplayMessage("$($decipherNiceString)");
+            [Logging]::DisplayMessage($decipherNiceString);
 
             # Provide some extra white spacing so that it is easier to read for the user
             [Logging]::DisplayMessage("`r`n`r`n");
@@ -1257,7 +1257,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('U', `
                                 "Update Project's Source Files", `
                                 "Update the project to the current changes available on the remote master server.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -1265,7 +1265,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('N', `
                                 "Do not Update Project's Source Files", `
                                 "Do not update the project's source files with the latest changes made from the remote master server.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -1273,7 +1273,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
     } # DrawMenuUpdateSource()
 
@@ -1465,7 +1465,7 @@ class SettingsGit
             [CommonCUI]::DrawSectionHeader("Commit ID Length");
 
             # Show to the user the current state of the Update Source presently set within the program
-            [Logging]::DisplayMessage("$($decipherNiceString)");
+            [Logging]::DisplayMessage($decipherNiceString);
 
             # Provide some extra white spacing so that it is easier to read for the user
             [Logging]::DisplayMessage("`r`n`r`n");
@@ -1505,7 +1505,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('S', `
                                 "Short Commit SHA ID", `
                                 "Contains about seven characters.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -1513,7 +1513,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('L', `
                                 "Long Commit SHA ID", `
                                 "Contains about forty-one characters.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -1521,7 +1521,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
     } # DrawMenuSizeCommitID()
 
@@ -1707,7 +1707,7 @@ class SettingsGit
             [CommonCUI]::DrawSectionHeader("History Changelog");
 
             # Show to the user the current state of the History Changelog presently set within the program
-            [Logging]::DisplayMessage("$($decipherNiceString)");
+            [Logging]::DisplayMessage($decipherNiceString);
 
             # Provide some extra white spacing so that it is easier to read for the user
             [Logging]::DisplayMessage("`r`n`r`n");
@@ -1747,7 +1747,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('H', `
                                 "Retrieve History", `
                                 "Records the latest developments within the $([ProjectInformation]::projectName) project.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -1755,7 +1755,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('N', `
                                 "Do not Retrieve History", `
                                 "No changelog will be retrieved.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -1763,7 +1763,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
     } # DrawMenuHistory()
 
@@ -1944,7 +1944,7 @@ class SettingsGit
             [CommonCUI]::DrawSectionHeader("History Changelog Size Limit");
 
             # Show to the user the current state of the History Commit Size presently set within the program
-            [Logging]::DisplayMessage("$($decipherNiceString)");
+            [Logging]::DisplayMessage($decipherNiceString);
 
             # Provide some extra white spacing so that it is easier to read for the user
             [Logging]::DisplayMessage("`r`n`r`n");
@@ -1984,7 +1984,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('C', `
                                 "Change changelog size limit", `
                                 "Specifies how many commits will be recorded into the History Changelog file.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -1992,7 +1992,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
     } # DrawMenuHistoryCommitSize()
 
@@ -2110,8 +2110,8 @@ class SettingsGit
 
 
         # Cancel the operation if the user provided 'Cancel' or 'X'
-        if (("$($newSize)" -eq "Cancel") -or `
-            ("$($newSize)" -eq "x"))
+        if (($newSize -eq "Cancel") -or `
+            ($newSize -eq "x"))
         {
             # Abort the operation
             return;
@@ -2220,7 +2220,7 @@ class SettingsGit
             [CommonCUI]::DrawSectionHeader("Generate Report");
 
             # Show the user the current state of the 'Generate Report' variable that is presently set within the program.
-            [Logging]::DisplayMessage("$($decipherNiceString)");
+            [Logging]::DisplayMessage($decipherNiceString);
 
             # Provide some extra white spacing so that it is easier to read for the user
             [Logging]::DisplayMessage("`r`n`r`n");
@@ -2261,7 +2261,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('R', `
                                 "Generate a report file", `
                                 "Generate a new technical report regarding the project's repository.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -2269,7 +2269,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('N', `
                                 "Do not generate a report file.", `
                                 "Do not create a technical report regarding the project's repository.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -2277,7 +2277,7 @@ class SettingsGit
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
     } # DrawMenuGenerateReport()
 
