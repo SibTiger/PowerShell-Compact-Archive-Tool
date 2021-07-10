@@ -643,7 +643,7 @@ class SettingsGeneralProgram
                 # Open the webpage as requested
                 #  NOTE: We do not care about the return result as there's
                 #         nothing we can do at this present point.
-                [WebsiteResources]::AccessWebSite_General("$($Global:_PROGRAMSITEWIKI_)",              ` # Project's Repository
+                [WebsiteResources]::AccessWebSite_General($Global:_PROGRAMSITEWIKI_,              ` # Project's Repository
                                                         "$([ProjectInformation]::projectName) Wiki",    ` # Show page title
                                                         $false) | Out-Null;                             ` # Do not force Web Browser function
 
@@ -748,7 +748,7 @@ class SettingsGeneralProgram
 
             # Provide the current project path
             #  Determine how to present to the user that the path is valid or not.
-            if ([CommonIO]::CheckPathExists("$($userPreferences.GetProjectPath())", $true))
+            if ([CommonIO]::CheckPathExists($userPreferences.GetProjectPath(), $true))
             {
                 # The path was found, so provide a nice message to the user - letting them know
                 #  that the program can find the project files.
@@ -934,7 +934,7 @@ class SettingsGeneralProgram
         if ([CommonCUI]::BrowseForTargetFile([ref] $newProjectPath))
         {
             # Because the path is valid, we will use the requested target directory.
-            $userPreferences.SetProjectPath("$($newProjectPath)");
+            $userPreferences.SetProjectPath($newProjectPath);
         } # if: Path is valid
 
         # The provided path is not valid
@@ -942,8 +942,8 @@ class SettingsGeneralProgram
         {
             # If the user provided "Cancel" or "X", then do not bother the user with an error message.
             #  Otherwise, provide an error message as the path is incorrect.
-            if (("$($newProjectPath)" -ne "Cancel") -and `
-                ("$($newProjectPath)" -ne "x"))
+            if (($newProjectPath -ne "Cancel") -and `
+                ($newProjectPath -ne "x"))
             {
                 # Because the path is not valid, let the user know that the path does not exist
                 #  and will not be used as part of the project directory.
@@ -1016,7 +1016,7 @@ class SettingsGeneralProgram
 
             # Provide the current output path
             #  Determine how to present to the user that the path is valid or not.
-            if ([CommonIO]::CheckPathExists("$($userPreferences.GetProjectBuildsPath())", $true))
+            if ([CommonIO]::CheckPathExists($userPreferences.GetProjectBuildsPath(), $true))
             {
                 # The path waws found, so provide a nice message to the user - letting them know
                 #  that the program can find the output path.
@@ -1203,7 +1203,7 @@ class SettingsGeneralProgram
         if ([CommonCUI]::BrowseForTargetFile([ref] $newProjectPath))
         {
             # Because the path is valid, we will use the requested target directory.
-            $userPreferences.SetProjectBuildsPath("$($newProjectPath)");
+            $userPreferences.SetProjectBuildsPath($newProjectPath);
         } # if: Path is Valid
 
         # The provided path is not valid
@@ -1211,8 +1211,8 @@ class SettingsGeneralProgram
         {
             # If the user provided "Cancel" or "X", then do not bother the user with an error message.
             #  Otherwise, provide an error message as the path is incorrect.
-            if (("$($newProjectPath)" -ne "Cancel") -and `
-                ("$($newProjectPath)" -ne "x"))
+            if (($newProjectPath -ne "Cancel") -and `
+                ($newProjectPath -ne "x"))
             {
                 # Because the path is not valid, let the user know that the path does not exist
                 #  and will not be used as part of the Compiled Builds Output directory.
@@ -1569,7 +1569,7 @@ class SettingsGeneralProgram
             [CommonCUI]::DrawSectionHeader("Git Features");
 
             # Show to the user the current state of the 'Use Git Features' variable that is presently set within the program.
-            [Logging]::DisplayMessage("$($useGitFeatureNiceString)");
+            [Logging]::DisplayMessage($useGitFeatureNiceString);
 
             #Provide some extra white spacing so that it is easier to read for the user
             [Logging]::DisplayMessage("`r`n`r`n");
@@ -1849,7 +1849,7 @@ class SettingsGeneralProgram
             [CommonCUI]::DrawSectionHeader("Notifications");
 
             # Show to the user the current state of the 'Notifications' variable that is presently set within the program.
-            [Logging]::DisplayMessage("$($decipherNiceString)");
+            [Logging]::DisplayMessage($decipherNiceString);
 
             #Provide some extra white spacing so that it is easier to read for the user
             [Logging]::DisplayMessage("`r`n`r`n");
@@ -2156,7 +2156,7 @@ class SettingsGeneralProgram
             [CommonCUI]::DrawSectionHeader("Windows Explorer");
 
             # Show to the user the current state of the 'Use Windows Explorer' variable that is presently set within the program.
-            [Logging]::DisplayMessage("$($decipherNiceString)");
+            [Logging]::DisplayMessage($decipherNiceString);
 
             #Provide some extra white spacing so that it is easier to read for the user
             [Logging]::DisplayMessage("`r`n`r`n");
