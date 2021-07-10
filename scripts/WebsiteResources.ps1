@@ -86,10 +86,10 @@
 
 
             # Make sure that the site is available for us to access first.
-            if ([WebsiteResources]::CheckSiteAvailability("$($siteURL)") -eq $true)
+            if ([WebsiteResources]::CheckSiteAvailability($siteURL) -eq $true)
             {
                 # Access the desired webpage
-                [CommonIO]::AccessWebpage("$($siteURL)");
+                [CommonIO]::AccessWebpage($siteURL);
 
                 # Because the operation was successful, update the Status Signal as appropriate.
                 $statusSignal = $true;
@@ -125,13 +125,13 @@
                                         "`tForce Web Browser: $($ignoreUserSetting)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Warning);    # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                     [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -160,13 +160,13 @@
                                         "`tForce Web Browser: $($ignoreUserSetting)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -238,10 +238,10 @@
     {
         # Access the Main Function that will open the Web Browser functionality; return
         #  the operation status back to the calling function.
-        return [WebsiteResources]::__AccessWebSite("$($siteURL)",           ` # Site URL
-                                                    "$($siteName)",         ` # Site's Name (or Nice name)
-                                                    $false,                 ` # Update Protocol
-                                                    $ignoreUserSetting);    ` # Forcefully Open the Web Browser
+        return [WebsiteResources]::__AccessWebSite($siteURL, `              # Site URL
+                                                    $siteName, `            # Site's Name (or Nice name)
+                                                    $false, `               # Update Protocol
+                                                    $ignoreUserSetting); `  # Forcefully Open the Web Browser
     } # AccessWebSite_General()
 
 
@@ -275,10 +275,10 @@
     {
         # Access the Main Function that will open the Web Browser functionality; return
         #  the operation status back to the calling function.
-        return [WebsiteResources]::__AccessWebSite("$($siteURL)",           ` # Site URL
-                                                    "$($siteName)",         ` # Site's Name (or Nice Name)
-                                                    $true,                  ` # Update Protocol
-                                                    $ignoreUserSetting);    ` # Forcefully Open the Web Browser
+        return [WebsiteResources]::__AccessWebSite($siteURL, `              # Site URL
+                                                    $siteName, `            # Site's Name (or Nice Name)
+                                                    $true, `                # Update Protocol
+                                                    $ignoreUserSetting); `  # Forcefully Open the Web Browser
     } # AccessWebSite_Update()
 
 
@@ -316,8 +316,8 @@
     static [bool] CheckSiteAvailability([string] $site)
     {
         # Check the website's availability status.
-        return (([WebsiteResources]::__CheckSiteAvailability_SiteProvided("$($site)" -eq $true)) -and `     # Make sure that the string is not null\empty
-                ([WebsiteResources]::__CheckSiteAvailability_SiteResponse("$($site)") -eq $true));          # Make sure that the Web Host and site is reachable
+        return (([WebsiteResources]::__CheckSiteAvailability_SiteProvided($site -eq $true)) -and `     # Make sure that the string is not null\empty
+                ([WebsiteResources]::__CheckSiteAvailability_SiteResponse($site) -eq $true));          # Make sure that the Web Host and site is reachable
     } # CheckSiteAvailability()
 
 
@@ -408,7 +408,7 @@
         try
         {
             # Create and open the instance of the HTTP Request
-            $siteRequest = [System.Net.HttpWebRequest]::Create("$($site)");
+            $siteRequest = [System.Net.HttpWebRequest]::Create($site);
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -419,11 +419,11 @@
             [string] $logMessage = "Successfully created a new HTTP Request instance!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("HTTP Request Created for: $($site)");
+            [string] $logAdditionalMSG = "HTTP Request Created for: " + $site;
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -454,13 +454,13 @@
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -490,11 +490,11 @@
             [string] $logMessage = "Successfully received an HTTP Response from the web server!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("HTTP Response Acquired By: $($site)");
+            [string] $logAdditionalMSG = "HTTP Response Acquired By: " + $site;
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -525,13 +525,13 @@
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -566,8 +566,8 @@
                                         " $([int] $($siteResponse.StatusCode))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -594,13 +594,13 @@
                                         "`tHTTP Response Status Code: $($siteResponse.StatusCode) $([int] $($siteResponse.StatusCode))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Warning);    # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                     [LogMessageLevel]::Warning);    # Message level
             # * * * * * * * * * * * * * * * * * * *
         } # else: Site not Available
@@ -622,11 +622,11 @@
             [string] $logMessage = "Successfully closed connection to the web server!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Website: $($site)`r`n");
+            [string] $logAdditionalMSG = "Website: " + $site + "`r`n";
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -644,11 +644,11 @@
             [string] $logMessage = "Unable to close the connection to the web server!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Website: $($site)`r`n");
+            [string] $logAdditionalMSG = "Website: " + $site + "`r`n";
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
