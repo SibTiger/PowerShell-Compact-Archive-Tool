@@ -598,8 +598,8 @@ class DefaultCompress
                                         "`t`tThe Report Directory is:`t$($this.GetReportPath())`r`n");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -617,10 +617,10 @@ class DefaultCompress
         #  check which directory does not exist and then try to create it.
 
         # Root Log Directory
-        if(([CommonIO]::CheckPathExists("$($this.GetRootLogPath())", $true)) -eq $false)
+        if([CommonIO]::CheckPathExists($this.GetRootLogPath(), $true) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (([CommonIO]::MakeDirectory("$($this.GetRootLogPath())")) -eq $false)
+            if ([CommonIO]::MakeDirectory($this.GetRootLogPath()) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -630,11 +630,11 @@ class DefaultCompress
                 [string] $logMessage = "Couldn't create the Default Compress's (dotNET Core) root logging and report directory!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = "The root directory path is: $($this.GetRootLogPath())";
+                [string] $logAdditionalMSG = "The root directory path is: " + $this.GetRootLogPath();
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
                                             [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -650,10 +650,10 @@ class DefaultCompress
 
 
         # Log Directory
-        if(([CommonIO]::CheckPathExists("$($this.GetLogPath())", $true)) -eq $false)
+        if([CommonIO]::CheckPathExists($this.GetLogPath(), $true) -eq $false)
         {
             # Log Directory does not exist, try to create it.
-            if (([CommonIO]::MakeDirectory("$($this.GetLogPath())")) -eq $false)
+            if ([CommonIO]::MakeDirectory($this.GetLogPath()) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -663,11 +663,11 @@ class DefaultCompress
                 [string] $logMessage = "Couldn't create the Default Compress's (dotNET Core) logging directory!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = "The logging directory path is: $($this.GetLogPath())";
+                [string] $logAdditionalMSG = "The logging directory path is: " + $this.GetLogPath();
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
                                             [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -683,10 +683,10 @@ class DefaultCompress
 
 
         # Report Directory
-        if(([CommonIO]::CheckPathExists("$($this.GetReportPath())", $true)) -eq $false)
+        if([CommonIO]::CheckPathExists($this.GetReportPath(), $true) -eq $false)
         {
             # Report Directory does not exist, try to create it.
-            if (([CommonIO]::MakeDirectory("$($this.GetReportPath())")) -eq $false)
+            if ([CommonIO]::MakeDirectory($this.GetReportPath()) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -696,11 +696,11 @@ class DefaultCompress
                 [string] $logMessage = "Couldn't create the Default Compress's (dotNET Core) report directory!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = "The report directory path is: $($this.GetReportPath())";
+                [string] $logAdditionalMSG = "The report directory path is: " + $this.GetReportPath();
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
                                             [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -716,7 +716,7 @@ class DefaultCompress
 
 
         # Fail-safe; final assurance that the directories have been created successfully.
-        if(($this.__CheckRequiredDirectories()) -eq $true)
+        if($this.__CheckRequiredDirectories() -eq $true)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -732,8 +732,8 @@ class DefaultCompress
                                             "`t`tThe Report Directory is:`t$($this.GetReportPath())`r`n");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -764,8 +764,8 @@ class DefaultCompress
                                             "`t`tThe Report Directory is:`t$($this.GetReportPath())`r`n");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -801,9 +801,9 @@ class DefaultCompress
     #>
     Hidden [bool] __CheckRequiredDirectories()
     {
-        return (([CommonIO]::CheckPathExists("$($this.GetRootLogPath())", $true) -eq $true) -and   ` # Check the Root Log Directory
-                ([CommonIO]::CheckPathExists("$($this.GetReportPath())", $true) -eq $true) -and    ` # Check the Report Path Directory
-                ([CommonIO]::CheckPathExists("$($this.GetLogPath())", $true) -eq $true));            # Check the Log Path Directory
+        return (([CommonIO]::CheckPathExists($this.GetRootLogPath(), $true) -eq $true) -and   ` # Check the Root Log Directory
+                ([CommonIO]::CheckPathExists($this.GetReportPath(), $true) -eq $true) -and    ` # Check the Report Path Directory
+                ([CommonIO]::CheckPathExists($this.GetLogPath(), $true) -eq $true));            # Check the Log Path Directory
     } # __CheckRequiredDirectories()
 
 
@@ -839,7 +839,7 @@ class DefaultCompress
         #  return false, or simply stating that it was not found.
         # NOTE: If there is ANY output, then this function will return true.
         # Reference: https://stackoverflow.com/a/28740512
-        if ($(Get-Module -ListAvailable -Name Microsoft.PowerShell.Archive))
+        if (Get-Module -ListAvailable -Name Microsoft.PowerShell.Archive)
         {
             # Detected the module
 
@@ -849,14 +849,14 @@ class DefaultCompress
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = ("Found the Microsoft.PowerShell.Archive module!");
+            [string] $logMessage = "Found the Microsoft.PowerShell.Archive module!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = "It is possible to use Microsoft.PowerShell.Archive features!";
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -874,7 +874,7 @@ class DefaultCompress
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = ("Could not find the Microsoft.PowerShell.Archive module!");
+            [string] $logMessage = "Could not find the Microsoft.PowerShell.Archive module!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("It is not possible to use the Microsoft.PowerShell.Archive features!`r`n" + `
@@ -884,8 +884,8 @@ class DefaultCompress
                                         "`t`thttps://github.com/PowerShell/PowerShell");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -928,15 +928,15 @@ class DefaultCompress
         # Get all the hash values that is associated with the given file and
         #  return the results.
         return ("SHA1:`r`n" + `
-                "`t$([CommonIO]::FileHash("$($file)", [FileHashAlgorithmDotNet]::sha1))`r`n`r`n" + `
+                "`t$([CommonIO]::FileHash($file, [FileHashAlgorithmDotNet]::sha1))`r`n`r`n" + `
                 "SHA256:`r`n" + `
-                "`t$([CommonIO]::FileHash("$($file)", [FileHashAlgorithmDotNet]::sha256))`r`n`r`n" + `
+                "`t$([CommonIO]::FileHash($file, [FileHashAlgorithmDotNet]::sha256))`r`n`r`n" + `
                 "SHA384:`r`n" + `
-                "`t$([CommonIO]::FileHash("$($file)", [FileHashAlgorithmDotNet]::sha384))`r`n`r`n" + `
+                "`t$([CommonIO]::FileHash($file, [FileHashAlgorithmDotNet]::sha384))`r`n`r`n" + `
                 "SHA512:`r`n" + `
-                "`t$([CommonIO]::FileHash("$($file)", [FileHashAlgorithmDotNet]::sha512))`r`n`r`n" + `
+                "`t$([CommonIO]::FileHash($file, [FileHashAlgorithmDotNet]::sha512))`r`n`r`n" + `
                 "MD5:`r`n" + `
-                "`t$([CommonIO]::FileHash("$($file)", [FileHashAlgorithmDotNet]::md5))`r`n`r`n");
+                "`t$([CommonIO]::FileHash($file, [FileHashAlgorithmDotNet]::md5))`r`n`r`n");
     } # FetchHashInformation()
 
 
@@ -988,29 +988,29 @@ class DefaultCompress
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $tmpDirectory = $null;                                 # This will be used to hold the path of the temporary directory,
-                                                                        #  which will be used to extract the data from the archive file.
-        [bool] $testResult = $true;                                     # This will hold our test result; was the operation successful
-                                                                        #  or did something go horribly wrong?
-        [string] $targetFileName = "$($(Get-Item $targetFile).Name)";   # This will hold the archive file name which will be presented in
-                                                                        #  the logfile.
-        [string] $execReason = "Verifying $($targetFileName)";          # This will hold the description of the operation that is being
-                                                                        #  performed in this function, but only presented for logging
-                                                                        #  purposes.
-        [System.Object] $execSTDOUT = [System.Object]::new();           # This will hold the STDOUT that is provided by the CMDLet that
-                                                                        #  will be used for the verification process, but contained as
-                                                                        #  an object.
-        [System.Object] $execSTDERR = [System.Object]::new();           # This will hold the STDERR that is provided by the CMDLet that
-                                                                        #  will be used for the verification process, but contained as
-                                                                        #  an object.
-        [string] $strSTDOUT = $null;                                    # This will hold the STDOUT information, but will be held as a
-                                                                        #  literal string.  The information provided to it will be
-                                                                        #  converted from an object to a string, the information held in
-                                                                        #  this variable will be presented in the logfile.
-        [string] $strSTDERR = $null;                                    # This will hold the STDERR information, but will be held as a
-                                                                        #  literal string.  The information provided to it will be
-                                                                        #  converted from an object to a string, the information held in
-                                                                        #  this variable will be presented in the logfile.
+        [string] $tmpDirectory = $null;                                     # This will be used to hold the path of the temporary directory,
+                                                                            #  which will be used to extract the data from the archive file.
+        [bool] $testResult = $true;                                         # This will hold our test result; was the operation successful
+                                                                            #  or did something go horribly wrong?
+        [string] $targetFileName = [string]((Get-Item $targetFile).Name);   # This will hold the archive file name which will be presented in
+                                                                            #  the logfile.
+        [string] $execReason = "Verifying " + $targetFileName;              # This will hold the description of the operation that is being
+                                                                            #  performed in this function, but only presented for logging
+                                                                            #  purposes.
+        [System.Object] $execSTDOUT = [System.Object]::new();               # This will hold the STDOUT that is provided by the CMDLet that
+                                                                            #  will be used for the verification process, but contained as
+                                                                            #  an object.
+        [System.Object] $execSTDERR = [System.Object]::new();               # This will hold the STDERR that is provided by the CMDLet that
+                                                                            #  will be used for the verification process, but contained as
+                                                                            #  an object.
+        [string] $strSTDOUT = $null;                                        # This will hold the STDOUT information, but will be held as a
+                                                                            #  literal string.  The information provided to it will be
+                                                                            #  converted from an object to a string, the information held in
+                                                                            #  this variable will be presented in the logfile.
+        [string] $strSTDERR = $null;                                        # This will hold the STDERR information, but will be held as a
+                                                                            #  literal string.  The information provided to it will be
+                                                                            #  converted from an object to a string, the information held in
+                                                                            #  this variable will be presented in the logfile.
         # ----------------------------------------
 
 
@@ -1043,8 +1043,8 @@ class DefaultCompress
                                         "`tRequested file to verify: $($targetFile)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1074,8 +1074,8 @@ class DefaultCompress
                                         "`tRequested file to verify: $($targetFile)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1087,7 +1087,7 @@ class DefaultCompress
 
 
         # Make sure that the target archive file exists.
-        if ($([CommonIO]::CheckPathExists("$($targetFile)", $true)) -eq $false)
+        if ([CommonIO]::CheckPathExists($targetFile, $true) -eq $false)
         {
             # The target archive data file does not exist; we cannot perform a test on something
             #  that simply does not exist with the given file path.
@@ -1101,11 +1101,11 @@ class DefaultCompress
             [string] $logMessage = "Unable to verify the archive data file because the target file does not exist!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "Requested file to verify: $($targetFile)";
+            [string] $logAdditionalMSG = "Requested file to verify: " + $targetFile;
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1123,7 +1123,7 @@ class DefaultCompress
         # To test the archive data file, we will extract all of the contents to a temporary
         #  directory.  With that, we must first make a request to create a temporary directory.
         #  We will obtain the temporary directory's full path by using a reference.
-        if ($([CommonIO]::MakeTempDirectory("Verify", [ref] $tmpDirectory)) -eq $false)
+        if ([CommonIO]::MakeTempDirectory("Verify", [ref] $tmpDirectory) -eq $false)
         {
             # Because the temporary directory could not be created, we cannot continue any further.
 
@@ -1140,8 +1140,8 @@ class DefaultCompress
                                         "`tTemporary Directory: $($tmpDirectory)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1156,8 +1156,8 @@ class DefaultCompress
         try
         {
             # Extract all of the contents
-            Expand-Archive -LiteralPath "$($targetFile)" `
-                           -DestinationPath "$($tmpDirectory)" `
+            Expand-Archive -LiteralPath $targetFile `
+                           -DestinationPath $tmpDirectory `
                            -ErrorAction Stop `
                            -PassThru `
                            -OutVariable execSTDOUT `
@@ -1168,10 +1168,10 @@ class DefaultCompress
         catch [System.Management.Automation.ItemNotFoundException]
         {
             # This will temporarily hold on to just the file name that is missing or corrupted.
-            [string] $badFileName = Split-Path -Path "$($_.TargetObject)" -Leaf;
+            [string] $badFileName = Split-Path -Path [string]($_.TargetObject) -Leaf;
 
             # This will temporarily hold on to the full path of the file that is missing or corrupted.
-            [string] $badFileNameFull = "$($_.TargetObject)";
+            [string] $badFileNameFull = [string]($_.TargetObject);
 
 
             # Because a failure had been reached, we will have to update the exit code.
@@ -1198,13 +1198,13 @@ class DefaultCompress
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1237,13 +1237,13 @@ class DefaultCompress
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1276,13 +1276,13 @@ class DefaultCompress
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1294,7 +1294,7 @@ class DefaultCompress
         finally
         {
             # Thrash the temporary directory, we no longer need it.
-            [CommonIO]::DeleteDirectory("$($tmpDirectory)") | Out-Null;
+            [CommonIO]::DeleteDirectory($tmpDirectory) | Out-Null;
         } # Finally : Expunge Temporary Directory
 
 
@@ -1332,7 +1332,7 @@ class DefaultCompress
 
                 foreach ($item in $execSTDOUT)
                 {
-                    $strSTDOUT = ("$($strSTDOUT)" + `
+                    $strSTDOUT = ($strSTDOUT + `
                                     "`t>> $([string]$($item))`r`n");
                 } # foreach : File in List
 
@@ -1341,7 +1341,7 @@ class DefaultCompress
                 # - - - - - -
                 # Logfile Footer
 
-                $strSTDOUT = ("$($strSTDOUT)" + `
+                $strSTDOUT = ($strSTDOUT + `
                                 "`r`n" + `
                                 "-----------------------------------------------------------`r`n");
             } # if : STDOUT Contains Data
@@ -1354,7 +1354,7 @@ class DefaultCompress
             {
                 # Because of how the information is stored in the object, we can just store the data to a literal
                 #  string outright.
-                $strSTDERR = "$([string]$($execSTDERR))";
+                $strSTDERR = [string]($execSTDERR);
             } # if : STDERR Contains Data
 
 
@@ -1364,7 +1364,7 @@ class DefaultCompress
                                         $this.GetReportPath(), `    # Report path and filename.
                                         $false, `                   # Is this a report?
                                         $false, `                   # Should we receive the STDOUT or STDERR for further processing?
-                                        "$($execReason)", `         # Reason for using the CMDLet.
+                                        $execReason, `              # Reason for using the CMDLet.
                                         $null, `                    # Returned STDOUT\STDERR for further processing.
                                         [ref] $strSTDOUT, `         # STDOUT output from the CMDLet.
                                         [ref] $strSTDERR );         # STDERR output from the CMDLet.
@@ -1437,7 +1437,7 @@ class DefaultCompress
         [System.IO.Compression.ZipArchive] $archiveData = $null;        # This will hold the archive data file information
         [string] $strFileList = $null;                                  # This will contain a list of files that is within the
                                                                         #  source archive file, with or without the technical information.
-        [string] $targetFileName = "$($(Get-Item $file).Name)";         # This will hold the archive file name which will be presented in
+        [string] $targetFileName = [string]((Get-Item $file).Name);     # This will hold the archive file name which will be presented in
                                                                         #  the logfile.
         [string] $strSTDOUT = $null;                                    # This will hold the STDOUT information, but will be held as a
                                                                         #  literal string.  The information held in this variable will
@@ -1445,7 +1445,7 @@ class DefaultCompress
         [string] $strSTDERR = $null;                                    # This will hold the STDERR information, but will be held as a
                                                                         #  literal string.  The information held in this variable will
                                                                         #  be presented in the logfile.
-        [string] $execReason = "File List $($targetFileName)";          # This will hold the description of the operation that is being
+        [string] $execReason = "File List " + $targetFileName;          # This will hold the description of the operation that is being
                                                                         #  performed in this function, but only presented for logging
                                                                         #  purposes.
         # ----------------------------------------
@@ -1480,8 +1480,8 @@ class DefaultCompress
                                         "`tArchive File to Examine: $($file)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1512,8 +1512,8 @@ class DefaultCompress
                                         "`tArchive File to Examine: $($file)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1525,7 +1525,7 @@ class DefaultCompress
 
 
         # Make sure that the target archive file exists.
-        if ($([CommonIO]::CheckPathExists("$($file)", $true)) -eq $false)
+        if ([CommonIO]::CheckPathExists($file, $true) -eq $false)
         {
             # The target archive data file does not exist, we cannot examine something that is not present.
 
@@ -1538,11 +1538,11 @@ class DefaultCompress
             [string] $logMessage = "Unable to obtain a list of files from the requested archive file because it does not exist!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "Archive File to Examine: $($file)";
+            [string] $logAdditionalMSG = "Archive File to Examine: " + $file;
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1560,7 +1560,7 @@ class DefaultCompress
         try
         {
             # Try to access the archive file and try to get ready
-            $archiveData = $([IO.Compression.ZipFile]::OpenRead("$($file)"));
+            $archiveData = [IO.Compression.ZipFile]::OpenRead($file);
         } # Try : Access Archive Data File
 
         # A general error occurred while opening the archive file.
@@ -1586,13 +1586,13 @@ class DefaultCompress
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1617,7 +1617,7 @@ class DefaultCompress
                 {
                     # Iterate through each object in the ZipArchive type
                     #  and save all information regarding each entry.
-                    $strFileList = ("$($strFileList)" + `
+                    $strFileList = ($strFileList + `
                                     $($item | Out-String | Foreach-Object {$_}));
                 } # foreach : Get technical info. for each file entry
             } # if : Technical Information
@@ -1629,7 +1629,7 @@ class DefaultCompress
                 foreach ($item in $archiveData.Entries)
                 {
                     # Save the file name.
-                    $strFileList = ("$($strFileList)" + `
+                    $strFileList = ($strFileList + `
                                     "File: $($item.FullName)`r`n");
                 } # foreach : Get files in each file entry
             } # else : Standard File List
@@ -1654,7 +1654,7 @@ class DefaultCompress
 
 
             # If there was information provided, then we will process it accordingly.
-            if ($logString -ne "$($null)")
+            if ($logString -ne $null)
             {
                 # Because there exists data within the output, we will prepare the output in such a way that
                 #  it can be available within the Logfile in an elegant way.  Ultimately, we want the
@@ -1681,14 +1681,14 @@ class DefaultCompress
                 $logString = $logString -Replace "`r`n", "`r`n`t>> " -Replace "`t>> `r`n", "`r`n";
 
                 # Attach the newly crafted string to the strSTDOUT container
-                $strSTDOUT = "$($strSTDOUT)$($logString)`r`n";
+                $strSTDOUT = $strSTDOUT + $logString + "`r`n";
 
 
                 # FOOTER
                 # - - - - - -
                 # Logfile Footer
 
-                $strSTDOUT = ("$($strSTDOUT)" + `
+                $strSTDOUT = ($strSTDOUT + `
                                 "`r`n" + `
                                 "-----------------------------------------------------------`r`n");
             } # If : Output is not 'ERR'
@@ -1711,7 +1711,7 @@ class DefaultCompress
                                         $this.GetReportPath(), `    # Report path and filename.
                                         $false, `                   # Is this a report?
                                         $false, `                   # Should we receive the STDOUT or STDERR for further processing?
-                                        "$($execReason)", `         # Reason for the operation.
+                                        $execReason, `              # Reason for the operation.
                                         $null, `                    # Return the STDOUT/STDERR for further processing.
                                         [ref] $strSTDOUT, `         # STDOUT output from the CMDLet.
                                         [ref] $strSTDERR);          # STDERR output from the CMDLet.
@@ -1826,8 +1826,8 @@ class DefaultCompress
                                         "`tRequested archive file to extract: $($file)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1857,8 +1857,8 @@ class DefaultCompress
                                         "`tRequested archive file to extract: $($file)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1870,7 +1870,7 @@ class DefaultCompress
 
 
         # Make sure that the target archive file exists.
-        if ($([CommonIO]::CheckPathExists("$($file)", $true)) -eq $false)
+        if ([CommonIO]::CheckPathExists($file, $true) -eq $false)
         {
             # The target archive data file does not exist, we cannot extract an archive file when
             #  it does not exist - with the given file path.
@@ -1884,11 +1884,11 @@ class DefaultCompress
             [string] $logMessage = "Unable to extract the archive data file because the file does not exist!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "Requested archive file to extract: $($file)";
+            [string] $logAdditionalMSG = "Requested archive file to extract: " + $file;
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1900,7 +1900,7 @@ class DefaultCompress
 
 
         # Make sure that the desired output path currently exists
-        if ($([CommonIO]::CheckPathExists("$($outputPath)", $true)) -eq $false)
+        if ([CommonIO]::CheckPathExists($outputPath, $true) -eq $false)
         {
             # The requested output path does not currently exist; we cannot proceed any further.
 
@@ -1917,8 +1917,8 @@ class DefaultCompress
                                         "`tOutput Directory: $($outputPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1939,13 +1939,13 @@ class DefaultCompress
         # ---------------------------
 
         # Setup the filename to match with the archive data file's name but omitting the file extension.
-        $fileName = "$([System.IO.Path]::GetFileNameWithoutExtension($file))";
+        $fileName = [string]([System.IO.Path]::GetFileNameWithoutExtension($file));
 
         # Setup the filename to match with the archive data file's name, including the file extension.
-        $fileNameExt = "$([System.IO.Path]::GetFileName($file))";
+        $fileNameExt = [string]([System.IO.Path]::GetFileName($file));
 
         # The description that will be presented in the logfile.
-        $execReason = "Extracting $($fileNameExt)";
+        $execReason = "Extracting " + $fileNameExt;
 
         # ---------------------------
         # - - - - - - - - - - - - - -
@@ -1963,7 +1963,7 @@ class DefaultCompress
 
 
         # Does the extracting directory already exist?
-        if ([CommonIO]::CheckPathExists("$($extractPath)", $true) -eq $true)
+        if ([CommonIO]::CheckPathExists($extractPath, $true) -eq $true)
         {
             # Because the directory already exists, we need to make it unique.  To accomplish
             #  the task of making the directory to be unique, we will add a timestamp to the
@@ -1971,15 +1971,15 @@ class DefaultCompress
             #  it.
             #  Date and Time
             #  DD-MMM-YYYY_HH-MM-SS ~~> 09-Feb-2007_01-00-00
-            $getDateTime = "$(Get-Date -UFormat "%d-%b-%Y_%H-%M-%S")";
+            $getDateTime = [string](Get-Date -UFormat "%d-%b-%Y_%H-%M-%S");
 
             # Now put everything together
-            $extractPath += "_$($getDateTime)";
+            $extractPath += "_" + $getDateTime;
         } # if : Make a Unique Directory Name
 
 
         # Create the new extracting directory; if unable to create it, we cannot proceed any further.
-        if([CommonIO]::MakeDirectory("$($extractPath)") -eq $false)
+        if([CommonIO]::MakeDirectory($extractPath) -eq $false)
         {
             # A failure occurred when trying to make the directory,
             #  we cannot continue as the extracting directory is not available.
@@ -1998,8 +1998,8 @@ class DefaultCompress
                                         "`tExtracting Directory: $($extractPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2014,7 +2014,7 @@ class DefaultCompress
         #  calling function to get the absolute path of where the directory resides.
         #  Thus, the calling function can bring the new directory to the user's
         #  attention using whatever methods necessary.
-        $directoryOutput.Value = "$($extractPath)";
+        $directoryOutput.Value = $extractPath;
 
 
         # ---------------------------
@@ -2030,8 +2030,8 @@ class DefaultCompress
         try
         {
             # Extract the contents
-            Expand-Archive -LiteralPath "$($file)" `
-                           -DestinationPath "$($extractPath)" `
+            Expand-Archive -LiteralPath $file `
+                           -DestinationPath $extractPath `
                            -ErrorAction Stop `
                            -PassThru `
                            -OutVariable execSTDOUT `
@@ -2051,8 +2051,8 @@ class DefaultCompress
                                         "`tExtracting Directory: $($extractPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2066,10 +2066,10 @@ class DefaultCompress
         catch [System.Management.Automation.ItemNotFoundException]
         {
             # This will temporarily hold on to just the file name that is missing or corrupted.
-            [string] $badFileName = Split-Path -Path "$($_.TargetObject)" -Leaf;
+            [string] $badFileName = Split-Path -Path [string]($_.TargetObject) -Leaf;
 
             # This will temporarily hold on to the full path of the file that is missing or corrupted.
-            [string] $badFileNameFull = "$($_.TargetObject)";
+            [string] $badFileNameFull = [string]($_.TargetObject);
 
 
             # Because a failure had been reached, we will have to update the exit code.
@@ -2097,13 +2097,13 @@ class DefaultCompress
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2137,13 +2137,13 @@ class DefaultCompress
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2172,13 +2172,13 @@ class DefaultCompress
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2218,7 +2218,7 @@ class DefaultCompress
                     foreach ($item in $execSTDOUT)
                     {
                         # Append the information as a long list, but in a readable and presentable way.
-                        $strSTDOUT = "$($strSTDOUT)" + `
+                        $strSTDOUT = $strSTDOUT + `
                                         "`t>> $([string]$($item))`r`n";
                     } # foreach : File in List
 
@@ -2227,7 +2227,7 @@ class DefaultCompress
                     # - - - - - -
                     # Logfile Footer
 
-                    $strSTDOUT = ("$($strSTDOUT)" + `
+                    $strSTDOUT = ($strSTDOUT + `
                                     "`r`n" + `
                                     "-----------------------------------------------------------`r`n");
                 } # if : STDOUT Contains Data
@@ -2240,7 +2240,7 @@ class DefaultCompress
                 {
                     # Because of how the information is stored in the object, we can just store the data to
                     #  a literal string outright.
-                    $strSTDERR = "$([string]$($execSTDERR))";
+                    $strSTDERR = [string]($execSTDERR);
                 } # if : STDERR Contains Data
 
 
@@ -2250,7 +2250,7 @@ class DefaultCompress
                                             $this.GetReportPath(), `    # Report path and filename.
                                             $false, `                   # Is this a report?
                                             $false, `                   # Should we receive the STDOUT or STDERR for further processing?
-                                            "$($execReason)", `         # Reason for using the CMDLet.
+                                            $execReason, `              # Reason for using the CMDLet.
                                             $null, `                    # Returned STDOUT\STDERR for further processing.
                                             [ref] $strSTDOUT, `         # STDOUT output from the CMDLet.
                                             [ref] $strSTDERR);          # STDERR output from the CMDLet.
@@ -2342,7 +2342,7 @@ class DefaultCompress
         #  configured before we proceed any further during the compacting procedure protocol.
         # ---------------------------
         # The description that will be presented in the logfile.
-        $execReason = "Creating $($archiveFileNameRequest)";
+        $execReason = "Creating " + $archiveFileNameRequest;
 
         # Generate the full path of the archive data file, though this may change later if it is not unique.
         #  NOTE: Omitting the file extension.
@@ -2382,8 +2382,8 @@ class DefaultCompress
                                         "`tOutput directory: $($outputPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2414,8 +2414,8 @@ class DefaultCompress
                                         "`tContents to compact: $($targetDirectory)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2427,7 +2427,7 @@ class DefaultCompress
 
 
         # Make sure that the desired output path currently exists
-        if ($([CommonIO]::CheckPathExists("$($outputPath)", $true)) -eq $false)
+        if ([CommonIO]::CheckPathExists($outputPath, $true) -eq $false)
         {
             # The requested output path does not currently exist; we cannot proceed any further.
 
@@ -2445,8 +2445,8 @@ class DefaultCompress
                                         "`tOutput directory: $($outputPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2458,7 +2458,7 @@ class DefaultCompress
 
 
         # Check to make sure that the target path directory or file(s) already exists within the filesystem.
-        if ($([CommonIO]::CheckPathExists("$($targetDirectory)", $false) -eq $false))
+        if ([CommonIO]::CheckPathExists($targetDirectory, $false) -eq $false)
         {
             # The target directory does not exist; we cannot compact the requested data as the target directory
             #  does not exist with the given path.
@@ -2477,8 +2477,8 @@ class DefaultCompress
                                         "`tOutput directory: $($outputPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2511,7 +2511,7 @@ class DefaultCompress
             # Setup the timestamp to help make it unique.
             #  Formatting of the Date and Time:
             #  DD-MMM-YYYY_HH-MM-SS ~~> 09-Feb-2007_01-00-00
-            [string] $getDateTime = "$(Get-Date -UFormat "%d-%b-%Y_%H-%M-%S")";
+            [string] $getDateTime = [string](Get-Date -UFormat "%d-%b-%Y_%H-%M-%S");
 
             # Update the archive filename to include the date and time stamp.
             $archiveFileName = "$($archiveFileName)_$($getDateTime)";
@@ -2531,7 +2531,7 @@ class DefaultCompress
                     [string] $displayErrorMessage = "Failed to create a new archive data file!";
 
                     # Generate the initial message
-                    [string] $logMessage = "$($displayErrorMessage)";
+                    [string] $logMessage = $displayErrorMessage;
 
                     # Generate any additional information that might be useful
                     [string] $logAdditionalMSG = ("Unable to create a unique filename for the archive datafile!`r`n" + `
@@ -2540,13 +2540,13 @@ class DefaultCompress
                                                 "`tOutput directory: $($outputPath)");
 
                     # Pass the information to the logging system
-                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                "$($logAdditionalMSG)", `   # Additional information
+                    [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                                $logAdditionalMSG, `        # Additional information
                                                 [LogMessageLevel]::Error);  # Message level
 
                     # Display a message to the user that something went horribly wrong
                     #  and log that same message for referencing purpose.
-                    [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                    [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                                 [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -2583,7 +2583,7 @@ class DefaultCompress
         try
         {
             # Create the archive datafile.
-            Compress-Archive -Path "$($targetDirectory)" `
+            Compress-Archive -Path $targetDirectory `
                              -DestinationPath "$($archiveFileName).$($archiveFileExtension)" `
                              -CompressionLevel $this.GetCompressionLevel() `
                              -ErrorAction Stop `
@@ -2617,13 +2617,13 @@ class DefaultCompress
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2654,13 +2654,13 @@ class DefaultCompress
                                             "$([Logging]::GetExceptionInfo($_.Exception))");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
                                             [LogMessageLevel]::Error);  # Message level
 
                 # Display a message to the user that something went horribly wrong
                 #  and log that same message for referencing purpose.
-                [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                             [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -2683,7 +2683,7 @@ class DefaultCompress
                     #  will only have one output file - not multiple.  With that,
                     #  we just need to capture just the one output file - which is
                     #  our compressed archive datafile.
-                    $strSTDOUT = "Newly created archive datafile path: $([string]$($execSTDOUT))";
+                    $strSTDOUT = "Newly created archive datafile path: " + [string]($execSTDOUT);
                 } # if : STDOUT Is not null
 
 
@@ -2699,7 +2699,7 @@ class DefaultCompress
                     # No need to filter or manipulate the data, just
                     #  cast it as is.  Everything we need is already
                     #  available and readable.
-                    $strSTDERR = "$([string]$($execSTDERR))";
+                    $strSTDERR = [string]($execSTDERR);
                 } # if : STDERR Is not null
 
 
@@ -2709,7 +2709,7 @@ class DefaultCompress
                                             $this.GetReportPath(), `
                                             $false, `
                                             $false, `
-                                            "$($execReason)", `
+                                            $execReason, `
                                             $null, `
                                             [ref] $strSTDOUT, `
                                             [ref] $strSTDERR );
@@ -2763,18 +2763,18 @@ class DefaultCompress
         # Declarations and Initializations
         # ----------------------------------------
         # Get the filename without the path, extension is kept.
-        [string] $fileNameExt = "$(Split-Path $archiveFile -leaf)";
+        [string] $fileNameExt = Split-Path $archiveFile -leaf;
 
 
         # The following variables will hold the current date and time from the host system.
         #  With this, it will be available for the filename and inside the report.
         # - - - -
         # >> Date
-        [string] $dateNow = "$(Get-Date -UFormat "%d-%b-%y")";
+        [string] $dateNow = [string](Get-Date -UFormat "%d-%b-%y");
         # >> Time
-        [string] $timeNow = "$(Get-Date -UFormat "%H.%M.%S")";
+        [string] $timeNow = [string](Get-Date -UFormat "%H.%M.%S");
         # >> Date && Time
-        [string] $dateTime = "$($dateNow) $($timeNow)";
+        [string] $dateTime = $dateNow + " " + $timeNow;
         # - - - -
 
 
@@ -2837,8 +2837,8 @@ class DefaultCompress
                                         "`tRequested file to generate a report: $($archiveFile)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2877,8 +2877,8 @@ class DefaultCompress
                                         "`tRequested file to generate a report: $($archiveFile)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2908,8 +2908,8 @@ class DefaultCompress
                                         "`tRequested file to generate a report: $($archiveFile)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2921,7 +2921,7 @@ class DefaultCompress
 
 
         # Make sure that the target archive file exists.
-        if ($([CommonIO]::CheckPathExists("$($archiveFile)", $true)) -eq $false)
+        if ([CommonIO]::CheckPathExists($archiveFile, $true) -eq $false)
         {
             # The target archive data file does not exist; we cannot perform a report on something
             #  when that file simply does not exist with the given file path.
@@ -2935,11 +2935,11 @@ class DefaultCompress
             [string] $logMessage = "Unable to create a report on the archive data file because the target file does not exist!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "Requested file to generate a report: $($archiveFile)";
+            [string] $logAdditionalMSG = "Requested file to generate a report: " + $archiveFile;
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2991,7 +2991,7 @@ class DefaultCompress
 
 
                     # Write the message to the report file
-                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile($fileNameTXT, $outputContent) -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3012,8 +3012,8 @@ class DefaultCompress
                                                     "$($outputContent)");
 
                         # Pass the information to the logging system
-                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                    "$($logAdditionalMSG)", `   # Additional information
+                        [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                                    $logAdditionalMSG, `        # Additional information
                                                     [LogMessageLevel]::Error);  # Message level
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -3048,7 +3048,7 @@ class DefaultCompress
 
 
                     # Write the message to the report file
-                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile($fileNameTXT, $outputContent) -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3069,8 +3069,8 @@ class DefaultCompress
                                                     "$($outputContent)");
 
                         # Pass the information to the logging system
-                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                    "$($logAdditionalMSG)", `   # Additional information
+                        [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                                    $logAdditionalMSG, `        # Additional information
                                                     [LogMessageLevel]::Error);  # Message level
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -3114,7 +3114,7 @@ class DefaultCompress
 
 
                     # Write the message to the report file
-                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile($fileNameTXT, $outputContent) -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3135,8 +3135,8 @@ class DefaultCompress
                                                     "$($outputContent)");
 
                         # Pass the information to the logging system
-                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                    "$($logAdditionalMSG)", `   # Additional information
+                        [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                                    $logAdditionalMSG, `        # Additional information
                                                     [LogMessageLevel]::Error);  # Message level
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -3182,7 +3182,7 @@ class DefaultCompress
 
 
                     # Write the message to the report file
-                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile($fileNameTXT, $outputContent) -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3203,8 +3203,8 @@ class DefaultCompress
                                                     "$($outputContent)");
 
                         # Pass the information to the logging system
-                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                    "$($logAdditionalMSG)", `   # Additional information
+                        [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                                    $logAdditionalMSG, `        # Additional information
                                                     [LogMessageLevel]::Error);  # Message level
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -3245,7 +3245,7 @@ class DefaultCompress
 
 
                     # Write the message to the report file
-                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile($fileNameTXT, $outputContent) -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3266,8 +3266,8 @@ class DefaultCompress
                                                     "$($outputContent)");
 
                         # Pass the information to the logging system
-                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                    "$($logAdditionalMSG)", `   # Additional information
+                        [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                                    $logAdditionalMSG, `        # Additional information
                                                     [LogMessageLevel]::Error);  # Message level
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -3302,7 +3302,7 @@ class DefaultCompress
 
 
                     # Write the message to the report file
-                    if ([CommonIO]::WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    if ([CommonIO]::WriteToFile($fileNameTXT, $outputContent) -eq $false)
                     {
                         # Because there was failure while writing to the report file, we cannot proceed any further.
 
@@ -3323,8 +3323,8 @@ class DefaultCompress
                                                     "$($outputContent)");
 
                         # Pass the information to the logging system
-                        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                    "$($logAdditionalMSG)", `   # Additional information
+                        [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                                    $logAdditionalMSG, `        # Additional information
                                                     [LogMessageLevel]::Error);  # Message level
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -3370,8 +3370,8 @@ class DefaultCompress
                                                 "`tTried to write to report file: $($fileNameTXT)`r`n");
 
                     # Pass the information to the logging system
-                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                "$($logAdditionalMSG)", `   # Additional information
+                    [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                                $logAdditionalMSG, `        # Additional information
                                                 [LogMessageLevel]::Error);  # Message level
 
                     # * * * * * * * * * * * * * * * * * * *
@@ -3389,7 +3389,7 @@ class DefaultCompress
         if ($makePDF -eq $true)
         {
             # Create the PDF file as requested
-            if(([CommonIO]::CreatePDFFile("$($fileNameTXT)", "$($fileNamePDF)")) -eq $false)
+            if([CommonIO]::CreatePDFFile($fileNameTXT, $fileNamePDF) -eq $false)
             {
                 # Failure occurred while creating the PDF document.
 
@@ -3408,8 +3408,8 @@ class DefaultCompress
                                             "`tTried to create PDF file: $($fileNamePDF)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
                                             [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -3476,11 +3476,10 @@ class DefaultCompress
         {
             # if this is the first entry in the variable, then just apply the item
             #  to the string without adding a appending the previous entries.
-            if (($null -eq $knownExtensions) -or
-                ($knownExtensions -eq ""))
+            if ($null -eq $knownExtensions)
             {
                 # First entry to the string.
-                $knownExtensions = "$($item)";
+                $knownExtensions = $item;
             }# If: first entry
 
             # There is already information in the variable, append the new entry to the
@@ -3488,7 +3487,7 @@ class DefaultCompress
             else
             {
                 # Append the entry to the string list.
-                $knownExtensions += ", $($item)";
+                $knownExtensions += "," + $item;
             } # Else: Append entry
         } # Foreach: Known Logging Extensions
 
@@ -3500,7 +3499,7 @@ class DefaultCompress
             foreach($item in $extReports)
             {
                 # Append the entry to the string list.
-                $knownExtensions += ", $($item)";
+                $knownExtensions += ", " + $item;
             } # Foreach: Known Report Extensions
         } # If: Reports are included in operation
 
@@ -3508,7 +3507,7 @@ class DefaultCompress
 
         # Make sure that the logging directories exist.  If the directories are not
         #  available presently, than there is nothing that can be done at this time.
-        if (($this.__CheckRequiredDirectories()) -eq $false)
+        if ($this.__CheckRequiredDirectories() -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -3522,8 +3521,8 @@ class DefaultCompress
                                         "`tRequested file extensions to delete: $($knownExtensions)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3537,7 +3536,7 @@ class DefaultCompress
 
 
         # Because the directories exists - let's try to thrash the logs.
-        if(([CommonIO]::DeleteFile("$($this.GetLogPath())", $extLogs)) -eq $false)
+        if([CommonIO]::DeleteFile($this.GetLogPath(), $extLogs) -eq $false)
         {
             # Reached a failure upon removing the requested log files.
 
@@ -3554,8 +3553,8 @@ class DefaultCompress
                                         "`tRequested file extensions to delete: $($knownExtensions)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3571,8 +3570,8 @@ class DefaultCompress
 
 
         # Did the user also wanted to thrash the reports?
-        if (($($expungeReports) -eq $true) -and `
-            ([CommonIO]::DeleteFile("$($this.GetReportPath())", $extReports)) -eq $false)
+        if (($expungeReports -eq $true) -and `
+            ([CommonIO]::DeleteFile($this.GetReportPath(), $extReports) -eq $false))
         {
             # Reached a failure upon removing the requested log files.
 
@@ -3589,8 +3588,8 @@ class DefaultCompress
                                         "`tRequested file extensions to delete: $($knownExtensions)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3620,8 +3619,8 @@ class DefaultCompress
                                         "`tRequested file extensions to delete: $($knownExtensions)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
