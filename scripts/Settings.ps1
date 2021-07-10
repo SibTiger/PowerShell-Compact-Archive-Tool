@@ -134,7 +134,7 @@ class Settings
         [CommonCUI]::DrawMenuItem('P', `
                                 "General $($GLOBAL:_PROGRAMNAME_) Preferences", `
                                 "Configure the $($GLOBAL:_PROGRAMNAMESHORT_) generalized functionality and preferences.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -146,7 +146,7 @@ class Settings
             [CommonCUI]::DrawMenuItem('Z', `
                                     "Zip Preferences [PK3 Builds Only]", `
                                     "Configure the Internal Zip's functionality and preferences.", `
-                                    "$($NULL)", `
+                                    $NULL, `
                                     $true);
         } # if: Display .NET Core ZIP Option
 
@@ -159,7 +159,7 @@ class Settings
             [CommonCUI]::DrawMenuItem('7', `
                                     "7Zip Preferences [PK3 or PK7 Builds]", `
                                     "Configure the 7Zip's functionality and preferences.", `
-                                    "$($NULL)", `
+                                    $NULL, `
                                     $true);
         } # if: Display 7Zip Option
 
@@ -172,7 +172,7 @@ class Settings
             [CommonCUI]::DrawMenuItem('G', `
                                     "Git Preferences", `
                                     "Configure the Git's functionality and preferences.", `
-                                    "$($NULL)", `
+                                    $NULL, `
                                     $true);
         } # if: Display Git Option
 
@@ -181,23 +181,23 @@ class Settings
         [CommonCUI]::DrawMenuItem('?', `
                                 "Help Documentation", `
                                 "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Wiki documentation online.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
         # Show or Hide Hidden Menus and Options
         [CommonCUI]::DrawMenuItem('~', `
                                 "Toggle Hidden Menus", `
-                                "$($currentValueShowHiddenMenus)", `
-                                "$($NULL)", `
+                                $currentValueShowHiddenMenus, `
+                                $NULL, `
                                 $true);
 
 
         # Return back to the Main Menu
         [CommonCUI]::DrawMenuItem('X', `
                                 "Go back to Main Menu", `
-                                "$($NULL)", `
-                                "$($NULL)", `
+                                $NULL, `
+                                $NULL, `
                                 $false);
     } # DrawMainSettingsMenu()
 
@@ -342,7 +342,7 @@ class Settings
                 # Open the webpage as requested
                 #  NOTE: We do not care about the return result as there's
                 #         nothing we can do at this present point.
-                [WebsiteResources]::AccessWebSite_General("$($Global:_PROGRAMSITEWIKI_)",              ` # Project's Repository
+                [WebsiteResources]::AccessWebSite_General($Global:_PROGRAMSITEWIKI_,                    ` # Project's Repository
                                                         "$([ProjectInformation]::projectName) Wiki",    ` # Show page title
                                                         $false) | Out-Null;                             ` # Do not force Web Browser function
 
