@@ -221,15 +221,15 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('?',
                                 "Help Documentation",
                                 "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Wiki documentation online.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
         # Return back to the Main Menu
         [CommonCUI]::DrawMenuItem('X',
                                 "Go back to previous Menu",
-                                "$($NULL)",
-                                "$($NULL)", `
+                                $NULL,
+                                $NULL, `
                                 $true);
 
 
@@ -922,7 +922,7 @@ class Settings7Zip
                 # Open the webpage as requested
                 #  NOTE: We do not care about the return result as there's
                 #         nothing we can do at this present point.
-                [WebsiteResources]::AccessWebSite_General("$($Global:_PROGRAMSITEWIKI_)",              ` # Project's Repository
+                [WebsiteResources]::AccessWebSite_General($Global:_PROGRAMSITEWIKI_,                    ` # Project's Repository
                                                         "$([ProjectInformation]::projectName) Wiki",    ` # Show page title
                                                         $false) | Out-Null;                             ` # Do not force Web Browser function
 
@@ -1085,7 +1085,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('A', `
                                 "Automatically find 7Zip", `
                                 "Try to automatically find the 7Zip application.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -1093,7 +1093,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('M', `
                                 "Manually find 7Zip", `
                                 "Manually locate the 7Zip application.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -1101,7 +1101,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
     } # DrawMenuLocate7ZipPath()
 
@@ -1251,7 +1251,7 @@ class Settings7Zip
         else
         {
             # Because we were able to find the 7Zip application, we can use the new value.
-            $sevenZip.SetExecutablePath("$($find7ZipResults)");
+            $sevenZip.SetExecutablePath($find7ZipResults);
 
             # Let the user know that we were able to successfully find the 7Zip Application
             [Logging]::DisplayMessage("Successfully found the 7Zip Application in:`r`n$($find7ZipResults)");
@@ -1297,7 +1297,7 @@ class Settings7Zip
         if ([CommonCUI]::BrowseForTargetFile([ref] $newPath))
         {
             # Because the path is valid, we will use the requested target directory.
-            $sevenZip.SetExecutablePath("$($newPath)");
+            $sevenZip.SetExecutablePath($newPath);
         } # if: Path is valid
 
         # The provided path is not valid
@@ -1305,8 +1305,8 @@ class Settings7Zip
         {
             # If the user provided "Cancel" or "X", then do not bother the user with an error message.
             #  Otherwise, provide an error message as the path is incorrect.
-            if (("$($newPath)" -ne "Cancel") -and `
-                ("$($newPath)" -ne "x"))
+            if (($newPath -ne "Cancel") -and `
+                ($newPath -ne "x"))
             {
                 # Because the path is not valid, let the user know that the path does not exist
                 #  and will not be used.
@@ -1407,7 +1407,7 @@ class Settings7Zip
             [CommonCUI]::DrawSectionHeader("Compression Method");
 
             # Show to the user the current state of the 'Compression Method' variable that is presently set within the program.
-            [Logging]::DisplayMessage("$($decipherNiceString)");
+            [Logging]::DisplayMessage($decipherNiceString);
 
             # Provide some extra white spacing so that it is easier to read for the user
             [Logging]::DisplayMessage("`r`n`r`n");
@@ -1463,7 +1463,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
     } # DrawMenuCompressionMethod()
 
@@ -1662,7 +1662,7 @@ class Settings7Zip
             [CommonCUI]::DrawSectionHeader("Algorithms using Zip");
 
             # Show to the user the current state of the 'Algorithm Zip' variable that is presently set within the program.
-            [Logging]::DisplayMessage("$($decipherNiceString)");
+            [Logging]::DisplayMessage($decipherNiceString);
 
             # Provide some extra white spacing so that it is easier to read for the user
             [Logging]::DisplayMessage("`r`n`r`n");
@@ -1726,7 +1726,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
     } # DrawMenuAlgorithmZip()
 
@@ -1948,7 +1948,7 @@ class Settings7Zip
             [CommonCUI]::DrawSectionHeader("Algorithms using 7Zip");
 
             # Show to the user the current state of the 'Algorithm 7Zip' variable that is presently set within the program.
-            [Logging]::DisplayMessage("$($decipherNiceString)");
+            [Logging]::DisplayMessage($decipherNiceString);
 
             # Provide some extra white spacing so that it is easier to read for the user
             [Logging]::DisplayMessage("`r`n`r`n");
@@ -2020,7 +2020,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
     } # DrawMenuAlgorithm7Zip()
 
@@ -2227,7 +2227,7 @@ class Settings7Zip
             [CommonCUI]::DrawSectionHeader("Use Multithread");
 
             # Show to the user the current state of the 'Use Multithread' variable that is presently set within the program.
-            [Logging]::DisplayMessage("$($decipherNiceString)");
+            [Logging]::DisplayMessage($decipherNiceString);
 
             # Provide some extra white spacing so that it is easier to read for the user
             [Logging]::DisplayMessage("`r`n`r`n");
@@ -2267,7 +2267,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('E', `
                                 "Enable Multithreaded Operations", `
                                 "Use multithreaded operations where available; this may speed up larger operations.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -2275,7 +2275,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('D', `
                                 "Disable Multithreaded Operations", `
                                 "Do not use multithreaded operations.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -2283,7 +2283,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
     } # DrawMenuUseMultithread()
 
@@ -2495,7 +2495,7 @@ class Settings7Zip
             [CommonCUI]::DrawSectionHeader("Compression Level");
 
             # Show to the user the current state of the 'Compression Level' variable that is presently set within the program.
-            [Logging]::DisplayMessage("$($decipherNiceString)");
+            [Logging]::DisplayMessage($decipherNiceString);
 
             # Provide some extra white spacing so that it is easier to read for the user
             [Logging]::DisplayMessage("`r`n`r`n");
@@ -2536,7 +2536,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('S', `
                                 "Store", `
                                 "Do not compress the contents; only store the contents which requires hardly any resources.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -2544,7 +2544,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('L', `
                                 "Minimal", `
                                 "Lightly compress the contents; minimal compression requires very little resources.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -2552,7 +2552,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('N', `
                                 "Normal", `
                                 "Normally compress the contents; normal compression requires the standard use of resources.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -2560,7 +2560,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('M', `
                                 "Maximum", `
                                 "Tightly compress the contents; requires more time and resources.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -2568,7 +2568,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
     } # DrawMenuCompressionLevel()
 
@@ -2775,7 +2775,7 @@ class Settings7Zip
             [CommonCUI]::DrawSectionHeader("Verify Build");
 
             # Show the user the current state of the 'Verify Build' variable that is presently set within the program.
-            [Logging]::DisplayMessage("$($decipherNiceString)");
+            [Logging]::DisplayMessage($decipherNiceString);
 
             # Provide some extra white spacing so that it is easier to read for the user
             [Logging]::DisplayMessage("`r`n`r`n");
@@ -2816,7 +2816,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('V', `
                                 "Verify Build", `
                                 "Test the compiled build to assure that it is healthy.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -2824,7 +2824,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('N', `
                                 "Do not verify build", `
                                 "Do not test the health of the compiled build.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -2832,7 +2832,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
     } # DrawMenuVerifyBuild()
 
@@ -3014,7 +3014,7 @@ class Settings7Zip
             [CommonCUI]::DrawSectionHeader("Generate Report");
 
             # Show the user the current state of the 'Generate Report' variable that is presently set within the program.
-            [Logging]::DisplayMessage("$($decipherNiceString)");
+            [Logging]::DisplayMessage($decipherNiceString);
 
             # Provide some extra white spacing so that it is easier to read for the user
             [Logging]::DisplayMessage("`r`n`r`n");
@@ -3055,7 +3055,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('R', `
                                 "Generate a report file", `
                                 "Generate a new technical report regarding the project's compiled build.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -3063,7 +3063,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('N', `
                                 "Do not generate a report file.", `
                                 "Do not create a technical report regarding the compiled build.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
 
 
@@ -3071,7 +3071,7 @@ class Settings7Zip
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
                                 "Return back to the previous menu.", `
-                                "$($NULL)", `
+                                $NULL, `
                                 $true);
     } # DrawMenuGenerateReport()
 
