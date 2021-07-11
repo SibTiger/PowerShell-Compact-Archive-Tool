@@ -192,17 +192,17 @@ class SettingsGit
 
 
         # Help Documentation
-        [CommonCUI]::DrawMenuItem('?',
-                                "Help Documentation",
+        [CommonCUI]::DrawMenuItem('?', `
+                                "Help Documentation", `
                                 "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Wiki documentation online.", `
                                 $NULL, `
                                 $true);
 
 
         # Return back to the Main Menu
-        [CommonCUI]::DrawMenuItem('X',
-                                "Go back to previous Menu",
-                                $NULL,
+        [CommonCUI]::DrawMenuItem('X', `
+                                "Go back to previous Menu", `
+                                $NULL, `
                                 $NULL, `
                                 $true);
 
