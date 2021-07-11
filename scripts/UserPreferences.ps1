@@ -50,22 +50,22 @@ class UserPreferences
     # Get the instance of this singleton object (With Args)
     #  Useful if we already know that we have to instantiate
     #  a new instance of this particular object.
-    static [UserPreferences] GetInstance([UserPreferencesCompressTool] $compressionTool,    # Which Compression Software to use
-                                        [string] $projectPath,                              # Project's absolute path
-                                        [string] $outputBuildsPath,                         # Output Builds absolute path
-                                        [bool] $useGitFeatures,                             # Utilize Git features (if software available)
-                                        [bool] $useWindowsExplorer,                         # Use Windows Explorer
+    static [UserPreferences] GetInstance([UserPreferencesCompressTool] $compressionTool, `  # Which Compression Software to use
+                                        [string] $projectPath, `                            # Project's absolute path
+                                        [string] $outputBuildsPath, `                       # Output Builds absolute path
+                                        [bool] $useGitFeatures, `                           # Utilize Git features (if software available)
+                                        [bool] $useWindowsExplorer, `                       # Use Windows Explorer
                                         [UserPreferencesEventAlarm] $notificationType)      # Notification type to user
     {
         # if there was no previous instance of the object - then create one.
         if ($null -eq [UserPreferences]::_instance)
         {
             # Create a new instance of the singleton object.
-            [UserPreferences]::_instance = [UserPreferences]::new($compressionTool,
-                                                                $projectPath,
-                                                                $outputBuildsPath,
-                                                                $useGitFeatures,
-                                                                $useWindowsExplorer,
+            [UserPreferences]::_instance = [UserPreferences]::new($compressionTool, `
+                                                                $projectPath, `
+                                                                $outputBuildsPath, `
+                                                                $useGitFeatures, `
+                                                                $useWindowsExplorer, `
                                                                 $notificationType);
         } # If: No Singleton Instance
 
@@ -177,12 +177,12 @@ class UserPreferences
 
 
     # User Preference : On-Load
-    UserPreferences([UserPreferencesCompressTool] $compressionTool,
-                    [string] $projectPath,
-                    [string] $outputBuildsPath,
-                    [bool] $useGitFeatures,
-                    [bool] $useWindowsExplorer,
-                    [UserPreferencesEventAlarm] $notificationType,
+    UserPreferences([UserPreferencesCompressTool] $compressionTool, `
+                    [string] $projectPath, `
+                    [string] $outputBuildsPath, `
+                    [bool] $useGitFeatures, `
+                    [bool] $useWindowsExplorer, `
+                    [UserPreferencesEventAlarm] $notificationType, `
                     [bool] $showHiddenMenu)
     {
         # Compression Tool
