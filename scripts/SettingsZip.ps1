@@ -115,10 +115,10 @@ class SettingsZip
         # Specify Compression Level
         if ($showMenuCompressionLevel)
         {
-            [CommonCUI]::DrawMenuItem('C',
-                                    "Compression Level",
-                                    "How tightly is the data going to be compacted into the compressed file.",
-                                    "Compression level to use: $($currentSettingCompressionLevel)",
+            [CommonCUI]::DrawMenuItem('C', `
+                                    "Compression Level", `
+                                    "How tightly is the data going to be compacted into the compressed file.", `
+                                    "Compression level to use: $($currentSettingCompressionLevel)", `
                                     $true);
         } # If: Show Compression Level
 
@@ -126,10 +126,10 @@ class SettingsZip
         # Toggle the ability to check file's integrity
         if ($showMenuVerifyBuild)
         {
-            [CommonCUI]::DrawMenuItem('V',
-                                    "Verify Build after Compression",
-                                    "Assure that the data within the compressed file is healthy.",
-                                    "Verify integrity of the newly generated build: $($currentSettingVerifyBuild)",
+            [CommonCUI]::DrawMenuItem('V', `
+                                    "Verify Build after Compression", `
+                                    "Assure that the data within the compressed file is healthy.", `
+                                    "Verify integrity of the newly generated build: $($currentSettingVerifyBuild)", `
                                     $true);
         } # If: Show Verify Build
 
@@ -137,27 +137,27 @@ class SettingsZip
         # Allow or disallow the ability to generate a report
         if ($ShowMenuGenerateReport)
         {
-            [CommonCUI]::DrawMenuItem('R',
-                                    "Generate Report of the Archive Datafile",
-                                    "Provides a detailed report regarding the newly generated compressed file.",
-                                    "Create a report of the newly generated build: $($currentSettingGenerateReport)",
+            [CommonCUI]::DrawMenuItem('R', `
+                                    "Generate Report of the Archive Datafile", `
+                                    "Provides a detailed report regarding the newly generated compressed file.", `
+                                    "Create a report of the newly generated build: $($currentSettingGenerateReport)", `
                                     $true);
         } # If: Show Generate Report
 
 
         # Help Documentation
-        [CommonCUI]::DrawMenuItem('?',
-                                "Help Documentation",
-                                "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Wiki documentation online.",
-                                $NULL,
+        [CommonCUI]::DrawMenuItem('?', `
+                                "Help Documentation", `
+                                "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Wiki documentation online.", `
+                                $NULL, `
                                 $true);
 
 
         # Return back to the Main Menu
-        [CommonCUI]::DrawMenuItem('X',
-                                "Go back to previous Menu",
-                                $NULL,
-                                $NULL,
+        [CommonCUI]::DrawMenuItem('X', `
+                                "Go back to previous Menu", `
+                                $NULL, `
+                                $NULL, `
                                 $true);
 
 
