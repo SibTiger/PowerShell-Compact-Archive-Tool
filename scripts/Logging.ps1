@@ -127,10 +127,10 @@ class Logging
 
 
         # Get the current time
-        $cacheTime = Get-Date -UFormat "%H.%M.%S";
+        $cacheTime = [string](Get-Date -UFormat "%H.%M.%S");
 
         # Get the current date
-        $cacheDate = Get-Date -UFormat "%d-%b-%y";
+        $cacheDate = [string](Get-Date -UFormat "%d-%b-%y");
 
         # Now put it all together
         $timestamp = $cacheDate + " " + $cacheTime;

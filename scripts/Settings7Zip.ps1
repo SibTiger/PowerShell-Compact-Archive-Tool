@@ -187,9 +187,9 @@ class Settings7Zip
         # Specify Compression Level
         if ($showMenuCompressionLevel)
         {
-            [CommonCUI]::DrawMenuItem('C',
-                                    "Compression Level",
-                                    "How tightly is the data going to be compacted into the compressed file.",
+            [CommonCUI]::DrawMenuItem('C', `
+                                    "Compression Level", `
+                                    "How tightly is the data going to be compacted into the compressed file.", `
                                     "Compression level to use: $($currentSettingCompressionLevel)", `
                                     $true);
         } # If: Show Compression Level
