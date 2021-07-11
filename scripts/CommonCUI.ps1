@@ -169,7 +169,7 @@ class CommonCUI
         [Logging]::DisplayMessage("Select from the following available options:");
 
         # Display a border
-        [Logging]::DisplayMessage(([CommonCUI]::borderDashLong);
+        [Logging]::DisplayMessage([CommonCUI]::borderDashLong);
     } # DrawMenuInstructions()
 
 
