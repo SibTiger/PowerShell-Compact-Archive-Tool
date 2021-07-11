@@ -60,26 +60,26 @@ class SevenZip
     # Get the instance of this singleton object (with arguments).
     #  This is useful if we already know the properties of this
     #  new instance of the object.
-    static [SevenZip] GetInstance([string] $executablePath,                             # Executable Path
-                                    [SevenZipCompressionMethod] $compressionMethod,     # Create Zip or 7Zip archive datafiles
-                                    [SevenZipAlgorithmZip] $algorithmZip,               # Algorithm to use for ZIP
-                                    [SevenZipAlgorithm7Zip] $algorithm7Zip,             # Algorithm to use for the 7Zip
-                                    [bool] $useMultithread,                             # Use Multithreaded operations
-                                    [SevenZipCompressionLevel] $compressionLevel,          # Compression Level
-                                    [bool] $verifyBuild,                                # Verify Archive datafile
+    static [SevenZip] GetInstance([string] $executablePath, `                           # Executable Path
+                                    [SevenZipCompressionMethod] $compressionMethod, `   # Create Zip or 7Zip archive datafiles
+                                    [SevenZipAlgorithmZip] $algorithmZip, `             # Algorithm to use for ZIP
+                                    [SevenZipAlgorithm7Zip] $algorithm7Zip, `           # Algorithm to use for the 7Zip
+                                    [bool] $useMultithread, `                           # Use Multithreaded operations
+                                    [SevenZipCompressionLevel] $compressionLevel, `     # Compression Level
+                                    [bool] $verifyBuild, `                              # Verify Archive datafile
                                     [bool] $generateReport)                             # Create report
     {
         # if there was no previous instance of the object, then create one.
         if ($null -eq [SevenZip]::_instance)
         {
             # Create a new instance of the singleton object
-            [SevenZip]::_instance = [SevenZip]::new($executablePath,
-                                                    $compressionMethod,
-                                                    $algorithmZip,
-                                                    $algorithm7Zip,
-                                                    $useMultithread,
-                                                    $compressionLevel,
-                                                    $verifyBuild,
+            [SevenZip]::_instance = [SevenZip]::new($executablePath, `
+                                                    $compressionMethod, `
+                                                    $algorithmZip, `
+                                                    $algorithm7Zip, `
+                                                    $useMultithread, `
+                                                    $compressionLevel, `
+                                                    $verifyBuild, `
                                                     $generateReport);
         } # If: No Singleton Instance
 
@@ -253,13 +253,13 @@ class SevenZip
 
 
     # User Preference : On-Load
-    SevenZip([string] $executablePath,
-            [SevenZipCompressionMethod] $compressionMethod,
-            [SevenZipAlgorithmZip] $algorithmZip,
-            [SevenZipAlgorithm7Zip] $algorithm7Zip,
-            [bool] $useMultithread,
-            [SevenZipCompressionLevel] $compressionLevel,
-            [bool] $verifyBuild,
+    SevenZip([string] $executablePath, `
+            [SevenZipCompressionMethod] $compressionMethod, `
+            [SevenZipAlgorithmZip] $algorithmZip, `
+            [SevenZipAlgorithm7Zip] $algorithm7Zip, `
+            [bool] $useMultithread, `
+            [SevenZipCompressionLevel] $compressionLevel, `
+            [bool] $verifyBuild, `
             [bool] $generateReport)
     {
         # Executable path to the 7z.exe
@@ -1388,7 +1388,7 @@ class SevenZip
     #               be generated.
     # -------------------------------
     #>
-    [string] ArchiveHash([string] $file,                            # The archive file that the hash value is generated from.
+    [string] ArchiveHash([string] $file, `                          # The archive file that the hash value is generated from.
                         [FileHashAlgorithm7Zip] $hashAlgorithm)     # The desired hash algorithm to generate.
     {
         # Declarations and Initializations
@@ -1977,7 +1977,7 @@ class SevenZip
     #               be generated.
     # -------------------------------
     #>
-    [string] ListFiles([string] $file,              # The Archive File to Inspect
+    [string] ListFiles([string] $file, `            # The Archive File to Inspect
                         [bool] $showTechInfo)       # Provide Verbose Information regarding Each File
     {
         # Declarations and Initializations
