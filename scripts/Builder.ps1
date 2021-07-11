@@ -935,7 +935,7 @@ class Builder
     #   $true = Successfully compacted the project files into an archive datafile.
     # -------------------------------
     #>
-    hidden static [bool] CompileProject([string] $archiveFileName,      # Requested archive datafile
+    hidden static [bool] CompileProject([string] $archiveFileName, `    # Requested archive datafile
                                         [ref] $filePath)                # Absolute Path of the Archive datafile
     {
         # Declarations and Initializations
@@ -976,9 +976,9 @@ class Builder
                 [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::InProgress, "Compacting using the default compression software. . .");
 
                 # Compact the files
-                if (!$defaultCompress.CreateArchive($archiveFileName,
-                                                    $userPreferences.GetProjectBuildsPath(),
-                                                    $userPreferences.GetProjectPath(),
+                if (!$defaultCompress.CreateArchive($archiveFileName, `
+                                                    $userPreferences.GetProjectBuildsPath(), `
+                                                    $userPreferences.GetProjectPath(), `
                                                     $filePath))
                 {
                     # An error had been reached while compacting the project's files.
@@ -1028,9 +1028,9 @@ class Builder
                 [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::InProgress, "Compacting using the 7Zip compression software. . .");
 
                 # Compact the files
-                if (!$sevenZip.CreateArchive($archiveFileName,
-                                            $userPreferences.GetProjectBuildsPath(),
-                                            $userPreferences.GetProjectPath(),
+                if (!$sevenZip.CreateArchive($archiveFileName, `
+                                            $userPreferences.GetProjectBuildsPath(), `
+                                            $userPreferences.GetProjectPath(), `
                                             $filePath))
                 {
                     # An error had been reached while compacting the project's files.
@@ -1374,9 +1374,9 @@ class Builder
     #   The message that will be displayed to the user.
     # -------------------------------
     #>
-    hidden static [void] DisplayBulletListMessage([uint] $messagePosition,              # How many indentions before message
-                                        [FormattedListBuilder] $messageType,    # Type of list or message
-                                        [string] $messageString)                # Initial message to display
+    hidden static [void] DisplayBulletListMessage([uint] $messagePosition, `            # How many indentions before message
+                                                [FormattedListBuilder] $messageType, `  # Type of list or message
+                                                [string] $messageString)                # Initial message to display
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1475,9 +1475,9 @@ class Builder
 
 
         # Provide the message
-        [CommonCUI]::DrawFormattedList($messagePosition,    # How many spaces to indent the message
-                                        $bulletCharacter,   # What symbol to use (optional)
-                                        $messageString);    # Message to display
+        [CommonCUI]::DrawFormattedList($messagePosition, `      # How many spaces to indent the message
+                                        $bulletCharacter, `     # What symbol to use (optional)
+                                        $messageString);        # Message to display
     } # DisplayBulletListMessage()
 } # Builder
 
