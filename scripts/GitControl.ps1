@@ -65,22 +65,22 @@ class GitControl
     # Get the instance of this singleton object (with arguments).
     #  This is useful if we already know the properties of this
     #  new instance of the object.
-    static [GitControl] GetInstance([string]$executablePath,            # Executable Path
-                                    [bool]$updateSource,                # Update the Local Repository
-                                    [GitCommitLength]$lengthCommitID,   # Length of the Commit ID
-                                    [bool]$fetchChangelog,              # Fetch Changelog History
-                                    [int]$changelogLimit,               # Maximum Log Entries
+    static [GitControl] GetInstance([string]$executablePath, `          # Executable Path
+                                    [bool]$updateSource, `              # Update the Local Repository
+                                    [GitCommitLength]$lengthCommitID, ` # Length of the Commit ID
+                                    [bool]$fetchChangelog, `            # Fetch Changelog History
+                                    [int]$changelogLimit, `             # Maximum Log Entries
                                     [bool]$generateReport)              # Create Report
     {
         # if there was no previous instance of the object, then create one.
         if ($null -eq [GitControl]::_instance)
         {
             # Create a new instance of the singleton object
-            [GitControl]::_instance = [GitControl]::new($executablePath,
-                                                        $updateSource,
-                                                        $lengthCommitID,
-                                                        $fetchChangelog,
-                                                        $changelogLimit,
+            [GitControl]::_instance = [GitControl]::new($executablePath, `
+                                                        $updateSource, `
+                                                        $lengthCommitID, `
+                                                        $fetchChangelog, `
+                                                        $changelogLimit, `
                                                         $generateReport);
         } # If: No Singleton Instance
 
@@ -229,11 +229,11 @@ class GitControl
 
 
     # User Preference : On-Load
-    GitControl([string]$executablePath,
-                [bool]$updateSource,
-                [GitCommitLength]$lengthCommitID,
-                [bool]$fetchChangelog,
-                [uint32]$changelogLimit,
+    GitControl([string]$executablePath, `
+                [bool]$updateSource, `
+                [GitCommitLength]$lengthCommitID, `
+                [bool]$fetchChangelog, `
+                [uint32]$changelogLimit, `
                 [bool]$generateReport)
     {
         # Executable path to the Git.exe
@@ -1547,7 +1547,7 @@ class GitControl
     #    $true  = Successfully switched to the requested branch.
     # -------------------------------
     #>
-    [bool] SwitchLocalBranch([string] $projectPath,         # Project's Local Repository Path
+    [bool] SwitchLocalBranch([string] $projectPath, `       # Project's Local Repository Path
                             [string] $requestedBranch)      # Switch to the Requested Branch.
     {
         # Declarations and Initializations
@@ -1948,7 +1948,7 @@ class GitControl
     #    $true  = Successfully retrieved the Commit History.
     # -------------------------------
     #>
-    [bool] FetchCommitHistory([string] $projectPath,        # The absolute location of the project's local repository
+    [bool] FetchCommitHistory([string] $projectPath, `      # The absolute location of the project's local repository
                                 [string] $outputPath)       # The absolute path of the Commit History Output File
     {
         # Declarations and Initializations
