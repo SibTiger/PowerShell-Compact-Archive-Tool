@@ -1357,6 +1357,88 @@ class Builder
         # Return the result back to the calling function
         return $result;
     } # TestCompiledBuild()
+
+
+
+
+
+   <# Generate Report: Archive Data File
+    # -------------------------------
+    # Documentation:
+    #  This function will try to create a report regarding the newly
+    #   compiled archive datafile.  This will provide a thorough
+    #   outlook regarding information about the file itself as well
+    #   as the contents within the archive datafile.
+    # -------------------------------
+    # Input:
+    #  [string] Compiled Build Full Path
+    #   The requested archive datafile that will be tested; absolute
+    #    full path is required.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #   $false = Failed to create the desired report
+    #   $true  = Successfully created the requested report
+    # -------------------------------
+    #>
+    hidden static [bool] GenerateReportArchiveDataFile([string] $compiledBuildFullPath)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the current instance of the User Preferences object; this contains the user's
+        #  generalized settings.
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+
+        # Retrieve the current instance of the user's 7Zip object; this contains the user's
+        #  preferences as to how 7Zip will be utilized within this application.
+        [SevenZip] $sevenZip = [SevenZip]::GetInstance();
+
+        # Retrieve the current instance of the user's Default Compressing object; this contains
+        #  the user's preferences as to how the Archive ZIP module will be utilized within this
+        #  application.
+        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+
+
+        # Debugging Variables
+        [string] $logMessage = $NULL;           # Main message regarding the logged event.
+        [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
+        # ----------------------------------------
+
+
+
+
+        return $true;
+    } # GenerateReportArchiveDataFile()
+
+
+
+
+
+   <# Generate Report: Project's Local Repository
+    # -------------------------------
+    # Documentation:
+    #  This function will try to create a report regarding the
+    #   local repository's current state and activity in relation
+    #   to the project.  With the information gathered, the report
+    #   will contain authors that had contributed, branches that
+    #   are part of the project's development, and the activity
+    #   within the present active branch.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #   $false = Failed to create the desired report
+    #   $true  = Successfully created the requested report
+    # -------------------------------
+    #>
+    hidden static [bool] GenerateReportProjectLocalRepository()
+    {
+        return $true;
+    } # GenerateReportProjectLocalRepository()
+
+
+
+
+
    <# Display Bullet List Message
     # -------------------------------
     # Documentation:
