@@ -316,8 +316,8 @@
     static [bool] CheckSiteAvailability([string] $site)
     {
         # Check the website's availability status.
-        return (([WebsiteResources]::__CheckSiteAvailability_SiteProvided($site -eq $true)) -and `     # Make sure that the string is not null\empty
-                ([WebsiteResources]::__CheckSiteAvailability_SiteResponse($site) -eq $true));          # Make sure that the Web Host and site is reachable
+        return ([WebsiteResources]::__CheckSiteAvailability_SiteProvided($site -eq $true) -and `    # Make sure that the string is not null\empty
+                [WebsiteResources]::__CheckSiteAvailability_SiteResponse($site) -eq $true);         # Make sure that the Web Host and site is reachable
     } # CheckSiteAvailability()
 
 
@@ -563,7 +563,7 @@
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("HTTP Request Created for: $($site)`r`n" + `
                                         "`tHTTP Response Status Code: $($siteResponse.StatusCode)" + `
-                                        " $([int] $($siteResponse.StatusCode))");
+                                        " $([int]$siteResponse.StatusCode)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -591,7 +591,7 @@
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("HTTP Request Created for: $($site)`r`n" + `
-                                        "`tHTTP Response Status Code: $($siteResponse.StatusCode) $([int] $($siteResponse.StatusCode))");
+                                        "`tHTTP Response Status Code: $($siteResponse.StatusCode) $([int]$siteResponse.StatusCode)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
