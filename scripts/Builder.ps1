@@ -1330,7 +1330,7 @@ class Builder
 
         # Show that the operation was successful and provide the condition of the build
         [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully checked compiled build's health!");
-        [Builder]::DisplayBulletListMessage(2, $resultSymbol, "The compiled build is: $([string] $resultNiceValue)!");
+        [Builder]::DisplayBulletListMessage(2, $resultSymbol, "The compiled build is: " + $resultNiceValue + "!");
 
 
 
