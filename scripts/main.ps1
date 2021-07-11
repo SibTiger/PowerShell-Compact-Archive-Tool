@@ -44,7 +44,7 @@ function main()
 
 
     # Execute the Main Menu; from here - the program will be entirely driven by User Interactions.
-    $exitLevel = ([MainMenu]::Main());
+    $exitLevel = [MainMenu]::Main();
 
 
     # Save the user's configurations before terminating the program.
