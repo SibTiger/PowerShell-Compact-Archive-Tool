@@ -192,7 +192,7 @@ class Logging
 
 
         # Check the Program Log Directory
-        if (([CommonIO]::CheckPathExists([Logging]::ProgramLogPath, $true)) -eq $true)
+        if ([CommonIO]::CheckPathExists([Logging]::ProgramLogPath, $true) -eq $true)
         {
             # All of the required directories are present within the filesystem
             $exitCode = $true;
@@ -274,7 +274,7 @@ class Logging
 
 
         # First, check if the directories already exist?
-        if(([Logging]::__CheckRequiredDirectories())-eq $true)
+        if([Logging]::__CheckRequiredDirectories() -eq $true)
         {
             # If this function is controlling the Logging Lock Key, unlock it now - before leaving.
             if($controlLockKey)
@@ -318,7 +318,7 @@ class Logging
 
 
         # Fail-safe; final assurance that the program's log directory had been created successfully.
-        if(([Logging]::__CheckRequiredDirectories())-eq $true)
+        if([Logging]::__CheckRequiredDirectories() -eq $true)
         {
             # If this function is controlling the Logging Lock Key, unlock it now - before leaving.
             if($controlLockKey)
@@ -423,7 +423,7 @@ class Logging
 
 
         # Write the readable data to the logfile.
-        elseif (([CommonIO]::WriteToFile([Logging]::GetLogFilePath(), $message)) -eq $false)
+        elseif ([CommonIO]::WriteToFile([Logging]::GetLogFilePath(), $message) -eq $false)
         {
             # The message could not be written to the logfile.  Provide an exit code of false to signify failure.
             $exitCode = $false;
@@ -813,7 +813,7 @@ class Logging
 
         # First, make sure that the log directory exists.
         #  If the directory is not available, then there is nothing that can be done.
-        if (([Logging]::__CheckRequiredDirectories()) -eq $false)
+        if ([Logging]::__CheckRequiredDirectories() -eq $false)
         {
             # This is not really an error, however the logging directory simply does not
             #  exist -- nothing can be done.
