@@ -58,9 +58,9 @@
     #    - False: Unable to successfully open the web page.
     # -------------------------------
     #>
-    Hidden static [bool] __AccessWebSite([string] $siteURL,                 # The Site's URL to access
-                                        [string] $siteName,                 # The Site's name
-                                        [bool] $update,                     # Perform the Update Behavioral
+    Hidden static [bool] __AccessWebSite([string] $siteURL, `               # The Site's URL to access
+                                        [string] $siteName, `               # The Site's name
+                                        [bool] $update, `                   # Perform the Update Behavioral
                                         [bool] $ignoreUserSetting)          # Ignore User's Settings and open Web Browser
     {
         # Declarations and Initializations
@@ -232,8 +232,8 @@
     #    - False: Unable to successfully open the web page.
     # -------------------------------
     #>
-    static [bool] AccessWebSite_General([string] $siteURL,                  # The Site's URL to access
-                                        [string] $siteName,                 # The Site's name
+    static [bool] AccessWebSite_General([string] $siteURL, `                # The Site's URL to access
+                                        [string] $siteName, `               # The Site's name
                                         [bool] $ignoreUserSetting)          # Ignore User's Settings and open Web Browser
     {
         # Access the Main Function that will open the Web Browser functionality; return
@@ -269,8 +269,8 @@
     #    - False: Unable to successfully open the web page.
     # -------------------------------
     #>
-    static [bool] AccessWebSite_Update([string] $siteURL,                   # The Site's URL to access
-                                        [string] $siteName,                 # The Site's name
+    static [bool] AccessWebSite_Update([string] $siteURL, `                 # The Site's URL to access
+                                        [string] $siteName, `               # The Site's name
                                         [bool] $ignoreUserSetting)          # Ignore User's Settings and open Web Browser
     {
         # Access the Main Function that will open the Web Browser functionality; return
