@@ -869,7 +869,7 @@ class Logging
     #   The level of the message that is to be presented or formatted.
     # -------------------------------
     #>
-    static [void] DisplayMessage([string] $msg,                     # Message to provide to both Display and Logfile
+    static [void] DisplayMessage([string] $msg, `                   # Message to provide to both Display and Logfile
                                 [LogMessageLevel] $msgLevel)        # Message's severity level
     {
         # Display the message to the end-user's screen.
@@ -1019,7 +1019,7 @@ class Logging
     #   NOTE: The message can be as long as the CLR (which is about 2.5GB)
     # -------------------------------
     #>
-    static [void] WriteToLogFile([string] $filePath,        # The absolute path of the logfile
+    static [void] WriteToLogFile([string] $filePath, `      # The absolute path of the logfile
                                 [ref] $msg)                 # The message to be written
     {
         # If the logging functionality is enabled, write the information as requested.
