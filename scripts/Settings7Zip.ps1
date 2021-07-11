@@ -198,9 +198,9 @@ class Settings7Zip
         # Toggle the ability to check file's integrity
         if ($showMenuVerifyBuild)
         {
-            [CommonCUI]::DrawMenuItem('V',
-                                    "Verify Build after Compression",
-                                    "Assure that the data within the compressed file is healthy.",
+            [CommonCUI]::DrawMenuItem('V', `
+                                    "Verify Build after Compression", `
+                                    "Assure that the data within the compressed file is healthy.", `
                                     "Verify integrity of the newly generated build: $($currentSettingVerifyBuild)", `
                                     $true);
         } # If: Show Verify Build
@@ -209,26 +209,26 @@ class Settings7Zip
         # Allow or disallow the ability to generate a report
         if ($ShowMenuGenerateReport)
         {
-            [CommonCUI]::DrawMenuItem('R',
-                                    "Generate Report of the Archive Datafile",
-                                    "Provides a detailed report regarding the newly generated compressed file.",
+            [CommonCUI]::DrawMenuItem('R', `
+                                    "Generate Report of the Archive Datafile", `
+                                    "Provides a detailed report regarding the newly generated compressed file.", `
                                     "Create a report of the newly generated build: $($currentSettingGenerateReport)", `
                                     $true);
         } # If: Show Generate Report
 
 
         # Help Documentation
-        [CommonCUI]::DrawMenuItem('?',
-                                "Help Documentation",
+        [CommonCUI]::DrawMenuItem('?', `
+                                "Help Documentation", `
                                 "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Wiki documentation online.", `
                                 $NULL, `
                                 $true);
 
 
         # Return back to the Main Menu
-        [CommonCUI]::DrawMenuItem('X',
-                                "Go back to previous Menu",
-                                $NULL,
+        [CommonCUI]::DrawMenuItem('X', `
+                                "Go back to previous Menu", `
+                                $NULL, `
                                 $NULL, `
                                 $true);
 
