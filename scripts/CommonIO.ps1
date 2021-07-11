@@ -345,8 +345,8 @@ class CommonIO
             [System.Management.Automation.ApplicationInfo] $debugInfo = $null;
 
             # Try to detect the requested command
-            $debugInfo = Get-Command -Name "$($command)" `
-                                        -CommandType "$($type)"`
+            $debugInfo = Get-Command -Name $command `
+                                        -CommandType $type `
                                         -ErrorAction Stop;
 
             # Setup the information that was provided from the Get-Command
@@ -395,12 +395,12 @@ class CommonIO
             [string] $logMessage = "Tried to find the $($type) named $($command); detected result was $($exitCode)";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "$($commandDebugInfo)";
+            [string] $logAdditionalMSG = $commandDebugInfo;
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
-                                        "$($msgLevel)");            # Message level
+            [Logging]::LogProgramActivity($logMessage, `        # Initial message
+                                        $logAdditionalMSG, `    # Additional information
+                                        $msgLevel);             # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # Finally : Protocol after detection
@@ -514,7 +514,7 @@ class CommonIO
         # ---------------------------
 
         # Make sure that the executable exists before trying to use it.
-        if ($([CommonIO]::DetectCommand("$($command)", "Application")) -eq $false)
+        if ([CommonIO]::DetectCommand($command, "Application") -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -530,8 +530,8 @@ class CommonIO
                                         "`tReason to use command: $($description)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -543,7 +543,7 @@ class CommonIO
 
 
         # Make sure that the Project path exists
-        if ($([CommonIO]::CheckPathExists("$($projectPath)", $true)) -eq $false)
+        if ([CommonIO]::CheckPathExists($projectPath, $true) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -560,8 +560,8 @@ class CommonIO
                                         "`tProject Path: $($projectPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -573,7 +573,7 @@ class CommonIO
 
 
         # Make sure that the Standard Output Path exists
-        if ($([CommonIO]::CheckPathExists("$($stdOutLogPath)", $true)) -eq $false)
+        if ([CommonIO]::CheckPathExists($stdOutLogPath, $true) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -590,8 +590,8 @@ class CommonIO
                                         "`tSTDOUT Directory: $($stdOutLogPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -603,7 +603,7 @@ class CommonIO
 
 
         # Make sure that the Standard Error path exists
-        if ($([CommonIO]::CheckPathExists("$($stdErrLogPath)", $true)) -eq $false)
+        if ([CommonIO]::CheckPathExists($stdErrLogPath, $true) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -620,8 +620,8 @@ class CommonIO
                                         "`tSTDERR Directory: $($stdErrLogPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -637,7 +637,7 @@ class CommonIO
         if ($null -eq $description)
         {
             # Generate a new description using what information we have presently.
-            [string] $description = [CommonIO]::__ExecuteCommandCreateDescription("$($command)", "$($arguments)");
+            [string] $description = [CommonIO]::__ExecuteCommandCreateDescription($command, $arguments);
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -655,8 +655,8 @@ class CommonIO
                                         "`tDescription is now: $($description)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -705,7 +705,7 @@ class CommonIO
         # --------------
 
         # Generate the initial message
-        [string] $logMessage = "Successfully executed the external command $($command)!";
+        [string] $logMessage = "Successfully executed the external command " + $command + "!";
 
         # Generate any additional information that might be useful
         [string] $logAdditionalMSG = ("Command that was executed: $($command)`r`n" + `
@@ -714,8 +714,8 @@ class CommonIO
                                     "`tExtCMD Exit Code: $($externalCommandReturnCode)");
 
         # Pass the information to the logging system
-        [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                    "$($logAdditionalMSG)", `       # Additional information
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
                                     [LogMessageLevel]::Verbose);    # Message level
 
         # * * * * * * * * * * * * * * * * * * *
@@ -762,7 +762,7 @@ class CommonIO
 
 
         # Put together the cached description
-        $cacheDescription = "$($command) $($arguments)";
+        $cacheDescription = $command + " " + $arguments;
 
         # Remove any illegal characters from the cached description.
         for ([int] $i = 0; $i -lt $illegalChars.Length; $i++)
@@ -782,7 +782,7 @@ class CommonIO
             [int] $cacheDescriptionDiscard = $cacheDescription.Length - $maxDescriptionLength;
 
             # Re-initialize the description but restricted length-limits.
-            $cacheDescription = "$($cacheDescription.Remove($maxDescriptionLength, $cacheDescriptionDiscard))";
+            $cacheDescription = $cacheDescription.Remove($maxDescriptionLength, $cacheDescriptionDiscard);
 
             # If in case, trim any trailing whitespace (if any)
             $cacheDescription = $cacheDescription.Trim();
@@ -852,7 +852,7 @@ class CommonIO
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $logTime        = $(Get-Date -UFormat "%d-%b-%y %H.%M.%S");            # Capture the current date and time.
+        [string] $logTime        = [string](Get-Date -UFormat "%d-%b-%y %H.%M.%S");     # Capture the current date and time.
         [string] $logStdErr      = "$($stdErrLogPath)\$($logTime)-$($description).err"; # Standard Error absolute log file path
         [string] $logStdOut      = "$($stdOutLogPath)\$($logTime)-$($description).out"; # Standard Out absolute log file path
         [string] $fileOutput     = $null;                                               # The absolute path of the file that will
@@ -870,12 +870,12 @@ class CommonIO
         if ($isReport)
         {
             # User is requesting a report file.
-            $fileOutput = "$($reportPath)";
+            $fileOutput = $reportPath;
         } # If: Generating a Report
         else
         {
             # User is requesting a logfile
-            $fileOutput = "$($LogStdOut)";
+            $fileOutput = $LogStdOut;
         } # Else: Generating a logfile
 
 
@@ -886,7 +886,7 @@ class CommonIO
 
         # Is there any data in the STDOUT?
         #  If so, we can continue to evaluate it.  Otherwise, skip over.
-        if ("$($outputResultOut.Value)" -ne "")
+        if ($null -eq $outputResultOut.Value)
         {
             # Should we store the STDOUT to a variable?
             if ($captureSTDOUT -eq $true)
@@ -906,12 +906,12 @@ class CommonIO
             ElseIf ($isReport -eq $true)
             {
                 # Write the data to the report file.
-                [CommonIO]::WriteToFile("$($reportPath)", "$($outputResultOut.Value)") | Out-Null;
+                [CommonIO]::WriteToFile($reportPath, $outputResultOut.Value) | Out-Null;
             } # If : Generating a Report
 
 
             # Store the Standard Out data to the logfile
-            [Logging]::WriteToLogFile("$($logStdOut)", "$($outputResultOut.Value)");
+            [Logging]::WriteToLogFile($logStdOut, $outputResultOut.Value);
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -928,8 +928,8 @@ class CommonIO
                                         "`t$($outputResultOut.Value)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -944,10 +944,10 @@ class CommonIO
 
 
         # Store the Standard Error in a logfile if there is any data at all?
-        If ("$($outputResultErr.Value)" -ne "")
+        If ($null -ne $outputResultErr.Value)
         {
             # Write the Standard Error to the logfile
-            [Logging]::WriteToLogFile("$($logStdErr)", "$($outputResultErr.Value)");
+            [Logging]::WriteToLogFile($logStdErr, $outputResultErr.Value);
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -964,8 +964,8 @@ class CommonIO
                                         "`t$($outputResultErr.Value)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1049,7 +1049,7 @@ class CommonIO
 
 
         # Check to see if the external command exists, if not - leave this function immediately.
-        if(([CommonIO]::DetectCommand("$($command)", "Application")) -eq $false)
+        if([CommonIO]::DetectCommand($command, "Application") -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -1064,8 +1064,8 @@ class CommonIO
                                         "`tArguments to be used: $($arguments)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1077,13 +1077,13 @@ class CommonIO
 
 
         # Setup the ProcessStartInfo Obj.
-        $processInfo.FileName               = "$($command)";        # Executable
-        $processInfo.Arguments              = "$($arguments)";      # Argument(s)
+        $processInfo.FileName               = $command;             # Executable
+        $processInfo.Arguments              = $arguments;           # Argument(s)
         $processInfo.RedirectStandardOutput = $true;                # Maintain STDOUT
         $processInfo.RedirectStandardError  = $true;                # Maintain STDERR
         $processInfo.UseShellExecute        = $false;               # Use the shell
         $processInfo.CreateNoWindow         = $true;                # Use the current console
-        $processInfo.WorkingDirectory       = "$($projectPath)";    # Execute in the Working Dir.
+        $processInfo.WorkingDirectory       = $projectPath;         # Execute in the Working Dir.
 
 
         # Setup the Process Obj.
@@ -1128,7 +1128,7 @@ class CommonIO
                                             "$([Logging]::GetExceptionInfoShort($_.Exception))");
 
             # Generate the initial message
-            [string] $logMessage = "A failure occurred upon executing the external command $($command)!";
+            [string] $logMessage = "A failure occurred upon executing the external command " + $command + "!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Command to execute: $($command)`r`n" + `
@@ -1136,13 +1136,13 @@ class CommonIO
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1165,7 +1165,7 @@ class CommonIO
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Successfully executed the extCMD $($command)!";
+            [string] $logMessage = "Successfully executed the extCMD " + $command + "!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Command that was executed: $($command)`r`n" + `
@@ -1173,8 +1173,8 @@ class CommonIO
                                         "`tExit code provided by extCMD: $($processExec.ExitCode)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1337,9 +1337,9 @@ class CommonIO
         try
         {
             # Try to write the information to the file
-            Out-File -LiteralPath "$($file)" `
+            Out-File -LiteralPath $file `
                      -Encoding $outFilePropertyEncoding `
-                     -InputObject "$($contents.Value.ToString())" `
+                     -InputObject $contents.Value.ToString() `
                      -NoClobber `
                      -Append `
                      -Width $outFilePropertyWidth;
@@ -1368,13 +1368,13 @@ class CommonIO
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1388,7 +1388,7 @@ class CommonIO
         Finally
         {
             # Assurance Fail-Safe; make sure that the file was successfully created on the filesystem.
-            if ([CommonIO]::CheckPathExists("$($file)", $true) -eq $false)
+            if ([CommonIO]::CheckPathExists($file, $true) -eq $false)
             {
                 # Operation failed because the file could not be found.  This is certainly odd?
 
@@ -1410,13 +1410,13 @@ class CommonIO
                                             "`t`t$($contents.Value)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
                                             [LogMessageLevel]::Error);  # Message level
 
                 # Display a message to the user that something went horribly wrong
                 #  and log that same message for referencing purpose.
-                [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                             [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -1495,7 +1495,7 @@ class CommonIO
         # ---------------------------
 
         # Check to make sure that the source file exists.
-        if ([CommonIO]::CheckPathExists("$($sourceFile)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists($sourceFile, $true) -eq $false)
         {
             # The target file does not exist.
 
@@ -1517,13 +1517,13 @@ class CommonIO
                                         "`tDestination file: $($destinationFile)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1546,7 +1546,7 @@ class CommonIO
         # First try to see if the host system has Microsoft Word installed,
         #  if so, we can proceed through the rest of this function, otherwise
         #  we must immediately stop.
-        if ($(Test-Path HKLM:SOFTWARE\Classes\Word.Application) -eq $true)
+        if ((Test-Path HKLM:SOFTWARE\Classes\Word.Application) -eq $true)
         {
             # Microsoft Word was detected; try to create a new instance
             #  of the process.
@@ -1580,13 +1580,13 @@ class CommonIO
                                             "$([Logging]::GetExceptionInfo($_.Exception))");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
                                             [LogMessageLevel]::Error);  # Message level
 
                 # Display a message to the user that something went horribly wrong
                 #  and log that same message for referencing purpose.
-                [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                             [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -1611,8 +1611,8 @@ class CommonIO
                                             "`tDestination File: $($destinationFile)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                            "$($logAdditionalMSG)", `       # Additional information
+                [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                            $logAdditionalMSG, `            # Additional information
                                             [LogMessageLevel]::Verbose);    # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -1646,13 +1646,13 @@ class CommonIO
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1690,7 +1690,7 @@ class CommonIO
         #    It is far better to open the existing document and work with that directly.
 
         # Open the document directly.
-        $wordDocument = $msWord.Documents.Open("$($sourceFile)");
+        $wordDocument = $msWord.Documents.Open($sourceFile);
 
 
 
@@ -1732,7 +1732,7 @@ class CommonIO
 
 
         # Check to make sure that the PDF file was saved properly.
-        if ([CommonIO]::CheckPathExists("$($destinationFile)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists($destinationFile, $true) -eq $false)
         {
             # The PDF was not found.
 
@@ -1752,13 +1752,13 @@ class CommonIO
                                         "`tDestination file: $($destinationFile)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1786,8 +1786,8 @@ class CommonIO
                                         "`tDestination file: $($destinationFile)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1938,10 +1938,10 @@ class CommonIO
 
 
         # First, does the parent of the temporary directory already exist?
-        if ($([CommonIO]::CheckPathExists("$($tempDirectoryPath)", $true)) -eq $false)
+        if ([CommonIO]::CheckPathExists($tempDirectoryPath, $true) -eq $false)
         {
             # Because the temporary directory does not exist, try to create it.
-            if ($([CommonIO]::MakeDirectory("$($tempDirectoryPath)")) -eq $false)
+            if ([CommonIO]::MakeDirectory($tempDirectoryPath) -eq $false)
             {
                 # Failed to create the parent temporary directory.
 
@@ -1954,7 +1954,7 @@ class CommonIO
                 [string] $displayErrorMessage = "Unable to create the parent temporary directory!";
 
                 # Generate the initial message
-                [string] $logMessage = "$($displayErrorMessage)";
+                [string] $logMessage = $displayErrorMessage;
 
                 # Generate any additional information that might be useful
                 [string] $logAdditionalMSG = ("Possible symptoms:`r`n" + `
@@ -1964,13 +1964,13 @@ class CommonIO
                                         "`tPath of the parent temporary directory: $($tempDirectoryPath)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
                                             [LogMessageLevel]::Error);  # Message level
 
                 # Display a message to the user that something went horribly wrong
                 #  and log that same message for referencing purpose.
-                [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                             [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -1982,7 +1982,7 @@ class CommonIO
             } # inner-if : Create Directory Failed
 
             # Make sure that the parent temporary directory exists (after creating it)
-            elseif ($([CommonIO]::CheckPathExists("$($tempDirectoryPath)", $true)) -eq $false)
+            elseif ([CommonIO]::CheckPathExists($tempDirectoryPath, $true) -eq $false)
             {
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -1997,16 +1997,16 @@ class CommonIO
                 [string] $logMessage = "Created the parent temporary directory but unable to find it!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Path of the parent temporary directory: $($tempDirectoryPath)");
+                [string] $logAdditionalMSG = "Path of the parent temporary directory: " + $tempDirectoryPath;
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
                                             [LogMessageLevel]::Error);  # Message level
 
                 # Display a message to the user that something went horribly wrong
                 #  and log that same message for referencing purpose.
-                [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                             [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -2026,11 +2026,11 @@ class CommonIO
                 [string] $logMessage = "Successfully created the parent temporary directory!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = "Path of the parent temporary directory: $($tempDirectoryPath)";
+                [string] $logAdditionalMSG = "Path of the parent temporary directory: " + $tempDirectoryPath;
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                            "$($logAdditionalMSG)", `       # Additional information
+                [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                            $logAdditionalMSG, `            # Additional information
                                             [LogMessageLevel]::Verbose);    # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -2058,7 +2058,7 @@ class CommonIO
 
         # First, we should check if the directory already exists.
         #  If the directory already exists, try to make it unique.
-        if ($([CommonIO]::CheckPathExists("$($directoryPath.Value)", $true)) -eq $true)
+        if ([CommonIO]::CheckPathExists($directoryPath.Value, $true) -eq $true)
         {
             # Because the directory already exists, we need to make
             #  it unique to avoid data conflicts.
@@ -2071,7 +2071,7 @@ class CommonIO
             # Find a unique name
             while($status)
             {
-                if($([CommonIO]::CheckPathExists("$($directoryPath.Value).$($repetitionCount)", $true)) -eq $false)
+                if([CommonIO]::CheckPathExists("$($directoryPath.Value).$($repetitionCount)", $true) -eq $false)
                 {
                     # We found a unique name, now record it
                     $directoryPath.Value = "$($directoryPath.Value).$($repetitionCount)";
@@ -2095,7 +2095,7 @@ class CommonIO
                     [string] $displayErrorMessage = "Failed to create a unique temporary directory!";
 
                     # Generate the initial message
-                    [string] $logMessage = "$($displayErrorMessage)";
+                    [string] $logMessage = $displayErrorMessage;
 
                     # Generate any additional information that might be useful
                     [string] $logAdditionalMSG = ("Reached repetition max threshold!`r`n" + `
@@ -2103,13 +2103,13 @@ class CommonIO
                                                 "`tRepetition Counter is: $($repetitionCount)");
 
                     # Pass the information to the logging system
-                    [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                                "$($logAdditionalMSG)", `   # Additional information
+                    [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                                $logAdditionalMSG, `        # Additional information
                                                 [LogMessageLevel]::Error);  # Message level
 
                     # Display a message to the user that something went horribly wrong
                     #  and log that same message for referencing purpose.
-                    [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                    [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                                 [LogMessageLevel]::Error);  # Message level
 
                     # * * * * * * * * * * * * * * * * * * *
@@ -2127,7 +2127,7 @@ class CommonIO
 
 
         # Now that we have the name of the temporary sub-directory, create it
-        if ($([CommonIO]::MakeDirectory("$($directoryPath.Value)")) -eq $false)
+        if ([CommonIO]::MakeDirectory($directoryPath.Value) -eq $false)
         {
             # Failed to create the temporary directory.
 
@@ -2140,7 +2140,7 @@ class CommonIO
             [string] $displayErrorMessage = "Unable to create a working temporary directory!";
 
             # Generate the initial message
-            [string] $logMessage = "$($displayErrorMessage)";
+            [string] $logMessage = $displayErrorMessage;
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Possible Symptoms:`r`n" + `
@@ -2150,13 +2150,13 @@ class CommonIO
                                         "`tPath of the temporary directory: $($directoryPath.Value)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2184,8 +2184,8 @@ class CommonIO
                                         "`tRepetition counter threshold was: $($repetitionMax)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2193,7 +2193,7 @@ class CommonIO
 
 
         # Just for assurance sakes, does the directory exist?
-        if ($([CommonIO]::CheckPathExists("$($directoryPath.Value)", $true)) -eq $false)
+        if ([CommonIO]::CheckPathExists($directoryPath.Value, $true) -eq $false)
         {
             # The temporary directory was created, but we can't find it?
 
@@ -2213,13 +2213,13 @@ class CommonIO
                                         "`tPath of the temporary directory: $($directoryPath.Value)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2263,7 +2263,7 @@ class CommonIO
         # Check to see if the path already exists, if it already exists -
         #  then there is nothing to be done.  If it does not exist, however,
         #  then try to create the requested directory.
-        if (([CommonIO]::CheckPathExists("$($path)", $true)) -eq $false)
+        if ([CommonIO]::CheckPathExists($path, $true) -eq $false)
         {
             # The requested path does not exist, try to create it.
             try
@@ -2272,7 +2272,7 @@ class CommonIO
                 [System.IO.DirectoryInfo] $debugInformation = $null;
 
                 # Try to create the directory; if failure - stop.
-                $debugInformation = New-Item -Path "$($path)" `
+                $debugInformation = New-Item -Path $path `
                                             -ItemType Directory `
                                             -ErrorAction Stop;
 
@@ -2297,8 +2297,8 @@ class CommonIO
                                             "$($debugInformationDirectory)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                            "$($logAdditionalMSG)", `       # Additional information
+                [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                            $logAdditionalMSG, `            # Additional information
                                             [LogMessageLevel]::Verbose);    # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -2329,13 +2329,13 @@ class CommonIO
                                             "$([Logging]::GetExceptionInfo($_.Exception))");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
                                             [LogMessageLevel]::Error);  # Message level
 
                 # Display a message to the user that something went horribly wrong
                 #  and log that same message for referencing purpose.
-                [Logging]::DisplayMessage("$($displayErrorMessage)", `  # Message to display
+                [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                             [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -2356,11 +2356,11 @@ class CommonIO
             [string] $logMessage = "Skipping request to create a new directory because it already exists!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "Directory Path: $($path)";
+            [string] $logAdditionalMSG = "Directory Path: " + $path;
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2412,7 +2412,7 @@ class CommonIO
         # Perform the requested check on the path:
         #  - Literal path (or Absolute path)
         if(($literalSwitch -eq $true) -and `
-            (Test-Path -LiteralPath "$($path)" -ErrorAction SilentlyContinue) -eq $true)
+            ((Test-Path -LiteralPath $path -ErrorAction SilentlyContinue) -eq $true))
         {
             # Directory or file exists
             $exitCode = $true;
@@ -2420,7 +2420,7 @@ class CommonIO
 
 
         #  - Relative path
-        elseif((Test-Path -Path "$($path)" -ErrorAction SilentlyContinue) -eq $true)
+        elseif((Test-Path -Path $path -ErrorAction SilentlyContinue) -eq $true)
         {
             # Directory or file exists
             $exitCode = $true;
@@ -2448,9 +2448,9 @@ class CommonIO
         [string] $logAdditionalMSG = $null;
 
         # Pass the information to the logging system
-        [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                    "$($logAdditionalMSG)", `   # Additional information
-                                    "$($msgLevel)");            # Message level
+        [Logging]::LogProgramActivity($logMessage, `        # Initial message
+                                    $logAdditionalMSG, `    # Additional information
+                                    $msgLevel);             # Message level
 
         # * * * * * * * * * * * * * * * * * * *
 
@@ -2490,7 +2490,7 @@ class CommonIO
     static [bool] DeleteDirectory([string] $path)
     {
         # First check to see if the directory exists.  If not, then there is nothing to do.
-        if(([CommonIO]::CheckPathExists("$($path)", $true)) -eq $false)
+        if([CommonIO]::CheckPathExists($path, $true) -eq $false)
         {
             # The directory does not exist; no operation can be performed.
 
@@ -2503,11 +2503,11 @@ class CommonIO
             [string] $logMessage = "Cannot delete the directory as requested because the path was not existent!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "Directory Path: $($path)";
+            [string] $logAdditionalMSG = "Directory Path: " + $path;
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2526,7 +2526,7 @@ class CommonIO
             [System.Management.Automation.VerboseRecord[]] $debugInformation = $null;
 
             # Remove the directory as requested.
-            $debugInformation = Remove-Item -LiteralPath "$($path)" `
+            $debugInformation = Remove-Item -LiteralPath $path `
                                             -Force `
                                             -Recurse `
                                             -Verbose `
@@ -2566,8 +2566,8 @@ class CommonIO
                                         "`t-----------------------------------------------------------");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2594,8 +2594,8 @@ class CommonIO
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2647,7 +2647,7 @@ class CommonIO
     {
         # First check to see if the directory exists,
         #  if not, then there is nothing to do.
-        if(([CommonIO]::CheckPathExists("$($path)", $true)) -eq $false)
+        if([CommonIO]::CheckPathExists($path, $true) -eq $false)
         {
             # The directory does not exist; no operations can be performed.
 
@@ -2657,7 +2657,7 @@ class CommonIO
             # --------------
 
             # Extra Step: Break Down the 'includes' array to a single string
-            [string] $includesStr = "";
+            [string] $includesStr = $null;
 
             # Append all of the strings from each index from the array - to a single string var.
             foreach ($item in $includes)
@@ -2675,8 +2675,8 @@ class CommonIO
                                         "$($includesStr)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2696,7 +2696,7 @@ class CommonIO
 
             # Remove the requested files.
             $debugInformation = Remove-Item -Path "$($path)\*" `
-                                            -Include $($includes) `
+                                            -Include $includes `
                                             -Force `
                                             -Verbose `
                                             -ErrorAction Stop 4>&1;
@@ -2727,7 +2727,7 @@ class CommonIO
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
             # Extra Step: Break Down the 'includes' array to a single string
-            [string] $includesStr = "";
+            [string] $includesStr = $null;
 
             # Append all of the strings from each index from the array - to a single string var.
             foreach ($item in $includes)
@@ -2752,8 +2752,8 @@ class CommonIO
                                         "`t-----------------------------------------------------------");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2773,7 +2773,7 @@ class CommonIO
             # --------------
 
             # Extra Step: Break Down the 'includes' array to a single string
-            [string] $includesStr = "";
+            [string] $includesStr = $null;
 
             # Append all of the strings from each index from the array - to a single string var.
             foreach ($item in $includes)
@@ -2792,8 +2792,8 @@ class CommonIO
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
             # * * * * * * * * * * * * * * * * * * *
         } # Catch : Error Deleting Files
@@ -2834,7 +2834,7 @@ class CommonIO
                             [string] $newName)      # The new name we want to identify the object.
     {
         # First make sure that the file or directory exists
-        if ([CommonIO]::CheckPathExists("$($path)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists($path, $true) -eq $false)
         {
             # The directory or file does not exist; no operations can be performed.
 
@@ -2851,8 +2851,8 @@ class CommonIO
                                         "`tNew Requested Name: $($newName)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2882,8 +2882,8 @@ class CommonIO
                                         "`tNew Requested Name: $($newName)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2901,8 +2901,8 @@ class CommonIO
             [System.Management.Automation.VerboseRecord] $debugInformation = $null;
 
             # Rename the item as requested
-            $debugInformation = Rename-Item -LiteralPath "$($path)" `
-                                            -NewName "$($newName)" `
+            $debugInformation = Rename-Item -LiteralPath $path `
+                                            -NewName $newName `
                                             -Force `
                                             -Verbose `
                                             -ErrorAction Stop 4>&1;
@@ -2924,8 +2924,8 @@ class CommonIO
                                         "`t-----------------------------------------------------------");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2951,8 +2951,8 @@ class CommonIO
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2994,7 +2994,7 @@ class CommonIO
                                 [string] $destinationPath)      # The new destination path that we want to relocate too.
     {
         # First make sure that the target directory exists with the given path.
-        if ([CommonIO]::CheckPathExists("$($targetDirectory)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists($targetDirectory, $true) -eq $false)
         {
             # The target directory does not exist; no operations can be performed.
 
@@ -3012,8 +3012,8 @@ class CommonIO
                                         "`tDestination Path: $($destinationPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3026,7 +3026,7 @@ class CommonIO
 
 
         # Second make sure that the destination path is valid.
-        if ([CommonIO]::CheckPathExists("$($destinationPath)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists($destinationPath, $true) -eq $false)
         {
             # The destination path does not exist; no operations can be performed.
 
@@ -3044,8 +3044,8 @@ class CommonIO
                                         "`tDestination Path: $($destinationPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3064,8 +3064,8 @@ class CommonIO
             [System.Management.Automation.VerboseRecord] $debugInformation = $null;
 
             # Move the directory as requested
-            $debugInformation = Move-Item -LiteralPath "$($targetDirectory)" `
-                                            -Destination "$($destinationPath)" `
+            $debugInformation = Move-Item -LiteralPath $targetDirectory `
+                                            -Destination $destinationPath `
                                             -Force `
                                             -Verbose `
                                             -ErrorAction Stop 4>&1;
@@ -3087,8 +3087,8 @@ class CommonIO
                                         "`t-----------------------------------------------------------");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3114,8 +3114,8 @@ class CommonIO
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3167,7 +3167,7 @@ class CommonIO
                             [string[]] $includes)           # The file(s) that we want to relocate from the target directory
     {
         # First make sure that the target directory exists with the given path.
-        if ([CommonIO]::CheckPathExists("$($targetDirectory)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists($targetDirectory, $true) -eq $false)
         {
             # The target directory does not exist; no operations can be performed.
 
@@ -3177,7 +3177,7 @@ class CommonIO
             # --------------
 
             # Extra Step: Break Down the 'includes' array to a single string
-            [string] $includesStr = "";
+            [string] $includesStr = $null;
 
             # Append all of the strings from each index from the array - to a single string var.
             foreach ($item in $includes)
@@ -3196,8 +3196,8 @@ class CommonIO
                                         "$($includesStr)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3210,7 +3210,7 @@ class CommonIO
 
 
         # Second make sure that the destination path is valid.
-        if ([CommonIO]::CheckPathExists("$($destinationPath)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists($destinationPath, $true) -eq $false)
         {
             # The destination path does not exist; no operations can be performed.
 
@@ -3220,7 +3220,7 @@ class CommonIO
             # --------------
 
             # Extra Step: Break Down the 'includes' array to a single string
-            [string] $includesStr = "";
+            [string] $includesStr = $null;
 
             # Append all of the strings from each index from the array - to a single string var.
             foreach ($item in $includes)
@@ -3239,8 +3239,8 @@ class CommonIO
                                         "$($includesStr)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3260,7 +3260,7 @@ class CommonIO
 
             # Move the file(s) as requested
             $debugInformation = Move-Item -Path "$($targetDirectory)\*" `
-                                            -Destination "$($destinationPath)" `
+                                            -Destination $destinationPath `
                                             -Include $includes `
                                             -Force `
                                             -Verbose `
@@ -3292,7 +3292,7 @@ class CommonIO
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
             # Extra Step: Break Down the 'includes' array to a single string
-            [string] $includesStr = "";
+            [string] $includesStr = $null;
 
             # Append all of the strings from each index from the array - to a single string var.
             foreach ($item in $includes)
@@ -3318,8 +3318,8 @@ class CommonIO
                                         "`t-----------------------------------------------------------");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3337,7 +3337,7 @@ class CommonIO
             # --------------
 
             # Extra Step: Break Down the 'includes' array to a single string
-            [string] $includesStr = "";
+            [string] $includesStr = $null;
 
             # Append all of the strings from each index from the array - to a single string var.
             foreach ($item in $includes)
@@ -3357,8 +3357,8 @@ class CommonIO
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3402,7 +3402,7 @@ class CommonIO
                                 [string] $destinationPath)      # The destination directory to place duplicated data
     {
         # First make sure that the target directory exists with the given path.
-        if ([CommonIO]::CheckPathExists("$($targetDirectory)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists($targetDirectory, $true) -eq $false)
         {
             # The target directory does not exist; no operations can be performed.
 
@@ -3419,8 +3419,8 @@ class CommonIO
                                         "`tDestination Path: $($destinationPath)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3433,11 +3433,11 @@ class CommonIO
 
 
         # Second make sure that the destination path is valid.
-        if ([CommonIO]::CheckPathExists("$($destinationPath)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists($destinationPath, $true) -eq $false)
         {
             # Because the destination path does not exist, let's try to create it.
 
-            if ([CommonIO]::MakeDirectory("$($destinationPath)") -eq $false)
+            if ([CommonIO]::MakeDirectory($destinationPath) -eq $false)
             {
                 # The destination path does not exist; no operations can be performed.
 
@@ -3455,8 +3455,8 @@ class CommonIO
                                             "`tDestination Path: $($destinationPath)");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
                                             [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -3476,8 +3476,8 @@ class CommonIO
             [System.Management.Automation.VerboseRecord[]] $debugInformation = $null;
 
             # Copy the directory as requested
-            $debugInformation = Copy-Item -LiteralPath "$($targetDirectory)" `
-                                            -Destination "$($destinationPath)" `
+            $debugInformation = Copy-Item -LiteralPath $targetDirectory `
+                                            -Destination $destinationPath `
                                             -Recurse `
                                             -Force `
                                             -Verbose `
@@ -3518,8 +3518,8 @@ class CommonIO
                                         "`t-----------------------------------------------------------");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3545,8 +3545,8 @@ class CommonIO
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3599,7 +3599,7 @@ class CommonIO
                         [string[]] $includes)               # The file(s) that we want to duplicate from the target directory
     {
         # First make sure that the target directory exists with the given path.
-        if ([CommonIO]::CheckPathExists("$($targetDirectory)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists($targetDirectory, $true) -eq $false)
         {
             # The target directory does not exist; no operations can be performed.
 
@@ -3609,7 +3609,7 @@ class CommonIO
             # --------------
 
             # Extra Step: Break Down the 'includes' array to a single string
-            [string] $includesStr = "";
+            [string] $includesStr = $null;
 
             # Append all of the strings from each index from the array - to a single string var.
             foreach ($item in $includes)
@@ -3628,8 +3628,8 @@ class CommonIO
                                         "$($includesStr)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3642,7 +3642,7 @@ class CommonIO
 
 
         # Second make sure that the destination path is valid.
-        if ([CommonIO]::CheckPathExists("$($destinationPath)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists($destinationPath, $true) -eq $false)
         {
             # The destination path does not exist; no operations can be performed.
 
@@ -3652,7 +3652,7 @@ class CommonIO
             # --------------
 
             # Extra Step: Break Down the 'includes' array to a single string
-            [string] $includesStr = "";
+            [string] $includesStr = $null;
 
             # Append all of the strings from each index from the array - to a single string var.
             foreach ($item in $includes)
@@ -3671,8 +3671,8 @@ class CommonIO
                                         "$($includesStr)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3692,7 +3692,7 @@ class CommonIO
 
             # Copy the directory as requested
             $debugInformation = Copy-Item -Path "$($targetDirectory)\*" `
-                                            -Destination "$($destinationPath)" `
+                                            -Destination $destinationPath `
                                             -Include $includes `
                                             -Force `
                                             -Verbose `
@@ -3724,7 +3724,7 @@ class CommonIO
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
             # Extra Step: Break Down the 'includes' array to a single string
-            [string] $includesStr = "";
+            [string] $includesStr = $null;
 
             # Append all of the strings from each index from the array - to a single string var.
             foreach ($item in $includes)
@@ -3750,8 +3750,8 @@ class CommonIO
                                         "`t-----------------------------------------------------------");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3769,7 +3769,7 @@ class CommonIO
             # --------------
 
             # Extra Step: Break Down the 'includes' array to a single string
-            [string] $includesStr = "";
+            [string] $includesStr = $null;
 
             # Append all of the strings from each index from the array - to a single string var.
             foreach ($item in $includes)
@@ -3789,8 +3789,8 @@ class CommonIO
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3840,11 +3840,11 @@ class CommonIO
             [string] $logMessage = "Unable to determine the item type (file or directory) because there was no path provided!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "Target Item Path given: $($targetItem)";
+            [string] $logAdditionalMSG = "Target Item Path given: " + $targetItem;
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3857,7 +3857,7 @@ class CommonIO
 
 
         # Then make sure that the target item or path exists
-        if ([CommonIO]::CheckPathExists("$($targetItem)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists($targetItem, $true) -eq $false)
         {
             # The target item does not exist; no operations can be performed.
 
@@ -3870,11 +3870,11 @@ class CommonIO
             [string] $logMessage = "Unable to determine the item type (file or directory) because the path does not exist!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "Target Item Path: $($targetItem)";
+            [string] $logAdditionalMSG = "Target Item Path: " + $targetItem;
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3887,7 +3887,7 @@ class CommonIO
 
 
         # Is the target item a directory?
-        if ((Get-Item -LiteralPath "$($targetItem)") -is [System.IO.DirectoryInfo])
+        if ((Get-Item -LiteralPath $targetItem) -is [System.IO.DirectoryInfo])
         {
             # The item is a directory.
 
@@ -3900,11 +3900,11 @@ class CommonIO
             [string] $logMessage = "The item has been identified as a Directory.";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "Target Item Path: $($targetItem)";
+            [string] $logAdditionalMSG = "Target Item Path: " + $targetItem;
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3915,7 +3915,7 @@ class CommonIO
         } # If : Target item was a Directory
 
         # Is the target item a file?
-        elseif ((Get-Item -LiteralPath "$($targetItem)") -is [System.IO.FileInfo])
+        elseif ((Get-Item -LiteralPath $targetItem) -is [System.IO.FileInfo])
         {
             # The item is a file
 
@@ -3928,11 +3928,11 @@ class CommonIO
             [string] $logMessage = "The item has been identified as a File.";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "Target Item Path: $($targetItem)";
+            [string] $logAdditionalMSG = "Target Item Path: " + $targetItem;
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -3956,11 +3956,11 @@ class CommonIO
             [string] $logMessage = "Unable to identify the target item as either a directory or a file, the target item is unknown!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "Target Item Path: $($targetItem)";
+            [string] $logAdditionalMSG = "Target Item Path: " + $targetItem;
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -4013,7 +4013,7 @@ class CommonIO
 
         # Make sure that the directory we want to inspect presently exist with the
         #  given path.
-        if ([CommonIO]::CheckPathExists("$($searchPath)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists($searchPath, $true) -eq $false)
         {
             # The parent directory does not exist; no operations can be performed.
 
@@ -4030,8 +4030,8 @@ class CommonIO
                                         "`tFile(s) to find: $($searchFile)`r`n");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -4046,8 +4046,8 @@ class CommonIO
         # Try to find the requested file withing the provided path.
         try
         {
-            $searchResults = Get-ChildItem -LiteralPath "$($searchPath)" `
-                                            -Filter "$($searchFile)" `
+            $searchResults = Get-ChildItem -LiteralPath $searchPath `
+                                            -Filter $searchFile `
                                             -Recurse `
                                             -ErrorAction Stop;
 
@@ -4077,8 +4077,8 @@ class CommonIO
                                         "`t-----------------------------------------------------------");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -4102,8 +4102,8 @@ class CommonIO
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -4154,7 +4154,7 @@ class CommonIO
 
 
         # Check if the source file actually exists within the user's filesystem
-        if ([CommonIO]::CheckPathExists("$($path)", $true) -eq $false)
+        if ([CommonIO]::CheckPathExists($path, $true) -eq $false)
         {
             # The source file was not found.
 
@@ -4171,8 +4171,8 @@ class CommonIO
                                         "`tRequested Hash Algorithm: $($hashAlgorithm)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -4190,8 +4190,8 @@ class CommonIO
             # Try to get the hash of the file and cache it.
             #  NOTE: Do not try to out-right store the 'hash' value explicitly as
             #        this causes a performance to degrade when an issue creeps up.
-            $hashInfo = Get-FileHash -LiteralPath "$($path)" `
-                                    -Algorithm "$($hashAlgorithm)" `
+            $hashInfo = Get-FileHash -LiteralPath $path `
+                                    -Algorithm $hashAlgorithm `
                                     -ErrorAction Stop;
 
 
@@ -4208,8 +4208,8 @@ class CommonIO
                                         "`tHash value is: $($hashInfo.Hash)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                        "$($logAdditionalMSG)", `       # Additional information
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -4234,8 +4234,8 @@ class CommonIO
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `       # Initial message
+                                        $logAdditionalMSG, `   # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
@@ -4243,7 +4243,7 @@ class CommonIO
 
 
         # Return the hash value of the file - if it was present.
-        return "$($hashInfo.Hash)";
+        return [string]($hashInfo.Hash);
     } # FileHash()
 
     #endregion
@@ -4265,7 +4265,7 @@ class CommonIO
     static [string] GetTerminalWindowTitle()
     {
         # Return the Window Title as a string
-        return "$([string]($($Global:Host.UI.RawUI.WindowTitle)))";
+        return [string]($Global:Host.UI.RawUI.WindowTitle);
     } # GetTerminalWindowTitle()
 
 
@@ -4283,7 +4283,7 @@ class CommonIO
     #>
     static [void] SetTerminalWindowTitle([string] $newTitle)
     {
-        $Global:Host.UI.RawUI.WindowTitle = "$($newTitle)";
+        $Global:Host.UI.RawUI.WindowTitle = $newTitle;
     } # SetTerminalWindowTitle()
 
     #endregion
@@ -4325,7 +4325,7 @@ class CommonIO
                 [System.Management.Automation.VerboseRecord] $debugInformation = $null;
 
                 # Open the webpage as requested
-                $debugInformation = Start-Process -FilePath "$($URLAddress)" `
+                $debugInformation = Start-Process -FilePath $URLAddress `
                                                 -Verbose `
                                                 -ErrorAction Stop 4>&1;
 
@@ -4346,8 +4346,8 @@ class CommonIO
                                             "`t-----------------------------------------------------------");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `           # Initial message
-                                            "$($logAdditionalMSG)", `       # Additional information
+                [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                            $logAdditionalMSG, `            # Additional information
                                             [LogMessageLevel]::Verbose);    # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -4375,8 +4375,8 @@ class CommonIO
                                             "$([Logging]::GetExceptionInfo($_.Exception))");
 
                 # Pass the information to the logging system
-                [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                            "$($logAdditionalMSG)", `   # Additional information
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
                                             [LogMessageLevel]::Error);  # Message level
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -4400,8 +4400,8 @@ class CommonIO
                                         "`t`t$($URLAddress)");
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity("$($logMessage)", `       # Initial message
-                                        "$($logAdditionalMSG)", `   # Additional information
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
