@@ -856,7 +856,7 @@ class Builder
 
 
         # Determine the core file name of the archive data file.
-        $archiveFileName = "$([ProjectInformation]::fileName)";
+        $archiveFileName = [ProjectInformation]::fileName;
 
 
 
