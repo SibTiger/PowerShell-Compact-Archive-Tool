@@ -294,10 +294,10 @@ class CommonCUI
     #   below the current menu item that is being drawn.
     # -------------------------------
     #>
-    static [void] DrawMenuItem([char] $itemKey,                 # The hotkey for the menu item
-                                [string] $itemDescription,      # Brief description of the menu item
-                                [string] $itemSubDescription,   # More information regarding the item (Optional)
-                                [string] $itemCurrentSetting,   # Provides an brief outlook regarding the current setting.
+    static [void] DrawMenuItem([char] $itemKey, `               # The hotkey for the menu item
+                                [string] $itemDescription, `    # Brief description of the menu item
+                                [string] $itemSubDescription, ` # More information regarding the item (Optional)
+                                [string] $itemCurrentSetting, ` # Provides an brief outlook regarding the current setting.
                                 [bool] $insertNewWhiteSpace)    # Provide a Whitespace to separate each menu items
     {
         # Declarations and Initializations
