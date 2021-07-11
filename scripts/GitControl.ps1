@@ -1411,7 +1411,7 @@ class GitControl
 
 
         # Make sure that the Project Directory exists within the provided path.
-        if ($([CommonIO]::CheckPathExists($projectPath, $true)) -eq $false)
+        if ([CommonIO]::CheckPathExists($projectPath, $true) -eq $false)
         {
             # The project directory does not exist with the provided path, unable to proceed forward.
 
