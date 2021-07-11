@@ -657,8 +657,8 @@
             [string] $logMessage = "Unable to load the user's configuration file; User Configuration Directory or User Configuration File was not found!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("User Configuration Directory: $($this.GetConfigPath())`r`n" +
-                                        "`tUser Configuration File: $($this.GetConfigFileName())");
+            [string] $logAdditionalMSG = ("User Configuration Directory: $($this.GetConfigPath())`r`n" + `
+                                            "`tUser Configuration File: $($this.GetConfigFileName())");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -700,8 +700,8 @@
                 [string] $logMessage = "Successfully loaded the user's configurations and is loaded into the program's environment!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("User Configuration Directory: $($this.GetConfigPath())`r`n" +
-                                            "`tUser Configuration File: $($this.GetConfigFileName())");
+                [string] $logAdditionalMSG = ("User Configuration Directory: $($this.GetConfigPath())`r`n" + `
+                                                "`tUser Configuration File: $($this.GetConfigFileName())");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity($logMessage, `                # Initial message

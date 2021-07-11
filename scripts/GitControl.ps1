@@ -1114,7 +1114,7 @@ class GitControl
             [string] $logMessage = "Unable to find the Git executable as the path was not valid!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "Git Executable Path is: $($this.GetExecutablePath())";
+            [string] $logAdditionalMSG = "Git Executable Path is: " + $this.GetExecutablePath();
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
