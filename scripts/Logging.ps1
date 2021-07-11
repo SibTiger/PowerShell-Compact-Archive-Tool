@@ -192,7 +192,7 @@ class Logging
 
 
         # Check the Program Log Directory
-        if (([CommonIO]::CheckPathExists("$([Logging]::ProgramLogPath)", $true)) -eq $true)
+        if (([CommonIO]::CheckPathExists([Logging]::ProgramLogPath, $true)) -eq $true)
         {
             # All of the required directories are present within the filesystem
             $exitCode = $true;
@@ -295,10 +295,10 @@ class Logging
         #  within the program.
 
         # Program Log Directory
-        if(([CommonIO]::CheckPathExists("$([Logging]::ProgramLogPath)", $true)) -eq $false)
+        if([CommonIO]::CheckPathExists([Logging]::ProgramLogPath, $true) -eq $false)
         {
             # Program's Log Directory does not exist, try to create it.
-            if (([CommonIO]::MakeDirectory("$([Logging]::ProgramLogPath)")) -eq $false)
+            if ([CommonIO]::MakeDirectory([Logging]::ProgramLogPath) -eq $false)
             {
                 # If this function is controlling the Logging Lock Key, unlock it now - before leaving.
                 if($controlLockKey)
@@ -822,7 +822,7 @@ class Logging
 
 
         # Because the logging directory exist, lets try to thrash the log files.
-        elseif (([CommonIO]::DeleteFile("$([Logging]::ProgramLogPath)", $extLogs)) -eq $false)
+        elseif ([CommonIO]::DeleteFile([Logging]::ProgramLogPath, $extLogs) -eq $false)
         {
             # Failure to remove the requested files
             $exitCode = $false;
