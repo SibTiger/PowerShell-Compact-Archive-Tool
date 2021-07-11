@@ -64,16 +64,16 @@ class DefaultCompress
     # Get the instance of this singleton object (With Args)
     #  Useful if we already know that we have to instantiate
     #  a new instance of this particular object.
-    static [DefaultCompress] GetInstance([DefaultCompressionLevel] $compressionLevel,   # Compression Level
-                                        [bool] $verifyBuild,                            # Verify Archive datafile
+    static [DefaultCompress] GetInstance([DefaultCompressionLevel] $compressionLevel, ` # Compression Level
+                                        [bool] $verifyBuild, `                          # Verify Archive datafile
                                         [bool] $generateReport)                         # Create report
     {
         # if there was no previous instance of the object - then create one.
         if ($null -eq [DefaultCompress]::_instance)
         {
             # Create a new instance of the singleton object.
-            [DefaultCompress]::_instance = [DefaultCompress]::new($compressionLevel,
-                                                                    $verifyBuild,
+            [DefaultCompress]::_instance = [DefaultCompress]::new($compressionLevel, `
+                                                                    $verifyBuild, `
                                                                     $generateReport);
         } # If: No Singleton Instance
 
@@ -182,8 +182,8 @@ class DefaultCompress
 
 
     # User Preference : On-Load
-    DefaultCompress([DefaultCompressionLevel] $compressionLevel,
-                    [bool] $verifyBuild,
+    DefaultCompress([DefaultCompressionLevel] $compressionLevel, `
+                    [bool] $verifyBuild, `
                     [bool] $generateReport)
     {
         # Compression Level
@@ -1429,7 +1429,7 @@ class DefaultCompress
     #       $null - signifies that something went horribly wrong.
     # -------------------------------
     #>
-    [string] ListFiles([string] $file,          # The archive data file we want to examine
+    [string] ListFiles([string] $file, `        # The archive data file we want to examine
                         [bool] $showTechInfo)   # Provide technical information about each file in archive file
     {
         # Declarations and Initializations
@@ -1764,8 +1764,8 @@ class DefaultCompress
     #    $true  = Successfully extracted the contents
     # -------------------------------
     #>
-    [bool] ExtractArchive([string] $file,           # The archive file we want to extract the data from
-                        [string] $outputPath,       # The desired path we want to store the extracted data
+    [bool] ExtractArchive([string] $file, `         # The archive file we want to extract the data from
+                        [string] $outputPath, `     # The desired path we want to store the extracted data
                         [ref] $directoryOutput)     # The extracting directory of where the contents had been placed
     {
         # Declarations and Initializations
@@ -2301,10 +2301,10 @@ class DefaultCompress
     #    $true  = Successfully created the archive file.
     # -------------------------------
     #>
-    [bool] CreateArchive([string] $archiveFileNameRequest,  # The name of the archive that will be created
-                        [string] $outputPath,               # The destination path of the archive file.
-                        [string] $targetDirectory,          # The directory we want to compact; may contain wildcards
-                        [ref] $archivePath)                 # The full path of the archive file's location.
+    [bool] CreateArchive([string] $archiveFileNameRequest, `    # The name of the archive that will be created
+                        [string] $outputPath, `                 # The destination path of the archive file.
+                        [string] $targetDirectory, `            # The directory we want to compact; may contain wildcards
+                        [ref] $archivePath)                     # The full path of the archive file's location.
     {
         # Declarations and Initializations
         # ----------------------------------------
