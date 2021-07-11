@@ -115,8 +115,8 @@ class CommonIO
     #    the host.
     # -------------------------------
     #>
-    static [void] WriteToBuffer([string] $msg,                      # Message
-                                [LogMessageLevel] $msgLevel,        # Message Level
+    static [void] WriteToBuffer([string] $msg, `                    # Message
+                                [LogMessageLevel] $msgLevel, `      # Message Level
                                 [bool] $noNewLine)                  # No New Line
     {
         # Declarations and Initializations
@@ -2830,7 +2830,7 @@ class CommonIO
     #            Directory does NOT exists; nothing to do.
     # -------------------------------
     #>
-    static [bool] RenameItem([string] $path,        # Path of the directory or file we want to rename
+    static [bool] RenameItem([string] $path, `      # Path of the directory or file we want to rename
                             [string] $newName)      # The new name we want to identify the object.
     {
         # First make sure that the file or directory exists
@@ -2990,7 +2990,7 @@ class CommonIO
     #    $true = Successfully relocated the target directory.
     # -------------------------------
     #>
-    static [bool] MoveDirectory([string] $targetDirectory,      # The directory we wish to move to another location.
+    static [bool] MoveDirectory([string] $targetDirectory, `    # The directory we wish to move to another location.
                                 [string] $destinationPath)      # The new destination path that we want to relocate too.
     {
         # First make sure that the target directory exists with the given path.
@@ -3162,8 +3162,8 @@ class CommonIO
     #    $true = Successfully relocated the file(s).
     # -------------------------------
     #>
-    static [bool] MoveFile([string] $targetDirectory,       # The directory that contains the file(s) we want to move.
-                            [string] $destinationPath,      # The destination path to relocate the file(s)
+    static [bool] MoveFile([string] $targetDirectory, `     # The directory that contains the file(s) we want to move.
+                            [string] $destinationPath, `    # The destination path to relocate the file(s)
                             [string[]] $includes)           # The file(s) that we want to relocate from the target directory
     {
         # First make sure that the target directory exists with the given path.
@@ -3398,7 +3398,7 @@ class CommonIO
     #    $true = Successfully duplicated the desired data from the directory.
     # -------------------------------
     #>
-    static [bool] CopyDirectory([string] $targetDirectory,      # The parent directory that we want to duplicate
+    static [bool] CopyDirectory([string] $targetDirectory, `    # The parent directory that we want to duplicate
                                 [string] $destinationPath)      # The destination directory to place duplicated data
     {
         # First make sure that the target directory exists with the given path.
@@ -3594,8 +3594,8 @@ class CommonIO
     #    $true = Successfully duplicated the desired data.
     # -------------------------------
     #>
-    static [bool] CopyFile([string] $targetDirectory,       # The directory that contains the file(s) we want to duplicate.
-                        [string] $destinationPath,          # The destination path to copy the file(s) to.
+    static [bool] CopyFile([string] $targetDirectory, `     # The directory that contains the file(s) we want to duplicate.
+                        [string] $destinationPath, `        # The destination path to copy the file(s) to.
                         [string[]] $includes)               # The file(s) that we want to duplicate from the target directory
     {
         # First make sure that the target directory exists with the given path.
