@@ -51,7 +51,7 @@ class CommonCUI
     static [void] DrawProgramTitleHeader()
     {
         # Display the top border
-        [Logging]::DisplayMessage("$([CommonCUI]::borderDashLong)");
+        [Logging]::DisplayMessage([CommonCUI]::borderDashLong);
         # -------------------------------------------------------------------
 
 
@@ -64,7 +64,7 @@ class CommonCUI
 
 
         # Display a sub-border to show that there is a change of content
-        [Logging]::DisplayMessage("$([CommonCUI]::borderSubcategory)");
+        [Logging]::DisplayMessage([CommonCUI]::borderSubcategory);
         # -------------------------------------------------------------------
 
 
@@ -74,8 +74,8 @@ class CommonCUI
 
 
         # Display the trailing borders to indicate the end of the Program Title.
-        [Logging]::DisplayMessage("$([CommonCUI]::borderDashLong)");
-        [Logging]::DisplayMessage("$([CommonCUI]::borderDashLong)");
+        [Logging]::DisplayMessage([CommonCUI]::borderDashLong);
+        [Logging]::DisplayMessage([CommonCUI]::borderDashLong);
 
 
         # Provide some extra padding
@@ -169,7 +169,7 @@ class CommonCUI
         [Logging]::DisplayMessage("Select from the following available options:");
 
         # Display a border
-        [Logging]::DisplayMessage("$([CommonCUI]::borderDashLong)");
+        [Logging]::DisplayMessage(([CommonCUI]::borderDashLong);
     } # DrawMenuInstructions()
 
 
@@ -192,7 +192,7 @@ class CommonCUI
         [Logging]::DisplayMessage("Please wait patiently as $([ProjectInformation]::projectName) is being compiled. . .");
 
         # Display a border
-        [Logging]::DisplayMessage("$([CommonCUI]::borderDashLong)");
+        [Logging]::DisplayMessage([CommonCUI]::borderDashLong);
     } # CompileInstructions()
 
 
@@ -494,7 +494,7 @@ class CommonCUI
 
 
         # Now that we have the user's feedback, check to make sure that the directory or file exists.
-        return $([CommonIO]::CheckPathExists($pathToTarget.Value, $true));
+        return [CommonIO]::CheckPathExists($pathToTarget.Value, $true);
     } # BrowseForTargetFile()
 
 
