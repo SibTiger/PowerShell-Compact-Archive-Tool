@@ -886,7 +886,7 @@ class CommonIO
 
         # Is there any data in the STDOUT?
         #  If so, we can continue to evaluate it.  Otherwise, skip over.
-        if ($null -eq $outputResultOut.Value)
+        if ($null -ne $outputResultOut.Value)
         {
             # Should we store the STDOUT to a variable?
             if ($captureSTDOUT -eq $true)
