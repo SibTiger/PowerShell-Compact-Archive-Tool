@@ -68,7 +68,7 @@ function main()
 Initializations;
 
 # Setup the program's directories
-CreateDirectories;
+CreateDirectories | Out-Null;
 
 #endregion
 
