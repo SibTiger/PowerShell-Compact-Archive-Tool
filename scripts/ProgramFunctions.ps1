@@ -32,7 +32,7 @@
 function CreateDirectories()
 {
     # First, check if the special directories exists.
-    if(CheckSpecialDirectories -eq $false)
+    if((CheckSpecialDirectories) -eq $false)
     {
         # Because one or more special directories does not exist, we can not create directories where
         #  the special paths does not exist.  Potentially incompatible Operating System or filesystem
@@ -45,7 +45,7 @@ function CreateDirectories()
 
 
     # Second, check if the directories already exist.  If they exist, than there is nothing to do.
-    if (CheckProgramDirectories -eq $true)
+    if ((CheckProgramDirectories) -eq $true)
     {
         # Because the directories exists within the filesystem, there's nothing todo.
         return $true;
