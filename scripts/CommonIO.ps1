@@ -858,9 +858,6 @@ class CommonIO
         [string] $fileOutput     = $null;                                               # The absolute path of the file that will
                                                                                         #  contain the output result from the extCMD
                                                                                         #  or command.
-        [string] $redirectStdOut = $null;                                               # When Standard Out redirection to variable is
-                                                                                        #  requested (captureSTDOUT), this will be our
-                                                                                        #  buffer - which will hold the STDOUT data
         # ----------------------------------------
 
 
@@ -891,14 +888,9 @@ class CommonIO
             # Should we store the STDOUT to a variable?
             if ($captureSTDOUT -eq $true)
             {
-                # Because we need a memory-address, we will store the contents in a
-                #  temporarily variable.  After that, store the value to the pointer.
-                $redirectStdOut = $outputResultOut.Value;
-
-
-                # Now store the information to the pointer; which can be used from
-                #  the calling function.
-                $stringOutput.Value = $redirectStdOut;
+                # Store the resulting information onto the string output, allowing
+                #   for any further process to occur later on.
+                $stringOutput = $outputResultOut;
             } # If : Stored in Reference Var.
 
 
