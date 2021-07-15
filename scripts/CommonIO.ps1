@@ -890,7 +890,7 @@ class CommonIO
             {
                 # Store the resulting information onto the string output, allowing
                 #   for any further process to occur later on.
-                $stringOutput = $outputResultOut;
+                $stringOutput.Value = $outputResultOut.Value;
             } # If : Stored in Reference Var.
 
 
