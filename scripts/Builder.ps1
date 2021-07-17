@@ -179,6 +179,15 @@ class Builder
         } # if : Generate Report Failed for Archive File
 
 
+        # True to generate a report based on the Local Repository.
+        if (![Builder]::GenerateReportProjectLocalRepository())
+        {
+            # Because we could not generate a report of the project's local
+            #  repository, then the compiled project might had been damaged.
+            return $false;
+        } # if : Generate Report Failed for Local Repo. Project
+
+
 
 
 
