@@ -166,6 +166,22 @@ class Builder
 
 
 
+        #            Generate Reports
+        # * * * * * * * * * * * * * * * * * * * *
+        # * * * * * * * * * * * * * * * * * * * *
+
+        # Try to generate report based on the archive data file.
+        if (![Builder]::GenerateReportArchiveDataFile($compiledBuildPath))
+        {
+            # Because we could not generate a report of the archive data file, the
+            #  file might had been damaged or is corrupted.
+            return $false;
+        } # if : Generate Report Failed for Archive File
+
+
+
+
+
         # Show that the compiling operation was successful.
         [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Operation had been completed!");
 
@@ -1398,6 +1414,19 @@ class Builder
         #  application.
         [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
 
+        # This will store the exit condition provided by the test function.
+        [bool] $result = $false;
+
+        # This is equivalent to the result [boolean] variable, but this will be displayed onto the
+        #  terminal.  We will populate this value with a default value signifying that it had failed.
+        #  However, we will update this value if the resulting operation was successful.
+        [string] $resultNiceValue = "Failed to create the report on the archive file!";
+
+        # With this variable, we can adjust the symbol that is provided when issuing the bullet
+        #  message to the user.  By default, we will use an error - but change it later if the
+        #  operation was successful.
+        [FormattedListBuilder] $resultSymbol = [FormattedListBuilder]::Failure;
+
 
         # Debugging Variables
         [string] $logMessage = $NULL;           # Main message regarding the logged event.
@@ -1406,8 +1435,147 @@ class Builder
 
 
 
+        # Did the user wanted a report of the archive data file?
+        if (!((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) -and $defaultCompress.GetGenerateReport()) -or `
+            (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and $sevenZip.GetGenerateReport())))
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
 
-        return $true;
+            # Generate the initial message
+            $logMessage = "The user does not wish to generate a report on the archive data file!";
+
+            # Generate any additional information that might be useful
+             $logAdditionalMSG = ("Desired Compression Tool: $([string]$userPreferences.GetCompressionTool())`r`n" + `
+                                "`tDefault Compression Generate Report Setting: $([string]$defaultCompress.GetGenerateReport())`r`n" + `
+                                "`t7Zip Generate Report Setting: $([string]$sevenZip.GetGenerateReport())");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+
+            # Even though we did not perform the check, we will still return a successful signal to keep the process running.
+            return $true;
+        } # if : User Request; do not generate report
+
+
+
+
+        # Show that we are about to generate a report of the archive data file
+        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Generating report of the archive file");
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Report will be based on this archive file: " + $compiledBuildFullPath);
+
+
+        # Let the user know that the report is being created
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Generating report. . .");
+
+
+        # Generate the report
+        #  Default Compression Tool
+        if (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) -and ($defaultCompress.GetGenerateReport()))
+        {
+            # Generate a report using the default compression tool
+            $results = $defaultCompress.CreateNewReport($compiledBuildFullPath, `
+                                                        $true);
+        } # if : Generate report with Default Compression Tool
+
+        # 7Zip Compression Tool
+        elseif (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and $sevenZip.GetGenerateReport())
+        {
+            # Generate a report using the 7Zip compression tool
+            $results = $sevenZip.CreateNewReport($compiledBuildFullPath, `
+                                                $true);
+        } # elseif : Generate report with 7Zip Compression Tool
+
+        # Unknown Case
+        else
+        {
+            # Unknown condition was reached
+            [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Error, "Unable to generate a report on the archive file!");
+
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate a message to display to the user.
+            [string] $displayErrorMessage = ("An error had occur while attempting to generate a report on the archive data file!`r`n" + `
+                                            "Please assure that you had specified if you want a report on the archive data file.");
+
+            # Generate the initial message
+            $logMessage = "Unable to generate a report of the archive data file due to an unknown or special rare event.";
+
+            # Generate any additional information that might be useful
+            $logAdditionalMSG = ("Desired Compression Tool: $([string]$userPreferences.GetCompressionTool())`r`n" + `
+                                "`tDefault Compression Generate Report Setting: $([string]$defaultCompress.GetGenerateReport())`r`n" + `
+                                "`t7Zip Generate Report Setting: $([string]$sevenZip.GetGenerateReport())");
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+
+            # Because an error had been reached, we will have to abort the operation
+            return $false;
+        } # else : Unknown Case \ Error Case
+
+
+        # Revise the Nice Result such that we indicate that the report had been created successfully.
+        if ($result)
+        {
+            # We will show that the report was successfully created
+            $resultNiceValue = "Successfully created the report!";
+
+            # Revise the symbol such that we do not push an error symbol
+            $resultSymbol = [FormattedListBuilder]::Child;
+        } # if : Report Created Successfully
+
+
+
+        # Show that the operation had been completed; provide its results
+        [Builder]::DisplayBulletListMessage(1, $resultSymbol, $resultNiceValue);
+
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        $logMessage = "Successfully attempted to create a report based on the archive file!";
+
+        # Generate any additional information that might be useful
+        $logAdditionalMSG = ("Report based on the following archive file: $($compiledBuildFullPath)`r`n" + `
+                            "`tNice Result Provided: $($resultNiceValue)`r`n" + `
+                            "`tResult Given: $($result)");
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
+
+
+        # Return the result back to the calling function
+        return $result;
     } # GenerateReportArchiveDataFile()
 
 
