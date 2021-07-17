@@ -1481,7 +1481,7 @@ class Builder
         if (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) -and ($defaultCompress.GetGenerateReport()))
         {
             # Generate a report using the default compression tool
-            $results = $defaultCompress.CreateNewReport($compiledBuildFullPath, `
+            $result = $defaultCompress.CreateNewReport($compiledBuildFullPath, `
                                                         $true);
         } # if : Generate report with Default Compression Tool
 
@@ -1489,7 +1489,7 @@ class Builder
         elseif (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and $sevenZip.GetGenerateReport())
         {
             # Generate a report using the 7Zip compression tool
-            $results = $sevenZip.CreateNewReport($compiledBuildFullPath, `
+            $result = $sevenZip.CreateNewReport($compiledBuildFullPath, `
                                                 $true);
         } # elseif : Generate report with 7Zip Compression Tool
 
