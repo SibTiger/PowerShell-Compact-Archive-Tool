@@ -1609,7 +1609,109 @@ class Builder
     #>
     hidden static [bool] GenerateReportProjectLocalRepository()
     {
-        return $true;
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the current instance of the User Preferences object; this contains the user's
+        #  generalized settings.
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+
+        # Retrieve the Git Control object
+        [GitControl] $gitControl = [GitControl]::GetInstance();
+
+        # This will store the exit condition provided by the test function.
+        [bool] $result = $false;
+
+        # This is equivalent to the result [boolean] variable, but this will be displayed onto the
+        #  terminal.  We will populate this value with a default value signifying that it had failed.
+        #  However, we will update this value if the resulting operation was successful.
+        [string] $resultNiceValue = "Failed to create a report on project's local repository!";
+
+        # With this variable, we can adjust the symbol that is provided when issuing the bullet
+        #  message to the user.  By default, we will use an error - but change it later if the
+        #  operation was successful.
+        [FormattedListBuilder] $resultSymbol = [FormattedListBuilder]::Failure;
+
+
+        # Debugging Variables
+        [string] $logMessage = $NULL;           # Main message regarding the logged event.
+        [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
+        # ----------------------------------------
+
+
+
+        # Did the user wanted a report of the project's local repository?
+        if (!$gitControl.GetReportPath())
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            $logMessage = "The user does not wish to generate a report on the project's local repository!";
+
+            # Generate any additional information that might be useful
+             $logAdditionalMSG = "Current Generate Report Setting: " + $([string]$gitControl.GetReportPath());
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+            # Even though we did not perform the check, we will still return a successful signal to keep the process running.
+            return $true;
+        } # if : User Request; do not generate a report
+
+
+
+
+        # Show that we are about to generate a report on the project's local repository.
+        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Generating report of the project's local repository");
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Report will be based on the " + [ProjectInformation]::projectName + "Local Repository.");
+        [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "Using project path: " + $userPreferences.GetProjectPath());
+
+
+        # Let the user know that the report is being created
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Generating report. . .");
+
+
+        # Generate the report
+        if ($gitControl.CreateNewReport($userPreferences.GetProjectPath(), $true))
+        {
+            # Successfully generated the report; revise the variables so we can provide the results to the user.
+            $resultNiceValue = "Successfully created the report!";
+            $resultSymbol = [FormattedListBuilder]::Child;
+        } # if : Report Created Successfully
+
+
+        # Show that the operation had been completed; provide the results
+        [Builder]::DisplayBulletListMessage(1, $resultSymbol, $resultNiceValue);
+
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        $logMessage = "Successfully attempted to create a report based on the project's local repository!";
+
+        # Generate any additional information that might be useful
+        $logAdditionalMSG = ("Report based on the following project path: $($userPreferences.GetProjectPath())`r`n" + `
+                            "`tNice Result Provided: $($resultNiceValue)`r`n" + `
+                            "`tResult Given: $($result)");
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
+
+
+        # Return the result back to the calling function
+        return $result;
     } # GenerateReportProjectLocalRepository()
 
 
