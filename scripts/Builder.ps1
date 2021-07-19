@@ -191,6 +191,19 @@ class Builder
 
 
 
+        #          Show and Notify Paths
+        # * * * * * * * * * * * * * * * * * * * *
+        # * * * * * * * * * * * * * * * * * * * *
+
+        # Now that the main operations are completed, now provide helpful
+        #  locations to the user - so they are able to use the newly
+        #  created materials.
+        [Builder]::NotifyUserOfLocations();
+
+
+
+
+
         # Show that the compiling operation was successful.
         [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Operation had been completed!");
 
@@ -1713,6 +1726,69 @@ class Builder
         # Return the result back to the calling function
         return $result;
     } # GenerateReportProjectLocalRepository()
+
+
+
+
+
+   <# Display Locations
+    # -------------------------------
+    # Documentation:
+    #  This function will show the user as to where their files are located within the host's filesystem.
+    #   Such files can be the compiled build and generated reports.  This function takes into consideration
+    #   if Windows Explorer is allowed (or available), or if only text should be displayed to the user.
+    # -------------------------------
+    #>
+    hidden static [void] NotifyUserOfLocations()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the current instance of the User Preferences object; this contains the user's
+        #  generalized settings.
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+
+        # Retrieve the current instance of the user's Git Control object; this contains the user's
+        #  preferences as to how Git will be used within this application.
+        [GitControl] $gitControl = [GitControl]::GetInstance();
+
+        # Retrieve the current instance of the user's Default Compressing object; this contains
+        #  the user's preferences as to how the Archive ZIP module will be utilized within this
+        #  application.
+        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+
+        # Retrieve the current instance of the user's 7Zip object; this contains the user's
+        #  preferences as to how 7Zip will be utilized within this application.
+        [SevenZip] $sevenZip = [SevenZip]::GetInstance();
+        # ----------------------------------------
+
+
+
+        # We will split this up in several sections so that it is easier to work with and maintain it if needed.
+
+
+        #              Git Reports
+        # +++++++++++++++++++++++++++++++++++++
+        # +++++++++++++++++++++++++++++++++++++
+        # +++++++++++++++++++++++++++++++++++++
+
+        # Did the user requested for Git Reports to be created?
+        
+
+        #             Build Reports
+        # +++++++++++++++++++++++++++++++++++++
+        # +++++++++++++++++++++++++++++++++++++
+        # +++++++++++++++++++++++++++++++++++++
+
+        # Did the user requested for Build Reports to be created?
+
+
+
+        #            Compiled Build
+        # +++++++++++++++++++++++++++++++++++++
+        # +++++++++++++++++++++++++++++++++++++
+        # +++++++++++++++++++++++++++++++++++++
+
+    } # NotifyUserOfLocations()
 
 
 
