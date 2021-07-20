@@ -1763,6 +1763,12 @@ class Builder
 
 
 
+        # Let the user know of what resources are available and where
+        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::NoSymbol, "Provided Below is a List of Resources:");
+
+
+
+
         # We will split this up in several sections so that it is easier to work with and maintain it if needed.
 
 
@@ -1772,22 +1778,45 @@ class Builder
         # +++++++++++++++++++++++++++++++++++++
 
         # Did the user requested for Git Reports to be created?
-        
+        if (($userPreferences.GetUseGitFeatures() -eq $gitControl.GetGenerateReport()) -and $true)
+        {
+            # User had requested to generate Git Reports
+            [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::NoSymbol, "Git Reports are located in this directory");
+            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $gitControl.GetReportPath());
+        } # if : User Requested Git Reports
 
-        #             Build Reports
+
+
+
+        #      dotNET Zip Archive Reports
         # +++++++++++++++++++++++++++++++++++++
         # +++++++++++++++++++++++++++++++++++++
         # +++++++++++++++++++++++++++++++++++++
 
-        # Did the user requested for Build Reports to be created?
+        # Did the user requested dotNET ZIP Archive Reports to be created?
+        if (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) -and $defaultCompress.GetGenerateReport() -and $true)
+        {
+            # User had requested to generate Internal Zip Reports
+            [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::NoSymbol, "Internal Zip Reports are located in this directory");
+            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $defaultCompress.GetReportPath());
+        } # if : User Requested Internal Zip Reports
 
 
 
-        #            Compiled Build
+
+        #         7Zip Archive Reports
         # +++++++++++++++++++++++++++++++++++++
         # +++++++++++++++++++++++++++++++++++++
         # +++++++++++++++++++++++++++++++++++++
 
+        # Did the user requested 7Zip Archive Reports to be created?
+
+        if (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and $sevenZip.GetGenerateReport() -and $true)
+        {
+            # User had requested to generate 7Zip Reports
+            [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::NoSymbol, "7Zip Reports are located in this directory");
+            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $sevenZip.GetReportPath());
+        } # if : User Requested 7Zip Reports
     } # NotifyUserOfLocations()
 
 
