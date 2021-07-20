@@ -1695,6 +1695,9 @@ class Builder
             # Successfully generated the report; revise the variables so we can provide the results to the user.
             $resultNiceValue = "Successfully created the report!";
             $resultSymbol = [FormattedListBuilder]::Child;
+
+            # Update the result, such that it provides a successful signal.
+            $result = $true;
         } # if : Report Created Successfully
 
 
