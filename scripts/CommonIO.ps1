@@ -4472,12 +4472,57 @@ class CommonIO
 
         if ($null -eq $selectFile)
         {
-            Invoke-Expression -Command "explorer '$($directoryPath)'";
+            try
+            {
+                Invoke-Expression -Command "explorer '$($directoryPath)'" -ErrorAction Stop;
+            } # try : Open the Directory
+            catch
+            {
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = ("Error had been reached!");
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Requested Directory to Open: $($directoryPath)");
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
+                                            [LogMessageLevel]::Error);  # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+            } # catch : Caught error
         } # if : Access Directory Only
 
         else
         {
-            Invoke-Expression -Command "explorer '/select,$($directoryPath)\$($selectFile)'";
+            try
+            {
+                Invoke-Expression -Command "explorer '/select,$($directoryPath)\$($selectFile)'" -ErrorAction Stop;
+            } # try : Open the Directory and Highlight item
+            catch
+            {
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = ("Error had been reached!");
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Requested Directory to Open: $($directoryPath)`r`n" + `
+                                            "`tFile to Highlight: $($selectFile)");
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
+                                            [LogMessageLevel]::Error);  # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+            } # catch : Caught error
         } # else : Access Directory AND Select File
 
 
