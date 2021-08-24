@@ -4405,6 +4405,87 @@ class CommonIO
     } # AccessWebpage()
 
     #endregion
+
+
+
+    #region Open Content Window
+
+   <# Open New Content Window
+    # -------------------------------
+    # Documentation:
+    #  This function will provide the ability to access a specific location using
+    #   the default graphical shell.  With this functionality, it will help the
+    #   user to see the contents within the directory in a friendly way.  In which
+    #   they may freely interact with the data in any way he or she sees fit.
+    #
+    #  Developer Note:
+    #   I think in Linux, we can use the Invoke-Item or Start-Process to possibly create
+    #   a graphical shell instance to open the directory.  But testing is required.
+    # -------------------------------
+    # Input:
+    #  [string] Absolute Directory Path (Full Path)
+    #   The absolute path of the directory that will be opened using the preferred
+    #    graphical shell within the host.
+    #  [string] Highlight a specific file (Windows Only)
+    #   Highlights a specific file within the directory that had been opened using the
+    #    graphical shell.
+    # -------------------------------
+    #  [bool] Exit code
+    #    $false = Failed to access directory.
+    #    $true = Successfully accessed directory.
+    # -------------------------------
+    #>
+    static [bool] AccessDirectory([string] $directoryPath,  # Full path of the directory
+                                [string] $selectFile)       # Highlight a specific file (Windows Only)
+   {
+        # First, make sure that the directory exists before trying to access it
+        if ([CommonIO]::CheckPathExists($directoryPath, $true) -eq $false)
+        {
+            # The directory does not exist, we cannot proceed to open the folder as requested.
+    
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Unable to open directory, as it does not exist!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Requested Directory to Open: $($directoryPath)`r`n" + `
+                                        "`tFile to Highlight (Optional): $($selectFile)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            return $false;
+        } # If : Directory Does not Exist
+
+
+        # Because the directory exists within the system, determine how we should access the folder.
+        #  Should we highlight the requested file (if provided), or just only open the folder (file not highlighted)
+
+        if ($null -eq $selectFile)
+        {
+            Invoke-Expression -Command "explorer '$($directoryPath)'";
+        } # if : Access Directory Only
+
+        else
+        {
+            Invoke-Expression -Command "explorer '/select,$($directoryPath)\$($selectFile)'";
+        } # else : Access Directory AND Select File
+
+
+        # Successfully accessed the desired directory
+        return $true;
+   } # AccessDirectory()
+
+    #endregion
 } # CommonIO
 
 
