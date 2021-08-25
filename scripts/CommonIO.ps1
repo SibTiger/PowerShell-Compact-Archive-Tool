@@ -4472,7 +4472,9 @@ class CommonIO
 
 
         # First, make sure that the entire path exists before trying to access it
-        if ([CommonIO]::CheckPathExists($path, $true) -eq $false)
+        #  NOTE: Check to make sure that the directory string provided is not $null.
+        if (($null -eq $directoryPath) -or `
+            ([CommonIO]::CheckPathExists($path, $true) -eq $false))
         {
             # The path does not exist, we cannot proceed to open the folder as requested.
 
