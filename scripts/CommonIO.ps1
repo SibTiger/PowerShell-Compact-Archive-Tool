@@ -4438,21 +4438,55 @@ class CommonIO
     static [bool] AccessDirectory([string] $directoryPath,  # Full path of the directory
                                 [string] $selectFile)       # Highlight a specific file (Windows Only)
    {
-        # First, make sure that the directory exists before trying to access it
-        if ([CommonIO]::CheckPathExists($directoryPath, $true) -eq $false)
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This string will hold the absolute path of the directory, and - optionally - the file as well.
+        [string] $path = $null;
+
+        # This string will provide the necessary arguments for the Windows Explorer command.
+        [string] $explorerArguments = $null;
+        # ----------------------------------------
+
+
+        # Generate the Path and argument variables.
+        #  If a file had not been included, then it will be omitted.
+        if ($null -eq $selectFile)
         {
-            # The directory does not exist, we cannot proceed to open the folder as requested.
-    
+            # Only provide the directory path.
+            $path = $directoryPath;
+
+            # Update the arguments that will be used when calling the Windows Explorer
+            $explorerArguments = "$($path)";
+        } # if : Directory Path
+
+        # Provide the directory AND the specified directory
+        else
+        {
+            # Provide the directory path and the desired file to select.
+            $path = "$($directoryPath)\$($selectFile)";
+
+            # Update the arguments that will be used when calling the Windows Explorer
+            $explorerArguments = "/select,$($path)";
+        } # else : Directory Path AND file
+
+
+
+        # First, make sure that the entire path exists before trying to access it
+        if ([CommonIO]::CheckPathExists($path, $true) -eq $false)
+        {
+            # The path does not exist, we cannot proceed to open the folder as requested.
+
 
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = ("Unable to open directory, as it does not exist!");
+            [string] $logMessage = ("Unable to open requested directory, as the entire path does not exist!");
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Requested Directory to Open: $($directoryPath)`r`n" + `
+            [string] $logAdditionalMSG = ("Full path that was checked: $($path)`r`n" + `
+                                        "`tRequested Directory to Open: $($directoryPath)`r`n" + `
                                         "`tFile to Highlight (Optional): $($selectFile)");
 
             # Pass the information to the logging system
@@ -4460,70 +4494,85 @@ class CommonIO
                                         $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($logMessage, `            # Message to display
+                                    [LogMessageLevel]::Error);  # Message level
+
             # * * * * * * * * * * * * * * * * * * *
 
 
+            # Because the entire path does not exist, we can not continue.
             return $false;
         } # If : Directory Does not Exist
 
 
-        # Because the directory exists within the system, determine how we should access the folder.
-        #  Should we highlight the requested file (if provided), or just only open the folder (file not highlighted)
 
-        if ($null -eq $selectFile)
+        # Because the entire path exists and is ready for us to access, we will try to open that
+        #  requested directory in a way that is natural to the end-user - in a graphical window.
+        #  If a file had been requested to be highlighted, that will also be provided to the user.
+        try
         {
-            try
-            {
-                Invoke-Expression -Command "explorer '$($directoryPath)'" -ErrorAction Stop;
-            } # try : Open the Directory
-            catch
-            {
-                # * * * * * * * * * * * * * * * * * * *
-                # Debugging
-                # --------------
-
-                # Generate the initial message
-                [string] $logMessage = ("Error had been reached!");
-
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Requested Directory to Open: $($directoryPath)");
-
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                            $logAdditionalMSG, `        # Additional information
-                                            [LogMessageLevel]::Error);  # Message level
-
-                # * * * * * * * * * * * * * * * * * * *
-            } # catch : Caught error
-        } # if : Access Directory Only
-
-        else
+            Invoke-Expression -Command "explorer '$($explorerArguments)'" -ErrorAction Stop;
+        } # try : Open the Directory
+        catch
         {
-            try
-            {
-                Invoke-Expression -Command "explorer '/select,$($directoryPath)\$($selectFile)'" -ErrorAction Stop;
-            } # try : Open the Directory and Highlight item
-            catch
-            {
-                # * * * * * * * * * * * * * * * * * * *
-                # Debugging
-                # --------------
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
 
-                # Generate the initial message
-                [string] $logMessage = ("Error had been reached!");
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $displayErrorMessage = ("Failed to access the desired directory:" + `
+                                            " $($directoryPath)`r`n" + `
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
 
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Requested Directory to Open: $($directoryPath)`r`n" + `
-                                            "`tFile to Highlight: $($selectFile)");
+            # Generate the initial message
+            [string] $logMessage = "Failed to access the desired directory!";
 
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                            $logAdditionalMSG, `        # Additional information
-                                            [LogMessageLevel]::Error);  # Message level
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Full path that was checked: $($path)`r`n" + `
+                                        "`tRequested Directory to Open: $($directoryPath)`r`n" + `
+                                        "`tFile to Highlight (Optional): $($selectFile)`r`n" + `
+                                        "`tWindows Explorer Argument used: $($explorerArguments)`r`n" + `
+                                        "$([Logging]::GetExceptionInfo($_.Exception))");
 
-                # * * * * * * * * * * * * * * * * * * *
-            } # catch : Caught error
-        } # else : Access Directory AND Select File
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Because an error had been reached, return an error.
+            return $false;
+        } # catch : Caught error
+
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        [string] $logMessage = ("Successfully opened the desired path!");
+
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = ("Full path that was accessed: $($path)`r`n" + `
+                                    "`tRequested Directory to Open: $($directoryPath)`r`n" + `
+                                    "`tFile to Highlight (Optional): $($selectFile)");
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
 
 
         # Successfully accessed the desired directory
