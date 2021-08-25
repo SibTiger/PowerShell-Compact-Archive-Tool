@@ -4448,6 +4448,43 @@ class CommonIO
         # ----------------------------------------
 
 
+
+        # Make sure that the directory path is not empty.
+        if ($null -eq $directoryPath)
+        {
+            # Because the directory was not provided, we may not continue.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Unable to access a directory as it was not provided!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Requested Directory to Open: $($directoryPath)`r`n" + `
+                                        "`tFile to Highlight (Optional): $($selectFile)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($logMessage, `            # Message to display
+                                    [LogMessageLevel]::Error);  # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Because the entire path was not provided, we can not continue.
+            return $false;
+        } # if : Directory Path not Provided
+
+
+
         # Generate the Path and argument variables.
         #  If a file had not been included, then it will be omitted.
         if ($null -eq $selectFile)
@@ -4472,9 +4509,7 @@ class CommonIO
 
 
         # First, make sure that the entire path exists before trying to access it
-        #  NOTE: Check to make sure that the directory string provided is not $null.
-        if (($null -eq $directoryPath) -or `
-            ([CommonIO]::CheckPathExists($path, $true) -eq $false))
+        if ([CommonIO]::CheckPathExists($path, $true) -eq $false)
         {
             # The path does not exist, we cannot proceed to open the folder as requested.
 
