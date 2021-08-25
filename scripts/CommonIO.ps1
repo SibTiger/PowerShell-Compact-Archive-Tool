@@ -4584,6 +4584,35 @@ class CommonIO
         return $true;
    } # AccessDirectory()
 
+
+
+
+   <# Open New Content Window (Short-Hand\Standard Directory Call)
+    # -------------------------------
+    # Documentation:
+    #  This overload function is merely an expeditious way of reaching the AccessDirectory(arg0, arg1)
+    #   function.  However, this function will always assume that there is no specific file to select.
+    #   Because PowerShell does not allow default arguments to be set, at least at the time of writing
+    #   this statement, this function will allow overloading of arguments.
+    #
+    # NOTE:
+    #  Any calls to this function will NOT provide a specific file to highlight.
+    # -------------------------------
+    # Input:
+    #  [string] Absolute Directory Path (Full Path)
+    #   The absolute path of the directory that will be opened using the preferred
+    #    graphical shell within the host.
+    # -------------------------------
+    #  [bool] Exit code
+    #    $false = Failed to access directory.
+    #    $true = Successfully accessed directory.
+    # -------------------------------
+    #>
+    static [bool] AccessDirectory([string] $directoryPath)
+   {
+       # Access the AccessDirectory(arg0, arg1) with the file argument set to null
+       return [CommonIO]::AccessDirectory($directoryPath, $null);
+   } # AccessDirectory()
     #endregion
 } # CommonIO
 
