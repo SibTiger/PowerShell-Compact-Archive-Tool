@@ -4513,7 +4513,12 @@ class CommonIO
         #  If a file had been requested to be highlighted, that will also be provided to the user.
         try
         {
-            Invoke-Expression -Command "explorer '$($explorerArguments)'" -ErrorAction Stop;
+            # We will use the Start-Process instead of Invoke-Expression, reason provided below:
+            #  https://github.com/PowerShell/PowerShell/issues/11662
+            #  https://devblogs.microsoft.com/powershell/invoke-expression-considered-harmful/
+            Start-Process 'Explorer.exe' -ArgumentList "$($explorerArguments)" `
+                                        -WindowStyle Normal `
+                                        -ErrorAction Stop;
         } # try : Open the Directory
         catch
         {
