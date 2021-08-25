@@ -4435,8 +4435,8 @@ class CommonIO
     #    $true = Successfully accessed directory.
     # -------------------------------
     #>
-    static [bool] AccessDirectory([string] $directoryPath,  # Full path of the directory
-                                [string] $selectFile)       # Highlight a specific file (Windows Only)
+    static [bool] AccessDirectory([string] $directoryPath, `    # Full path of the directory
+                                [string] $selectFile)           # Highlight a specific file (Windows Only)
    {
         # Declarations and Initializations
         # ----------------------------------------
