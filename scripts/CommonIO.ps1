@@ -4488,7 +4488,8 @@ class CommonIO
 
         # Generate the Path and argument variables.
         #  If a file had not been included, then it will be omitted.
-        if ($null -eq $selectFile)
+        if (($null -eq $selectFile) -or
+            ("" -eq $selectFile))
         {
             # Only provide the directory path.
             $path = $directoryPath;
