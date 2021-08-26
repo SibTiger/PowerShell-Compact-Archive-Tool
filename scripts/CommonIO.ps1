@@ -4450,7 +4450,8 @@ class CommonIO
 
 
         # Make sure that the directory path is not empty.
-        if ($null -eq $directoryPath)
+        if (($null -eq $directoryPath) -or
+            ("" -eq $directoryPath))
         {
             # Because the directory was not provided, we may not continue.
 
