@@ -1449,6 +1449,10 @@ class Builder
         #  operation was successful.
         [FormattedListBuilder] $resultSymbol = [FormattedListBuilder]::Failure;
 
+        # With this variable, we may easily determine if the user wanted to utilize the default
+        #  compression or the 7Zip compression object to generate the report.
+        [char] $compressionTool = $null;
+
 
         # Debugging Variables
         [string] $logMessage = $NULL;           # Main message regarding the logged event.
@@ -1457,10 +1461,26 @@ class Builder
 
 
 
-        # Did the user wanted a report of the archive data file?
-        if (!((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) -and $defaultCompress.GetGenerateReport()) -or `
-            (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and $sevenZip.GetGenerateReport())))
+        # Determine if the user wanted a report generated and with what compression tool.
+        #  Did the user wanted Default Compression and generate report?
+        if (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) -and $defaultCompress.GetGenerateReport())
         {
+            # User wanted a report generated using the Default Compression object.
+            $compressionTool = 'D';
+        } # if : Generate Report using Default Compression Tool
+        #  Did the user wanted 7Zip Compression and generate report?
+        elseif (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and $sevenZip.GetGenerateReport())
+        {
+            # User wanted a report generated using the 7Zip Compression object.
+            $compressionTool = '7';
+        } # if : Generate Report using 7Zip Compression Tool
+        #  User does not want a report to be generated.
+        else
+        {
+            # User does not want a report generated.
+
+
+
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
@@ -1484,7 +1504,7 @@ class Builder
 
             # Even though we did not perform the check, we will still return a successful signal to keep the process running.
             return $true;
-        } # if : User Request; do not generate report
+        } # else : Do not generate report
 
 
 
@@ -1500,7 +1520,7 @@ class Builder
 
         # Generate the report
         #  Default Compression Tool
-        if (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) -and ($defaultCompress.GetGenerateReport()))
+        if ($compressionTool -eq 'D')
         {
             # Generate a report using the default compression tool
             $result = $defaultCompress.CreateNewReport($compiledBuildFullPath, `
@@ -1508,7 +1528,7 @@ class Builder
         } # if : Generate report with Default Compression Tool
 
         # 7Zip Compression Tool
-        elseif (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and $sevenZip.GetGenerateReport())
+        elseif ($compressionTool -eq '7')
         {
             # Generate a report using the 7Zip compression tool
             $result = $sevenZip.CreateNewReport($compiledBuildFullPath, `
