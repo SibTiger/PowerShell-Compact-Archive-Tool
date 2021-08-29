@@ -191,14 +191,13 @@ class Builder
 
 
 
-        #          Show and Notify Paths
+        #          Show Project Path
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
 
-        # Now that the main operations are completed, now provide helpful
-        #  locations to the user - so they are able to use the newly
-        #  created materials.
-        [Builder]::NotifyUserOfLocations();
+        # Now that we are finished, show the user where their compiled build
+        #  is within the host's filesystem.
+        [Builder]::ShowProjectLocation($compiledBuildPath);
 
 
 
@@ -1846,93 +1845,41 @@ class Builder
 
 
 
-   <# Display Locations
+   <# Show Project Location
     # -------------------------------
     # Documentation:
-    #  This function will show the user as to where their files are located within the host's filesystem.
-    #   Such files can be the compiled build and generated reports.  This function takes into consideration
-    #   if Windows Explorer is allowed (or available), or if only text should be displayed to the user.
+    #  This function will merely show where the project is located within the host's filesystem.
+    # -------------------------------
+    # Input:
+    #  [string] Project Path
+    #   The absolute path of the compiled project within the filesystem.
     # -------------------------------
     #>
-    hidden static [void] NotifyUserOfLocations()
+    hidden static [void] ShowProjectLocation([string] $projectPath)
     {
         # Declarations and Initializations
         # ----------------------------------------
         # Retrieve the current instance of the User Preferences object; this contains the user's
         #  generalized settings.
         [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
-
-        # Retrieve the current instance of the user's Git Control object; this contains the user's
-        #  preferences as to how Git will be used within this application.
-        [GitControl] $gitControl = [GitControl]::GetInstance();
-
-        # Retrieve the current instance of the user's Default Compressing object; this contains
-        #  the user's preferences as to how the Archive ZIP module will be utilized within this
-        #  application.
-        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
-
-        # Retrieve the current instance of the user's 7Zip object; this contains the user's
-        #  preferences as to how 7Zip will be utilized within this application.
-        [SevenZip] $sevenZip = [SevenZip]::GetInstance();
         # ----------------------------------------
 
 
 
-        # Let the user know of what resources are available and where
-        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::NoSymbol, "Provided Below is a List of Resources:");
+        # Let the user know that we are about to show them the path to their newly generated compiled build.
+        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "$([System.IO.Path]::GetFileName($projectPath)) Location is:");
+
+        # Show the path
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::NoSymbol, $projectPath);
 
 
-
-
-        # We will split this up in several sections so that it is easier to work with and maintain it if needed.
-
-
-        #              Git Reports
-        # +++++++++++++++++++++++++++++++++++++
-        # +++++++++++++++++++++++++++++++++++++
-        # +++++++++++++++++++++++++++++++++++++
-
-        # Did the user requested for Git Reports to be created?
-        if (($userPreferences.GetUseGitFeatures() -eq $gitControl.GetGenerateReport()) -and $true)
+        # Reveal the project to the user using their preferred GUI Shell
+        if ($userPreferences.GetUseWindowsExplorer())
         {
-            # User had requested to generate Git Reports
-            [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::NoSymbol, "Git Reports are located in this directory");
-            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $gitControl.GetReportPath());
-        } # if : User Requested Git Reports
-
-
-
-
-        #      dotNET Zip Archive Reports
-        # +++++++++++++++++++++++++++++++++++++
-        # +++++++++++++++++++++++++++++++++++++
-        # +++++++++++++++++++++++++++++++++++++
-
-        # Did the user requested dotNET ZIP Archive Reports to be created?
-        if (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) -and $defaultCompress.GetGenerateReport() -and $true)
-        {
-            # User had requested to generate Internal Zip Reports
-            [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::NoSymbol, "Internal Zip Reports are located in this directory");
-            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $defaultCompress.GetReportPath());
-        } # if : User Requested Internal Zip Reports
-
-
-
-
-        #         7Zip Archive Reports
-        # +++++++++++++++++++++++++++++++++++++
-        # +++++++++++++++++++++++++++++++++++++
-        # +++++++++++++++++++++++++++++++++++++
-
-        # Did the user requested 7Zip Archive Reports to be created?
-
-        if (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and $sevenZip.GetGenerateReport() -and $true)
-        {
-            # User had requested to generate 7Zip Reports
-            [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::NoSymbol, "7Zip Reports are located in this directory");
-            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $sevenZip.GetReportPath());
-        } # if : User Requested 7Zip Reports
-    } # NotifyUserOfLocations()
+            [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($projectPath), `
+                                        [System.IO.Path]::GetFileName($projectPath));
+        } # if : Reveal using GUI Shell
+    } # ShowProjectLocation()
 
 
 
