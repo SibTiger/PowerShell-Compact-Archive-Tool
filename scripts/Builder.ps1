@@ -1867,10 +1867,10 @@ class Builder
 
 
         # Let the user know that we are about to show them the path to their newly generated compiled build.
-        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "$([System.IO.Path]::GetFileName($projectPath)) Location is:");
+        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "You will find `"$([System.IO.Path]::GetFileName($projectPath))`" in this location:");
 
         # Show the path
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::NoSymbol, $projectPath);
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Child, $projectPath);
 
 
         # Reveal the project to the user using their preferred GUI Shell
