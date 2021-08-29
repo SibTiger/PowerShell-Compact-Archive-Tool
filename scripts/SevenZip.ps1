@@ -3125,6 +3125,14 @@ class SevenZip
     #  [bool] Create a PDF File
     #   When true, this will allow the ability to create a PDF document along
     #    with the text file.
+    #  [string] (REFERENCE) Return the File Path [Text File]
+    #   Returns the full path of the generated TXT report file.  Useful to
+    #    provide a full location as to where the report resides within the host's
+    #    filesystem.
+    #  [string] (REFERENCE) Return the File Path [Portable Document File]
+    #   Returns the full path of the generated PDF report file.  Useful to
+    #    provide a full location as to where the report resides within the host's
+    #    filesystem.
     # -------------------------------
     # Output:
     #  [bool] Status Code
@@ -3134,7 +3142,9 @@ class SevenZip
     # -------------------------------
     #>
     [bool] CreateNewReport([string] $archiveFile, `     # The archive file that we will generate a report from.
-                           [bool] $makePDF)             # Create a report within the PDF format as well?
+                           [bool] $makePDF, `           # Create a report within the PDF format as well?
+                           [ref] $returnFilePathTXT, `  # Returns the report's path (TXT)
+                           [ref] $returnFilePathPDF)    # Returns the report's path (PDF)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -3161,6 +3171,21 @@ class SevenZip
 
         # >> Portable Document File (PDF)
         [string] $fileNamePDF = "$($this.GetReportPath())\$($fileNameExt) - $($dateTime).pdf";
+        # - - - -
+
+
+        # Prepare the reference variables with the report file names (with path)
+        # - - - -
+        # >> Standard Textfile
+        $returnFilePathTXT.Value = $fileNameTXT;
+
+        # >> Portable Document File (PDF)
+        #  Make sure that the user wanted a PDF file before assuming to provide the path.
+        if ($makePDF)
+        {
+            # User requested to generate a report using the PDF format
+            $returnFilePathPDF.Value = $fileNamePDF;
+        } # if : Make PDF Report
         # - - - -
 
 
