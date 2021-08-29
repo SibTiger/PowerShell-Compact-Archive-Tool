@@ -1453,6 +1453,12 @@ class Builder
         #  compression or the 7Zip compression object to generate the report.
         [char] $compressionTool = $null;
 
+        # When populated, these variables will hold the absolute paths of the generated report files.
+        #  - Text Report File
+        [string] $fullPathReportTextFile = $null;
+        #  - PDF Report File
+        [string] $fullPathReportPDFFile = $null;
+
 
         # Debugging Variables
         [string] $logMessage = $NULL;           # Main message regarding the logged event.
@@ -1524,7 +1530,9 @@ class Builder
         {
             # Generate a report using the default compression tool
             $result = $defaultCompress.CreateNewReport($compiledBuildFullPath, `
-                                                        $true);
+                                                        $true, `
+                                                        [ref] $fullPathReportTextFile, `
+                                                        [ref] $fullPathReportPDFFile);
         } # if : Generate report with Default Compression Tool
 
         # 7Zip Compression Tool
@@ -1532,7 +1540,9 @@ class Builder
         {
             # Generate a report using the 7Zip compression tool
             $result = $sevenZip.CreateNewReport($compiledBuildFullPath, `
-                                                $true);
+                                                $true, `
+                                                [ref] $fullPathReportTextFile, `
+                                                [ref] $fullPathReportPDFFile);
         } # elseif : Generate report with 7Zip Compression Tool
 
         # Unknown Case
@@ -1579,9 +1589,46 @@ class Builder
         } # else : Unknown Case \ Error Case
 
 
-        # Revise the Nice Result such that we indicate that the report had been created successfully.
+        # Provide the user the locations as to where the report files are placed within the their system.
+        #  Also revise the Nice Result such that we indicate that the report had been created successfully.
         if ($result)
         {
+            # Because the reports were successfully generated, show where the files are located within their
+            #  system.
+
+            # Report File - Text Report
+            # = - - - - - - - - - - - =
+            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportTextFile);
+
+            # Reveal the location using the user's preferred GUI Shell
+            if ($userPreferences.GetUseWindowsExplorer())
+            {
+                # Access the desired directory and select the file.
+                [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportTextFile), `
+                                            [System.IO.Path]::GetFileName($fullPathReportTextFile));
+            } # if : Reveal using the GUI Shell
+
+
+            # Report File - PDF Report
+            # = - - - - - - - - - - =
+            if ($true)
+            {
+                # User allowed the ability for PDF files to be generated
+                [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportPDFFile);
+
+                # Reveal the location using the user's preferred GUI Shell
+                if ($userPreferences.GetUseWindowsExplorer())
+                {
+                    # Access the desired directory and select the file.
+                    [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportTextFile), `
+                                                [System.IO.Path]::GetFileName($fullPathReportTextFile));
+                } # if : Reveal using the GUI Shell
+            } # if : Show PDF Report
+
+
+
+            # Revise the status messages
+
             # We will show that the report was successfully created
             $resultNiceValue = "Successfully created the report!";
 
@@ -1664,6 +1711,12 @@ class Builder
         #  operation was successful.
         [FormattedListBuilder] $resultSymbol = [FormattedListBuilder]::Failure;
 
+        # When populated, these variables will hold the absolute paths of the generated report files.
+        #  - Text Report File
+        [string] $fullPathReportTextFile = $null;
+        #  - PDF Report File
+        [string] $fullPathReportPDFFile = $null;
+
 
         # Debugging Variables
         [string] $logMessage = $NULL;           # Main message regarding the logged event.
@@ -1710,7 +1763,10 @@ class Builder
 
 
         # Generate the report
-        if ($gitControl.CreateNewReport($userPreferences.GetProjectPath(), $true))
+        if ($gitControl.CreateNewReport($userPreferences.GetProjectPath(), `
+                                        $true, `
+                                        [ref] $fullPathReportTextFile, `
+                                        [ref] $fullPathReportPDFFile))
         {
             # Successfully generated the report; revise the variables so we can provide the results to the user.
             $resultNiceValue = "Successfully created the report!";
@@ -1718,6 +1774,41 @@ class Builder
 
             # Update the result, such that it provides a successful signal.
             $result = $true;
+
+
+            # Because the reports were successfully generated, show where the files are located within their
+            #  system.
+
+            # Report File - Text Report
+            # = - - - - - - - - - - - =
+            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportTextFile);
+
+            # Reveal the location using the user's preferred GUI Shell
+            if ($userPreferences.GetUseWindowsExplorer())
+            {
+                # Access the desired directory and select the file.
+                [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportTextFile), `
+                                            [System.IO.Path]::GetFileName($fullPathReportTextFile));
+            } # if : Reveal using the GUI Shell
+
+
+            # Report File - PDF Report
+            # = - - - - - - - - - - =
+            if ($true)
+            {
+                # User allowed the ability for PDF files to be generated
+                [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportPDFFile);
+
+                # Reveal the location using the user's preferred GUI Shell
+                if ($userPreferences.GetUseWindowsExplorer())
+                {
+                    # Access the desired directory and select the file.
+                    [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportTextFile), `
+                                                [System.IO.Path]::GetFileName($fullPathReportTextFile));
+                } # if : Reveal using the GUI Shell
+            } # if : Show PDF Report
+
+
         } # if : Report Created Successfully
 
 
