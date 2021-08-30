@@ -65,12 +65,13 @@ class GitControl
     # Get the instance of this singleton object (with arguments).
     #  This is useful if we already know the properties of this
     #  new instance of the object.
-    static [GitControl] GetInstance([string]$executablePath, `          # Executable Path
-                                    [bool]$updateSource, `              # Update the Local Repository
-                                    [GitCommitLength]$lengthCommitID, ` # Length of the Commit ID
-                                    [bool]$fetchChangelog, `            # Fetch Changelog History
-                                    [int]$changelogLimit, `             # Maximum Log Entries
-                                    [bool]$generateReport)              # Create Report
+    static [GitControl] GetInstance([string] $executablePath, `             # Executable Path
+                                    [bool] $updateSource, `                 # Update the Local Repository
+                                    [GitCommitLength] $lengthCommitID, `    # Length of the Commit ID
+                                    [bool] $fetchChangelog, `               # Fetch Changelog History
+                                    [int] $changelogLimit, `                # Maximum Log Entries
+                                    [bool] $generateReport, `               # Create Report
+                                    [bool] $generateReportFilePDF)          # Create a PDF Report
     {
         # if there was no previous instance of the object, then create one.
         if ($null -eq [GitControl]::_instance)
@@ -81,7 +82,8 @@ class GitControl
                                                         $lengthCommitID, `
                                                         $fetchChangelog, `
                                                         $changelogLimit, `
-                                                        $generateReport);
+                                                        $generateReport, `
+                                                        $generateReportFilePDF);
         } # If: No Singleton Instance
 
         # Provide an instance of the object.
@@ -152,6 +154,14 @@ class GitControl
     Hidden [bool] $__generateReport;
 
 
+    # Generate Report - PDF File
+    # ---------------
+    # Dependant on the Generate Report functionality, this variable will dictate
+    #  if a PDF file is to be generated during the creation of the report.  The
+    #  PDF file will contain all of the information from the originated report source.
+    Hidden [bool] $__generateReportFilePDF;
+
+
     # Log Root
     # ---------------
     # The main parent directory's absolute path that will hold this object's logs and
@@ -212,6 +222,9 @@ class GitControl
         # Generate Report
         $this.__generateReport = $false;
 
+        # Generate Report - PDF File
+        $this.__generateReportFilePDF = $false;
+
         # Log Root Directory Path
         $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\Git";
 
@@ -229,12 +242,13 @@ class GitControl
 
 
     # User Preference : On-Load
-    GitControl([string]$executablePath, `
-                [bool]$updateSource, `
-                [GitCommitLength]$lengthCommitID, `
-                [bool]$fetchChangelog, `
-                [uint32]$changelogLimit, `
-                [bool]$generateReport)
+    GitControl([string] $executablePath, `
+                [bool] $updateSource, `
+                [GitCommitLength] $lengthCommitID, `
+                [bool] $fetchChangelog, `
+                [uint32] $changelogLimit, `
+                [bool] $generateReport, `
+                [bool] $generateReportFilePDF)
     {
         # Executable path to the Git.exe
         $this.__executablePath = $executablePath;
@@ -253,6 +267,9 @@ class GitControl
 
         # Generate Report
         $this.__generateReport = $generateReport;
+
+        # Generate Report - PDF File
+        $this.__generateReportFilePDF = $generateReportFilePDF;
 
         # Log Root Directory Path
         $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\Git";
@@ -395,6 +412,24 @@ class GitControl
     {
         return $this.__reportPath;
     } # GetReportPath()
+
+
+
+
+   <# Get Generate Report
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the 'Generate Report - PDF File' variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Generate Report using PDF File
+    #   The value of the 'Generate Report - PDF File'.
+    # -------------------------------
+    #>
+    [bool] GetGenerateReportFilePDF()
+    {
+        return $this.__generateReportFilePDF;
+    } # GetGenerateReportFilePDF()
 
 
 
@@ -639,6 +674,37 @@ class GitControl
         # Successfully updated.
         return $true;
     } # SetGenerateReport()
+
+
+
+
+   <# Set Generate Report - Generate PDF File
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'Generate Report - PDF File' variable.
+    # -------------------------------
+    # Input:
+    #  [bool] Generate Report - PDF File
+    #   When true, this will allow the report functionality to generate
+    #    a PDF file.  Otherwise, only the text file will be produced.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetGenerateReportFilePDF([bool] $newVal)
+    {
+        # Because the value is either true or false, there really is no
+        #  point in checking if the new requested value is 'legal'.
+        #  Thus, we are going to trust the value and automatically
+        #  return success.
+        $this.__generateReportFilePDF = $newVal;
+
+        # Successfully updated.
+        return $true;
+    } # SetGenerateReportFilePDF()
 
 
 
@@ -3217,9 +3283,6 @@ class GitControl
     #  [string] Project Path
     #   The path to the project's localized repository.  The provided path must contain the .git directory
     #    within the root of the project's source files.
-    #  [bool] Create a PDF File
-    #   When true, this will allow the ability to create a PDF document along
-    #    with the text file.
     #  [string] (REFERENCE) Return the File Path [Text File]
     #   Returns the full path of the generated TXT report file.  Useful to
     #    provide a full location as to where the report resides within the host's
@@ -3237,7 +3300,6 @@ class GitControl
     # -------------------------------
     #>
     [bool] CreateNewReport([string] $projectPath, `     # The absolute location of the project's local repository
-                           [bool] $makePDF, `           # Create a report within the PDF format was well?
                            [ref] $returnFilePathTXT, `  # Returns the report's path (TXT)
                            [ref] $returnFilePathPDF)    # Returns the report's path (PDF)
     {
@@ -3272,7 +3334,7 @@ class GitControl
 
         # >> Portable Document File (PDF)
         #  Make sure that the user wanted a PDF file before assuming to provide the path.
-        if ($makePDF)
+        if ($this.GetGenerateReportFilePDF())
         {
             # User requested to generate a report using the PDF format
             $returnFilePathPDF.Value = $fileNamePDF;
@@ -3854,7 +3916,7 @@ class GitControl
 
 
         # Does the user also want a PDF file of the report?
-        if ($makePDF -eq $true)
+        if ($this.GetGenerateReportFilePDF() -eq $true)
         {
             # Create the PDF file as requested
             if([CommonIO]::CreatePDFFile($fileNameTXT, $fileNamePDF) -eq $false)
