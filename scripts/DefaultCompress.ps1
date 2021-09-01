@@ -3489,8 +3489,8 @@ class DefaultCompress
                 [string] $logMessage = "Could not create a PDF file of the report!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Object: Git`r`n" + `
-                                            "`tRequested Local Repository generate a report: $($projectPath)`r`n" + `
+                [string] $logAdditionalMSG = ("Object: DefaultCompress`r`n" + `
+                                            "`tReport is based on the archive file: $($archiveFile)`r`n" + `
                                             "`tText file of the report: $($fileNameTXT)`r`n" + `
                                             "`tTried to create PDF file: $($fileNamePDF)");
 
