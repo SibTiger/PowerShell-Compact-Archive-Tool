@@ -66,7 +66,8 @@ class DefaultCompress
     #  a new instance of this particular object.
     static [DefaultCompress] GetInstance([DefaultCompressionLevel] $compressionLevel, ` # Compression Level
                                         [bool] $verifyBuild, `                          # Verify Archive datafile
-                                        [bool] $generateReport)                         # Create report
+                                        [bool] $generateReport, `                       # Create report
+                                        [bool] $generateReportFilePDF)          # Create a PDF Report
     {
         # if there was no previous instance of the object - then create one.
         if ($null -eq [DefaultCompress]::_instance)
@@ -74,7 +75,8 @@ class DefaultCompress
             # Create a new instance of the singleton object.
             [DefaultCompress]::_instance = [DefaultCompress]::new($compressionLevel, `
                                                                     $verifyBuild, `
-                                                                    $generateReport);
+                                                                    $generateReport, `
+                                                                    $generateReportFilePDF);
         } # If: No Singleton Instance
 
         # Provide an instance of the object.
@@ -111,6 +113,14 @@ class DefaultCompress
     #  Reports provide some insight about the archive datafile and the
     #  contents that are within the file itself.
     Hidden [bool] $__generateReport;
+
+
+    # Generate Report - PDF File
+    # ---------------
+    # Dependant on the Generate Report functionality, this variable will dictate
+    #  if a PDF file is to be generated during the creation of the report.  The
+    #  PDF file will contain all of the information from the originated report source.
+    Hidden [bool] $__generateReportFilePDF;
 
 
     # Log Root
@@ -165,6 +175,9 @@ class DefaultCompress
         # Generate Report
         $this.__generateReport = $false;
 
+        # Generate Report - PDF File
+        $this.__generateReportFilePDF = $false;
+
         # Log Root Directory Path
         $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\PSArchive";
 
@@ -184,7 +197,8 @@ class DefaultCompress
     # User Preference : On-Load
     DefaultCompress([DefaultCompressionLevel] $compressionLevel, `
                     [bool] $verifyBuild, `
-                    [bool] $generateReport)
+                    [bool] $generateReport, `
+                    [bool] $generateReportFilePDF)
     {
         # Compression Level
         $this.__compressionLevel = $compressionLevel;
@@ -194,6 +208,9 @@ class DefaultCompress
 
         # Generate Report
         $this.__generateReport = $generateReport;
+
+        # Generate Report - PDF File
+        $this.__generateReportFilePDF = $generateReportFilePDF;
 
         # Log Root Directory Path
         $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\PSArchive";
@@ -264,6 +281,24 @@ class DefaultCompress
     {
         return $this.__generateReport;
     } # GetGenerateReport()
+
+
+
+
+   <# Get Generate Report - Generate PDF File
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the 'Generate Report - PDF File' variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Generate Report using PDF File
+    #   The value of the 'Generate Report - PDF File'.
+    # -------------------------------
+    #>
+    [bool] GetGenerateReportFilePDF()
+    {
+        return $this.__generateReportFilePDF;
+    } # GetGenerateReportFilePDF()
 
 
 
@@ -434,6 +469,37 @@ class DefaultCompress
         # Successfully updated.
         return $true;
     } # SetGenerateReport()
+
+
+
+
+   <# Set Generate Report - Generate PDF File
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'Generate Report - PDF File' variable.
+    # -------------------------------
+    # Input:
+    #  [bool] Generate Report - PDF File
+    #   When true, this will allow the report functionality to generate
+    #    a PDF file.  Otherwise, only the text file will be produced.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetGenerateReportFilePDF([bool] $newVal)
+    {
+        # Because the value is either true or false, there really is no
+        #  point in checking if the new requested value is 'legal'.
+        #  Thus, we are going to trust the value and automatically
+        #  return success.
+        $this.__generateReportFilePDF = $newVal;
+
+        # Successfully updated.
+        return $true;
+    } # SetGenerateReportFilePDF()
 
 
 
@@ -2746,9 +2812,6 @@ class DefaultCompress
     #  [string] Archive File
     #   The archive file that will be used to generate the report; this is our
     #    target file.
-    #  [bool] Create a PDF File
-    #   When true, this will allow the ability to create a PDF document along
-    #    with the text file.
     #  [string] (REFERENCE) Return the File Path [Text File]
     #   Returns the full path of the generated TXT report file.  Useful to
     #    provide a full location as to where the report resides within the host's
@@ -2766,7 +2829,6 @@ class DefaultCompress
     # -------------------------------
     #>
     [bool] CreateNewReport([string] $archiveFile, `     # The archive file that we will generate a report from.
-                           [bool] $makePDF, `           # Create a report within the PDF format as well?
                            [ref] $returnFilePathTXT, `  # Returns the report's path (TXT)
                            [ref] $returnFilePathPDF)    # Returns the report's path (PDF)
     {
@@ -2805,7 +2867,7 @@ class DefaultCompress
 
         # >> Portable Document File (PDF)
         #  Make sure that the user wanted a PDF file before assuming to provide the path.
-        if ($makePDF)
+        if ($this.GetGenerateReportFilePDF())
         {
             # User requested to generate a report using the PDF format
             $returnFilePathPDF.Value = $fileNamePDF;
@@ -3411,7 +3473,7 @@ class DefaultCompress
 
 
         # Does the user also want a PDF file of the report?
-        if ($makePDF -eq $true)
+        if ($this.GetGenerateReportFilePDF() -eq $true)
         {
             # Create the PDF file as requested
             if([CommonIO]::CreatePDFFile($fileNameTXT, $fileNamePDF) -eq $false)
@@ -3427,8 +3489,8 @@ class DefaultCompress
                 [string] $logMessage = "Could not create a PDF file of the report!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Object: DefaultCompress`r`n" + `
-                                            "`tReport is based on the archive file: $($archiveFile)`r`n" + `
+                [string] $logAdditionalMSG = ("Object: Git`r`n" + `
+                                            "`tRequested Local Repository generate a report: $($projectPath)`r`n" + `
                                             "`tText file of the report: $($fileNameTXT)`r`n" + `
                                             "`tTried to create PDF file: $($fileNamePDF)");
 
