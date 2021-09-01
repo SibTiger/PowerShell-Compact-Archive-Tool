@@ -416,7 +416,7 @@ class GitControl
 
 
 
-   <# Get Generate Report
+   <# Get Generate Report - Generate PDF File
     # -------------------------------
     # Documentation:
     #  Returns the value of the 'Generate Report - PDF File' variable.
