@@ -1171,6 +1171,30 @@
 
 
 
+        # GIT SETTINGS -- GENERATE REPORT USING PDF FILE
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
+        try
+        {
+            # Set: Generate Report Using PDF File
+            $gitObj.SetGenerateReport([bool]$cachedUserConfig[1].__generateReportFilePDF);
+        } # Try : Load Value from Config
+
+        # Error trying to load variable into the current program's instance.
+        catch
+        {
+            # Because the value was unknown, we will keep what value is already stored.
+
+
+            # Provide error information to the user and logfile.
+            $this.__LoadStepWiseError("__generateReportFilePDF", `                          # The Variable Name
+                                    "Git Settings", `                                       # The Variable Category
+                                    [string]$cachedUserConfig[1].__generateReportFilePDF, ` # Value Stored in Config
+                                    [string]$gitObj.GetGenerateReportFilePDF(), `           # Current Value
+                                    $_.Exception);                                          # Exception Details
+        } # Catch : Unknown Value from Config.
+
+
+
         # GIT SETTINGS -- ROOT LOG PATH
         # - - - - - - - - - - - - - - - - - - - - - - - - - -
         try
@@ -1443,6 +1467,30 @@
 
 
 
+        # 7ZIP SETTINGS -- GENERATE REPORT USING PDF FILE
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
+        try
+        {
+            # Set: Generate Report Using PDF File
+            $sevenZipObj.SetGenerateReport([bool]$cachedUserConfig[2].__generateReportFilePDF);
+        } # Try : Load Value from Config
+
+        # Error trying to load variable into the current program's instance.
+        catch
+        {
+            # Because the value was unknown, we will keep what value is already stored.
+
+
+            # Provide error information to the user and logfile.
+            $this.__LoadStepWiseError("__generateReportFilePDF", `                          # The Variable Name
+                                    "7Zip Settings", `                                      # The Variable Category
+                                    [string]$cachedUserConfig[2].__generateReportFilePDF, ` # Value Stored in Config
+                                    [string]$sevenZipObj.GetGenerateReportFilePDF(), `      # Current Value
+                                    $_.Exception);                                          # Exception Details
+        } # Catch : Unknown Value from Config.
+
+
+
         # 7ZIP SETTINGS -- ROOT LOG PATH
         # - - - - - - - - - - - - - - - - - - - - - - -
         try
@@ -1590,6 +1638,30 @@
                                     "Archive Settings", `                                   # The Variable Category
                                     [string]$cachedUserConfig[3].__generateReport, `        # Value Stored in Config
                                     [string]$psArchive.GetGenerateReport(), `               # Current Value
+                                    $_.Exception);                                          # Exception Details
+        } # Catch : Unknown Value from Config.
+
+
+
+        # POWERSHELL'S ARCHIVE SETTINGS -- GENERATE REPORT USING PDF FILE
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
+        try
+        {
+            # Set: Generate Report Using PDF File
+            $psArchive.SetGenerateReport([bool]$cachedUserConfig[3].__generateReportFilePDF);
+        } # Try : Load Value from Config
+
+        # Error trying to load variable into the current program's instance.
+        catch
+        {
+            # Because the value was unknown, we will keep what value is already stored.
+
+
+            # Provide error information to the user and logfile.
+            $this.__LoadStepWiseError("__generateReportFilePDF", `                          # The Variable Name
+                                    "Archive Settings", `                                   # The Variable Category
+                                    [string]$cachedUserConfig[3].__generateReportFilePDF, ` # Value Stored in Config
+                                    [string]$psArchive.GetGenerateReportFilePDF(), `        # Current Value
                                     $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
