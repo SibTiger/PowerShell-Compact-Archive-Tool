@@ -875,12 +875,12 @@
 
 
 
-        # USER PREFERENCES -- NOTIFICATION TYPE
+        # USER PREFERENCES -- PROJECT PATH
         # - - - - - - - - - - - - - - - - - - - - - - - - - -
         try
         {
-            # Set: Notification Type
-            $userPref.SetBellEvents([int32]$cachedUserConfig[0].__notificationType);
+            # Set: Project Path
+            $userPref.SetProjectPath([string]$cachedUserConfig[0].__projectPath);
         } # Try : Load Value from Config
 
         # Error trying to load variable into the current program's instance.
@@ -890,11 +890,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__notificationType", `                               # The Variable Name
-                                    "User Preferences", `                                   # The Variable Category
-                                    [string]$cachedUserConfig[0].__notificationType, `      # Value Stored in Config
-                                    [string]$userPref.GetBellEvents(), `                    # Current Value
-                                    $_.Exception);                                          # Exception Details
+            $this.__LoadStepWiseError("__projectPath", `                            # The Variable Name
+                                    "User Preferences", `                           # The Variable Category
+                                    [string]$cachedUserConfig[0].__projectPath, `   # Value Stored in Config
+                                    [string]$userPref.GetProjectPath(), `           # Current Value
+                                    $_.Exception);                                  # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -919,30 +919,6 @@
                                     [string]$cachedUserConfig[0].__outputBuildsPath, `      # Value Stored in User Config
                                     [string]$userPref.GetProjectBuildsPath(), `             # Current value of Variable
                                     $_.Exception);                                          # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
-        # USER PREFERENCES -- PROJECT PATH
-        # - - - - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Project Path
-            $userPref.SetProjectPath([string]$cachedUserConfig[0].__projectPath);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__projectPath", `                            # The Variable Name
-                                    "User Preferences", `                           # The Variable Category
-                                    [string]$cachedUserConfig[0].__projectPath, `   # Value Stored in Config
-                                    [string]$userPref.GetProjectPath(), `           # Current Value
-                                    $_.Exception);                                  # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -995,6 +971,30 @@
 
 
 
+        # USER PREFERENCES -- NOTIFICATION TYPE
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
+        try
+        {
+            # Set: Notification Type
+            $userPref.SetBellEvents([int32]$cachedUserConfig[0].__notificationType);
+        } # Try : Load Value from Config
+
+        # Error trying to load variable into the current program's instance.
+        catch
+        {
+            # Because the value was unknown, we will keep what value is already stored.
+
+
+            # Provide error information to the user and logfile.
+            $this.__LoadStepWiseError("__notificationType", `                               # The Variable Name
+                                    "User Preferences", `                                   # The Variable Category
+                                    [string]$cachedUserConfig[0].__notificationType, `      # Value Stored in Config
+                                    [string]$userPref.GetBellEvents(), `                    # Current Value
+                                    $_.Exception);                                          # Exception Details
+        } # Catch : Unknown Value from Config.
+
+
+
         # USER PREFERENCES -- SHOW HIDDEN MENUS AND OPTIONS
         # - - - - - - - - - - - - - - - - - - - - - - - - - -
         try
@@ -1020,34 +1020,11 @@
 
 
 
+
         # STEP 2 - GIT SETTINGS
         # -------------------------------------
         # -------------------------------------
         # -------------------------------------
-
-
-        # GIT SETTINGS -- CHANGELOG LIMIT
-        # - - - - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Changelog Limit
-            $gitObj.SetChangelogLimit([uint32]$cachedUserConfig[1].__changelogLimit);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__changelogLimit", `                                 # The Variable Name
-                                    "Git Settings", `                                       # The Variable Category
-                                    [string]$cachedUserConfig[1].__changelogLimit, `        # Value Stored in Config
-                                    [string]$gitObj.GetChangelogLimit(), `                  # Current Value
-                                    $_.Exception);                                          # Exception Details
-        } # Catch : Unknown Value from Config.
-
 
 
         # GIT SETTINGS -- EXECUTABLE PATH
@@ -1069,78 +1046,6 @@
                                     "Git Settings", `                                   # The Variable Category
                                     [string]$cachedUserConfig[1].__executablePath, `    # Value Stored in Config
                                     [string]$gitObj.GetExecutablePath(), `              # Current Value
-                                    $_.Exception);                                      # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
-        # GIT SETTINGS -- FETCH CHANGELOG
-        # - - - - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Fetch Changelog
-            $gitObj.SetFetchChangelog([bool]$cachedUserConfig[1].__fetchChangelog);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__fetchChangelog", `                             # The Variable Name
-                                    "Git Settings", `                                   # The Variable Category
-                                    [string]$cachedUserConfig[1].__fetchChangelog, `    # Value Stored in Config
-                                    [string]$gitObj.GetFetchChangelog(), `              # Current Value
-                                    $_.Exception);                                      # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
-        # GIT SETTINGS -- GENERATE REPORT
-        # - - - - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Generate Report
-            $gitObj.SetGenerateReport([bool]$cachedUserConfig[1].__generateReport);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__generateReport", `                             # The Variable Name
-                                    "Git Settings", `                                   # The Variable Category
-                                    [string]$cachedUserConfig[1].__generateReport, `    # Value Stored in Config
-                                    [string]$gitObj.GetGenerateReport(), `              # Current Value
-                                    $_.Exception);                                      # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
-        # GIT SETTINGS -- COMMIT ID LENGTH
-        # - - - - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Commit ID Length
-            $gitObj.SetLengthCommitID([int32]$cachedUserConfig[1].__lengthCommitID);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__lengthCommitID", `                             # The Variable Name
-                                    "Git Settings", `                                   # The Variable Category
-                                    [string]$cachedUserConfig[1].__lengthCommitID, `    # Value Stored in Config
-                                    [string]$gitObj.GetLengthCommitID(), `              # Current Value
                                     $_.Exception);                                      # Exception Details
         } # Catch : Unknown Value from Config.
 
@@ -1170,6 +1075,102 @@
 
 
 
+        # GIT SETTINGS -- COMMIT ID LENGTH
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
+        try
+        {
+            # Set: Commit ID Length
+            $gitObj.SetLengthCommitID([int32]$cachedUserConfig[1].__lengthCommitID);
+        } # Try : Load Value from Config
+
+        # Error trying to load variable into the current program's instance.
+        catch
+        {
+            # Because the value was unknown, we will keep what value is already stored.
+
+
+            # Provide error information to the user and logfile.
+            $this.__LoadStepWiseError("__lengthCommitID", `                             # The Variable Name
+                                    "Git Settings", `                                   # The Variable Category
+                                    [string]$cachedUserConfig[1].__lengthCommitID, `    # Value Stored in Config
+                                    [string]$gitObj.GetLengthCommitID(), `              # Current Value
+                                    $_.Exception);                                      # Exception Details
+        } # Catch : Unknown Value from Config.
+
+
+
+        # GIT SETTINGS -- FETCH CHANGELOG
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
+        try
+        {
+            # Set: Fetch Changelog
+            $gitObj.SetFetchChangelog([bool]$cachedUserConfig[1].__fetchChangelog);
+        } # Try : Load Value from Config
+
+        # Error trying to load variable into the current program's instance.
+        catch
+        {
+            # Because the value was unknown, we will keep what value is already stored.
+
+
+            # Provide error information to the user and logfile.
+            $this.__LoadStepWiseError("__fetchChangelog", `                             # The Variable Name
+                                    "Git Settings", `                                   # The Variable Category
+                                    [string]$cachedUserConfig[1].__fetchChangelog, `    # Value Stored in Config
+                                    [string]$gitObj.GetFetchChangelog(), `              # Current Value
+                                    $_.Exception);                                      # Exception Details
+        } # Catch : Unknown Value from Config.
+
+
+
+        # GIT SETTINGS -- CHANGELOG LIMIT
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
+        try
+        {
+            # Set: Changelog Limit
+            $gitObj.SetChangelogLimit([uint32]$cachedUserConfig[1].__changelogLimit);
+        } # Try : Load Value from Config
+
+        # Error trying to load variable into the current program's instance.
+        catch
+        {
+            # Because the value was unknown, we will keep what value is already stored.
+
+
+            # Provide error information to the user and logfile.
+            $this.__LoadStepWiseError("__changelogLimit", `                                 # The Variable Name
+                                    "Git Settings", `                                       # The Variable Category
+                                    [string]$cachedUserConfig[1].__changelogLimit, `        # Value Stored in Config
+                                    [string]$gitObj.GetChangelogLimit(), `                  # Current Value
+                                    $_.Exception);                                          # Exception Details
+        } # Catch : Unknown Value from Config.
+
+
+
+        # GIT SETTINGS -- GENERATE REPORT
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
+        try
+        {
+            # Set: Generate Report
+            $gitObj.SetGenerateReport([bool]$cachedUserConfig[1].__generateReport);
+        } # Try : Load Value from Config
+
+        # Error trying to load variable into the current program's instance.
+        catch
+        {
+            # Because the value was unknown, we will keep what value is already stored.
+
+
+            # Provide error information to the user and logfile.
+            $this.__LoadStepWiseError("__generateReport", `                             # The Variable Name
+                                    "Git Settings", `                                   # The Variable Category
+                                    [string]$cachedUserConfig[1].__generateReport, `    # Value Stored in Config
+                                    [string]$gitObj.GetGenerateReport(), `              # Current Value
+                                    $_.Exception);                                      # Exception Details
+        } # Catch : Unknown Value from Config.
+
+
+
         # GIT SETTINGS -- ROOT LOG PATH
         # - - - - - - - - - - - - - - - - - - - - - - - - - -
         try
@@ -1189,6 +1190,30 @@
                                     "Git Settings", `                                   # The Variable Category
                                     [string]$cachedUserConfig[1].__rootLogPath, `       # Value Stored in Config
                                     [string]$gitObj.GetRootLogPath(), `                 # Current Value
+                                    $_.Exception);                                      # Exception Details
+        } # Catch : Unknown Value from Config.
+
+
+
+        # GIT SETTINGS -- REPORT PATH
+        # - - - - - - - - - - - - - - - - - - - - - - - - - -
+        try
+        {
+            # Set: Report Path
+            $gitObj.SetReportPath([string]$cachedUserConfig[1].__reportPath);
+        } # Try : Load Value from Config
+
+        # Error trying to load variable into the current program's instance.
+        catch
+        {
+            # Because the value was unknown, we will keep what value is already stored.
+
+
+            # Provide error information to the user and logfile.
+            $this.__LoadStepWiseError("__reportPath", `                                 # The Variable Name
+                                    "Git Settings", `                                   # The Variable Category
+                                    [string]$cachedUserConfig[1].__reportPath, `        # Value Stored in Config
+                                    [string]$gitObj.GetReportPath(), `                  # Current Value
                                     $_.Exception);                                      # Exception Details
         } # Catch : Unknown Value from Config.
 
@@ -1216,29 +1241,6 @@
                                     $_.Exception);                                  # Exception Details
         } # Catch : Unknown Value from Config.
 
-
-
-        # GIT SETTINGS -- REPORT PATH
-        # - - - - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Report Path
-            $gitObj.SetReportPath([string]$cachedUserConfig[1].__reportPath);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__reportPath", `                                 # The Variable Name
-                                    "Git Settings", `                                   # The Variable Category
-                                    [string]$cachedUserConfig[1].__reportPath, `        # Value Stored in Config
-                                    [string]$gitObj.GetReportPath(), `                  # Current Value
-                                    $_.Exception);                                      # Exception Details
-        } # Catch : Unknown Value from Config.
 
 
 
@@ -1273,12 +1275,12 @@
 
 
 
-        # 7ZIP SETTINGS -- 7ZIP ALGORITHM
+        # 7ZIP SETTINGS -- COMPRESSION METHOD
         # - - - - - - - - - - - - - - - - - - - - - - -
         try
         {
-            # Set: 7Zip Algorithm
-            $sevenZipObj.SetAlgorithm7Zip([int32]$cachedUserConfig[2].__algorithm7Zip);
+            # Set: Compression Method
+            $sevenZipObj.SetCompressionMethod([int32]$cachedUserConfig[2].__compressionMethod);
         } # Try : Load Value from Config
 
         # Error trying to load variable into the current program's instance.
@@ -1288,11 +1290,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__algorithm7Zip", `                              # The Variable Name
-                                    "7Zip Settings", `                                  # The Variable Category
-                                    [string]$cachedUserConfig[2].__algorithm7Zip, `     # Value Stored in Config
-                                    [string]$sevenZipObj.GetAlgorithm7Zip(), `          # Current Value
-                                    $_.Exception);                                      # Exception Details
+            $this.__LoadStepWiseError("__compressionMethod", `                              # The Variable Name
+                                    "7Zip Settings", `                                      # The Variable Category
+                                    [string]$cachedUserConfig[2].__compressionMethod, `     # Value Stored in Config
+                                    [string]$sevenZipObj.GetCompressionMethod(), `          # Current Value
+                                    $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1321,12 +1323,12 @@
 
 
 
-        # 7ZIP SETTINGS -- COMPRESSION LEVEL
+        # 7ZIP SETTINGS -- 7ZIP ALGORITHM
         # - - - - - - - - - - - - - - - - - - - - - - -
         try
         {
-            # Set: Compression Level
-            $sevenZipObj.SetCompressionLevel([int32]$cachedUserConfig[2].__compressionLevel);
+            # Set: 7Zip Algorithm
+            $sevenZipObj.SetAlgorithm7Zip([int32]$cachedUserConfig[2].__algorithm7Zip);
         } # Try : Load Value from Config
 
         # Error trying to load variable into the current program's instance.
@@ -1336,59 +1338,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__compressionLevel", `                               # The Variable Name
-                                    "7Zip Settings", `                                      # The Variable Category
-                                    [string]$cachedUserConfig[2].__compressionLevel, `      # Value Stored in Config
-                                    [string]$sevenZipObj.GetCompressionLevel(), `           # Current Value
-                                    $_.Exception);                                          # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
-        # 7ZIP SETTINGS -- COMPRESSION METHOD
-        # - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Compression Method
-            $sevenZipObj.SetCompressionMethod([int32]$cachedUserConfig[2].__compressionMethod);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__compressionMethod", `                              # The Variable Name
-                                    "7Zip Settings", `                                      # The Variable Category
-                                    [string]$cachedUserConfig[2].__compressionMethod, `     # Value Stored in Config
-                                    [string]$sevenZipObj.GetCompressionMethod(), `          # Current Value
-                                    $_.Exception);                                          # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
-        # 7ZIP SETTINGS -- GENERATE REPORT
-        # - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Generate Report
-            $sevenZipObj.SetGenerateReport([bool]$cachedUserConfig[2].__generateReport);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__generateReport", `                                 # The Variable Name
-                                    "7Zip Settings", `                                      # The Variable Category
-                                    [string]$cachedUserConfig[2].__generateReport, `        # Value Stored in Config
-                                    [string]$sevenZipObj.GetGenerateReport(), `             # Current Value
-                                    $_.Exception);                                          # Exception Details
+            $this.__LoadStepWiseError("__algorithm7Zip", `                              # The Variable Name
+                                    "7Zip Settings", `                                  # The Variable Category
+                                    [string]$cachedUserConfig[2].__algorithm7Zip, `     # Value Stored in Config
+                                    [string]$sevenZipObj.GetAlgorithm7Zip(), `          # Current Value
+                                    $_.Exception);                                      # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1412,6 +1366,30 @@
                                     "7Zip Settings", `                                      # The Variable Category
                                     [string]$cachedUserConfig[2].__useMultithread, `        # Value Stored in Config
                                     [string]$sevenZipObj.GetUseMultithread(), `             # Current Value
+                                    $_.Exception);                                          # Exception Details
+        } # Catch : Unknown Value from Config.
+
+
+
+        # 7ZIP SETTINGS -- COMPRESSION LEVEL
+        # - - - - - - - - - - - - - - - - - - - - - - -
+        try
+        {
+            # Set: Compression Level
+            $sevenZipObj.SetCompressionLevel([int32]$cachedUserConfig[2].__compressionLevel);
+        } # Try : Load Value from Config
+
+        # Error trying to load variable into the current program's instance.
+        catch
+        {
+            # Because the value was unknown, we will keep what value is already stored.
+
+
+            # Provide error information to the user and logfile.
+            $this.__LoadStepWiseError("__compressionLevel", `                               # The Variable Name
+                                    "7Zip Settings", `                                      # The Variable Category
+                                    [string]$cachedUserConfig[2].__compressionLevel, `      # Value Stored in Config
+                                    [string]$sevenZipObj.GetCompressionLevel(), `           # Current Value
                                     $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
@@ -1441,6 +1419,30 @@
 
 
 
+        # 7ZIP SETTINGS -- GENERATE REPORT
+        # - - - - - - - - - - - - - - - - - - - - - - -
+        try
+        {
+            # Set: Generate Report
+            $sevenZipObj.SetGenerateReport([bool]$cachedUserConfig[2].__generateReport);
+        } # Try : Load Value from Config
+
+        # Error trying to load variable into the current program's instance.
+        catch
+        {
+            # Because the value was unknown, we will keep what value is already stored.
+
+
+            # Provide error information to the user and logfile.
+            $this.__LoadStepWiseError("__generateReport", `                                 # The Variable Name
+                                    "7Zip Settings", `                                      # The Variable Category
+                                    [string]$cachedUserConfig[2].__generateReport, `        # Value Stored in Config
+                                    [string]$sevenZipObj.GetGenerateReport(), `             # Current Value
+                                    $_.Exception);                                          # Exception Details
+        } # Catch : Unknown Value from Config.
+
+
+
         # 7ZIP SETTINGS -- ROOT LOG PATH
         # - - - - - - - - - - - - - - - - - - - - - - -
         try
@@ -1460,6 +1462,30 @@
                                     "7Zip Settings", `                                  # The Variable Category
                                     [string]$cachedUserConfig[2].__rootLogPath, `       # Value Stored in Config
                                     [string]$sevenZipObj.GetRootLogPath(), `            # Current Value
+                                    $_.Exception);                                      # Exception Details
+        } # Catch : Unknown Value from Config.
+
+
+
+        # 7ZIP SETTINGS -- REPORT PATH
+        # - - - - - - - - - - - - - - - - - - - - - - -
+        try
+        {
+            # Set: Report Path
+            $sevenZipObj.SetReportPath([string]$cachedUserConfig[2].__reportPath);
+        } # Try : Load Value from Config
+
+        # Error trying to load variable into the current program's instance.
+        catch
+        {
+            # Because the value was unknown, we will keep what value is already stored.
+
+
+            # Provide error information to the user and logfile.
+            $this.__LoadStepWiseError("__reportPath", `                                 # The Variable Name
+                                    "7Zip Settings", `                                  # The Variable Category
+                                    [string]$cachedUserConfig[2].__reportPath, `        # Value Stored in Config
+                                    [string]$sevenZipObj.GetReportPath(), `             # Current Value
                                     $_.Exception);                                      # Exception Details
         } # Catch : Unknown Value from Config.
 
@@ -1487,29 +1513,6 @@
                                     $_.Exception);                                  # Exception Details
         } # Catch : Unknown Value from Config.
 
-
-
-        # 7ZIP SETTINGS -- REPORT PATH
-        # - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Report Path
-            $sevenZipObj.SetReportPath([string]$cachedUserConfig[2].__reportPath);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__reportPath", `                                 # The Variable Name
-                                    "7Zip Settings", `                                  # The Variable Category
-                                    [string]$cachedUserConfig[2].__reportPath, `        # Value Stored in Config
-                                    [string]$sevenZipObj.GetReportPath(), `             # Current Value
-                                    $_.Exception);                                      # Exception Details
-        } # Catch : Unknown Value from Config.
 
 
 
@@ -1544,30 +1547,6 @@
 
 
 
-        # POWERSHELL'S ARCHIVE SETTINGS -- GENERATE REPORT
-        # - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Generate Report
-            $psArchive.SetGenerateReport([bool]$cachedUserConfig[3].__generateReport);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__generateReport", `                                 # The Variable Name
-                                    "Archive Settings", `                                   # The Variable Category
-                                    [string]$cachedUserConfig[3].__generateReport, `        # Value Stored in Config
-                                    [string]$psArchive.GetGenerateReport(), `               # Current Value
-                                    $_.Exception);                                          # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
         # POWERSHELL'S ARCHIVE SETTINGS -- VERIFY BUILD
         # - - - - - - - - - - - - - - - - - - - - - - -
         try
@@ -1588,6 +1567,30 @@
                                     [string]$cachedUserConfig[3].__verifyBuild, `       # Value Stored in Config
                                     [string]$psArchive.GetVerifyBuild(), `              # Current Value
                                     $_.Exception);                                      # Exception Details
+        } # Catch : Unknown Value from Config.
+
+
+
+        # POWERSHELL'S ARCHIVE SETTINGS -- GENERATE REPORT
+        # - - - - - - - - - - - - - - - - - - - - - - -
+        try
+        {
+            # Set: Generate Report
+            $psArchive.SetGenerateReport([bool]$cachedUserConfig[3].__generateReport);
+        } # Try : Load Value from Config
+
+        # Error trying to load variable into the current program's instance.
+        catch
+        {
+            # Because the value was unknown, we will keep what value is already stored.
+
+
+            # Provide error information to the user and logfile.
+            $this.__LoadStepWiseError("__generateReport", `                                 # The Variable Name
+                                    "Archive Settings", `                                   # The Variable Category
+                                    [string]$cachedUserConfig[3].__generateReport, `        # Value Stored in Config
+                                    [string]$psArchive.GetGenerateReport(), `               # Current Value
+                                    $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1616,30 +1619,6 @@
 
 
 
-        # POWERSHELL'S ARCHIVE SETTINGS -- LOG PATH
-        # - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Log Path
-            $psArchive.SetLogPath([string]$cachedUserConfig[3].__logPath);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__logPath", `                                # The Variable Name
-                                    "Archive Settings", `                           # The Variable Category
-                                    [string]$cachedUserConfig[3].__logPath, `       # Value Stored in Config
-                                    [string]$psArchive.GetLogPath(), `              # Current Value
-                                    $_.Exception);                                  # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
         # POWERSHELL'S ARCHIVE SETTINGS -- REPORT PATH
         # - - - - - - - - - - - - - - - - - - - - - - -
         try
@@ -1660,6 +1639,30 @@
                                     [string]$cachedUserConfig[3].__reportPath, `        # Value Stored in Config
                                     [string]$psArchive.GetReportPath(), `               # Current Value
                                     $_.Exception);                                      # Exception Details
+        } # Catch : Unknown Value from Config.
+
+
+
+        # POWERSHELL'S ARCHIVE SETTINGS -- LOG PATH
+        # - - - - - - - - - - - - - - - - - - - - - - -
+        try
+        {
+            # Set: Log Path
+            $psArchive.SetLogPath([string]$cachedUserConfig[3].__logPath);
+        } # Try : Load Value from Config
+
+        # Error trying to load variable into the current program's instance.
+        catch
+        {
+            # Because the value was unknown, we will keep what value is already stored.
+
+
+            # Provide error information to the user and logfile.
+            $this.__LoadStepWiseError("__logPath", `                                # The Variable Name
+                                    "Archive Settings", `                           # The Variable Category
+                                    [string]$cachedUserConfig[3].__logPath, `       # Value Stored in Config
+                                    [string]$psArchive.GetLogPath(), `              # Current Value
+                                    $_.Exception);                                  # Exception Details
         } # Catch : Unknown Value from Config.
 
 
