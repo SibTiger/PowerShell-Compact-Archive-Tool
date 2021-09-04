@@ -1176,7 +1176,7 @@
         try
         {
             # Set: Generate Report Using PDF File
-            $gitObj.SetGenerateReport([bool]$cachedUserConfig[1].__generateReportFilePDF);
+            $gitObj.SetGenerateReportFilePDF([bool]$cachedUserConfig[1].__generateReportFilePDF);
         } # Try : Load Value from Config
 
         # Error trying to load variable into the current program's instance.
@@ -1472,7 +1472,7 @@
         try
         {
             # Set: Generate Report Using PDF File
-            $sevenZipObj.SetGenerateReport([bool]$cachedUserConfig[2].__generateReportFilePDF);
+            $sevenZipObj.SetGenerateReportFilePDF([bool]$cachedUserConfig[2].__generateReportFilePDF);
         } # Try : Load Value from Config
 
         # Error trying to load variable into the current program's instance.
@@ -1648,7 +1648,7 @@
         try
         {
             # Set: Generate Report Using PDF File
-            $psArchive.SetGenerateReport([bool]$cachedUserConfig[3].__generateReportFilePDF);
+            $psArchive.SetGenerateReportFilePDF([bool]$cachedUserConfig[3].__generateReportFilePDF);
         } # Try : Load Value from Config
 
         # Error trying to load variable into the current program's instance.
