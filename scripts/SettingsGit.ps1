@@ -88,6 +88,7 @@ class SettingsGit
         [string] $currentSettingRetrieveHistory = $NULL;        # Retrieve History
         [string] $currentSettingHistoryCommitSize = $NULL;      # Changelog Size
         [string] $currentSettingGenerateReport = $NULL;         # Generate Report
+        [string] $currentSettingGenerateReportPDF = $NULL;      # Generate PDF Report
 
         # These variables will determine what menus are to be hidden from the user,
         #  as the options are possibly not available or not ready for the user to
@@ -109,7 +110,8 @@ class SettingsGit
                                                         [ref] $currentSettingCommitIDLength, `      # Commit ID Size
                                                         [ref] $currentSettingRetrieveHistory, `     # Retrieve History
                                                         [ref] $currentSettingHistoryCommitSize, `   # Changelog Size
-                                                        [ref] $currentSettingGenerateReport);       # Generate Report
+                                                        [ref] $currentSettingGenerateReport, `      # Generate Report
+                                                        [ref] $currentSettingGenerateReportPDF);    # Generate PDF Report
 
 
         # Determine what menus are to be displayed to the user.
@@ -186,7 +188,7 @@ class SettingsGit
             [CommonCUI]::DrawMenuItem('R', `
                                     "Generate Report of Project Repository", `
                                     "Provides a detailed report regarding $([ProjectInformation]::projectName)'s development.", `
-                                    "Create a report of the latest developments: $($currentSettingGenerateReport)", `
+                                    "Create a report of the latest developments: $($currentSettingGenerateReport) $($currentSettingGenerateReportPDF)", `
                                     $true);
         } # If: Show Generate Report
 
@@ -234,13 +236,16 @@ class SettingsGit
     #   Determines how many commits are to be recorded into the Changelog.
     #  [string] (REFERENCE) Generate Report
     #   Determines if the user wanted a report of the project's latest developments.
+    #  [string] (REFERENCE) Generate PDF Report
+    #   Determines if the user wanted a PDF report of the project's latest developments.
     # -------------------------------
     #>
     hidden static [void] DrawMenuDecipherCurrentSettings([ref] $updateSource, `         # Update Project Files
                                                         [ref] $commitIDLength, `        # Commit ID Length
                                                         [ref] $retrieveHistory, `       # Retrieve History
                                                         [ref] $historyCommitSize, `     # History Commit Size
-                                                        [ref] $generateReport)          # Generate Report
+                                                        [ref] $generateReport, `        # Generate Report
+                                                        [ref] $generateReportPDF)       # Generate PDF Report
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -374,6 +379,29 @@ class SettingsGit
             # The user does not want us to have a report generated regarding the local repository.
             $generateReport.Value = "No";
         } # else: Do not create report
+
+
+
+        # - - - - - - - - - - - - - - - - - - - - - -
+        # - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+        # Generate PDF Report
+        # Provide a new PDF report regarding the local repository.
+        if ($gitControl.GetGenerateReportFilePDF() -and `
+            $gitControl.GetGenerateReport())
+        {
+            # The user wants to have a PDF report generated regarding the local repository.
+            $generateReportPDF.Value = "[PDF]";
+        } # if: Create PDF report
+
+        # Do not provide a PDF report regarding the local repository.
+        else
+        {
+            # The user does not want to have a report generated of the local repository.
+            $generateReportPDF.Value = $null;
+        } # else: Do not create PDF report
     } # DrawMenuDecipherCurrentSettings()
 
 
@@ -2196,8 +2224,18 @@ class SettingsGit
             #  Is the Generate Report presently enabled?
             if ($gitControl.GetGenerateReport())
             {
-                # Generate Report is presently set as enabled.
-                $decipherNiceString = "I will create a report regarding the project's repository.";
+                # Determine if the PDF is to also be generated
+                if ($gitControl.GetGenerateReportFilePDF())
+                {
+                    $decipherNiceString = "I will create a PDF report regarding the project's repository.";
+                } # if : Generate PDF Report
+
+                # If a regular report is to only be generated
+                else
+                {
+                    # Generate Report is presently set as enabled.
+                    $decipherNiceString = "I will create a report regarding the project's repository.";
+                } # else : Generate Report
             } # if: Generate Report
 
             # Is the Generate Report presently disabled?
@@ -2257,7 +2295,7 @@ class SettingsGit
     {
         # Display the Menu List
 
-        # Generate a new report regarding the archive datafile.
+        # Generate a new report regarding the project's repository.
         [CommonCUI]::DrawMenuItem('R', `
                                 "Generate a report file", `
                                 "Generate a new technical report regarding the project's repository.", `
@@ -2265,7 +2303,15 @@ class SettingsGit
                                 $true);
 
 
-        # Do not generate a new report regarding the archive datafile.
+        # Generate a new PDF report regarding the project's repository.
+        [CommonCUI]::DrawMenuItem('P', `
+                                "Generate a PDF report file", `
+                                "Generate a new technical PDF report regarding the project's repository.", `
+                                $NULL, `
+                                $true);
+
+
+        # Do not generate a report regarding the project's repository.
         [CommonCUI]::DrawMenuItem('N', `
                                 "Do not generate a report file.", `
                                 "Do not create a technical report regarding the project's repository.", `
@@ -2322,12 +2368,34 @@ class SettingsGit
                 ($_ -eq "Generate report") -or `
                 ($_ -eq "Make report")}
             {
-                # The user had selected to have technical reports generated regarding newly compiled project build.
+                # The user had selected to have technical reports generated regarding the project's repository.
                 $gitControl.SetGenerateReport($true);
 
                 # Finished
                 break;
             } # Selected Generate Reports
+
+
+            # Generate PDF Report
+            #  NOTE: Allow the user's request when they type: "Create PDF reports", "Generate PDF reports", "Make PDF reports", 
+            #           "Create PDF", "Generate PDF", "Make PDF", as well as "P".
+            {($_ -eq "P") -or `
+                ($_ -eq "Create PDF report") -or `
+                ($_ -eq "Generate PDF report") -or `
+                ($_ -eq "Make PDF report") -or `
+                ($_ -eq "Create PDF") -or `
+                ($_ -eq "Generate PDF") -or `
+                ($_ -eq "Make PDF")}
+            {
+                # The user had selected to have technical reports generated regarding the project's repository.
+                $gitControl.SetGenerateReport($true);
+
+                # The user wishes to generate PDF reports
+                $gitControl.SetGenerateReportFilePDF($true);
+
+                # Finished
+                break;
+            } # Selected Generate PDF Reports
 
 
             # Do not Generate Reports
@@ -2337,7 +2405,7 @@ class SettingsGit
                 ($_ -eq "do not generate reports") -or `
                 ($_ -eq "Do not make reports")}
             {
-                # The user had selected to not have technical reports generated regarding the newly compiled project builds.
+                # The user had selected to not have technical reports generated regarding the project's repository.
                 $gitControl.SetGenerateReport($false);
 
                 # Finished
