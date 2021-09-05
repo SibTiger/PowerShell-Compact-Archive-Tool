@@ -1608,7 +1608,8 @@ class Builder
 
             # Report File - PDF Report
             # = - - - - - - - - - - =
-            if ($true)
+            if (($compressionTool -eq 'D' -and $defaultCompress.GetGenerateReportFilePDF()) -or `
+                ($compressionTool -eq '7' -and $sevenZip.GetGenerateReportFilePDF()))
             {
                 # User allowed the ability for PDF files to be generated
                 [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportPDFFile);
