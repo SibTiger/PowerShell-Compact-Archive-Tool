@@ -1791,7 +1791,7 @@ class Builder
 
             # Report File - PDF Report
             # = - - - - - - - - - - =
-            if ($true)
+            if ($gitControl.GetGenerateReportFilePDF())
             {
                 # User allowed the ability for PDF files to be generated
                 [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportPDFFile);
