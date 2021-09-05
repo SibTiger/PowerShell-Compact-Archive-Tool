@@ -1529,7 +1529,6 @@ class Builder
         {
             # Generate a report using the default compression tool
             $result = $defaultCompress.CreateNewReport($compiledBuildFullPath, `
-                                                        $true, `
                                                         [ref] $fullPathReportTextFile, `
                                                         [ref] $fullPathReportPDFFile);
         } # if : Generate report with Default Compression Tool
@@ -1539,7 +1538,6 @@ class Builder
         {
             # Generate a report using the 7Zip compression tool
             $result = $sevenZip.CreateNewReport($compiledBuildFullPath, `
-                                                $true, `
                                                 [ref] $fullPathReportTextFile, `
                                                 [ref] $fullPathReportPDFFile);
         } # elseif : Generate report with 7Zip Compression Tool
@@ -1763,7 +1761,6 @@ class Builder
 
         # Generate the report
         if ($gitControl.CreateNewReport($userPreferences.GetProjectPath(), `
-                                        $true, `
                                         [ref] $fullPathReportTextFile, `
                                         [ref] $fullPathReportPDFFile))
         {
