@@ -1723,7 +1723,7 @@ class Builder
 
 
         # Did the user wanted a report of the project's local repository?
-        if (!$gitControl.GetReportPath())
+        if (!$gitControl.GetGenerateReport())
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
