@@ -3164,6 +3164,9 @@ class Settings7Zip
                 # The user had selected to have technical reports generated regarding newly compiled project build.
                 $sevenZip.SetGenerateReport($true);
 
+                # The user does not wish to generate PDF reports
+                $sevenZip.SetGenerateReportFilePDF($false);
+
                 # Finished
                 break;
             } # Selected Generate Reports
@@ -3200,6 +3203,9 @@ class Settings7Zip
             {
                 # The user had selected to not have technical reports generated regarding the newly compiled project builds.
                 $sevenZip.SetGenerateReport($false);
+
+                # The user does not wish to generate PDF reports
+                $sevenZip.SetGenerateReportFilePDF($false);
 
                 # Finished
                 break;
