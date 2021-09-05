@@ -929,7 +929,7 @@ class Settings7Zip
                     ($_ -eq "Generate Report of Archive Datafile"))}
             {
                 # Allow the user the ability to request reports for the newly generated archive datafile.
-                [SettingsZip]::GenerateReport();
+                [Settings7Zip]::GenerateReport();
 
 
                 # Finished
