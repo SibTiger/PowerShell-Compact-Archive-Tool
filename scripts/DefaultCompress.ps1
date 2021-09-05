@@ -2649,7 +2649,7 @@ class DefaultCompress
         try
         {
             # Create the archive datafile.
-            Compress-Archive -Path $targetDirectory `
+            Compress-Archive -Path "$($targetDirectory)\*" `
                              -DestinationPath "$($archiveFileName).$($archiveFileExtension)" `
                              -CompressionLevel $this.GetCompressionLevel() `
                              -ErrorAction Stop `
