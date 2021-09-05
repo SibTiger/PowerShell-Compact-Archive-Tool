@@ -473,6 +473,7 @@ class Settings7Zip
 
 
 
+
    <# Draw Menu: Determine Hidden Menus
     # -------------------------------
     # Documentation:
