@@ -1030,7 +1030,7 @@ class Builder
                     # --------------
 
                     # Generate a message to display to the user.
-                    [string] $displayErrorMessage = ("Failed to compile $([ProjectInformation]::projectName)!" + `
+                    [string] $displayErrorMessage = ("Failed to compile $([ProjectInformation]::projectName)!`r`n" + `
                                                     "Please inspect the logs for what could had caused the problem.");
 
                     # Generate the initial message
