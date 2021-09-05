@@ -2371,6 +2371,9 @@ class SettingsGit
                 # The user had selected to have technical reports generated regarding the project's repository.
                 $gitControl.SetGenerateReport($true);
 
+                # The user does not wish to generate PDF reports
+                $gitControl.SetGenerateReportFilePDF($false);
+
                 # Finished
                 break;
             } # Selected Generate Reports
@@ -2407,6 +2410,9 @@ class SettingsGit
             {
                 # The user had selected to not have technical reports generated regarding the project's repository.
                 $gitControl.SetGenerateReport($false);
+
+                # The user does not wish to generate PDF reports
+                $gitControl.SetGenerateReportFilePDF($false);
 
                 # Finished
                 break;
