@@ -1751,7 +1751,7 @@ class Builder
 
         # Show that we are about to generate a report on the project's local repository.
         [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Generating report of the project's local repository");
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Report will be based on the " + [ProjectInformation]::projectName + "Local Repository.");
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Report will be based on the " + [ProjectInformation]::projectName + " Local Repository.");
         [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "Using project path: " + $userPreferences.GetProjectPath());
 
 
