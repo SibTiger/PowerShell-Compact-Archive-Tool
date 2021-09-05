@@ -1344,6 +1344,9 @@ class SettingsZip
                 # The user had selected to not have technical reports generated regarding the newly compiled project builds.
                 $defaultCompress.SetGenerateReport($false);
 
+                # The user does not wish to generate PDF reports
+                $defaultCompress.SetGenerateReportFilePDF($false);
+
                 # Finished
                 break;
             } # Selected Do not Generate Reports
