@@ -1618,8 +1618,8 @@ class Builder
                 if ($userPreferences.GetUseWindowsExplorer())
                 {
                     # Access the desired directory and select the file.
-                    [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportTextFile), `
-                                                [System.IO.Path]::GetFileName($fullPathReportTextFile));
+                    [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportPDFFile), `
+                                                [System.IO.Path]::GetFileName($fullPathReportPDFFile));
                 } # if : Reveal using the GUI Shell
             } # if : Show PDF Report
 
