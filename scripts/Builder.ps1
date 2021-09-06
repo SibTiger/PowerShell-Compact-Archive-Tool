@@ -921,6 +921,7 @@ class Builder
         # Determine if we are to apply the git SHA1 onto the filename
         if ($makeDevBuild)
         {
+            # Because we are constructing a developmental build of the project, we will append the SHA1 hash onto the filename.
             $archiveFileName += "-dev_" + $gitControl.FetchCommitID($userPreferences.GetProjectPath());
         } # if: Dev. Build Request
 
