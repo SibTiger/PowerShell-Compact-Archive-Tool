@@ -34,13 +34,18 @@ class Builder
     #   and as well in the future when and if the functionality were
     #   to expand.
     # -------------------------------
+    # Input:
+    #  [bool] Make Development Build
+    #   When this flag is true, this will allow the ability create
+    #   a developmental build of the project.
+    # -------------------------------
     # Output:
     #  [bool] Exit code
     #   $false = The Project Build had reached an error.
     #   $true = The Project Build had successfully been created.
     # -------------------------------
     #>
-    static [bool] Build()
+    static [bool] Build([bool] $makeDevBuild)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -128,7 +133,7 @@ class Builder
         # We will need to know the file name that will identify archive datafile,
         #  as well as the file extension that will help to classify the archive
         #  datafile's data structure.
-        $fileName = [Builder]::GenerateArchiveFileName();
+        $fileName = [Builder]::GenerateArchiveFileName($makeDevBuild);
 
 
 
@@ -876,13 +881,30 @@ class Builder
     #  This function will allow the ability to automatically generate
     #   the archive filename.
     # -------------------------------
+    # Input:
+    #  [bool] Make Development Build
+    #   When this flag is true, this will append the latest git commit
+    #   available within the user's local repository.  Only useful
+    #   when wanting to create a specialized developmental build.
+    # -------------------------------
+    # Output:
+    #   [string] Archive Datafile Name
+    #       The name of the archive datafile that will be generated.
+    # -------------------------------
     #>
-    hidden static [string] GenerateArchiveFileName()
+    hidden static [string] GenerateArchiveFileName([bool] $makeDevBuild)
     {
         # Declarations and Initializations
         # ----------------------------------------
         # This will hold the filename for the archive data file
         [string] $archiveFileName = $null;
+
+        # Retrieve the Git Control object
+        [GitControl] $gitControl = [GitControl]::GetInstance();
+
+        # Retrieve the current instance of the User Preferences object; this contains the user's
+        #  generalized settings.
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
         # ----------------------------------------
 
 
@@ -892,9 +914,15 @@ class Builder
 
 
 
-        # Determine the core file name of the archive data file.
+        # Apply the core filename of the archive datafile
         $archiveFileName = [ProjectInformation]::fileName;
 
+
+        # Determine if we are to apply the git SHA1 onto the filename
+        if ($makeDevBuild)
+        {
+            $archiveFileName += $gitControl.FetchCommitID($userPreferences.GetProjectPath());
+        } # if: Dev. Build Request
 
 
 

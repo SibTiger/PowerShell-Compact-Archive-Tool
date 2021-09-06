@@ -99,6 +99,14 @@ class MainMenu
                                 $NULL, `
                                 $true);
 
+        # Generate Development Project and View Dev. Project Information
+        [CommonCUI]::DrawMenuItem('D', `
+                                "Build a Development Build of $([ProjectInformation]::projectName)", `
+                                "Create a new dev. build of the $([ProjectInformation]::projectName) ($([ProjectInformation]::codeName)) project.", `
+                                $NULL, `
+                                $true);
+
+
         [CommonCUI]::DrawMenuItem('H', `
                                 "$([ProjectInformation]::projectName) Homepage", `
                                 "Access the $([ProjectInformation]::projectName)'s Homepage online.", `
@@ -180,7 +188,26 @@ class MainMenu
                 ($_ -eq "Build $([ProjectInformation]::projectName)")}
             {
                 # Build the desired ZDoom based Project
-                [Builder]::Build();
+                [Builder]::Build($false);
+
+
+                # Allow the user to read the results from the Builder before
+                #  refreshing the Main Menu screen.
+                [Logging]::GetUserEnterKey();
+
+
+                # Finished
+                break;
+            } # Build ZDoom Project
+
+
+            # Build a developmental build of the desired ZDoom project
+            #  NOTE: Allow the user's request when they type: 'Dev' or 'D'.
+            {($_ -eq "D") -or `
+                ($_ -eq "Dev")}
+            {
+                # Build the desired ZDoom based Project
+                [Builder]::Build($true);
 
 
                 # Allow the user to read the results from the Builder before
