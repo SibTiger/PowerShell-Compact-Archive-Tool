@@ -14,5 +14,28 @@
 
 class Notifications
 {
+   <# Main Notification
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the ability to provide a notification to the end-user,
+    #   such that they are aware of an event that had occurred.  Such events may vary
+    #   in such a way that they grab the user's attention, such as visual aid or audible
+    #   sounds.
+    # -------------------------------
+    # Input:
+    #  [UserPreferencesEventAlarm] Event Triggered
+    #   Specifies what type of event that had been triggered.
+    # -------------------------------
+    #>
+    static [void] Main([UserPreferencesEventAlarm] $eventTriggered)
+    {
+        # Declarations and Initializations
+        # -----------------------------------------
+        # Retrieve the User's Preferences
+        [UserPreferences] $userPref = [UserPreferences]::GetInstance();
+        # -----------------------------------------
 
+
+
+    } # Notifications()
 } # Notifications
