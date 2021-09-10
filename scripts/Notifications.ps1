@@ -38,4 +38,21 @@ class Notifications
 
 
     } # Notifications()
+
+
+
+
+
+   <# Standard Bell
+    # -------------------------------
+    # Documentation:
+    #  This function will provide a standard audible bell.  This is a very common
+    #   notification bell, nothing too fancy here ;)
+    # -------------------------------
+    #>
+    static hidden [void] StandardBell()
+    {
+        # Ordinary bell
+        [System.Console]::Beep();
+    } # StandardBell()
 } # Notifications
