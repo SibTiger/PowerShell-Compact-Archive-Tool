@@ -64,7 +64,7 @@ class Notifications
 
 
 
-   <# PLAY: Beep Bell
+   <# PLAY: Beep Sound
     # -------------------------------
     # Documentation:
     #  This will function will play the 'Beep' notification provided by the
@@ -81,7 +81,7 @@ class Notifications
 
 
 
-   <# PLAY: Asterisk Bell
+   <# PLAY: Asterisk Sound
     # -------------------------------
     # Documentation:
     #  This will function will play the 'Asterisk' notification provided by the
@@ -100,7 +100,7 @@ class Notifications
 
 
 
-   <# PLAY: Exclamation Bell
+   <# PLAY: Exclamation Sound
     # -------------------------------
     # Documentation:
     #  This will function will play the 'Exclamation' notification provided by the
@@ -120,7 +120,7 @@ class Notifications
 
 
 
-   <# PLAY: Hand Bell
+   <# PLAY: Hand Sound
     # -------------------------------
     # Documentation:
     #  This will function will play the 'Hand' notification provided by the
@@ -139,7 +139,7 @@ class Notifications
 
 
 
-   <# PLAY: Question Bell
+   <# PLAY: Question Sound
     # -------------------------------
     # Documentation:
     #  This will function will play the 'Question' notification provided by the
