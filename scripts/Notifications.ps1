@@ -41,6 +41,55 @@ class Notifications
 
 
 
+        # If incase the user does not wish to be notified of any events
+        #  that had just occurred, then we will merely escape from this function.
+        if ($userPref.GetBellEvents() -eq [UserPreferencesEventAlarm]::Disable)
+        {
+            # User does not wish to be notified
+            return;
+        } # if : Do Not Notify User
+
+
+        # Determine the type of notification that had just occurred, and evaluate
+        #  if user is to be notified regarding the event.
+        switch ($eventTriggered)
+        {
+            # Successful operation
+            {($_ -eq [UserPreferencesEventAlarm]::Success) -and `
+                (($userPref.GetBellEvents() -eq [UserPreferencesEventAlarm]::Everything) -or `
+                 ($userPref.GetBellEvents() -eq [UserPreferencesEventAlarm]::Success))}
+            {
+                # Play Asterisk sound
+                [Notifications]::PlaySoundAsterisk();
+            } # Event: Successful
+
+
+            # Error had been reached
+            {($_ -eq [UserPreferencesEventAlarm]::Errors) -and `
+                (($userPref.GetBellEvents() -eq [UserPreferencesEventAlarm]::Everything) -or `
+                 ($userPref.GetBellEvents() -eq [UserPreferencesEventAlarm]::Errors))}
+            {
+                # Play Critical Error sound
+                [Notifications]::PlaySoundHand();
+            } # Event: Errors
+
+
+            # A specific warning had been reached
+            {($_ -eq [UserPreferencesEventAlarm]::Warnings) -and `
+                (($userPref.GetBellEvents() -eq [UserPreferencesEventAlarm]::Everything) -or `
+                 ($userPref.GetBellEvents() -eq [UserPreferencesEventAlarm]::Warnings))}
+            {
+                # Play Exclamation sound
+                [Notifications]::PlaySoundExclamation();
+            } # Event: Warnings
+
+
+            # All other superfluous values
+            default
+            {
+                return;
+            } # Default
+        } # switch: Event Triggered
     } # Notifications()
 
 
