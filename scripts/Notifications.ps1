@@ -64,6 +64,33 @@ class Notifications
 
 
 
+   <# Standard Bell (Customizable)
+    # -------------------------------
+    # Documentation:
+    #  This function is adjacent to StandardBell(), except that this function will
+    #   allow you to customize the bell's tone and length.
+    #
+    # Useful resources:
+    #  https://docs.microsoft.com/en-us/dotnet/api/system.console.beep?view=net-5.0#System_Console_Beep_System_Int32_System_Int32_
+    # -------------------------------
+    # Input:
+    #  [int32] Frequency
+    #   The frequency of the beep, that ranges from 37 to 32767 hertz.
+    #  [int32] Duration
+    #   The duration of the beep measured in milliseconds.
+    # -------------------------------
+    #>
+    static hidden [void] StandardBell([int32] $frequency,       # Frequency of the tone
+                                        [int32] $duration)      # Length of the tone
+    {
+        # Customizable bell
+        [System.Console]::Beep($frequency, $duration);
+    } # StandardBell()
+
+
+
+
+
    <# PLAY: Beep Sound
     # -------------------------------
     # Documentation:
