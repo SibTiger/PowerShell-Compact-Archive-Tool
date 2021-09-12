@@ -132,6 +132,24 @@ class Notifications
     static hidden [void] StandardBell([int32] $frequency,       # Frequency of the tone
                                         [int32] $duration)      # Length of the tone
     {
+        # Make sure that Frequency provided is within the expected range.
+        if (($frequency -lt 37) -or `
+            ($frequency -gt 32767))
+        {
+            # The frequency is out of range.
+            return;
+        } # if : Frequency is out of range
+
+
+        # Make sure that the duration is not in a negative range nor zero
+        if ($duration -le 0)
+        {
+            # The duration cannot be a negative integer and cannot be zero.
+            return;
+        } # if : Duration is Zero or Negative
+
+
+
         # Customizable bell
         [System.Console]::Beep($frequency, $duration);
     } # StandardBell()
