@@ -179,6 +179,7 @@ class Notifications
         {
             # Provide a beep sound
             [Notifications]::StandardBell();
+            [Notifications]::StandardBell();
         } # catch : Provide Beep Sound
     } # PlaySoundBeep()
 
