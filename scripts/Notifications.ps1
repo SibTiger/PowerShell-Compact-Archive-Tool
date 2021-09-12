@@ -18,7 +18,7 @@
 
 class Notifications
 {
-   <# Main Notification
+   <# Notify [Main Function]
     # -------------------------------
     # Documentation:
     #  This function will allow the ability to provide a notification to the end-user,
@@ -31,7 +31,7 @@ class Notifications
     #   Specifies what type of event that had been triggered.
     # -------------------------------
     #>
-    static [void] Main([UserPreferencesEventAlarm] $eventTriggered)
+    static [void] Notify([UserPreferencesEventAlarm] $eventTriggered)
     {
         # Declarations and Initializations
         # -----------------------------------------
@@ -90,7 +90,7 @@ class Notifications
                 return;
             } # Default
         } # switch: Event Triggered
-    } # Notifications()
+    } # Notify()
 
 
 
