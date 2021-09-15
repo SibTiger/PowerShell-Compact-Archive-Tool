@@ -675,6 +675,10 @@ class SettingsGeneralProgram
             # Unknown Option
             default
             {
+                # Alert the user that they had provided an incorrect option.
+                [Notifications]::Notify([NotificationEventType]::IncorrectOption);
+
+
                 # Provide an error message to the user that the option they chose is
                 #  not available.
                 [CommonCUI]::DrawIncorrectMenuOption();
@@ -883,6 +887,10 @@ class SettingsGeneralProgram
             # Unknown Option
             default
             {
+                # Alert the user that they had provided an incorrect option.
+                [Notifications]::Notify([NotificationEventType]::IncorrectOption);
+
+
                 # Provide an error message to the user that the option they chose is
                 #  not available.
                 [CommonCUI]::DrawIncorrectMenuOption();
@@ -945,6 +953,10 @@ class SettingsGeneralProgram
             if (($newProjectPath -ne "Cancel") -and `
                 ($newProjectPath -ne "x"))
             {
+                # Alert the user that the path is incorrect.
+                [Notifications]::Notify([NotificationEventType]::Warning);
+
+
                 # Because the path is not valid, let the user know that the path does not exist
                 #  and will not be used as part of the project directory.
                 [Logging]::DisplayMessage("`r`n" + `
@@ -1150,6 +1162,10 @@ class SettingsGeneralProgram
             # Unknown Option
             default
             {
+                # Alert the user that they had provided an incorrect option.
+                [Notifications]::Notify([NotificationEventType]::IncorrectOption);
+
+
                 # Provide an error message to the user that the option they chose is
                 #  not available.
                 [CommonCUI]::DrawIncorrectMenuOption();
@@ -1214,6 +1230,10 @@ class SettingsGeneralProgram
             if (($newProjectPath -ne "Cancel") -and `
                 ($newProjectPath -ne "x"))
             {
+                # Alert the user that the path is incorrect.
+                [Notifications]::Notify([NotificationEventType]::Warning);
+
+
                 # Because the path is not valid, let the user know that the path does not exist
                 #  and will not be used as part of the Compiled Builds Output directory.
                 [Logging]::DisplayMessage("`r`n" + `
@@ -1476,6 +1496,10 @@ class SettingsGeneralProgram
             # Unknown Option
             default
             {
+                # Alert the user that they had provided an incorrect option.
+                [Notifications]::Notify([NotificationEventType]::IncorrectOption);
+
+
                 # Provide an error message to the user that the option they chose is
                 #  not available.
                 [CommonCUI]::DrawIncorrectMenuOption();
@@ -1716,6 +1740,10 @@ class SettingsGeneralProgram
             # Unknown Option
             default
             {
+                # Alert the user that they had provided an incorrect option.
+                [Notifications]::Notify([NotificationEventType]::IncorrectOption);
+
+
                 # Provide an error message to the user that the option they chose is
                 #  not available.
                 [CommonCUI]::DrawIncorrectMenuOption();
@@ -2063,6 +2091,10 @@ class SettingsGeneralProgram
             # Unknown Option
             default
             {
+                # Alert the user that they had provided an incorrect option.
+                [Notifications]::Notify([NotificationEventType]::IncorrectOption);
+
+
                 # Provide an error message to the user that the option they chose is
                 #  not available.
                 [CommonCUI]::DrawIncorrectMenuOption();
@@ -2302,6 +2334,10 @@ class SettingsGeneralProgram
             # Unknown Option
             default
             {
+                # Alert the user that they had provided an incorrect option.
+                [Notifications]::Notify([NotificationEventType]::IncorrectOption);
+
+
                 # Provide an error message to the user that the option they chose is
                 #  not available.
                 [CommonCUI]::DrawIncorrectMenuOption();
