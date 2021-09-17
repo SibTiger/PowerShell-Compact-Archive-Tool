@@ -571,6 +571,10 @@ class SettingsZip
             # Unknown Option
             default
             {
+                # Alert the user that they had provided an incorrect option.
+                [Notifications]::Notify([NotificationEventType]::IncorrectOption);
+
+
                 # Provide an error message to the user that the option they chose is
                 #  not available.
                 [CommonCUI]::DrawIncorrectMenuOption();
@@ -848,6 +852,10 @@ class SettingsZip
             # Unknown Option
             default
             {
+                # Alert the user that they had provided an incorrect option.
+                [Notifications]::Notify([NotificationEventType]::IncorrectOption);
+
+
                 # Provide an error message to the user that the option they chose is
                 #  not available.
                 [CommonCUI]::DrawIncorrectMenuOption();
@@ -1087,6 +1095,10 @@ class SettingsZip
             # Unknown Option
             default
             {
+                # Alert the user that they had provided an incorrect option.
+                [Notifications]::Notify([NotificationEventType]::IncorrectOption);
+
+
                 # Provide an error message to the user that the option they chose is
                 #  not available.
                 [CommonCUI]::DrawIncorrectMenuOption();
@@ -1372,6 +1384,10 @@ class SettingsZip
             # Unknown Option
             default
             {
+                # Alert the user that they had provided an incorrect option.
+                [Notifications]::Notify([NotificationEventType]::IncorrectOption);
+
+
                 # Provide an error message to the user that the option they chose is
                 #  not available.
                 [CommonCUI]::DrawIncorrectMenuOption();
