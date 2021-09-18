@@ -798,6 +798,10 @@ class SettingsGit
             # Unknown Option
             default
             {
+                # Alert the user that they had provided an incorrect option.
+                [Notifications]::Notify([NotificationEventType]::IncorrectOption);
+
+
                 # Provide an error message to the user that the option they chose is
                 #  not available.
                 [CommonCUI]::DrawIncorrectMenuOption();
@@ -1032,6 +1036,10 @@ class SettingsGit
             # Unknown Option
             default
             {
+                # Alert the user that they had provided an incorrect option.
+                [Notifications]::Notify([NotificationEventType]::IncorrectOption);
+
+
                 # Provide an error message to the user that the option they chose is
                 #  not available.
                 [CommonCUI]::DrawIncorrectMenuOption();
@@ -1085,6 +1093,10 @@ class SettingsGit
         #  if we were able to automatically detect the Git Application.
         if ($null -eq $findGitResults)
         {
+            # Alert the user that the path is incorrect.
+            [Notifications]::Notify([NotificationEventType]::Warning);
+
+
             # Because we are unable to find Git automatically, there's
             #  really nothing that we can do.
             [Logging]::DisplayMessage("Unable to find the Git application!`r`nPlease be sure that it had been properly installed on your system!");
@@ -1152,6 +1164,10 @@ class SettingsGit
             if (($newPath -ne "Cancel") -and `
                 ($newPath -ne "x"))
             {
+                # Alert the user that the path is incorrect.
+                [Notifications]::Notify([NotificationEventType]::Warning);
+
+
                 # Because the path is not valid, let the user know that the path does not exist
                 #  and will not be used.
                 [Logging]::DisplayMessage("`r`n" + `
@@ -1391,6 +1407,10 @@ class SettingsGit
             # Unknown Option
             default
             {
+                # Alert the user that they had provided an incorrect option.
+                [Notifications]::Notify([NotificationEventType]::IncorrectOption);
+
+
                 # Provide an error message to the user that the option they chose is
                 #  not available.
                 [CommonCUI]::DrawIncorrectMenuOption();
@@ -1640,6 +1660,10 @@ class SettingsGit
             # Unknown Option
             default
             {
+                # Alert the user that they had provided an incorrect option.
+                [Notifications]::Notify([NotificationEventType]::IncorrectOption);
+
+
                 # Provide an error message to the user that the option they chose is
                 #  not available.
                 [CommonCUI]::DrawIncorrectMenuOption();
@@ -1879,6 +1903,10 @@ class SettingsGit
             # Unknown Option
             default
             {
+                # Alert the user that they had provided an incorrect option.
+                [Notifications]::Notify([NotificationEventType]::IncorrectOption);
+
+
                 # Provide an error message to the user that the option they chose is
                 #  not available.
                 [CommonCUI]::DrawIncorrectMenuOption();
@@ -2084,6 +2112,10 @@ class SettingsGit
             # Unknown Option
             default
             {
+                # Alert the user that they had provided an incorrect option.
+                [Notifications]::Notify([NotificationEventType]::IncorrectOption);
+
+
                 # Provide an error message to the user that the option they chose is
                 #  not available.
                 [CommonCUI]::DrawIncorrectMenuOption();
@@ -2439,6 +2471,10 @@ class SettingsGit
             # Unknown Option
             default
             {
+                # Alert the user that they had provided an incorrect option.
+                [Notifications]::Notify([NotificationEventType]::IncorrectOption);
+
+
                 # Provide an error message to the user that the option they chose is
                 #  not available.
                 [CommonCUI]::DrawIncorrectMenuOption();
