@@ -318,7 +318,7 @@ class MainMenu
                 ($_ -eq "help me")}
             {
                 # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMSITEWIKI_,                   ` # Project's Repository
+                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMSITEWIKI_,                   ` # Program's Wiki
                                                             "$([ProjectInformation]::projectName) Wiki",    ` # Show page title
                                                             $false))                                        ` # Do not force Web Browser functionality.
                 {
