@@ -208,6 +208,10 @@ class Builder
 
 
 
+        # Alert the user that the operation had finished
+        [Notifications]::Notify([NotificationEventType]::Success);
+
+
         # Show that the compiling operation was successful.
         [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Operation had been completed!");
 
