@@ -284,6 +284,10 @@ class Builder
         {
             # Unable to find the project's source files; unable to continue.
 
+            # Alert the user that an error had been reached.
+            [Notifications]::Notify([NotificationEventType]::Error);
+
+
             # Show that the Project's source files could not be found.
             [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find $([ProjectInformation]::projectName) source files!");
             [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please reconfigure the program settings!");
@@ -345,6 +349,10 @@ class Builder
         if ($boolCacheValue -eq $false)
         {
             # Unable to find the output path directory; unable to continue.
+
+            # Alert the user that an error had been reached.
+            [Notifications]::Notify([NotificationEventType]::Error);
+
 
             # Show that the Output Directory could not be found.
             [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find the Output Directory!");
@@ -415,6 +423,10 @@ class Builder
                 {
                     # Unable to find the dotNET Archive Zip
 
+                    # Alert the user that an error had been reached.
+                    [Notifications]::Notify([NotificationEventType]::Error);
+
+
                     # Show that this program cannot detect the dotNET Core Archive ZIP functionality.
                     [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find native support with Default ZIP functionality");
                     [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please assure that you are using the latest version of PowerShell Core!");
@@ -484,6 +496,10 @@ class Builder
                 {
                     # Unable to find the 7Zip application
 
+                    # Alert the user that an error had been reached.
+                    [Notifications]::Notify([NotificationEventType]::Error);
+
+
                     # Show that this program cannot find the 7Zip software installed on this system or the desired location.
                     [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find the 7Zip application installed!");
                     [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please assure that you have 7Zip installed and that this program can find it as well.");
@@ -545,6 +561,10 @@ class Builder
             {
                 # Unknown or Unsupported compression tool!
 
+                # Alert the user that an error had been reached.
+                [Notifications]::Notify([NotificationEventType]::Error);
+
+
                 # Show that the preferred compression tool is not valid.
                 [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Preferred Compression Tool is not supported or I don't know what it is!");
                 [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please reconfigure the Compression Tool within the Program Generalized Settings!");
@@ -604,6 +624,10 @@ class Builder
             if ($boolCacheValue -eq $false)
             {
                 # Unable to find the Git application.
+
+                # Alert the user that an error had been reached.
+                [Notifications]::Notify([NotificationEventType]::Error);
+
 
                 # Show that the preferred compression tool is not valid.
                 [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find the Git SCM Version Control Application!");
@@ -791,6 +815,12 @@ class Builder
         # Try to update the local repository
         if (!$gitControl.UpdateLocalRepository($userPreferences.GetProjectPath()))
         {
+            # Reached an error while attempting to update the local repository.
+
+            # Alert the user that an error had been reached.
+            [Notifications]::Notify([NotificationEventType]::Error);
+
+
             # Show to the user that there was an error while attempting to update the local repository
             [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Failure, "An error had occurred while updating your copy of $([ProjectInformation]::projectName)!");
             [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "If incase you made changes with the files, you may need to commit them before losing your work!");
@@ -828,8 +858,6 @@ class Builder
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
-
-
 
 
             # Because we had reached an error, we cannot proceed forward.
@@ -966,8 +994,6 @@ class Builder
         [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Determining the Output Directory. . .");
 
 
-
-
         # Show that we had concluded the output directory and everything is finished!
         [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "The compiled build will be stored under `"$($userPreferences.GetProjectBuildsPath())`"");
 
@@ -1047,6 +1073,12 @@ class Builder
                                                     $userPreferences.GetProjectPath(), `
                                                     $filePath))
                 {
+                    # Reached an error while trying to compact the files.
+
+                    # Alert the user that an error had been reached.
+                    [Notifications]::Notify([NotificationEventType]::Error);
+
+
                     # An error had been reached while compacting the project's files.
                     [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "An error occurred while compiling $([ProjectInformation]::projectName)!");
                     [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please review the logs for more information!");
@@ -1099,6 +1131,12 @@ class Builder
                                             $userPreferences.GetProjectPath(), `
                                             $filePath))
                 {
+                    # Reached an error while trying to compact the files.
+
+                    # Alert the user that an error had been reached.
+                    [Notifications]::Notify([NotificationEventType]::Error);
+
+
                     # An error had been reached while compacting the project's files.
                     [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "An error occurred while compiling $([ProjectInformation]::projectName)!");
                     [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please review the logs for more information!");
@@ -1142,6 +1180,12 @@ class Builder
             # Error Case
             default
             {
+                # Unknown Compression Tool
+
+                # Alert the user that an error had been reached.
+                [Notifications]::Notify([NotificationEventType]::Error);
+
+
                 # Show that we could not determine the preferred compression tool
                 [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unknown or unsupported preferred compression software!");
                 [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
@@ -1262,10 +1306,12 @@ class Builder
         # This will store the exit condition provided by the test function.
         [bool] $result = $false;
 
+
         # This is equivalent to the result [boolean], but this will be displayed onto the terminal.
         #  We will populated this value with a default value with 'Failed'.  We will update this value
         #  if the test indicated that the build is healthy.
         [string] $resultNiceValue = "Damaged; not healthy";
+
 
         # With this variable, we can adjust the symbol that is provided when providing
         #  the bullet message to the user.  By default, we will focus on the error.
@@ -1341,6 +1387,12 @@ class Builder
         # Unknown Case
         else
         {
+            # Unable to determine the selected compression tool
+
+            # Alert the user that an error had been reached.
+            [Notifications]::Notify([NotificationEventType]::Error);
+
+
             # Unknown condition was reached
             [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Error, "Unable to check the file's health and data structure integrity!");
 
@@ -1391,6 +1443,15 @@ class Builder
             # Revise the symbol such that we do not push an error symbol
             $resultSymbol = [FormattedListBuilder]::Child;
         } # if : Archive is Healthy
+
+        # If the build is corrupted, we will notify the user by audible notification.
+        else
+        {
+            # Build is not healthy
+
+            # Alert the user that the build is not healthy.
+            [Notifications]::Notify([NotificationEventType]::Warning);
+        } # else : Build is Not Healthy
 
 
 
@@ -1574,6 +1635,12 @@ class Builder
         # Unknown Case
         else
         {
+            # Unable to determine the selected compression tool
+
+            # Alert the user that an error had been reached.
+            [Notifications]::Notify([NotificationEventType]::Error);
+
+
             # Unknown condition was reached
             [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Error, "Unable to generate a report on the archive file!");
 
@@ -1662,6 +1729,15 @@ class Builder
             # Revise the symbol such that we do not push an error symbol
             $resultSymbol = [FormattedListBuilder]::Child;
         } # if : Report Created Successfully
+
+        # If the report could not be successfully generated.
+        else
+        {
+            # Unable to generate report
+
+            # Alert the user that the report could not be made.
+            [Notifications]::Notify([NotificationEventType]::Warning);
+        } # else : Failed to Generate Report
 
 
 
@@ -1833,9 +1909,16 @@ class Builder
                                                 [System.IO.Path]::GetFileName($fullPathReportPDFFile));
                 } # if : Reveal using the GUI Shell
             } # if : Show PDF Report
-
-
         } # if : Report Created Successfully
+
+        # If the report could not be successfully generated.
+        else
+        {
+            # Unable to generate report
+
+            # Alert the user that the report could not be made.
+            [Notifications]::Notify([NotificationEventType]::Warning);
+        } # else : Failed to Generate Report
 
 
 
