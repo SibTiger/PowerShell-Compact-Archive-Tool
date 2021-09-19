@@ -69,10 +69,7 @@
         [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
 
         # This will provide the overall status of the entire operation.
-        [bool] $operationStatus = $true;
-
-        # This will help to indicate if errors were made during the protocol
-        [bool] $statusSignal = $false;
+        [bool] $operationStatus = $false;
         # ----------------------------------------
 
 
@@ -92,7 +89,7 @@
                 [CommonIO]::AccessWebpage($siteURL);
 
                 # Because the operation was successful, update the Status Signal as appropriate.
-                $statusSignal = $true;
+                $operationStatus = $true;
             } # If: Webpage was available
         } # If: Web Browsers Allowed
 
@@ -104,6 +101,10 @@
         {
             # Unable to open the desired web-page.  The user needs to configure
             #  their settings to allow this program to use Web Browsers
+
+            # This is not really an error as we are merely following with the user's configuration.
+            $operationStatus = $true;
+
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -139,7 +140,7 @@
 
 
         # Was an error reached?
-        if ($statusSignal -eq $false)
+        if ($operationStatus -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -186,7 +187,7 @@
 
             # If incase it was not possible to access the web site or use the web browser,
             #  then merely provide the link instead.
-            if (($statusSignal -eq $true) -or `
+            if (($operationStatus -eq $true) -or `
                     (($userPreferences.GetUseWindowsExplorer() -eq $false) -and `
                     ($ignoreUserSetting -eq $false)))
             {
