@@ -244,11 +244,13 @@ class MainMenu
                 ($_ -eq "$([ProjectInformation]::projectName) Wiki")}
             {
                 # Open the webpage as requested
-                #  NOTE: We do not care about the return result as there's
-                #         nothing we can do at this present point.
-                [WebsiteResources]::AccessWebSite_General([ProjectInformation]::urlWiki,                ` # Project's Wiki
-                                                        "$([ProjectInformation]::projectName) Wiki",    ` # Show page title
-                                                        $false) | Out-Null;                             ` # Do not force Web Browser function
+                if (![WebsiteResources]::AccessWebSite_General([ProjectInformation]::urlWiki,               ` # Project's Wiki
+                                                            "$([ProjectInformation]::projectName) Wiki",    ` # Show page title
+                                                            $false))                                        ` # Do not force Web Browser functionality.
+                {
+                    # Alert the user that the web functionality did not successfully work as intended.
+                    [Notifications]::Notify([NotificationEventType]::Error);
+                } # If : Failed to Provide Webpage
 
 
                 # Finished
