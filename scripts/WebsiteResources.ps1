@@ -70,31 +70,105 @@
 
         # This will provide the overall status of the entire operation.
         [bool] $operationStatus = $false;
+
+        # Fall-back: Show URL to the user, allow them to perform manual approach.
+        #  This is used only if the requested webpage cannot be accessed for whatever
+        #  reason.  Regardless if user setting or inaccessible error.
+        [bool] $manualFallBack = $false;
         # ----------------------------------------
 
 
-        # Does the user allow for the Web Browsers to be used?
+
+        # Does the user wish to open the web page within their preferred Web Browser,
+        #                                   OR
+        # Are we supposed to forcibly open the web page using the user's preferred Web Browser?
         if (($userPreferences.GetUseWindowsExplorer() -eq $true) -or `
             ($ignoreUserSetting -eq $true))
         {
-            # Open the desired web page.
-            [Logging]::DisplayMessage("Accessing $($siteName). . .");
-            [Logging]::DisplayMessage("URL: $($siteURL)");
-
-
-            # Make sure that the site is available for us to access first.
+            # Check to make sure that we are able to access the desired webpage.
             if ([WebsiteResources]::CheckSiteAvailability($siteURL) -eq $true)
             {
-                # Access the desired webpage
-                [CommonIO]::AccessWebpage($siteURL);
+                # The website is accessible, try to open the webpage.
+
+                # Let the user know that the desired page is about to be opened
+                [Logging]::DisplayMessage("Accessing $($siteName). . .");
+                [Logging]::DisplayMessage("URL: $($siteURL)");
+
+                # Try to access the website
+                if (![CommonIO]::AccessWebpage($siteURL))
+                {
+                    # There was an issue that caused the site to be inaccessible.
+
+                    # We will show the user the URL that they will need to access
+                    #   manually through their web browser of their choice.
+                    $manualFallBack = $true;
+                } # If: Unable to access site
 
                 # Because the operation was successful, update the Status Signal as appropriate.
                 $operationStatus = $true;
             } # If: Webpage was available
         } # If: Web Browsers Allowed
 
+        # The user does not prefer the webpage to be opened; they prefer a manual approach.
+        else
+        {
+            # Because the user does not want this program to automatically access the webpage,
+            #  we will - instead - show the user the URL in the terminal buffer screen.  From
+            #  there, the user may access the webpage using their preferred web browser, if
+            #  they choose to do so.
+            $manualFallBack = $true;
+        } # Else: Do not Open Webpage
 
-        # User had request to not allow any use of the Web Browsers
+
+
+        # If we are unable to automatically access the desired webpage, either by user choice or
+        #  an error had risen, then provide the URL path to the user.  Thus allowing the user to
+        #  access the site manually using their preferred web browser.
+        if ($manualFallBack)
+        {
+            # Determine how the message will be displayed to the user.
+            # Did the user wanted to access the webpage themselves manually?
+            if (!$userPreferences.GetUseWindowsExplorer())
+            {
+                # Remind the user that this program will NOT open the desired webpage due to their preferences.
+                [Logging]::DisplayMessage("As requested, the webpage will not be accessed automatically by the $($GLOBAL:__PROGRAMNAME_) software.");
+            } # if: User Prefers Manual Approach
+
+            # There was an error which prevented the webpage to automatically open for the user.
+            else
+            {
+                # Alert the user that webpage cannot be opened due to an an error.
+                [Logging]::DisplayMessage("Failed to access $($siteName) due to an error.`r`n" + `
+                                        "As such, it is not possible for the $($GLOBAL:__PROGRAMNAME_) to automatically open the page for you at this given moment.");
+            } # else: Failed to Automatically Open Site
+
+
+            # Now show the information that is needed for the user to access the URL themselves.
+            [Logging]::DisplayMessage("To access the $($siteName) webpage, please copy and paste the following link to your preferred Web Browser:`r`n" + `
+                                        "`t$($siteURL)");
+        } # if: Show URL - Manual Approach
+
+
+
+        # If the user is checking for updates, provide extra information as needed.
+        if ($update)
+        {
+            # Provide the program information to the user, thus allowing the user to know what
+            #  version of the program that they are running.
+            [CommonCUI]::DrawUpdateProgramInformation();
+
+            # Provide extra spacing for readability sakes.
+            [Logging]::DisplayMessage("`r`n");
+        } # if: Update Protocol
+
+
+
+        #############################################################################################
+
+
+
+        if ($true)
+        {;}
         elseif (($userPreferences.GetUseWindowsExplorer() -eq $false) -and `
                 ($ignoreUserSetting -eq $false) -and `
                 ($update -eq $false))
