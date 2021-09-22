@@ -130,6 +130,17 @@
                 # Because the operation was successful, update the Status Signal as appropriate.
                 $operationStatus = $true;
             } # If: Webpage was available
+
+            # Web site validation failed
+            else
+            {
+                # The desired webpage could not be validated, as such - the page cannot be opened.
+
+
+                # We will show the user the URL that they will need to access
+                #   manually through their web browser of their choice.
+                $manualFallBack = $true;
+            } # Else: Site Validation Failed
         } # If: Web Browsers Allowed
 
         # The user does not prefer the webpage to be opened; they prefer a manual approach.
