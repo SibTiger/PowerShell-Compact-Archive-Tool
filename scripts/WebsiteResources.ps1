@@ -168,6 +168,31 @@
         # The user does not prefer the webpage to be opened; they prefer a manual approach.
         else
         {
+            # User prefers to do the manual approach
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Unable to automatically open the desired web site as requested by the user's configurations.");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Site Requested: $($siteURL)`r`n" + `
+                                        "`tSite Name: $($siteName)`r`n" + `
+                                        "`tUpdate Flag: $($update)`r`n" + `
+                                        "`tUser Setting: $($userPreferences.GetUseWindowsExplorer())`r`n" + `
+                                        "`tForce Web Browser: $($ignoreUserSetting)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Because the user does not want this program to automatically access the webpage,
             #  we will - instead - show the user the URL in the terminal buffer screen.  From
             #  there, the user may access the webpage using their preferred web browser, if
