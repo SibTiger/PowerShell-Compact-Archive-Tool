@@ -187,7 +187,8 @@
             if (!$userPreferences.GetUseWindowsExplorer())
             {
                 # Remind the user that this program will NOT open the desired webpage due to their preferences.
-                [Logging]::DisplayMessage("As requested, the webpage will not be accessed automatically by the $($GLOBAL:__PROGRAMNAME_) software.");
+                [Logging]::DisplayMessage("As requested, the webpage will not be accessed automatically by the $($GLOBAL:__PROGRAMNAME_) software.", `
+                                            [LogMessageLevel]::Verbose);
             } # if: User Prefers Manual Approach
 
             # There was an error which prevented the webpage to automatically open for the user.
@@ -195,7 +196,8 @@
             {
                 # Alert the user that webpage cannot be opened due to an an error.
                 [Logging]::DisplayMessage("Failed to access $($siteName) due to an error.`r`n" + `
-                                        "As such, it is not possible for the $($GLOBAL:__PROGRAMNAME_) to automatically open the page for you at this given moment.");
+                                        "As such, it is not possible for the $($GLOBAL:__PROGRAMNAME_) to automatically open the page for you at this given moment.", `
+                                        [LogMessageLevel]::Warning);
             } # else: Failed to Automatically Open Site
 
 
