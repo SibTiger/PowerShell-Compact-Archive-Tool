@@ -229,7 +229,7 @@
             {
                 # Alert the user that webpage cannot be opened due to an an error.
                 [Logging]::DisplayMessage("Failed to access $($siteName) due to an error.`r`n" + `
-                                        "As such, it is not possible for the $($GLOBAL:__PROGRAMNAME_) to automatically open the page for you at this given moment.", `
+                                        "As such, it is not possible for the $($GLOBAL:_PROGRAMNAME_) to automatically open the page for you at this given moment.`r`n", `
                                         [LogMessageLevel]::Warning);
             } # else: Failed to Automatically Open Site
 
