@@ -302,7 +302,7 @@ class MainMenu
                 ($_ -eq "update")}
             {
                 # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMSITEDOWNLOADS_,      ` # Program's Download Page
+                if (![WebsiteResources]::AccessWebSite_Update($Global:_PROGRAMSITEDOWNLOADS_,       ` # Program's Download Page
                                                             "Update $($Global:_PROGRAMNAME_)",      ` # Show page title
                                                             $false))                                ` # Do not force Web Browser functionality.
                 {
