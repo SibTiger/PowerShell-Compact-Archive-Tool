@@ -234,6 +234,10 @@
                 [Logging]::DisplayMessage("Failed to access $($siteName) due to an error.`r`n" + `
                                         "As such, it is not possible for the $($GLOBAL:_PROGRAMNAME_) to automatically open the page for you at this given moment.`r`n", `
                                         [LogMessageLevel]::Warning);
+
+
+                # Alert the user that something horrible just happened
+                [Notifications]::Notify([NotificationEventType]::Warning);
             } # else: Failed to Automatically Open Site
 
 
