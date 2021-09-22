@@ -137,6 +137,28 @@
                 # The desired webpage could not be validated, as such - the page cannot be opened.
 
 
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = ("Unable to automatically open the desired web site due to a validation error!`r`n" + `
+                                        "The user will need to open the webpage themselves, manually.");
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Site Requested: $($siteURL)`r`n" + `
+                                            "`tSite Name: $($siteName)`r`n" + `
+                                            "`tUpdate Flag: $($update)`r`n" + `
+                                            "`tUser Setting: $($userPreferences.GetUseWindowsExplorer())`r`n" + `
+                                            "`tForce Web Browser: $($ignoreUserSetting)");
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                            $logAdditionalMSG, `            # Additional information
+                                            [LogMessageLevel]::Warning);    # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
                 # We will show the user the URL that they will need to access
                 #   manually through their web browser of their choice.
                 $manualFallBack = $true;
