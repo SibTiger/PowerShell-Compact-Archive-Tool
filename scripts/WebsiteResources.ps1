@@ -131,8 +131,6 @@
                     $manualFallBack = $true;
                 } # If: Unable to access site
 
-                # Because the operation was successful, update the Status Signal as appropriate.
-                $operationStatus = $true;
             } # If: Webpage was available
 
             # Web site validation failed
