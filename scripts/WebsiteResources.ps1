@@ -79,6 +79,10 @@
 
 
 
+        # Add some padding in the terminal
+        [Logging]::DisplayMessage("`r`n`r`n");
+
+
         # Does the user wish to open the web page within their preferred Web Browser,
         #                                   OR
         # Are we supposed to forcibly open the web page using the user's preferred Web Browser?
