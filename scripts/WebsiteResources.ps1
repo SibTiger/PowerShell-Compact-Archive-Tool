@@ -220,7 +220,7 @@
             if (!$userPreferences.GetUseWindowsExplorer())
             {
                 # Remind the user that this program will NOT open the desired webpage due to their preferences.
-                [Logging]::DisplayMessage("As requested, the webpage will not be accessed automatically by the $($GLOBAL:__PROGRAMNAME_) software.", `
+                [Logging]::DisplayMessage("As requested, the webpage will not be accessed automatically by the $($GLOBAL:_PROGRAMNAME_) software.`r`n", `
                                             [LogMessageLevel]::Verbose);
             } # if: User Prefers Manual Approach
 
