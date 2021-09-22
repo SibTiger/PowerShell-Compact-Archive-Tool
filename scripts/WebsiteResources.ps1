@@ -244,6 +244,18 @@
             # Now show the information that is needed for the user to access the URL themselves.
             [Logging]::DisplayMessage("To access the $($siteName) webpage, please copy and paste the following link to your preferred Web Browser:`r`n" + `
                                         "`t$($siteURL)`r`n`r`n");
+
+
+            # Wether there was a failure or if everything worked as intended, we will mark this operation as successful.
+            #  Reason why I am not going to throw an error, is because we provided a work-around - thus it is not a dead-end
+            #  functionality.  Such that, if the user wants to view the site - something bad happened - and then nothing happens.
+            #  Instead, we are providing a way for the user to access the site themselves - if the choose to do so, but the
+            #  information that is provided on the terminal output buffer.
+            $operationStatus = $true;
+
+
+            # Wait for the user to see the information provided on the terminal screen output buffer.
+            [Logging]::GetUserEnterKey();
         } # if: Show URL - Manual Approach
 
 
