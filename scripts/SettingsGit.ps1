@@ -2412,7 +2412,7 @@ class SettingsGit
 
 
             # Generate PDF Report
-            #  NOTE: Allow the user's request when they type: "Create PDF reports", "Generate PDF reports", "Make PDF reports", 
+            #  NOTE: Allow the user's request when they type: "Create PDF reports", "Generate PDF reports", "Make PDF reports",
             #           "Create PDF", "Generate PDF", "Make PDF", as well as "P".
             {($_ -eq "P") -or `
                 ($_ -eq "Create PDF report") -or `
