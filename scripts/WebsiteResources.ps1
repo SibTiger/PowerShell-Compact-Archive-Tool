@@ -222,6 +222,9 @@
                 # Remind the user that this program will NOT open the desired webpage due to their preferences.
                 [Logging]::DisplayMessage("As requested, the webpage will not be accessed automatically by the $($GLOBAL:_PROGRAMNAME_) software.`r`n", `
                                             [LogMessageLevel]::Verbose);
+
+                # Because the user prefers to access the site themselves, then we should mark the operation as successful.
+                $operationStatus = $true;
             } # if: User Prefers Manual Approach
 
             # There was an error which prevented the webpage to automatically open for the user.
