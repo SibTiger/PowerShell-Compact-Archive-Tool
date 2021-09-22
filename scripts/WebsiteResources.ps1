@@ -269,8 +269,10 @@
 
             # Provide extra spacing for readability sakes.
             [Logging]::DisplayMessage("`r`n");
-        } # if: Update Protocol
 
+            # Wait for the user to see the information provided on the terminal screen output buffer.
+            [Logging]::GetUserEnterKey();
+        } # if: Update Protocol
 
 
 
