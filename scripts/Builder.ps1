@@ -180,6 +180,25 @@ class Builder
 
 
 
+        #         Delete Temporary Directory
+        # * * * * * * * * * * * * * * * * * * * *
+        # * * * * * * * * * * * * * * * * * * * *
+
+        # Try to delete the temporary directory that was previously created, as
+        #  we no longer require that resource anymore for this operation.
+        if (![Builder]::DeleteProjectTemporaryDirectory($projectTemporaryPath))
+        {
+            # Because there was an error while to delete the delete the directory, we will
+            #  have to alert the user - but we may proceed onward regardless.
+            # If incase there really was a fault, the Operating System may try to remove
+            #  the directory in a later date by default.
+            ;
+        } # if : Cannot Create Temporary Directory
+
+
+
+
+
         #               Test Build
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
@@ -1417,6 +1436,118 @@ class Builder
         # Operation was successful!
         return $true;
     } # CreateProjectTemporaryDirectory()
+
+
+
+
+
+   <# Delete Project Temporary Directory
+    # -------------------------------
+    # Documentation:
+    #  This function will delete the temporary directory that was previously
+    #   created in order to compile the project with special instructions,
+    #   in which does not effect the original project source files.
+    # -------------------------------
+    # Input:
+    #  [string] Temporary Directory Path
+    #   This provides the temporary directory path that is to be expunged.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #   $false = Failed to delete the temporary directory.
+    #   $true  = Successfully deleted the temporary directory.
+    # -------------------------------
+    #>
+    hidden static [bool] DeleteProjectTemporaryDirectory([string] $projectTemporaryPath)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Debugging Variables
+        [string] $logMessage = $NULL;           # Main message regarding the logged event.
+        [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
+        # ----------------------------------------
+
+
+
+        # Show that we trying to delete the temporary directory
+        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Deleting temporary directory. . .");
+
+
+        if (![CommonIO]::DeleteDirectory($projectTemporaryPath))
+        {
+            # Failed to delete the temporary directory
+
+
+            # Alert the user that an error had been reached
+            [Notifications]::Notify([NotificationEventType]::Warning);
+
+
+            # Show the user than an error had been reached while deleting the temporary directory.
+            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to delete the temporary directory!");
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate a message to display to the user.
+            [string] $displayErrorMessage = ("I was unable to delete the project's temporary directory.`r`n" + `
+                                            "Make sure that you have sufficient privileges to delete the temporary directory.");
+
+            # Generate the initial message
+            $logMessage = "Unable to delete the temporary directory!";
+
+            # Generate any additional information that might be useful
+            $logAdditionalMSG = ("Please assure that you have sufficient privileges to delete a temporary directory.`r`n" + `
+                                "If the directory cannot be discarded, then the Operating System may do so automatically in a later time.`r`n" + `
+                                "`tTemporary File Root Location: $($env:TEMP)`r`n" + `
+                                "`tTemporary Directory Location: $($projectTemporaryPath)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
+                                        [LogMessageLevel]::Warning);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Warning);  # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+        } # if: Failed to Delete Directory
+
+
+
+        # Successfully created the temporary directory
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully deleted the temporary directory!");
+        [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "Temporary Directory Path that was Deleted: " + $projectTemporaryPath);
+
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        $logMessage = "Successfully deleted the temporary directory!";
+
+        # Generate any additional information that might be useful
+        $logAdditionalMSG = ("Temporary File Root Location: $($env:TEMP)`r`n" + `
+                            "`tTemporary Directory Location: $($projectTemporaryPath)");
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                    $logAdditionalMSG, `        # Additional information
+                                    [LogMessageLevel]::Verbose);  # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
+
+
+
+        # Operation was successful!
+        return $true;
+    } # # DeleteProjectTemporaryDirectory()
 
 
 
