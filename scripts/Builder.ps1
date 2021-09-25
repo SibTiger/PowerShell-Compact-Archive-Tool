@@ -1358,7 +1358,7 @@ class Builder
 
 
         # Generate the Key Term of the Temporary Directory
-        $directoryKeyTerm = "Compile " + [ProjectInformation]::fileName;
+        $directoryKeyTerm = "Compile_" + [ProjectInformation]::fileName;
 
 
         # Create the temporary directory
