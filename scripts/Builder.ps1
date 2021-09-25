@@ -189,10 +189,9 @@ class Builder
         if (![Builder]::DeleteProjectTemporaryDirectory($projectTemporaryPath))
         {
             # Because there was an error while trying to delete the temporary directory,
-            #  we will land in this
-            #  have to alert the user - but we may proceed onward regardless.
-            # If incase there really was a fault, the Operating System may try to remove
-            #  the directory in a later date by default.
+            #  we will land in this condition, but we may proceed onward regardless.
+            # The Operating System may try to remove the directory in a later date by
+            #  default.
             ;
         } # if : Cannot Create Temporary Directory
 
