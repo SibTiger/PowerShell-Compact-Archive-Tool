@@ -1487,7 +1487,7 @@ class Builder
 
 
             # Show the user than an error had been reached while deleting the temporary directory.
-            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to delete the temporary directory!");
+            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Warning, "Unable to delete the temporary directory!");
 
 
             # * * * * * * * * * * * * * * * * * * *
