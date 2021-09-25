@@ -54,6 +54,10 @@ class Builder
 
         # The file name for the archive datafile.
         [string] $fileName = $null;
+
+        # The Temporary Directory path that will hold the
+        #  project's contents.
+        [string] $projectTemporaryPath = $null;
         # ----------------------------------------
 
 
@@ -139,12 +143,33 @@ class Builder
 
 
 
+        #         Create Temporary Directory
+        # * * * * * * * * * * * * * * * * * * * *
+        # * * * * * * * * * * * * * * * * * * * *
+
+        # Try to create a new temporary directory, such that we may manipulate or
+        #  alter the files if necessary - without having to change the state or
+        #  lose files within the user's local copy of the project.
+        if (![Builder]::CreateProjectTemporaryDirectory([ref] $projectTemporaryPath))
+        {
+            # Because there was an error while to create a new unique temporary directory,
+            #  we cannot proceed forward with the operation.  Thus, we will have to abort
+            #  the procedure.
+            return $false;
+        } # if : Cannot Create Temporary Directory
+
+
+
+
+
         #             Compile Project
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
 
         # Try to compact the project files into an archive datafile.
-        if (![Builder]::CompileProject($fileName, [ref]$compiledBuildPath))
+        if (![Builder]::CompileProject($fileName, `             # Archive filename
+                                    [ref]$compiledBuildPath, `  # Archive file location (output file)
+                                    $projectTemporaryPath))     # Project's absolute path
         {
             # Because there was an error while compiling the project's source
             #  files, we will have to abort at this point.
@@ -1024,6 +1049,10 @@ class Builder
     #   The requested name of the archive data file that is going to be created.
     #  [string] (REFERENCE) File Path
     #   The final absolute path of the archive datafile.
+    #  [string] Project Directory
+    #   This is the location of where the 
+    #   This provides the location of where the project files are located, this
+    #   is usually in a unique temporary directory.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -1032,7 +1061,8 @@ class Builder
     # -------------------------------
     #>
     hidden static [bool] CompileProject([string] $archiveFileName, `    # Requested archive datafile
-                                        [ref] $filePath)                # Absolute Path of the Archive datafile
+                                        [ref] $filePath, `              # Absolute Path of the Archive datafile
+                                        [string] $projectPath)          # Absolute Path of the Temporary Directory Project location
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1074,7 +1104,7 @@ class Builder
                 # Compact the files
                 if (!$defaultCompress.CreateArchive($archiveFileName, `
                                                     $userPreferences.GetProjectBuildsPath(), `
-                                                    $userPreferences.GetProjectPath(), `
+                                                    $projectPath, `
                                                     $filePath))
                 {
                     # Reached an error while trying to compact the files.
@@ -1105,7 +1135,7 @@ class Builder
                     $logAdditionalMSG = ("Compression Tool: Archive Module [Default]`r`n" + `
                                         "`tArchive File Name Requested: $($archiveFileName)`r`n" + `
                                         "`tOutput Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
-                                        "`tProject Path: $($userPreferences.GetProjectPath())`r`n" + `
+                                        "`tProject Path: $($projectPath)`r`n" + `
                                         "`tEntire Path (Optional): $($filePath.Value)");
 
                     # Pass the information to the logging system
@@ -1132,7 +1162,7 @@ class Builder
                 # Compact the files
                 if (!$sevenZip.CreateArchive($archiveFileName, `
                                             $userPreferences.GetProjectBuildsPath(), `
-                                            $userPreferences.GetProjectPath(), `
+                                            $projectPath, `
                                             $filePath))
                 {
                     # Reached an error while trying to compact the files.
@@ -1163,7 +1193,7 @@ class Builder
                     $logAdditionalMSG = ("Compression Tool: 7Zip`r`n" + `
                                         "`tArchive File Name Requested: $($archiveFileName)`r`n" + `
                                         "`tOutput Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
-                                        "`tProject Path: $($userPreferences.GetProjectPath())`r`n" + `
+                                        "`tProject Path: $($projectPath)`r`n" + `
                                         "`tEntire Path (Optional): $($filePath.Value)");
 
                     # Pass the information to the logging system
@@ -1211,7 +1241,7 @@ class Builder
                 $logAdditionalMSG = ("Compression Tool: $($userPreferences.GetCompressionTool())`r`n" + `
                                     "`tArchive File Name Requested: $($archiveFileName)`r`n" + `
                                     "`tOutput Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
-                                    "`tProject Path: $($userPreferences.GetProjectPath())");
+                                    "`tProject Path: $($projectPath)");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -1244,7 +1274,7 @@ class Builder
         $logAdditionalMSG = ("Compression Tool: $([string] $userPreferences.GetCompressionTool())`r`n" + `
                             "`tArchive File Name Requested: $($archiveFileName)`r`n" + `
                             "`tOutput Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
-                            "`tProject Path: $($userPreferences.GetProjectPath())" + `
+                            "`tProject Path: $($projectPath)" + `
                             "`tEntire Path: $($filePath.Value)");
 
         # Pass the information to the logging system
@@ -1259,6 +1289,134 @@ class Builder
         # Operation was successful
         return $true;
     } # CompileProject()
+
+
+
+
+
+   <# Create Project Temporary Directory
+    # -------------------------------
+    # Documentation:
+    #  This function will try to assure that a new temporary directory
+    #   had been created successfully.  This temporary directory is
+    #   critical to the compiling process, as this will allow us the
+    #   ability to modify the project files such that it will have no
+    #   effect to original project files.
+    #  Thus, if we need to alter the state of the project files,
+    #   manipulate, configure, or remove certain files, we may do so
+    #   while NOT changing the original source.
+    # -------------------------------
+    # Input:
+    #  [string] (REFERENCE) Directory Path
+    #   Once populated, this will hold the temporary directory location.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #   $false = Failed to create the temporary directory.
+    #   $true  = Successfully created the temporary directory.
+    # -------------------------------
+    #>
+    hidden static [bool] CreateProjectTemporaryDirectory([ref] $directoryPath)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This variable will provide the key term of the temporary directory
+        #  to be created.
+        [string] $directoryKeyTerm = $null;
+
+        # Debugging Variables
+        [string] $logMessage = $NULL;           # Main message regarding the logged event.
+        [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
+        # ----------------------------------------
+
+
+
+        # This function is going to be very basic, yet critical to assure that
+        #  we may proceed forward with the operation.
+
+
+        # Show that we trying to create a temporary directory
+        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Creating temporary directory. . .");
+
+
+        # Generate the Key Term of the Temporary Directory
+        $directoryKeyTerm = "Compile " + [ProjectInformation]::fileName;
+
+
+        # Create the temporary directory
+        if (![CommonIO]::MakeTempDirectory($directoryKeyTerm, $directoryPath))
+        {
+            # Failed to create the temporary directory!
+
+            # Alert the user that an error had been reached
+            [Notifications]::Notify([NotificationEventType]::Error);
+
+
+            # Show the user that an error had been reached while creating the temporary directory.
+            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to create the temporary directory!");
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate a message to display to the user.
+            [string] $displayErrorMessage = ("I was unable to create the project's temporary directory.`r`n" + `
+                                            "Make sure that you have sufficient privileges to create a temporary directory.");
+
+            # Generate the initial message
+            $logMessage = "Unable to create a temporary directory for the $([ProjectInformation]::projectName) source files!";
+
+            # Generate any additional information that might be useful
+            $logAdditionalMSG = ("Please assure that you have sufficient privileges to create a temporary directory.`r`n" + `
+                                "`tTemporary File Root Location: $($env:TEMP)`r`n" + `
+                                "`tTemporary Directory Key Term: $($directoryKeyTerm)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+        } # if : Failed to Create Temp. Directory
+
+
+
+        # Successfully created the temporary directory
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully created the temporary directory!");
+        [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "Temporary Directory Path is: " + $directoryPath.Value);
+
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        $logMessage = "Successfully created a temporary directory for the $([ProjectInformation]::projectName) source files!";
+
+        # Generate any additional information that might be useful
+        $logAdditionalMSG = ("Temporary File Root Location: $($env:TEMP)`r`n" + `
+                            "`tTemporary Directory Key Term: $($directoryKeyTerm)");
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                    $logAdditionalMSG, `        # Additional information
+                                    [LogMessageLevel]::Verbose);  # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
+
+
+
+        # Operation was successful!
+        return $true;
+    } # CreateProjectTemporaryDirectory()
 
 
 
