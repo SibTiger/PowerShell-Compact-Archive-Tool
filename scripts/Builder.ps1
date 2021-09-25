@@ -1412,7 +1412,7 @@ class Builder
 
 
         # Successfully created the temporary directory
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully created the temporary directory!");
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully created a temporary directory!");
         [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "Temporary Directory Path is: " + $directoryPath.Value);
 
 
