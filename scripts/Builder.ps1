@@ -162,6 +162,21 @@ class Builder
 
 
 
+        #         Mirror Project Files
+        # * * * * * * * * * * * * * * * * * * * *
+        # * * * * * * * * * * * * * * * * * * * *
+
+        # Duplicate the project's source files to the temporary directory location.
+        if (![Builder]::DuplicateSourceToTemporaryDirectory($projectTemporaryPath))
+        {
+            # Because we were unable to duplicate the files, we are unable to proceed
+            #  with the operation.
+            return $false;
+        } # if: Cannot Duplicate Source Files
+pause;
+
+
+
         #             Compile Project
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
@@ -1439,6 +1454,121 @@ class Builder
         # Operation was successful!
         return $true;
     } # CreateProjectTemporaryDirectory()
+
+
+
+
+
+   <# Duplicate Source Files to Temporary Directory.
+    # -------------------------------
+    # Documentation:
+    #  This function will duplicate the project's source files from the user's
+    #   specified location to the temporary directory.
+    #  We will need to perform this operation such that we may configure the
+    #   source files as needed - for whatever reason.
+    # -------------------------------
+    # Input:
+    #  [string] Temporary Directory Path
+    #   This provides the destination path that will have the source files.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #   $false = Failed to duplicate the project's contents.
+    #   $true  = Successfully duplicated the project's contents.
+    # -------------------------------
+    #>
+    static hidden [bool] DuplicateSourceToTemporaryDirectory([string] $projectTemporaryPath)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the current instance of the User Preferences object; this contains the user's
+        #  generalized settings.
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+
+
+        # Debugging Variables
+        [string] $logMessage = $NULL;           # Main message regarding the logged event.
+        [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
+        # ----------------------------------------
+
+
+        # Show that we are about to duplicate the project's source files.
+        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Duplicating $([ProjectInformation]::projectName) source files. . .");
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Source: $($userPreferences.GetProjectPath())");
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Destination $($projectTemporaryPath)");
+
+
+        # Try to duplicate the files
+        if (![CommonIO]::CopyDirectory("$($userPreferences.GetProjectPath())\", # Source Directory
+                                        $projectTemporaryPath))                 # Destination Directory
+        {
+            # Alert the user that an error had been reached
+            [Notifications]::Notify([NotificationEventType]::Error);
+
+
+            # Show the user that an error had been reached while creating the temporary directory.
+            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Failed to duplicate the project's resources!");
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate a message to display to the user.
+            [string] $displayErrorMessage = ("I was unable to create the project's temporary directory.`r`n" + `
+                                            "Make sure that you have sufficient privileges to create a temporary directory.");
+
+            # Generate the initial message
+            $logMessage = "Unable to create a temporary directory for the $([ProjectInformation]::projectName) source files!";
+
+            # Generate any additional information that might be useful
+            $logAdditionalMSG = ("Please assure that you have sufficient privileges to create a temporary directory.`r`n" + `
+                                "`tTemporary File Root Location: $($env:TEMP)`r`n");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+            # Operation had failed
+            return $false;
+        } # if : Failed to duplicate resources
+
+
+        # Successfully created the temporary directory
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully duplicated $([ProjectInformation]::projectName) assets!");
+
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        $logMessage = "Successfully created a temporary directory for the $([ProjectInformation]::projectName) source files!";
+
+        # Generate any additional information that might be useful
+        $logAdditionalMSG = ("Temporary File Root Location: $($env:TEMP)`r`n");
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                    $logAdditionalMSG, `        # Additional information
+                                    [LogMessageLevel]::Verbose);  # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
+
+
+
+        # Operation was successful!
+        return $true;
+    } # DuplicateSourceToTemporaryDirectory()
 
 
 
