@@ -1402,9 +1402,9 @@ class Builder
                                         [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
-            
-            
-            
+
+
+
             # Operation had failed
             return $false;
         } # if : Failed to Create Temp. Directory
