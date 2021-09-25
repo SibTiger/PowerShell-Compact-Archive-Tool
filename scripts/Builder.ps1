@@ -1307,7 +1307,7 @@ class Builder
     #   while NOT changing the original source.
     # -------------------------------
     # Input:
-    #  [string] (REFERENCE) Directory Path
+    #  [string] (REFERENCE) Temporary Directory Path
     #   Once populated, this will hold the temporary directory location.
     # -------------------------------
     # Output:
