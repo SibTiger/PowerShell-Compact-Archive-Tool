@@ -1069,7 +1069,6 @@ class Builder
     #  [string] (REFERENCE) File Path
     #   The final absolute path of the archive datafile.
     #  [string] Project Directory
-    #   This is the location of where the 
     #   This provides the location of where the project files are located, this
     #   is usually in a unique temporary directory.
     # -------------------------------
