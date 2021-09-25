@@ -1404,8 +1404,9 @@ class Builder
             # * * * * * * * * * * * * * * * * * * *
             
             
-            # Operation 
-
+            
+            # Operation had failed
+            return $false;
         } # if : Failed to Create Temp. Directory
 
 
