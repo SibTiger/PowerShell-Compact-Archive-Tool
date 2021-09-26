@@ -1402,7 +1402,7 @@ class Builder
 
             # Generate any additional information that might be useful
             $logAdditionalMSG = ("Please assure that you have sufficient privileges to create a temporary directory.`r`n" + `
-                                "`tTemporary File Root Location: $($env:TEMP)`r`n" + `
+                                "`tTemporary Directory Root Location: $($env:TEMP)`r`n" + `
                                 "`tTemporary Directory Key Term: $($directoryKeyTerm)");
 
             # Pass the information to the logging system
@@ -1439,7 +1439,7 @@ class Builder
         $logMessage = "Successfully created a temporary directory for the $([ProjectInformation]::projectName) source files!";
 
         # Generate any additional information that might be useful
-        $logAdditionalMSG = ("Temporary File Root Location: $($env:TEMP)`r`n" + `
+        $logAdditionalMSG = ("Temporary Directory Root Location: $($env:TEMP)`r`n" + `
                             "`tTemporary Directory Key Term: $($directoryKeyTerm)");
 
         # Pass the information to the logging system
@@ -1633,7 +1633,7 @@ class Builder
             # Generate any additional information that might be useful
             $logAdditionalMSG = ("Please assure that you have sufficient privileges to delete a temporary directory.`r`n" + `
                                 "If the directory cannot be discarded, then the Operating System may do so automatically in a later time.`r`n" + `
-                                "`tTemporary File Root Location: $($env:TEMP)`r`n" + `
+                                "`tTemporary Directory Root Location: $($env:TEMP)`r`n" + `
                                 "`tTemporary Directory Location: $($projectTemporaryPath)");
 
             # Pass the information to the logging system
@@ -1670,7 +1670,7 @@ class Builder
         $logMessage = "Successfully deleted the temporary directory!";
 
         # Generate any additional information that might be useful
-        $logAdditionalMSG = ("Temporary File Root Location: $($env:TEMP)`r`n" + `
+        $logAdditionalMSG = ("Temporary Directory Root Location: $($env:TEMP)`r`n" + `
                             "`tTemporary Directory Location: $($projectTemporaryPath)");
 
         # Pass the information to the logging system
