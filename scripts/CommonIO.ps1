@@ -3468,7 +3468,7 @@ class CommonIO
             [System.Management.Automation.VerboseRecord[]] $debugInformation = $null;
 
             # Copy the directory as requested
-            $debugInformation = Copy-Item -LiteralPath $targetDirectory `
+            $debugInformation = Copy-Item -Path $targetDirectory `
                                             -Destination $destinationPath `
                                             -Recurse `
                                             -Force `
