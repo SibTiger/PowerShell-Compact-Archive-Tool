@@ -1515,15 +1515,16 @@ class Builder
             # --------------
 
             # Generate a message to display to the user.
-            [string] $displayErrorMessage = ("I was unable to create the project's temporary directory.`r`n" + `
-                                            "Make sure that you have sufficient privileges to create a temporary directory.");
+            [string] $displayErrorMessage = ("I was not able to duplicate $([ProjectInformation]::projectName) assets to the temporary directory!");
 
             # Generate the initial message
-            $logMessage = "Unable to create a temporary directory for the $([ProjectInformation]::projectName) source files!";
+            $logMessage = "Unable to duplicate $([ProjectInformation]::projectName) assets to the temporary directory.";
 
             # Generate any additional information that might be useful
-            $logAdditionalMSG = ("Please assure that you have sufficient privileges to create a temporary directory.`r`n" + `
-                                "`tTemporary File Root Location: $($env:TEMP)`r`n");
+            $logAdditionalMSG = ("Directories:`r`n" + `
+                                "`tTemporary Directory Root Location: $($env:TEMP)`r`n" + `
+                                "`tTemporary Directory Location: $($projectTemporaryPath)`r`n" + `
+                                "`t$([ProjectInformation]::projectName) Source Location: $($userPreferences.GetProjectPath())");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -1552,10 +1553,13 @@ class Builder
         # --------------
 
         # Generate the initial message
-        $logMessage = "Successfully created a temporary directory for the $([ProjectInformation]::projectName) source files!";
+        $logMessage = "Successfully duplicated $([ProjectInformation]::projectName) assets!";
 
         # Generate any additional information that might be useful
-        $logAdditionalMSG = ("Temporary File Root Location: $($env:TEMP)`r`n");
+        $logAdditionalMSG = ("Directories:`r`n" + `
+                            "`tTemporary Directory Root Location: $($env:TEMP)`r`n" + `
+                            "`tTemporary Directory Location: $($projectTemporaryPath)`r`n" + `
+                            "`t$([ProjectInformation]::projectName) Source Location: $($userPreferences.GetProjectPath())");
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity($logMessage, `            # Initial message
