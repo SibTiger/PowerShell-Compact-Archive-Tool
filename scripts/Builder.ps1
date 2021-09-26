@@ -1694,6 +1694,80 @@ class Builder
 
 
 
+   <# Expunge Extraneous Resources
+    # -------------------------------
+    # Documentation:
+    #  This function provides the ability to remove files and directories
+    #   that are not meant to be part of the compiled build.  Thus, special
+    #   files and directories that meant for git or for other tools, will
+    #   be removed by this function.
+    # -------------------------------
+    # Input:
+    #  [string] Temporary Directory Path
+    #   This provides the temporary directory that contains the files
+    #    that are to be removed.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #   $false = Failed to expunge the superfluous files
+    #   $true  = Successfully expunged the superfluous files.
+    # -------------------------------
+    #>
+    hidden static [bool] ExpungeExtraneousResources([string] $temporaryDirectoryPath)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Superfluous assets to be discarded
+        [string[]] $foldersToDelete = $null;    # This will provide what directories are to be expunged.
+        [string[]] $filesToDelete = $null;      # This will provide what files are to be expunged.
+
+        # Debugging Variables
+        [string] $logMessage = $NULL;           # Main message regarding the logged event.
+        [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
+        # ----------------------------------------
+
+
+
+        # Populate the arrays with what we want to delete
+        # - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+
+
+
+        # Show that we are about to expunge superfluous files and directories.
+        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Deleting unnecessary assets. . .");
+
+
+        # Try to delete directories that we do not want.
+        foreach($i in $foldersToDelete)
+        {
+            # Delete the desired directory
+            if (![CommonIO]::DeleteDirectory($i))
+            {
+
+            } # If : Failed to delete directories
+        } # Foreach: Delete Directories
+
+
+        # Now try to delete individual files that we do not need.
+        if (![CommonIO]::DeleteFile($temporaryDirectoryPath, $filesToDelete))
+        {
+
+        } # if : Failed to delete files
+
+
+
+        # Successfully deleted unnecessary resources
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully deleted unnecessary assets!");
+
+    } # ExpungeExtraneousResources()
+
+
+
+
+
    <# Test Compiled Build
     # -------------------------------
     # Documentation:
