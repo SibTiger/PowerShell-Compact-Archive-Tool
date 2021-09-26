@@ -1499,7 +1499,7 @@ class Builder
 
 
         # Try to duplicate the files
-        if (![CommonIO]::CopyDirectory("$($userPreferences.GetProjectPath())\", # Source Directory
+        if (![CommonIO]::CopyDirectory("$($userPreferences.GetProjectPath())\*", # Source Directory
                                         $projectTemporaryPath))                 # Destination Directory
         {
             # Alert the user that an error had been reached
