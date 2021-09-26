@@ -1724,14 +1724,16 @@ class Builder
         # Debugging Variables
         [string] $logMessage = $NULL;           # Main message regarding the logged event.
         [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
+        [string] $logStringList = $null;        # Provides a list of either directories or files that
+                                                #  are supposed to be removed.
         # ----------------------------------------
 
 
 
         # Populate the arrays with what we want to delete
         # - - - - - - - - - - - - - - - - - - - - - - - - -
-
-
+        # Directories to Remove
+        # Files to Remove
 
 
 
