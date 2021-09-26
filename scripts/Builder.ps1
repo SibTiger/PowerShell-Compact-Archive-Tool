@@ -173,7 +173,7 @@ class Builder
             #  with the operation.
             return $false;
         } # if: Cannot Duplicate Source Files
-pause;
+
 
 
 
