@@ -153,7 +153,7 @@ class Builder
         if (![Builder]::CreateProjectTemporaryDirectory([ref] $projectTemporaryPath))
         {
             # Because there was an error while to create a new unique temporary directory,
-            #  we cannot proceed forward with the operation.  Thus, we will have to abort
+            #  we cannot proceed forward with this operation.  Thus, we will have to abort
             #  the procedure.
             return $false;
         } # if : Cannot Create Temporary Directory
@@ -1341,7 +1341,7 @@ class Builder
     # -------------------------------
     # Input:
     #  [string] (REFERENCE) Temporary Directory Path
-    #   Once populated, this will hold the temporary directory location.
+    #   Once populated, this will hold the temporary directory's absolute location.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -1364,12 +1364,9 @@ class Builder
 
 
 
-        # This function is going to be very basic, yet critical to assure that
-        #  we may proceed forward with the operation.
-
 
         # Show that we trying to create a temporary directory
-        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Creating temporary directory. . .");
+        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Creating a new temporary directory. . .");
 
 
         # Generate the Key Term of the Temporary Directory
@@ -1394,8 +1391,8 @@ class Builder
             # --------------
 
             # Generate a message to display to the user.
-            [string] $displayErrorMessage = ("I was unable to create the project's temporary directory.`r`n" + `
-                                            "Make sure that you have sufficient privileges to create a temporary directory.");
+            [string] $displayErrorMessage = ("I was unable to create the temporary directory.`r`n" + `
+                                            "Please make sure that you have the sufficient privileges to create a temporary directory.");
 
             # Generate the initial message
             $logMessage = "Unable to create a temporary directory for the $([ProjectInformation]::projectName) source files!";
@@ -1443,9 +1440,9 @@ class Builder
                             "`tTemporary Directory Key Term: $($directoryKeyTerm)");
 
         # Pass the information to the logging system
-        [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                    $logAdditionalMSG, `        # Additional information
-                                    [LogMessageLevel]::Verbose);  # Message level
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
 
         # * * * * * * * * * * * * * * * * * * *
 
