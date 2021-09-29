@@ -1353,8 +1353,7 @@ class Builder
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # This variable will provide the key term of the temporary directory
-        #  to be created.
+        # This variable will provide the key term of the temporary directory to be created.
         [string] $directoryKeyTerm = $null;
 
         # Debugging Variables
