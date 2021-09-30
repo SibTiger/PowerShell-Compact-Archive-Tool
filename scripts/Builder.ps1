@@ -1606,6 +1606,7 @@ class Builder
         [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Deleting temporary directory. . .");
 
 
+        # Try to delete the temporary directory and all of the data within.
         if (![CommonIO]::DeleteDirectory($projectTemporaryPath))
         {
             # Failed to delete the temporary directory
