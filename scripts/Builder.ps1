@@ -1495,8 +1495,8 @@ class Builder
 
 
         # Try to duplicate the files
-        if (![CommonIO]::CopyDirectory("$($userPreferences.GetProjectPath())\*", # Source Directory
-                                        $projectTemporaryPath))                 # Destination Directory
+        if (![CommonIO]::CopyDirectory("$($userPreferences.GetProjectPath())\*",    # Source Directory
+                                        $projectTemporaryPath))                     # Destination Directory
         {
             # Alert the user that an error had been reached
             [Notifications]::Notify([NotificationEventType]::Error);
@@ -1558,9 +1558,9 @@ class Builder
                             "`t$([ProjectInformation]::projectName) Source Location: $($userPreferences.GetProjectPath())");
 
         # Pass the information to the logging system
-        [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                    $logAdditionalMSG, `        # Additional information
-                                    [LogMessageLevel]::Verbose);  # Message level
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
 
         # * * * * * * * * * * * * * * * * * * *
 
