@@ -1715,8 +1715,8 @@ class Builder
         # Declarations and Initializations
         # ----------------------------------------
         # Superfluous assets to be discarded
-        [string[]] $foldersToDelete = $null;    # This will provide what directories are to be expunged.
-        [string[]] $filesToDelete = $null;      # This will provide what files are to be expunged.
+        [string[]] $foldersToDelete = $null;    # This will provide a list of directories that are to be expunged.
+        [string[]] $filesToDelete = $null;      # This will provide a list of files that are to be expunged.
 
         # Debugging Variables
         [string] $logMessage = $NULL;           # Main message regarding the logged event.
