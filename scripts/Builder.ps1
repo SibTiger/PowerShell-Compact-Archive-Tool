@@ -1782,6 +1782,7 @@ class Builder
             if (![CommonIO]::DeleteDirectory($i))
             {
                 # Something went horribly wrong
+                return $false;
             } # If : Failed to delete directory
         } # Foreach: Delete Directories
 
@@ -1793,6 +1794,7 @@ class Builder
             if (![CommonIO]::DeleteFile($userPreferences.GetProjectPath(), $i))
             {
                 # Something went horribly wrong
+                return $false;
             } # If : Failed to delete file
         } # Foreach: Delete Files
 
