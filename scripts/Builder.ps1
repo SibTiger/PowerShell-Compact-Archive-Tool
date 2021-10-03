@@ -1775,6 +1775,7 @@ class Builder
         [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Deleting unnecessary assets. . .");
 
 
+
         # Try to delete directories that we do not want.
         foreach($i in $foldersToDelete)
         {
@@ -1785,6 +1786,7 @@ class Builder
                 return $false;
             } # If : Failed to delete directory
         } # Foreach: Delete Directories
+
 
 
         # Delete the desires files
