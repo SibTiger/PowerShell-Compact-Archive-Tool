@@ -1714,6 +1714,10 @@ class Builder
     {
         # Declarations and Initializations
         # ----------------------------------------
+        # Retrieve the current instance of the User Preferences object; this contains the user's
+        #  generalized settings.
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+
         # Superfluous assets to be discarded
         #  This will provide a list of directories that are to be expunged.
         [System.Collections.ArrayList] $foldersToDelete = [System.Collections.ArrayList]@();
@@ -1732,8 +1736,16 @@ class Builder
 
         # Populate the arrays with what we want to delete
         # - - - - - - - - - - - - - - - - - - - - - - - - -
+        # = = = = = = = = = = = = = = = = = = = = = = = = =
         # Directories to Remove
+        # - - - -
+        $foldersToDelete.Add(".git");   # SCM Git
+
         # Files to Remove
+        # - - - -
+        $filesToDelete.Add("$($userPreferences.GetProjectPath())\.gitattributes");   # Repository File Attributes and Behavior
+        $filesToDelete.Add("$($userPreferences.GetProjectPath())\.gitignore");       # Ignore specific files within Local Repository
+        $filesToDelete.Add("$($userPreferences.GetProjectPath())\README.md");        # GitHub's Services; Repository Page's ReadMe
 
 
 
@@ -1748,22 +1760,25 @@ class Builder
             # Delete the desired directory
             if (![CommonIO]::DeleteDirectory($i))
             {
-
-            } # If : Failed to delete directories
+                # Something went horribly wrong
+            } # If : Failed to delete directory
         } # Foreach: Delete Directories
 
 
         # Now try to delete individual files that we do not need.
-        if (![CommonIO]::DeleteFile($temporaryDirectoryPath, $filesToDelete))
+        foreach($i in $filesToDelete)
         {
-
-        } # if : Failed to delete files
+            # Delete the desires files
+            if (![CommonIO]::DeleteFile($userPreferences.GetProjectPath(), $i))
+            {
+                # Something went horribly wrong
+            } # If : Failed to delete file
+        } # Foreach: Delete Files
 
 
 
         # Successfully deleted unnecessary resources
         [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully deleted unnecessary assets!");
-
     } # ExpungeExtraneousResources()
 
 
