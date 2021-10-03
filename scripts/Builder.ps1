@@ -1787,16 +1787,12 @@ class Builder
         } # Foreach: Delete Directories
 
 
-        # Now try to delete individual files that we do not need.
-        foreach($i in $filesToDelete)
+        # Delete the desires files
+        if (![CommonIO]::DeleteFile($temporaryDirectoryPath, $filesToDelete.ToArray()))
         {
-            # Delete the desires files
-            if (![CommonIO]::DeleteFile($userPreferences.GetProjectPath(), $i))
-            {
-                # Something went horribly wrong
-                return $false;
-            } # If : Failed to delete file
-        } # Foreach: Delete Files
+            # Something went horribly wrong
+            return $false;
+        } # If : Failed to delete file
 
 
 
