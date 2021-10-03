@@ -1739,10 +1739,6 @@ class Builder
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Retrieve the current instance of the User Preferences object; this contains the user's
-        #  generalized settings.
-        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
-
         # Superfluous assets to be discarded
         #  This will provide a list of directories that are to be expunged.
         [System.Collections.ArrayList] $foldersToDelete = [System.Collections.ArrayList]@();
