@@ -177,6 +177,31 @@ class Builder
 
 
 
+
+        #        Thrash Superfluous Assets
+        # * * * * * * * * * * * * * * * * * * * *
+        # * * * * * * * * * * * * * * * * * * * *
+
+        # Discard any extraneous assets from the temporary directory.
+        #  We are not interested in any fluff, as that can enlarge the final compile build.
+        if (![Builder]::ExpungeExtraneousResources($projectTemporaryPath))
+        {
+            # Because we could not delete the superfluous assets, we could not continue this
+            #  operation.  Now, with that, it could be possible to continue the operation as
+            #  normal - having the extra assets that is unrelated to the game files or project
+            #  in itself is not such a big deal, HOWEVER, it could be an issue if there are
+            #  sensitive information that is not meant to be visible to other users -
+            #  regardless where or what.
+
+            # Thus, if we cannot expunge any of the superfluous data, then return an error
+            #  signal.
+            return $false;
+        } # Could not Delete Superfluous Files
+
+
+
+
+
         #             Compile Project
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
