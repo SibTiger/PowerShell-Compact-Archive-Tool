@@ -1800,6 +1800,10 @@ class Builder
 
         # Successfully deleted unnecessary resources
         [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully deleted unnecessary assets!");
+
+
+        # The operation was successful
+        return $true;
     } # ExpungeExtraneousResources()
 
 
