@@ -1685,7 +1685,7 @@ class Builder
 
         # Operation was successful!
         return $true;
-    } # # DeleteProjectTemporaryDirectory()
+    } # DeleteProjectTemporaryDirectory()
 
 
 
