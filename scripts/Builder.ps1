@@ -1760,13 +1760,13 @@ class Builder
         # = = = = = = = = = = = = = = = = = = = = = = = = =
         # Directories to Remove
         # - - - -
-        $foldersToDelete.Add(".git");   # SCM Git
+        $foldersToDelete.Add("$($temporaryDirectoryPath)\.git");   # SCM Git
 
         # Files to Remove
         # - - - -
-        $filesToDelete.Add("$($userPreferences.GetProjectPath())\.gitattributes");   # Repository File Attributes and Behavior
-        $filesToDelete.Add("$($userPreferences.GetProjectPath())\.gitignore");       # Ignore specific files within Local Repository
-        $filesToDelete.Add("$($userPreferences.GetProjectPath())\README.md");        # GitHub's Services; Repository Page's ReadMe
+        $filesToDelete.Add(".gitattributes");   # Repository File Attributes and Behavior
+        $filesToDelete.Add(".gitignore");       # Ignore specific files within Local Repository
+        $filesToDelete.Add("README.md");        # GitHub's Services; Repository Page's ReadMe
 
 
 
