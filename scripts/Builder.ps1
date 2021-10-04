@@ -1792,12 +1792,12 @@ class Builder
 
 
 
-        # Delete the desires files
-        if (![CommonIO]::DeleteFile($temporaryDirectoryPath, $filesToDelete.ToArray()))
+        # Delete the desired file(s) - using the Recursive flag
+        if (![CommonIO]::DeleteFile($temporaryDirectoryPath, $filesToDelete.ToArray(), $true))
         {
             # Something went horribly wrong
             return $false;
-        } # If : Failed to delete file
+        } # If : Failed to delete file(s) - with Recursive Flag
 
 
 
