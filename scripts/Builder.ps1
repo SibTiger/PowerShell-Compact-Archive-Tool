@@ -1746,6 +1746,7 @@ class Builder
         #  This will provide a list of files that are to be expunged.
         [System.Collections.ArrayList] $filesToDelete = [System.Collections.ArrayList]@();
 
+
         # Debugging Variables
         [string] $logMessage = $NULL;           # Main message regarding the logged event.
         [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
