@@ -2625,6 +2625,11 @@ class CommonIO
     #  [string[]] Includes
     #    What specific requirements must a file have in order to be classified to
     #     be deleted.  Specific filenames are acceptable.
+    #  [bool] Recursive
+    #    When true, this will recursively delete all instances of the desired
+    #       file(s) within the provided directory root.
+    #    However, when false, this will only delete the instance of the file
+    #       that is within the root of the directory.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -2635,7 +2640,8 @@ class CommonIO
     # -------------------------------
     #>
     static [bool] DeleteFile([string] $path, `      # Path of the directory to inspect
-                            [string[]] $includes)   # List of files or requirements
+                            [string[]] $includes, ` # List of files or requirements
+                            [bool] $recursive)      # Recursively delete specific files
     {
         # First check to see if the directory exists,
         #  if not, then there is nothing to do.
@@ -2663,6 +2669,7 @@ class CommonIO
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Directory Path: $($path)`r`n" + `
+                                        "`tRecursive Switch: $($recursive.ToString())`r`n" + `
                                         "`tFile(s) that were requested to be deleted:`r`n" + `
                                         "$($includesStr)");
 
@@ -2686,12 +2693,28 @@ class CommonIO
             # We will use this variable to store all of the verbose information from the CMDlet.
             [System.Management.Automation.VerboseRecord[]] $debugInformation = $null;
 
+
             # Remove the requested files.
-            $debugInformation = Remove-Item -Path "$($path)\*" `
-                                            -Include $includes `
-                                            -Force `
-                                            -Verbose `
-                                            -ErrorAction Stop 4>&1;
+            # Delete the file Recursively
+            if ($recursive)
+            {
+                $debugInformation = Remove-Item -Path "$($path)\*" `
+                                                -Include $includes `
+                                                -Recurse `
+                                                -Force `
+                                                -Verbose `
+                                                -ErrorAction Stop 4>&1;
+            } # If : Delete Recursively
+
+            # Delete the file only at the path specified; Not Recursively
+            else
+            {
+                $debugInformation = Remove-Item -Path "$($path)\*" `
+                                                -Include $includes `
+                                                -Force `
+                                                -Verbose `
+                                                -ErrorAction Stop 4>&1;
+            } # Else : Do not Delete Recursively
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -2735,6 +2758,7 @@ class CommonIO
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Directory that was inspected: $($path)`r`n" + `
+                                        "`tRecursive Switch: $($recursive.ToString())`r`n" + `
                                         "`tFile(s) that were requested to be deleted:`r`n" + `
                                         "$($includesStr)" + `
                                         "`tRemoved a total of $($debugInformation.Count) items.`r`n" + `
@@ -2779,6 +2803,7 @@ class CommonIO
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Directory that was inspected: $($path)`r`n" + `
+                                        "`tRecursive Switch: $($recursive.ToString())`r`n" + `
                                         "`tFile(s) requested to be deleted:`r`n" + `
                                         "$($includesStr)`r`n" + `
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
