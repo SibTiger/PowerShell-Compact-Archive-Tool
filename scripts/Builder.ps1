@@ -1779,6 +1779,10 @@ class Builder
 
 
 
+        # Show that we are trying to delete unnecessary directories
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Deleting unnecessary directories. . .");
+
+
         # Try to delete directories that we do not want.
         foreach($i in $foldersToDelete)
         {
@@ -1790,6 +1794,10 @@ class Builder
             } # If : Failed to delete directory
         } # Foreach: Delete Directories
 
+
+
+        # Show that we are trying to delete unnecessary files
+        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Deleting unnecessary files. . .");
 
 
         # Delete the desired file(s) - using the Recursive flag
