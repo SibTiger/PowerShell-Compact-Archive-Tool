@@ -1789,7 +1789,18 @@ class Builder
             # Delete the desired directory
             if (![CommonIO]::DeleteDirectory($i))
             {
-                # Something went horribly wrong
+                # Unable to delete the desired directory
+
+                # Alert the user that an error had been reached.
+                [Notifications]::Notify([NotificationEventType]::Error);
+
+
+                # Show that the directory could not be deleted.
+                [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to delete folder $($i)!");
+                [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "The folder could not be removed.");
+
+
+                # Because we cannot delete the requested directory, we have to abort the operation.
                 return $false;
             } # If : Failed to delete directory
         } # Foreach: Delete Directories
@@ -1803,8 +1814,19 @@ class Builder
         # Delete the desired file(s) - using the Recursive flag
         if (![CommonIO]::DeleteFile($temporaryDirectoryPath, $filesToDelete.ToArray(), $true))
         {
-            # Something went horribly wrong
-            return $false;
+                # Unable to delete the desired files
+
+                # Alert the user that an error had been reached.
+                [Notifications]::Notify([NotificationEventType]::Error);
+
+
+                # Show that the files could not be deleted.
+                [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to delete the files!");
+                [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Files to be removed: $($filesToDelete.ToString())");
+
+
+                # Because we cannot delete the requested file, we have to abort the operation.
+                return $false;
         } # If : Failed to delete file(s) - with Recursive Flag
 
 
