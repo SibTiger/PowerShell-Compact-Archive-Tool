@@ -1761,7 +1761,10 @@ class Builder
         # = = = = = = = = = = = = = = = = = = = = = = = = =
         # Directories to Remove
         # - - - -
-        $foldersToDelete.Add("$($temporaryDirectoryPath)\.git");    # SCM Git
+        $foldersToDelete.Add("$($temporaryDirectoryPath)\.git");        # SCM Git
+        $foldersToDelete.Add("$($temporaryDirectoryPath)\TEMP");        # Temporary Directory
+        $foldersToDelete.Add("$($temporaryDirectoryPath)\Temporary");   # Temporary Directory
+        $foldersToDelete.Add("$($temporaryDirectoryPath)\Tools");       # Tools Directory
 
         # Files to Remove
         # - - - -
