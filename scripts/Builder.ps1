@@ -1825,7 +1825,7 @@ class Builder
 
                 # Show that the files could not be deleted.
                 [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to delete the files!");
-                [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Files to be removed: $($filesToDelete.ToString())");
+                [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Files to be removed: `r`n`t - $($filesToDelete -join "`r`n`t - ")");
 
 
                 # Because we cannot delete the requested file, we have to abort the operation.
