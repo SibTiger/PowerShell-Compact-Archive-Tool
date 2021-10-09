@@ -2690,13 +2690,13 @@ class Builder
         [char] $bulletCharacter = $null;
 
         # Symbols that will be used when providing a list.
-        [char] $symbolParent     = '>';     # Main Operation
-        [char] $symbolChild      = '-';     # Sub-Main Operation
-        [char] $symbolInProgress = '-';     # Task presently running
-        [char] $symbolSuccessful = '-';     # Operation finished successfully
-        [char] $symbolWarning    = '!';     # Reached a warning case
-        [char] $symbolFailure    = '!';     # Operation reached an error
-        [char] $symbolNoSymbol   = ' ';     # Generic message with on symbol.
+        [char] $symbolParent        = '>';     # Main Operation
+        [char] $symbolChild         = '-';     # Sub-Main Operation
+        [char] $symbolInProgress    = '-';     # Task presently running
+        [char] $symbolSuccessful    = '-';     # Operation finished successfully
+        [char] $symbolWarning       = '!';     # Reached a warning case
+        [char] $symbolFailure       = '!';     # Operation reached an error
+        [char] $symbolNoSymbol      = ' ';     # Generic message with on symbol.
         # ----------------------------------------
 
 
