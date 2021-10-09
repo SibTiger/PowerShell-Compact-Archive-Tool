@@ -2673,8 +2673,8 @@ class Builder
     #       as to how many indentions are required before displaying the message.
     #  [FormattedListBuilder] Message Type
     #   The type of message that is to be presented to the user.  This usually could
-    #   be a simple bullet list or provides a unique character for the message based
-    #   on certain events.
+    #       be a simple bullet list or provides a unique character for the message based
+    #       on certain events.
     #  [string] Message String
     #   The message that will be displayed to the user.
     # -------------------------------
