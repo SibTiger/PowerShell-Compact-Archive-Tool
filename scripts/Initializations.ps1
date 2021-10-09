@@ -91,6 +91,10 @@ function InitializationProgramSites()
     # Program Source Repository
     Set-Variable -Name "_PROGRAMSITESOURCEREPOSITORY_" -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool" `
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+
+    # Report a Bug or Feature
+    Set-Variable -Name "_PROGRAMREPORTBUGORFEATURE_" -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/wiki/Report" `
+        -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 } # InitializationProgramSites()
 
 
