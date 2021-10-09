@@ -185,6 +185,14 @@ class Settings
                                 $true);
 
 
+        # Report an Issue or Feature
+        [CommonCUI]::DrawMenuItem('#', `
+                                "Report an issue or feature", `
+                                "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Online Bug Tracker.", `
+                                $NULL, `
+                                $true);
+
+
         # Show or Hide Hidden Menus and Options
         [CommonCUI]::DrawMenuItem('~', `
                                 "Toggle Hidden Menus", `
@@ -343,6 +351,27 @@ class Settings
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMSITEWIKI_,                   ` # Program's Wiki
                                                             "$([ProjectInformation]::projectName) Wiki",    ` # Show page title
                                                             $false))                                        ` # Do not force Web Browser functionality.
+                {
+                    # Alert the user that the web functionality did not successfully work as intended.
+                    [Notifications]::Notify([NotificationEventType]::Error);
+                } # If : Failed to Provide Webpage
+
+
+                # Finished
+                break;
+            } # Access Help Program's Documentation
+
+
+
+            # Access the Program's Bug Tracker
+            #  NOTE: Allow the user's request when they type: 'Report' or '#'.
+            {($_ -eq "#") -or `
+                ($_ -eq "Report")}
+            {
+                # Open the webpage as requested
+                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
+                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
+                                                            $true))                                                 ` # Override the user's settings; access webpage
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [Notifications]::Notify([NotificationEventType]::Error);
