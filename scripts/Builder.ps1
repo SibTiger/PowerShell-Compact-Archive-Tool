@@ -1801,6 +1801,37 @@ class Builder
                 [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "The folder could not be removed.");
 
 
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate a message to display to the user.
+                [string] $displayErrorMessage = ("Unable to delete a redundant folder: ($($i))`r`n" + `
+                                                "Please inspect the logs for what could had caused the problem.");
+
+                # Generate the initial message
+                $logMessage = "An error had been reached while removing superfluous directories!";
+
+                # Generate any additional information that might be useful
+                $logAdditionalMSG = ("Unable to delete directory: $($i)`r`n" + `
+                                    "Additional directories to be removed:`r`n" + `
+                                    "`t - $($foldersToDelete -join "`r`n`t - ")");
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
+                                            [LogMessageLevel]::Error);  # Message level
+
+                # Display a message to the user that something went horribly wrong
+                #  and log that same message for referencing purpose.
+                [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                            [LogMessageLevel]::Error);  # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
+
                 # Because we cannot delete the requested directory, we have to abort the operation.
                 return $false;
             } # If : Failed to delete directory
@@ -1826,6 +1857,36 @@ class Builder
                 [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Files to be removed: `r`n`t - $($filesToDelete -join "`r`n`t - ")");
 
 
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate a message to display to the user.
+                [string] $displayErrorMessage = ("Unable to delete redundant files that were not needed for the compiled build.`r`n" + `
+                                                "Please inspect the logs for what could had caused the problem.");
+
+                # Generate the initial message
+                $logMessage = "An error had been reached while removing superfluous files!";
+
+                # Generate any additional information that might be useful
+                $logAdditionalMSG = ("Files to be removed:`r`n" + `
+                                    "`t - $($filesToDelete -join "`r`n`t - ")");
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
+                                            [LogMessageLevel]::Error);  # Message level
+
+                # Display a message to the user that something went horribly wrong
+                #  and log that same message for referencing purpose.
+                [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                            [LogMessageLevel]::Error);  # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
+
                 # Because we cannot delete the requested file, we have to abort the operation.
                 return $false;
         } # If : Failed to delete file(s) - with Recursive Flag
@@ -1834,6 +1895,28 @@ class Builder
 
         # Successfully deleted unnecessary resources
         [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully deleted unnecessary assets!");
+
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        $logMessage = "Successfully removed unnecessary files and directories!";
+
+        # Generate any additional information that might be useful
+        $logAdditionalMSG = ("Files Removed:`r`n" + `
+                            "`t`t - $($foldersToDelete -join "`r`n`t`t - ")`r`n" + `
+                            "`tDirectories Removed: `r`n" + `
+                            "`t`t - $($filesToDelete -join "`r`n`t`t - ")");
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
 
 
         # The operation was successful
