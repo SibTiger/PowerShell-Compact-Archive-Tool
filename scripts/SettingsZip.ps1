@@ -155,6 +155,14 @@ class SettingsZip
                                 $true);
 
 
+        # Report an Issue or Feature
+        [CommonCUI]::DrawMenuItem('#', `
+                                "Report an issue or feature", `
+                                "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Online Bug Tracker.", `
+                                $NULL, `
+                                $true);
+
+
         # Return back to the Main Menu
         [CommonCUI]::DrawMenuItem('X', `
                                 "Go back to previous Menu", `
@@ -552,6 +560,27 @@ class SettingsZip
 
 
 
+            # Access the Program's Bug Tracker
+            #  NOTE: Allow the user's request when they type: 'Report' or '#'.
+            {($_ -eq "#") -or `
+                ($_ -eq "Report")}
+            {
+                # Open the webpage as requested
+                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
+                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
+                                                            $true))                                                 ` # Override the user's settings; access webpage
+                {
+                    # Alert the user that the web functionality did not successfully work as intended.
+                    [Notifications]::Notify([NotificationEventType]::Error);
+                } # If : Failed to Provide Webpage
+
+
+                # Finished
+                break;
+            } # Access Help Program's Documentation
+
+
+
             # Exit
             #  NOTE: Allow the user's request when they type: 'Exit', 'Cancel', 'Return',
             #         'Settings Menu', as well as 'X'.
@@ -749,6 +778,14 @@ class SettingsZip
                                 $true);
 
 
+        # Report an Issue or Feature
+        [CommonCUI]::DrawMenuItem('#', `
+                                "Report an issue or feature", `
+                                "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Online Bug Tracker.", `
+                                $NULL, `
+                                $true);
+
+
         # Return back to the previous menu
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
@@ -832,6 +869,26 @@ class SettingsZip
                 # Finished
                 break;
             } # Selected No Compression
+
+
+            # Access the Program's Bug Tracker
+            #  NOTE: Allow the user's request when they type: 'Report' or '#'.
+            {($_ -eq "#") -or `
+                ($_ -eq "Report")}
+            {
+                # Open the webpage as requested
+                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
+                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
+                                                            $true))                                                 ` # Override the user's settings; access webpage
+                {
+                    # Alert the user that the web functionality did not successfully work as intended.
+                    [Notifications]::Notify([NotificationEventType]::Error);
+                } # If : Failed to Provide Webpage
+
+
+                # Finished
+                break;
+            } # Access Help Program's Documentation
 
 
             # Exit
@@ -1005,6 +1062,14 @@ class SettingsZip
                                 $true);
 
 
+        # Report an Issue or Feature
+        [CommonCUI]::DrawMenuItem('#', `
+                                "Report an issue or feature", `
+                                "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Online Bug Tracker.", `
+                                $NULL, `
+                                $true);
+
+
         # Return back to the previous menu
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
@@ -1075,6 +1140,26 @@ class SettingsZip
                 # Finished
                 break;
             } # Selected Fastest Compression
+
+
+            # Access the Program's Bug Tracker
+            #  NOTE: Allow the user's request when they type: 'Report' or '#'.
+            {($_ -eq "#") -or `
+                ($_ -eq "Report")}
+            {
+                # Open the webpage as requested
+                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
+                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
+                                                            $true))                                                 ` # Override the user's settings; access webpage
+                {
+                    # Alert the user that the web functionality did not successfully work as intended.
+                    [Notifications]::Notify([NotificationEventType]::Error);
+                } # If : Failed to Provide Webpage
+
+
+                # Finished
+                break;
+            } # Access Help Program's Documentation
 
 
             # Exit
@@ -1266,6 +1351,14 @@ class SettingsZip
                                 $true);
 
 
+        # Report an Issue or Feature
+        [CommonCUI]::DrawMenuItem('#', `
+                                "Report an issue or feature", `
+                                "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Online Bug Tracker.", `
+                                $NULL, `
+                                $true);
+
+
         # Return back to the previous menu
         [CommonCUI]::DrawMenuItem('X', `
                                 "Cancel", `
@@ -1364,6 +1457,26 @@ class SettingsZip
                 # Finished
                 break;
             } # Selected Do not Generate Reports
+
+
+            # Access the Program's Bug Tracker
+            #  NOTE: Allow the user's request when they type: 'Report' or '#'.
+            {($_ -eq "#") -or `
+                ($_ -eq "Report")}
+            {
+                # Open the webpage as requested
+                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
+                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
+                                                            $true))                                                 ` # Override the user's settings; access webpage
+                {
+                    # Alert the user that the web functionality did not successfully work as intended.
+                    [Notifications]::Notify([NotificationEventType]::Error);
+                } # If : Failed to Provide Webpage
+
+
+                # Finished
+                break;
+            } # Access Help Program's Documentation
 
 
             # Exit
