@@ -2696,6 +2696,7 @@ class Builder
         [char] $symbolSuccessful = '-';     # Operation finished successfully
         [char] $symbolWarning    = '!';     # Reached a warning case
         [char] $symbolFailure    = '!';     # Operation reached an error
+        [char] $symbolNoSymbol   = ' ';     # Generic message with on symbol.
         # ----------------------------------------
 
 
@@ -2767,6 +2768,17 @@ class Builder
                 # Finished
                 break;
             } # Failure
+
+
+            # No Symbol
+            ([FormattedListBuilder]::NoSymbol)
+            {
+                # Provide an empty space
+                $bulletCharacter = $symbolNoSymbol;
+
+                # Finished
+                break;
+            } # No Symbol
 
 
             # No Symbol
