@@ -1768,7 +1768,7 @@ class Builder
         # - - - -
         $filesToDelete.Add(".gitattributes");                       # Repository File Attributes and Behavior
         $filesToDelete.Add(".gitignore");                           # Ignore specific files within Local Repository
-        $filesToDelete.Add("README.md");                            # GitHub's Services; Repository Page's ReadMe
+        $filesToDelete.Add("*.md");                                 # GitHub's Services; GitHub specific files
         $filesToDelete.Add("Thumb.dbs");                            # WINDOWS: Picture thumbnail database
         $filesToDelete.Add("desktop.ini");                          # WINDOWS: Explorer Properties for WD
 
