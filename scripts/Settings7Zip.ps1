@@ -54,13 +54,13 @@ class Settings7Zip
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the 7Zip menu list to the user
-            [Settings7Zip]::DrawMenu();
+            [Settings7Zip]::__DrawMenu();
 
             # Capture the user's feedback
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [Settings7Zip]::EvaluateExecuteUserRequest($userInput);
+            $menuLoop = [Settings7Zip]::__EvaluateExecuteUserRequest($userInput);
         } while($menuLoop);
     } # Main()
 
@@ -75,7 +75,7 @@ class Settings7Zip
     #   are available to configure.
     # -------------------------------
     #>
-    hidden static [void] DrawMenu()
+    hidden static [void] __DrawMenu()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -108,23 +108,23 @@ class Settings7Zip
 
 
         # Retrieve the current settings and determine the wording before we generate the menu.
-        [Settings7Zip]::DrawMenuDecipherCurrentSettings([ref] $currentSettingCompressionMethod, `           # Compression Level
-                                                        [ref] $currentSettingMultithreadedOperations, `     # Multithreaded Operations
-                                                        [ref] $currentSettingCompressionLevel, `            # Compression Level
-                                                        [ref] $currentSettingVerifyBuild, `                 # Verify Build
-                                                        [ref] $currentSettingGenerateReport, `              # Generate Report
-                                                        [ref] $currentSettingGenerateReportPDF);            # Generate PDF Report
+        [Settings7Zip]::__DrawMenuDecipherCurrentSettings([ref] $currentSettingCompressionMethod, `             # Compression Level
+                                                            [ref] $currentSettingMultithreadedOperations, `     # Multithreaded Operations
+                                                            [ref] $currentSettingCompressionLevel, `            # Compression Level
+                                                            [ref] $currentSettingVerifyBuild, `                 # Verify Build
+                                                            [ref] $currentSettingGenerateReport, `              # Generate Report
+                                                            [ref] $currentSettingGenerateReportPDF);            # Generate PDF Report
 
 
         # Determine what menus are to be displayed to the user.
-        [Settings7Zip]::DrawMenuDetermineHiddenMenus([ref] $showMenuLocate7Zip, `           # Locate 7Zip
-                                                    [ref] $showMenuCompressionMethod, `     # Compression Method
-                                                    [ref] $showMenuZipAlgorithms, `         # Zip Algorithms
-                                                    [ref] $showMenu7ZipAlgorithms, `        # 7Zip Algorithms
-                                                    [ref] $showMenuMultithread, `           # Multithreaded Operations
-                                                    [ref] $showMenuCompressionLevel, `      # Compression Level
-                                                    [ref] $showMenuVerifyBuild, `           # Verify Build
-                                                    [ref] $ShowMenuGenerateReport);         # Generate Report
+        [Settings7Zip]::__DrawMenuDetermineHiddenMenus([ref] $showMenuLocate7Zip, `             # Locate 7Zip
+                                                        [ref] $showMenuCompressionMethod, `     # Compression Method
+                                                        [ref] $showMenuZipAlgorithms, `         # Zip Algorithms
+                                                        [ref] $showMenu7ZipAlgorithms, `        # 7Zip Algorithms
+                                                        [ref] $showMenuMultithread, `           # Multithreaded Operations
+                                                        [ref] $showMenuCompressionLevel, `      # Compression Level
+                                                        [ref] $showMenuVerifyBuild, `           # Verify Build
+                                                        [ref] $ShowMenuGenerateReport);         # Generate Report
 
 
 
@@ -245,7 +245,7 @@ class Settings7Zip
 
         # Provide some extra padding
         [Logging]::DisplayMessage("`r`n");
-    } # DrawMenu()
+    } # __DrawMenu()
 
 
 
@@ -273,12 +273,12 @@ class Settings7Zip
     #    newly generated compressed build.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuDecipherCurrentSettings([ref] $compressionMethod, `        # Compression Method
-                                                        [ref] $multithreadedOperations, `   # Multithreaded Operations
-                                                        [ref] $compressionLevel, `          # Compression Level
-                                                        [ref] $verifyBuild, `               # Verify Build
-                                                        [ref] $generateReport, `            # Generate Report
-                                                        [ref] $generateReportPDF)           # Generate PDF Report
+    hidden static [void] __DrawMenuDecipherCurrentSettings([ref] $compressionMethod, `          # Compression Method
+                                                            [ref] $multithreadedOperations, `   # Multithreaded Operations
+                                                            [ref] $compressionLevel, `          # Compression Level
+                                                            [ref] $verifyBuild, `               # Verify Build
+                                                            [ref] $generateReport, `            # Generate Report
+                                                            [ref] $generateReportPDF)           # Generate PDF Report
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -477,7 +477,7 @@ class Settings7Zip
             # The user does not want to have a report generated of the archive datafile.
             $generateReportPDF.Value = $null;
         } # else: Do not create PDF report
-    } # DrawMenuDecipherCurrentSettings()
+    } # __DrawMenuDecipherCurrentSettings()
 
 
 
@@ -513,14 +513,14 @@ class Settings7Zip
     #   Determines if the user wanted a report of the project's latest developments.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuDetermineHiddenMenus([ref] $showMenuLocate7Zip, `          # Locate Git
-                                                    [ref] $showMenuCompressionMethod, `     # Compression Method
-                                                    [ref] $showMenuZipAlgorithms, `         # Zip Algorithms
-                                                    [ref] $showMenu7ZipAlgorithms, `        # 7Zip Algorithms
-                                                    [ref] $showMenuMultithread, `           # Multithreaded Operations
-                                                    [ref] $showMenuCompressionLevel, `      # Compression Level
-                                                    [ref] $showMenuVerifyBuild, `           # Verify Build
-                                                    [ref] $ShowMenuGenerateReport)          # Generate Report
+    hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuLocate7Zip, `            # Locate Git
+                                                        [ref] $showMenuCompressionMethod, `     # Compression Method
+                                                        [ref] $showMenuZipAlgorithms, `         # Zip Algorithms
+                                                        [ref] $showMenu7ZipAlgorithms, `        # 7Zip Algorithms
+                                                        [ref] $showMenuMultithread, `           # Multithreaded Operations
+                                                        [ref] $showMenuCompressionLevel, `      # Compression Level
+                                                        [ref] $showMenuVerifyBuild, `           # Verify Build
+                                                        [ref] $ShowMenuGenerateReport)          # Generate Report
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -749,7 +749,7 @@ class Settings7Zip
         {
             $ShowMenuGenerateReport.Value = $false;
         } # Else: Generate Reports is Hidden
-    } # DrawMenuDetermineHiddenMenus()
+    } # __DrawMenuDetermineHiddenMenus()
 
 
 
@@ -772,7 +772,7 @@ class Settings7Zip
     #   $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequest([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequest([string] $userRequest)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -791,14 +791,14 @@ class Settings7Zip
 
 
         # Determine what menus are available to the user.
-        [Settings7Zip]::DrawMenuDetermineHiddenMenus([ref] $showMenuLocate7Zip, `           # Locate 7Zip
-                                                    [ref] $showMenuCompressionMethod, `     # Compression Method
-                                                    [ref] $showMenuZipAlgorithms, `         # Zip Algorithms
-                                                    [ref] $showMenu7ZipAlgorithms, `        # 7Zip Algorithms
-                                                    [ref] $showMenuMultithread, `           # Multithreaded Operations
-                                                    [ref] $showMenuCompressionLevel, `      # Compression Level
-                                                    [ref] $showMenuVerifyBuild, `           # Verify Build
-                                                    [ref] $ShowMenuGenerateReport);         # Generate Report
+        [Settings7Zip]::__DrawMenuDetermineHiddenMenus([ref] $showMenuLocate7Zip, `             # Locate 7Zip
+                                                        [ref] $showMenuCompressionMethod, `     # Compression Method
+                                                        [ref] $showMenuZipAlgorithms, `         # Zip Algorithms
+                                                        [ref] $showMenu7ZipAlgorithms, `        # 7Zip Algorithms
+                                                        [ref] $showMenuMultithread, `           # Multithreaded Operations
+                                                        [ref] $showMenuCompressionLevel, `      # Compression Level
+                                                        [ref] $showMenuVerifyBuild, `           # Verify Build
+                                                        [ref] $ShowMenuGenerateReport);         # Generate Report
 
 
 
@@ -815,7 +815,7 @@ class Settings7Zip
                     ($_ -eq "Browse 7Zip"))}
             {
                 # Allow the user to locate the path to 7Zip or verify 7Zip's path.
-                [Settings7Zip]::Locate7ZipPath();
+                [Settings7Zip]::__Locate7ZipPath();
 
 
                 # Finished
@@ -831,7 +831,7 @@ class Settings7Zip
                     ($_ -eq "Compression Method"))}
             {
                 # Allow the user to configure the compression method when using 7Zip.
-                [Settings7Zip]::CompressionMethod();
+                [Settings7Zip]::__CompressionMethod();
 
 
                 # Finished
@@ -847,7 +847,7 @@ class Settings7Zip
                     ($_ -eq "Zip Algorithm"))}
             {
                 # Allow the user to configure the Zip algorithm
-                [Settings7Zip]::AlgorithmsZip();
+                [Settings7Zip]::__AlgorithmsZip();
 
 
                 # Finished
@@ -863,7 +863,7 @@ class Settings7Zip
                     ($_ -eq "7Zip Algorithm"))}
             {
                 # Allow the user to configure the 7Zip algorithm
-                [Settings7Zip]::Algorithms7Zip();
+                [Settings7Zip]::__Algorithms7Zip();
 
 
                 # Finished
@@ -881,7 +881,7 @@ class Settings7Zip
                     ($_ -eq "Multithread"))}
             {
                 # Allow the user to enable or disable the Multithread feature in 7Zip
-                [Settings7Zip]::UseMultithread();
+                [Settings7Zip]::__UseMultithread();
 
 
                 # Finished
@@ -897,7 +897,7 @@ class Settings7Zip
                     ($_ -eq "Compression Level"))}
             {
                 # Allow the user to customize the compression level while using 7Zip.
-                [Settings7Zip]::CompressionLevel();
+                [Settings7Zip]::__CompressionLevel();
 
 
                 # Finished
@@ -918,7 +918,7 @@ class Settings7Zip
                     ($_ -eq "Test"))}
             {
                 # Allow the user the ability to verify a newly generated project build.
-                [Settings7Zip]::VerifyBuild();
+                [Settings7Zip]::__VerifyBuild();
 
 
                 # Finished
@@ -937,7 +937,7 @@ class Settings7Zip
                     ($_ -eq "Generate Report of Archive Datafile"))}
             {
                 # Allow the user the ability to request reports for the newly generated archive datafile.
-                [Settings7Zip]::GenerateReport();
+                [Settings7Zip]::__GenerateReport();
 
 
                 # Finished
@@ -1030,7 +1030,7 @@ class Settings7Zip
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequest()
+    } # __EvaluateExecuteUserRequest()
 
 
 
@@ -1054,7 +1054,7 @@ class Settings7Zip
     #   program can be able to utilize 7Zip's functionality and features.
     # -------------------------------
     #>
-    hidden static [void] Locate7ZipPath()
+    hidden static [void] __Locate7ZipPath()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1115,7 +1115,7 @@ class Settings7Zip
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the menu list to the user
-            [Settings7Zip]::DrawMenuLocate7ZipPath();
+            [Settings7Zip]::__DrawMenuLocate7ZipPath();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -1124,9 +1124,9 @@ class Settings7Zip
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [Settings7Zip]::EvaluateExecuteUserRequestLocate7ZipPath($userInput);
+            $menuLoop = [Settings7Zip]::__EvaluateExecuteUserRequestLocate7ZipPath($userInput);
         } while ($menuLoop);
-    } # Locate7ZipPath()
+    } # __Locate7ZipPath()
 
 
 
@@ -1139,7 +1139,7 @@ class Settings7Zip
     #   path.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuLocate7ZipPath()
+    hidden static [void] __DrawMenuLocate7ZipPath()
     {
         # Display the Menu List
 
@@ -1173,7 +1173,7 @@ class Settings7Zip
                                 "Return back to the previous menu.", `
                                 $NULL, `
                                 $true);
-    } # DrawMenuLocate7ZipPath()
+    } # __DrawMenuLocate7ZipPath()
 
 
 
@@ -1196,7 +1196,7 @@ class Settings7Zip
     #       $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequestLocate7ZipPath([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequestLocate7ZipPath([string] $userRequest)
     {
         # Evaluate the user's request
         switch ($userRequest)
@@ -1211,7 +1211,7 @@ class Settings7Zip
                 ($_ -eq "Automatic")}
             {
                 # Try to find the 7Zip Application automatically.
-                [Settings7Zip]::Locate7ZipPathAutomatically();
+                [Settings7Zip]::__Locate7ZipPathAutomatically();
 
 
                 # Finished
@@ -1229,7 +1229,7 @@ class Settings7Zip
                 ($_ -eq "Manual")}
             {
                 # Find the 7Zip Application manually.
-                [Settings7Zip]::Locate7ZipPathManually();
+                [Settings7Zip]::__Locate7ZipPathManually();
 
 
                 # Finished
@@ -1297,7 +1297,7 @@ class Settings7Zip
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequestLocate7ZipPath()
+    } # __EvaluateExecuteUserRequestLocate7ZipPath()
 
 
 
@@ -1309,7 +1309,7 @@ class Settings7Zip
     #   for the user.
     # -------------------------------
     #>
-    hidden static [void] Locate7ZipPathAutomatically()
+    hidden static [void] __Locate7ZipPathAutomatically()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1359,7 +1359,7 @@ class Settings7Zip
 
         # Wait for the user to provide feedback; thus allowing the user to read the message.
         [logging]::GetUserEnterKey();
-    } # Locate7ZipPathAutomatically()
+    } # __Locate7ZipPathAutomatically()
 
 
 
@@ -1371,7 +1371,7 @@ class Settings7Zip
     #   the path of the 7Zip directory.
     # -------------------------------
     #>
-    hidden static [void] Locate7ZipPathManually()
+    hidden static [void] __Locate7ZipPathManually()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1422,7 +1422,7 @@ class Settings7Zip
                 [Logging]::GetUserEnterKey();
             } # if : User Provided incorrect path
         } # else : Path is invalid
-    } # Locate7ZipPathManually()
+    } # __Locate7ZipPathManually()
     #endregion
 
 
@@ -1447,7 +1447,7 @@ class Settings7Zip
     #   will be used when compacting a project's source into an archive datafile.
     # -------------------------------
     #>
-    hidden static [void] CompressionMethod()
+    hidden static [void] __CompressionMethod()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1519,7 +1519,7 @@ class Settings7Zip
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the menu list to the user
-            [Settings7Zip]::DrawMenuCompressionMethod();
+            [Settings7Zip]::__DrawMenuCompressionMethod();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -1528,7 +1528,7 @@ class Settings7Zip
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [Settings7Zip]::EvaluateExecuteUserRequestCompressionMethod($userInput);
+            $menuLoop = [Settings7Zip]::__EvaluateExecuteUserRequestCompressionMethod($userInput);
         } while ($menuLoop);
     } # CompressionMethod()
 
@@ -1542,7 +1542,7 @@ class Settings7Zip
     #   Thus, this provides what options are available in relation to the Compression Method in 7Zip.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuCompressionMethod()
+    hidden static [void] __DrawMenuCompressionMethod()
     {
         # Display the Menu List
 
@@ -1576,7 +1576,7 @@ class Settings7Zip
                                 "Return back to the previous menu.", `
                                 $NULL, `
                                 $true);
-    } # DrawMenuCompressionMethod()
+    } # __DrawMenuCompressionMethod()
 
 
 
@@ -1599,7 +1599,7 @@ class Settings7Zip
     #       $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequestCompressionMethod([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequestCompressionMethod([string] $userRequest)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1700,7 +1700,7 @@ class Settings7Zip
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequestCompressionMethod()
+    } # __EvaluateExecuteUserRequestCompressionMethod()
     #endregion
 
 
@@ -1725,7 +1725,7 @@ class Settings7Zip
     #  while utilizing the Zip Compression Methodology within the program.
     # -------------------------------
     #>
-    hidden static [void] AlgorithmsZip()
+    hidden static [void] __AlgorithmsZip()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1806,7 +1806,7 @@ class Settings7Zip
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the menu list to the user
-            [Settings7Zip]::DrawMenuAlgorithmZip();
+            [Settings7Zip]::__DrawMenuAlgorithmZip();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -1815,9 +1815,9 @@ class Settings7Zip
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [Settings7Zip]::EvaluateExecuteUserRequestAlgorithmZip($userInput);
+            $menuLoop = [Settings7Zip]::__EvaluateExecuteUserRequestAlgorithmZip($userInput);
         } while ($menuLoop);
-    } # AlgorithmsZip()
+    } # __AlgorithmsZip()
 
 
 
@@ -1829,7 +1829,7 @@ class Settings7Zip
     #   Thus, this provides what options are available in relation to the Algorithms for Zip in 7Zip.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuAlgorithmZip()
+    hidden static [void] __DrawMenuAlgorithmZip()
     {
         # Display the Menu List
 
@@ -1871,7 +1871,7 @@ class Settings7Zip
                                 "Return back to the previous menu.", `
                                 $NULL, `
                                 $true);
-    } # DrawMenuAlgorithmZip()
+    } # __DrawMenuAlgorithmZip()
 
 
 
@@ -1894,7 +1894,7 @@ class Settings7Zip
     #       $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequestAlgorithmZip([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequestAlgorithmZip([string] $userRequest)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2006,7 +2006,7 @@ class Settings7Zip
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequestAlgorithmZip()
+    } # __EvaluateExecuteUserRequestAlgorithmZip()
     #endregion
 
 
@@ -2031,7 +2031,7 @@ class Settings7Zip
     #  while utilizing the 7Zip Compression Methodology within the program.
     # -------------------------------
     #>
-    hidden static [void] Algorithms7Zip()
+    hidden static [void] __Algorithms7Zip()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2124,7 +2124,7 @@ class Settings7Zip
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the menu list to the user
-            [Settings7Zip]::DrawMenuAlgorithm7Zip();
+            [Settings7Zip]::__DrawMenuAlgorithm7Zip();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -2133,9 +2133,9 @@ class Settings7Zip
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [Settings7Zip]::EvaluateExecuteUserRequestAlgorithm7Zip($userInput);
+            $menuLoop = [Settings7Zip]::__EvaluateExecuteUserRequestAlgorithm7Zip($userInput);
         } while ($menuLoop);
-    } # Algorithms7Zip()
+    } # __Algorithms7Zip()
 
 
 
@@ -2147,7 +2147,7 @@ class Settings7Zip
     #   Thus, this provides what options are available in relation to the Algorithms for 7Zip in 7Zip.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuAlgorithm7Zip()
+    hidden static [void] __DrawMenuAlgorithm7Zip()
     {
         # Display the Menu List
 
@@ -2197,7 +2197,7 @@ class Settings7Zip
                                 "Return back to the previous menu.", `
                                 $NULL, `
                                 $true);
-    } # DrawMenuAlgorithm7Zip()
+    } # __DrawMenuAlgorithm7Zip()
 
 
 
@@ -2220,7 +2220,7 @@ class Settings7Zip
     #       $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequestAlgorithm7Zip([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequestAlgorithm7Zip([string] $userRequest)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2346,7 +2346,7 @@ class Settings7Zip
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequestAlgorithm7Zip()
+    } # __EvaluateExecuteUserRequestAlgorithm7Zip()
     #endregion
 
 
@@ -2370,7 +2370,7 @@ class Settings7Zip
     #  This function will allow the user the ability to enable 7Zip's Multithreaded operations (if available).
     # -------------------------------
     #>
-    hidden static [void] UseMultithread()
+    hidden static [void] __UseMultithread()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2435,7 +2435,7 @@ class Settings7Zip
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the menu list to the user
-            [Settings7Zip]::DrawMenuUseMultithread();
+            [Settings7Zip]::__DrawMenuUseMultithread();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -2444,9 +2444,9 @@ class Settings7Zip
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [Settings7Zip]::EvaluateExecuteUserRequestUseMultithread($userInput);
+            $menuLoop = [Settings7Zip]::__EvaluateExecuteUserRequestUseMultithread($userInput);
         } while ($menuLoop);
-    } # UseMultithread()
+    } # __UseMultithread()
 
 
 
@@ -2458,7 +2458,7 @@ class Settings7Zip
     #   Thus, this provides the ability to enable or disable the use of Multithreaded operations in 7Zip.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuUseMultithread()
+    hidden static [void] __DrawMenuUseMultithread()
     {
         # Display the Menu List
 
@@ -2492,7 +2492,7 @@ class Settings7Zip
                                 "Return back to the previous menu.", `
                                 $NULL, `
                                 $true);
-    } # DrawMenuUseMultithread()
+    } # __DrawMenuUseMultithread()
 
 
 
@@ -2515,7 +2515,7 @@ class Settings7Zip
     #       $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequestUseMultithread([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequestUseMultithread([string] $userRequest)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2617,7 +2617,7 @@ class Settings7Zip
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequestUseMultithread()
+    } # __EvaluateExecuteUserRequestUseMultithread()
     #endregion
 
 
@@ -2642,7 +2642,7 @@ class Settings7Zip
     #   be used during the compiling operation.
     # -------------------------------
     #>
-    hidden static [void] CompressionLevel()
+    hidden static [void] __CompressionLevel()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2735,7 +2735,7 @@ class Settings7Zip
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the menu list to the user
-            [Settings7Zip]::DrawMenuCompressionLevel();
+            [Settings7Zip]::__DrawMenuCompressionLevel();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -2744,9 +2744,9 @@ class Settings7Zip
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [Settings7Zip]::EvaluateExecuteUserCompressionLevel($userInput);
+            $menuLoop = [Settings7Zip]::__EvaluateExecuteUserCompressionLevel($userInput);
         } while ($menuLoop);
-    } # CompressionLevel()
+    } # __CompressionLevel()
 
 
 
@@ -2759,7 +2759,7 @@ class Settings7Zip
     #   while using 7Zip.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuCompressionLevel()
+    hidden static [void] __DrawMenuCompressionLevel()
     {
         # Display the Menu List
 
@@ -2809,7 +2809,7 @@ class Settings7Zip
                                 "Return back to the previous menu.", `
                                 $NULL, `
                                 $true);
-    } # DrawMenuCompressionLevel()
+    } # __DrawMenuCompressionLevel()
 
 
 
@@ -2832,7 +2832,7 @@ class Settings7Zip
     #       $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserCompressionLevel([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserCompressionLevel([string] $userRequest)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2958,7 +2958,7 @@ class Settings7Zip
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserCompressionLevel()
+    } # __EvaluateExecuteUserCompressionLevel()
     #endregion
 
 
@@ -2983,7 +2983,7 @@ class Settings7Zip
     #   verified to assure a healthy archive datafile.
     # -------------------------------
     #>
-    hidden static [void] VerifyBuild()
+    hidden static [void] __VerifyBuild()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -3047,7 +3047,7 @@ class Settings7Zip
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the menu list to the user
-            [Settings7Zip]::DrawMenuVerifyBuild();
+            [Settings7Zip]::__DrawMenuVerifyBuild();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -3056,9 +3056,9 @@ class Settings7Zip
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [Settings7Zip]::EvaluateExecuteUserRequestVerifyBuild($userInput);
+            $menuLoop = [Settings7Zip]::__EvaluateExecuteUserRequestVerifyBuild($userInput);
         } while ($menuLoop);
-    } # VerifyBuild()
+    } # __VerifyBuild()
 
 
 
@@ -3071,7 +3071,7 @@ class Settings7Zip
     #  archive datafile's integrity or to skip the verification phase.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuVerifyBuild()
+    hidden static [void] __DrawMenuVerifyBuild()
     {
         # Display the Menu List
 
@@ -3105,7 +3105,7 @@ class Settings7Zip
                                 "Return back to the previous menu.", `
                                 $NULL, `
                                 $true);
-    } # DrawMenuVerifyBuild()
+    } # __DrawMenuVerifyBuild()
 
 
 
@@ -3128,7 +3128,7 @@ class Settings7Zip
     #       $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequestVerifyBuild([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequestVerifyBuild([string] $userRequest)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -3229,7 +3229,7 @@ class Settings7Zip
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequestVerifyBuild()
+    } # __EvaluateExecuteUserRequestVerifyBuild()
     #endregion
 
 
@@ -3254,7 +3254,7 @@ class Settings7Zip
     #   data file has been generated.
     # -------------------------------
     #>
-    hidden static [void] GenerateReport()
+    hidden static [void] __GenerateReport()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -3328,7 +3328,7 @@ class Settings7Zip
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the menu list to the user
-            [Settings7Zip]::DrawMenuGenerateReport();
+            [Settings7Zip]::__DrawMenuGenerateReport();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -3337,9 +3337,9 @@ class Settings7Zip
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [Settings7Zip]::EvaluateExecuteUserRequestGenerateReport($userInput);
+            $menuLoop = [Settings7Zip]::__EvaluateExecuteUserRequestGenerateReport($userInput);
         } while ($menuLoop);
-    } # GenerateReport()
+    } # __GenerateReport()
 
 
 
@@ -3352,7 +3352,7 @@ class Settings7Zip
     #   the compiled project build.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuGenerateReport()
+    hidden static [void] __DrawMenuGenerateReport()
     {
         # Display the Menu List
 
@@ -3394,7 +3394,7 @@ class Settings7Zip
                                 "Return back to the previous menu.", `
                                 $NULL, `
                                 $true);
-    } # DrawMenuGenerateReport()
+    } # __DrawMenuGenerateReport()
 
 
 
@@ -3417,7 +3417,7 @@ class Settings7Zip
     #       $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequestGenerateReport([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequestGenerateReport([string] $userRequest)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -3546,6 +3546,6 @@ class Settings7Zip
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequestGenerateReport()
+    } # __EvaluateExecuteUserRequestGenerateReport()
     #endregion
 } # Settings7Zip
