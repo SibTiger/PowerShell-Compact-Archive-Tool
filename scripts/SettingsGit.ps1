@@ -1619,7 +1619,7 @@ class SettingsGit
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [SettingsGit]::_EvaluateExecuteUserRequestSizeCommitID($userInput);
+            $menuLoop = [SettingsGit]::__EvaluateExecuteUserRequestSizeCommitID($userInput);
         } while ($menuLoop);
     } # __SizeCommitID()
 
