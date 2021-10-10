@@ -520,7 +520,7 @@ class SettingsGeneralProgram
 
 
         # Determine what menus are to be displayed to the user.
-        [SettingsGeneralProgram]::DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionTool, `    # Compression Tool
+        [SettingsGeneralProgram]::__DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionTool, `  # Compression Tool
                                                                 [ref] $showMenuGitFeatures, `       # Git Features
                                                                 [ref] $showMenuWindowsFeatures);    # Windows Features
 
