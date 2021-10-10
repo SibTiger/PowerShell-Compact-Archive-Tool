@@ -27,13 +27,13 @@ class CommonCUI
     # Border - Dash - Long
     # ---------------
     # A simple string that provides a long-dashed border.
-    Hidden static [string] $borderDashLong = "----------------------------------------------------";
+    Hidden static [string] $__borderDashLong = "----------------------------------------------------";
 
 
     # Border - Dash Spaced - Long
     # ---------------
     # A simple string that provides a long-dash spaced border.
-    Hidden static [string] $borderSubcategory = "- - - - - - - - - - - - - - - - - - - - - - - - - - ";
+    Hidden static [string] $__borderSubcategory = "- - - - - - - - - - - - - - - - - - - - - - - - - - ";
 
 
     #endregion
@@ -51,7 +51,7 @@ class CommonCUI
     static [void] DrawProgramTitleHeader()
     {
         # Display the top border
-        [Logging]::DisplayMessage([CommonCUI]::borderDashLong);
+        [Logging]::DisplayMessage([CommonCUI]::__borderDashLong);
         # -------------------------------------------------------------------
 
 
@@ -64,7 +64,7 @@ class CommonCUI
 
 
         # Display a sub-border to show that there is a change of content
-        [Logging]::DisplayMessage([CommonCUI]::borderSubcategory);
+        [Logging]::DisplayMessage([CommonCUI]::__borderSubcategory);
         # -------------------------------------------------------------------
 
 
@@ -74,8 +74,8 @@ class CommonCUI
 
 
         # Display the trailing borders to indicate the end of the Program Title.
-        [Logging]::DisplayMessage([CommonCUI]::borderDashLong);
-        [Logging]::DisplayMessage([CommonCUI]::borderDashLong);
+        [Logging]::DisplayMessage([CommonCUI]::__borderDashLong);
+        [Logging]::DisplayMessage([CommonCUI]::__borderDashLong);
 
 
         # Provide some extra padding
@@ -169,7 +169,7 @@ class CommonCUI
         [Logging]::DisplayMessage("Select from the following available options:");
 
         # Display a border
-        [Logging]::DisplayMessage([CommonCUI]::borderDashLong);
+        [Logging]::DisplayMessage([CommonCUI]::__borderDashLong);
     } # DrawMenuInstructions()
 
 
@@ -192,7 +192,7 @@ class CommonCUI
         [Logging]::DisplayMessage("Please wait patiently as $([ProjectInformation]::projectName) is being compiled. . .");
 
         # Display a border
-        [Logging]::DisplayMessage([CommonCUI]::borderDashLong);
+        [Logging]::DisplayMessage([CommonCUI]::__borderDashLong);
     } # CompileInstructions()
 
 
@@ -372,7 +372,7 @@ class CommonCUI
         # Provided the error message
         [Logging]::DisplayMessage("`r`n");
         [Logging]::DisplayMessage("`t<!>`tIncorrect Option`t<!>");
-        [Logging]::DisplayMessage([CommonCUI]::borderDashLong);
+        [Logging]::DisplayMessage([CommonCUI]::__borderDashLong);
         [Logging]::DisplayMessage("Your request could not be executed as the option was not valid or not available at this time!");
 
 
@@ -409,7 +409,7 @@ class CommonCUI
 
         # Display the instructions for the user
         [Logging]::DisplayMessage("Please check and download the latest version of $($Global:_PROGRAMNAME_).");
-        [Logging]::DisplayMessage([CommonCUI]::borderSubcategory);
+        [Logging]::DisplayMessage([CommonCUI]::__borderSubcategory);
 
         # Name of the program
         [Logging]::DisplayMessage("Program Name:`r`n`t$($Global:_PROGRAMNAME_)");
