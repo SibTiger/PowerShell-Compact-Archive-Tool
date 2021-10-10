@@ -61,7 +61,7 @@ class Settings
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the Main Menu list to the user
-            [Settings]::DrawMainSettingsMenu();
+            [Settings]::__DrawMainSettingsMenu();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -70,7 +70,7 @@ class Settings
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [Settings]::EvaluateExecuteUserRequest($userInput);
+            $menuLoop = [Settings]::__EvaluateExecuteUserRequest($userInput);
         } while ($menuLoop);
     } # Main()
 
@@ -85,7 +85,7 @@ class Settings
     #   available to configure.
     # -------------------------------
     #>
-    hidden static [void] DrawMainSettingsMenu()
+    hidden static [void] __DrawMainSettingsMenu()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -110,9 +110,9 @@ class Settings
 
 
         # Determine what menus are to be displayed to the user.
-        [Settings]::DrawMenuDetermineHiddenMenus([ref] $showMenu7Zip, ` # 7Zip Menu
-                                                [ref] $showMenuZip, `   # Zip Menu
-                                                [ref] $showMenuGit);    # Git Menu
+        [Settings]::__DrawMenuDetermineHiddenMenus([ref] $showMenu7Zip, `   # 7Zip Menu
+                                                    [ref] $showMenuZip, `   # Zip Menu
+                                                    [ref] $showMenuGit);    # Git Menu
 
 
 
@@ -207,7 +207,7 @@ class Settings
                                 $NULL, `
                                 $NULL, `
                                 $false);
-    } # DrawMainSettingsMenu()
+    } # __DrawMainSettingsMenu()
 
 
 
@@ -230,7 +230,7 @@ class Settings
     #   $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequest([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequest([string] $userRequest)
     {
                 # Declarations and Initializations
         # ----------------------------------------
@@ -248,9 +248,9 @@ class Settings
 
 
         # Determine what menus are to be displayed to the user.
-        [Settings]::DrawMenuDetermineHiddenMenus([ref] $showMenu7Zip, ` # 7Zip Menu
-                                                [ref] $showMenuZip, `   # Zip Menu
-                                                [ref] $showMenuGit);    # Git Menu
+        [Settings]::__DrawMenuDetermineHiddenMenus([ref] $showMenu7Zip, `   # 7Zip Menu
+                                                    [ref] $showMenuZip, `   # Zip Menu
+                                                    [ref] $showMenuGit);    # Git Menu
 
 
 
@@ -434,7 +434,7 @@ class Settings
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequest()
+    } # __EvaluateExecuteUserRequest()
 
 
 
@@ -460,9 +460,9 @@ class Settings
     #   Provides the Git Menu
     # -------------------------------
     #>
-    hidden static [void] DrawMenuDetermineHiddenMenus([ref] $showMenu7Zip, `    # 7Zip Menu
-                                                    [ref] $showMenuZip, `       # Zip Menu
-                                                    [ref] $showMenuGit)         # Git Menu
+    hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenu7Zip, `      # 7Zip Menu
+                                                        [ref] $showMenuZip, `       # Zip Menu
+                                                        [ref] $showMenuGit)         # Git Menu
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -545,5 +545,5 @@ class Settings
         {
             $showMenuGit.Value = $false;
         } # Else: Git Menu is Hidden
-    } # DrawMenuDetermineHiddenMenus()
+    } # __DrawMenuDetermineHiddenMenus()
 } # Settings
