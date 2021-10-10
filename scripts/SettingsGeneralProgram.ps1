@@ -54,7 +54,7 @@ class SettingsGeneralProgram
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the General Program settings menu list to the user
-            [SettingsGeneralProgram]::DrawMenu();
+            [SettingsGeneralProgram]::__DrawMenu();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -63,7 +63,7 @@ class SettingsGeneralProgram
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [SettingsGeneralProgram]::EvaluateExecuteUserRequest($userInput);
+            $menuLoop = [SettingsGeneralProgram]::__EvaluateExecuteUserRequest($userInput);
         } while($menuLoop);
     } # Main()
 
@@ -78,7 +78,7 @@ class SettingsGeneralProgram
     #   are available to configure.
     # -------------------------------
     #>
-    hidden static [void] DrawMenu()
+    hidden static [void] __DrawMenu()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -105,16 +105,16 @@ class SettingsGeneralProgram
 
 
         # Retrieve the current settings and determine the wording before we generate the menu.
-        [SettingsGeneralProgram]::DrawMenuDecipherCurrentSettings([ref] $currentSettingCompressionTool, `
-                                                                [ref] $currentSettingGitFeatures, `
-                                                                [ref] $currentSettingWindowsExplorer, `
-                                                                [ref] $currentSettingNotification); `
+        [SettingsGeneralProgram]::__DrawMenuDecipherCurrentSettings([ref] $currentSettingCompressionTool, `
+                                                                    [ref] $currentSettingGitFeatures, `
+                                                                    [ref] $currentSettingWindowsExplorer, `
+                                                                    [ref] $currentSettingNotification); `
 
 
         # Determine what menus are to be displayed to the user.
-        [SettingsGeneralProgram]::DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionTool, `    # Compression Tool
-                                                                [ref] $showMenuGitFeatures, `       # Git Features
-                                                                [ref] $showMenuWindowsFeatures);    # Windows Features
+        [SettingsGeneralProgram]::__DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionTool, `      # Compression Tool
+                                                                    [ref] $showMenuGitFeatures, `       # Git Features
+                                                                    [ref] $showMenuWindowsFeatures);    # Windows Features
 
 
 
@@ -201,7 +201,7 @@ class SettingsGeneralProgram
                                 $NULL, `
                                 $NULL, `
                                 $false);
-    } # DrawMenu()
+    } # __DrawMenu()
 
 
 
@@ -226,10 +226,10 @@ class SettingsGeneralProgram
     #   Determines how the notifications will be brought to the user's focus.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuDecipherCurrentSettings([ref] $compressionTool, `  # Desired Compression Tool
-                                                        [ref] $gitFeatures, `       # Git Features
-                                                        [ref] $windowsExplorer, `   # Windows Explorer Features
-                                                        [ref] $notification)        # Notification Type
+    hidden static [void] __DrawMenuDecipherCurrentSettings([ref] $compressionTool, `    # Desired Compression Tool
+                                                            [ref] $gitFeatures, `       # Git Features
+                                                            [ref] $windowsExplorer, `   # Windows Explorer Features
+                                                            [ref] $notification)        # Notification Type
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -377,7 +377,7 @@ class SettingsGeneralProgram
                 break;
             } # Disable
         } # Switch: Decipher Notification Type
-    } # DrawMenuDecipherCurrentSettings()
+    } # __DrawMenuDecipherCurrentSettings()
 
 
 
@@ -403,9 +403,9 @@ class SettingsGeneralProgram
     #   Provides the ability to use Windows specific Features, where available.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionTool, `     # Compression Tool
-                                                    [ref] $showMenuGitFeatures, `           # Git Features
-                                                    [ref] $showMenuWindowsFeatures)         # Windows Features
+    hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionTool, `       # Compression Tool
+                                                        [ref] $showMenuGitFeatures, `           # Git Features
+                                                        [ref] $showMenuWindowsFeatures)         # Windows Features
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -483,7 +483,7 @@ class SettingsGeneralProgram
         {
             $showMenuWindowsFeatures.Value = $false;
         } # Else: Windows Features is Hidden
-    } # DrawMenuDetermineHiddenMenus()
+    } # __DrawMenuDetermineHiddenMenus()
 
 
 
@@ -506,7 +506,7 @@ class SettingsGeneralProgram
     #   $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequest([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequest([string] $userRequest)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -537,7 +537,7 @@ class SettingsGeneralProgram
                 ($_ -eq "Locate Project")}
             {
                 # Allow the user to update or verify the project path.
-                [SettingsGeneralProgram]::LocateProjectPath();
+                [SettingsGeneralProgram]::__LocateProjectPath();
 
 
                 # Finished
@@ -557,7 +557,7 @@ class SettingsGeneralProgram
             {
                 # Allow the user to specify where the output\compiled builds are to be placed after
                 #  being generated.
-                [SettingsGeneralProgram]::CompiledBuildsOutputPath();
+                [SettingsGeneralProgram]::__CompiledBuildsOutputPath();
 
 
                 # Finished
@@ -576,7 +576,7 @@ class SettingsGeneralProgram
             {
                 # Allow the user to specify their desired compression tool that the program will use
                 #  while generating archive data files.
-                [SettingsGeneralProgram]::CompressionTool();
+                [SettingsGeneralProgram]::__CompressionTool();
 
 
                 # Finished
@@ -595,7 +595,7 @@ class SettingsGeneralProgram
             {
                 # Allow the user to configure the state of the Use Git Features variable, thus giving
                 #  them the ability to use or not use Git Features while compiling the project.
-                [SettingsGeneralProgram]::UseGitFeatures();
+                [SettingsGeneralProgram]::__UseGitFeatures();
 
 
                 # Finished
@@ -614,7 +614,7 @@ class SettingsGeneralProgram
             {
                 # Allow the user to configure the state of the Use Windows Explorer variable, thus giving
                 #  the user the ability to benefit - if chosen so - of using Windows Explorer functionality.
-                [SettingsGeneralProgram]::UseWindowsExplorer();
+                [SettingsGeneralProgram]::__UseWindowsExplorer();
 
 
                 # Finished
@@ -631,7 +631,7 @@ class SettingsGeneralProgram
             {
                 # Allow the user the ability to customize the notifications in which this program may
                 #  provide based on certain events and operations.
-                [SettingsGeneralProgram]::NotificationTypes();
+                [SettingsGeneralProgram]::__NotificationTypes();
 
 
                 # Finished
@@ -724,7 +724,7 @@ class SettingsGeneralProgram
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequest()
+    } # __EvaluateExecuteUserRequest()
 
 
 
@@ -748,7 +748,7 @@ class SettingsGeneralProgram
     #   can perform compact the project as expected.
     # -------------------------------
     #>
-    hidden static [void] LocateProjectPath()
+    hidden static [void] __LocateProjectPath()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -809,7 +809,7 @@ class SettingsGeneralProgram
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the menu list to the user
-            [SettingsGeneralProgram]::DrawMenuLocateProjectPath();
+            [SettingsGeneralProgram]::__DrawMenuLocateProjectPath();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -818,9 +818,9 @@ class SettingsGeneralProgram
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [SettingsGeneralProgram]::EvaluateExecuteUserRequestLocateProjectPath($userInput);
+            $menuLoop = [SettingsGeneralProgram]::__EvaluateExecuteUserRequestLocateProjectPath($userInput);
         } while ($menuLoop);
-    } # LocateProjectPath()
+    } # __LocateProjectPath()
 
 
 
@@ -833,7 +833,7 @@ class SettingsGeneralProgram
     #   project path.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuLocateProjectPath()
+    hidden static [void] __DrawMenuLocateProjectPath()
     {
         # Display the Menu List
 
@@ -859,7 +859,7 @@ class SettingsGeneralProgram
                                 "Return back to the previous menu.", `
                                 $NULL, `
                                 $false);
-    } # DrawMenuLocateProjectPath()
+    } # __DrawMenuLocateProjectPath()
 
 
 
@@ -882,7 +882,7 @@ class SettingsGeneralProgram
     #       $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequestLocateProjectPath([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequestLocateProjectPath([string] $userRequest)
     {
         # Evaluate the user's request
         switch ($userRequest)
@@ -897,7 +897,7 @@ class SettingsGeneralProgram
                 ($_ -eq "Update")}
             {
                 # Configure the path of the project source directory.
-                [SettingsGeneralProgram]::LocateProjectPathNewPath();
+                [SettingsGeneralProgram]::__LocateProjectPathNewPath();
 
 
                 # Finished
@@ -965,7 +965,7 @@ class SettingsGeneralProgram
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequestLocateProjectPath()
+    } # __EvaluateExecuteUserRequestLocateProjectPath()
 
 
 
@@ -977,7 +977,7 @@ class SettingsGeneralProgram
     #   the Project source directory.
     # -------------------------------
     #>
-    hidden static [void] LocateProjectPathNewPath()
+    hidden static [void] __LocateProjectPathNewPath()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1028,7 +1028,7 @@ class SettingsGeneralProgram
                 [Logging]::GetUserEnterKey();
             } # if : User Provided incorrect path
         } # else : Path is invalid
-    } # LocateProjectPathNewPath()
+    } # __LocateProjectPathNewPath()
     #endregion
 
 
@@ -1053,7 +1053,7 @@ class SettingsGeneralProgram
     #   hold all compiled builds generated by this program.
     # -------------------------------
     #>
-    hidden static [void] CompiledBuildsOutputPath()
+    hidden static [void] __CompiledBuildsOutputPath()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1114,7 +1114,7 @@ class SettingsGeneralProgram
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the menu list to the user
-            [SettingsGeneralProgram]::DrawMenuCompiledBuildsOutputPath();
+            [SettingsGeneralProgram]::__DrawMenuCompiledBuildsOutputPath();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -1123,7 +1123,7 @@ class SettingsGeneralProgram
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [SettingsGeneralProgram]::EvaluateExecuteUserRequestCompiledBuildsOutputPath($userInput);
+            $menuLoop = [SettingsGeneralProgram]::__EvaluateExecuteUserRequestCompiledBuildsOutputPath($userInput);
         } while ($menuLoop);
     } # CompiledBuildsOutputPath()
 
@@ -1138,7 +1138,7 @@ class SettingsGeneralProgram
     #   Output path.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuCompiledBuildsOutputPath()
+    hidden static [void] __DrawMenuCompiledBuildsOutputPath()
     {
         # Display the Menu List
 
@@ -1162,7 +1162,7 @@ class SettingsGeneralProgram
                                 "Return back to the previous menu.", `
                                 $NULL, `
                                 $false);
-    } # DrawMenuCompiledBuildsOutputPath()
+    } # __DrawMenuCompiledBuildsOutputPath()
 
 
 
@@ -1185,7 +1185,7 @@ class SettingsGeneralProgram
     #       $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequestCompiledBuildsOutputPath([string] $userInput)
+    hidden static [bool] __EvaluateExecuteUserRequestCompiledBuildsOutputPath([string] $userInput)
     {
         # Evaluate the user's request
         switch ($userInput)
@@ -1200,7 +1200,7 @@ class SettingsGeneralProgram
                 ($_ -eq "Update")}
             {
                 # Configure the path of the project source directory.
-                [SettingsGeneralProgram]::CompiledBuildsOutputPathNewPath();
+                [SettingsGeneralProgram]::__CompiledBuildsOutputPathNewPath();
 
 
                 # Finished
@@ -1268,7 +1268,7 @@ class SettingsGeneralProgram
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequestCompiledBuildsOutputPath()
+    } # __EvaluateExecuteUserRequestCompiledBuildsOutputPath()
 
 
 
@@ -1280,7 +1280,7 @@ class SettingsGeneralProgram
     #   the Compiled Builds Output directory.
     # -------------------------------
     #>
-    hidden static [void] CompiledBuildsOutputPathNewPath()
+    hidden static [void] __CompiledBuildsOutputPathNewPath()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1333,7 +1333,7 @@ class SettingsGeneralProgram
                 [Logging]::GetUserEnterKey();
             } # if : User Provided incorrect path
         } # else : Path is invalid
-    } # CompiledBuildsOutputPathNewPath()
+    } # __CompiledBuildsOutputPathNewPath()
     #endregion
 
 
@@ -1358,7 +1358,7 @@ class SettingsGeneralProgram
     #   will be utilized by this program.
     # -------------------------------
     #>
-    hidden static [void] CompressionTool()
+    hidden static [void] __CompressionTool()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1446,7 +1446,7 @@ class SettingsGeneralProgram
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the menu list to the user
-            [SettingsGeneralProgram]::DrawMenuCompressionTool();
+            [SettingsGeneralProgram]::__DrawMenuCompressionTool();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -1455,7 +1455,7 @@ class SettingsGeneralProgram
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [SettingsGeneralProgram]::EvaluateExecuteUserRequestCompressionTool($userInput);
+            $menuLoop = [SettingsGeneralProgram]::__EvaluateExecuteUserRequestCompressionTool($userInput);
         } while ($menuLoop);
     } # CompressionTool()
 
@@ -1470,7 +1470,7 @@ class SettingsGeneralProgram
     #   compression tool that will be utilized by the program.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuCompressionTool()
+    hidden static [void] __DrawMenuCompressionTool()
     {
         # Display the Menu List
 
@@ -1504,7 +1504,7 @@ class SettingsGeneralProgram
                                 "Return back to the previous menu.", `
                                 $NULL, `
                                 $true);
-    } # DrawMenuCompressionTool()
+    } # __DrawMenuCompressionTool()
 
 
 
@@ -1527,7 +1527,7 @@ class SettingsGeneralProgram
     #       $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequestCompressionTool([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequestCompressionTool([string] $userRequest)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1631,7 +1631,7 @@ class SettingsGeneralProgram
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequestCompressionTool()
+    } # __EvaluateExecuteUserRequestCompressionTool()
     #endregion
 
 
@@ -1656,7 +1656,7 @@ class SettingsGeneralProgram
     #   features and functionality while generating their builds with this program.
     # -------------------------------
     #>
-    hidden static [void] UseGitFeatures()
+    hidden static [void] __UseGitFeatures()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1719,7 +1719,7 @@ class SettingsGeneralProgram
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the menu list to the user
-            [SettingsGeneralProgram]::DrawMenuUseGitFeatures();
+            [SettingsGeneralProgram]::__DrawMenuUseGitFeatures();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -1728,9 +1728,9 @@ class SettingsGeneralProgram
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [SettingsGeneralProgram]::EvaluateExecuteUserRequestUseGitFeatures($userInput);
+            $menuLoop = [SettingsGeneralProgram]::__EvaluateExecuteUserRequestUseGitFeatures($userInput);
         } while ($menuLoop);
-    } # UseGitFeatures()
+    } # __UseGitFeatures()
 
 
 
@@ -1743,7 +1743,7 @@ class SettingsGeneralProgram
     #   configure the Git Features state for the program.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuUseGitFeatures()
+    hidden static [void] __DrawMenuUseGitFeatures()
     {
         # Display the Menu List
 
@@ -1777,7 +1777,7 @@ class SettingsGeneralProgram
                                 "Return back to the previous menu.", `
                                 $NULL, `
                                 $true);
-    } # DrawMenuUseGitFeatures()
+    } # __DrawMenuUseGitFeatures()
 
 
 
@@ -1800,7 +1800,7 @@ class SettingsGeneralProgram
     #       $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequestUseGitFeatures([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequestUseGitFeatures([string] $userRequest)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1903,7 +1903,7 @@ class SettingsGeneralProgram
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequestUseGitFeatures()
+    } # __EvaluateExecuteUserRequestUseGitFeatures()
     #endregion
 
 
@@ -1928,7 +1928,7 @@ class SettingsGeneralProgram
     #   will send alerts to the user based on certain events.
     # -------------------------------
     #>
-    hidden static [void] NotificationTypes()
+    hidden static [void] __NotificationTypes()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2031,7 +2031,7 @@ class SettingsGeneralProgram
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the menu list to the user
-            [SettingsGeneralProgram]::DrawMenuUseNotificationTypes();
+            [SettingsGeneralProgram]::__DrawMenuUseNotificationTypes();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -2040,9 +2040,9 @@ class SettingsGeneralProgram
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [SettingsGeneralProgram]::EvaluateExecuteUserRequestNotificationTypes($userInput);
+            $menuLoop = [SettingsGeneralProgram]::__EvaluateExecuteUserRequestNotificationTypes($userInput);
         } while ($menuLoop);
-    } # NotificationTypes()
+    } # __NotificationTypes()
 
 
 
@@ -2055,7 +2055,7 @@ class SettingsGeneralProgram
     #   events to receive notifications - if any.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuUseNotificationTypes()
+    hidden static [void] __DrawMenuUseNotificationTypes()
     {
         # Display the Menu List
 
@@ -2113,7 +2113,7 @@ class SettingsGeneralProgram
                                 "Return back to the previous menu.", `
                                 $NULL, `
                                 $true);
-    } # DrawMenuUseNotificationTypes()
+    } # __DrawMenuUseNotificationTypes()
 
 
 
@@ -2136,7 +2136,7 @@ class SettingsGeneralProgram
     #       $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequestNotificationTypes([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequestNotificationTypes([string] $userRequest)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2282,7 +2282,7 @@ class SettingsGeneralProgram
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequestNotificationTypes()
+    } # __EvaluateExecuteUserRequestNotificationTypes()
     #endregion
 
 
@@ -2307,7 +2307,7 @@ class SettingsGeneralProgram
     #   features and functionalities can be utilized within this program.
     # -------------------------------
     #>
-    hidden static [void] UseWindowsExplorer()
+    hidden static [void] __UseWindowsExplorer()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2370,7 +2370,7 @@ class SettingsGeneralProgram
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the menu list to the user
-            [SettingsGeneralProgram]::DrawMenuUseWindowsExplorer();
+            [SettingsGeneralProgram]::__DrawMenuUseWindowsExplorer();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -2379,9 +2379,9 @@ class SettingsGeneralProgram
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [SettingsGeneralProgram]::EvaluateExecuteUserRequestUseWindowsExplorer($userInput);
+            $menuLoop = [SettingsGeneralProgram]::__EvaluateExecuteUserRequestUseWindowsExplorer($userInput);
         } while ($menuLoop);
-    } # UseWindowsExplorer()
+    } # __UseWindowsExplorer()
 
 
 
@@ -2393,7 +2393,7 @@ class SettingsGeneralProgram
     #   Thus, this provides the ability to configure the state of Windows Explorer functionality within the program.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuUseWindowsExplorer()
+    hidden static [void] __DrawMenuUseWindowsExplorer()
     {
         # Display the Menu List
 
@@ -2427,7 +2427,7 @@ class SettingsGeneralProgram
                                 "Return back to the previous menu.", `
                                 $NULL, `
                                 $true);
-    } # DrawMenuUseWindowsExplorer()
+    } # __DrawMenuUseWindowsExplorer()
 
 
 
@@ -2450,7 +2450,7 @@ class SettingsGeneralProgram
     #       $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequestUseWindowsExplorer([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequestUseWindowsExplorer([string] $userRequest)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2553,6 +2553,6 @@ class SettingsGeneralProgram
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequestUseWindowsExplorer()
+    } # __EvaluateExecuteUserRequestUseWindowsExplorer()
     #endregion
 } # SettingsGeneralProgram
