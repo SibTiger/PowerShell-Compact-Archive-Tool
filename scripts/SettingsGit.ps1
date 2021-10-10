@@ -54,13 +54,13 @@ class SettingsGit
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the Git Settings menu list to the user
-            [SettingsGit]::DrawMenu();
+            [SettingsGit]::__DrawMenu();
 
             # Capture the user's feedback
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [SettingsGit]::EvaluateExecuteUserRequest($userInput);
+            $menuLoop = [SettingsGit]::__EvaluateExecuteUserRequest($userInput);
         } while($menuLoop);
     } # Main()
 
@@ -75,7 +75,7 @@ class SettingsGit
     #   are available to configure.
     # -------------------------------
     #>
-    hidden static [void] DrawMenu()
+    hidden static [void] __DrawMenu()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -106,21 +106,21 @@ class SettingsGit
 
 
         # Retrieve the current settings and determine the wording before we generate the menu.
-        [SettingsGit]::DrawMenuDecipherCurrentSettings([ref] $currentSettingUpdateSource, `         # Update Source
-                                                        [ref] $currentSettingCommitIDLength, `      # Commit ID Size
-                                                        [ref] $currentSettingRetrieveHistory, `     # Retrieve History
-                                                        [ref] $currentSettingHistoryCommitSize, `   # Changelog Size
-                                                        [ref] $currentSettingGenerateReport, `      # Generate Report
-                                                        [ref] $currentSettingGenerateReportPDF);    # Generate PDF Report
+        [SettingsGit]::__DrawMenuDecipherCurrentSettings([ref] $currentSettingUpdateSource, `           # Update Source
+                                                            [ref] $currentSettingCommitIDLength, `      # Commit ID Size
+                                                            [ref] $currentSettingRetrieveHistory, `     # Retrieve History
+                                                            [ref] $currentSettingHistoryCommitSize, `   # Changelog Size
+                                                            [ref] $currentSettingGenerateReport, `      # Generate Report
+                                                            [ref] $currentSettingGenerateReportPDF);    # Generate PDF Report
 
 
         # Determine what menus are to be displayed to the user.
-        [SettingsGit]::DrawMenuDetermineHiddenMenus([ref] $showMenuLocateGit, `         # Locate Git
-                                                    [ref] $showMenuUpdateSource, `      # Update Source
-                                                    [ref] $showMenuCommitIDSize, `      # Commit ID Size
-                                                    [ref] $showMenuRetrieveHistory, `   # Retrieve History
-                                                    [ref] $showMenuHistorySize, `       # History Size
-                                                    [ref] $ShowMenuGenerateReport);     # Generate Report
+        [SettingsGit]::__DrawMenuDetermineHiddenMenus([ref] $showMenuLocateGit, `           # Locate Git
+                                                        [ref] $showMenuUpdateSource, `      # Update Source
+                                                        [ref] $showMenuCommitIDSize, `      # Commit ID Size
+                                                        [ref] $showMenuRetrieveHistory, `   # Retrieve History
+                                                        [ref] $showMenuHistorySize, `       # History Size
+                                                        [ref] $ShowMenuGenerateReport);     # Generate Report
 
 
 
@@ -219,7 +219,7 @@ class SettingsGit
 
         # Provide some extra padding
         [Logging]::DisplayMessage("`r`n");
-    } # DrawMenu()
+    } # __DrawMenu()
 
 
 
@@ -248,12 +248,12 @@ class SettingsGit
     #   Determines if the user wanted a PDF report of the project's latest developments.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuDecipherCurrentSettings([ref] $updateSource, `         # Update Project Files
-                                                        [ref] $commitIDLength, `        # Commit ID Length
-                                                        [ref] $retrieveHistory, `       # Retrieve History
-                                                        [ref] $historyCommitSize, `     # History Commit Size
-                                                        [ref] $generateReport, `        # Generate Report
-                                                        [ref] $generateReportPDF)       # Generate PDF Report
+    hidden static [void] __DrawMenuDecipherCurrentSettings([ref] $updateSource, `           # Update Project Files
+                                                            [ref] $commitIDLength, `        # Commit ID Length
+                                                            [ref] $retrieveHistory, `       # Retrieve History
+                                                            [ref] $historyCommitSize, `     # History Commit Size
+                                                            [ref] $generateReport, `        # Generate Report
+                                                            [ref] $generateReportPDF)       # Generate PDF Report
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -410,7 +410,7 @@ class SettingsGit
             # The user does not want to have a report generated of the local repository.
             $generateReportPDF.Value = $null;
         } # else: Do not create PDF report
-    } # DrawMenuDecipherCurrentSettings()
+    } # __DrawMenuDecipherCurrentSettings()
 
 
 
@@ -442,12 +442,12 @@ class SettingsGit
     #   Determines if the user wanted a report of the project's latest developments.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuDetermineHiddenMenus([ref] $showMenuLocateGit, `       # Locate Git
-                                                    [ref] $showMenuUpdateSource, `      # Update Source
-                                                    [ref] $showMenuCommitIDSize, `      # Commit ID Size
-                                                    [ref] $showMenuRetrieveHistory, `   # Retrieve History
-                                                    [ref] $showMenuHistorySize, `       # History Size
-                                                    [ref] $ShowMenuGenerateReport)      # Generate Report
+    hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuLocateGit, `         # Locate Git
+                                                        [ref] $showMenuUpdateSource, `      # Update Source
+                                                        [ref] $showMenuCommitIDSize, `      # Commit ID Size
+                                                        [ref] $showMenuRetrieveHistory, `   # Retrieve History
+                                                        [ref] $showMenuHistorySize, `       # History Size
+                                                        [ref] $ShowMenuGenerateReport)      # Generate Report
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -600,7 +600,7 @@ class SettingsGit
         {
             $ShowMenuGenerateReport.Value = $false;
         } # Else: Generate Reports is Hidden
-    } # DrawMenuDetermineHiddenMenus()
+    } # __DrawMenuDetermineHiddenMenus()
 
 
 
@@ -623,7 +623,7 @@ class SettingsGit
     #   $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequest([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequest([string] $userRequest)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -640,12 +640,12 @@ class SettingsGit
 
 
         # Determine what menus are available to the user.
-        [SettingsGit]::DrawMenuDetermineHiddenMenus([ref] $showMenuLocateGit, `         # Locate Git
-                                                    [ref] $showMenuUpdateSource, `      # Update Source
-                                                    [ref] $showMenuCommitIDSize, `      # Commit ID Size
-                                                    [ref] $showMenuRetrieveHistory, `   # Retrieve History
-                                                    [ref] $showMenuHistorySize, `       # History Size
-                                                    [ref] $ShowMenuGenerateReport);     # Generate Report
+        [SettingsGit]::__DrawMenuDetermineHiddenMenus([ref] $showMenuLocateGit, `           # Locate Git
+                                                        [ref] $showMenuUpdateSource, `      # Update Source
+                                                        [ref] $showMenuCommitIDSize, `      # Commit ID Size
+                                                        [ref] $showMenuRetrieveHistory, `   # Retrieve History
+                                                        [ref] $showMenuHistorySize, `       # History Size
+                                                        [ref] $ShowMenuGenerateReport);     # Generate Report
 
 
 
@@ -662,7 +662,7 @@ class SettingsGit
                     ($_ -eq "Browse Git"))}
             {
                 # Allow the user to locate the path to Git or verify Git's path.
-                [SettingsGit]::LocateGitPath();
+                [SettingsGit]::__LocateGitPath();
 
 
                 # Finished
@@ -682,7 +682,7 @@ class SettingsGit
             {
                 # Allow the user the ability to choose if they want to update the project's
                 #  source files or not to update the project's files.
-                [SettingsGit]::UpdateSource();
+                [SettingsGit]::__UpdateSource();
 
 
                 # Finished
@@ -701,7 +701,7 @@ class SettingsGit
             {
                 # Allow the user the ability to choose the size of the commit ID regarding the
                 #  project's repository.
-                [SettingsGit]::SizeCommitID();
+                [SettingsGit]::__SizeCommitID();
 
 
                 # Finished
@@ -720,7 +720,7 @@ class SettingsGit
             {
                 # Allow the ability for the user to specify if they wish to have the history
                 #  changelog from the project's repository.
-                [SettingsGit]::History();
+                [SettingsGit]::__History();
 
 
                 # Finished
@@ -737,7 +737,7 @@ class SettingsGit
             {
                 # Allow the user to change how many commits are to be recorded into the
                 #  changelog history.
-                [SettingsGit]::HistoryCommitSize();
+                [SettingsGit]::__HistoryCommitSize();
 
 
                 # Finished
@@ -755,7 +755,7 @@ class SettingsGit
                     ($_ -eq "Report"))}
             {
                 # Allow the user the ability to request reports regarding the project's repository.
-                [SettingsGit]::GenerateReport();
+                [SettingsGit]::__GenerateReport();
 
 
                 # Finished
@@ -847,7 +847,7 @@ class SettingsGit
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequest()
+    } # __EvaluateExecuteUserRequest()
 
 
 
@@ -871,7 +871,7 @@ class SettingsGit
     #   program can be able to utilize Git's functionality and features.
     # -------------------------------
     #>
-    hidden static [void] LocateGitPath()
+    hidden static [void] __LocateGitPath()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -932,7 +932,7 @@ class SettingsGit
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the menu list to the user
-            [SettingsGit]::DrawMenuLocateGitPath();
+            [SettingsGit]::__DrawMenuLocateGitPath();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -941,9 +941,9 @@ class SettingsGit
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [SettingsGit]::EvaluateExecuteUserRequestLocateGitPath($userInput);
+            $menuLoop = [SettingsGit]::__EvaluateExecuteUserRequestLocateGitPath($userInput);
         } while ($menuLoop);
-    } # LocateGitPath()
+    } # __LocateGitPath()
 
 
 
@@ -956,7 +956,7 @@ class SettingsGit
     #   path.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuLocateGitPath()
+    hidden static [void] __DrawMenuLocateGitPath()
     {
         # Display the Menu List
 
@@ -990,7 +990,7 @@ class SettingsGit
                                 "Return back to the previous menu.", `
                                 $NULL, `
                                 $true);
-    } # DrawMenuLocateGitPath()
+    } # __DrawMenuLocateGitPath()
 
 
 
@@ -1013,7 +1013,7 @@ class SettingsGit
     #       $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequestLocateGitPath([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequestLocateGitPath([string] $userRequest)
     {
         # Evaluate the user's request
         switch ($userRequest)
@@ -1028,7 +1028,7 @@ class SettingsGit
                 ($_ -eq "Automatic")}
             {
                 # Try to find the Git Application automatically.
-                [SettingsGit]::LocateGitPathAutomatically();
+                [SettingsGit]::__LocateGitPathAutomatically();
 
 
                 # Finished
@@ -1046,7 +1046,7 @@ class SettingsGit
                 ($_ -eq "Manual")}
             {
                 # Find the Git Application manually
-                [SettingsGit]::LocateGitPathManually();
+                [SettingsGit]::__LocateGitPathManually();
 
 
                 # Finished
@@ -1114,7 +1114,7 @@ class SettingsGit
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequestLocateGitPath()
+    } # __EvaluateExecuteUserRequestLocateGitPath()
 
 
 
@@ -1126,7 +1126,7 @@ class SettingsGit
     #   for the user.
     # -------------------------------
     #>
-    hidden static [void] LocateGitPathAutomatically()
+    hidden static [void] __LocateGitPathAutomatically()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1176,7 +1176,7 @@ class SettingsGit
 
         # Wait for the user to provide feedback; thus allowing the user to read the message.
         [logging]::GetUserEnterKey();
-    } # LocateGitPathAutomatically()
+    } # __LocateGitPathAutomatically()
 
 
 
@@ -1188,7 +1188,7 @@ class SettingsGit
     #   the path of the Git directory.
     # -------------------------------
     #>
-    hidden static [void] LocateGitPathManually()
+    hidden static [void] __LocateGitPathManually()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1239,7 +1239,7 @@ class SettingsGit
                 [Logging]::GetUserEnterKey();
             } # if : User Provided incorrect path
         } # else : Path is invalid
-    } # LocateGitPathManually()
+    } # __LocateGitPathManually()
     #endregion
 
 
@@ -1265,7 +1265,7 @@ class SettingsGit
     #   commits from the remote master.
     # -------------------------------
     #>
-    hidden static [void] UpdateSource()
+    hidden static [void] __UpdateSource()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1330,7 +1330,7 @@ class SettingsGit
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the menu list to the user
-            [SettingsGit]::DrawMenuUpdateSource();
+            [SettingsGit]::__DrawMenuUpdateSource();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -1339,9 +1339,9 @@ class SettingsGit
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [SettingsGit]::EvaluateExecuteUserRequestUpdateSource($userInput);
+            $menuLoop = [SettingsGit]::__EvaluateExecuteUserRequestUpdateSource($userInput);
         } while ($menuLoop);
-    } # UpdateSource()
+    } # __UpdateSource()
 
 
 
@@ -1353,7 +1353,7 @@ class SettingsGit
     #  functionality.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuUpdateSource()
+    hidden static [void] __DrawMenuUpdateSource()
     {
         # Display the Menu List
 
@@ -1387,7 +1387,7 @@ class SettingsGit
                                 "Return back to the previous menu.", `
                                 $NULL, `
                                 $true);
-    } # DrawMenuUpdateSource()
+    } # __DrawMenuUpdateSource()
 
 
 
@@ -1410,7 +1410,7 @@ class SettingsGit
     #       $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequestUpdateSource([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequestUpdateSource([string] $userRequest)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1513,7 +1513,7 @@ class SettingsGit
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequestUpdateSource()
+    } # __EvaluateExecuteUserRequestUpdateSource()
     #endregion
 
 
@@ -1538,7 +1538,7 @@ class SettingsGit
     #   retrieved from the Git executable.
     # -------------------------------
     #>
-    hidden static [void] SizeCommitID()
+    hidden static [void] __SizeCommitID()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1610,7 +1610,7 @@ class SettingsGit
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the menu list to the user
-            [SettingsGit]::DrawMenuSizeCommitID();
+            [SettingsGit]::__DrawMenuSizeCommitID();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -1619,9 +1619,9 @@ class SettingsGit
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [SettingsGit]::EvaluateExecuteUserRequestSizeCommitID($userInput);
+            $menuLoop = [SettingsGit]::_EvaluateExecuteUserRequestSizeCommitID($userInput);
         } while ($menuLoop);
-    } # SizeCommitID()
+    } # __SizeCommitID()
 
 
 
@@ -1633,7 +1633,7 @@ class SettingsGit
     #   the Commit ID retrieved from the Git Executable.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuSizeCommitID()
+    hidden static [void] __DrawMenuSizeCommitID()
     {
         # Display the Menu List
 
@@ -1667,7 +1667,7 @@ class SettingsGit
                                 "Return back to the previous menu.", `
                                 $NULL, `
                                 $true);
-    } # DrawMenuSizeCommitID()
+    } # __DrawMenuSizeCommitID()
 
 
 
@@ -1690,7 +1690,7 @@ class SettingsGit
     #       $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequestSizeCommitID([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequestSizeCommitID([string] $userRequest)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1795,7 +1795,7 @@ class SettingsGit
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequestSizeCommitID()
+    } # __EvaluateExecuteUserRequestSizeCommitID()
     #endregion
 
 
@@ -1821,7 +1821,7 @@ class SettingsGit
     #   the project's repository.
     # -------------------------------
     #>
-    hidden static [void] History()
+    hidden static [void] __History()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1885,7 +1885,7 @@ class SettingsGit
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the menu list to the user
-            [SettingsGit]::DrawMenuHistory();
+            [SettingsGit]::__DrawMenuHistory();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -1894,9 +1894,9 @@ class SettingsGit
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [SettingsGit]::EvaluateExecuteUserRequestHistory($userInput);
+            $menuLoop = [SettingsGit]::__EvaluateExecuteUserRequestHistory($userInput);
         } while ($menuLoop);
-    } # History()
+    } # __History()
 
 
 
@@ -1908,7 +1908,7 @@ class SettingsGit
     #   to specify if the history changelog is to be retrieved from the project's repository.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuHistory()
+    hidden static [void] __DrawMenuHistory()
     {
         # Display the Menu List
 
@@ -1942,7 +1942,7 @@ class SettingsGit
                                 "Return back to the previous menu.", `
                                 $NULL, `
                                 $true);
-    } # DrawMenuHistory()
+    } # __DrawMenuHistory()
 
 
 
@@ -1965,7 +1965,7 @@ class SettingsGit
     #       $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequestHistory([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequestHistory([string] $userRequest)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2066,7 +2066,7 @@ class SettingsGit
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequestHistory()
+    } # __EvaluateExecuteUserRequestHistory()
     #endregion
 
 
@@ -2091,7 +2091,7 @@ class SettingsGit
     #   many commits (or changes) are to be recorded into the changelog file.
     # -------------------------------
     #>
-    hidden static [void] HistoryCommitSize()
+    hidden static [void] __HistoryCommitSize()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2154,7 +2154,7 @@ class SettingsGit
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the menu list to the user
-            [SettingsGit]::DrawMenuHistoryCommitSize();
+            [SettingsGit]::__DrawMenuHistoryCommitSize();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -2163,9 +2163,9 @@ class SettingsGit
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [SettingsGit]::EvaluateExecuteUserRequestHistoryCommitSize($userInput);
+            $menuLoop = [SettingsGit]::__EvaluateExecuteUserRequestHistoryCommitSize($userInput);
         } while ($menuLoop);
-    } # History()
+    } # __History()
 
 
 
@@ -2177,7 +2177,7 @@ class SettingsGit
     #   limit or to leave the setting as is.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuHistoryCommitSize()
+    hidden static [void] __DrawMenuHistoryCommitSize()
     {
         # Display the Menu List
 
@@ -2203,7 +2203,7 @@ class SettingsGit
                                 "Return back to the previous menu.", `
                                 $NULL, `
                                 $true);
-    } # DrawMenuHistoryCommitSize()
+    } # __DrawMenuHistoryCommitSize()
 
 
 
@@ -2226,7 +2226,7 @@ class SettingsGit
     #       $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequestHistoryCommitSize([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequestHistoryCommitSize([string] $userRequest)
     {
         # Evaluate the user's request
         switch ($userRequest)
@@ -2238,7 +2238,7 @@ class SettingsGit
                 ($_ -eq "Size")}
             {
                 # Retrieve the history
-                [SettingsGit]::HistoryCommitSizeNewSize();
+                [SettingsGit]::__HistoryCommitSizeNewSize();
 
                 # Finished
                 break;
@@ -2303,7 +2303,7 @@ class SettingsGit
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequestHistoryCommitSize()
+    } # __EvaluateExecuteUserRequestHistoryCommitSize()
 
 
 
@@ -2315,7 +2315,7 @@ class SettingsGit
     #   commits are to be recorded.
     # -------------------------------
     #>
-    hidden static [void] HistoryCommitSizeNewSize()
+    hidden static [void] __HistoryCommitSizeNewSize()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2373,7 +2373,7 @@ class SettingsGit
 
         # Set the new size accordingly
         $gitControl.SetChangelogLimit([uint32]$newSize);
-    } # HistoryCommitSizeNewSize()
+    } # __HistoryCommitSizeNewSize()
     #endregion
 
 
@@ -2398,7 +2398,7 @@ class SettingsGit
     #   data file has been generated.
     # -------------------------------
     #>
-    hidden static [void] GenerateReport()
+    hidden static [void] __GenerateReport()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2472,7 +2472,7 @@ class SettingsGit
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the menu list to the user
-            [SettingsGit]::DrawMenuGenerateReport();
+            [SettingsGit]::__DrawMenuGenerateReport();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -2481,7 +2481,7 @@ class SettingsGit
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [SettingsGit]::EvaluateExecuteUserRequestGenerateReport($userInput);
+            $menuLoop = [SettingsGit]::__EvaluateExecuteUserRequestGenerateReport($userInput);
         } while ($menuLoop);
     } # GenerateReport()
 
@@ -2496,7 +2496,7 @@ class SettingsGit
     #   the compiled project build.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuGenerateReport()
+    hidden static [void] __DrawMenuGenerateReport()
     {
         # Display the Menu List
 
@@ -2538,7 +2538,7 @@ class SettingsGit
                                 "Return back to the previous menu.", `
                                 $NULL, `
                                 $true);
-    } # DrawMenuGenerateReport()
+    } # __DrawMenuGenerateReport()
 
 
 
@@ -2561,7 +2561,7 @@ class SettingsGit
     #       $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequestGenerateReport([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequestGenerateReport([string] $userRequest)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2690,6 +2690,6 @@ class SettingsGit
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequestGenerateReport()
+    } # __EvaluateExecuteUserRequestGenerateReport()
     #endregion
 } # SettingsGit
