@@ -61,7 +61,7 @@ class MainMenu
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the Main Menu list to the user
-            [MainMenu]::DrawMainMenu();
+            [MainMenu]::__DrawMainMenu();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -70,7 +70,7 @@ class MainMenu
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [MainMenu]::EvaluateExecuteUserRequest($userInput);
+            $menuLoop = [MainMenu]::__EvaluateExecuteUserRequest($userInput);
         } while ($menuLoop);
 
 
@@ -88,7 +88,7 @@ class MainMenu
     #   provides what features and options are available to the user.
     # -------------------------------
     #>
-    hidden static [void] DrawMainMenu()
+    hidden static [void] __DrawMainMenu()
     {
         # Display the Main Menu list
 
@@ -159,7 +159,7 @@ class MainMenu
                                 "Close the $($GLOBAL:_PROGRAMNAMESHORT_) program.", `
                                 $NULL, `
                                 $false);
-    } # DrawMainMenu()
+    } # __DrawMainMenu()
 
 
 
@@ -182,7 +182,7 @@ class MainMenu
     #   $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequest([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequest([string] $userRequest)
     {
         switch ($userRequest)
         {
@@ -399,5 +399,5 @@ class MainMenu
 
         # Return back to the menu
         return $true;
-    } # EvaluateExecuteUserRequest()
+    } # __EvaluateExecuteUserRequest()
 } # MainMenu
