@@ -60,7 +60,7 @@ class Notifications
                  ($userPref.GetBellEvents() -eq [UserPreferencesEventAlarm]::Success))}
             {
                 # Play Asterisk sound
-                [Notifications]::PlaySoundAsterisk();
+                [Notifications]::__PlaySoundAsterisk();
             } # Event: Successful
 
 
@@ -70,7 +70,7 @@ class Notifications
                  ($userPref.GetBellEvents() -eq [UserPreferencesEventAlarm]::Errors))}
             {
                 # Play Critical Error sound
-                [Notifications]::PlaySoundHand();
+                [Notifications]::__PlaySoundHand();
             } # Event: Errors
 
 
@@ -80,7 +80,7 @@ class Notifications
                  ($userPref.GetBellEvents() -eq [UserPreferencesEventAlarm]::Warnings))}
             {
                 # Play Exclamation sound
-                [Notifications]::PlaySoundExclamation();
+                [Notifications]::__PlaySoundExclamation();
             } # Event: Warnings
 
 
@@ -90,7 +90,7 @@ class Notifications
                  ($userPref.GetBellEvents() -eq [UserPreferencesEventAlarm]::Errors))}
             {
                 # Play Critical Error sound
-                [Notifications]::PlaySoundBeep();
+                [Notifications]::__PlaySoundBeep();
             } # Event: Errors
 
 
@@ -113,11 +113,11 @@ class Notifications
     #   notification bell, nothing too fancy here ;)
     # -------------------------------
     #>
-    static hidden [void] StandardBell()
+    static hidden [void] __StandardBell()
     {
         # Ordinary bell
         [System.Console]::Beep();
-    } # StandardBell()
+    } # __StandardBell()
 
 
 
@@ -139,7 +139,7 @@ class Notifications
     #   The duration of the beep measured in milliseconds.
     # -------------------------------
     #>
-    static hidden [void] StandardBell([int32] $frequency,       # Frequency of the tone
+    static hidden [void] __StandardBell([int32] $frequency,     # Frequency of the tone
                                         [int32] $duration)      # Length of the tone
     {
         # Make sure that Frequency provided is within the expected range.
@@ -162,7 +162,7 @@ class Notifications
 
         # Customizable bell
         [System.Console]::Beep($frequency, $duration);
-    } # StandardBell()
+    } # __StandardBell()
 
 
 
@@ -175,7 +175,7 @@ class Notifications
     #   Operating System, if supported.
     # -------------------------------
     #>
-    static hidden [void] PlaySoundBeep()
+    static hidden [void] __PlaySoundBeep()
     {
         # Try to play or provide the sound as necessary
         try
@@ -188,10 +188,10 @@ class Notifications
         catch
         {
             # Provide a beep sound
-            [Notifications]::StandardBell();
-            [Notifications]::StandardBell();
+            [Notifications]::__StandardBell();
+            [Notifications]::__StandardBell();
         } # catch : Provide Beep Sound
-    } # PlaySoundBeep()
+    } # __PlaySoundBeep()
 
 
 
@@ -206,7 +206,7 @@ class Notifications
     # Ideally to be played when an event had been reached.
     # -------------------------------
     #>
-    static hidden [void] PlaySoundAsterisk()
+    static hidden [void] __PlaySoundAsterisk()
     {
         # Try to play or provide the sound as necessary
         try
@@ -219,12 +219,12 @@ class Notifications
         catch
         {
             # Unique series of beeps for 'Asterisk'
-            [Notifications]::StandardBell(500, 300);
-            [Notifications]::StandardBell(800, 300);
-            [Notifications]::StandardBell(700, 300);
-            [Notifications]::StandardBell(500, 300);
+            [Notifications]::__StandardBell(500, 300);
+            [Notifications]::__StandardBell(800, 300);
+            [Notifications]::__StandardBell(700, 300);
+            [Notifications]::__StandardBell(500, 300);
         } # catch : Provide Custom Sound
-    } # PlaySoundAsterisk()
+    } # __PlaySoundAsterisk()
 
 
 
@@ -240,7 +240,7 @@ class Notifications
     #  GUI: Used with the Exclamation Icon
     # -------------------------------
     #>
-    static hidden [void] PlaySoundExclamation()
+    static hidden [void] __PlaySoundExclamation()
     {
         # Try to play or provide the sound as necessary
         try
@@ -253,12 +253,12 @@ class Notifications
         catch
         {
             # Unique series of beeps for 'Exclamation'
-            [Notifications]::StandardBell(700, 300);
-            [Notifications]::StandardBell(800, 300);
-            [Notifications]::StandardBell(850, 300);
-            [Notifications]::StandardBell(700, 300);
+            [Notifications]::__StandardBell(700, 300);
+            [Notifications]::__StandardBell(800, 300);
+            [Notifications]::__StandardBell(850, 300);
+            [Notifications]::__StandardBell(700, 300);
         } # catch : Provide Custom Sound
-    } # PlaySoundExclamation()
+    } # __PlaySoundExclamation()
 
 
 
@@ -273,7 +273,7 @@ class Notifications
     # Ideally to be played when a 'Critical Stop' had been reached.
     # -------------------------------
     #>
-    static hidden [void] PlaySoundHand()
+    static hidden [void] __PlaySoundHand()
     {
         # Try to play or provide the sound as necessary
         try
@@ -286,11 +286,11 @@ class Notifications
         catch
         {
             # Unique series of beeps for 'Critical Stop'
-            [Notifications]::StandardBell(300, 600);
-            [Notifications]::StandardBell(400, 300);
-            [Notifications]::StandardBell(300, 600);
+            [Notifications]::__StandardBell(300, 600);
+            [Notifications]::__StandardBell(400, 300);
+            [Notifications]::__StandardBell(300, 600);
         } # catch : Provide Custom Sound
-    } # PlaySoundHand()
+    } # __PlaySoundHand()
 
 
 
@@ -310,7 +310,7 @@ class Notifications
     #   https://youtu.be/4aK3P-n1aWk
     # -------------------------------
     #>
-    static hidden [void] PlaySoundQuestion()
+    static hidden [void] __PlaySoundQuestion()
     {
         # Try to play or provide the sound as necessary
         try
@@ -323,11 +323,11 @@ class Notifications
         catch
         {
             # Unique series of beeps for 'Critical Stop'
-            [Notifications]::StandardBell(700, 600);
-            [Notifications]::StandardBell(600, 300);
-            [Notifications]::StandardBell(650, 600);
+            [Notifications]::__StandardBell(700, 600);
+            [Notifications]::__StandardBell(600, 300);
+            [Notifications]::__StandardBell(650, 600);
         } # catch : Provide Custom Sound
-    } # PlaySoundQuestion()
+    } # __PlaySoundQuestion()
 } # Notifications
 
 
