@@ -54,13 +54,13 @@ class SettingsZip
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the Zip Settings Menu list to the user
-            [SettingsZip]::DrawMenu();
+            [SettingsZip]::__DrawMenu();
 
             # Capture the user's feedback
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [SettingsZip]::EvaluateExecuteUserRequest($userInput);
+            $menuLoop = [SettingsZip]::__EvaluateExecuteUserRequest($userInput);
         } while($menuLoop);
     } # Main()
 
@@ -75,7 +75,7 @@ class SettingsZip
     #   are available to configure.
     # -------------------------------
     #>
-    hidden static [void] DrawMenu()
+    hidden static [void] __DrawMenu()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -98,16 +98,16 @@ class SettingsZip
 
 
         # Retrieve the current settings and determine the wording before we generate the menu.
-        [SettingsZip]::DrawMenuDecipherCurrentSettings([ref] $currentSettingCompressionLevel, `     # Compression Level
+        [SettingsZip]::__DrawMenuDecipherCurrentSettings([ref] $currentSettingCompressionLevel, `   # Compression Level
                                                         [ref] $currentSettingVerifyBuild, `         # Verify Build
                                                         [ref] $currentSettingGenerateReport, `      # Generate Report
                                                         [ref] $currentSettingGenerateReportPDF);    # Generate PDF Report
 
 
         # Determine what menus are to be displayed to the user.
-        [SettingsZip]::DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionLevel, `  # Compression Level
-                                                    [ref] $showMenuVerifyBuild, `       # Verify Build
-                                                    [ref] $ShowMenuGenerateReport);     # Generate Report
+        [SettingsZip]::__DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionLevel, `    # Compression Level
+                                                        [ref] $showMenuVerifyBuild, `       # Verify Build
+                                                        [ref] $ShowMenuGenerateReport);     # Generate Report
 
 
 
@@ -173,7 +173,7 @@ class SettingsZip
 
         # Provide some extra padding
         [Logging]::DisplayMessage("`r`n");
-    } # DrawMenu()
+    } # __DrawMenu()
 
 
 
@@ -197,10 +197,10 @@ class SettingsZip
     #   Determines if the user wanted a PDF report of the newly generated compressed build.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuDecipherCurrentSettings([ref] $compressionLevel, ` # Compression Level
-                                                        [ref] $verifyBuild, `       # Verify Build
-                                                        [ref] $generateReport, `    # Generate Report
-                                                        [ref] $generateReportPDF)   # Generate PDF Report
+    hidden static [void] __DrawMenuDecipherCurrentSettings([ref] $compressionLevel, `   # Compression Level
+                                                            [ref] $verifyBuild, `       # Verify Build
+                                                            [ref] $generateReport, `    # Generate Report
+                                                            [ref] $generateReportPDF)   # Generate PDF Report
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -323,7 +323,7 @@ class SettingsZip
             # The user does not want to have a report generated of the archive datafile.
             $generateReportPDF.Value = $null;
         } # else: Do not create PDF report
-    } # DrawMenuDecipherCurrentSettings()
+    } # __DrawMenuDecipherCurrentSettings()
 
 
 
@@ -349,9 +349,9 @@ class SettingsZip
     #   Determines if the user wanted a report of the newly compiled build.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionLevel, `    # Locate Git
-                                                    [ref] $showMenuVerifyBuild, `           # Update Source
-                                                    [ref] $ShowMenuGenerateReport)          # Generate Report
+    hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionLevel, `      # Locate Git
+                                                        [ref] $showMenuVerifyBuild, `           # Update Source
+                                                        [ref] $ShowMenuGenerateReport)          # Generate Report
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -435,7 +435,7 @@ class SettingsZip
         {
             $ShowMenuGenerateReport.Value = $false;
         } # Else: Generate Report is Hidden
-    } # DrawMenuDetermineHiddenMenus()
+    } # __DrawMenuDetermineHiddenMenus()
 
 
 
@@ -458,7 +458,7 @@ class SettingsZip
     #   $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequest([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequest([string] $userRequest)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -472,9 +472,9 @@ class SettingsZip
 
 
         # Determine what menus are to be displayed to the user.
-        [SettingsZip]::DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionLevel, `  # Compression Level
-                                                    [ref] $showMenuVerifyBuild, `       # Verify Build
-                                                    [ref] $ShowMenuGenerateReport);     # Generate Report
+        [SettingsZip]::__DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionLevel, `    # Compression Level
+                                                        [ref] $showMenuVerifyBuild, `       # Verify Build
+                                                        [ref] $ShowMenuGenerateReport);     # Generate Report
 
 
 
@@ -487,7 +487,7 @@ class SettingsZip
                     ($_ -eq "Compression Level"))}
             {
                 # Allow the user to customize the compression level setting.
-                [SettingsZip]::CompressionLevel();
+                [SettingsZip]::__CompressionLevel();
 
 
                 # Finished
@@ -508,7 +508,7 @@ class SettingsZip
                     ($_ -eq "Test"))}
             {
                 # Allow the user the ability to verify a newly generated project build.
-                [SettingsZip]::VerifyBuild();
+                [SettingsZip]::__VerifyBuild();
 
 
                 # Finished
@@ -527,7 +527,7 @@ class SettingsZip
                     ($_ -eq "Generate Report of Archive Datafile"))}
             {
                 # Allow the user the ability to request reports for the newly generated archive datafile.
-                [SettingsZip]::GenerateReport();
+                [SettingsZip]::__GenerateReport();
 
 
                 # Finished
@@ -620,7 +620,7 @@ class SettingsZip
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequest()
+    } # __EvaluateExecuteUserRequest()
 
 
 
@@ -644,7 +644,7 @@ class SettingsZip
     #   by the ZipArchive class.
     # -------------------------------
     #>
-    hidden static [void] CompressionLevel()
+    hidden static [void] __CompressionLevel()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -726,7 +726,7 @@ class SettingsZip
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the menu list to the user
-            [SettingsZip]::DrawMenuUseCompressionLevel();
+            [SettingsZip]::__DrawMenuUseCompressionLevel();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -735,9 +735,9 @@ class SettingsZip
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [SettingsZip]::EvaluateExecuteUserRequestCompressionLevel($userInput);
+            $menuLoop = [SettingsZip]::__EvaluateExecuteUserRequestCompressionLevel($userInput);
         } while ($menuLoop);
-    } # CompressionLevel()
+    } # __CompressionLevel()
 
 
 
@@ -750,7 +750,7 @@ class SettingsZip
     #   Thus, this provides what compression levels that are available to the user.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuUseCompressionLevel()
+    hidden static [void] __DrawMenuUseCompressionLevel()
     {
         # Display the Menu List
 
@@ -792,7 +792,7 @@ class SettingsZip
                                 "Return back to the previous menu.", `
                                 $NULL, `
                                 $true);
-    } # DrawMenuUseCompressionLevel()
+    } # __DrawMenuUseCompressionLevel()
 
 
 
@@ -815,7 +815,7 @@ class SettingsZip
     #       $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequestCompressionLevel([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequestCompressionLevel([string] $userRequest)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -929,7 +929,7 @@ class SettingsZip
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequestCompressionLevel()
+    } # __EvaluateExecuteUserRequestCompressionLevel()
     #endregion
 
 
@@ -954,7 +954,7 @@ class SettingsZip
     #   verified to assure a healthy archive datafile.
     # -------------------------------
     #>
-    hidden static [void] VerifyBuild()
+    hidden static [void] __VerifyBuild()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1018,7 +1018,7 @@ class SettingsZip
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the menu list to the user
-            [SettingsZip]::DrawMenuVerifyBuild();
+            [SettingsZip]::__DrawMenuVerifyBuild();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -1027,9 +1027,9 @@ class SettingsZip
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [SettingsZip]::EvaluateExecuteUserRequestVerifyBuild($userInput);
+            $menuLoop = [SettingsZip]::__EvaluateExecuteUserRequestVerifyBuild($userInput);
         } while ($menuLoop);
-    } # VerifyBuild()
+    } # __VerifyBuild()
 
 
 
@@ -1042,7 +1042,7 @@ class SettingsZip
     #  archive datafile's integrity or to skip the verification phase.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuVerifyBuild()
+    hidden static [void] __DrawMenuVerifyBuild()
     {
         # Display the Menu List
 
@@ -1076,7 +1076,7 @@ class SettingsZip
                                 "Return back to the previous menu.", `
                                 $NULL, `
                                 $true);
-    } # DrawMenuVerifyBuild()
+    } # __DrawMenuVerifyBuild()
 
 
 
@@ -1099,7 +1099,7 @@ class SettingsZip
     #       $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequestVerifyBuild([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequestVerifyBuild([string] $userRequest)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1200,7 +1200,7 @@ class SettingsZip
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequestVerifyBuild()
+    } # __EvaluateExecuteUserRequestVerifyBuild()
     #endregion
 
 
@@ -1225,7 +1225,7 @@ class SettingsZip
     #   data file has been generated.
     # -------------------------------
     #>
-    hidden static [void] GenerateReport()
+    hidden static [void] __GenerateReport()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1299,7 +1299,7 @@ class SettingsZip
             [CommonCUI]::DrawMenuInstructions();
 
             # Draw the menu list to the user
-            [SettingsZip]::DrawMenuGenerateReport();
+            [SettingsZip]::__DrawMenuGenerateReport();
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -1308,9 +1308,9 @@ class SettingsZip
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
             # Execute the user's request
-            $menuLoop = [SettingsZip]::EvaluateExecuteUserRequestGenerateReport($userInput);
+            $menuLoop = [SettingsZip]::__EvaluateExecuteUserRequestGenerateReport($userInput);
         } while ($menuLoop);
-    } # GenerateReport()
+    } # __GenerateReport()
 
 
 
@@ -1323,7 +1323,7 @@ class SettingsZip
     #   the compiled project build.
     # -------------------------------
     #>
-    hidden static [void] DrawMenuGenerateReport()
+    hidden static [void] __DrawMenuGenerateReport()
     {
         # Display the Menu List
 
@@ -1365,7 +1365,7 @@ class SettingsZip
                                 "Return back to the previous menu.", `
                                 $NULL, `
                                 $true);
-    } # DrawMenuGenerateReport()
+    } # __DrawMenuGenerateReport()
 
 
 
@@ -1388,7 +1388,7 @@ class SettingsZip
     #       $false = User requested to leave the Menu.
     # -------------------------------
     #>
-    hidden static [bool] EvaluateExecuteUserRequestGenerateReport([string] $userRequest)
+    hidden static [bool] __EvaluateExecuteUserRequestGenerateReport([string] $userRequest)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1517,6 +1517,6 @@ class SettingsZip
 
         # Finished with the operation; return back to the current menu.
         return $true;
-    } # EvaluateExecuteUserRequestGenerateReport()
+    } # __EvaluateExecuteUserRequestGenerateReport()
     #endregion
 } # SettingsZip
