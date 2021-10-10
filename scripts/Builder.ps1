@@ -87,7 +87,7 @@ class Builder
 
         # Make sure that we have all of the resources that we are going to
         #  need in order to successfully compile this project.
-        if (![Builder]::PrerequisiteCheck())
+        if (![Builder]::__PrerequisiteCheck())
         {
             # Because we are lacking a required resource, we cannot proceed with
             #  this process.
@@ -108,7 +108,7 @@ class Builder
         # Determine and generate the output directory in which this compiled
         #  build will be stored.
 
-        $compiledBuildPath = [Builder]::GenerateOutputPath();
+        $compiledBuildPath = [Builder]::__GenerateOutputPath();
 
 
 
@@ -119,7 +119,7 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
 
         # Try to update the user's copy of the project files.
-        if (![Builder]::UpdateProject())
+        if (![Builder]::__UpdateProject())
         {
             # Because there was an error while attempting to update the user's
             #  local copy of the project files, we cannot proceed.
@@ -137,7 +137,7 @@ class Builder
         # We will need to know the file name that will identify archive datafile,
         #  as well as the file extension that will help to classify the archive
         #  datafile's data structure.
-        $fileName = [Builder]::GenerateArchiveFileName($makeDevBuild);
+        $fileName = [Builder]::__GenerateArchiveFileName($makeDevBuild);
 
 
 
@@ -150,7 +150,7 @@ class Builder
         # Try to create a new temporary directory, such that we may manipulate or
         #  alter the files if necessary - without having to change the state or
         #  lose files within the user's local copy of the project.
-        if (![Builder]::CreateProjectTemporaryDirectory([ref] $projectTemporaryPath))
+        if (![Builder]::__CreateProjectTemporaryDirectory([ref] $projectTemporaryPath))
         {
             # Because there was an error while to create a new unique temporary directory,
             #  we cannot proceed forward with this operation.  Thus, we will have to abort
@@ -167,7 +167,7 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
 
         # Duplicate the project's source files to the temporary directory location.
-        if (![Builder]::DuplicateSourceToTemporaryDirectory($projectTemporaryPath))
+        if (![Builder]::__DuplicateSourceToTemporaryDirectory($projectTemporaryPath))
         {
             # Because we were unable to duplicate the files, we are unable to proceed
             #  with the operation.
@@ -184,7 +184,7 @@ class Builder
 
         # Discard any extraneous assets from the temporary directory.
         #  We are not interested in any fluff, as that can enlarge the final compile build.
-        if (![Builder]::ExpungeExtraneousResources($projectTemporaryPath))
+        if (![Builder]::__ExpungeExtraneousResources($projectTemporaryPath))
         {
             # Because we could not delete the superfluous assets, we could not continue this
             #  operation.  Now, with that, it could be possible to continue the operation as
@@ -207,9 +207,9 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
 
         # Try to compact the project files into an archive datafile.
-        if (![Builder]::CompileProject($fileName, `             # Archive filename
-                                    [ref]$compiledBuildPath, `  # Archive file location (output file)
-                                    $projectTemporaryPath))     # Project's absolute path
+        if (![Builder]::__CompileProject($fileName, `               # Archive filename
+                                        [ref]$compiledBuildPath, `  # Archive file location (output file)
+                                        $projectTemporaryPath))     # Project's absolute path
         {
             # Because there was an error while compiling the project's source
             #  files, we will have to abort at this point.
@@ -226,7 +226,7 @@ class Builder
 
         # Try to delete the temporary directory that was previously created, as
         #  we no longer require that resource anymore for this operation.
-        if (![Builder]::DeleteProjectTemporaryDirectory($projectTemporaryPath))
+        if (![Builder]::__DeleteProjectTemporaryDirectory($projectTemporaryPath))
         {
             # Because there was an error while trying to delete the temporary directory,
             #  we will land in this condition, but we may proceed onward regardless.
@@ -244,7 +244,7 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
 
         # Try to test the archive data file to assure that it is not damaged.
-        if (![Builder]::TestCompiledBuild($compiledBuildPath))
+        if (![Builder]::__TestCompiledBuild($compiledBuildPath))
         {
             # Because the archive datafile is damaged or corrupted, we will have
             #  to abort the operation as we reached an error.
@@ -260,7 +260,7 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
 
         # Try to generate report based on the archive data file.
-        if (![Builder]::GenerateReportArchiveDataFile($compiledBuildPath))
+        if (![Builder]::__GenerateReportArchiveDataFile($compiledBuildPath))
         {
             # Because we could not generate a report of the archive data file, the
             #  file might had been damaged or is corrupted.
@@ -269,7 +269,7 @@ class Builder
 
 
         # True to generate a report based on the Local Repository.
-        if (![Builder]::GenerateReportProjectLocalRepository())
+        if (![Builder]::__GenerateReportProjectLocalRepository())
         {
             # Because we could not generate a report of the project's local
             #  repository, then the compiled project might had been damaged.
@@ -286,7 +286,7 @@ class Builder
 
         # Now that we are finished, show the user where their compiled build
         #  is within the host's filesystem.
-        [Builder]::ShowProjectLocation($compiledBuildPath);
+        [Builder]::__ShowProjectLocation($compiledBuildPath);
 
 
 
@@ -297,7 +297,7 @@ class Builder
 
 
         # Show that the compiling operation was successful.
-        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Operation had been completed!");
+        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Operation had been completed!");
 
 
         # Operation was successful!
@@ -323,7 +323,7 @@ class Builder
     #   $true = All of the resources were accounted for and ready.
     # -------------------------------
     #>
-    hidden static [bool] PrerequisiteCheck()
+    hidden static [bool] __PrerequisiteCheck()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -355,8 +355,8 @@ class Builder
 
 
         # Show that the Prerequisite functionality is presently active
-        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Prerequisite Check");
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Performing a Prerequisite Check. . .");
+        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Prerequisite Check");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Performing a Prerequisite Check. . .");
 
 
 
@@ -377,9 +377,9 @@ class Builder
 
 
             # Show that the Project's source files could not be found.
-            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find $([ProjectInformation]::projectName) source files!");
-            [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please reconfigure the program settings!");
-            [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
+            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find $([ProjectInformation]::projectName) source files!");
+            [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please reconfigure the program settings!");
+            [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
 
 
 
@@ -421,7 +421,7 @@ class Builder
 
 
         # Successfully found project files
-        [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Successful, "Found the $([ProjectInformation]::projectName) source files!");
+        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Successful, "Found the $([ProjectInformation]::projectName) source files!");
 
 
 
@@ -443,9 +443,9 @@ class Builder
 
 
             # Show that the Output Directory could not be found.
-            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find the Output Directory!");
-            [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please reconfigure the Program's Generalized Settings!");
-            [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
+            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find the Output Directory!");
+            [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please reconfigure the Program's Generalized Settings!");
+            [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
 
 
 
@@ -488,7 +488,7 @@ class Builder
 
 
         # Successfully found output directory
-        [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Successful, "Found the Output Directory!");
+        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Successful, "Found the Output Directory!");
 
 
 
@@ -516,9 +516,9 @@ class Builder
 
 
                     # Show that this program cannot detect the dotNET Core Archive ZIP functionality.
-                    [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find native support with Default ZIP functionality");
-                    [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please assure that you are using the latest version of PowerShell Core!");
-                    [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
+                    [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find native support with Default ZIP functionality");
+                    [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please assure that you are using the latest version of PowerShell Core!");
+                    [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
 
 
 
@@ -565,7 +565,7 @@ class Builder
 
 
                 # Successfully found native support with the Archive ZIP module
-                [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Successful, "Found native support with dotNET Core Archive ZIP!");
+                [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Successful, "Found native support with dotNET Core Archive ZIP!");
 
 
                 # Finished
@@ -589,9 +589,9 @@ class Builder
 
 
                     # Show that this program cannot find the 7Zip software installed on this system or the desired location.
-                    [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find the 7Zip application installed!");
-                    [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please assure that you have 7Zip installed and that this program can find it as well.");
-                    [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
+                    [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find the 7Zip application installed!");
+                    [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please assure that you have 7Zip installed and that this program can find it as well.");
+                    [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
 
 
 
@@ -636,7 +636,7 @@ class Builder
 
 
                 # Successfully found 7Zip
-                [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Successful, "Found the 7Zip Application!");
+                [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Successful, "Found the 7Zip Application!");
 
 
                 # Finished
@@ -654,9 +654,9 @@ class Builder
 
 
                 # Show that the preferred compression tool is not valid.
-                [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Preferred Compression Tool is not supported or I don't know what it is!");
-                [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please reconfigure the Compression Tool within the Program Generalized Settings!");
-                [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
+                [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Preferred Compression Tool is not supported or I don't know what it is!");
+                [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please reconfigure the Compression Tool within the Program Generalized Settings!");
+                [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
 
 
 
@@ -718,9 +718,9 @@ class Builder
 
 
                 # Show that the preferred compression tool is not valid.
-                [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find the Git SCM Version Control Application!");
-                [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please assure that you have Git installed and that this program can find it as well.");
-                [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
+                [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find the Git SCM Version Control Application!");
+                [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please assure that you have Git installed and that this program can find it as well.");
+                [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
 
 
 
@@ -766,7 +766,7 @@ class Builder
 
 
         # Successfully found Git SCM!
-        [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Successful, "Found the Git Application!");
+        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Successful, "Found the Git Application!");
         } # if : Git Features Requested
 
 
@@ -780,7 +780,7 @@ class Builder
 
 
         # Show that the Perquisite Check had passed!
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully found all the required resources!");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully found all the required resources!");
 
 
 
@@ -807,7 +807,7 @@ class Builder
         # If we made it to this point, then we have all of the resources
         #  that we need to compile this project!
         return $true;
-    } # PrerequisiteCheck()
+    } # __PrerequisiteCheck()
 
 
 
@@ -828,7 +828,7 @@ class Builder
     #   $true = Successfully updated the project source files
     # -------------------------------
     #>
-    hidden static [bool] UpdateProject()
+    hidden static [bool] __UpdateProject()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -885,7 +885,7 @@ class Builder
 
 
         # Show that we are about to update the project source files
-        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Update $([ProjectInformation]::projectName)");
+        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Update $([ProjectInformation]::projectName)");
 
 
 
@@ -896,8 +896,8 @@ class Builder
 
 
         # Show the user the current operation that is about to take place
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Updating $([ProjectInformation]::projectName)'s source files. . .");
-        [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "Current Local Repository Commit ID: $($projectCommitIDOld)");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Updating $([ProjectInformation]::projectName)'s source files. . .");
+        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "Current Local Repository Commit ID: $($projectCommitIDOld)");
 
 
         # Try to update the local repository
@@ -910,10 +910,10 @@ class Builder
 
 
             # Show to the user that there was an error while attempting to update the local repository
-            [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Failure, "An error had occurred while updating your copy of $([ProjectInformation]::projectName)!");
-            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "If incase you made changes with the files, you may need to commit them before losing your work!");
-            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "If incase you not made any changes, you will need validate your Local Repository against the Remote Repository using Git!");
-            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
+            [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Failure, "An error had occurred while updating your copy of $([ProjectInformation]::projectName)!");
+            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "If incase you made changes with the files, you may need to commit them before losing your work!");
+            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "If incase you not made any changes, you will need validate your Local Repository against the Remote Repository using Git!");
+            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
 
 
 
@@ -959,8 +959,8 @@ class Builder
 
 
         # Show that the project's files had been updated!
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully updated the $([ProjectInformation]::projectName)'s source files!");
-        [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "New Local Repository Commit ID: $($projectCommitIDNew)");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully updated the $([ProjectInformation]::projectName)'s source files!");
+        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "New Local Repository Commit ID: $($projectCommitIDNew)");
 
 
 
@@ -985,7 +985,7 @@ class Builder
 
         # We successfully updated the user's local repository!
         return $true;
-    } # UpdateProject()
+    } # __UpdateProject()
 
 
 
@@ -1008,7 +1008,7 @@ class Builder
     #       The name of the archive datafile that will be generated.
     # -------------------------------
     #>
-    hidden static [string] GenerateArchiveFileName([bool] $makeDevBuild)
+    hidden static [string] __GenerateArchiveFileName([bool] $makeDevBuild)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1026,7 +1026,7 @@ class Builder
 
 
         # Show that we gathering filename information
-        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Gathering filename information. . .");
+        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Gathering filename information. . .");
 
 
 
@@ -1044,14 +1044,14 @@ class Builder
 
 
         # Show the filename that has been generated.
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully generated the filename!");
-        [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "File Name is `"$($archiveFileName)`".");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully generated the filename!");
+        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "File Name is `"$($archiveFileName)`".");
 
 
 
         # Return the full archive data file
         return $archiveFileName;
-    } # GenerateArchiveFileName()
+    } # __GenerateArchiveFileName()
 
 
 
@@ -1068,7 +1068,7 @@ class Builder
     #   build or version.
     # -------------------------------
     #>
-    hidden static [string] GenerateOutputPath()
+    hidden static [string] __GenerateOutputPath()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1079,16 +1079,16 @@ class Builder
 
 
         # Show that we determining the final output location
-        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Determining the Output Directory. . .");
+        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Determining the Output Directory. . .");
 
 
         # Show that we had concluded the output directory and everything is finished!
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "The compiled build will be stored under `"$($userPreferences.GetProjectBuildsPath())`"");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "The compiled build will be stored under `"$($userPreferences.GetProjectBuildsPath())`"");
 
 
         # We will store the archive file in the output directory as-is
         return $userPreferences.GetProjectBuildsPath();
-    } # GenerateOutputPath()
+    } # __GenerateOutputPath()
 
 
 
@@ -1118,9 +1118,9 @@ class Builder
     #   $true = Successfully compacted the project files into an archive datafile.
     # -------------------------------
     #>
-    hidden static [bool] CompileProject([string] $archiveFileName, `    # Requested archive datafile
-                                        [ref] $filePath, `              # Absolute Path of the Archive datafile
-                                        [string] $projectPath)          # Absolute Path of the Temporary Directory Project location
+    hidden static [bool] __CompileProject([string] $archiveFileName, `      # Requested archive datafile
+                                            [ref] $filePath, `              # Absolute Path of the Archive datafile
+                                            [string] $projectPath)          # Absolute Path of the Temporary Directory Project location
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1146,8 +1146,8 @@ class Builder
 
 
         # Show that we are about to compact the project's source files into an archive datafile.
-        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Compile $([ProjectInformation]::projectName)");
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Compiling $([ProjectInformation]::projectName). . .");
+        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Compile $([ProjectInformation]::projectName)");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Compiling $([ProjectInformation]::projectName). . .");
 
 
         # Use the preferred compiler as requested by the user
@@ -1157,7 +1157,7 @@ class Builder
             ([UserPreferencesCompressTool]::InternalZip)
             {
                 # Show that we are using the Archive ZIP Module
-                [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::InProgress, "Compacting using the default compression software. . .");
+                [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::InProgress, "Compacting using the default compression software. . .");
 
                 # Compact the files
                 if (!$defaultCompress.CreateArchive($archiveFileName, `
@@ -1172,9 +1172,9 @@ class Builder
 
 
                     # An error had been reached while compacting the project's files.
-                    [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "An error occurred while compiling $([ProjectInformation]::projectName)!");
-                    [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please review the logs for more information!");
-                    [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
+                    [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "An error occurred while compiling $([ProjectInformation]::projectName)!");
+                    [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please review the logs for more information!");
+                    [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
 
 
 
@@ -1215,7 +1215,7 @@ class Builder
             ([UserPreferencesCompressTool]::SevenZip)
             {
                 # Show that we are using the 7Zip software
-                [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::InProgress, "Compacting using the 7Zip compression software. . .");
+                [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::InProgress, "Compacting using the 7Zip compression software. . .");
 
                 # Compact the files
                 if (!$sevenZip.CreateArchive($archiveFileName, `
@@ -1230,9 +1230,9 @@ class Builder
 
 
                     # An error had been reached while compacting the project's files.
-                    [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "An error occurred while compiling $([ProjectInformation]::projectName)!");
-                    [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please review the logs for more information!");
-                    [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
+                    [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "An error occurred while compiling $([ProjectInformation]::projectName)!");
+                    [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please review the logs for more information!");
+                    [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
 
 
 
@@ -1279,8 +1279,8 @@ class Builder
 
 
                 # Show that we could not determine the preferred compression tool
-                [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unknown or unsupported preferred compression software!");
-                [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
+                [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unknown or unsupported preferred compression software!");
+                [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
 
 
 
@@ -1317,7 +1317,7 @@ class Builder
 
 
         # If we made it this far, that means that the operation was successful!
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully compiled $([ProjectInformation]::projectName)!");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully compiled $([ProjectInformation]::projectName)!");
 
 
 
@@ -1346,7 +1346,7 @@ class Builder
 
         # Operation was successful
         return $true;
-    } # CompileProject()
+    } # __CompileProject()
 
 
 
@@ -1374,7 +1374,7 @@ class Builder
     #   $true  = Successfully created the temporary directory.
     # -------------------------------
     #>
-    hidden static [bool] CreateProjectTemporaryDirectory([ref] $directoryPath)
+    hidden static [bool] __CreateProjectTemporaryDirectory([ref] $directoryPath)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1390,7 +1390,7 @@ class Builder
 
 
         # Show that we trying to create a temporary directory
-        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Creating a new temporary directory. . .");
+        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Creating a new temporary directory. . .");
 
 
         # Generate the Key Term of the Temporary Directory
@@ -1407,7 +1407,7 @@ class Builder
 
 
             # Show the user that an error had been reached while creating the temporary directory.
-            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to create the temporary directory!");
+            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to create the temporary directory!");
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1447,8 +1447,8 @@ class Builder
 
 
         # Successfully created the temporary directory
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully created a temporary directory!");
-        [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "Temporary Directory Path is: " + $directoryPath.Value);
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully created a temporary directory!");
+        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "Temporary Directory Path is: " + $directoryPath.Value);
 
 
 
@@ -1474,7 +1474,7 @@ class Builder
 
         # Operation was successful!
         return $true;
-    } # CreateProjectTemporaryDirectory()
+    } # __CreateProjectTemporaryDirectory()
 
 
 
@@ -1498,7 +1498,7 @@ class Builder
     #   $true  = Successfully duplicated the project's contents.
     # -------------------------------
     #>
-    static hidden [bool] DuplicateSourceToTemporaryDirectory([string] $projectTemporaryPath)
+    static hidden [bool] __DuplicateSourceToTemporaryDirectory([string] $projectTemporaryPath)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1514,9 +1514,9 @@ class Builder
 
 
         # Show that we are about to duplicate the project's source files.
-        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Duplicating $([ProjectInformation]::projectName) source files. . .");
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Source: $($userPreferences.GetProjectPath())");
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Destination $($projectTemporaryPath)");
+        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Duplicating $([ProjectInformation]::projectName) source files. . .");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Source: $($userPreferences.GetProjectPath())");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Destination $($projectTemporaryPath)");
 
 
         # Try to duplicate the files
@@ -1528,7 +1528,7 @@ class Builder
 
 
             # Show the user that an error had been reached while creating the temporary directory.
-            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Failed to duplicate the project's resources!");
+            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Failed to duplicate the project's resources!");
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1565,7 +1565,7 @@ class Builder
 
 
         # Successfully created the temporary directory
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully duplicated $([ProjectInformation]::projectName) assets!");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully duplicated $([ProjectInformation]::projectName) assets!");
 
 
 
@@ -1593,7 +1593,7 @@ class Builder
 
         # Operation was successful!
         return $true;
-    } # DuplicateSourceToTemporaryDirectory()
+    } # __DuplicateSourceToTemporaryDirectory()
 
 
 
@@ -1616,7 +1616,7 @@ class Builder
     #   $true  = Successfully deleted the temporary directory.
     # -------------------------------
     #>
-    hidden static [bool] DeleteProjectTemporaryDirectory([string] $projectTemporaryPath)
+    hidden static [bool] __DeleteProjectTemporaryDirectory([string] $projectTemporaryPath)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1628,7 +1628,7 @@ class Builder
 
 
         # Show that we trying to delete the temporary directory
-        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Deleting temporary directory. . .");
+        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Deleting temporary directory. . .");
 
 
         # Try to delete the temporary directory and all of the data within.
@@ -1642,7 +1642,7 @@ class Builder
 
 
             # Show the user than an error had been reached while deleting the temporary directory.
-            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Warning, "Unable to delete the temporary directory!");
+            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Warning, "Unable to delete the temporary directory!");
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1683,8 +1683,8 @@ class Builder
 
 
         # Successfully created the temporary directory
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully deleted the temporary directory!");
-        [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "Temporary Directory Path that was Deleted: " + $projectTemporaryPath);
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully deleted the temporary directory!");
+        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "Temporary Directory Path that was Deleted: " + $projectTemporaryPath);
 
 
 
@@ -1710,7 +1710,7 @@ class Builder
 
         # Operation was successful!
         return $true;
-    } # DeleteProjectTemporaryDirectory()
+    } # __DeleteProjectTemporaryDirectory()
 
 
 
@@ -1735,7 +1735,7 @@ class Builder
     #   $true  = Successfully expunged the superfluous files.
     # -------------------------------
     #>
-    hidden static [bool] ExpungeExtraneousResources([string] $temporaryDirectoryPath)
+    hidden static [bool] __ExpungeExtraneousResources([string] $temporaryDirectoryPath)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1776,12 +1776,12 @@ class Builder
 
 
         # Show that we are about to expunge superfluous files and directories.
-        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Deleting unnecessary assets. . .");
+        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Deleting unnecessary assets. . .");
 
 
 
         # Show that we are trying to delete unnecessary directories
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Deleting unnecessary directories. . .");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Deleting unnecessary directories. . .");
 
 
         # Try to delete directories that we do not want.
@@ -1797,8 +1797,8 @@ class Builder
 
 
                 # Show that the directory could not be deleted.
-                [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to delete folder $($i)!");
-                [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "The folder could not be removed.");
+                [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to delete folder $($i)!");
+                [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "The folder could not be removed.");
 
 
 
@@ -1840,7 +1840,7 @@ class Builder
 
 
         # Show that we are trying to delete unnecessary files
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Deleting unnecessary files. . .");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Deleting unnecessary files. . .");
 
 
         # Delete the desired file(s) - using the Recursive flag
@@ -1853,8 +1853,8 @@ class Builder
 
 
                 # Show that the files could not be deleted.
-                [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to delete the files!");
-                [Builder]::DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Files to be removed: `r`n`t - $($filesToDelete -join "`r`n`t - ")");
+                [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to delete the files!");
+                [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Files to be removed: `r`n`t - $($filesToDelete -join "`r`n`t - ")");
 
 
 
@@ -1894,7 +1894,7 @@ class Builder
 
 
         # Successfully deleted unnecessary resources
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully deleted unnecessary assets!");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully deleted unnecessary assets!");
 
 
 
@@ -1921,7 +1921,7 @@ class Builder
 
         # The operation was successful
         return $true;
-    } # ExpungeExtraneousResources()
+    } # __ExpungeExtraneousResources()
 
 
 
@@ -1950,7 +1950,7 @@ class Builder
     #            User did not want to test the archive datafile.
     # -------------------------------
     #>
-    hidden static [bool] TestCompiledBuild([string] $compiledBuildFullPath)
+    hidden static [bool] __TestCompiledBuild([string] $compiledBuildFullPath)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2027,12 +2027,12 @@ class Builder
 
         # Show that we are about to check the compiled build's health
         #  and integrity of its data structure.
-        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Checking the archive file's health");
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "File to inspect: $($compiledBuildFullPath)");
+        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Checking the archive file's health");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "File to inspect: $($compiledBuildFullPath)");
 
 
         # Let the user know that the test is starting
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Checking build. . .");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Checking build. . .");
 
 
 
@@ -2061,7 +2061,7 @@ class Builder
 
 
             # Unknown condition was reached
-            [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Error, "Unable to check the file's health and data structure integrity!");
+            [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Error, "Unable to check the file's health and data structure integrity!");
 
 
 
@@ -2123,8 +2123,8 @@ class Builder
 
 
         # Show that the operation was successful and provide the condition of the build
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully checked compiled build's health!");
-        [Builder]::DisplayBulletListMessage(2, $resultSymbol, "The compiled build is: " + $resultNiceValue + "!");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully checked compiled build's health!");
+        [Builder]::__DisplayBulletListMessage(2, $resultSymbol, "The compiled build is: " + $resultNiceValue + "!");
 
 
 
@@ -2150,7 +2150,7 @@ class Builder
 
         # Return the result back to the calling function
         return $result;
-    } # TestCompiledBuild()
+    } # __TestCompiledBuild()
 
 
 
@@ -2175,7 +2175,7 @@ class Builder
     #   $true  = Successfully created the requested report
     # -------------------------------
     #>
-    hidden static [bool] GenerateReportArchiveDataFile([string] $compiledBuildFullPath)
+    hidden static [bool] __GenerateReportArchiveDataFile([string] $compiledBuildFullPath)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2272,12 +2272,12 @@ class Builder
 
 
         # Show that we are about to generate a report of the archive data file
-        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Generating report of the archive file");
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Report will be based on this archive file: " + $compiledBuildFullPath);
+        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Generating report of the archive file");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Report will be based on this archive file: " + $compiledBuildFullPath);
 
 
         # Let the user know that the report is being created
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Generating report. . .");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Generating report. . .");
 
 
         # Generate the report
@@ -2309,7 +2309,7 @@ class Builder
 
 
             # Unknown condition was reached
-            [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Error, "Unable to generate a report on the archive file!");
+            [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Error, "Unable to generate a report on the archive file!");
 
 
 
@@ -2358,7 +2358,7 @@ class Builder
 
             # Report File - Text Report
             # = - - - - - - - - - - - =
-            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportTextFile);
+            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportTextFile);
 
             # Reveal the location using the user's preferred GUI Shell
             if ($userPreferences.GetUseWindowsExplorer())
@@ -2375,7 +2375,7 @@ class Builder
                 ($compressionTool -eq '7' -and $sevenZip.GetGenerateReportFilePDF()))
             {
                 # User allowed the ability for PDF files to be generated
-                [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportPDFFile);
+                [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportPDFFile);
 
                 # Reveal the location using the user's preferred GUI Shell
                 if ($userPreferences.GetUseWindowsExplorer())
@@ -2409,7 +2409,7 @@ class Builder
 
 
         # Show that the operation had been completed; provide its results
-        [Builder]::DisplayBulletListMessage(1, $resultSymbol, $resultNiceValue);
+        [Builder]::__DisplayBulletListMessage(1, $resultSymbol, $resultNiceValue);
 
 
 
@@ -2435,7 +2435,7 @@ class Builder
 
         # Return the result back to the calling function
         return $result;
-    } # GenerateReportArchiveDataFile()
+    } # __GenerateReportArchiveDataFile()
 
 
 
@@ -2457,7 +2457,7 @@ class Builder
     #   $true  = Successfully created the requested report
     # -------------------------------
     #>
-    hidden static [bool] GenerateReportProjectLocalRepository()
+    hidden static [bool] __GenerateReportProjectLocalRepository()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2523,13 +2523,13 @@ class Builder
 
 
         # Show that we are about to generate a report on the project's local repository.
-        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Generating report of the project's local repository");
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Report will be based on the " + [ProjectInformation]::projectName + " Local Repository.");
-        [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "Using project path: " + $userPreferences.GetProjectPath());
+        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Generating report of the project's local repository");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Report will be based on the " + [ProjectInformation]::projectName + " Local Repository.");
+        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "Using project path: " + $userPreferences.GetProjectPath());
 
 
         # Let the user know that the report is being created
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Generating report. . .");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Generating report. . .");
 
 
         # Generate the report
@@ -2550,7 +2550,7 @@ class Builder
 
             # Report File - Text Report
             # = - - - - - - - - - - - =
-            [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportTextFile);
+            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportTextFile);
 
             # Reveal the location using the user's preferred GUI Shell
             if ($userPreferences.GetUseWindowsExplorer())
@@ -2566,7 +2566,7 @@ class Builder
             if ($gitControl.GetGenerateReportFilePDF())
             {
                 # User allowed the ability for PDF files to be generated
-                [Builder]::DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportPDFFile);
+                [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportPDFFile);
 
                 # Reveal the location using the user's preferred GUI Shell
                 if ($userPreferences.GetUseWindowsExplorer())
@@ -2590,7 +2590,7 @@ class Builder
 
 
         # Show that the operation had been completed; provide the results
-        [Builder]::DisplayBulletListMessage(1, $resultSymbol, $resultNiceValue);
+        [Builder]::__DisplayBulletListMessage(1, $resultSymbol, $resultNiceValue);
 
 
 
@@ -2616,7 +2616,7 @@ class Builder
 
         # Return the result back to the calling function
         return $result;
-    } # GenerateReportProjectLocalRepository()
+    } # __GenerateReportProjectLocalRepository()
 
 
 
@@ -2632,7 +2632,7 @@ class Builder
     #   The absolute path of the compiled project within the filesystem.
     # -------------------------------
     #>
-    hidden static [void] ShowProjectLocation([string] $projectPath)
+    hidden static [void] __ShowProjectLocation([string] $projectPath)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2644,10 +2644,10 @@ class Builder
 
 
         # Let the user know that we are about to show them the path to their newly generated compiled build.
-        [Builder]::DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "You will find `"$([System.IO.Path]::GetFileName($projectPath))`" in this location:");
+        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "You will find `"$([System.IO.Path]::GetFileName($projectPath))`" in this location:");
 
         # Show the path
-        [Builder]::DisplayBulletListMessage(1, [FormattedListBuilder]::Child, $projectPath);
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Child, $projectPath);
 
 
         # Reveal the project to the user using their preferred GUI Shell
@@ -2656,7 +2656,7 @@ class Builder
             [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($projectPath), `
                                         [System.IO.Path]::GetFileName($projectPath));
         } # if : Reveal using GUI Shell
-    } # ShowProjectLocation()
+    } # __ShowProjectLocation()
 
 
 
@@ -2679,9 +2679,9 @@ class Builder
     #   The message that will be displayed to the user.
     # -------------------------------
     #>
-    hidden static [void] DisplayBulletListMessage([uint] $messagePosition, `            # How many indentions before message
-                                                [FormattedListBuilder] $messageType, `  # Type of list or message
-                                                [string] $messageString)                # Initial message to display
+    hidden static [void] __DisplayBulletListMessage([uint] $messagePosition, `              # How many indentions before message
+                                                    [FormattedListBuilder] $messageType, `  # Type of list or message
+                                                    [string] $messageString)                # Initial message to display
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2795,7 +2795,7 @@ class Builder
         [CommonCUI]::DrawFormattedList($messagePosition, `      # How many spaces to indent the message
                                         $bulletCharacter, `     # What symbol to use (optional)
                                         $messageString);        # Message to display
-    } # DisplayBulletListMessage()
+    } # __DisplayBulletListMessage()
 } # Builder
 
 
