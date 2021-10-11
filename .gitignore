@@ -4,6 +4,7 @@
 
 # Project Compiler Shellscript
 [C|c]ompile.ps1
+PSCAT.ps1
 
 
 
