@@ -32,7 +32,7 @@
     Nothing is to be returned or to be sent to the pipe.
 
 .EXAMPLE
-    .\Compile.ps1
+    .\PSCAT.ps1
 
 .LINK
     https://github.com/SibTiger/PowerShell-Compact-Archive-Tool
