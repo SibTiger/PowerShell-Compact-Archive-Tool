@@ -14,7 +14,7 @@
 .NOTES
     Author: Nicholas Gautier
     Email: Nicholas.Gautier.Tiger@GMail.com
-    Project Website: https://github.com/SibTiger/Alphecca
+    Project Website: https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/
 
 .INPUTS
     Nothing is to be given or to be provided from a command\pipe.
@@ -28,8 +28,8 @@
     .\make.ps1
 
 .LINK
-    https://github.com/SibTiger/Alphecca
-    https://zdoom.org/wiki/Using_ZIPs_as_WAD_replacement
+    https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/
+    https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/wiki
 #>
 
 
@@ -41,7 +41,7 @@
 Set-Variable -Name "SCRIPTPATH" -Value $PSScriptRoot `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Compiler Script File Name
-Set-Variable -Name "SCRIPTFILENAME" -Value "compile.ps1" `
+Set-Variable -Name "SCRIPTFILENAME" -Value "PSCAT.ps1" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Subscripts Directory
 Set-Variable -Name "SCRIPTSDIRECTORY" -Value "$($SCRIPTPATH)\Scripts\" `
@@ -53,7 +53,7 @@ Set-Variable -Name "OUTPUTDIRECTORY" -Value "$(Resolve-Path "$($PSScriptRoot)\" 
 Set-Variable -Name "OUTPUTFILE" -Value "$($OUTPUTDIRECTORY)$($SCRIPTFILENAME)" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Project Name
-Set-Variable -Name "PROJECTNAME" -Value "Alphecca" `
+Set-Variable -Name "PROJECTNAME" -Value "PowerShell Compact-Archive Tool" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # DEBUG MODE [Verbose Mode]
 Set-Variable -Name "DEBUGMODE" -Value $false `
@@ -354,7 +354,7 @@ function CreateNewScriptFile()
     try
     {
         New-Item -Path $OUTPUTDIRECTORY -Name $SCRIPTFILENAME -ItemType "File" `
-            -Value "# $($PROJECTNAME) Compiler was generated on: $(Get-Date)`r`n`r`n" -ErrorAction Stop | Out-Null;
+            -Value "# The $($PROJECTNAME) was generated on: $(Get-Date)`r`n`r`n" -ErrorAction Stop | Out-Null;
         return 0;
     } # Try
     catch
