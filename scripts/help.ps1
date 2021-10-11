@@ -9,10 +9,10 @@
         https://zdoom.org/wiki/Using_ZIPs_as_WAD_replacement
 
     Tools that this program utilizes are:
-        dotNET Framework 5.0 Minimum (Windows Platform)
-            The required framework that is needed for this program to run successfully on the Windows Platform.
-        dotNET Core 2.1.x Minimum (*nix Platform)
-            The required framework that is needed for this program to run successfully on the *nix Platform.
+        PowerShell Core 7.1.x Minimum
+            The required shell in order for this application to work properly.
+        dotNET Core 3.1.x Minimum
+            The required framework that is needed for this program to run successfully on all supported platforms.
         7Zip [Optional]
             Compact the project source to either a PK3 or PK7 archive datafile.
         Git [Optional]
