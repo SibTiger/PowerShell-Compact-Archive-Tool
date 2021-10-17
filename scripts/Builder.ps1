@@ -1759,10 +1759,12 @@ class Builder
         # = = = = = = = = = = = = = = = = = = = = = = = = =
         # Directories to Remove
         # - - - -
-        $foldersToDelete.Add("$($temporaryDirectoryPath)\.git");        # SCM Git
-        $foldersToDelete.Add("$($temporaryDirectoryPath)\TEMP");        # Temporary Directory
-        $foldersToDelete.Add("$($temporaryDirectoryPath)\Temporary");   # Temporary Directory
-        $foldersToDelete.Add("$($temporaryDirectoryPath)\Tools");       # Tools Directory
+        $foldersToDelete.Add("$($temporaryDirectoryPath)\.git");            # SCM Git
+        $foldersToDelete.Add("$($temporaryDirectoryPath)\TEMP");            # Temporary Directory
+        $foldersToDelete.Add("$($temporaryDirectoryPath)\Temporary");       # Temporary Directory
+        $foldersToDelete.Add("$($temporaryDirectoryPath)\Tools");           # Tools Directory
+        $foldersToDelete.Add("$($temporaryDirectoryPath)\Github Services"); # Github Services; usually wiki
+        $foldersToDelete.Add("$($temporaryDirectoryPath)\Github");          # Github Resources
 
         # Files to Remove
         # - - - -
