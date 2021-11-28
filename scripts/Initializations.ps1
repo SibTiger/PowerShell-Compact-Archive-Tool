@@ -70,7 +70,7 @@ function InitializationProgramIdentity()
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 
     # Version
-    Set-Variable -Name "_VERSION_" -Value "1.0.0 [Beta]" `
+    Set-Variable -Name "_VERSION_" -Value "1.0.0" `
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 
     # Version Name
@@ -79,7 +79,7 @@ function InitializationProgramIdentity()
 
     # Release Date
     # Date Format: DD.MM.YYYY with leading zeros
-    Set-Variable -Name "_RELEASEDATE_" -Value "30.10.2021" `
+    Set-Variable -Name "_RELEASEDATE_" -Value "28.11.2021" `
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 } # InitializationProgramIdentity()
 
