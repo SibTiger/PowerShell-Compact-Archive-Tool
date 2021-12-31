@@ -74,8 +74,7 @@ class UserPreferences
                                         [string] $projectPath, `                            # Project's absolute path
                                         [string] $outputBuildsPath, `                       # Output Builds absolute path
                                         [bool] $useGitFeatures, `                           # Utilize Git features (if software available)
-                                        [bool] $useWindowsExplorer, `                       # Use Windows Explorer
-                                        [UserPreferencesEventAlarm] $notificationType)      # Notification type to user
+                                        [bool] $useWindowsExplorer)                         # Use Windows Explorer
     {
         # if there was no previous instance of the object - then create one.
         if ($null -eq [UserPreferences]::_instance)
@@ -85,8 +84,7 @@ class UserPreferences
                                                                 $projectPath, `
                                                                 $outputBuildsPath, `
                                                                 $useGitFeatures, `
-                                                                $useWindowsExplorer, `
-                                                                $notificationType);
+                                                                $useWindowsExplorer);
         } # If: No Singleton Instance
 
         # Provide an instance of the object.
@@ -136,12 +134,6 @@ class UserPreferences
     Hidden [bool] $__useWindowsExplorer;
 
 
-    # Bell Events
-    # ---------------
-    # The user can be able to pick which event is giving with an audible notification.
-    Hidden [UserPreferencesEventAlarm] $__notificationType;
-
-
     # Show Hidden Menus and Options
     # ---------------
     # When true, this will enforce all menus to be visible to the user.
@@ -183,9 +175,6 @@ class UserPreferences
         # Use Windows Explorer
         $this.__useWindowsExplorer = $true;
 
-        # Bell Events
-        $this.__notificationType = [UserPreferencesEventAlarm]::Everything;
-
         # Show all menus
         $this.__showHiddenMenu = $false;
 
@@ -202,7 +191,6 @@ class UserPreferences
                     [string] $outputBuildsPath, `
                     [bool] $useGitFeatures, `
                     [bool] $useWindowsExplorer, `
-                    [UserPreferencesEventAlarm] $notificationType, `
                     [bool] $showHiddenMenu)
     {
         # Compression Tool
@@ -219,9 +207,6 @@ class UserPreferences
 
         # Use Windows Explorer
         $this.__useWindowsExplorer = $useWindowsExplorer;
-
-        # Bell Events
-        $this.__notificationType = $notificationType;
 
         # Show all menus
         $this.__showHiddenMenu = $showHiddenMenu;
@@ -322,24 +307,6 @@ class UserPreferences
     {
         return $this.__useWindowsExplorer;
     } # GetUseWindowsExplorer()
-
-
-
-
-   <# Get Bell Events
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'Bell Events' variable.
-    # -------------------------------
-    # Output:
-    #  [UserPreferencesEventAlarm] Bell Events
-    #   The value of the Bell Events.
-    # -------------------------------
-    #>
-    [UserPreferencesEventAlarm] GetBellEvents()
-    {
-        return $this.__notificationType;
-    } # GetBellEvents()
 
 
 
@@ -570,36 +537,6 @@ class UserPreferences
         return $true;
     } # SetShowHiddenMenu()
 
-
-
-
-   <# Set Bell Events
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Bell Events' variable.
-    # -------------------------------
-    # Input:
-    #  [UserPreferencesEventAlarm] Bell Events Type
-    #   User's choice of how the application will notify the end-user based on an event and\or action.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetBellEvents([UserPreferencesEventAlarm] $newVal)
-    {
-        # Because the value must fit within the 'UserPreferencesEventAlarm'
-        #  datatype, there really is no point in checking if the new requested
-        #  value is 'legal'.  Thus, we are going to trust the value and
-        #  automatically return success.
-        $this.__notificationType = $newVal;
-
-        # Successfully updated.
-        return $true;
-    } # SetBellEvents()
-
     #endregion
 } # UserPreferences
 
@@ -619,21 +556,3 @@ enum UserPreferencesCompressTool
     InternalZip = 0; # Microsoft's .NET 4.5 (or later)
     SevenZip    = 1; # 7Zip's 7Za (CLI)
 } # UserPreferencesCompressTool
-
-
-
-
-<# User Preferences Event Alarm [ENUM]
- # -------------------------------
- # Associated with what type of audible notification the user wishes to receive.  These
- #  notifications are based on certain events that can occur during the program's run-time.
- # -------------------------------
- #>
-enum UserPreferencesEventAlarm
-{
-    Everything  = 0; # Everything will sound an alarm.
-    Success     = 1; # Only successful operations will sound an alarm.
-    Errors      = 2; # Only errors will sound an alarm.
-    Warnings    = 3; # Only warnings will sound an alarm.
-    Disable     = 4; # Do not provide any sounds regardless of any events.
-} # UserPreferencesEventAlarm
