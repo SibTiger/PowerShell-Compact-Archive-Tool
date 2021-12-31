@@ -349,7 +349,7 @@ class SettingsGeneralProgram
     # -------------------------------
     # Input:
     #  [bool] (REFERENCE) Compression Tool
-    #   User provides their preferred Compression Tool softwar.e
+    #   User provides their preferred Compression Tool software
     #  [bool] (REFERENCE) Use Git Features
     #   Provides the ability to allow the use of Git Features.
     #  [bool] (REFERENCE) Use Windows Features
