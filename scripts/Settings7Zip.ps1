@@ -107,7 +107,6 @@ class Settings7Zip
         [string] $currentSettingVerifyBuild = $NULL;                # Verify Build
         [string] $currentSettingGenerateReport = $NULL;             # Generate Report
         [string] $currentSettingGenerateReportPDF = $NULL;          # Generate PDF Report
-        [string] $currentSettingMultithreadedOperations = $NULL;    # Multithreaded Operations
         [string] $currentSettingCompressionMethod = $NULL;          # Compression Method
 
         # These variables will determine what menus are to be hidden from the user,
@@ -117,7 +116,6 @@ class Settings7Zip
         [bool] $showMenuCompressionMethod = $true;      # Compression Method
         [bool] $showMenuZipAlgorithms = $true;          # Zip Algorithms
         [bool] $showMenu7ZipAlgorithms = $true;         # 7Zip Algorithms
-        [bool] $showMenuMultithread = $true;            # Multithreaded Operations
         [bool] $showMenuCompressionLevel = $true;       # Compression Level
         [bool] $showMenuVerifyBuild = $true;            # Verify Build
         [bool] $ShowMenuGenerateReport = $true;         # Generate Report
@@ -129,7 +127,6 @@ class Settings7Zip
 
         # Retrieve the current settings and determine the wording before we generate the menu.
         [Settings7Zip]::__DrawMenuDecipherCurrentSettings([ref] $currentSettingCompressionMethod, `             # Compression Level
-                                                            [ref] $currentSettingMultithreadedOperations, `     # Multithreaded Operations
                                                             [ref] $currentSettingCompressionLevel, `            # Compression Level
                                                             [ref] $currentSettingVerifyBuild, `                 # Verify Build
                                                             [ref] $currentSettingGenerateReport, `              # Generate Report
@@ -141,7 +138,6 @@ class Settings7Zip
                                                         [ref] $showMenuCompressionMethod, `     # Compression Method
                                                         [ref] $showMenuZipAlgorithms, `         # Zip Algorithms
                                                         [ref] $showMenu7ZipAlgorithms, `        # 7Zip Algorithms
-                                                        [ref] $showMenuMultithread, `           # Multithreaded Operations
                                                         [ref] $showMenuCompressionLevel, `      # Compression Level
                                                         [ref] $showMenuVerifyBuild, `           # Verify Build
                                                         [ref] $ShowMenuGenerateReport);         # Generate Report
@@ -193,17 +189,6 @@ class Settings7Zip
                                     "Current 7Zip Algorithm: $($sevenZip.GetAlgorithm7Zip())", `
                                     $true);
         } # If: Show 7Zip Algorithm
-
-
-        # Allow or disallow the ability to use Multithreading
-        if ($showMenuMultithread)
-        {
-            [CommonCUI]::DrawMenuItem('M', `
-                                    "Multithread Operations", `
-                                    "Provides the ability to use more than one core or microprocessor.", `
-                                    "Multithreaded Operations is presently: $($currentSettingMultithreadedOperations)", `
-                                    $true);
-        } # If: Show Multithread
 
 
         # Specify Compression Level
@@ -282,8 +267,6 @@ class Settings7Zip
     # Input:
     #  [string] (REFERENCE) Compression Method
     #   Determines which compression method will be used, either 7Zip or Zip.
-    #  [string] (REFERENCE) Multithreaded Operations
-    #   Specifies if 7Zip can utilize more than just one Core\Microprocessor from the host.
     #  [string] (REFERENCE) Compression Level
     #   Determines the current compression level that is presently configured.
     #  [string] (REFERENCE) Verify Build
@@ -294,7 +277,6 @@ class Settings7Zip
     # -------------------------------
     #>
     hidden static [void] __DrawMenuDecipherCurrentSettings([ref] $compressionMethod, `          # Compression Method
-                                                            [ref] $multithreadedOperations, `   # Multithreaded Operations
                                                             [ref] $compressionLevel, `          # Compression Level
                                                             [ref] $verifyBuild, `               # Verify Build
                                                             [ref] $generateReport, `            # Generate Report
@@ -342,28 +324,6 @@ class Settings7Zip
                 break;
             } # Error Case
         } # Switch : Decipher Enumerator Value
-
-
-
-        # - - - - - - - - - - - - - - - - - - - - - -
-        # - - - - - - - - - - - - - - - - - - - - - -
-
-
-
-        # Multithreaded Operations
-        # Allow 7Zip to use more than one Core\Microprocessor
-        if($sevenZip.GetUseMultithread())
-        {
-            # Set the string that will be displayed
-            $multithreadedOperations.Value = "Yes";
-        } # if: Use more than one Core\Processor
-
-        # Do not allow 7Zip to use more than one Core\Microprocessor
-        else
-        {
-            # Set the string that will be displayed
-            $multithreadedOperations.Value = "No";
-        } # else: Do not use more than one Core\Processor
 
 
 
@@ -523,8 +483,6 @@ class Settings7Zip
     #   Provides the ability to use a specific Zip Algorithm.
     #  [bool] (REFERENCE) 7Zip Algorithm
     #   Provides the ability to use a specific 7Zip Algorithm.
-    #  [bool] (REFERENCE) Multithread
-    #   Allows the ability to use multithreaded operations where available.
     #  [bool] (REFERENCE) Compression Level
     #   Determines how tightly to compact the data within the archive datafile.
     #  [bool] (REFERENCE) Verify Build
@@ -537,7 +495,6 @@ class Settings7Zip
                                                         [ref] $showMenuCompressionMethod, `     # Compression Method
                                                         [ref] $showMenuZipAlgorithms, `         # Zip Algorithms
                                                         [ref] $showMenu7ZipAlgorithms, `        # 7Zip Algorithms
-                                                        [ref] $showMenuMultithread, `           # Multithreaded Operations
                                                         [ref] $showMenuCompressionLevel, `      # Compression Level
                                                         [ref] $showMenuVerifyBuild, `           # Verify Build
                                                         [ref] $ShowMenuGenerateReport)          # Generate Report
@@ -549,10 +506,6 @@ class Settings7Zip
 
         # Retrieve the User Preferences object
         [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
-
-        # To help us out later, we will use this variable to determine if multithreading
-        #  is possible on the system.
-        [bool] $multithreadSystemDetected = $false;
         # ----------------------------------------
 
 
@@ -648,43 +601,6 @@ class Settings7Zip
         {
             $showMenu7ZipAlgorithms.Value = $false;
         } # Else: 7Zip Algorithm is Hidden
-
-
-
-
-        # - - - - - - - - - - - - - - - - - - - - - -
-        # - - - - - - - - - - - - - - - - - - - - - -
-
-
-
-
-        # Try to determine if the host supports multithreaded operations.
-        if ([SystemInformation]::SupportMultipleThreads())
-        {
-            # System supports multithreaded operations
-            $multithreadSystemDetected = $true;
-        } # If: System Supports Multithreading
-
-
-        # Show Menu: Multithreaded Operations
-        #  Show the Multithreaded Operations if the following conditions are true:
-        #   - Compression Tool is 7Zip
-        #   - Found 7Zip
-        #   - Detected more than one core\microprocessor
-        #   OR
-        #   - Show Hidden Menus
-        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) `
-                -and [CommonFunctions]::IsAvailable7Zip() -and $multithreadSystemDetected) `
-                -or $userPreferences.GetShowHiddenMenu())
-        {
-            $showMenuMultithread.Value = $true;
-        } # If: Multithreaded Operations is Visible
-
-        # Multithreaded Operations is hidden
-        else
-        {
-            $showMenuMultithread.Value = $false;
-        } # Else: Multithreaded Operations is Hidden
 
 
 
@@ -803,7 +719,6 @@ class Settings7Zip
         [bool] $showMenuCompressionMethod = $true;      # Compression Method
         [bool] $showMenuZipAlgorithms = $true;          # Zip Algorithms
         [bool] $showMenu7ZipAlgorithms = $true;         # 7Zip Algorithms
-        [bool] $showMenuMultithread = $true;            # Multithreaded Operations
         [bool] $showMenuCompressionLevel = $true;       # Compression Level
         [bool] $showMenuVerifyBuild = $true;            # Verify Build
         [bool] $ShowMenuGenerateReport = $true;         # Generate Report
@@ -815,7 +730,6 @@ class Settings7Zip
                                                         [ref] $showMenuCompressionMethod, `     # Compression Method
                                                         [ref] $showMenuZipAlgorithms, `         # Zip Algorithms
                                                         [ref] $showMenu7ZipAlgorithms, `        # 7Zip Algorithms
-                                                        [ref] $showMenuMultithread, `           # Multithreaded Operations
                                                         [ref] $showMenuCompressionLevel, `      # Compression Level
                                                         [ref] $showMenuVerifyBuild, `           # Verify Build
                                                         [ref] $ShowMenuGenerateReport);         # Generate Report
@@ -889,24 +803,6 @@ class Settings7Zip
                 # Finished
                 break;
             } # 7Zip Algorithm
-
-
-
-            # Multithreaded Operations
-            #  NOTE: Allow the user's request when they type: 'Multithreaded Operations',
-            #           'Multithread', as well as 'M'.
-            {($showMenuMultithread) -and `
-                (($_ -eq "M") -or `
-                    ($_ -eq "Multithreaded Operations") -or `
-                    ($_ -eq "Multithread"))}
-            {
-                # Allow the user to enable or disable the Multithread feature in 7Zip
-                [Settings7Zip]::__UseMultithread();
-
-
-                # Finished
-                break;
-            } # Multithreaded Operations
 
 
 
@@ -2367,277 +2263,6 @@ class Settings7Zip
         # Finished with the operation; return back to the current menu.
         return $true;
     } # __EvaluateExecuteUserRequestAlgorithm7Zip()
-    #endregion
-
-
-
-
-
-    #region Use Multithread
-    #                                      Use Multithread
-    # ==========================================================================================
-    # ------------------------------------------------------------------------------------------
-    # ------------------------------------------------------------------------------------------
-    # ==========================================================================================
-
-
-
-
-
-   <# UseMultithread
-    # -------------------------------
-    # Documentation:
-    #  This function will allow the user the ability to enable 7Zip's Multithreaded operations (if available).
-    # -------------------------------
-    #>
-    hidden static [void] __UseMultithread()
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # This variable will hold the user's input as they navigate within the menu.
-        [string] $userInput = $null;
-
-        # This variable will determine if the user is to remain within the current menu loop.
-        #  If the user were to exit from the menu, this variable's state will be set as false.
-        #  Thus, with a false value - they may leave from the menu.
-        [bool] $menuLoop = $true;
-
-        # Retrieve the current instance of the 7Zip object; this contains the user's settings
-        #  when using the 7Zip application.
-        [SevenZip] $sevenZip = [SevenZip]::GetInstance();
-
-        # We will use this variable to make the string that is displayed to the user - a bit easier to read.
-        #  Further, we could use a simple if conditional statement below where we ultimately just display the
-        #  results, but lets keep the code nicer to read for our own benefit instead.
-        [string] $decipherNiceString = $null;
-        # ----------------------------------------
-
-
-        # Open the Use Multithread Configuration menu
-        #  Keep the user within the menu until they request to return back to the previous menu.
-        do
-        {
-            # Determine the current state of the Use Multithread variable, then make it easier for the user
-            #  to understand the current setting.
-            # Multithreaded Operations are enabled
-            if ($sevenZip.GetUseMultithread())
-            {
-                # Set the message that the Multithreaded option is presently activated.
-                $decipherNiceString = "I will have 7Zip use multithreaded operations where available.";
-            } # If : Multithread is Enabled
-
-            # Multithreaded Operations are disabled
-            else
-            {
-                # Set the message that the multithreaded option is presently deactivated.
-                $decipherNiceString = "I will not have 7Zip use multithreaded operations.";
-            } # Else : Multithread is Disabled
-
-
-
-            # Clear the terminal of all previous text; keep the space clean so that it is easy
-            #  for the user to read and follow along.
-            [CommonIO]::ClearBuffer();
-
-            # Draw Program Information Header
-            [CommonCUI]::DrawProgramTitleHeader();
-
-            # Show the user that they are at the Use Multithread menu
-            [CommonCUI]::DrawSectionHeader("Use Multithread");
-
-            # Show to the user the current state of the 'Use Multithread' variable that is presently set within the program.
-            [Logging]::DisplayMessage($decipherNiceString);
-
-            # Provide some extra white spacing so that it is easier to read for the user
-            [Logging]::DisplayMessage("`r`n`r`n");
-
-            # Display the instructions to the user
-            [CommonCUI]::DrawMenuInstructions();
-
-            # Draw the menu list to the user
-            [Settings7Zip]::__DrawMenuUseMultithread();
-
-            # Provide some extra padding
-            [Logging]::DisplayMessage("`r`n");
-
-            # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
-
-            # Execute the user's request
-            $menuLoop = [Settings7Zip]::__EvaluateExecuteUserRequestUseMultithread($userInput);
-        } while ($menuLoop);
-    } # __UseMultithread()
-
-
-
-
-   <# Draw Menu: Use Multithread
-    # -------------------------------
-    # Documentation:
-    #  This function will essentially draw the menu list for the Use Multithreaded operations.
-    #   Thus, this provides the ability to enable or disable the use of Multithreaded operations in 7Zip.
-    # -------------------------------
-    #>
-    hidden static [void] __DrawMenuUseMultithread()
-    {
-        # Display the Menu List
-
-        # Enable Multithreaded Operations
-        [CommonCUI]::DrawMenuItem('E', `
-                                "Enable Multithreaded Operations", `
-                                "Use multithreaded operations where available; this may speed up larger operations.", `
-                                $NULL, `
-                                $true);
-
-
-        # Disable Multithreaded Operations
-        [CommonCUI]::DrawMenuItem('D', `
-                                "Disable Multithreaded Operations", `
-                                "Do not use multithreaded operations.", `
-                                $NULL, `
-                                $true);
-
-
-        # Report an Issue or Feature
-        [CommonCUI]::DrawMenuItem('#', `
-                                "Report an issue or feature", `
-                                "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Online Bug Tracker.", `
-                                $NULL, `
-                                $true);
-
-
-        # Return back to the previous menu
-        [CommonCUI]::DrawMenuItem('X', `
-                                "Cancel", `
-                                "Return back to the previous menu.", `
-                                $NULL, `
-                                $true);
-    } # __DrawMenuUseMultithread()
-
-
-
-
-   <# Evaluate and Execute User's Request: Use Multithread
-    # -------------------------------
-    # Documentation:
-    #  This function will evaluate and execute the user's desired request in respect to
-    #   the menu options that were provided to them.
-    # -------------------------------
-    # Input:
-    #  [string] User's Request
-    #   This will provide the user's desired request to run an operation or to access
-    #    a specific functionality.
-    # -------------------------------
-    # Output:
-    #  [bool] User Stays at Menu
-    #   This defines if the user is to remain at the Menu screen.
-    #       $true  = User is to remain at the Menu.
-    #       $false = User requested to leave the Menu.
-    # -------------------------------
-    #>
-    hidden static [bool] __EvaluateExecuteUserRequestUseMultithread([string] $userRequest)
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # We will use this instance so that we can apply the new changes to the object.
-        [SevenZip] $sevenZip = [SevenZip]::GetInstance();
-        # ----------------------------------------
-
-
-        # Evaluate the user's request
-        switch ($userRequest)
-        {
-            # Enable the Use Multithread
-            #  NOTE: Allow the user's request when they type: "True", "T", "On", as well as "E".
-            {($_ -eq "E") -or `
-                ($_ -eq "On") -or `
-                ($_ -eq "T") -or `
-                ($_ -eq "True")}
-            {
-                # Enable the use of Multithreaded Operations in 7Zip
-                $sevenZip.SetUseMultithread($true);
-
-
-                # Finished
-                break;
-            } # Selected Enable Multithread
-
-
-            # Disable the Use Multithread
-            #  NOTE: Allow the user's request when they type: "False", "F", "Off", as well as "D".
-            {($_ -eq "D") -or `
-                ($_ -eq "Off") -or `
-                ($_ -eq "F") -or `
-                ($_ -eq "False")}
-            {
-                # Disable the use of Multithreaded Operations in 7Zip
-                $sevenZip.SetUseMultithread($false);
-
-
-                # Finished
-                break;
-            } # Selected Disabled Multithread
-
-
-            # Access the Program's Bug Tracker
-            #  NOTE: Allow the user's request when they type: 'Report' or '#'.
-            {($_ -eq "#") -or `
-                ($_ -eq "Report")}
-            {
-                # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
-                                                            $true))                                                 ` # Override the user's settings; access webpage
-                {
-                    # Alert the user that the web functionality did not successfully work as intended.
-                    [Notifications]::Notify([NotificationEventType]::Error);
-                } # If : Failed to Provide Webpage
-
-
-                # Finished
-                break;
-            } # Access Help Program's Documentation
-
-
-            # Exit
-            #  NOTE: Allow the user's request when they type: 'Exit', 'Cancel', 'Return',
-            #         as well as 'X'.
-            #         This can come handy if the user is in a panic - remember that the terminal
-            #         is intimidating for some which may cause user's to panic, and this can be
-            #         helpful if user's are just used to typing 'Exit' or perhaps 'Quit'.
-            {($_ -eq "X") -or `
-                ($_ -eq "Exit") -or `
-                ($_ -eq "Cancel") -or `
-                ($_ -eq "Return")}
-            {
-                # Return back to the previous menu
-                return $false;
-            } # Exit
-
-
-
-            # Unknown Option
-            default
-            {
-                # Alert the user that they had provided an incorrect option.
-                [Notifications]::Notify([NotificationEventType]::IncorrectOption);
-
-
-                # Provide an error message to the user that the option they chose is
-                #  not available.
-                [CommonCUI]::DrawIncorrectMenuOption();
-
-
-                # Finished
-                break;
-            } # Unknown Option
-        } # Switch : Evaluate User's Request
-
-
-
-        # Finished with the operation; return back to the current menu.
-        return $true;
-    } # __EvaluateExecuteUserRequestUseMultithread()
     #endregion
 
 
