@@ -991,30 +991,6 @@
 
 
 
-        # USER PREFERENCES -- NOTIFICATION TYPE
-        # - - - - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Notification Type
-            $userPref.SetBellEvents([int32]$cachedUserConfig[0].__notificationType);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__notificationType", `                               # The Variable Name
-                                    "User Preferences", `                                   # The Variable Category
-                                    [string]$cachedUserConfig[0].__notificationType, `      # Value Stored in Config
-                                    [string]$userPref.GetBellEvents(), `                    # Current Value
-                                    $_.Exception);                                          # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
         # USER PREFERENCES -- SHOW HIDDEN MENUS AND OPTIONS
         # - - - - - - - - - - - - - - - - - - - - - - - - - -
         try

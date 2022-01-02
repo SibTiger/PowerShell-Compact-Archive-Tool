@@ -53,31 +53,12 @@ class Notifications
     #>
     static [void] Notify([NotificationEventType] $eventTriggered)
     {
-        # Declarations and Initializations
-        # -----------------------------------------
-        # Retrieve the User's Preferences
-        [UserPreferences] $userPref = [UserPreferences]::GetInstance();
-        # -----------------------------------------
-
-
-
-        # If incase the user does not wish to be notified of any events
-        #  that had just occurred, then we will merely escape from this function.
-        if ($userPref.GetBellEvents() -eq [UserPreferencesEventAlarm]::Disable)
-        {
-            # User does not wish to be notified
-            return;
-        } # if : Do Not Notify User
-
-
         # Determine the type of notification that had just occurred, and evaluate
         #  if user is to be notified regarding the event.
         switch ($eventTriggered)
         {
             # Successful operation
-            {($_ -eq [NotificationEventType]::Success) -and `
-                (($userPref.GetBellEvents() -eq [UserPreferencesEventAlarm]::Everything) -or `
-                 ($userPref.GetBellEvents() -eq [UserPreferencesEventAlarm]::Success))}
+            {($_ -eq [NotificationEventType]::Success)}
             {
                 # Play Asterisk sound
                 [Notifications]::__PlaySoundAsterisk();
@@ -85,9 +66,7 @@ class Notifications
 
 
             # Error had been reached
-            {($_ -eq [NotificationEventType]::Error) -and `
-                (($userPref.GetBellEvents() -eq [UserPreferencesEventAlarm]::Everything) -or `
-                 ($userPref.GetBellEvents() -eq [UserPreferencesEventAlarm]::Errors))}
+            {($_ -eq [NotificationEventType]::Error)}
             {
                 # Play Critical Error sound
                 [Notifications]::__PlaySoundHand();
@@ -95,9 +74,7 @@ class Notifications
 
 
             # A specific warning had been reached
-            {($_ -eq [NotificationEventType]::Warning) -and `
-                (($userPref.GetBellEvents() -eq [UserPreferencesEventAlarm]::Everything) -or `
-                 ($userPref.GetBellEvents() -eq [UserPreferencesEventAlarm]::Warnings))}
+            {($_ -eq [NotificationEventType]::Warning)}
             {
                 # Play Exclamation sound
                 [Notifications]::__PlaySoundExclamation();
@@ -105,9 +82,7 @@ class Notifications
 
 
             # User provided an incorrect option
-            {($_ -eq [NotificationEventType]::IncorrectOption) -and `
-                (($userPref.GetBellEvents() -eq [UserPreferencesEventAlarm]::Everything) -or `
-                 ($userPref.GetBellEvents() -eq [UserPreferencesEventAlarm]::Errors))}
+            {($_ -eq [NotificationEventType]::IncorrectOption)}
             {
                 # Play Critical Error sound
                 [Notifications]::__PlaySoundBeep();
