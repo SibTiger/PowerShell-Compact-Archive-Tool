@@ -84,7 +84,6 @@ class SevenZip
                                     [SevenZipCompressionMethod] $compressionMethod, `   # Create Zip or 7Zip archive datafiles
                                     [SevenZipAlgorithmZip] $algorithmZip, `             # Algorithm to use for ZIP
                                     [SevenZipAlgorithm7Zip] $algorithm7Zip, `           # Algorithm to use for the 7Zip
-                                    [bool] $useMultithread, `                           # Use Multithreaded operations
                                     [SevenZipCompressionLevel] $compressionLevel, `     # Compression Level
                                     [bool] $verifyBuild, `                              # Verify Archive datafile
                                     [bool] $generateReport, `                           # Create report
@@ -98,7 +97,6 @@ class SevenZip
                                                     $compressionMethod, `
                                                     $algorithmZip, `
                                                     $algorithm7Zip, `
-                                                    $useMultithread, `
                                                     $compressionLevel, `
                                                     $verifyBuild, `
                                                     $generateReport, `
@@ -148,21 +146,6 @@ class SevenZip
     # The compression algorithm that will be used when compacting the 7Zip (PK7)
     #  archive files.
     Hidden [SevenZipAlgorithm7Zip] $__algorithm7Zip;
-
-
-    # Use Multithread
-    # ---------------
-    # 7Zip's multithreaded functionality
-    #  When this is true, 7Zip will use multiple threads for compression and
-    #  decompression operations - if supported by the various algorithms used
-    #  for the archive compression methods.
-    #   Supported Algorithms in Zip:
-    #    - BZip2
-    #   Supported Algorithms in 7Zip:
-    #    - LZMA
-    #    - LZMA2
-    #    - BZip2
-    Hidden [bool] $__useMultithread;
 
 
     # Compression Level
@@ -254,9 +237,6 @@ class SevenZip
         # Algorithm [7Zip]
         $this.__algorithm7Zip = [SevenZipAlgorithm7Zip]::LZMA2;
 
-        # Multithreaded Support
-        $this.__useMultithread = $true;
-
         # Compression Level
         $this.__compressionLevel = [SevenZipCompressionLevel]::Normal;
 
@@ -290,7 +270,6 @@ class SevenZip
             [SevenZipCompressionMethod] $compressionMethod, `
             [SevenZipAlgorithmZip] $algorithmZip, `
             [SevenZipAlgorithm7Zip] $algorithm7Zip, `
-            [bool] $useMultithread, `
             [SevenZipCompressionLevel] $compressionLevel, `
             [bool] $verifyBuild, `
             [bool] $generateReport, `
@@ -307,9 +286,6 @@ class SevenZip
 
         # Algorithm [7Zip]
         $this.__algorithm7Zip = $algorithm7Zip;
-
-        # Multithreaded Support
-        $this.__useMultithread = $useMultithread;
 
         # Compression Level
         $this.__compressionLevel = $compressionLevel;
@@ -410,24 +386,6 @@ class SevenZip
     {
         return $this.__algorithm7Zip;
     } # GetAlgorithm7Zip()
-
-
-
-
-   <# Get Use Multithread
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'Use Multithread' variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Use Multithread
-    #   The value of the 'Use Multithread'.
-    # -------------------------------
-    #>
-    [bool] GetUseMultithread()
-    {
-        return $this.__useMultithread;
-    } # GetUseMultithread()
 
 
 
@@ -702,37 +660,6 @@ class SevenZip
         # Successfully updated.
         return $true;
     } # SetAlgorithm7Zip()
-
-
-
-
-   <# Set Use Multithread
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Use Multithread' variable.
-    # -------------------------------
-    # Input:
-    #  [bool] Use Multithread
-    #   When true, this will allow 7Zip to utilize multiple threads on
-    #    the host system's CPU.  Otherwise, only one thread will be used.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetUseMultithread([bool] $newVal)
-    {
-        # Because the value is either true or false, there really is no
-        #  point in checking if the new requested value is 'legal'.
-        #  Thus, we are going to trust the value and automatically
-        #  return success.
-        $this.__useMultithread = $newVal;
-
-        # Successfully updated.
-        return $true;
-    } # SetUseMultithread()
 
 
 
@@ -3045,21 +2972,6 @@ class SevenZip
                 return $false;
             } # Unknown
         } # switch
-
-
-
-        # Append the Multithreading Value
-        if ($this.GetUseMultithread() -eq $true)
-        {
-            # Enable the multithreaded operations.
-            $extCMDArgs = "$($extCMDArgs) -mmt=ON";
-        } # if : Enable Multithreading
-
-        else
-        {
-            # Disable the multithreaded operations.
-            $extCMDArgs = "$($extCMDArgs) -mmt=OFF";
-        } # else : Disable Multithreading
 
 
 

@@ -1367,30 +1367,6 @@
 
 
 
-        # 7ZIP SETTINGS -- USE MULTITHREADING
-        # - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Use Multithreading
-            $sevenZipObj.SetUseMultithread([bool]$cachedUserConfig[2].__useMultithread);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__useMultithread", `                                 # The Variable Name
-                                    "7Zip Settings", `                                      # The Variable Category
-                                    [string]$cachedUserConfig[2].__useMultithread, `        # Value Stored in Config
-                                    [string]$sevenZipObj.GetUseMultithread(), `             # Current Value
-                                    $_.Exception);                                          # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
         # 7ZIP SETTINGS -- COMPRESSION LEVEL
         # - - - - - - - - - - - - - - - - - - - - - - -
         try
