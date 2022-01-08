@@ -80,6 +80,9 @@ function InitializationProgramIdentity()
     # Release Date
     # Date Format: DD.MM.YYYY with leading zeros
     Set-Variable -Name "_RELEASEDATE_" -Value "28.11.2021" `
+
+    # License
+    Set-Variable -Name "_LICENSE_" -Value "GNU General Public License v3.0" `
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 } # InitializationProgramIdentity()
 
