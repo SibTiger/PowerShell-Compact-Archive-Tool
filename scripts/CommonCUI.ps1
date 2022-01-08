@@ -470,6 +470,9 @@ class CommonCUI
 
 
         # Display the information to the user
+        # Main Author and Developer of the Program
+        [Logging]::DisplayMessage("Main Author and Developer:`r`n`tNicholas Gautier - Nicholas.Gautier@Outlook.com");
+
         # Name of the program
         [Logging]::DisplayMessage("Program Name:`r`n`t$($Global:_PROGRAMNAME_)");
 
