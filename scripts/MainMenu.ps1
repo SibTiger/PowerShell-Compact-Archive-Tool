@@ -159,6 +159,12 @@ class MainMenu
                                 $NULL, `
                                 $true);
 
+        [CommonCUI]::DrawMenuItem('A', `
+                                "About $($GLOBAL:_PROGRAMNAME_)", `
+                                "Access the $($Global:_PROGRAMNAME_) About information", `
+                                $NULL, `
+                                $true);
+
         [CommonCUI]::DrawMenuItem('?', `
                                 "Help Documentation", `
                                 "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Wiki documentation online.", `
@@ -341,6 +347,29 @@ class MainMenu
                 # Finished
                 break;
             } # Update Software
+
+
+            # About the Software
+            # NOTE: Allow the user's request when they type: 'About' or 'A'.
+            {($_ -eq "A") -or `
+                ($_ -eq "About")}
+            {
+                # Open the About page
+                [CommonCUI]::DrawProgramAboutInformation();
+
+
+                # Add some padding in the terminal
+                [Logging]::DisplayMessage("`r`n`r`n");
+
+
+                # Allow the user to read the results before returning back
+                #   to the menu.
+                [Logging]::GetUserEnterKey();
+
+
+                # Finished
+                break;
+            } # About the Software
 
 
             # Access the Help Program's Documentation

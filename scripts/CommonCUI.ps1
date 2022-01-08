@@ -444,6 +444,60 @@ class CommonCUI
 
 
 
+   <# Draw Program About Information
+    # -------------------------------
+    # Documentation:
+    #  This function will provide basic information regarding the program.  This may prove to
+    #   be useful if the user would like to view the information if wanting to know:
+    #   - Program Name
+    #   - Program Version
+    #   - License
+    #   - Release Date
+    #   - Website Links
+    # -------------------------------
+    #>
+    static [void] DrawProgramAboutInformation()
+    {
+        # Clear the Terminal's output buffer
+        [CommonIO]::ClearBuffer();
+
+        # Display the Program Title
+        [CommonCUI]::DrawProgramTitleHeader();
+
+
+        # Show the user that they are at the Program's About Section
+        [CommonCUI]::DrawSectionHeader("About $($Global:_PROGRAMNAME_)");
+
+
+        # Display the information to the user
+        # Main Author and Developer of the Program
+        [Logging]::DisplayMessage("Main Author and Developer:`r`n`tNicholas Gautier - Nicholas.Gautier@Outlook.com");
+
+        # Name of the program
+        [Logging]::DisplayMessage("Program Name:`r`n`t$($Global:_PROGRAMNAME_)");
+
+        # Program's Version information
+        [Logging]::DisplayMessage("Program Version:`r`n`t$($Global:_VERSION_) - (Version Name: $($Global:_VERSIONNAME_))");
+
+        # Program's Version Release Date
+        [Logging]::DisplayMessage("Version Released Date:`r`n`t$($Global:_RELEASEDATE_)");
+
+        # Program's License
+        [Logging]::DisplayMessage("License:`r`n`t$($Global:_LICENSE_)");
+
+        # Program's Homepage
+        [Logging]::DisplayMessage("Homepage:`r`n`t$($Global:_PROGRAMSITEHOMEPAGE_)");
+
+        # Program's Release Page
+        [Logging]::DisplayMessage("Downloads:`r`n`t$($Global:_PROGRAMSITEDOWNLOADS_)");
+
+        # Program's Wiki Page
+        [Logging]::DisplayMessage("Documentation:`r`n`t$($Global:_PROGRAMSITEWIKI_)");
+    } # DrawProgramAbout()
+
+
+
+
    <# Get User Input
     # -------------------------------
     # Documentation:
