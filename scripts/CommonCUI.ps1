@@ -638,6 +638,27 @@ class CommonCUI
         # Display the final formatted message
         [Logging]::DisplayMessage($formattedMessage);
     } # DrawFormattedList()
+
+
+
+
+   <# Start-Up Screen
+    # -------------------------------
+    # Documentation:
+    #  This function is essentially like a splash-screen feature, but for the terminal.
+    #   With this feature, it may provide some information regarding the application
+    #   such as: the program's version, release details, license, and much more.
+    #   The Start-Up Screen is only to last for a few seconds, no more than.
+    # -------------------------------
+    #>
+    static [void] StartUpScreen()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # ----------------------------------------
+
+
+    } # StartUpScreen()
 } # CommonCUI
 
 
