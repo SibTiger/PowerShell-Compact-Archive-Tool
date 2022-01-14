@@ -670,6 +670,11 @@ class CommonCUI
     #  This function merely helps to setup the Word Art that will be used for
     #   the application's startup screen.  I use this function such that I may
     #   easily setup the appropriate word art as needed.
+    #
+    # Word Art for the report's header were provided by this website:
+    #  http://patorjk.com/software/taag
+    #  FONT: Doh
+    #  All other settings set to 'default'.
     # -------------------------------
     #>
     static [string] StartUpScreenWordArt()
