@@ -659,6 +659,54 @@ class CommonCUI
 
 
     } # StartUpScreen()
+
+
+
+
+   <# Start-Up Screen - Word Art
+    # -------------------------------
+    # Documentation:
+    #  This function merely helps to setup the Word Art that will be used for
+    #   the application's startup screen.  I use this function such that I may
+    #   easily setup the appropriate word art as needed.
+    # -------------------------------
+    #>
+    static [string] StartUpScreenWordArt()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [string] $wordArt = $null;
+        # ----------------------------------------
+
+
+        # We will initialize the Word Art variable here, as this function provides us with plentiful room.
+        $wordArt = ("PPPPPPPPPPPPPPPPP      SSSSSSSSSSSSSSS         CCCCCCCCCCCCC               AAA         TTTTTTTTTTTTTTTTTTTTTTT`r`n" + `
+                    "P::::::::::::::::P   SS:::::::::::::::S     CCC::::::::::::C              A:::A        T:::::::::::::::::::::T`r`n" + `
+                    "P::::::PPPPPP:::::P S:::::SSSSSS::::::S   CC:::::::::::::::C             A:::::A       T:::::::::::::::::::::T`r`n" + `
+                    "PP:::::P     P:::::PS:::::S     SSSSSSS  C:::::CCCCCCCC::::C            A:::::::A      T:::::TT:::::::TT:::::T`r`n" + `
+                    "  P::::P     P:::::PS:::::S             C:::::C       CCCCCC           A:::::::::A     TTTTTT  T:::::T  TTTTTT`r`n" + `
+                    "  P::::P     P:::::PS:::::S            C:::::C                        A:::::A:::::A            T:::::T`r`n" + `
+                    "  P::::PPPPPP:::::P  S::::SSSS         C:::::C                       A:::::A A:::::A           T:::::T`r`n" + `
+                    "  P:::::::::::::PP    SS::::::SSSSS    C:::::C                      A:::::A   A:::::A          T:::::T`r`n" + `
+                    "  P::::PPPPPPPPP        SSS::::::::SS  C:::::C                     A:::::A     A:::::A         T:::::T`r`n" + `
+                    "  P::::P                   SSSSSS::::S C:::::C                    A:::::AAAAAAAAA:::::A        T:::::T`r`n" + `
+                    "  P::::P                        S:::::SC:::::C                   A:::::::::::::::::::::A       T:::::T`r`n" + `
+                    "  P::::P                        S:::::S C:::::C       CCCCCC    A:::::AAAAAAAAAAAAA:::::A      T:::::T`r`n" + `
+                    "PP::::::PP          SSSSSSS     S:::::S  C:::::CCCCCCCC::::C   A:::::A             A:::::A   TT:::::::TT`r`n" + `
+                    "P::::::::P          S::::::SSSSSS:::::S   CC:::::::::::::::C  A:::::A               A:::::A  T:::::::::T`r`n" + `
+                    "P::::::::P          S:::::::::::::::SS      CCC::::::::::::C A:::::A                 A:::::A T:::::::::T`r`n" + `
+                    "PPPPPPPPPP           SSSSSSSSSSSSSSS           CCCCCCCCCCCCCAAAAAAA                   AAAAAAATTTTTTTTTTT");
+
+
+
+        # Once initialized, then we will merely return the value as-is.
+        return $wordArt;
+    } # StartUpScreenWordArt()
+
+
+
+
+
 } # CommonCUI
 
 
