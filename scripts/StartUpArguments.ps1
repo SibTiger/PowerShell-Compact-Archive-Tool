@@ -45,5 +45,5 @@ param(
     #       Deletes all builds, logs, report files, and user configuration.
     [Parameter(Mandatory=$false)]
     [ValidateRange(0, 2)]
-    [byte]$programMode
+    [byte]$programMode = 0
 ) # Startup Arguments
