@@ -4698,6 +4698,30 @@ class CommonIO
        return [CommonIO]::AccessDirectory($directoryPath, $null);
    } # AccessDirectory()
     #endregion
+
+
+
+    #region Timers
+
+   <# Delay {Seconds}
+    # -------------------------------
+    # Documentation:
+    #  This function will provide the ability to temporarily sleep the entire application
+    #   for a specific amount of seconds.  This may prove to be useful when needing the user
+    #   to view the content - but without needing the user to provide some sort of feedback,
+    #   thus keeping the application running after the clock had ran out.
+    # -------------------------------
+    # Input:
+    #  [double] Time
+    #   How many seconds the application will be temporarily halted.
+    # -------------------------------
+    #>
+    static [void] Delay([double] $time)
+    {
+        # Momentarily delay the application
+        Start-Sleep -Seconds $time;
+    } # Delay
+    #endregion
 } # CommonIO
 
 
