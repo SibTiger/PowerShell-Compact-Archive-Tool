@@ -44,5 +44,6 @@ param(
     #   2 = Uninstall Mode
     #       Deletes all builds, logs, report files, and user configuration.
     [Parameter(Mandatory=$false)]
+    [ValidateRange(0, 2)]
     [byte]$programMode
 ) # Startup Arguments
