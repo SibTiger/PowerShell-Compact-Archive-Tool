@@ -51,12 +51,25 @@ function main()
     # ----------------------------------------
 
 
+
     # Clear the host's terminal buffer
     [CommonIO]::ClearBuffer();
 
 
     # Provide a new Window Title
     [CommonIO]::SetTerminalWindowTitle("$($Global:_PROGRAMNAME_) (Version $($Global:_VERSION_)) for $([ProjectInformation]::projectName) - $([ProjectInformation]::codeName)");
+
+
+    # Display the Startup Splash Screen
+    [CommonCUI]::StartUpScreen();
+
+
+    # Delay the program momentarily so the user can see the splash screen.
+    [CommonIO]::Delay(4);
+
+
+    # Clear the host's terminal buffer
+    [CommonIO]::ClearBuffer();
 
 
     # Load the user's configurations, if available.
