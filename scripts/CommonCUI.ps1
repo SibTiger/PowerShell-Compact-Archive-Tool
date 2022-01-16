@@ -648,17 +648,32 @@ class CommonCUI
     #  This function is essentially like a splash-screen feature, but for the terminal.
     #   With this feature, it may provide some information regarding the application
     #   such as: the program's version, release details, license, and much more.
-    #   The Start-Up Screen is only to last for a few seconds, no more than.
     # -------------------------------
     #>
     static [void] StartUpScreen()
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [string] $wordArt = [CommonCUI]::StartUpScreenWordArt();
-        # ----------------------------------------
+        # Display the creator's name and the program's full name
+        [Logging]::DisplayMessage("   Nicholas Gautier`t`t`t`t$($Global:_PROGRAMNAME_)");
 
 
+        # Display the Word Art
+        [Logging]::DisplayMessage([CommonCUI]::StartUpScreenWordArt());
+
+
+        # Display the program's license and the version
+        [Logging]::DisplayMessage("   $($Global:_LICENSE_)" + `
+                                "`t`t`t`t`t`t`t`t`t" + `
+                                "Version $($Global:_VERSION_) $($Global:_VERSIONNAME_)");
+
+
+        # Display the date that the version was released right below the version number.
+        [Logging]::DisplayMessage("`t`t`t`t`t`t`t`t`t`t`t`t`t" + `
+                                "$($Global:_RELEASEDATE_)");
+
+
+        # Let the user know that the program is about to begin.
+        [Logging]::DisplayMessage("`r`n`r`n`r`n" + `
+                                "Starting. . .");
     } # StartUpScreen()
 
 
@@ -679,46 +694,30 @@ class CommonCUI
     #>
     static [string] StartUpScreenWordArt()
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [string] $wordArt = $null;
-        # ----------------------------------------
-
-
-        # We will initialize the Word Art variable here, as this function provides us with plentiful room.
-        $wordArt = ("  //======================================================================================================================\\`r`n" + `
-                    "  |::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::|`r`n" + `
-                    "  |:                                                                                                                      :|`r`n" + `
-                    "  |:    PPPPPPPPPPPPPPPPP      SSSSSSSSSSSSSSS         CCCCCCCCCCCCC               AAA         TTTTTTTTTTTTTTTTTTTTTTT    :|`r`n" + `
-                    "  |:    P::::::::::::::::P   SS:::::::::::::::S     CCC::::::::::::C              A:::A        T:::::::::::::::::::::T    :|`r`n" + `
-                    "  |:    P::::::PPPPPP:::::P S:::::SSSSSS::::::S   CC:::::::::::::::C             A:::::A       T:::::::::::::::::::::T    :|`r`n" + `
-                    "  |:    PP:::::P     P:::::PS:::::S     SSSSSSS  C:::::CCCCCCCC::::C            A:::::::A      T:::::TT:::::::TT:::::T    :|`r`n" + `
-                    "  |:      P::::P     P:::::PS:::::S             C:::::C       CCCCCC           A:::::::::A     TTTTTT  T:::::T  TTTTTT    :|`r`n" + `
-                    "  |:      P::::P     P:::::PS:::::S            C:::::C                        A:::::A:::::A            T:::::T            :|`r`n" + `
-                    "  |:      P::::PPPPPP:::::P  S::::SSSS         C:::::C                       A:::::A A:::::A           T:::::T            :|`r`n" + `
-                    "  |:      P:::::::::::::PP    SS::::::SSSSS    C:::::C                      A:::::A   A:::::A          T:::::T            :|`r`n" + `
-                    "  |:      P::::PPPPPPPPP        SSS::::::::SS  C:::::C                     A:::::A     A:::::A         T:::::T            :|`r`n" + `
-                    "  |:      P::::P                   SSSSSS::::S C:::::C                    A:::::AAAAAAAAA:::::A        T:::::T            :|`r`n" + `
-                    "  |:      P::::P                        S:::::SC:::::C                   A:::::::::::::::::::::A       T:::::T            :|`r`n" + `
-                    "  |:      P::::P                        S:::::S C:::::C       CCCCCC    A:::::AAAAAAAAAAAAA:::::A      T:::::T            :|`r`n" + `
-                    "  |:    PP::::::PP          SSSSSSS     S:::::S  C:::::CCCCCCCC::::C   A:::::A             A:::::A   TT:::::::TT          :|`r`n" + `
-                    "  |:    P::::::::P          S::::::SSSSSS:::::S   CC:::::::::::::::C  A:::::A               A:::::A  T:::::::::T          :|`r`n" + `
-                    "  |:    P::::::::P          S:::::::::::::::SS      CCC::::::::::::C A:::::A                 A:::::A T:::::::::T          :|`r`n" + `
-                    "  |:    PPPPPPPPPP           SSSSSSSSSSSSSSS           CCCCCCCCCCCCCAAAAAAA                   AAAAAAATTTTTTTTTTT          :|`r`n" + `
-                    "  |:                                                                                                                      :|`r`n" + `
-                    "  |::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::|`r`n" + `
-                    "  \\======================================================================================================================//");
-
-
-
-        # Once initialized, then we will merely return the value as-is.
-        return $wordArt;
+        # We will craft the word art and then immediately return it.
+        return ("  //======================================================================================================================\\`r`n" + `
+                "  |::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::|`r`n" + `
+                "  |:                                                                                                                      :|`r`n" + `
+                "  |:    PPPPPPPPPPPPPPPPP      SSSSSSSSSSSSSSS         CCCCCCCCCCCCC               AAA         TTTTTTTTTTTTTTTTTTTTTTT    :|`r`n" + `
+                "  |:    P::::::::::::::::P   SS:::::::::::::::S     CCC::::::::::::C              A:::A        T:::::::::::::::::::::T    :|`r`n" + `
+                "  |:    P::::::PPPPPP:::::P S:::::SSSSSS::::::S   CC:::::::::::::::C             A:::::A       T:::::::::::::::::::::T    :|`r`n" + `
+                "  |:    PP:::::P     P:::::PS:::::S     SSSSSSS  C:::::CCCCCCCC::::C            A:::::::A      T:::::TT:::::::TT:::::T    :|`r`n" + `
+                "  |:      P::::P     P:::::PS:::::S             C:::::C       CCCCCC           A:::::::::A     TTTTTT  T:::::T  TTTTTT    :|`r`n" + `
+                "  |:      P::::P     P:::::PS:::::S            C:::::C                        A:::::A:::::A            T:::::T            :|`r`n" + `
+                "  |:      P::::PPPPPP:::::P  S::::SSSS         C:::::C                       A:::::A A:::::A           T:::::T            :|`r`n" + `
+                "  |:      P:::::::::::::PP    SS::::::SSSSS    C:::::C                      A:::::A   A:::::A          T:::::T            :|`r`n" + `
+                "  |:      P::::PPPPPPPPP        SSS::::::::SS  C:::::C                     A:::::A     A:::::A         T:::::T            :|`r`n" + `
+                "  |:      P::::P                   SSSSSS::::S C:::::C                    A:::::AAAAAAAAA:::::A        T:::::T            :|`r`n" + `
+                "  |:      P::::P                        S:::::SC:::::C                   A:::::::::::::::::::::A       T:::::T            :|`r`n" + `
+                "  |:      P::::P                        S:::::S C:::::C       CCCCCC    A:::::AAAAAAAAAAAAA:::::A      T:::::T            :|`r`n" + `
+                "  |:    PP::::::PP          SSSSSSS     S:::::S  C:::::CCCCCCCC::::C   A:::::A             A:::::A   TT:::::::TT          :|`r`n" + `
+                "  |:    P::::::::P          S::::::SSSSSS:::::S   CC:::::::::::::::C  A:::::A               A:::::A  T:::::::::T          :|`r`n" + `
+                "  |:    P::::::::P          S:::::::::::::::SS      CCC::::::::::::C A:::::A                 A:::::A T:::::::::T          :|`r`n" + `
+                "  |:    PPPPPPPPPP           SSSSSSSSSSSSSSS           CCCCCCCCCCCCCAAAAAAA                   AAAAAAATTTTTTTTTTT          :|`r`n" + `
+                "  |:                                                                                                                      :|`r`n" + `
+                "  |::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::|`r`n" + `
+                "  \\======================================================================================================================//");
     } # StartUpScreenWordArt()
-
-
-
-
-
 } # CommonCUI
 
 
