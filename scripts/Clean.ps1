@@ -60,4 +60,28 @@ function clean()
         [ValidateRange(0, 2)]
         [byte]$programMode
     )
+
+
+
+    switch ($programMode)
+    {
+        # Clean Up Mode
+        1
+        {
+            # This statement will clean the following areas:
+            #   - Logs
+            #   - Reports
+            #   - Compiled Builds
+        } # Clean Up Mode
+
+        # Uninstall Mode
+        2
+        {
+            # This statement will uninstall the program by deleting the following areas:
+            #   - Logs
+            #   -  Reports
+            #   - Compiled Builds
+            #   - User Configurations
+        } # Uninstall Mode
+    } # switch : Program Mode
 } # clean()
