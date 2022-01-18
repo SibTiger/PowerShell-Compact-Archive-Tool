@@ -57,7 +57,7 @@ function clean()
     param(
         # Deletes all builds, logs, report files, and user configuration.
         [Parameter(Mandatory=$true)]
-        [ValidateRange(0, 2)]
+        [ValidateRange(1, 2)]
         [byte]$programMode
     )
 
