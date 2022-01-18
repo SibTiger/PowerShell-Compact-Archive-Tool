@@ -135,7 +135,19 @@ CreateDirectories | Out-Null;
 
 
 
-# Execute the application and return the exit code from the Main Menu.
-#  The exit code could be an error or successful, this only depends on the
-#  operations that had been performed and what information had been gathered.
-exit main;
+# Should the program launch in Clean-Up\Uninstall mode?
+if (($programMode -gt 0) -and `
+    ($programMode -le 2))
+{
+    # Launch the cleanup\uninstall mode
+    exit clean -programMode $programMode;
+} # Clean Mode
+
+# Run the application normally
+else
+{
+    # Execute the application and return the exit code from the Main Menu.
+    #  The exit code could be an error or successful, this only depends on the
+    #  operations that had been performed and what information had been gathered.
+    exit main;
+} # Normal Mode

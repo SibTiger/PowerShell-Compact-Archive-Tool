@@ -238,6 +238,7 @@ function MakeCompilerDriver()
                         "SettingsGit.ps1", `
                         "MainMenu.ps1", `
                         "Builder.ps1", `
+                        "Clean.ps1", `
                         "main.ps1");
 
     # Loop through each index in the array
