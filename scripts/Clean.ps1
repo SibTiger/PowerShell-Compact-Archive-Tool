@@ -62,6 +62,39 @@ function clean()
     )
 
 
+    # Declarations and Initializations
+    # ----------------------------------------
+    # This variable will hold our return code.
+    [int] $exitLevel = 0;
+    # ----------------------------------------
+
+
+
+    # Clear the host's terminal buffer
+    [CommonIO]::ClearBuffer();
+
+
+    # Provide a new Window Title
+    [CommonIO]::SetTerminalWindowTitle("$($Global:_PROGRAMNAME_) (Version $($Global:_VERSION_)) for $([ProjectInformation]::projectName) - $([ProjectInformation]::codeName)");
+
+
+    # Display the Startup Splash Screen
+    [CommonCUI]::StartUpScreen();
+
+
+    # Delay the program momentarily so the user can see the splash screen.
+    [CommonIO]::Delay($Global:_STARTUPSPLASHSCREENHOLDTIME_);
+
+
+    # Load the user's configurations, if available.
+    $loadSaveUserConfiguration.Load();
+
+
+    # Let the user know that the application is preparing to perform an action
+    [CommonIO]::WriteToBuffer("Preparing Operation: ", + `
+                            [LogMessageLevel]::Standard, + `
+                            $true);
+
 
     switch ($programMode)
     {
@@ -72,6 +105,11 @@ function clean()
             #   - Logs
             #   - Reports
             #   - Compiled Builds
+
+            # Let the user know that the application is performing a clean up.
+            [CommonIO]::WriteToBuffer("Cleaning Up", + `
+                                        [LogMessageLevel]::Warning, + `
+                                        $true);
         } # Clean Up Mode
 
         # Uninstall Mode
@@ -82,6 +120,18 @@ function clean()
             #   -  Reports
             #   - Compiled Builds
             #   - User Configurations
+
+            # Let the user know that the application is uninstalling itself.
+            [CommonIO]::WriteToBuffer("Uninstalling", + `
+                                        [LogMessageLevel]::Warning, + `
+                                        $true);
         } # Uninstall Mode
     } # switch : Program Mode
+
+
+    # Restore the Window Title back to it's state.
+    [CommonIO]::SetTerminalWindowTitle($Global:_ENVIRONMENT_WINDOW_TITLE_ORIGINAL_);
+
+
+    return $exitLevel;
 } # clean()
