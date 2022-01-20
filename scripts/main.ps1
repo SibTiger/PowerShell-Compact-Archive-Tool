@@ -65,7 +65,7 @@ function main()
 
 
     # Delay the program momentarily so the user can see the splash screen.
-    [CommonIO]::Delay(4);
+    [CommonIO]::Delay($Global:_STARTUPSPLASHSCREENHOLDTIME_);
 
 
     # Clear the host's terminal buffer
