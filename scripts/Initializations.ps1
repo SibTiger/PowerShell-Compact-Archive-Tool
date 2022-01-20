@@ -155,6 +155,12 @@ function InitializationProgramData()
     #  CommonIO object.
     Set-Variable -Name "_LOGGINGLOCKKEY_" -Value $false `
         -Scope Global -ErrorAction SilentlyContinue;
+
+    # Splash Screen Hold Timer (Seconds)
+    #  How many seconds the splash screen will remain visible to the user, yet locking the
+    #  program from proceeding onwards.
+    Set-Variable -Name "_STARTUPSPLASHSCREENHOLDTIME_" -Value 4 `
+        -Scope Global -ErrorAction SilentlyContinue;
 } # InitializationProgramData()
 
 
