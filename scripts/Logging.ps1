@@ -61,6 +61,13 @@ class Logging
     # The filename of the program's log file.
     Static [string] $ProgramLogFileName = "$($GLOBAL:_PROGRAMNAMESHORT_).log";
 
+
+    # Restrict Logging Functionalities
+    # ---------------
+    # This will control the logging capabilities.  When it is true, all logging functionality
+    #   is disabled.  When false, logging is enabled - which is the default behavior.
+    Static [bool] $RestrictLogging = $false;
+
     #endregion
 
 
@@ -514,6 +521,16 @@ class Logging
         # ----------------------------------------
 
 
+        # Before we begin, check to make sure that logging functionalities are not restricted currently.
+        if ([Logging]::RestrictLogging -eq $true)
+        {
+            # Currently, the logging functionalities are currently restricted.
+            #  We cannot perform any logs at this time.
+            return $true;
+        } # if : Logging Functionalities are Restricted
+
+
+
         # Provide a horizontal border to separate the header and the initial message.
         $borderLine = "- - - - - - - - - - - - - - - - - - - - -";
 
@@ -646,6 +663,52 @@ class Logging
 
 
     #region Public Functions
+
+
+   <# Get Restrict Logging Functionality Controller
+    # -------------------------------
+    # Documentation:
+    #  This function will return the current value of the Restrict Logging Functionality
+    #   variable.  This will variable dictates if the logging features are to function
+    #   at the present time.
+    # -------------------------------
+    # Output:
+    #   [bool] Restrict Logging
+    #       $true = All logging functionalities are currently disabled.
+    #       $false = All logging functionalities are currently enabled.
+    # -------------------------------
+    #>
+    Static [bool] GetRestrictLogging()
+    {
+        return [Logging]::RestrictLogging;
+    } # GetRestrictLogging()
+
+
+
+
+   <# Set Restrict Logging Functionality Controller
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the ability to restrict all logging functionalities within the application
+    #   by toggling this particular setting.
+    #   - When the value is set to true, all logging functionalities are then halted.  This will impact
+    #       the program's logging and external application logging.
+    #   - When the value is set to false, all logging functionalities are allowed to be recorded.  This,
+    #       the default setting, allows the ability for the program to log its activities as well as
+    #       the external applications.
+    # -------------------------------
+    # Input:
+    #  [bool] New Value
+    #   $true = Logging functionality is disabled.
+    #   $false = Logging functionality is allowed.
+    # -------------------------------
+    #>
+    Static [void] SetRestrictLogging([bool] $newValue)
+    {
+        [Logging]::RestrictLogging = $newValue;
+    } # SetRestrictLogging()
+
+
 
 
    <# Get Exception Information (Short)
