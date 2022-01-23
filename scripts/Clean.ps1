@@ -129,7 +129,7 @@ function clean()
 
 
     # Disable the logging functionality
-
+    [Logging]::SetRestrictLogging($true);
 
 
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
