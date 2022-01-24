@@ -141,17 +141,52 @@ function clean()
 
 
 
-    # Delete all of the log\report files and directories
+    # Let the user know that the application is preparing to perform an action
+    [CommonIO]::WriteToBuffer("Deleting the following directories: ", + `
+                                [LogMessageLevel]::Attention, + `
+                                $true);
 
-    # Delete the application's logfile
+
+
+    # Delete all of the log\report files and directories
+    [CommonIO]::WriteToBuffer("`tLog Files`r`n`t`t$GLOBAL:_PROGRAMDATA_ROOT_LOCAL_PATH_", + `
+                                [LogMessageLevel]::Attention, + `
+                                $true);
+
+
+    if ([CommonIO]::DeleteDirectory($GLOBAL:_PROGRAMDATA_ROOT_LOCAL_PATH_))
+    {
+
+    } # if : Failed to Delete Directory - Logs\Reports
+
+
 
     # Delete the user configuration file
     if ($programMode -eq 2)
     {
+        [CommonIO]::WriteToBuffer("`User Configuration`r`n`t`t$GLOBAL:_PROGRAMDATA_ROOT_ROAMING_PATH_", + `
+                                    [LogMessageLevel]::Attention, + `
+                                    $true);
 
+
+        if ([CommonIO]::DeleteDirectory($GLOBAL:_PROGRAMDATA_ROOT_ROAMING_PATH_))
+        {
+    
+        } # if : Failed to Delete Directory - Logs\Reports
     } # if : Uninstall
 
+
+
     # Delete all of the compiled builds
+    [CommonIO]::WriteToBuffer("`tCompiled Builds`r`n`t`t$GLOBAL:_USERDATA_ROOT_PATH_", + `
+                                [LogMessageLevel]::Attention, + `
+                                $true);
+
+
+    if ([CommonIO]::DeleteDirectory($GLOBAL:_USERDATA_ROOT_PATH_))
+    {
+
+    } # if : Failed to Delete Directory - Compiled Builds
 
 
 
