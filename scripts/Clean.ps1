@@ -212,6 +212,12 @@ function clean()
 
 
 
+    # Let the user know that the operation had concluded.
+    [CommonIO]::WriteToBuffer("`r`nOperation had finished!", + `
+                                [LogMessageLevel]::Attention, + `
+                                $false);
+
+
     # Restore the Window Title back to it's state.
     [CommonIO]::SetTerminalWindowTitle($Global:_ENVIRONMENT_WINDOW_TITLE_ORIGINAL_);
 
