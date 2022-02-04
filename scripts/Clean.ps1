@@ -157,9 +157,11 @@ function clean()
                                 $false);
 
 
-    if ([CommonIO]::DeleteDirectory($GLOBAL:_PROGRAMDATA_ROOT_LOCAL_PATH_))
+    if (![CommonIO]::DeleteDirectory($GLOBAL:_PROGRAMDATA_ROOT_LOCAL_PATH_))
     {
-
+        [CommonIO]::WriteToBuffer("`t`tFailed!", + `
+                                    [LogMessageLevel]::Error, + `
+                                    $false);
     } # if : Failed to Delete Directory - Logs\Reports
 
 
@@ -177,9 +179,11 @@ function clean()
                                     $false);
 
 
-        if ([CommonIO]::DeleteDirectory($GLOBAL:_PROGRAMDATA_ROOT_ROAMING_PATH_))
+        if (![CommonIO]::DeleteDirectory($GLOBAL:_PROGRAMDATA_ROOT_ROAMING_PATH_))
         {
-
+            [CommonIO]::WriteToBuffer("`t`tFailed!", + `
+                                        [LogMessageLevel]::Error, + `
+                                        $false);
         } # if : Failed to Delete Directory - Logs\Reports
     } # if : Uninstall
 
@@ -196,9 +200,11 @@ function clean()
                                 $false);
 
 
-    if ([CommonIO]::DeleteDirectory($GLOBAL:_USERDATA_ROOT_PATH_))
+    if (![CommonIO]::DeleteDirectory($GLOBAL:_USERDATA_ROOT_PATH_))
     {
-
+        [CommonIO]::WriteToBuffer("`t`tFailed!", + `
+                                    [LogMessageLevel]::Error, + `
+                                    $false);
     } # if : Failed to Delete Directory - Compiled Builds
 
 
