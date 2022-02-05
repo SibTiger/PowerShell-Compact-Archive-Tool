@@ -98,18 +98,15 @@ function Call()
 
     # Construct the arguments
     $hashArguments = @{
-        programMode = $__PSCAT_OPERATION_CODE__;
+        FilePath            = "pwsh.exe";
+        WorkingDirectory    = "$($__PSCAT_FULL_PATH__)";
+        ArgumentList        = "-File .\$($__PSCAT_FILENAME__) -ProgramMode $__PSCAT_OPERATION_CODE__";
+        Wait                = $true;
         } # Hash Table
 
 
     # Invoke PSCAT with the constructed arguments.
-    Start-Process -FilePath "PowerShell"       `
-                    -WorkingDirectory "$($__PSCAT_FULL_PATH__)" `
-                    #-ArgumentList $hashArguments                `
-                    #-NoNewWindow                                `
-                    #-UseNewEnvironment                          ;
-                    #-Verb "Open"                                `
-                    #-Wait                                       ;
+    Start-Process @hashArguments;
 } # Call()
 
 
