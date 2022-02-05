@@ -167,32 +167,21 @@ function main()
     # Now we will make sure that the PSCAT tool can be found.
     if ($(TestPath) -eq $false)
     {
-        # Create the message package that we will need to show the user that we were unable to find the PSCAT tool.
-        [System.Management.Automation.HostInformationMessage] $messagePackage = `
-            [System.Management.Automation.HostInformationMessage]::New();
-
-        # Now, build the message package such that it grabs the user's attention immediately.
-        $messagePackage.BackgroundColor = "Black";
-        $messagePackage.ForegroundColor = "Red";
-        $messagePackage.Message = ("Failed to locate $($__PSCAT_FILENAME__)`r`n" + `
+        # Generate the error string regarding the error we caught.
+        [string] $errorMessage = ("Failed to locate $($__PSCAT_FILENAME__)`r`n" + `
                                     "Expected Path was:`r`n" + `
-                                    "$($__PSCAT_COMPLETE_PATH__)`r`n" + `
-                                    "`r`n`r`n"+ `
-                                    "Press the Enter key to close this window. . .");
-        $messagePackage.NoNewLine = $false;
+                                    "$($__PSCAT_COMPLETE_PATH__)");
 
-
-        # Display the message to the user
-        Write-Information $messagePackage `
-                            -InformationAction Continue;
+        # Display the error message to the user.
+        DisplayErrorMessage $errorMessage;
 
 
         # Adjust the return code to signify that an error had been reached.
         $exitCode = $__EXITCODE_CANNOT_FIND_PSCAT__;
 
 
-        # Allow the user read the information before we close the script
-        (Get-Host).UI.ReadLine();
+        # Allow the user to read the error message.
+        FetchEnterKey;
     } # if : Unable to find PSCAT
 
     # We were able to find the PSCAT application, try to call it.
@@ -205,6 +194,66 @@ function main()
 
     return $exitCode
 } # main()
+
+
+
+
+# Display Error Message
+# -------------------------------
+# Documentation:
+#   This function is essentially are main entry point into this program; this is our driver.
+# -------------------------------
+function DisplayErrorMessage([string] $errorMessage)
+{
+    # Declarations and Initializations
+    # --------------------------------------------
+    # Create the message package that we will need to show the user that we were unable to find the PSCAT tool.
+    [System.Management.Automation.HostInformationMessage] $messagePackage = `
+        [System.Management.Automation.HostInformationMessage]::New();
+    # --------------------------------------------
+
+    # Now, build the message package such that it grabs the user's attention immediately.
+    $messagePackage.BackgroundColor = "Black";
+    $messagePackage.ForegroundColor = "Red";
+    $messagePackage.Message = ("`r`n`r`n" + `
+                                "    <!> CRITICAL ERROR <!>`r`n" + `
+                                "------------------------------`r`n" + `
+                                "$($errorMessage)");
+    $messagePackage.NoNewLine = $false;
+
+
+    # Display the message to the user
+    Write-Information $messagePackage `
+                        -InformationAction Continue;
+} # DisplayErrorMessage()
+
+
+
+function FetchEnterKey()
+{
+    # Declarations and Initializations
+    # --------------------------------------------
+    # Create the Message Package, we will need this to tell the user to press the 'Enter' key.
+    [System.Management.Automation.HostInformationMessage] $messagePackage = `
+        [System.Management.Automation.HostInformationMessage]::New();
+    # --------------------------------------------
+
+    # Now, build the message package
+    $messagePackage.BackgroundColor = "Black";
+    $messagePackage.ForegroundColor = "White";
+    $messagePackage.Message = ("`r`n`r`n"+ `
+                                "Press the Enter key to close this window. . .");
+    $messagePackage.NoNewLine = $false;
+
+
+    # Display the message to the user
+    Write-Information $messagePackage `
+                        -InformationAction Continue;
+
+
+    # Allow the user read the information before we close the script
+    (Get-Host).UI.ReadLine();
+} # FetchEnterKey()
 
 
 
