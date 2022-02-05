@@ -192,6 +192,7 @@ function main()
     } # Else : Call the Application
 
 
+    # Provide the operation exit code
     return $exitCode
 } # main()
 
