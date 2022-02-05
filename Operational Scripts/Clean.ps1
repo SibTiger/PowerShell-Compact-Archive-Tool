@@ -235,8 +235,14 @@ function main()
     # We were able to find the PSCAT application, try to call it.
     else
     {
+        # This resource helped me to figure this out
+        # https://theitbros.com/powershell-function-return/
         # Because we are able to find the PSCAT application, we may now try to invoke the operation code.
-        $exitCode = Call;
+        [System.Object[]] $cacheExitCode = Call;        # Because Call is going to return an object, we
+                                                        #   will want to cache the results and obtain the exitcode.
+
+        # Return the Exit Code
+        $exitCode = $cacheExitCode[1];
     } # Else : Call the Application
 
 
