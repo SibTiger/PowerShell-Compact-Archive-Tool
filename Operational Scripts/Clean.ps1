@@ -101,7 +101,7 @@ function Call()
     $hashArguments = @{
         FilePath            = "pwsh.exe";
         WorkingDirectory    = "$($__PSCAT_FULL_PATH__)";
-        ArgumentList        = "-File .\$($__PSCAT_FILENAME__) -ProgramMode $__PSCAT_OPERATION_CODE__";
+        ArgumentList        = "-File "".\$($__PSCAT_FILENAME__)"" -ProgramMode $__PSCAT_OPERATION_CODE__";
         Wait                = $true;
         NoNewWindow         = $true;
         } # Hash Table
