@@ -77,6 +77,14 @@ function Initialization()
     # PSCAT Operation Code
     Set-Variable -Name "__PSCAT_OPERATION_CODE__" -Value "1" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+
+    # Exit Codes : Cannot Find PSCAT
+    Set-Variable -Name "__EXITCODE_CANNOT_FIND_PSCAT__" -Value "500" `
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+
+    # Exit Codes : Failed Launch PSCAT
+    Set-Variable -Name "__EXITCODE_FAILED_TO_LAUNCH_PSCAT__" -Value "501" `
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 } # Initialization()
 
 
@@ -109,6 +117,8 @@ function Call()
 
     # Invoke PSCAT with the constructed arguments.
     Start-Process @hashArguments;
+        # Update the Exit Code to signify that we couldn't launch PSCAT.
+        $exitCode = $__EXITCODE_FAILED_TO_LAUNCH_PSCAT__;
 } # Call()
 
 
@@ -178,7 +188,7 @@ function main()
 
 
         # Adjust the return code to signify that an error had been reached.
-        $exitCode = 500;
+        $exitCode = $__EXITCODE_CANNOT_FIND_PSCAT__;
 
 
         # Allow the user read the information before we close the script
