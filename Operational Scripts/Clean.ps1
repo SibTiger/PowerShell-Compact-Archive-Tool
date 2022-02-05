@@ -211,6 +211,7 @@ function main()
     # We will begin by initializing the variables that we will be using within this application.
     Initialization;
 
+
     # Now we will make sure that the PSCAT tool can be found.
     if ($(TestPath) -eq $false)
     {
