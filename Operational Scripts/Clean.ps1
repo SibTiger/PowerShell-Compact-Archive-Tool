@@ -23,7 +23,8 @@
     Removes some application and user generated data that was created by the PowerShell Compact-Archive Tool
 
 .DESCRIPTION
-    This program will set an instruction code to the PowerShell Compact-Archive Tool to perform the Clean Operation.  In doing so, the PowerShell Compact-Archive Tool will execute the payload to perform the Clean-Up action.
+    This program will set an instruction code to the PowerShell Compact-Archive Tool to perform the Clean Operation.
+     In doing so, the PowerShell Compact-Archive Tool will execute the payload to perform the Clean-Up action.
 
     Tools that this program utilizes are:
         PowerShell Core 7.1.x Minimum
