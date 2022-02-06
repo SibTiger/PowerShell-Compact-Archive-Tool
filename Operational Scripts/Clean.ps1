@@ -295,6 +295,12 @@ function DisplayErrorMessage([string] $errorMessage)
 
 
 
+# Fetch Enter Key
+# -------------------------------
+# Documentation:
+#   The intention of this function is to allow the ability for the user to view messages that are displayed on the
+#   terminal buffer before the buffer is either flushed or the window is closed.
+# -------------------------------
 function FetchEnterKey()
 {
     # Declarations and Initializations
