@@ -111,6 +111,7 @@ function Call()
     # --------------------------------------
 
 
+
     # Construct the arguments
     $hashArguments = @{
         FilePath            = "pwsh.exe";
@@ -128,6 +129,7 @@ function Call()
         # Try to execute the operation
         $processInformation = Start-Process @hashArguments;
 
+
         # Return PSCATs Exit Code
         $exitCode = $processInformation.ExitCode;
     } # Try : Execute PSCAT
@@ -136,6 +138,7 @@ function Call()
     {
         # Update the Exit Code to signify that we couldn't launch PSCAT.
         $exitCode = $__EXITCODE_FAILED_TO_LAUNCH_PSCAT__;
+
 
         # Generate the error string regarding the error we caught.
         [string] $errorMessage = ("Failed to launch $($__PSCAT_FILENAME__)!`r`n`r`n" + `
@@ -153,6 +156,7 @@ function Call()
                                     "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~`r`n" + `
                                     "$($_.Exception.StackTrace)`r`n" + `
                                     "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~");
+
 
         # Display the error message to the user.
         DisplayErrorMessage "$($errorMessage)";
@@ -220,6 +224,7 @@ function main()
                                     "Expected Path was:`r`n" + `
                                     "$($__PSCAT_COMPLETE_PATH__)");
 
+
         # Display the error message to the user.
         DisplayErrorMessage $errorMessage;
 
@@ -241,6 +246,7 @@ function main()
         [System.Object[]] $cacheExitCode = Call;        # Because Call is going to return an object, we
                                                         #   will want to cache the results and obtain the exitcode.
 
+
         # Return the Exit Code
         $exitCode = $cacheExitCode[1];
     } # Else : Call the Application
@@ -249,6 +255,7 @@ function main()
     # Provide the operation exit code
     return $exitCode
 } # main()
+
 
 
 
@@ -267,6 +274,8 @@ function DisplayErrorMessage([string] $errorMessage)
         [System.Management.Automation.HostInformationMessage]::New();
     # --------------------------------------------
 
+
+
     # Now, build the message package such that it grabs the user's attention immediately.
     $messagePackage.BackgroundColor = "Black";
     $messagePackage.ForegroundColor = "Red";
@@ -284,6 +293,8 @@ function DisplayErrorMessage([string] $errorMessage)
 
 
 
+
+
 function FetchEnterKey()
 {
     # Declarations and Initializations
@@ -292,6 +303,8 @@ function FetchEnterKey()
     [System.Management.Automation.HostInformationMessage] $messagePackage = `
         [System.Management.Automation.HostInformationMessage]::New();
     # --------------------------------------------
+
+
 
     # Now, build the message package
     $messagePackage.BackgroundColor = "Black";
