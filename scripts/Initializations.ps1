@@ -79,7 +79,7 @@ function InitializationProgramIdentity()
 
     # Release Date
     # Date Format: DD.MM.YYYY with leading zeros
-    Set-Variable -Name "_RELEASEDATE_" -Value "xx.01.2022" `
+    Set-Variable -Name "_RELEASEDATE_" -Value "xx.02.2022" `
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 
     # License
