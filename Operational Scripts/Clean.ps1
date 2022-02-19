@@ -78,12 +78,29 @@ function Initialization()
     Set-Variable -Name "__PSCAT_OPERATION_CODE__" -Value "1" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
+    # PowerShell Core Executable Name
+    Set-Variable -Name "__POWERSHELL_EXECUTABLE__" -Value "pwsh.exe" `
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+
+    # PowerShell Core Path
+    Set-Variable -Name "__POWERSHELL_PATH__" -Value "$($env:ProgramFiles)\PowerShell\*\" `
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+
+    # PowerShell Core Complete Path
+    #  Populated later within the application.
+    Set-Variable -Name "__POWERSHELL_COMPLETE_PATH__" -Value $null `
+        -Scope Global -Force -Option None -ErrorAction SilentlyContinue;
+
     # Exit Codes : Cannot Find PSCAT
     Set-Variable -Name "__EXITCODE_CANNOT_FIND_PSCAT__" -Value 500 `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
     # Exit Codes : Failed Launch PSCAT
     Set-Variable -Name "__EXITCODE_FAILED_TO_LAUNCH_PSCAT__" -Value 501 `
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+
+    # Exit Codes : Cannot Find PowerShell Core
+    Set-Variable -Name "__EXITCODE_CANNOT_FIND_POSHCORE__" -Value 502 `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 } # Initialization()
 
@@ -114,7 +131,7 @@ function Call()
 
     # Construct the arguments
     $hashArguments = @{
-        FilePath            = "pwsh.exe";
+        FilePath            = "$($__POWERSHELL_COMPLETE_PATH__)";
         WorkingDirectory    = "$($__PSCAT_FULL_PATH__)";
         ArgumentList        = "-File "".\$($__PSCAT_FILENAME__)"" -ProgramMode $__PSCAT_OPERATION_CODE__";
         Wait                = $true;
@@ -180,10 +197,10 @@ function Call()
 # Documentation:
 #  This function will make sure that the PowerShell Compact-Archive Tool was detected within the given path.
 # -------------------------------
-function TestPath()
+function TestPath([string] $pathToExamine)
 {
     # Check to see if we can find the application
-    if (Test-Path -LiteralPath "$($__PSCAT_COMPLETE_PATH__)")
+    if (Test-Path -LiteralPath "$($pathToExamine)")
     {
         # We found the application
         return $true;
@@ -197,6 +214,40 @@ function TestPath()
 
 
 
+# Test PowerShell Core's Path
+# -------------------------------
+# Documentation:
+#  This function will make sure that the PowerShell Core binary is ready for us to use by either inspecting
+#   the $PATH or the default install location.
+# -------------------------------
+function TestPowerShellCore()
+{
+    # With this check, we are going to be focused as to where we can call PowerShell Core.
+    #  We have two ways, in a perfect world, to invoke POSH Core:
+    #  1. Using $PATH
+    #  2. Using the default install location.
+
+    # Lets first take the easy approach, $PATH
+    if ($null -ne $(Get-Command -Name "$($__POWERSHELL_EXECUTABLE__)" -CommandType Application))
+    {
+        # Successfully found it in $PATH
+
+
+        # Update the global variable's value.
+        $Global:__POWERSHELL_COMPLETE_PATH__ = "$($__POWERSHELL_EXECUTABLE__)";
+
+        # Successfully completed
+        return $true;
+    } # if : Scan $PATH
+
+
+    # Try to find it within the default installation path.
+    # TODO
+} # TestPowerShellCore()
+
+
+
+
 # Main
 # -------------------------------
 # Documentation:
@@ -206,6 +257,7 @@ function main()
 {
     # Declarations and Initializations
     # --------------------------------------
+    # PowerShell Core's complete path
     # We will use this return code to signify the operation.
     [int32] $exitCode = 0;
     # --------------------------------------
@@ -216,13 +268,38 @@ function main()
     Initialization;
 
 
+    # Make sure that we can invoke the PowerShell Core external command
+    if ($(TestPowerShellCore) -eq $false)
+    {
+        # Generate the error string regarding the error we just found.
+        [string] $errorMessage = ("Failed to detect $($__POWERSHELL_EXECUTABLE__)`r`n" + `
+                                    "Please make sure that the PowerShell Core application had been installed on your system.`r`n" + `
+                                    "Expected to find PowerShell Core in the following:`r`n" + `
+                                    "`t`$PATH`r`n" + `
+                                    "OR`r`n" + `
+                                    "`t$($__POWERSHELL_PATH__)");
+
+
+        # Display the error message to the user.
+        DisplayErrorMessage $errorMessage;
+
+
+        # Adjust the return code to signify that an error had been reached.
+        $exitCode = $__EXITCODE_CANNOT_FIND_POSHCORE__;
+
+
+        # Allow the user to read the error message.
+        FetchEnterKey;
+    } # if : Unable to find POSHCore
+
+
     # Now we will make sure that the PSCAT tool can be found.
-    if ($(TestPath) -eq $false)
+    elseif ($(TestPath $__PSCAT_COMPLETE_PATH__) -eq $false)
     {
         # Generate the error string regarding the error we caught.
         [string] $errorMessage = ("Failed to locate $($__PSCAT_FILENAME__)`r`n" + `
                                     "Expected Path was:`r`n" + `
-                                    "$($__PSCAT_COMPLETE_PATH__)");
+                                    "`t$($__PSCAT_COMPLETE_PATH__)");
 
 
         # Display the error message to the user.
