@@ -83,7 +83,7 @@ function Initialization()
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
     # Exit Codes : Failed Launch PSCAT
-    Set-Variable -Name "__EXITCODE_FAILED_TO_LAUNCH_PSCAT__" -Value "501" `
+    Set-Variable -Name "__EXITCODE_FAILED_TO_LAUNCH_PSCAT__" -Value 501 `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 } # Initialization()
 
