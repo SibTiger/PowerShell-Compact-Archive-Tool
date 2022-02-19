@@ -79,7 +79,7 @@ function Initialization()
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
     # Exit Codes : Cannot Find PSCAT
-    Set-Variable -Name "__EXITCODE_CANNOT_FIND_PSCAT__" -Value "500" `
+    Set-Variable -Name "__EXITCODE_CANNOT_FIND_PSCAT__" -Value 500 `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
     # Exit Codes : Failed Launch PSCAT
