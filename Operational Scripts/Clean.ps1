@@ -75,7 +75,7 @@ function Initialization()
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
     # PSCAT Operation Code
-    Set-Variable -Name "__PSCAT_OPERATION_CODE__" -Value "1" `
+    Set-Variable -Name "__PSCAT_OPERATION_CODE__" -Value 1 `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
     # PowerShell Core Executable Name
