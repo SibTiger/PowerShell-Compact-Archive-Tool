@@ -2424,7 +2424,9 @@ class CommonIO
         # Perform the requested check on the path:
         #  - Literal path (or Absolute path)
         if(($literalSwitch -eq $true) -and `
-            ((Test-Path -LiteralPath $path -ErrorAction SilentlyContinue) -eq $true))
+            ((Test-Path -LiteralPath $path `
+                        -PathType Any `
+                        -ErrorAction SilentlyContinue) -eq $true))
         {
             # Directory or file exists
             $exitCode = $true;
@@ -2432,7 +2434,9 @@ class CommonIO
 
 
         #  - Relative path
-        elseif((Test-Path -Path $path -ErrorAction SilentlyContinue) -eq $true)
+        elseif((Test-Path -Path $path `
+                        -PathType Any `
+                        -ErrorAction SilentlyContinue) -eq $true)
         {
             # Directory or file exists
             $exitCode = $true;
