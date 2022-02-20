@@ -234,9 +234,10 @@ function TestPowerShellCore()
 
 
         # Construct the complete path
-        $Global:__POWERSHELL_COMPLETE_PATH__ = ("$($Global:__POWERSHELL_PATH__)" + `
-                                                "$($qualifiedDirectory[$i - 1].Name)" + `
-                                                "\$($Global:__POWERSHELL_EXECUTABLE__)");
+        $Global:__POWERSHELL_COMPLETE_PATH__ = ("$($Global:__POWERSHELL_PATH__)" + `            # Base path
+                                                "$($qualifiedDirectory[$i - 1].Name)" + `       # Qualified Directory
+                                                "\$($Global:__POWERSHELL_EXECUTABLE__)");       # Executable File Name
+
 
         # Test the path
         if (Test-Path -LiteralPath $Global:__POWERSHELL_COMPLETE_PATH__)
