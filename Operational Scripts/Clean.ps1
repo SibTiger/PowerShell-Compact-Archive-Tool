@@ -18,6 +18,7 @@
 
 
 
+
 <#
 .SYNOPSIS
     Removes some application and user generated data that was created by the PowerShell Compact-Archive Tool
@@ -192,6 +193,7 @@ function Call()
 
 
 
+
 # Test Path
 # -------------------------------
 # Documentation:
@@ -210,6 +212,7 @@ function TestPath([string] $pathToExamine)
     # Could not find the application
     return $false;
 } # TestPath()
+
 
 
 
@@ -244,6 +247,7 @@ function TestPowerShellCore()
     # Try to find it within the default installation path.
     # TODO
 } # TestPowerShellCore()
+
 
 
 
