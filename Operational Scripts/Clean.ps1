@@ -240,7 +240,8 @@ function TestPowerShellCore()
 
 
         # Test the path
-        if (Test-Path -LiteralPath $Global:__POWERSHELL_COMPLETE_PATH__ -PathType Leaf)
+        if (Test-Path -LiteralPath $Global:__POWERSHELL_COMPLETE_PATH__ `
+                    -PathType Leaf)
         {
             # Successfully found PowerShell Core
             return $true;
