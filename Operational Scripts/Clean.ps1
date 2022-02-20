@@ -84,7 +84,7 @@ function Initialization()
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
     # PowerShell Core Path
-    Set-Variable -Name "__POWERSHELL_PATH__" -Value "$($env:ProgramFiles)\PowerShell\*\" `
+    Set-Variable -Name "__POWERSHELL_PATH__" -Value "$($env:ProgramFiles)\PowerShell\" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
     # PowerShell Core Complete Path
@@ -182,6 +182,14 @@ function TestPath([string] $pathToExamine)
 # -------------------------------
 function TestPowerShellCore()
 {
+    # Declarations and Initializations
+    # --------------------------------------------
+    # We will use this to store as many directories associated with the PowerShell Core's install location.
+    [System.Object[]] $qualifiedDirectory = [System.Object]::New();
+    # --------------------------------------------
+
+
+
     # With this check, we are going to be focused as to where we can call PowerShell Core.
     #  We have two ways, in a perfect world, to invoke POSH Core:
     #  1. Using $PATH
@@ -202,7 +210,27 @@ function TestPowerShellCore()
 
 
     # Try to find it within the default installation path.
-    # TODO
+    $qualifiedDirectory = Get-ChildItem -Path "$Global:__POWERSHELL_PATH__" | `
+                            Where-Object {$_ -match '([7-9]$|[0-9].$)'} | `
+                            Sort-Object -Property {[UInt16]$_.Name};
+
+
+    # Check to make sure that we where able to capture one or more hits; otherwise - we may not proceed.
+    if ($qualifiedDirectory.Count -eq 0)
+    {
+        # Because we could not find any installed versions, we can not proceed.
+        return $false;
+    } # if : No PowerShell Core Installation
+
+
+    # Accept the latest build retrieved
+    $Global:__POWERSHELL_COMPLETE_PATH__ = ("$($Global:__POWERSHELL_PATH__)" + `
+                                            "\$($qualifiedDirectory[$qualifiedDirectory.Count - 1].Name)" + `
+                                            "\$(Global:__POWERSHELL_EXECUTABLE__)");
+
+
+    # Successfully completed
+    return $true;
 } # TestPowerShellCore()
 
 
@@ -377,7 +405,7 @@ function main()
 
 
     # Provide the operation exit code
-    return $exitCode
+    return $exitCode;
 } # main()
 
 
