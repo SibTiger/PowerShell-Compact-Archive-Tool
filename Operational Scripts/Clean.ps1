@@ -308,7 +308,7 @@ function FetchEnterKey()
     $messagePackage.BackgroundColor = "Black";
     $messagePackage.ForegroundColor = "White";
     $messagePackage.Message = ("`r`n`r`n"+ `
-                                "Press the Enter key to close this window. . .");
+                                "Press the Enter key to continue. . .");
     $messagePackage.NoNewLine = $false;
 
 
