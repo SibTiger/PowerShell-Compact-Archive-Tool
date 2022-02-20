@@ -248,6 +248,78 @@ function TestPowerShellCore()
 
 
 
+# Display Error Message
+# -------------------------------
+# Documentation:
+#   This function is essentially are main entry point into this program; this is our driver.
+# -------------------------------
+function DisplayErrorMessage([string] $errorMessage)
+{
+    # Declarations and Initializations
+    # --------------------------------------------
+    # Create the message package that we will need to show the user that we were unable to find the PSCAT tool.
+    [System.Management.Automation.HostInformationMessage] $messagePackage = `
+        [System.Management.Automation.HostInformationMessage]::New();
+    # --------------------------------------------
+
+
+
+    # Now, build the message package such that it grabs the user's attention immediately.
+    $messagePackage.BackgroundColor = "Black";
+    $messagePackage.ForegroundColor = "Red";
+    $messagePackage.Message = ("`r`n`r`n" + `
+                                "    <!> CRITICAL ERROR <!>`r`n" + `
+                                "------------------------------`r`n" + `
+                                "$($errorMessage)");
+    $messagePackage.NoNewLine = $false;
+
+
+    # Display the message to the user
+    Write-Information $messagePackage `
+                        -InformationAction Continue;
+} # DisplayErrorMessage()
+
+
+
+
+
+# Fetch Enter Key
+# -------------------------------
+# Documentation:
+#   The intention of this function is to allow the ability for the user to view messages that are displayed on the
+#   terminal buffer before the buffer is either flushed or the window is closed.
+# -------------------------------
+function FetchEnterKey()
+{
+    # Declarations and Initializations
+    # --------------------------------------------
+    # Create the Message Package, we will need this to tell the user to press the 'Enter' key.
+    [System.Management.Automation.HostInformationMessage] $messagePackage = `
+        [System.Management.Automation.HostInformationMessage]::New();
+    # --------------------------------------------
+
+
+
+    # Now, build the message package
+    $messagePackage.BackgroundColor = "Black";
+    $messagePackage.ForegroundColor = "White";
+    $messagePackage.Message = ("`r`n`r`n"+ `
+                                "Press the Enter key to close this window. . .");
+    $messagePackage.NoNewLine = $false;
+
+
+    # Display the message to the user
+    Write-Information $messagePackage `
+                        -InformationAction Continue;
+
+
+    # Allow the user read the information before we close the script
+    (Get-Host).UI.ReadLine();
+} # FetchEnterKey()
+
+
+
+
 # Main
 # -------------------------------
 # Documentation:
@@ -332,79 +404,6 @@ function main()
     # Provide the operation exit code
     return $exitCode
 } # main()
-
-
-
-
-
-# Display Error Message
-# -------------------------------
-# Documentation:
-#   This function is essentially are main entry point into this program; this is our driver.
-# -------------------------------
-function DisplayErrorMessage([string] $errorMessage)
-{
-    # Declarations and Initializations
-    # --------------------------------------------
-    # Create the message package that we will need to show the user that we were unable to find the PSCAT tool.
-    [System.Management.Automation.HostInformationMessage] $messagePackage = `
-        [System.Management.Automation.HostInformationMessage]::New();
-    # --------------------------------------------
-
-
-
-    # Now, build the message package such that it grabs the user's attention immediately.
-    $messagePackage.BackgroundColor = "Black";
-    $messagePackage.ForegroundColor = "Red";
-    $messagePackage.Message = ("`r`n`r`n" + `
-                                "    <!> CRITICAL ERROR <!>`r`n" + `
-                                "------------------------------`r`n" + `
-                                "$($errorMessage)");
-    $messagePackage.NoNewLine = $false;
-
-
-    # Display the message to the user
-    Write-Information $messagePackage `
-                        -InformationAction Continue;
-} # DisplayErrorMessage()
-
-
-
-
-
-# Fetch Enter Key
-# -------------------------------
-# Documentation:
-#   The intention of this function is to allow the ability for the user to view messages that are displayed on the
-#   terminal buffer before the buffer is either flushed or the window is closed.
-# -------------------------------
-function FetchEnterKey()
-{
-    # Declarations and Initializations
-    # --------------------------------------------
-    # Create the Message Package, we will need this to tell the user to press the 'Enter' key.
-    [System.Management.Automation.HostInformationMessage] $messagePackage = `
-        [System.Management.Automation.HostInformationMessage]::New();
-    # --------------------------------------------
-
-
-
-    # Now, build the message package
-    $messagePackage.BackgroundColor = "Black";
-    $messagePackage.ForegroundColor = "White";
-    $messagePackage.Message = ("`r`n`r`n"+ `
-                                "Press the Enter key to close this window. . .");
-    $messagePackage.NoNewLine = $false;
-
-
-    # Display the message to the user
-    Write-Information $messagePackage `
-                        -InformationAction Continue;
-
-
-    # Allow the user read the information before we close the script
-    (Get-Host).UI.ReadLine();
-} # FetchEnterKey()
 
 
 
