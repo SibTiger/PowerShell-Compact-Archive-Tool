@@ -222,6 +222,7 @@ function TestPowerShellCore()
         return $false;
     } # if : No PowerShell Core Installation
 
+
     for ([uint16] $i = $qualifiedDirectory.Count; $i -ge 0; $i--)
     {
         # If we are not able find the application, then we cannot proceed.
