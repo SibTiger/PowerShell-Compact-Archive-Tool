@@ -123,9 +123,6 @@ function Call()
 
     # We are going to use this to capture the Exit Code from PSCAT
     [System.Diagnostics.Process] $processInformation = [System.Diagnostics.Process]::New();
-
-    # The Exit Code that we will return back
-    [int32] $exitCode = 0;
     # --------------------------------------
 
 
@@ -141,53 +138,13 @@ function Call()
         } # Hash Table
 
 
-    # Try to invoke PSCAT with the constructed arguments.
-    try
-    {
-        # Try to execute the operation
-        $processInformation = Start-Process @hashArguments;
+
+    # Launch the PowerShell Compact-Archive Tool program
+    $processInformation = Start-Process @hashArguments;
 
 
-        # Return PSCATs Exit Code
-        $exitCode = $processInformation.ExitCode;
-    } # Try : Execute PSCAT
-
-    catch
-    {
-        # Update the Exit Code to signify that we couldn't launch PSCAT.
-        $exitCode = $__EXITCODE_FAILED_TO_LAUNCH_PSCAT__;
-
-
-        # Generate the error string regarding the error we caught.
-        [string] $errorMessage = ("Failed to launch $($__PSCAT_FILENAME__)!`r`n`r`n" + `
-                                    " + File Path:          $($hashArguments.FilePath)`r`n" + `
-                                    " + Working Directory:  $($hashArguments.WorkingDirectory)`r`n" + `
-                                    " + Arguments:          $($hashArguments.ArgumentList)`r`n" + `
-                                    " + Wait:               $($hashArguments.Wait)`r`n" + `
-                                    " + No New Window:      $($hashArguments.NoNewWindow)`r`n" + `
-                                    " + PassThru:           $($hashArguments.PassThru)`r`n" + `
-                                    " - Exception Reached:  $($_.Exception.GetType())`r`n" + `
-                                    " - Exception Message:  $($_.Exception.Message)`r`n" + `
-                                    " - Exception Source:   $($_.Exception.Source)`r`n" + `
-                                    " - Exception Target:   $($_.Exception.TargetSite)`r`n" + `
-                                    " - Exception Stack Trace:`r`n" + `
-                                    "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~`r`n" + `
-                                    "$($_.Exception.StackTrace)`r`n" + `
-                                    "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~");
-
-
-        # Display the error message to the user.
-        DisplayErrorMessage "$($errorMessage)";
-
-
-        # Allow the user to read the error message.
-        FetchEnterKey;
-    } # Catch : Caught an Error
-
-
-
-    # Return the provided exit code
-    return $exitCode;
+    # Return PSCATs Exit Code
+    return $processInformation.ExitCode;
 } # Call()
 
 
