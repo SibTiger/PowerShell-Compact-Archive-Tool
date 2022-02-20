@@ -332,6 +332,13 @@ function main()
     # PowerShell Core's complete path
     # We will use this return code to signify the operation.
     [int32] $exitCode = 0;
+
+    # This variable will signify if an error was detected; this will help to reduce code duplication.
+    [bool] $caughtError = $false;
+
+    # Error Message
+    #  Provides an error message that will be presented to the user.
+    [string] $errorMessage = $null;
     # --------------------------------------
 
 
@@ -344,24 +351,20 @@ function main()
     if ($(TestPowerShellCore) -eq $false)
     {
         # Generate the error string regarding the error we just found.
-        [string] $errorMessage = ("Failed to detect $($__POWERSHELL_EXECUTABLE__)`r`n" + `
-                                    "Please make sure that the PowerShell Core application had been installed on your system.`r`n" + `
-                                    "Expected to find PowerShell Core in the following:`r`n" + `
-                                    "`t`$PATH`r`n" + `
-                                    "OR`r`n" + `
-                                    "`t$($__POWERSHELL_PATH__)");
-
-
-        # Display the error message to the user.
-        DisplayErrorMessage $errorMessage;
+        $errorMessage = ("Failed to detect $($__POWERSHELL_EXECUTABLE__)`r`n" + `
+                        "Please make sure that the PowerShell Core application had been installed on your system.`r`n" + `
+                        "Expected to find PowerShell Core in the following:`r`n" + `
+                        "`t- `$PATH`r`n" + `
+                        "`tOR`r`n" + `
+                        "`t- $($__POWERSHELL_PATH__)");
 
 
         # Adjust the return code to signify that an error had been reached.
         $exitCode = $__EXITCODE_CANNOT_FIND_POSHCORE__;
 
 
-        # Allow the user to read the error message.
-        FetchEnterKey;
+        # We caught an error
+        $caughtError = $true;
     } # if : Unable to find POSHCore
 
 
@@ -369,22 +372,19 @@ function main()
     elseif ($(TestPath $__PSCAT_COMPLETE_PATH__) -eq $false)
     {
         # Generate the error string regarding the error we caught.
-        [string] $errorMessage = ("Failed to locate $($__PSCAT_FILENAME__)`r`n" + `
-                                    "Expected Path was:`r`n" + `
-                                    "`t$($__PSCAT_COMPLETE_PATH__)");
-
-
-        # Display the error message to the user.
-        DisplayErrorMessage $errorMessage;
+        $errorMessage = ("Failed to locate $($__PSCAT_FILENAME__)`r`n" + `
+                        "Expected Path was:`r`n" + `
+                        "`t$($__PSCAT_COMPLETE_PATH__)");
 
 
         # Adjust the return code to signify that an error had been reached.
         $exitCode = $__EXITCODE_CANNOT_FIND_PSCAT__;
 
 
-        # Allow the user to read the error message.
-        FetchEnterKey;
+        # We caught an error
+        $caughtError = $true;
     } # if : Unable to find PSCAT
+
 
     # We were able to find the PSCAT application, try to call it.
     else
@@ -399,6 +399,19 @@ function main()
         # Return the Exit Code
         $exitCode = $cacheExitCode[1];
     } # Else : Call the Application
+
+
+
+    # Was an error reached during the checks?
+    if ($caughtError)
+    {
+        # We already have the error message provided to us already, all that we have to do is show the message.
+        DisplayErrorMessage $errorMessage;
+
+        # Allow the user to read the message.
+        FetchEnterKey;
+    } # if : Error During Checks
+
 
 
     # Provide the operation exit code
