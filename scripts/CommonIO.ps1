@@ -1558,7 +1558,8 @@ class CommonIO
         # First try to see if the host system has Microsoft Word installed,
         #  if so, we can proceed through the rest of this function, otherwise
         #  we must immediately stop.
-        if ((Test-Path HKLM:SOFTWARE\Classes\Word.Application) -eq $true)
+        if ((Test-Path -Path HKLM:SOFTWARE\Classes\Word.Application `
+                        -PathType Container) -eq $true)
         {
             # Microsoft Word was detected; try to create a new instance
             #  of the process.
