@@ -272,9 +272,10 @@ function DisplayErrorMessage([string] $errorMessage)
     $messagePackage.BackgroundColor = "Black";
     $messagePackage.ForegroundColor = "Red";
     $messagePackage.Message = ("`r`n`r`n" + `
-                                "    <!> CRITICAL ERROR <!>`r`n" + `
-                                "------------------------------`r`n" + `
-                                "$($errorMessage)");
+                                "`t`t<!> CRITICAL ERROR <!>`r`n" + `
+                                "------------------------------------------------------`r`n" + `
+                                "$($errorMessage)`r`n" + `
+                                "------------------------------------------------------`r`n");
     $messagePackage.NoNewLine = $false;
 
 
