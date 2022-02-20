@@ -250,8 +250,8 @@ function TestPowerShellCore()
 
 
 
-    # Successfully completed
-    return $true;
+    # Failed to find the PowerShell Core executable
+    return $false;
 } # TestPowerShellCore()
 
 
