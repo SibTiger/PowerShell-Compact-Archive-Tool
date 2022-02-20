@@ -340,7 +340,7 @@ function main()
     Initialization;
 
 
-    # Make sure that we can invoke the PowerShell Core external command
+    # Make sure that we can find the PowerShell Core software
     if ($(TestPowerShellCore) -eq $false)
     {
         # Generate the error string regarding the error we just found.
