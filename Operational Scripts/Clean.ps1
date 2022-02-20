@@ -222,11 +222,30 @@ function TestPowerShellCore()
         return $false;
     } # if : No PowerShell Core Installation
 
+    for ([uint16] $i = $qualifiedDirectory.Count; $i -ge 0; $i--)
+    {
+        # If we are not able find the application, then we cannot proceed.
+        if ($i -eq 0)
+        {
+            # Unable to find PowerShell Core
+            return $false;
+        } # if : Unable to Find PowerShell Core
 
-    # Accept the latest build retrieved
-    $Global:__POWERSHELL_COMPLETE_PATH__ = ("$($Global:__POWERSHELL_PATH__)" + `
-                                            "\$($qualifiedDirectory[$qualifiedDirectory.Count - 1].Name)" + `
-                                            "\$(Global:__POWERSHELL_EXECUTABLE__)");
+
+        # Construct the complete path
+        $Global:__POWERSHELL_COMPLETE_PATH__ = ("$($Global:__POWERSHELL_PATH__)" + `
+                                                "\$($qualifiedDirectory[$qualifiedDirectory.Count - 1].Name)" + `
+                                                "\$(Global:__POWERSHELL_EXECUTABLE__)");
+
+
+        # Test the path
+        if ($null -ne $(Get-Command -Name "$($Global:__POWERSHELL_COMPLETE_PATH__)" -CommandType Application))
+        {
+            # Successfully found PowerShell Core
+            return $true;
+        } # if : Found PowerShell Core at Path
+    } # for : Scan for PowerShell Core Executable
+
 
 
     # Successfully completed
