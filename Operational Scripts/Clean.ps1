@@ -240,7 +240,7 @@ function TestPowerShellCore()
 
 
         # Test the path
-        if ($null -ne $(Get-Command -Name "$($Global:__POWERSHELL_COMPLETE_PATH__)" -CommandType Application))
+        if (Test-Path -LiteralPath $Global:__POWERSHELL_COMPLETE_PATH__)
         {
             # Successfully found PowerShell Core
             return $true;
