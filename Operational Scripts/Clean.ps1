@@ -30,8 +30,8 @@
     Tools that this program utilizes are:
         PowerShell Core 7.1.x Minimum
             The required shell in order for this application to work properly.
-        PowerShell Compact-Archive Tool (version 1.0.0 minimum)
             This is required in order for this operation to take place.
+        PowerShell Compact-Archive Tool (version 1.1.0 minimum)
 .NOTES
     Author: Nicholas Gautier
     Email: Nicholas.Gautier.Tiger@GMail.com
