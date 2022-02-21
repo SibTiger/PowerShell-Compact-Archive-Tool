@@ -109,328 +109,335 @@ function Initialization()
 
 
 
-# Call
-# -------------------------------
-# Documentation:
-#  This function will call the PowerShell Compact-Archive Tool with the desired operation code.
-# -------------------------------
-function Call()
+Class Clean
 {
-    # Declarations and Initializations
-    # --------------------------------------
-    # We are going to use 'Splatting' to make this easier to construct the arguments.
-    [System.Collections.Hashtable] $hashArguments = [System.Collections.Hashtable]::New();
-
-    # We are going to use this to capture the Exit Code from PSCAT
-    [System.Diagnostics.Process] $processInformation = [System.Diagnostics.Process]::New();
-    # --------------------------------------
-
-
-
-    # Construct the arguments
-    $hashArguments = @{
-        FilePath            = "$($__POWERSHELL_COMPLETE_PATH__)";
-        WorkingDirectory    = "$($__PSCAT_FULL_PATH__)";
-        ArgumentList        = "-File "".\$($__PSCAT_FILENAME__)"" -ProgramMode $__PSCAT_OPERATION_CODE__";
-        Wait                = $true;
-        NoNewWindow         = $true;
-        PassThru            = $true;
-        } # Hash Table
-
-
-
-    # Launch the PowerShell Compact-Archive Tool program
-    $processInformation = Start-Process @hashArguments;
-
-
-    # Return PSCATs Exit Code
-    return $processInformation.ExitCode;
-} # Call()
-
-
-
-
-
-# Test Path
-# -------------------------------
-# Documentation:
-#  This function will make sure that the PowerShell Compact-Archive Tool was detected within the given path.
-# -------------------------------
-function TestPath([string] $pathToExamine)
-{
-    # Check to see if we can find the application
-    if (Test-Path -LiteralPath "$($pathToExamine)")
+    # Call
+    # -------------------------------
+    # Documentation:
+    #  This function will call the PowerShell Compact-Archive Tool with the desired operation code.
+    # -------------------------------
+    hidden static [Int32] Call()
     {
-        # We found the application
-        return $true;
-    } # if : Found PSCAT
+        # Declarations and Initializations
+        # --------------------------------------
+        # We are going to use 'Splatting' to make this easier to construct the arguments.
+        [System.Collections.Hashtable] $hashArguments = [System.Collections.Hashtable]::New();
 
-
-    # Could not find the application
-    return $false;
-} # TestPath()
-
-
-
-
-
-# Test PowerShell Core's Path
-# -------------------------------
-# Documentation:
-#  This function will make sure that the PowerShell Core binary is ready for us to use by either inspecting
-#   the $PATH or the default install location.
-# -------------------------------
-function TestPowerShellCore()
-{
-    # Declarations and Initializations
-    # --------------------------------------------
-    # We will use this to store as many directories associated with the PowerShell Core's install location.
-    [System.Object[]] $qualifiedDirectory = [System.Object]::New();
-    # --------------------------------------------
+        # We are going to use this to capture the Exit Code from PSCAT
+        [System.Diagnostics.Process] $processInformation = [System.Diagnostics.Process]::New();
+        # --------------------------------------
 
 
 
-    # With this check, we are going to be focused as to where we can call PowerShell Core.
-    #  We have two ways, in a perfect world, to invoke POSH Core:
-    #  1. Using $PATH
-    #  2. Using the default install location.
+        # Construct the arguments
+        $hashArguments = @{
+            FilePath            = "$($Global:__POWERSHELL_COMPLETE_PATH__)";
+            WorkingDirectory    = "$($Global:__PSCAT_FULL_PATH__)";
+            ArgumentList        = "-File "".\$($Global:__PSCAT_FILENAME__)"" -ProgramMode $Global:__PSCAT_OPERATION_CODE__";
+            Wait                = $true;
+            NoNewWindow         = $true;
+            PassThru            = $true;
+            } # Hash Table
 
-    # Lets first take the easy approach, $PATH
-    if ($null -ne $(Get-Command -Name "$($__POWERSHELL_EXECUTABLE__)" -CommandType Application))
+
+
+        # Launch the PowerShell Compact-Archive Tool program
+        $processInformation = Start-Process @hashArguments;
+
+
+        # Return PSCATs Exit Code
+        return $processInformation.ExitCode;
+    } # Call()
+
+
+
+
+
+
+    # Test Path - File Based
+    # -------------------------------
+    # Documentation:
+    #  This function will make sure that the PowerShell Compact-Archive Tool was detected within the given path.
+    # -------------------------------
+    hidden static [bool] TestPath([string] $pathToExamine)
     {
-        # Successfully found it in $PATH
-
-
-        # Update the global variable's value.
-        $Global:__POWERSHELL_COMPLETE_PATH__ = "$($__POWERSHELL_EXECUTABLE__)";
-
-        # Successfully completed
-        return $true;
-    } # if : Scan $PATH
-
-
-    # Try to find it within the default installation path.
-    $qualifiedDirectory = Get-ChildItem -Path "$Global:__POWERSHELL_PATH__" | `
-                            Where-Object {$_ -match '([7-9]$|[0-9].$)'} | `
-                            Sort-Object -Property {[UInt16]$_.Name};
-
-
-    # Check to make sure that we where able to capture one or more hits; otherwise - we may not proceed.
-    if ($qualifiedDirectory.Count -eq 0)
-    {
-        # Because we could not find any installed versions, we can not proceed.
-        return $false;
-    } # if : No PowerShell Core Installation
-
-
-    for ([uint16] $i = $qualifiedDirectory.Count; $i -ge 0; $i--)
-    {
-        # If we are not able find the application, then we cannot proceed.
-        if ($i -eq 0)
+        # Check to see if we can find the application
+        if (Test-Path -LiteralPath "$($pathToExamine)")
         {
-            # Unable to find PowerShell Core
-            return $false;
-        } # if : Unable to Find PowerShell Core
-
-
-        # Construct the complete path
-        $Global:__POWERSHELL_COMPLETE_PATH__ = ("$($Global:__POWERSHELL_PATH__)" + `            # Base path
-                                                "$($qualifiedDirectory[$i - 1].Name)" + `       # Qualified Directory
-                                                "\$($Global:__POWERSHELL_EXECUTABLE__)");       # Executable File Name
-
-
-        # Test the path
-        if (Test-Path -LiteralPath $Global:__POWERSHELL_COMPLETE_PATH__ `
-                    -PathType Leaf)
-        {
-            # Successfully found PowerShell Core
+            # We found the application
             return $true;
-        } # if : Found PowerShell Core at Path
-    } # for : Scan for PowerShell Core Executable
+        } # if : Found Target
 
 
-
-    # Failed to find the PowerShell Core executable
-    return $false;
-} # TestPowerShellCore()
-
-
-
-
-
-# Display Error Message
-# -------------------------------
-# Documentation:
-#   This function is essentially are main entry point into this program; this is our driver.
-# -------------------------------
-function DisplayErrorMessage([string] $errorMessage)
-{
-    # Declarations and Initializations
-    # --------------------------------------------
-    # Create the message package that we will need to show the user that we were unable to find the PSCAT tool.
-    [System.Management.Automation.HostInformationMessage] $messagePackage = `
-        [System.Management.Automation.HostInformationMessage]::New();
-    # --------------------------------------------
-
-
-
-    # Now, build the message package such that it grabs the user's attention immediately.
-    $messagePackage.BackgroundColor = "Black";
-    $messagePackage.ForegroundColor = "Red";
-    $messagePackage.Message = ("`r`n`r`n" + `
-                                "`t`t<!> CRITICAL ERROR <!>`r`n" + `
-                                "------------------------------------------------------`r`n" + `
-                                "$($errorMessage)`r`n" + `
-                                "------------------------------------------------------`r`n");
-    $messagePackage.NoNewLine = $false;
-
-
-    # Display the message to the user
-    Write-Information $messagePackage `
-                        -InformationAction Continue;
-} # DisplayErrorMessage()
+        # Could not find the application
+        return $false;
+    } # TestPath()
 
 
 
 
 
-# Fetch Enter Key
-# -------------------------------
-# Documentation:
-#   The intention of this function is to allow the ability for the user to view messages that are displayed on the
-#   terminal buffer before the buffer is either flushed or the window is closed.
-# -------------------------------
-function FetchEnterKey()
-{
-    # Declarations and Initializations
-    # --------------------------------------------
-    # Create the Message Package, we will need this to tell the user to press the 'Enter' key.
-    [System.Management.Automation.HostInformationMessage] $messagePackage = `
-        [System.Management.Automation.HostInformationMessage]::New();
-    # --------------------------------------------
 
-
-
-    # Now, build the message package
-    $messagePackage.BackgroundColor = "Black";
-    $messagePackage.ForegroundColor = "White";
-    $messagePackage.Message = ("`r`n`r`n"+ `
-                                "Press the Enter key to continue. . .");
-    $messagePackage.NoNewLine = $false;
-
-
-    # Display the message to the user
-    Write-Information $messagePackage `
-                        -InformationAction Continue;
-
-
-    # Allow the user read the information before we close the script
-    (Get-Host).UI.ReadLine();
-} # FetchEnterKey()
-
-
-
-
-# Main
-# -------------------------------
-# Documentation:
-#   This function is essentially are main entry point into this program; this is our driver.
-# -------------------------------
-function main()
-{
-    # Declarations and Initializations
-    # --------------------------------------
-    # PowerShell Core's complete path
-    # We will use this return code to signify the operation.
-    [int32] $exitCode = 0;
-
-    # This variable will signify if an error was detected; this will help to reduce code duplication.
-    [bool] $caughtError = $false;
-
-    # Error Message
-    #  Provides an error message that will be presented to the user.
-    [string] $errorMessage = $null;
-    # --------------------------------------
-
-
-
-    # We will begin by initializing the variables that we will be using within this application.
-    Initialization;
-
-
-    # Make sure that we can find the PowerShell Core software
-    if ($(TestPowerShellCore) -eq $false)
+    # Test PowerShell Core's Path
+    # -------------------------------
+    # Documentation:
+    #  This function will make sure that the PowerShell Core binary is ready for us to use by either inspecting
+    #   the $PATH or the default install location.
+    # -------------------------------
+    hidden static [bool] TestPowerShellCore()
     {
-        # Generate the error string regarding the error we just found.
-        $errorMessage = ("Failed to detect $($__POWERSHELL_EXECUTABLE__)`r`n" + `
-                        "Please make sure that the PowerShell Core application had been installed on your system.`r`n" + `
-                        "Expected to find PowerShell Core in the following:`r`n" + `
-                        "`t- `$PATH`r`n" + `
-                        "`tOR`r`n" + `
-                        "`t- $($__POWERSHELL_PATH__)");
+        # Declarations and Initializations
+        # --------------------------------------------
+        # We will use this to store as many directories associated with the PowerShell Core's install location.
+        [System.Object[]] $qualifiedDirectory = [System.Object]::New();
+        # --------------------------------------------
 
 
-        # Adjust the return code to signify that an error had been reached.
-        $exitCode = $__EXITCODE_CANNOT_FIND_POSHCORE__;
+
+        # With this check, we are going to be focused as to where we can call PowerShell Core.
+        #  We have two ways, in a perfect world, to invoke POSH Core:
+        #  1. Using $PATH
+        #  2. Using the default install location.
+
+        # Lets first take the easy approach, $PATH
+        if ($null -ne $(Get-Command -Name "$($GLOBAL:__POWERSHELL_EXECUTABLE__)" -CommandType Application))
+        {
+            # Successfully found it in $PATH
 
 
-        # We caught an error
-        $caughtError = $true;
-    } # if : Unable to find POSHCore
+            # Update the global variable's value.
+            $Global:__POWERSHELL_COMPLETE_PATH__ = "$($GLOBAL:__POWERSHELL_EXECUTABLE__)";
+
+            # Successfully completed
+            return $true;
+        } # if : Scan $PATH
 
 
-    # Now we will make sure that the PSCAT tool can be found.
-    elseif ($(TestPath $__PSCAT_COMPLETE_PATH__) -eq $false)
+        # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+        # Try to find it within the default installation path.
+        $qualifiedDirectory = Get-ChildItem -Path "$Global:__POWERSHELL_PATH__" | `
+                                Where-Object {$_ -match '([7-9]$|[0-9].$)'} | `
+                                Sort-Object -Property {[UInt16]$_.Name};
+
+
+        # Check to make sure that we where able to capture one or more hits; otherwise - we may not proceed.
+        if ($qualifiedDirectory.Count -eq 0)
+        {
+            # Because we could not find any installed versions, we can not proceed.
+            return $false;
+        } # if : No PowerShell Core Installation
+
+
+        for ([uint16] $i = $qualifiedDirectory.Count; $i -ge 0; $i--)
+        {
+            # If we are not able find the application, then we cannot proceed.
+            if ($i -eq 0)
+            {
+                # Unable to find PowerShell Core
+                return $false;
+            } # if : Unable to Find PowerShell Core
+
+
+            # Construct the complete path
+            $Global:__POWERSHELL_COMPLETE_PATH__ = ("$($Global:__POWERSHELL_PATH__)" + `            # Base path
+                                                    "$($qualifiedDirectory[$i - 1].Name)" + `       # Qualified Directory
+                                                    "\$($Global:__POWERSHELL_EXECUTABLE__)");       # Executable File Name
+
+
+            # Test the path
+            if (Test-Path -LiteralPath $Global:__POWERSHELL_COMPLETE_PATH__ `
+                        -PathType Leaf)
+            {
+                # Successfully found PowerShell Core
+                return $true;
+            } # if : Found PowerShell Core at Path
+        } # for : Scan for PowerShell Core Executable
+
+
+
+        # Failed to find the PowerShell Core executable
+        return $false;
+    } # TestPowerShellCore()
+
+
+
+
+
+
+    # Display Error Message
+    # -------------------------------
+    # Documentation:
+    #   This function is essentially are main entry point into this program; this is our driver.
+    # -------------------------------
+    hidden static [void] DisplayErrorMessage([string] $errorMessage)
     {
-        # Generate the error string regarding the error we caught.
-        $errorMessage = ("Failed to locate $($__PSCAT_FILENAME__)`r`n" + `
-                        "Expected Path was:`r`n" + `
-                        "`t$($__PSCAT_COMPLETE_PATH__)");
+        # Declarations and Initializations
+        # --------------------------------------------
+        # Create the message package that we will need to show the user that we were unable to find the PSCAT tool.
+        [System.Management.Automation.HostInformationMessage] $messagePackage = `
+            [System.Management.Automation.HostInformationMessage]::New();
+        # --------------------------------------------
 
 
-        # Adjust the return code to signify that an error had been reached.
-        $exitCode = $__EXITCODE_CANNOT_FIND_PSCAT__;
+
+        # Now, build the message package such that it grabs the user's attention immediately.
+        $messagePackage.BackgroundColor = "Black";
+        $messagePackage.ForegroundColor = "Red";
+        $messagePackage.Message = ("`r`n`r`n" + `
+                                    "`t`t<!> CRITICAL ERROR <!>`r`n" + `
+                                    "------------------------------------------------------`r`n" + `
+                                    "$($errorMessage)`r`n" + `
+                                    "------------------------------------------------------`r`n");
+        $messagePackage.NoNewLine = $false;
 
 
-        # We caught an error
-        $caughtError = $true;
-    } # if : Unable to find PSCAT
+        # Display the message to the user
+        Write-Information $messagePackage `
+                            -InformationAction Continue;
+    } # DisplayErrorMessage()
 
 
-    # We were able to find the PSCAT application, try to call it.
-    else
+
+
+
+
+    # Fetch Enter Key
+    # -------------------------------
+    # Documentation:
+    #   The intention of this function is to allow the ability for the user to view messages that are displayed on the
+    #   terminal buffer before the buffer is either flushed or the window is closed.
+    # -------------------------------
+    hidden static [void] FetchEnterKey()
     {
-        # This resource helped me to figure this out
-        # https://theitbros.com/powershell-function-return/
-        # Because we are able to find the PSCAT application, we may now try to invoke the operation code.
-        [System.Object[]] $cacheExitCode = Call;        # Because Call is going to return an object, we
-                                                        #   will want to cache the results and obtain the exitcode.
-
-
-        # Return the Exit Code
-        $exitCode = $cacheExitCode[1];
-    } # Else : Call the Application
+        # Declarations and Initializations
+        # --------------------------------------------
+        # Create the Message Package, we will need this to tell the user to press the 'Enter' key.
+        [System.Management.Automation.HostInformationMessage] $messagePackage = `
+            [System.Management.Automation.HostInformationMessage]::New();
+        # --------------------------------------------
 
 
 
-    # Was an error reached during the checks?
-    if ($caughtError)
+        # Now, build the message package
+        $messagePackage.BackgroundColor = "Black";
+        $messagePackage.ForegroundColor = "White";
+        $messagePackage.Message = ("`r`n`r`n"+ `
+                                    "Press the Enter key to continue. . .");
+        $messagePackage.NoNewLine = $false;
+
+
+        # Display the message to the user
+        Write-Information $messagePackage `
+                            -InformationAction Continue;
+
+
+        # Allow the user read the information before we close the script
+        (Get-Host).UI.ReadLine();
+    } # FetchEnterKey()
+
+
+
+
+
+
+    # Main
+    # -------------------------------
+    # Documentation:
+    #   This function is essentially are main entry point into this program; this is our driver.
+    # -------------------------------
+    static [Int32] main()
     {
-        # We already have the error message provided to us already, all that we have to do is show the message.
-        DisplayErrorMessage $errorMessage;
+        # Declarations and Initializations
+        # --------------------------------------
+        # PowerShell Core's complete path
+        # We will use this return code to signify the operation.
+        [int32] $exitCode = 0;
 
-        # Allow the user to read the message.
-        FetchEnterKey;
-    } # if : Error During Checks
+        # This variable will signify if an error was detected; this will help to reduce code duplication.
+        [bool] $caughtError = $false;
+
+        # Error Message
+        #  Provides an error message that will be presented to the user.
+        [string] $errorMessage = $null;
+        # --------------------------------------
 
 
 
-    # Provide the operation exit code
-    return $exitCode;
-} # main()
+        # Make sure that we can find the PowerShell Core software
+        if (!$([Clean]::TestPowerShellCore()))
+        {
+            # Generate the error string regarding the error we just found.
+            $errorMessage = ("Failed to detect $($Global:__POWERSHELL_EXECUTABLE__)`r`n" + `
+                            "Please make sure that the PowerShell Core application had been installed on your system.`r`n" + `
+                            "Expected to find PowerShell Core in the following:`r`n" + `
+                            "`t- `$PATH`r`n" + `
+                            "`tOR`r`n" + `
+                            "`t- $($Global:__POWERSHELL_PATH__)");
 
+
+            # Adjust the return code to signify that an error had been reached.
+            $exitCode = $Global:__EXITCODE_CANNOT_FIND_POSHCORE__;
+
+
+            # We caught an error
+            $caughtError = $true;
+        } # if : Unable to find POSHCore
+
+
+        # Now we will make sure that the PSCAT tool can be found.
+        elseif (!$([Clean]::TestPath($Global:__PSCAT_COMPLETE_PATH__)))
+        {
+            # Generate the error string regarding the error we caught.
+            $errorMessage = ("Failed to locate $($Global:__PSCAT_FILENAME__)`r`n" + `
+                            "Expected Path was:`r`n" + `
+                            "`t$($Global:__PSCAT_COMPLETE_PATH__)");
+
+
+            # Adjust the return code to signify that an error had been reached.
+            $exitCode = $Global:__EXITCODE_CANNOT_FIND_PSCAT__;
+
+
+            # We caught an error
+            $caughtError = $true;
+        } # if : Unable to find PSCAT
+
+
+        # We were able to find the PSCAT application, try to call it.
+        else
+        {
+            # Execute PSCAT
+            $exitCode = [Clean]::Call();
+        } # Else : Call the Application
+
+
+
+        # Was an error reached during the checks?
+        if ($caughtError)
+        {
+            # We already have the error message provided to us already, all that we have to do is show the message.
+            [Clean]::DisplayErrorMessage($errorMessage);
+
+            # Allow the user to read the message.
+            [Clean]::FetchEnterKey();
+        } # if : Error During Checks
+
+
+
+        # Provide the operation exit code
+        return $exitCode;
+    } # main()
+} # Clean
+
+
+
+
+
+# We will begin by initializing the variables that we will be using within this application.
+Initialization;
 
 
 
 # Start the program
-exit main;
+exit [Clean]::main();
