@@ -66,63 +66,63 @@ function Initialization()
     Set-Variable -Name "__PSCAT_FILENAME__" -Value "PSCAT.ps1" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
         -Visibility Private `
-        -Description "";
+        -Description "PowerShell Compact-Archive Tool's filename";
 
     # PSCAT Absolute Path
     #  NOTE: This script should reside with the PSCAT application.
     Set-Variable -Name "__PSCAT_FULL_PATH__" -Value $PSScriptRoot `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
         -Visibility Private `
-        -Description "";
+        -Description "Base path in which the PSCAT application will reside";
 
     # PSCAT Complete Path
     Set-Variable -Name "__PSCAT_COMPLETE_PATH__" -Value "$($__PSCAT_FULL_PATH__)\$($__PSCAT_FILENAME__)" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
         -Visibility Private `
-        -Description "";
+        -Description "PowerShell Compact-Archive Tool's absolute path - including filename.";
 
     # PSCAT Operation Code
     Set-Variable -Name "__PSCAT_OPERATION_CODE__" -Value 1 `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
         -Visibility Private `
-        -Description "";
+        -Description "Signifies the 'Clean' Operation mode in PowerShell Compact-Archive Tool.";
 
     # PowerShell Core Executable Name
     Set-Variable -Name "__POWERSHELL_EXECUTABLE__" -Value "pwsh.exe" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
         -Visibility Private `
-        -Description "";
+        -Description "PowerShell Core's filename";
 
     # PowerShell Core Path
     Set-Variable -Name "__POWERSHELL_PATH__" -Value "$($env:ProgramFiles)\PowerShell\" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
         -Visibility Private `
-        -Description "";
+        -Description "Common base path for PowerShell Core";
 
     # PowerShell Core Complete Path
     #  Populated later within the application.
     Set-Variable -Name "__POWERSHELL_COMPLETE_PATH__" -Value $null `
         -Scope Global -Force -Option None -ErrorAction SilentlyContinue `
         -Visibility Private `
-        -Description "";
+        -Description "PowerShell Core's absolute path [Must be generated before use]";
 
     # Exit Codes : Cannot Find PSCAT
     Set-Variable -Name "__EXITCODE_CANNOT_FIND_PSCAT__" -Value 500 `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
         -Visibility Private `
-        -Description "";
+        -Description "Exit Code signifying that the PowerShell Compact-Archive Tool could not be found.";
 
     # Exit Codes : Failed Launch PSCAT
     Set-Variable -Name "__EXITCODE_FAILED_TO_LAUNCH_PSCAT__" -Value 501 `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
         -Visibility Private `
-        -Description "";
+        -Description "Exit Code Signifying that the PowerShell Compact-Archive Tool could not be started.";
 
     # Exit Codes : Cannot Find PowerShell Core
     Set-Variable -Name "__EXITCODE_CANNOT_FIND_POSHCORE__" -Value 502 `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
         -Visibility Private `
-        -Description "";
+        -Description "Exit Code signifying that the PowerShell Core could not be found.";
 } # Initialization()
 
 
