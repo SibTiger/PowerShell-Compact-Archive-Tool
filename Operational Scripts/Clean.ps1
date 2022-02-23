@@ -131,19 +131,19 @@ function Initialization()
 
 Class Clean
 {
-    # LaunchPSCAT
+    # Launch the PowerShell Compact-Archive Tool
     # -------------------------------
     # Documentation:
-    #  This function will call the PowerShell Compact-Archive Tool with the desired operation code.
+    # This function will execute the PowerShell Compact-Archive Tool and set the Program Mode to 'Clean'.
     # -------------------------------
     hidden static [Int32] LaunchPSCAT()
     {
         # Declarations and Initializations
         # --------------------------------------
-        # We are going to use 'Splatting' to make this easier to construct the arguments.
+        # We are going to use 'Splatting' to make this easier to construct the Start-Process arguments.
         [System.Collections.Hashtable] $hashArguments = [System.Collections.Hashtable]::New();
 
-        # We are going to use this to capture the Exit Code from PSCAT
+        # We are going to use this variable to capture the Exit Code from PSCAT.
         [System.Diagnostics.Process] $processInformation = [System.Diagnostics.Process]::New();
         # --------------------------------------
 
@@ -157,7 +157,7 @@ Class Clean
             Wait                = $true;
             NoNewWindow         = $true;
             PassThru            = $true;
-            } # Hash Table
+            } # Start-Process Arguments
 
 
 
@@ -165,7 +165,7 @@ Class Clean
         $processInformation = Start-Process @hashArguments;
 
 
-        # Return PSCATs Exit Code
+        # Return PSCAT's Exit Code
         return $processInformation.ExitCode;
     } # LaunchPSCAT()
 
