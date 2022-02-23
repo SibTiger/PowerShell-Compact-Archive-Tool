@@ -57,8 +57,8 @@
 # Initialization
 # -------------------------------
 # Documentation:
-#  This function will initialize all of the required variables that we will need within this application.
-#  This is mainly to help when needing to maintain this application over future generations of PSCAT.
+#   This function will initialize all of the required variables that we will need within this application.
+#   This is mainly to help when needing to maintain this application over future generations of PSCAT.
 # -------------------------------
 function Initialization()
 {
