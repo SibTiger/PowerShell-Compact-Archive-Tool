@@ -186,7 +186,7 @@ Class Clean
     hidden static [bool] TestFilePath([string] $pathToExamine)
     {
         # Check to see if we can find the application
-        if (Test-Path -LiteralPath "$($pathToExamine)")
+        if (Test-Path -LiteralPath "$($pathToExamine)" -PathType Leaf)
         {
             # We found the application
             return $true;
