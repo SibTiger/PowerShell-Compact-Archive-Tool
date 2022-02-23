@@ -178,12 +178,12 @@ Class Clean
 
 
 
-    # Test Path - File Based
+    # Test File Path
     # -------------------------------
     # Documentation:
     #  This function will make sure that the PowerShell Compact-Archive Tool was detected within the given path.
     # -------------------------------
-    hidden static [bool] TestPath([string] $pathToExamine)
+    hidden static [bool] TestFilePath([string] $pathToExamine)
     {
         # Check to see if we can find the application
         if (Test-Path -LiteralPath "$($pathToExamine)")
@@ -195,7 +195,7 @@ Class Clean
 
         # Could not find the application
         return $false;
-    } # TestPath()
+    } # TestFilePath()
 
 
 
