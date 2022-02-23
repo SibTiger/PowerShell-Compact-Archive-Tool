@@ -134,7 +134,7 @@ Class Clean
     # Launch the PowerShell Compact-Archive Tool
     # -------------------------------
     # Documentation:
-    # This function will execute the PowerShell Compact-Archive Tool and set the Program Mode to 'Clean'.
+    #   This function will execute the PowerShell Compact-Archive Tool and set the Program Mode to 'Clean'.
     # -------------------------------
     hidden static [Int32] LaunchPSCAT()
     {
