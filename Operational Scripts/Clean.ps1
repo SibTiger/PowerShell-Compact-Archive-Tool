@@ -131,12 +131,12 @@ function Initialization()
 
 Class Clean
 {
-    # Call
+    # LaunchPSCAT
     # -------------------------------
     # Documentation:
     #  This function will call the PowerShell Compact-Archive Tool with the desired operation code.
     # -------------------------------
-    hidden static [Int32] Call()
+    hidden static [Int32] LaunchPSCAT()
     {
         # Declarations and Initializations
         # --------------------------------------
@@ -167,7 +167,7 @@ Class Clean
 
         # Return PSCATs Exit Code
         return $processInformation.ExitCode;
-    } # Call()
+    } # LaunchPSCAT()
 
 
 
@@ -428,7 +428,7 @@ Class Clean
         else
         {
             # Execute PSCAT
-            $exitCode = [Clean]::Call();
+            $exitCode = [Clean]::LaunchPSCAT();
         } # Else : Call the Application
 
 
