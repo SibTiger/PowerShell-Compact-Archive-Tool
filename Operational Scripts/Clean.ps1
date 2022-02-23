@@ -136,6 +136,10 @@ Class Clean
     # Documentation:
     #   This function will execute the PowerShell Compact-Archive Tool and set the Program Mode to 'Clean'.
     # -------------------------------
+    # Output:
+    #   [Int] Exit Code
+    #       This is the exit code provided by the PowerShell Compact-Archive Tool program.
+    # -------------------------------
     hidden static [Int32] LaunchPSCAT()
     {
         # Declarations and Initializations
