@@ -181,19 +181,24 @@ Class Clean
     # Test File Path
     # -------------------------------
     # Documentation:
-    #  This function will make sure that the PowerShell Compact-Archive Tool was detected within the given path.
+    #   This function will inspect the complete path in which the file supposedly resides.
+    # -------------------------------
+    # Output:
+    #   [Bool] Exist Result
+    #       $True   - File exists within the given path.
+    #       $False  - File could not be found with the provided path.
     # -------------------------------
     hidden static [bool] TestFilePath([string] $pathToExamine)
     {
-        # Check to see if we can find the application
+        # Check to see if we can find the file
         if (Test-Path -LiteralPath "$($pathToExamine)" -PathType Leaf)
         {
-            # We found the application
+            # Found the target file
             return $true;
         } # if : Found Target
 
 
-        # Could not find the application
+        # Unable to find the target file
         return $false;
     } # TestFilePath()
 
