@@ -210,8 +210,12 @@ Class Clean
     # Find PowerShell Core
     # -------------------------------
     # Documentation:
-    #  This function will make sure that the PowerShell Core binary is ready for us to use by either inspecting
-    #   the $PATH or the default install location.
+    #   This function will examine the common ways in which we can be able to locate the PowerShell Core
+    #   application within the host system's environment.
+    #
+    #   This function will try to find the PowerShell Core by checking the following:
+    #       1) Checking the system's environment variable, $PATH.
+    #       2) Checking the default install location.
     # -------------------------------
     hidden static [bool] FindPowerShellCore()
     {
@@ -223,11 +227,6 @@ Class Clean
 
 
 
-        # With this check, we are going to be focused as to where we can call PowerShell Core.
-        #  We have two ways, in a perfect world, to invoke POSH Core:
-        #  1. Using $PATH
-        #  2. Using the default install location.
-
         # Lets first take the easy approach, $PATH
         if ($null -ne $(Get-Command -Name "$($GLOBAL:__POWERSHELL_EXECUTABLE__)" -CommandType Application))
         {
@@ -237,7 +236,8 @@ Class Clean
             # Update the global variable's value.
             $Global:__POWERSHELL_COMPLETE_PATH__ = "$($GLOBAL:__POWERSHELL_EXECUTABLE__)";
 
-            # Successfully completed
+
+            # Successfully found POSH from the System's environment variable
             return $true;
         } # if : Scan $PATH
 
@@ -246,9 +246,9 @@ Class Clean
 
 
         # Try to find it within the default installation path.
-        $qualifiedDirectory = Get-ChildItem -Path "$Global:__POWERSHELL_PATH__" | `
-                                Where-Object {$_ -match '([7-9]$|[0-9].$)'} | `
-                                Sort-Object -Property {[UInt16]$_.Name};
+        $qualifiedDirectory = Get-ChildItem -Path "$Global:__POWERSHELL_PATH__" | `     # Obtain all possible sub-directories within the location
+                                Where-Object {$_ -match '([7-9]$|[0-9].$)'} | `         # Filter all names that do not start with 7 to 9
+                                Sort-Object -Property {[UInt16]$_.Name};                # Output all results that fit the criteria.
 
 
         # Check to make sure that we where able to capture one or more hits; otherwise - we may not proceed.
@@ -259,6 +259,7 @@ Class Clean
         } # if : No PowerShell Core Installation
 
 
+        # Try to use the latest version of the PowerShell Core application
         for ([uint16] $i = $qualifiedDirectory.Count; $i -ge 0; $i--)
         {
             # Construct the complete path
@@ -267,7 +268,7 @@ Class Clean
                                                     "\$($Global:__POWERSHELL_EXECUTABLE__)");       # Executable File Name
 
 
-            # Test the path
+            # Check the path
             if (Test-Path -LiteralPath $Global:__POWERSHELL_COMPLETE_PATH__ `
                         -PathType Leaf)
             {
@@ -275,7 +276,6 @@ Class Clean
                 return $true;
             } # if : Found PowerShell Core at Path
         } # for : Scan for PowerShell Core Executable
-
 
 
         # Failed to find the PowerShell Core executable
