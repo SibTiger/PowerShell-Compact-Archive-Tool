@@ -261,14 +261,6 @@ Class Clean
 
         for ([uint16] $i = $qualifiedDirectory.Count; $i -ge 0; $i--)
         {
-            # If we are not able find the application, then we cannot proceed.
-            if ($i -eq 0)
-            {
-                # Unable to find PowerShell Core
-                return $false;
-            } # if : Unable to Find PowerShell Core
-
-
             # Construct the complete path
             $Global:__POWERSHELL_COMPLETE_PATH__ = ("$($Global:__POWERSHELL_PATH__)" + `            # Base path
                                                     "$($qualifiedDirectory[$i - 1].Name)" + `       # Qualified Directory
