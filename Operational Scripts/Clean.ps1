@@ -207,13 +207,13 @@ Class Clean
 
 
 
-    # Test PowerShell Core's Path
+    # Find PowerShell Core
     # -------------------------------
     # Documentation:
     #  This function will make sure that the PowerShell Core binary is ready for us to use by either inspecting
     #   the $PATH or the default install location.
     # -------------------------------
-    hidden static [bool] TestPowerShellCore()
+    hidden static [bool] FindPowerShellCore()
     {
         # Declarations and Initializations
         # --------------------------------------------
@@ -288,7 +288,7 @@ Class Clean
 
         # Failed to find the PowerShell Core executable
         return $false;
-    } # TestPowerShellCore()
+    } # FindPowerShellCore()
 
 
 
@@ -395,7 +395,7 @@ Class Clean
 
 
         # Make sure that we can find the PowerShell Core software
-        if (!$([Clean]::TestPowerShellCore()))
+        if (!$([Clean]::FindPowerShellCore()))
         {
             # Generate the error string regarding the error we just found.
             $errorMessage = ("Failed to detect $($Global:__POWERSHELL_EXECUTABLE__)`r`n" + `
