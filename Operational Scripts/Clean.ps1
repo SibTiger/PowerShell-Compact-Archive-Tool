@@ -408,7 +408,7 @@ Class Clean
 
 
         # Now we will make sure that the PSCAT tool can be found.
-        elseif (!$([Clean]::TestPath($Global:__PSCAT_COMPLETE_PATH__)))
+        elseif (!$([Clean]::TestFilePath($Global:__PSCAT_COMPLETE_PATH__)))
         {
             # Generate the error string regarding the error we caught.
             $errorMessage = ("Failed to locate $($Global:__PSCAT_FILENAME__)`r`n" + `
