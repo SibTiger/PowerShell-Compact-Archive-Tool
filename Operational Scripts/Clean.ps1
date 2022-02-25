@@ -305,7 +305,7 @@ Class Clean
 
 
 
-        # Now, build the message package such that it grabs the user's attention immediately.
+        # Generate the message package such that it grabs the user's attention immediately.
         $messagePackage.BackgroundColor = "Black";
         $messagePackage.ForegroundColor = "Red";
         $messagePackage.Message = ("`r`n`r`n" + `
@@ -316,7 +316,7 @@ Class Clean
         $messagePackage.NoNewLine = $false;
 
 
-        # Display the message to the user
+        # Display the error message to the user
         Write-Information $messagePackage `
                             -InformationAction Continue;
     } # DisplayErrorMessage()
