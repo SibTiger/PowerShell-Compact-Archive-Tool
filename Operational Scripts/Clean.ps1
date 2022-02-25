@@ -378,23 +378,24 @@ Class Clean
     {
         # Declarations and Initializations
         # --------------------------------------
-        # We will use this return code to signify the operation.
+        # We will use this variable to signify the entire operation's status.
         [int32] $exitCode = 0;
 
         # This variable will signify if an error was detected; this will help to reduce code duplication.
         [bool] $caughtError = $false;
 
-        # Error Message
-        #  Provides an error message that will be presented to the user.
+        # Provides an error message that will be presented to the user.
         [string] $errorMessage = $null;
         # --------------------------------------
 
 
 
-        # Make sure that we can find the PowerShell Core software
+        # Try to detect if the PowerShell Core is presently installed within the host's system.
+        #  If we can find it, then we will be able to know how to directly invoke POSH Core.
         if (!$([Clean]::FindPowerShellCore()))
         {
-            # Generate the error string regarding the error we just found.
+            # Because we cannot find POSH Core, we cannot continue.
+            # Generate the error message
             $errorMessage = ("Failed to detect $($Global:__POWERSHELL_EXECUTABLE__)`r`n" + `
                             "Please make sure that the PowerShell Core application had been installed on your system.`r`n" + `
                             "Expected to find PowerShell Core in the following:`r`n" + `
@@ -412,10 +413,11 @@ Class Clean
         } # if : Unable to find POSHCore
 
 
-        # Now we will make sure that the PSCAT tool can be found.
+        # Try to detect if the PowerShell Compact-Archive Tool had been found.
         elseif (!$([Clean]::TestFilePath($Global:__PSCAT_COMPLETE_PATH__)))
         {
-            # Generate the error string regarding the error we caught.
+            # Because we cannot find the PSCAT, we cannot continue.
+            # Generate the error message
             $errorMessage = ("Failed to locate $($Global:__PSCAT_FILENAME__)`r`n" + `
                             "Expected Path was:`r`n" + `
                             "`t$($Global:__PSCAT_COMPLETE_PATH__)");
@@ -430,16 +432,16 @@ Class Clean
         } # if : Unable to find PSCAT
 
 
-        # We were able to find the PSCAT application, try to call it.
+        # If we successfully found POSHCore and PSCAT, then launch the program.
         else
         {
             # Execute PSCAT
             $exitCode = [Clean]::LaunchPSCAT();
-        } # Else : Call the Application
+        } # Else : Launch the Application
 
 
 
-        # Was an error reached during the checks?
+        # Did we catch an error during the detections?
         if ($caughtError)
         {
             # We already have the error message provided to us already, all that we have to do is show the message.
