@@ -378,7 +378,6 @@ Class Clean
     {
         # Declarations and Initializations
         # --------------------------------------
-        # PowerShell Core's complete path
         # We will use this return code to signify the operation.
         [int32] $exitCode = 0;
 
