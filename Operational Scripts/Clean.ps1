@@ -461,10 +461,10 @@ Class Clean
 
 
 
-# We will begin by initializing the variables that we will be using within this application.
+# Initialize the global variables that we will use within this program.
 Initialization;
 
 
 
-# Start the program
+# Start the program and then return the exit code upon terminating.
 exit [Clean]::main();
