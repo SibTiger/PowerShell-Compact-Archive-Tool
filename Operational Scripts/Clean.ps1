@@ -149,6 +149,10 @@ Class Clean
 
         # We are going to use this variable to capture the Exit Code from PSCAT.
         [System.Diagnostics.Process] $processInformation = [System.Diagnostics.Process]::New();
+
+        # Error Message
+        #  Chief Reason for Error
+        [string] $errorTitle = "((REASON IS NOT KNOWN))";
         # --------------------------------------
 
 
@@ -165,35 +169,80 @@ Class Clean
             } # Start-Process Arguments
 
 
+
         # Try to launch the PowerShell Core application
         try
         {
             # Launch the PowerShell Compact-Archive Tool program
             $processInformation = Start-Process @hashArguments;
 
-            # Return PSCAT's Exit Code
-            return $processInformation.ExitCode;
+
+            # Evaluate POSHCore's return code; check to see if we reached an internal error or if the operation was successful.
+            switch($processInformation.ExitCode)
+            {
+                # General Error
+                1
+                {
+                    # Provide the error message
+                    $errorTitle = "PowerShell reached a very general error!";
+                } # 1 : General Error
+
+
+                # POSH: Bad script name or path to script
+                64
+                {
+                    # Provide the error message
+                    $errorTitle = "Could not find the PowerShell Compact-Archive Tool!";
+                } # 64: Bad File Path
+
+
+                # PSCAT - POSH: Incorrect Argument Conditions
+                501
+                {
+                    # Provide the error message
+                    $errorTitle = "Program Mode was out of range!"
+                } # 501: Incorrect Argument Conditions
+
+
+                # Operation was successful
+                default
+                {
+                    # Operation was successful
+
+                    # Return PSCAT's Exit Code
+                    return $processInformation.ExitCode;
+                } # Default: No errors detected
+            } # switch : Evaluate Return Code
         } # Try: Launch POSHCore with PSCAT
 
-        # Caught an error
+
+        # Caught an error during POSH Launch
         catch
         {
-            [string] $errorMessage = ("Failed to launch PowerShell Core!`r`n" + `
-                                        "Tried to invoke PowerShell Core using: $($hashArguments.FilePath)`r`n" + `
-                                        "Working Directory was set to: $($hashArguments.WorkingDirectory)`r`n" + `
-                                        "Arguments that were used: $($hashArguments.ArgumentList)`r`n" + `
-                                        "Other properties that were used:`r`n" + `
-                                        "`tWait: $($hashArguments.Wait)`r`n" + `
-                                        "`tNo New Window: $($hashArguments.NoNewWindow)`r`n" + `
-                                        "`tPass Through: $($hashArguments.PassThru)`r`n" + `
-                                        "`tError Action: $($hashArguments.ErrorAction)");
-
-            # Display the error message to the user
-            [Clean]::DisplayErrorMessage($errorMessage);
-
-            # Allow the user to read the message.
-            [Clean]::FetchEnterKey();
+            # Provide the error message
+            $errorTitle = "Failed to launch PowerShell Core!"
         } # Catch: Caught an error
+
+
+
+        # Generate the full error message
+        [string] $errorMessage = ("$($errorTitle)`r`n" + `
+                                "Tried to invoke PowerShell Core using: $($hashArguments.FilePath)`r`n" + `
+                                "Working Directory was set to: $($hashArguments.WorkingDirectory)`r`n" + `
+                                "Arguments that were used: $($hashArguments.ArgumentList)`r`n" + `
+                                "Other properties that were used:`r`n" + `
+                                "`tWait: $($hashArguments.Wait)`r`n" + `
+                                "`tNo New Window: $($hashArguments.NoNewWindow)`r`n" + `
+                                "`tPass Through: $($hashArguments.PassThru)`r`n" + `
+                                "`tError Action: $($hashArguments.ErrorAction)");
+
+
+        # Display the error message to the user
+        [Clean]::DisplayErrorMessage($errorMessage);
+
+
+        # Allow the user to read the message.
+        [Clean]::FetchEnterKey();
 
 
         # Return the error code that we were unable to start PSCAT via POSHCore.
