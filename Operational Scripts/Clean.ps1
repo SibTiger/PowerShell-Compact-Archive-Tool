@@ -329,8 +329,11 @@ Class Clean
     # Fetch Enter Key
     # -------------------------------
     # Documentation:
-    #   The intention of this function is to allow the ability for the user to view messages that are displayed on the
-    #   terminal buffer before the buffer is either flushed or the window is closed.
+    #   With this function, we can momentarily pause the application such that the user may view the messages
+    #   before terminal's buffer is cleared, the terminal is about to exit, or before the buffer gets flooded
+    #   with verbose or additional messages.
+    #
+    #   As such, we want the user to read the messages before the content is lost.
     # -------------------------------
     hidden static [void] FetchEnterKey()
     {
