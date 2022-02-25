@@ -346,7 +346,7 @@ Class Clean
 
 
 
-        # Now, build the message package
+        # Create the message package
         $messagePackage.BackgroundColor = "Black";
         $messagePackage.ForegroundColor = "White";
         $messagePackage.Message = ("`r`n`r`n"+ `
@@ -359,7 +359,8 @@ Class Clean
                             -InformationAction Continue;
 
 
-        # Allow the user read the information before we close the script
+        # Momentarily stop the application from further executing until the user provides the
+        #  enter key character.
         (Get-Host).UI.ReadLine();
     } # FetchEnterKey()
 
