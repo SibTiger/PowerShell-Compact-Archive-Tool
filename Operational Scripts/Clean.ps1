@@ -129,6 +129,11 @@ function Initialization()
 
 
 
+# This class provides the main operations in order to get the job done.
+#  Fun-Fact, I am explicitly using OOP as I can control the return information.  Previously I did use
+#           POP, however due to the nature of the 'Pipe' in POSH - it was more trouble than what it was
+#           worth.  Thus, switching to OOP was necessary to assure that I can move information as I want
+#           without it getting ridiculous....
 Class Clean
 {
     # Launch the PowerShell Compact-Archive Tool
