@@ -290,7 +290,9 @@ Class Clean
     # Display Error Message
     # -------------------------------
     # Documentation:
-    #   This function is essentially are main entry point into this program; this is our driver.
+    #   This function will provide centralized way into creating an error message that will be
+    #   displayed to the user's terminal buffer.
+    #   We will only provide a static error message, such that the format does not change.
     # -------------------------------
     hidden static [void] DisplayErrorMessage([string] $errorMessage)
     {
