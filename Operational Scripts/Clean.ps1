@@ -161,16 +161,43 @@ Class Clean
             Wait                = $true;
             NoNewWindow         = $true;
             PassThru            = $true;
+            ErrorAction         = "Stop";
             } # Start-Process Arguments
 
 
+        # Try to launch the PowerShell Core application
+        try
+        {
+            # Launch the PowerShell Compact-Archive Tool program
+            $processInformation = Start-Process @hashArguments;
 
-        # Launch the PowerShell Compact-Archive Tool program
-        $processInformation = Start-Process @hashArguments;
+            # Return PSCAT's Exit Code
+            return $processInformation.ExitCode;
+        } # Try: Launch POSHCore with PSCAT
+
+        # Caught an error
+        catch
+        {
+            [string] $errorMessage = ("Failed to launch PowerShell Core!`r`n" + `
+                                        "Tried to invoke PowerShell Core using: $($hashArguments.FilePath)`r`n" + `
+                                        "Working Directory was set to: $($hashArguments.WorkingDirectory)`r`n" + `
+                                        "Arguments that were used: $($hashArguments.ArgumentList)`r`n" + `
+                                        "Other properties that were used:`r`n" + `
+                                        "`tWait: $($hashArguments.Wait)`r`n" + `
+                                        "`tNo New Window: $($hashArguments.NoNewWindow)`r`n" + `
+                                        "`tPass Through: $($hashArguments.PassThru)`r`n" + `
+                                        "`tError Action: $($hashArguments.ErrorAction)");
+
+            # Display the error message to the user
+            [Clean]::DisplayErrorMessage($errorMessage);
+
+            # Allow the user to read the message.
+            [Clean]::FetchEnterKey();
+        } # Catch: Caught an error
 
 
-        # Return PSCAT's Exit Code
-        return $processInformation.ExitCode;
+        # Return the error code that we were unable to start PSCAT via POSHCore.
+        return $Global:__EXITCODE_FAILED_TO_LAUNCH_PSCAT__;
     } # LaunchPSCAT()
 
 
