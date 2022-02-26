@@ -215,6 +215,7 @@ function MakeCompilerDriver()
 
     # Sub-Script Array
     $scriptFileName = @("help.ps1", `
+                        "StartUpArguments.ps1"
                         "Initializations.ps1", `
                         "CommonIO.ps1", `
                         "CommonCUI.ps1", `
@@ -237,6 +238,7 @@ function MakeCompilerDriver()
                         "SettingsGit.ps1", `
                         "MainMenu.ps1", `
                         "Builder.ps1", `
+                        "Clean.ps1", `
                         "main.ps1");
 
     # Loop through each index in the array

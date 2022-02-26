@@ -1,5 +1,5 @@
 ﻿<# PowerShell Compact-Archive Tool
- # Copyright (C) 2021
+ # Copyright (C) 2022
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -1558,7 +1558,8 @@ class CommonIO
         # First try to see if the host system has Microsoft Word installed,
         #  if so, we can proceed through the rest of this function, otherwise
         #  we must immediately stop.
-        if ((Test-Path HKLM:SOFTWARE\Classes\Word.Application) -eq $true)
+        if ((Test-Path -Path HKLM:SOFTWARE\Classes\Word.Application `
+                        -PathType Container) -eq $true)
         {
             # Microsoft Word was detected; try to create a new instance
             #  of the process.
@@ -2424,7 +2425,9 @@ class CommonIO
         # Perform the requested check on the path:
         #  - Literal path (or Absolute path)
         if(($literalSwitch -eq $true) -and `
-            ((Test-Path -LiteralPath $path -ErrorAction SilentlyContinue) -eq $true))
+            ((Test-Path -LiteralPath $path `
+                        -PathType Any `
+                        -ErrorAction SilentlyContinue) -eq $true))
         {
             # Directory or file exists
             $exitCode = $true;
@@ -2432,7 +2435,9 @@ class CommonIO
 
 
         #  - Relative path
-        elseif((Test-Path -Path $path -ErrorAction SilentlyContinue) -eq $true)
+        elseif((Test-Path -Path $path `
+                        -PathType Any `
+                        -ErrorAction SilentlyContinue) -eq $true)
         {
             # Directory or file exists
             $exitCode = $true;
@@ -4703,7 +4708,7 @@ class CommonIO
 
     #region Timers
 
-   <# Delay {Seconds}
+   <# Delay - Seconds
     # -------------------------------
     # Documentation:
     #  This function will provide the ability to temporarily sleep the entire application
@@ -4716,11 +4721,36 @@ class CommonIO
     #   How many seconds the application will be temporarily halted.
     # -------------------------------
     #>
-    static [void] Delay([double] $time)
+    static [void] DelaySeconds([double] $time)
     {
         # Momentarily delay the application
         Start-Sleep -Seconds $time;
-    } # Delay
+    } # DelaySeconds()
+
+
+
+
+   <# Delay - Ticks
+    # -------------------------------
+    # Documentation:
+    #  This function will provide the ability to temporarily sleep the entire application
+    #   for a specific amount of ticks.  This may prove to be useful when needing the user
+    #   to view the content - but without needing the user to provide some sort of feedback,
+    #   thus keeping the application running after the clock had ran out.
+    # -------------------------------
+    # Input:
+    #  [uint64] Ticks
+    #   How many ticks the application will be temporarily halted.
+    #   NOTE: One must first get the ticks in the future using Get-Date in order for this
+    #           function to work properly.
+    # -------------------------------
+    #>
+    static [void] DelayTicks([uint64] $ticks)
+    {
+        # Momentarily delay the application
+        while (((Get-Date).ticks) -le $ticks)
+        {;}
+    } # DelayTicks()
     #endregion
 } # CommonIO
 

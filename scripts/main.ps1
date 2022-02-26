@@ -1,5 +1,5 @@
 ﻿<# PowerShell Compact-Archive Tool
- # Copyright (C) 2021
+ # Copyright (C) 2022
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -48,6 +48,11 @@ function main()
     # This variable will the program's main exit level state.  This variable will be the main exit level
     #  when the application terminates.
     [int] $exitLevel = 0;
+
+
+    # This variable will provide how long the splash screen should be displayed on the terminal.
+    #  Because I want the splash screen to be displayed AND still having some work done in the background, we will capture the time now.
+    [UInt64] $splashScreenHoldTime = ((Get-Date) + (New-TimeSpan -Seconds $Global:_STARTUPSPLASHSCREENHOLDTIME_)).Ticks;
     # ----------------------------------------
 
 
@@ -56,24 +61,24 @@ function main()
     [CommonIO]::ClearBuffer();
 
 
-    # Provide a new Window Title
-    [CommonIO]::SetTerminalWindowTitle("$($Global:_PROGRAMNAME_) (Version $($Global:_VERSION_)) for $([ProjectInformation]::projectName) - $([ProjectInformation]::codeName)");
-
-
     # Display the Startup Splash Screen
     [CommonCUI]::StartUpScreen();
 
 
-    # Delay the program momentarily so the user can see the splash screen.
-    [CommonIO]::Delay(4);
-
-
-    # Clear the host's terminal buffer
-    [CommonIO]::ClearBuffer();
+    # Provide a new Window Title
+    [CommonIO]::SetTerminalWindowTitle("$($Global:_PROGRAMNAME_) (Version $($Global:_VERSION_)) for $([ProjectInformation]::projectName) - $([ProjectInformation]::codeName)");
 
 
     # Load the user's configurations, if available.
     $loadSaveUserConfiguration.Load();
+
+
+    # Delay the program momentarily so the user can see the splash screen.
+    [CommonIO]::DelayTicks($splashScreenHoldTime);
+
+
+    # Clear the host's terminal buffer
+    [CommonIO]::ClearBuffer();
 
 
     # Execute the Main Menu; from here - the program will be entirely driven by User Interactions.
@@ -135,7 +140,19 @@ CreateDirectories | Out-Null;
 
 
 
-# Execute the application and return the exit code from the Main Menu.
-#  The exit code could be an error or successful, this only depends on the
-#  operations that had been performed and what information had been gathered.
-exit main;
+# Should the program launch in Clean-Up\Uninstall mode?
+if (($programMode -gt 0) -and `
+    ($programMode -le 2))
+{
+    # Launch the cleanup\uninstall mode
+    exit clean -programMode $programMode;
+} # Clean Mode
+
+# Run the application normally
+else
+{
+    # Execute the application and return the exit code from the Main Menu.
+    #  The exit code could be an error or successful, this only depends on the
+    #  operations that had been performed and what information had been gathered.
+    exit main;
+} # Normal Mode
