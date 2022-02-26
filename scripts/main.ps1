@@ -48,6 +48,11 @@ function main()
     # This variable will the program's main exit level state.  This variable will be the main exit level
     #  when the application terminates.
     [int] $exitLevel = 0;
+
+
+    # This variable will provide how long the splash screen should be displayed on the terminal.
+    #  Because I want the splash screen to be displayed AND still having some work done in the background, we will capture the time now.
+    [UInt64] $splashScreenHoldTime = ((Get-Date) + (New-TimeSpan -Seconds $Global:_STARTUPSPLASHSCREENHOLDTIME_)).Ticks;
     # ----------------------------------------
 
 
@@ -56,24 +61,23 @@ function main()
     [CommonIO]::ClearBuffer();
 
 
-    # Provide a new Window Title
-    [CommonIO]::SetTerminalWindowTitle("$($Global:_PROGRAMNAME_) (Version $($Global:_VERSION_)) for $([ProjectInformation]::projectName) - $([ProjectInformation]::codeName)");
-
-
     # Display the Startup Splash Screen
     [CommonCUI]::StartUpScreen();
 
 
-    # Delay the program momentarily so the user can see the splash screen.
-    [CommonIO]::Delay($Global:_STARTUPSPLASHSCREENHOLDTIME_);
-
-
-    # Clear the host's terminal buffer
-    [CommonIO]::ClearBuffer();
+    # Provide a new Window Title
+    [CommonIO]::SetTerminalWindowTitle("$($Global:_PROGRAMNAME_) (Version $($Global:_VERSION_)) for $([ProjectInformation]::projectName) - $([ProjectInformation]::codeName)");
 
 
     # Load the user's configurations, if available.
     $loadSaveUserConfiguration.Load();
+
+    # Delay the program momentarily so the user can see the splash screen.
+    [CommonIO]::DelayBackground($splashScreenHoldTime);
+
+
+    # Clear the host's terminal buffer
+    [CommonIO]::ClearBuffer();
 
 
     # Execute the Main Menu; from here - the program will be entirely driven by User Interactions.
