@@ -4725,7 +4725,7 @@ class CommonIO
     {
         # Momentarily delay the application
         Start-Sleep -Seconds $time;
-    } # Delay
+    } # Delay()
     #endregion
 } # CommonIO
 
