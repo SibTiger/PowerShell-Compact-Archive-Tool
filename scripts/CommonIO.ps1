@@ -4708,7 +4708,7 @@ class CommonIO
 
     #region Timers
 
-   <# Delay {Seconds}
+   <# Delay - Seconds
     # -------------------------------
     # Documentation:
     #  This function will provide the ability to temporarily sleep the entire application
@@ -4721,11 +4721,11 @@ class CommonIO
     #   How many seconds the application will be temporarily halted.
     # -------------------------------
     #>
-    static [void] Delay([double] $time)
+    static [void] DelaySeconds([double] $time)
     {
         # Momentarily delay the application
         Start-Sleep -Seconds $time;
-    } # Delay()
+    } # DelaySeconds()
     #endregion
 } # CommonIO
 
