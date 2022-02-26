@@ -72,8 +72,9 @@ function main()
     # Load the user's configurations, if available.
     $loadSaveUserConfiguration.Load();
 
+
     # Delay the program momentarily so the user can see the splash screen.
-    [CommonIO]::DelayBackground($splashScreenHoldTime);
+    [CommonIO]::DelayTicks($splashScreenHoldTime);
 
 
     # Clear the host's terminal buffer
