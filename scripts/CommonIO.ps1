@@ -4726,6 +4726,31 @@ class CommonIO
         # Momentarily delay the application
         Start-Sleep -Seconds $time;
     } # DelaySeconds()
+
+
+
+
+   <# Delay - Ticks
+    # -------------------------------
+    # Documentation:
+    #  This function will provide the ability to temporarily sleep the entire application
+    #   for a specific amount of ticks.  This may prove to be useful when needing the user
+    #   to view the content - but without needing the user to provide some sort of feedback,
+    #   thus keeping the application running after the clock had ran out.
+    # -------------------------------
+    # Input:
+    #  [uint64] Ticks
+    #   How many ticks the application will be temporarily halted.
+    #   NOTE: One must first get the ticks in the future using Get-Date in order for this
+    #           function to work properly.
+    # -------------------------------
+    #>
+    static [void] DelayTicks([uint64] $ticks)
+    {
+        # Momentarily delay the application
+        while (((Get-Date).ticks) -le $ticks)
+        {;}
+    } # DelayTicks()
     #endregion
 } # CommonIO
 
