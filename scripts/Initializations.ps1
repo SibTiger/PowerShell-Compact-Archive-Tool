@@ -63,28 +63,42 @@ function InitializationProgramIdentity()
 {
     # Program Name
     Set-Variable -Name "_PROGRAMNAME_" -Value "PowerShell Compact-Archive Tool" `
-        -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+        -Option Constant -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "The full name of the application";
+
 
     # Program Name (Abbreviated)
     Set-Variable -Name "_PROGRAMNAMESHORT_" -Value "PSCAT" `
-        -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+        -Option Constant -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "The short name of the application";
 
     # Version
-    Set-Variable -Name "_VERSION_" -Value "1.1.0" `
-        -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+    Set-Variable -Name "_VERSION_" -Value "1.1.0 - Alpha" `
+        -Option Constant -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "The version of the application";
+
 
     # Version Name
     Set-Variable -Name "_VERSIONNAME_" -Value "Cordis" `
-        -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+        -Option Constant -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "The name of the version; usually the name of the program's foundation.";
 
     # Release Date
     # Date Format: DD.MM.YYYY with leading zeros
-    Set-Variable -Name "_RELEASEDATE_" -Value "xx.02.2022" `
-        -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+    Set-Variable -Name "_RELEASEDATE_" -Value "xx.03.2022" `
+        -Option Constant -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "The date in which the version of the application was released.";
 
     # License
     Set-Variable -Name "_LICENSE_" -Value "GNU General Public License v3.0" `
-        -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+        -Option Constant -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "Describes the license that this application utilizes. ";
 } # InitializationProgramIdentity()
 
 
@@ -102,23 +116,33 @@ function InitializationProgramSites()
 {
     # Program Homepage
     Set-Variable -Name "_PROGRAMSITEHOMEPAGE_" -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool" `
-        -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+        -Option Constant -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "Provides a URL to the application's homepage site.";
 
     # Program Wiki
     Set-Variable -Name "_PROGRAMSITEWIKI_" -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/wiki" `
-        -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+        -Option Constant -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "Provides a URL to the application's wiki site.";
 
     # Program Downloads
     Set-Variable -Name "_PROGRAMSITEDOWNLOADS_" -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/releases" `
-        -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+        -Option Constant -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "Provides a URL to the application's download page site.";
 
     # Program Source Repository
     Set-Variable -Name "_PROGRAMSITESOURCEREPOSITORY_" -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool" `
-        -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+        -Option Constant -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "Provides a URL to the application's source repository site.";
 
     # Report a Bug or Feature
     Set-Variable -Name "_PROGRAMREPORTBUGORFEATURE_" -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/wiki/Report" `
-        -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+        -Option Constant -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "Provides a URL to the application's bug tracker site.";
 } # InitializationProgramSites()
 
 
@@ -136,15 +160,21 @@ function InitializationProgramData()
 {
     # .NET Framework Requirement
     Set-Variable -Name "_DOTNETFRAMEWORK_" -Value 3 `
-        -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+        -Option Constant -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "Specifies the minimum required version of the dotNET Core Framework.";
 
     # PowerShell Version Requirement
     Set-Variable -Name "_POWERSHELLVERSION_" -Value 7 `
-        -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+        -Option Constant -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "Specifies the minimum required version of the PowerShell Core version.";
 
     # Debug Logging functionality
     Set-Variable -Name "_DEBUGLOGGING_" -Value $true `
-        -Option Constant -Scope Global -ErrorAction SilentlyContinue;
+        -Option Constant -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "Allows control to either enable or disable the program's logging functionalities.";
 
     # Logging Lock Key
     #  This will help to avoid recursive function calls when an event is being logged.
@@ -154,13 +184,17 @@ function InitializationProgramData()
     # NOTE: This functionality is mainly utilized with the WriteToFile() function in the
     #  CommonIO object.
     Set-Variable -Name "_LOGGINGLOCKKEY_" -Value $false `
-        -Scope Global -ErrorAction SilentlyContinue;
+        -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "This variable will help to prevent a stack overflow issue that could occur when writing logged data.";
 
     # Splash Screen Hold Timer (Seconds)
     #  How many seconds the splash screen will remain visible to the user, yet locking the
     #  program from proceeding onwards.
     Set-Variable -Name "_STARTUPSPLASHSCREENHOLDTIME_" -Value 4 `
-        -Scope Global -ErrorAction SilentlyContinue;
+        -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "The amount of time that is required for the splash screen to remain present on the terminal buffer.";
 } # InitializationProgramData()
 
 
@@ -184,7 +218,9 @@ function InitializationDirectory()
     #  problems when trying to throw or recall files from specific directories
     #  from an absolute directory.
     Set-Variable -Name "_SCRIPTPATH_" -Value $PSScriptRoot `
-        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "Holds the root path in which the application resides.";
 
 
     # ----
@@ -195,28 +231,36 @@ function InitializationDirectory()
     # ---------------
     # The root directory where user-data will be stored.
     Set-Variable -Name "_USERDATA_ROOT_PATH_" -Value "$(FetchPathUserDocuments)\$($_PROGRAMNAME_)\$([ProjectInformation]::projectName)" `
-        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "Holds the root path in which the user data will be stored.";
 
 
     # Output Parent Directory Path
     # ---------------
     # The root directory that the builds reside.
     Set-Variable -Name "_USERDATA_BUILDS_PATH_" -Value "$($_USERDATA_ROOT_PATH_)\Builds" `
-        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "Holds the parent path in which all complied builds will be stored.";
 
 
     # Output Release Directory Path
     # ---------------
     # The directory that holds the 'Release' builds.
     Set-Variable -Name "_USERDATA_RELEASEBUILDS_PATH_" -Value "$($_USERDATA_BUILDS_PATH_)\Release" `
-        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "Holds the path for all released compiled builds that will be stored.";
 
 
     # Output Development Directory Path
     # ---------------
     # The directory that holds the 'Development' builds.
     Set-Variable -Name "_USERDATA_DEVBUILDS_PATH_" -Value "$($_USERDATA_BUILDS_PATH_)\Development" `
-        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "Holds the path for all developmental compiled builds that will be stored.";
 
 
     # ----
@@ -227,7 +271,9 @@ function InitializationDirectory()
     # ---------------
     # The root directory where program-data will be stored.
     Set-Variable -Name "_PROGRAMDATA_ROOT_LOCAL_PATH_" -Value "$(FetchPathAppDataLocal)\$($_PROGRAMNAME_)\$([ProjectInformation]::projectName)" `
-        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "Holds the root path in which the program data will be stored, but remains local to this system within a Roaming Profile environment.";
 
 
     # Log Directory Path
@@ -235,7 +281,9 @@ function InitializationDirectory()
     # The directory that will contain the log-files regarding this program and some special
     #  operations.
     Set-Variable -Name "_PROGRAMDATA_LOGS_PATH_" -Value "$($_PROGRAMDATA_ROOT_LOCAL_PATH_)\Logs" `
-        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "Holds the parent path in which all of the logfiles will be stored.";
 
 
     # ----
@@ -246,14 +294,18 @@ function InitializationDirectory()
     # ---------------
     # The root directory where program-data will be stored.
     Set-Variable -Name "_PROGRAMDATA_ROOT_ROAMING_PATH_" -Value "$(FetchPathAppDataRoaming)\$($_PROGRAMNAME_)" `
-        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "Holds the root path in which the program data will be stored, but can be moved around within a Roaming Profile environment.";
 
 
     # User Data (Configuration)
     # ---------------
     # This directory will hold the user's configurations.
     Set-Variable -Name "_PROGRAMDATA_CONFIGS_PATH_" -Value "$($_PROGRAMDATA_ROOT_ROAMING_PATH_)\Configs" `
-        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "Holds the parent path in which holds the user's configurations";
 } # InitializationDirectory()
 
 
@@ -270,7 +322,9 @@ function InitializationEnvironment()
 {
     # PowerShell's Window Title
     Set-Variable -Name "_ENVIRONMENT_WINDOW_TITLE_ORIGINAL_" -Value "$([CommonIO]::GetTerminalWindowTitle())" `
-        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "Maintains the current title of the PowerShell's window title; because we will change it - this will allow us to revert the title back.";
 } # InitializationEnvironment()
 
 
