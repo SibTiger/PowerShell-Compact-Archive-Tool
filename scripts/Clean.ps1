@@ -257,6 +257,10 @@ function clean()
                                 $false);
 
 
+    # Allow the user to read the information that is presented on the terminal's buffer
+    [CommonIO]::FetchEnterKey();
+
+
     # Restore the Window Title back to it's state.
     [CommonIO]::SetTerminalWindowTitle($Global:_ENVIRONMENT_WINDOW_TITLE_ORIGINAL_);
 
