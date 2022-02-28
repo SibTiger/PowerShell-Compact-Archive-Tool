@@ -230,7 +230,7 @@ function InitializationDirectory()
     # User-Data Root Directory Path
     # ---------------
     # The root directory where user-data will be stored.
-    Set-Variable -Name "_USERDATA_ROOT_PATH_" -Value "$(FetchPathUserDocuments)\$($_PROGRAMNAME_))" `
+    Set-Variable -Name "_USERDATA_ROOT_PATH_" -Value "$(FetchPathUserDocuments)\$($GLOBAL:_PROGRAMNAME_))" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
         -Visibility Private `
         -Description "Holds the root path in which the user data will be stored.";
@@ -239,7 +239,7 @@ function InitializationDirectory()
     # User-Data Project Parent Project Directory Path
     # ---------------
     # The project's parent directory where the user's data will be stored.
-    Set-Variable -Name "_USERDATA_PROJECT_PATH_" -Value "$($_USERDATA_ROOT_PATH_)\$([ProjectInformation]::projectName)" `
+    Set-Variable -Name "_USERDATA_PROJECT_PATH_" -Value "$($GLOBAL:_USERDATA_ROOT_PATH_)\$([ProjectInformation]::projectName)" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
         -Visibility Private `
         -Description "Provides the project's directory to help separate from other potential projects.";
@@ -248,7 +248,7 @@ function InitializationDirectory()
     # Output Parent Directory Path
     # ---------------
     # The root directory that the builds reside.
-    Set-Variable -Name "_USERDATA_BUILDS_PATH_" -Value "$($_USERDATA_PROJECT_PATH_)\Builds" `
+    Set-Variable -Name "_USERDATA_BUILDS_PATH_" -Value "$($GLOBAL:_USERDATA_PROJECT_PATH_)\Builds" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
         -Visibility Private `
         -Description "Holds the parent path in which all complied builds will be stored.";
@@ -257,7 +257,7 @@ function InitializationDirectory()
     # Output Release Directory Path
     # ---------------
     # The directory that holds the 'Release' builds.
-    Set-Variable -Name "_USERDATA_RELEASEBUILDS_PATH_" -Value "$($_USERDATA_BUILDS_PATH_)\Release" `
+    Set-Variable -Name "_USERDATA_RELEASEBUILDS_PATH_" -Value "$($GLOBAL:_USERDATA_BUILDS_PATH_)\Release" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
         -Visibility Private `
         -Description "Holds the path for all released compiled builds that will be stored.";
@@ -266,7 +266,7 @@ function InitializationDirectory()
     # Output Development Directory Path
     # ---------------
     # The directory that holds the 'Development' builds.
-    Set-Variable -Name "_USERDATA_DEVBUILDS_PATH_" -Value "$($_USERDATA_BUILDS_PATH_)\Development" `
+    Set-Variable -Name "_USERDATA_DEVBUILDS_PATH_" -Value "$($GLOBAL:_USERDATA_BUILDS_PATH_)\Development" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
         -Visibility Private `
         -Description "Holds the path for all developmental compiled builds that will be stored.";
@@ -279,7 +279,7 @@ function InitializationDirectory()
     # Program-Data Root Directory Path
     # ---------------
     # The root directory where program-data will be stored.
-    Set-Variable -Name "_PROGRAMDATA_ROOT_LOCAL_PATH_" -Value "$(FetchPathAppDataLocal)\$($_PROGRAMNAME_)" `
+    Set-Variable -Name "_PROGRAMDATA_ROOT_LOCAL_PATH_" -Value "$(FetchPathAppDataLocal)\$($GLOBAL:_PROGRAMNAME_)" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
         -Visibility Private `
         -Description "Holds the root path in which the program data will be stored, but remains local to this system within a Roaming Profile environment.";
@@ -288,7 +288,7 @@ function InitializationDirectory()
     # Program-Data Project Parent Directory Path
     # ---------------
     # The project parent directory where program-data will be stored.
-    Set-Variable -Name "_PROGRAMDATA_ROOT_LOCAL_PATH_" -Value "$($_PROGRAMDATA_ROOT_LOCAL_PATH_)\$([ProjectInformation]::projectName)" `
+    Set-Variable -Name "_PROGRAMDATA_ROOT_LOCAL_PATH_" -Value "$($GLOBAL:_PROGRAMDATA_ROOT_LOCAL_PATH_)\$([ProjectInformation]::projectName)" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
         -Visibility Private `
         -Description "Contains the path of where all related program data will be stored that is affiliated with the loaded project.";
@@ -298,7 +298,7 @@ function InitializationDirectory()
     # ---------------
     # The directory that will contain the log-files regarding this program and some special
     #  operations.
-    Set-Variable -Name "_PROGRAMDATA_LOGS_PATH_" -Value "$($_PROGRAMDATA_ROOT_LOCAL_PATH_)\Logs" `
+    Set-Variable -Name "_PROGRAMDATA_LOGS_PATH_" -Value "$($GLOBAL:_PROGRAMDATA_ROOT_LOCAL_PATH_)\Logs" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
         -Visibility Private `
         -Description "Holds the parent path in which all of the logfiles will be stored.";
@@ -311,7 +311,7 @@ function InitializationDirectory()
     # Program-Data Parent Directory Path
     # ---------------
     # The root directory where program-data will be stored.
-    Set-Variable -Name "_PROGRAMDATA_ROOT_ROAMING_PATH_" -Value "$(FetchPathAppDataRoaming)\$($_PROGRAMNAME_)" `
+    Set-Variable -Name "_PROGRAMDATA_ROOT_ROAMING_PATH_" -Value "$(FetchPathAppDataRoaming)\$($GLOBAL:_PROGRAMNAME_)" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
         -Visibility Private `
         -Description "Holds the root path in which the program data will be stored, but can be moved around within a Roaming Profile environment.";
@@ -320,7 +320,7 @@ function InitializationDirectory()
     # User Data (Configuration)
     # ---------------
     # This directory will hold the user's configurations.
-    Set-Variable -Name "_PROGRAMDATA_CONFIGS_PATH_" -Value "$($_PROGRAMDATA_ROOT_ROAMING_PATH_)\Configs" `
+    Set-Variable -Name "_PROGRAMDATA_CONFIGS_PATH_" -Value "$($GLOBAL:_PROGRAMDATA_ROOT_ROAMING_PATH_)\Configs" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
         -Visibility Private `
         -Description "Holds the parent path in which holds the user's configurations";
