@@ -227,19 +227,28 @@ function InitializationDirectory()
     # User Data
 
 
-    # User-Data Parent Directory Path
+    # User-Data Root Directory Path
     # ---------------
     # The root directory where user-data will be stored.
-    Set-Variable -Name "_USERDATA_ROOT_PATH_" -Value "$(FetchPathUserDocuments)\$($_PROGRAMNAME_)\$([ProjectInformation]::projectName)" `
+    Set-Variable -Name "_USERDATA_ROOT_PATH_" -Value "$(FetchPathUserDocuments)\$($_PROGRAMNAME_))" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
         -Visibility Private `
         -Description "Holds the root path in which the user data will be stored.";
 
 
+    # User-Data Project Parent Project Directory Path
+    # ---------------
+    # The project's parent directory where the user's data will be stored.
+    Set-Variable -Name "_USERDATA_PROJECT_PATH_" -Value "$($_USERDATA_ROOT_PATH_)\$([ProjectInformation]::projectName)" `
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "Provides the project's directory to help separate from other potential projects.";
+
+
     # Output Parent Directory Path
     # ---------------
     # The root directory that the builds reside.
-    Set-Variable -Name "_USERDATA_BUILDS_PATH_" -Value "$($_USERDATA_ROOT_PATH_)\Builds" `
+    Set-Variable -Name "_USERDATA_BUILDS_PATH_" -Value "$($_USERDATA_PROJECT_PATH_)\Builds" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
         -Visibility Private `
         -Description "Holds the parent path in which all complied builds will be stored.";
@@ -267,13 +276,22 @@ function InitializationDirectory()
     # Program Data [Local AppData]
 
 
-    # Program-Data Parent Directory Path
+    # Program-Data Root Directory Path
     # ---------------
     # The root directory where program-data will be stored.
-    Set-Variable -Name "_PROGRAMDATA_ROOT_LOCAL_PATH_" -Value "$(FetchPathAppDataLocal)\$($_PROGRAMNAME_)\$([ProjectInformation]::projectName)" `
+    Set-Variable -Name "_PROGRAMDATA_ROOT_LOCAL_PATH_" -Value "$(FetchPathAppDataLocal)\$($_PROGRAMNAME_)" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
         -Visibility Private `
         -Description "Holds the root path in which the program data will be stored, but remains local to this system within a Roaming Profile environment.";
+
+
+    # Program-Data Project Parent Directory Path
+    # ---------------
+    # The project parent directory where program-data will be stored.
+    Set-Variable -Name "_PROGRAMDATA_ROOT_LOCAL_PATH_" -Value "$($_PROGRAMDATA_ROOT_LOCAL_PATH_)\$([ProjectInformation]::projectName)" `
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
+        -Visibility Private `
+        -Description "Contains the path of where all related program data will be stored that is affiliated with the loaded project.";
 
 
     # Log Directory Path
