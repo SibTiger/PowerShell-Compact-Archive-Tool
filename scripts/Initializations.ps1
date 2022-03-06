@@ -159,13 +159,13 @@ function InitializationProgramSites()
 function InitializationProgramData()
 {
     # .NET Framework Requirement
-    Set-Variable -Name "_DOTNETFRAMEWORK_" -Value 3 `
+    Set-Variable -Name "_DOTNETFRAMEWORK_" -Value "5.0.405" `
         -Option Constant -Scope Global -ErrorAction SilentlyContinue `
         -Visibility Private `
         -Description "Specifies the minimum required version of the dotNET Core Framework.";
 
     # PowerShell Version Requirement
-    Set-Variable -Name "_POWERSHELLVERSION_" -Value 7 `
+    Set-Variable -Name "_POWERSHELLVERSION_" -Value "7.2.1" `
         -Option Constant -Scope Global -ErrorAction SilentlyContinue `
         -Visibility Private `
         -Description "Specifies the minimum required version of the PowerShell Core version.";
