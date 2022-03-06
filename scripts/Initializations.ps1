@@ -230,7 +230,7 @@ function InitializationDirectory()
     # User-Data Root Directory Path
     # ---------------
     # The root directory where user-data will be stored.
-    Set-Variable -Name "_USERDATA_ROOT_PATH_" -Value "$(FetchPathUserDocuments)\$($GLOBAL:_PROGRAMNAME_))" `
+    Set-Variable -Name "_USERDATA_ROOT_PATH_" -Value "$(FetchPathUserDocuments)\$($GLOBAL:_PROGRAMNAME_)" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
         -Visibility Private `
         -Description "Holds the root path in which the user data will be stored.";
