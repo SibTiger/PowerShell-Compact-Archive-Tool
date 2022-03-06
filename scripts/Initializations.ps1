@@ -288,7 +288,7 @@ function InitializationDirectory()
     # Program-Data Project Parent Directory Path
     # ---------------
     # The project parent directory where program-data will be stored.
-    Set-Variable -Name "_PROGRAMDATA_ROOT_LOCAL_PATH_" -Value "$($GLOBAL:_PROGRAMDATA_ROOT_LOCAL_PATH_)\$([ProjectInformation]::projectName)" `
+    Set-Variable -Name "_PROGRAMDATA_PROJECT_PATH_" -Value "$($GLOBAL:_PROGRAMDATA_ROOT_LOCAL_PATH_)\$([ProjectInformation]::projectName)" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
         -Visibility Private `
         -Description "Contains the path of where all related program data will be stored that is affiliated with the loaded project.";
@@ -298,7 +298,7 @@ function InitializationDirectory()
     # ---------------
     # The directory that will contain the log-files regarding this program and some special
     #  operations.
-    Set-Variable -Name "_PROGRAMDATA_LOGS_PATH_" -Value "$($GLOBAL:_PROGRAMDATA_ROOT_LOCAL_PATH_)\Logs" `
+    Set-Variable -Name "_PROGRAMDATA_LOGS_PATH_" -Value "$($GLOBAL:_PROGRAMDATA_PROJECT_PATH_)\Logs" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
         -Visibility Private `
         -Description "Holds the parent path in which all of the logfiles will be stored.";
