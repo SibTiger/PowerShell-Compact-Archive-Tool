@@ -156,7 +156,7 @@ if (($programMode -gt 0) -and `
 else
 {
     # This will hold the return code from the application.
-    # Execute the application and return the exit code from the Main Menu.
+    # Execute the application and obtain the exit code from the Main Menu.
     #  The exit code could be an error or successful, this only depends on the
     #  operations that had been performed and what information had been gathered.
     [Int] $exitCode = main;
