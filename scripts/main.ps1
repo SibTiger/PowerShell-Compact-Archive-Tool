@@ -148,6 +148,9 @@ if (($programMode -gt 0) -and `
     #   Launch the cleanup\uninstall mode
     [Int] $exitCode = clean -programMode $programMode;
 
+    # Thrash the program's global variables.
+    Uninitializations;
+
     # Terminate the application
     exit $exitCode;
 } # Clean Mode
@@ -160,6 +163,9 @@ else
     #  The exit code could be an error or successful, this only depends on the
     #  operations that had been performed and what information had been gathered.
     [Int] $exitCode = main;
+
+    # Thrash the program's global variables.
+    Uninitializations;
 
     # Terminate the application
     exit $exitCode;
