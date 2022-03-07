@@ -37,113 +37,141 @@
  {
     # Program Name
     Remove-Variable -Name "_PROGRAMNAME_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # Program Name (Abbreviated)
     Remove-Variable -Name "_PROGRAMNAMESHORT_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # Version
     Remove-Variable -Name "_VERSION_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # Version Name
     Remove-Variable -Name "_VERSIONNAME_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # Release Date
     Remove-Variable -Name "_RELEASEDATE_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # License
     Remove-Variable -Name "_LICENSE_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # Program Homepage
     Remove-Variable -Name "_PROGRAMSITEHOMEPAGE_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # Program Wiki
     Remove-Variable -Name "_PROGRAMSITEWIKI_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # Program Downloads
     Remove-Variable -Name "_PROGRAMSITEDOWNLOADS_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # Program Source Repository
     Remove-Variable -Name "_PROGRAMSITESOURCEREPOSITORY_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # Report a Bug or Feature
     Remove-Variable -Name "_PROGRAMREPORTBUGORFEATURE_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # .NET Framework Requirement
     Remove-Variable -Name "_DOTNETFRAMEWORK_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # PowerShell Version Requirement
     Remove-Variable -Name "_POWERSHELLVERSION_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # Debug Logging functionality
     Remove-Variable -Name "_DEBUGLOGGING_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # Logging Lock Key
     Remove-Variable -Name "_LOGGINGLOCKKEY_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # Splash Screen Hold Timer (Seconds)
     Remove-Variable -Name "_STARTUPSPLASHSCREENHOLDTIME_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # Script Absolute Script Path
     Remove-Variable -Name "_SCRIPTPATH_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # User-Data Root Directory Path
     Remove-Variable -Name "_USERDATA_ROOT_PATH_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # User-Data Project Parent Project Directory Path
     Remove-Variable -Name "_USERDATA_PROJECT_PATH_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # Output Parent Directory Path
     Remove-Variable -Name "_USERDATA_BUILDS_PATH_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # Output Release Directory Path
     Remove-Variable -Name "_USERDATA_RELEASEBUILDS_PATH_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # Output Development Directory Path
     Remove-Variable -Name "_USERDATA_DEVBUILDS_PATH_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # Program-Data Root Directory Path
     Remove-Variable -Name "_PROGRAMDATA_ROOT_LOCAL_PATH_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # Program-Data Project Parent Directory Path
     Remove-Variable -Name "_PROGRAMDATA_PROJECT_PATH_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # Log Directory Path
     Remove-Variable -Name "_PROGRAMDATA_LOGS_PATH_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # Program-Data Parent Directory Path
     Remove-Variable -Name "_PROGRAMDATA_ROOT_ROAMING_PATH_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # User Data (Configuration)
     Remove-Variable -Name "_PROGRAMDATA_CONFIGS_PATH_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
 
     # PowerShell's Window Title
     Remove-Variable -Name "_ENVIRONMENT_WINDOW_TITLE_ORIGINAL_" `
-        -Scope Global -Force;
+        -Scope Global `
+        -Force;
  } # Uninitializations()
