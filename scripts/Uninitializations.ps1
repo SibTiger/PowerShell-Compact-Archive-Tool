@@ -81,7 +81,7 @@
     Remove-Variable -Name "_PROGRAMREPORTBUGORFEATURE_"
 
     # .NET Framework Requirement
-   Remove-Variable -Name "_DOTNETFRAMEWORK_"
+    Remove-Variable -Name "_DOTNETFRAMEWORK_"
 
     # PowerShell Version Requirement
     Remove-Variable -Name "_POWERSHELLVERSION_"
@@ -98,113 +98,36 @@
     # Script Absolute Script Path
     Remove-Variable -Name "_SCRIPTPATH_"
 
-
-    # ----
-    # User Data
-
-
     # User-Data Root Directory Path
-    # ---------------
-    # The root directory where user-data will be stored.
-    Remove-Variable -Name "_USERDATA_ROOT_PATH_" -Value "$(FetchPathUserDocuments)\$($GLOBAL:_PROGRAMNAME_)" `
-        -Scope Global -Force -Option ReadOnly -ErrorAction SilentlyContinue `
-        -Visibility Private `
-        -Description "Holds the root path in which the user data will be stored.";
-
+    Remove-Variable -Name "_USERDATA_ROOT_PATH_"
 
     # User-Data Project Parent Project Directory Path
-    # ---------------
-    # The project's parent directory where the user's data will be stored.
-    Remove-Variable -Name "_USERDATA_PROJECT_PATH_" -Value "$($GLOBAL:_USERDATA_ROOT_PATH_)\$([ProjectInformation]::projectName)" `
-        -Scope Global -Force -Option ReadOnly -ErrorAction SilentlyContinue `
-        -Visibility Private `
-        -Description "Provides the project's directory to help separate from other potential projects.";
-
+    Remove-Variable -Name "_USERDATA_PROJECT_PATH_"
 
     # Output Parent Directory Path
-    # ---------------
-    # The root directory that the builds reside.
-    Remove-Variable -Name "_USERDATA_BUILDS_PATH_" -Value "$($GLOBAL:_USERDATA_PROJECT_PATH_)\Builds" `
-        -Scope Global -Force -Option ReadOnly -ErrorAction SilentlyContinue `
-        -Visibility Private `
-        -Description "Holds the parent path in which all complied builds will be stored.";
-
+    Remove-Variable -Name "_USERDATA_BUILDS_PATH_"
 
     # Output Release Directory Path
-    # ---------------
-    # The directory that holds the 'Release' builds.
-    Remove-Variable -Name "_USERDATA_RELEASEBUILDS_PATH_" -Value "$($GLOBAL:_USERDATA_BUILDS_PATH_)\Release" `
-        -Scope Global -Force -Option ReadOnly -ErrorAction SilentlyContinue `
-        -Visibility Private `
-        -Description "Holds the path for all released compiled builds that will be stored.";
-
+    Remove-Variable -Name "_USERDATA_RELEASEBUILDS_PATH_"
 
     # Output Development Directory Path
-    # ---------------
-    # The directory that holds the 'Development' builds.
-    Remove-Variable -Name "_USERDATA_DEVBUILDS_PATH_" -Value "$($GLOBAL:_USERDATA_BUILDS_PATH_)\Development" `
-        -Scope Global -Force -Option ReadOnly -ErrorAction SilentlyContinue `
-        -Visibility Private `
-        -Description "Holds the path for all developmental compiled builds that will be stored.";
-
-
-    # ----
-    # Program Data [Local AppData]
-
+    Remove-Variable -Name "_USERDATA_DEVBUILDS_PATH_"
 
     # Program-Data Root Directory Path
-    # ---------------
-    # The root directory where program-data will be stored.
-    Remove-Variable -Name "_PROGRAMDATA_ROOT_LOCAL_PATH_" -Value "$(FetchPathAppDataLocal)\$($GLOBAL:_PROGRAMNAME_)" `
-        -Scope Global -Force -Option ReadOnly -ErrorAction SilentlyContinue `
-        -Visibility Private `
-        -Description "Holds the root path in which the program data will be stored, but remains local to this system within a Roaming Profile environment.";
-
+    Remove-Variable -Name "_PROGRAMDATA_ROOT_LOCAL_PATH_"
 
     # Program-Data Project Parent Directory Path
-    # ---------------
-    # The project parent directory where program-data will be stored.
-    Remove-Variable -Name "_PROGRAMDATA_PROJECT_PATH_" -Value "$($GLOBAL:_PROGRAMDATA_ROOT_LOCAL_PATH_)\$([ProjectInformation]::projectName)" `
-        -Scope Global -Force -Option ReadOnly -ErrorAction SilentlyContinue `
-        -Visibility Private `
-        -Description "Contains the path of where all related program data will be stored that is affiliated with the loaded project.";
-
+    Remove-Variable -Name "_PROGRAMDATA_PROJECT_PATH_"
 
     # Log Directory Path
-    # ---------------
-    # The directory that will contain the log-files regarding this program and some special
-    #  operations.
-    Remove-Variable -Name "_PROGRAMDATA_LOGS_PATH_" -Value "$($GLOBAL:_PROGRAMDATA_PROJECT_PATH_)\Logs" `
-        -Scope Global -Force -Option ReadOnly -ErrorAction SilentlyContinue `
-        -Visibility Private `
-        -Description "Holds the parent path in which all of the logfiles will be stored.";
-
-
-    # ----
-    # Program Data [Roaming AppData]
-
+    Remove-Variable -Name "_PROGRAMDATA_LOGS_PATH_"
 
     # Program-Data Parent Directory Path
-    # ---------------
-    # The root directory where program-data will be stored.
-    Remove-Variable -Name "_PROGRAMDATA_ROOT_ROAMING_PATH_" -Value "$(FetchPathAppDataRoaming)\$($GLOBAL:_PROGRAMNAME_)" `
-        -Scope Global -Force -Option ReadOnly -ErrorAction SilentlyContinue `
-        -Visibility Private `
-        -Description "Holds the root path in which the program data will be stored, but can be moved around within a Roaming Profile environment.";
-
+    Remove-Variable -Name "_PROGRAMDATA_ROOT_ROAMING_PATH_"
 
     # User Data (Configuration)
-    # ---------------
-    # This directory will hold the user's configurations.
-    Remove-Variable -Name "_PROGRAMDATA_CONFIGS_PATH_" -Value "$($GLOBAL:_PROGRAMDATA_ROOT_ROAMING_PATH_)\Configs" `
-        -Scope Global -Force -Option ReadOnly -ErrorAction SilentlyContinue `
-        -Visibility Private `
-        -Description "Holds the parent path in which holds the user's configurations";
+    Remove-Variable -Name "_PROGRAMDATA_CONFIGS_PATH_"
 
     # PowerShell's Window Title
-    Remove-Variable -Name "_ENVIRONMENT_WINDOW_TITLE_ORIGINAL_" -Value "$([CommonIO]::GetTerminalWindowTitle())" `
-        -Scope Global -Force -Option ReadOnly -ErrorAction SilentlyContinue `
-        -Visibility Private `
-        -Description "Maintains the current title of the PowerShell's window title; because we will change it - this will allow us to revert the title back.";
-
+    Remove-Variable -Name "_ENVIRONMENT_WINDOW_TITLE_ORIGINAL_"
  } # Uninitializations()
