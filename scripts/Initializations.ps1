@@ -26,9 +26,7 @@
  #   such as the software name or version, while other variables may contain imperative information
  #   which is required for the software's internal functionality and basic support.
  #
- #  NOTE: All variables defined within the sub-functions - are all global.  While these variables are
- #         global to the program's environment, some may be flagged as constant and others might be
- #         mutable.  Please review carefully.
+ #  NOTE: All variables defined within the sub-functions - are all global.
  # -------------------------------
  #>
 function Initializations()
