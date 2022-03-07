@@ -144,15 +144,23 @@ CreateDirectories | Out-Null;
 if (($programMode -gt 0) -and `
     ($programMode -le 2))
 {
-    # Launch the cleanup\uninstall mode
-    exit clean -programMode $programMode;
+    # This will hold the return code from the application.
+    #   Launch the cleanup\uninstall mode
+    [Int] $exitCode = clean -programMode $programMode;
+
+    # Terminate the application
+    exit $exitCode;
 } # Clean Mode
 
 # Run the application normally
 else
 {
+    # This will hold the return code from the application.
     # Execute the application and return the exit code from the Main Menu.
     #  The exit code could be an error or successful, this only depends on the
     #  operations that had been performed and what information had been gathered.
-    exit main;
+    [Int] $exitCode = main;
+
+    # Terminate the application
+    exit $exitCode;
 } # Normal Mode
