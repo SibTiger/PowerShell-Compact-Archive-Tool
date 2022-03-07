@@ -217,6 +217,7 @@ function MakeCompilerDriver()
     $scriptFileName = @("help.ps1", `
                         "StartUpArguments.ps1"
                         "Initializations.ps1", `
+                        "Uninitializations.ps1", `
                         "CommonIO.ps1", `
                         "CommonCUI.ps1", `
                         "CommonFunctions.ps1", `
