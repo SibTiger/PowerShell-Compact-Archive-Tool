@@ -75,67 +75,28 @@
         -Scope Global -Force;
 
     # Program Source Repository
-    Remove-Variable -Name "_PROGRAMSITESOURCEREPOSITORY_" -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool" `
-        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
-        -Visibility Private `
-        -Description "Provides a URL to the application's source repository site.";
+    Remove-Variable -Name "_PROGRAMSITESOURCEREPOSITORY_"
 
     # Report a Bug or Feature
-    Remove-Variable -Name "_PROGRAMREPORTBUGORFEATURE_" -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/wiki/Report" `
-        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
-        -Visibility Private `
-        -Description "Provides a URL to the application's bug tracker site.";
+    Remove-Variable -Name "_PROGRAMREPORTBUGORFEATURE_"
 
     # .NET Framework Requirement
-   Remove-Variable -Name "_DOTNETFRAMEWORK_" -Value "5.0.405" `
-        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
-        -Visibility Private `
-        -Description "Specifies the minimum required version of the dotNET Core Framework.";
+   Remove-Variable -Name "_DOTNETFRAMEWORK_"
 
     # PowerShell Version Requirement
-    Remove-Variable -Name "_POWERSHELLVERSION_" -Value "7.2.1" `
-        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
-        -Visibility Private `
-        -Description "Specifies the minimum required version of the PowerShell Core version.";
+    Remove-Variable -Name "_POWERSHELLVERSION_"
 
     # Debug Logging functionality
-    Remove-Variable -Name "_DEBUGLOGGING_" -Value $true `
-        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
-        -Visibility Private `
-        -Description "Allows control to either enable or disable the program's logging functionalities.";
+    Remove-Variable -Name "_DEBUGLOGGING_"
 
     # Logging Lock Key
-    #  This will help to avoid recursive function calls when an event is being logged.
-    #  This key, when 'false' will adhere to the user's logging preference.  But when
-    #  'true', the user's logging preference will be ignored (regardless true or false)
-    #  and will disallow events to be logged.
-    # NOTE: This functionality is mainly utilized with the WriteToFile() function in the
-    #  CommonIO object.
-    Remove-Variable -Name "_LOGGINGLOCKKEY_" -Value $false `
-        -Option None -Scope Global -ErrorAction SilentlyContinue `
-        -Visibility Private `
-        -Description "This variable will help to prevent a stack overflow issue that could occur when writing logged data.";
+    Remove-Variable -Name "_LOGGINGLOCKKEY_"
 
     # Splash Screen Hold Timer (Seconds)
-    #  How many seconds the splash screen will remain visible to the user, yet locking the
-    #  program from proceeding onwards.
-    Remove-Variable -Name "_STARTUPSPLASHSCREENHOLDTIME_" -Value 4 `
-        -Option None -Scope Global -ErrorAction SilentlyContinue `
-        -Visibility Private `
-        -Description "The amount of time that is required for the splash screen to remain present on the terminal buffer.";
+    Remove-Variable -Name "_STARTUPSPLASHSCREENHOLDTIME_"
 
     # Script Absolute Script Path
-    # ---------------
-    # The path that this script currently resides from.
-    #  Highly useful for 'absolute' paths.
-    # BUG POSSIBLE: If the path has been disrupted at program's runtime,
-    #  then it is possible that this path will be broken - thus causing
-    #  problems when trying to throw or recall files from specific directories
-    #  from an absolute directory.
-    Remove-Variable -Name "_SCRIPTPATH_" -Value $PSScriptRoot `
-        -Scope Global -Force -Option ReadOnly -ErrorAction SilentlyContinue `
-        -Visibility Private `
-        -Description "Holds the root path in which the application resides.";
+    Remove-Variable -Name "_SCRIPTPATH_"
 
 
     # ----
