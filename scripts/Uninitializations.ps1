@@ -35,8 +35,6 @@
  #>
  function Uninitializations()
  {
-    
-
     # Program Name
     Remove-Variable -Name "_PROGRAMNAME_" `
         -Scope Global -Force;
