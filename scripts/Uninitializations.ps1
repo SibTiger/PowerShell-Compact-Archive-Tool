@@ -41,7 +41,6 @@
     Remove-Variable -Name "_PROGRAMNAME_" `
         -Scope Global -Force;
 
-
     # Program Name (Abbreviated)
     Remove-Variable -Name "_PROGRAMNAMESHORT_" `
         -Scope Global -Force;
