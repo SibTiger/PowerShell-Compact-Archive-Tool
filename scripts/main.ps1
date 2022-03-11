@@ -140,33 +140,42 @@ CreateDirectories | Out-Null;
 
 
 
+#region Special Program Variables
+
+# This will contain all of the information stored within the pipe.  Now, I am using this
+#  as I will need to capture the exit code that is returned from the main application's
+#  function.
+[System.Object[]] $returnState = $null;
+
+#endregion
+
+
+
+
 # Should the program launch in Clean-Up\Uninstall mode?
 if (($programMode -gt 0) -and `
     ($programMode -le 2))
 {
-    # This will hold the return code from the application.
-    #   Launch the cleanup\uninstall mode
-    [Int] $exitCode = clean -programMode $programMode;
-
-    # Thrash the program's global variables.
-    Uninitializations;
-
-    # Terminate the application
-    exit $exitCode;
+    # Launch the cleanup\uninstall mode.
+    $returnState = clean -programMode $programMode;
 } # Clean Mode
 
 # Run the application normally
 else
 {
-    # This will hold the return code from the application.
-    # Execute the application and obtain the exit code from the Main Menu.
-    #  The exit code could be an error or successful, this only depends on the
-    #  operations that had been performed and what information had been gathered.
-    [Int] $exitCode = main;
-
-    # Thrash the program's global variables.
-    Uninitializations;
-
-    # Terminate the application
-    exit $exitCode;
+    # Launch the main application in normal mode.
+    $returnState = main;
 } # Normal Mode
+
+
+
+
+# Thrash the program's global variables.
+Uninitializations;
+
+
+# Try to retrieve the exit code that was returned by the main application and then
+#  return it to the Operating System.
+#  NOTE: We use the very last index as that was the very last item that was added
+#       into the Pipe.  And this last item - is our exit code.
+exit $returnState[$returnState.Length - 1];
