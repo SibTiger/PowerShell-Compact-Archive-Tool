@@ -216,6 +216,32 @@ function clean()
 
 
 
+    # Program Files
+    # -----------
+    # -----------
+
+
+    # Let the user know that they will need to expunge the program files manually, but if and only if the Uninstall flag is raised.
+    if ($programMode -eq [CleanUpModeType]::Uninstall)
+    {
+        [CommonIO]::WriteToBuffer("`tProgram Files", + `
+                                    [LogMessageLevel]::Warning, + `
+                                    $false);
+
+
+        # Because it is going to take large amounts of time to make this functionality work, it is best to have the user to delete the directory themselves.
+        #  NOTE: This approach is mainly for Power Users; others will benefit from the Installer packages.
+        [CommonIO]::WriteToBuffer("`t`tIn order to delete the $($GLOBAL:_PROGRAMNAME_) Program Files, you will have to delete following directory:", + `
+                                    [LogMessageLevel]::Attention, + `
+                                    $false);
+
+
+        [CommonIO]::WriteToBuffer("`t`t$GLOBAL:_SCRIPTPATH_", + `
+                                    [LogMessageLevel]::Warning, + `
+                                    $false);
+    } # if : Uninstall
+
+
 
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
@@ -229,6 +255,10 @@ function clean()
     [CommonIO]::WriteToBuffer("`r`nOperation had finished!", + `
                                 [LogMessageLevel]::Standard, + `
                                 $false);
+
+
+    # Allow the user to read the information that is presented on the terminal's buffer
+    [CommonIO]::FetchEnterKey();
 
 
     # Restore the Window Title back to it's state.
