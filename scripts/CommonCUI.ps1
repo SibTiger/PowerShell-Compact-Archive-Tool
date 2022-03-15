@@ -671,6 +671,14 @@ class CommonCUI
                                 "$($Global:_RELEASEDATE_)");
 
 
+        # Show the user their current Operating System and PowerShell version on the splash screen.
+        [Logging]::DisplayMessage("`r`n`t`t`t`t`tPowerShell Version: $([SystemInformation]::PowerShellVersion()) [Running on $([SystemInformation]::OperatingSystem())]");
+
+
+        # Separate the Banner content from the starting up notification.
+        [Logging]::DisplayMessage("  |------------------------------------------------------------------------------------------------------------------------|");
+
+
         # Let the user know that the program is about to begin.
         [Logging]::DisplayMessage("`r`n`r`n`r`n" + `
                                 "Starting. . .");
