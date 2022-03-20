@@ -481,7 +481,7 @@ function Inspector()
     Printf 3 "GLOBAL VARIABLE TABLE";
 
     # Display our table
-    Printf 3 ($inspectorTable|Format-Table -AutoSize|Out-String);
+    Printf 3 ($inspectorTable | Format-Table -AutoSize | Out-String);
     
     # Tell the user how many Global Vars exists
     Printf 3 "Global Variables in use: $($inspectorTable.Count)";
