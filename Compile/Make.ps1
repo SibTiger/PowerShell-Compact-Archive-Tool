@@ -47,7 +47,7 @@ Set-Variable -Name "SCRIPTFILENAME" -Value "PSCAT.ps1" `
 Set-Variable -Name "SCRIPTSDIRECTORY" -Value "$($SCRIPTPATH)\..\Scripts\" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Output Compiler Directory
-Set-Variable -Name "OUTPUTDIRECTORY" -Value "$(Resolve-Path "$($PSScriptRoot)\" | select -ExpandProperty Path)" `
+Set-Variable -Name "OUTPUTDIRECTORY" -Value "$(Resolve-Path "$($PSScriptRoot)\" | Select-Object -ExpandProperty Path)" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Output Script File
 Set-Variable -Name "OUTPUTFILE" -Value "$($OUTPUTDIRECTORY)$($SCRIPTFILENAME)" `
@@ -481,7 +481,7 @@ function Inspector()
     Printf 3 "GLOBAL VARIABLE TABLE";
 
     # Display our table
-    Printf 3 ($inspectorTable|Format-Table -AutoSize|Out-String);
+    Printf 3 ($inspectorTable | Format-Table -AutoSize | Out-String);
     
     # Tell the user how many Global Vars exists
     Printf 3 "Global Variables in use: $($inspectorTable.Count)";

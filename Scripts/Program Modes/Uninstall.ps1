@@ -64,66 +64,140 @@ function Initialization()
 {
     # PSCAT Filename
     Set-Variable -Name "__PSCAT_FILENAME__" -Value "PSCAT.ps1" `
-        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
-        -Visibility Private `
+        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Public `
         -Description "PowerShell Compact-Archive Tool's filename";
 
     # PSCAT Absolute Path
     #  NOTE: This script should reside with the PSCAT application.
     Set-Variable -Name "__PSCAT_FULL_PATH__" -Value $PSScriptRoot `
-        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
+        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
         -Visibility Private `
         -Description "Base path in which the PSCAT application will reside";
 
     # PSCAT Complete Path
-    Set-Variable -Name "__PSCAT_COMPLETE_PATH__" -Value "$($__PSCAT_FULL_PATH__)\$($__PSCAT_FILENAME__)" `
-        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
-        -Visibility Private `
+    Set-Variable -Name "__PSCAT_COMPLETE_PATH__" -Value "$($GLOBAL:__PSCAT_FULL_PATH__)\$($GLOBAL:__PSCAT_FILENAME__)" `
+        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Public `
         -Description "PowerShell Compact-Archive Tool's absolute path - including filename.";
 
     # PSCAT Operation Code
     Set-Variable -Name "__PSCAT_OPERATION_CODE__" -Value 2 `
-        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
-        -Visibility Private `
+        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Public `
         -Description "Signifies the 'Uninstall' Operation mode in PowerShell Compact-Archive Tool.";
 
     # PowerShell Core Executable Name
     Set-Variable -Name "__POWERSHELL_EXECUTABLE__" -Value "pwsh.exe" `
-        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
-        -Visibility Private `
+        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Public `
         -Description "PowerShell Core's filename";
 
     # PowerShell Core Path
     Set-Variable -Name "__POWERSHELL_PATH__" -Value "$($env:ProgramFiles)\PowerShell\" `
-        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
-        -Visibility Private `
+        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Public `
         -Description "Common base path for PowerShell Core";
 
     # PowerShell Core Complete Path
     #  Populated later within the application.
     Set-Variable -Name "__POWERSHELL_COMPLETE_PATH__" -Value $null `
-        -Scope Global -Force -Option None -ErrorAction SilentlyContinue `
-        -Visibility Private `
+        -Option None -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Public `
         -Description "PowerShell Core's absolute path [Must be generated before use]";
 
     # Exit Codes : Cannot Find PSCAT
     Set-Variable -Name "__EXITCODE_CANNOT_FIND_PSCAT__" -Value 500 `
-        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
-        -Visibility Private `
+        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Public `
         -Description "Exit Code signifying that the PowerShell Compact-Archive Tool could not be found.";
 
     # Exit Codes : Failed Launch PSCAT
     Set-Variable -Name "__EXITCODE_FAILED_TO_LAUNCH_PSCAT__" -Value 501 `
-        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
-        -Visibility Private `
+        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Public `
         -Description "Exit Code Signifying that the PowerShell Compact-Archive Tool could not be started.";
 
     # Exit Codes : Cannot Find PowerShell Core
     Set-Variable -Name "__EXITCODE_CANNOT_FIND_POSHCORE__" -Value 502 `
-        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue `
-        -Visibility Private `
+        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Public `
         -Description "Exit Code signifying that the PowerShell Core could not be found.";
 } # Initialization()
+
+
+
+
+
+# Uninitialization
+# -------------------------------
+# Documentation:
+#   This function will remove all of the global variables that had been declared and initialize by this shellscript.
+#    This will help to cleanup unnecessary variables from the user's terminal environment.
+# -------------------------------
+function Uninitialization()
+{
+    # PSCAT Filename
+    Remove-Variable -Name "__PSCAT_FILENAME__" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # PSCAT Absolute Path
+    Remove-Variable -Name "__PSCAT_FULL_PATH__" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # PSCAT Complete Path
+    Remove-Variable -Name "__PSCAT_COMPLETE_PATH__" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # PSCAT Operation Code
+    Remove-Variable -Name "__PSCAT_OPERATION_CODE__" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # PowerShell Core Executable Name
+    Remove-Variable -Name "__POWERSHELL_EXECUTABLE__" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # PowerShell Core Path
+    Remove-Variable -Name "__POWERSHELL_PATH__" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # PowerShell Core Complete Path
+    Remove-Variable -Name "__POWERSHELL_COMPLETE_PATH__" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Exit Codes : Cannot Find PSCAT
+    Remove-Variable -Name "__EXITCODE_CANNOT_FIND_PSCAT__" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Exit Codes : Failed Launch PSCAT
+    Remove-Variable -Name "__EXITCODE_FAILED_TO_LAUNCH_PSCAT__" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Exit Codes : Cannot Find PowerShell Core
+    Remove-Variable -Name "__EXITCODE_CANNOT_FIND_POSHCORE__" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+} # Uninitialization()
+
 
 
 
@@ -542,11 +616,32 @@ Class Uninstall
 
 
 
+#region Special Program Variables
+
+# This will contain all of the information stored within the pipe.  Now, I am using this
+#  as I will need to capture the exit code that is returned from the main application's
+#  function.
+[System.Object[]] $returnState = $null;
+
+#endregion
+
+
+
 
 # Initialize the global variables that we will use within this program.
 Initialization;
 
 
-
 # Start the program and then return the exit code upon terminating.
-exit [Uninstall]::main();
+$returnState = [Uninstall]::main();
+
+
+# Thrash the program's global variables.
+Uninitialization;
+
+
+# Try to retrieve the exit code that was returned by the main application and then
+#  return it to the Operating System.
+#  NOTE: We use the very last index as that was the very last item that was added
+#       into the Pipe.  And this last item - is our exit code.
+exit $returnState[$returnState.Length - 1];
