@@ -173,19 +173,7 @@ class Notifications
     static hidden [void] __PlaySoundBeep()
     {
         # Try to play or provide the sound as necessary
-        try
-        {
-            # Play the Beep sound
-            [System.Media.SystemSounds]::Beep.Play();
-        } # try : Play Beep Audio
-
-        # Exception Thrown
-        catch
-        {
-            # Provide a beep sound
-            [Notifications]::__StandardBell();
-            [Notifications]::__StandardBell();
-        } # catch : Provide Beep Sound
+        [System.Media.SystemSounds]::Beep.Play();
     } # __PlaySoundBeep()
 
 
@@ -204,21 +192,7 @@ class Notifications
     static hidden [void] __PlaySoundAsterisk()
     {
         # Try to play or provide the sound as necessary
-        try
-        {
-            # Play the Asterisk sound
-            [System.Media.SystemSounds]::Asterisk.Play();
-        } # try : Play Asterisk Audio
-
-        # Exception Thrown
-        catch
-        {
-            # Unique series of beeps for 'Asterisk'
-            [Notifications]::__StandardBell(500, 300);
-            [Notifications]::__StandardBell(800, 300);
-            [Notifications]::__StandardBell(700, 300);
-            [Notifications]::__StandardBell(500, 300);
-        } # catch : Provide Custom Sound
+        [System.Media.SystemSounds]::Asterisk.Play();
     } # __PlaySoundAsterisk()
 
 
@@ -238,21 +212,7 @@ class Notifications
     static hidden [void] __PlaySoundExclamation()
     {
         # Try to play or provide the sound as necessary
-        try
-        {
-            # Play the Exclamation sound
-            [System.Media.SystemSounds]::Exclamation.Play();
-        } # try : Play Exclamation Audio
-
-        # Exception thrown
-        catch
-        {
-            # Unique series of beeps for 'Exclamation'
-            [Notifications]::__StandardBell(700, 300);
-            [Notifications]::__StandardBell(800, 300);
-            [Notifications]::__StandardBell(850, 300);
-            [Notifications]::__StandardBell(700, 300);
-        } # catch : Provide Custom Sound
+        [System.Media.SystemSounds]::Exclamation.Play();
     } # __PlaySoundExclamation()
 
 
@@ -271,20 +231,7 @@ class Notifications
     static hidden [void] __PlaySoundHand()
     {
         # Try to play or provide the sound as necessary
-        try
-        {
-            # Play the Critical Stop sound
-            [System.Media.SystemSounds]::Hand.Play();
-        } # try : Play Hand Audio
-
-        # Exception thrown
-        catch
-        {
-            # Unique series of beeps for 'Critical Stop'
-            [Notifications]::__StandardBell(300, 600);
-            [Notifications]::__StandardBell(400, 300);
-            [Notifications]::__StandardBell(300, 600);
-        } # catch : Provide Custom Sound
+        [System.Media.SystemSounds]::Hand.Play()
     } # __PlaySoundHand()
 
 
@@ -308,20 +255,7 @@ class Notifications
     static hidden [void] __PlaySoundQuestion()
     {
         # Try to play or provide the sound as necessary
-        try
-        {
-            # Play the Questionable sound
-            [System.Media.SystemSounds]::Question.Play();
-        } # try : Play Hand Audio
-
-        # Exception thrown
-        catch
-        {
-            # Unique series of beeps for 'Critical Stop'
-            [Notifications]::__StandardBell(700, 600);
-            [Notifications]::__StandardBell(600, 300);
-            [Notifications]::__StandardBell(650, 600);
-        } # catch : Provide Custom Sound
+        [System.Media.SystemSounds]::Question.Play();
     } # __PlaySoundQuestion()
 } # Notifications
 
