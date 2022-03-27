@@ -58,7 +58,7 @@ class NotificationAudible
             {($_ -eq [NotificationAudibleEventType]::Success)}
             {
                 # Play Asterisk sound
-                [Notifications]::__PlaySoundAsterisk();
+                [NotificationAudible]::__PlaySoundAsterisk();
             } # Event: Successful
 
 
@@ -66,7 +66,7 @@ class NotificationAudible
             {($_ -eq [NotificationAudibleEventType]::Error)}
             {
                 # Play Critical Error sound
-                [Notifications]::__PlaySoundHand();
+                [NotificationAudible]::__PlaySoundHand();
             } # Event: Errors
 
 
@@ -74,7 +74,7 @@ class NotificationAudible
             {($_ -eq [NotificationAudibleEventType]::Warning)}
             {
                 # Play Exclamation sound
-                [Notifications]::__PlaySoundExclamation();
+                [NotificationAudible]::__PlaySoundExclamation();
             } # Event: Warnings
 
 
@@ -82,7 +82,7 @@ class NotificationAudible
             {($_ -eq [NotificationAudibleEventType]::IncorrectOption)}
             {
                 # Play Critical Error sound
-                [Notifications]::__PlaySoundBeep();
+                [NotificationAudible]::__PlaySoundBeep();
             } # Event: Errors
 
 
