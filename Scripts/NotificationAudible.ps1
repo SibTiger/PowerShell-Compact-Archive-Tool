@@ -44,18 +44,18 @@ class NotificationAudible
     #   such that they are aware that an event that had occurred.
     # -------------------------------
     # Input:
-    #  [NotificationEventType] Event Triggered
+    #  [NotificationAudibleEventType] Event Triggered
     #   Specifies what type of event that had been triggered.
     # -------------------------------
     #>
-    static [void] Notify([NotificationEventType] $eventTriggered)
+    static [void] Notify([NotificationAudibleEventType] $eventTriggered)
     {
         # Determine the type of notification that had just occurred, and evaluate
         #  if user is to be notified regarding the event.
         switch ($eventTriggered)
         {
             # Successful operation
-            {($_ -eq [NotificationEventType]::Success)}
+            {($_ -eq [NotificationAudibleEventType]::Success)}
             {
                 # Play Asterisk sound
                 [Notifications]::__PlaySoundAsterisk();
@@ -63,7 +63,7 @@ class NotificationAudible
 
 
             # Error had been reached
-            {($_ -eq [NotificationEventType]::Error)}
+            {($_ -eq [NotificationAudibleEventType]::Error)}
             {
                 # Play Critical Error sound
                 [Notifications]::__PlaySoundHand();
@@ -71,7 +71,7 @@ class NotificationAudible
 
 
             # A specific warning had been reached
-            {($_ -eq [NotificationEventType]::Warning)}
+            {($_ -eq [NotificationAudibleEventType]::Warning)}
             {
                 # Play Exclamation sound
                 [Notifications]::__PlaySoundExclamation();
@@ -79,7 +79,7 @@ class NotificationAudible
 
 
             # User provided an incorrect option
-            {($_ -eq [NotificationEventType]::IncorrectOption)}
+            {($_ -eq [NotificationAudibleEventType]::IncorrectOption)}
             {
                 # Play Critical Error sound
                 [Notifications]::__PlaySoundBeep();

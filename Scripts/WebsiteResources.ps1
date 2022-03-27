@@ -257,7 +257,7 @@
 
 
                 # Alert the user that something horrible just happened
-                [Notifications]::Notify([NotificationEventType]::Warning);
+                [NotificationAudible]::Notify([NotificationAudibleEventType]::Warning);
             } # else: Failed to Automatically Open Site
 
 

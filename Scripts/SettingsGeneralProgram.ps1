@@ -590,7 +590,7 @@ class SettingsGeneralProgram
                                                             $false))                                        ` # Do not force Web Browser functionality.
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
-                    [Notifications]::Notify([NotificationEventType]::Error);
+                    [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
                 } # If : Failed to Provide Webpage
 
 
@@ -611,7 +611,7 @@ class SettingsGeneralProgram
                                                             $true))                                                 ` # Override the user's settings; access webpage
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
-                    [Notifications]::Notify([NotificationEventType]::Error);
+                    [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
                 } # If : Failed to Provide Webpage
 
 
@@ -643,7 +643,7 @@ class SettingsGeneralProgram
             default
             {
                 # Alert the user that they had provided an incorrect option.
-                [Notifications]::Notify([NotificationEventType]::IncorrectOption);
+                [NotificationAudible]::Notify([NotificationAudibleEventType]::IncorrectOption);
 
 
                 # Provide an error message to the user that the option they chose is
@@ -853,7 +853,7 @@ class SettingsGeneralProgram
                                                             $true))                                                 ` # Override the user's settings; access webpage
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
-                    [Notifications]::Notify([NotificationEventType]::Error);
+                    [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
                 } # If : Failed to Provide Webpage
 
 
@@ -884,7 +884,7 @@ class SettingsGeneralProgram
             default
             {
                 # Alert the user that they had provided an incorrect option.
-                [Notifications]::Notify([NotificationEventType]::IncorrectOption);
+                [NotificationAudible]::Notify([NotificationAudibleEventType]::IncorrectOption);
 
 
                 # Provide an error message to the user that the option they chose is
@@ -950,7 +950,7 @@ class SettingsGeneralProgram
                 ($newProjectPath -ne "x"))
             {
                 # Alert the user that the path is incorrect.
-                [Notifications]::Notify([NotificationEventType]::Warning);
+                [NotificationAudible]::Notify([NotificationAudibleEventType]::Warning);
 
 
                 # Because the path is not valid, let the user know that the path does not exist
@@ -1156,7 +1156,7 @@ class SettingsGeneralProgram
                                                             $true))                                                 ` # Override the user's settings; access webpage
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
-                    [Notifications]::Notify([NotificationEventType]::Error);
+                    [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
                 } # If : Failed to Provide Webpage
 
 
@@ -1187,7 +1187,7 @@ class SettingsGeneralProgram
             default
             {
                 # Alert the user that they had provided an incorrect option.
-                [Notifications]::Notify([NotificationEventType]::IncorrectOption);
+                [NotificationAudible]::Notify([NotificationAudibleEventType]::IncorrectOption);
 
 
                 # Provide an error message to the user that the option they chose is
@@ -1255,7 +1255,7 @@ class SettingsGeneralProgram
                 ($newProjectPath -ne "x"))
             {
                 # Alert the user that the path is incorrect.
-                [Notifications]::Notify([NotificationEventType]::Warning);
+                [NotificationAudible]::Notify([NotificationAudibleEventType]::Warning);
 
 
                 # Because the path is not valid, let the user know that the path does not exist
@@ -1519,7 +1519,7 @@ class SettingsGeneralProgram
                                                             $true))                                                 ` # Override the user's settings; access webpage
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
-                    [Notifications]::Notify([NotificationEventType]::Error);
+                    [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
                 } # If : Failed to Provide Webpage
 
 
@@ -1550,7 +1550,7 @@ class SettingsGeneralProgram
             default
             {
                 # Alert the user that they had provided an incorrect option.
-                [Notifications]::Notify([NotificationEventType]::IncorrectOption);
+                [NotificationAudible]::Notify([NotificationAudibleEventType]::IncorrectOption);
 
 
                 # Provide an error message to the user that the option they chose is
@@ -1792,7 +1792,7 @@ class SettingsGeneralProgram
                                                             $true))                                                 ` # Override the user's settings; access webpage
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
-                    [Notifications]::Notify([NotificationEventType]::Error);
+                    [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
                 } # If : Failed to Provide Webpage
 
 
@@ -1822,7 +1822,7 @@ class SettingsGeneralProgram
             default
             {
                 # Alert the user that they had provided an incorrect option.
-                [Notifications]::Notify([NotificationEventType]::IncorrectOption);
+                [NotificationAudible]::Notify([NotificationAudibleEventType]::IncorrectOption);
 
 
                 # Provide an error message to the user that the option they chose is
@@ -2063,7 +2063,7 @@ class SettingsGeneralProgram
                                                             $true))                                                 ` # Override the user's settings; access webpage
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
-                    [Notifications]::Notify([NotificationEventType]::Error);
+                    [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
                 } # If : Failed to Provide Webpage
 
 
@@ -2093,7 +2093,7 @@ class SettingsGeneralProgram
             default
             {
                 # Alert the user that they had provided an incorrect option.
-                [Notifications]::Notify([NotificationEventType]::IncorrectOption);
+                [NotificationAudible]::Notify([NotificationAudibleEventType]::IncorrectOption);
 
 
                 # Provide an error message to the user that the option they chose is
