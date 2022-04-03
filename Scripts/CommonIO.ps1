@@ -358,6 +358,7 @@ class CommonIO
                                                 #  if the command was found or not.
         # ----------------------------------------
 
+
         # Try to detect the requested command
         try
         {
