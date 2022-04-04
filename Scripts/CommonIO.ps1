@@ -358,11 +358,12 @@ class CommonIO
                                                 #  if the command was found or not.
         # ----------------------------------------
 
+
         # Try to detect the requested command
         try
         {
             # We will use this variable to capture output provided from the Get-Command.
-            [System.Management.Automation.ApplicationInfo] $debugInfo = $null;
+            [System.Object] $debugInfo = $null;
 
             # Try to detect the requested command
             $debugInfo = Get-Command -Name $command `

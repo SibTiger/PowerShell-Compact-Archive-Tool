@@ -231,7 +231,8 @@ function MakeCompilerDriver()
                         "Logging.ps1", `
                         "SystemInformation.ps1", `
                         "WebsiteResources.ps1", `
-                        "Notifications.ps1", `
+                        "NotificationAudible.ps1", `
+                        "NotificationVisual.ps1", `
                         "Settings.ps1", `
                         "SettingsGeneralProgram.ps1", `
                         "Settings7Zip.ps1", `

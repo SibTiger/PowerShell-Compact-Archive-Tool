@@ -313,7 +313,7 @@ class Builder
 
 
         # Alert the user that the operation had finished
-        [Notifications]::Notify([NotificationEventType]::Success);
+        [NotificationAudible]::Notify([NotificationAudibleEventType]::Success);
 
 
         # Show that the compiling operation was successful.
@@ -393,7 +393,7 @@ class Builder
             # Unable to find the project's source files; unable to continue.
 
             # Alert the user that an error had been reached.
-            [Notifications]::Notify([NotificationEventType]::Error);
+            [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
 
 
             # Show that the Project's source files could not be found.
@@ -459,7 +459,7 @@ class Builder
             # Unable to find the output path directory; unable to continue.
 
             # Alert the user that an error had been reached.
-            [Notifications]::Notify([NotificationEventType]::Error);
+            [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
 
 
             # Show that the Output Directory could not be found.
@@ -532,7 +532,7 @@ class Builder
                     # Unable to find the dotNET Archive Zip
 
                     # Alert the user that an error had been reached.
-                    [Notifications]::Notify([NotificationEventType]::Error);
+                    [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
 
 
                     # Show that this program cannot detect the dotNET Core Archive ZIP functionality.
@@ -605,7 +605,7 @@ class Builder
                     # Unable to find the 7Zip application
 
                     # Alert the user that an error had been reached.
-                    [Notifications]::Notify([NotificationEventType]::Error);
+                    [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
 
 
                     # Show that this program cannot find the 7Zip software installed on this system or the desired location.
@@ -670,7 +670,7 @@ class Builder
                 # Unknown or Unsupported compression tool!
 
                 # Alert the user that an error had been reached.
-                [Notifications]::Notify([NotificationEventType]::Error);
+                [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
 
 
                 # Show that the preferred compression tool is not valid.
@@ -734,7 +734,7 @@ class Builder
                 # Unable to find the Git application.
 
                 # Alert the user that an error had been reached.
-                [Notifications]::Notify([NotificationEventType]::Error);
+                [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
 
 
                 # Show that the preferred compression tool is not valid.
@@ -926,7 +926,7 @@ class Builder
             # Reached an error while attempting to update the local repository.
 
             # Alert the user that an error had been reached.
-            [Notifications]::Notify([NotificationEventType]::Error);
+            [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
 
 
             # Show to the user that there was an error while attempting to update the local repository
@@ -1188,7 +1188,7 @@ class Builder
                     # Reached an error while trying to compact the files.
 
                     # Alert the user that an error had been reached.
-                    [Notifications]::Notify([NotificationEventType]::Error);
+                    [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
 
 
                     # An error had been reached while compacting the project's files.
@@ -1246,7 +1246,7 @@ class Builder
                     # Reached an error while trying to compact the files.
 
                     # Alert the user that an error had been reached.
-                    [Notifications]::Notify([NotificationEventType]::Error);
+                    [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
 
 
                     # An error had been reached while compacting the project's files.
@@ -1295,7 +1295,7 @@ class Builder
                 # Unknown Compression Tool
 
                 # Alert the user that an error had been reached.
-                [Notifications]::Notify([NotificationEventType]::Error);
+                [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
 
 
                 # Show that we could not determine the preferred compression tool
@@ -1423,7 +1423,7 @@ class Builder
             # Failed to create the temporary directory!
 
             # Alert the user that an error had been reached
-            [Notifications]::Notify([NotificationEventType]::Error);
+            [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
 
 
             # Show the user that an error had been reached while creating the temporary directory.
@@ -1544,7 +1544,7 @@ class Builder
                                         $projectTemporaryPath))                     # Destination Directory
         {
             # Alert the user that an error had been reached
-            [Notifications]::Notify([NotificationEventType]::Error);
+            [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
 
 
             # Show the user that an error had been reached while creating the temporary directory.
@@ -1658,7 +1658,7 @@ class Builder
 
 
             # Alert the user that an error had been reached
-            [Notifications]::Notify([NotificationEventType]::Warning);
+            [NotificationAudible]::Notify([NotificationAudibleEventType]::Warning);
 
 
             # Show the user than an error had been reached while deleting the temporary directory.
@@ -1815,7 +1815,7 @@ class Builder
                 # Unable to delete the desired directory
 
                 # Alert the user that an error had been reached.
-                [Notifications]::Notify([NotificationEventType]::Error);
+                [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
 
 
                 # Show that the directory could not be deleted.
@@ -1871,7 +1871,7 @@ class Builder
                 # Unable to delete the desired files
 
                 # Alert the user that an error had been reached.
-                [Notifications]::Notify([NotificationEventType]::Error);
+                [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
 
 
                 # Show that the files could not be deleted.
@@ -2079,7 +2079,7 @@ class Builder
             # Unable to determine the selected compression tool
 
             # Alert the user that an error had been reached.
-            [Notifications]::Notify([NotificationEventType]::Error);
+            [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
 
 
             # Unknown condition was reached
@@ -2139,7 +2139,7 @@ class Builder
             # Build is not healthy
 
             # Alert the user that the build is not healthy.
-            [Notifications]::Notify([NotificationEventType]::Warning);
+            [NotificationAudible]::Notify([NotificationAudibleEventType]::Warning);
         } # else : Build is Not Healthy
 
 
@@ -2327,7 +2327,7 @@ class Builder
             # Unable to determine the selected compression tool
 
             # Alert the user that an error had been reached.
-            [Notifications]::Notify([NotificationEventType]::Error);
+            [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
 
 
             # Unknown condition was reached
@@ -2425,7 +2425,7 @@ class Builder
             # Unable to generate report
 
             # Alert the user that the report could not be made.
-            [Notifications]::Notify([NotificationEventType]::Warning);
+            [NotificationAudible]::Notify([NotificationAudibleEventType]::Warning);
         } # else : Failed to Generate Report
 
 
@@ -2606,7 +2606,7 @@ class Builder
             # Unable to generate report
 
             # Alert the user that the report could not be made.
-            [Notifications]::Notify([NotificationEventType]::Warning);
+            [NotificationAudible]::Notify([NotificationAudibleEventType]::Warning);
         } # else : Failed to Generate Report
 
 

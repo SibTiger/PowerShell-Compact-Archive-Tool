@@ -18,16 +18,15 @@
 
 
 
-<# Notifications
+<# Notification Audible
  # ------------------------------
  # ==============================
  # ==============================
- # This class will provide the ability to notify the user based on certain events.
- #  The notifications provided may result in a basic tone, while other notifications
- #  may provide a audio alerts and\or visual notifications.  The purpose of this
- #  functionality is to grab the user's attention that /something/ had happened.
- #  Further, in order for the notification functionality to work, the user must
- #  had already configured their settings to allow such capabilities.
+ # This class will provide the ability to notify the user based on certain specialized events.
+ #  The notifications within this class provide audible alerts, which can be either the classical
+ #  bell tone or system based.  The purpose of this functionality is to grab the user's attention
+ #  that /something/ had happened.  Further, in order for the notification functionality to work,
+ #  the user must had already configured their settings to allow such capabilities.
  #
  # Useful Resources:
  #  Standard System Sounds: https://stackoverflow.com/a/31265651/11314373
@@ -36,56 +35,54 @@
 
 
 
-class Notifications
+class NotificationAudible
 {
    <# Notify [Main Function]
     # -------------------------------
     # Documentation:
-    #  This function will allow the ability to provide a notification to the end-user,
-    #   such that they are aware of an event that had occurred.  Such events may vary
-    #   in such a way that they grab the user's attention, such as visual aid or audible
-    #   sounds.
+    #  This function will allow the ability to provide a audible notifications to the end-user,
+    #   such that they are aware that an event that had occurred.
     # -------------------------------
     # Input:
-    #  [NotificationEventType] Event Triggered
+    #  [NotificationAudibleEventType] Event Triggered
     #   Specifies what type of event that had been triggered.
     # -------------------------------
     #>
-    static [void] Notify([NotificationEventType] $eventTriggered)
+    static [void] Notify([NotificationAudibleEventType] $eventTriggered)
     {
         # Determine the type of notification that had just occurred, and evaluate
         #  if user is to be notified regarding the event.
         switch ($eventTriggered)
         {
             # Successful operation
-            {($_ -eq [NotificationEventType]::Success)}
+            {($_ -eq [NotificationAudibleEventType]::Success)}
             {
                 # Play Asterisk sound
-                [Notifications]::__PlaySoundAsterisk();
+                [NotificationAudible]::__PlaySoundAsterisk();
             } # Event: Successful
 
 
             # Error had been reached
-            {($_ -eq [NotificationEventType]::Error)}
+            {($_ -eq [NotificationAudibleEventType]::Error)}
             {
                 # Play Critical Error sound
-                [Notifications]::__PlaySoundHand();
+                [NotificationAudible]::__PlaySoundHand();
             } # Event: Errors
 
 
             # A specific warning had been reached
-            {($_ -eq [NotificationEventType]::Warning)}
+            {($_ -eq [NotificationAudibleEventType]::Warning)}
             {
                 # Play Exclamation sound
-                [Notifications]::__PlaySoundExclamation();
+                [NotificationAudible]::__PlaySoundExclamation();
             } # Event: Warnings
 
 
             # User provided an incorrect option
-            {($_ -eq [NotificationEventType]::IncorrectOption)}
+            {($_ -eq [NotificationAudibleEventType]::IncorrectOption)}
             {
                 # Play Critical Error sound
-                [Notifications]::__PlaySoundBeep();
+                [NotificationAudible]::__PlaySoundBeep();
             } # Event: Errors
 
 
@@ -257,20 +254,20 @@ class Notifications
         # Try to play or provide the sound as necessary
         [System.Media.SystemSounds]::Question.Play();
     } # __PlaySoundQuestion()
-} # Notifications
+} # NotificationAudible
 
 
 
 
-<# Notification Event Type [ENUM]
+<# Notification Audible Event Type [ENUM]
  # -------------------------------
- # This provides specific notification events that could arise within the program.
+ # This provides specific notification event that could arise within the program.
  # -------------------------------
  #>
-enum NotificationEventType
+enum NotificationAudibleEventType
 {
     Success         = 0; # Successful Event
     Warning         = 1; # Warning Event
     Error           = 2; # Error Event
     IncorrectOption = 3; # User provided incorrect option
-} # NotificationEventType
+} # NotificationAudibleEventType
