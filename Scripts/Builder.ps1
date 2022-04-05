@@ -314,6 +314,7 @@ class Builder
 
         # Alert the user that the operation had finished
         [NotificationAudible]::Notify([NotificationAudibleEventType]::Success);
+        [NotificationVisual]::Notify("Successfully compiled $([ProjectInformation]::projectName)!");
 
 
         # Show that the compiling operation was successful.
