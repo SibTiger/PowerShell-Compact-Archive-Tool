@@ -35,6 +35,12 @@
 
 
 
+# Add to the Session
+Add-Type -AssemblyName PresentationCore,PresentationFramework
+
+
+
+
 class CommonGUI
 {
    <# MessageBox
