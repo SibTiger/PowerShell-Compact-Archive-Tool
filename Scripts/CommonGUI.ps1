@@ -51,6 +51,8 @@ class CommonGUI
     #   The type of message that will be displayed to the user, usually
     #   indicated by an icon on the far left side of the message with the
     #   associated system sound that relates to the event type.
+    #
+    #   https://docs.microsoft.com/en-us/dotnet/api/system.windows.messageboximage
     # -------------------------------
     #>
     static [void] MessageBox([string] $message,                         # Message to display within the message box
