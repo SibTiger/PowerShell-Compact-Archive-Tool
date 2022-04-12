@@ -37,31 +37,3 @@
 
 class CommonGUI
 {
-} # CommonGUI
-
-
-
-
-<# Message Box Icons [ENUM]
- # -------------------------------
- # This will provide the ability to determine the type of visual icon that will appear
- #  within the rendered Message Box.  The icon will help to immediately warn the user
- #  - or to visually que - that an event had happened, such event may be result of a
- #  positive action or an event that had gone horribly wrong.  With these icons, it also
- #  provides audible sounds in respect to the icon.  Meaning, an icon of 'Error' or
- #  'Hand' will play the 'error' sound that is defined in the user's profile settings.
- # https://docs.microsoft.com/en-us/dotnet/api/system.windows.messageboximage
- # -------------------------------
- #>
-enum MessageBoxIcons
-{
-    None            = 0; # No icon is provided.
-    Asterisk        = 1; # A Message Box Icon of a lowercase letter 'i' in a circle.
-    Information     = 2; # A Message Box Icon of a lowercase letter 'i' in a circle.
-    Exclamation     = 3; # A Message Box Icon of an exclamation point in a triangle with a yellow background.
-    Warning         = 4; # A Message Box Icon of an exclamation point in a triangle with a yellow background.
-    Question        = 5; # A Message Box Icon of a question mark in a circle. {DEPRECATED}
-    Error           = 6; # A Message Box Icon of a white 'X' in a circle with a red background.
-    Stop            = 7; # A Message Box Icon of a white 'X' in a circle with a red background.
-    Hand            = 8; # A Message Box Icon of a white 'X' in a circle with a red background.
-} # MessageBoxIcons
