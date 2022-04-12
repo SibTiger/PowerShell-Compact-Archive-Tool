@@ -53,15 +53,15 @@ class CommonGUI
  # https://docs.microsoft.com/en-us/dotnet/api/system.windows.messageboximage
  # -------------------------------
  #>
- enum MessageBoxIcons
- {
-     Asterisk       = 0; # A Message Box Icon of a lowercase letter 'i' in a circle.
-     Error          = 1; # A Message Box Icon of a white 'X' in a circle with a red background.
-     Exclamation    = 2; # A Message Box Icon of an exclamation point in a triangle with a yellow background.
-     Hand           = 3; # A Message Box Icon of a white 'X' in a circle with a red background.
-     Information    = 4; # A Message Box Icon of a lowercase letter 'i' in a circle.
-     None           = 5; # No icon is provided.
-     Question       = 6; # A Message Box Icon of a question mark in a circle. {DEPRECATED}
-     Stop           = 7; # A Message Box Icon of a white 'X' in a circle with a red background.
-     Warning        = 8; # A Message Box Icon of an exclamation point in a triangle with a yellow background.
- } # MessageBoxIcons
+enum MessageBoxIcons
+{
+    None            = 0; # No icon is provided.
+    Asterisk        = 1; # A Message Box Icon of a lowercase letter 'i' in a circle.
+    Information     = 2; # A Message Box Icon of a lowercase letter 'i' in a circle.
+    Exclamation     = 3; # A Message Box Icon of an exclamation point in a triangle with a yellow background.
+    Warning         = 4; # A Message Box Icon of an exclamation point in a triangle with a yellow background.
+    Question        = 5; # A Message Box Icon of a question mark in a circle. {DEPRECATED}
+    Error           = 6; # A Message Box Icon of a white 'X' in a circle with a red background.
+    Stop            = 7; # A Message Box Icon of a white 'X' in a circle with a red background.
+    Hand            = 8; # A Message Box Icon of a white 'X' in a circle with a red background.
+} # MessageBoxIcons
