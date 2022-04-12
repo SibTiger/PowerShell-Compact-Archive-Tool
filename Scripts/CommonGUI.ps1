@@ -37,3 +37,29 @@
 
 class CommonGUI
 {
+   <# MessageBox
+    # -------------------------------
+    # Documentation:
+    #  This function provides a simple message box to the user.
+    #  The interaction within this simplistic message box only
+    #   contains an 'OK' button, all other interactions are ignored.
+    # -------------------------------
+    # Input:
+    #  [string] Message
+    #   The message that will be presented within the Message Box.
+    #  [System.Windows.MessageBoxImage] icon
+    #   The type of message that will be displayed to the user, usually
+    #   indicated by an icon on the far left side of the message with the
+    #   associated system sound that relates to the event type.
+    # -------------------------------
+    #>
+    static [void] MessageBox([string] $message,                         # Message to display within the message box
+                            [System.Windows.MessageBoxImage] $icon)     # Message Box Graphical Icon
+    {
+        # Display the message box
+        [System.Windows.MessageBox]::Show($message,                             ` # Message
+                                        $Global:_PROGRAMNAME_,                  ` # Message Box Title
+                                        [System.Windows.MessageBoxButton]::OK,  ` # Okay Button
+                                        $icon);                                   # Visual Icon
+    } # MessageBox()
+} # CommonGUI
