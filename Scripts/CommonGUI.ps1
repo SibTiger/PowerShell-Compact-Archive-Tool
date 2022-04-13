@@ -43,7 +43,7 @@ Add-Type -AssemblyName PresentationCore,PresentationFramework
 
 class CommonGUI
 {
-   <# MessageBox
+   <# MessageBox - OK Button [Simple]
     # -------------------------------
     # Documentation:
     #  This function provides a simple message box to the user.
@@ -60,9 +60,16 @@ class CommonGUI
     #
     #   https://docs.microsoft.com/en-us/dotnet/api/system.windows.messageboximage
     # -------------------------------
+    # Output:
+    #  [System.Windows.MessageBoxResult] User's Feedback
+    #   Returns the user's feedback
+    #
+    #  NOTE: This function will only return 'OK' as that is the only
+    #           button that will be available to the user.
+    # -------------------------------
     #>
-    static [void] MessageBox([string] $message,                         # Message to display within the message box
-                            [System.Windows.MessageBoxImage] $icon)     # Message Box Graphical Icon
+    static [System.Windows.MessageBoxResult] MessageBox([string] $message,                          # Message to display within the message box
+                                                        [System.Windows.MessageBoxImage] $icon)     # Message Box Graphical Icon
     {
         # Display the message box
         [System.Windows.MessageBox]::Show($message,                             ` # Message
