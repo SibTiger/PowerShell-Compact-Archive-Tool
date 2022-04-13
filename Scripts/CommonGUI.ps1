@@ -53,11 +53,10 @@ class CommonGUI
     # Input:
     #  [string] Message
     #   The message that will be presented within the Message Box.
-    #  [System.Windows.MessageBoxImage] icon
+    #  [System.Windows.MessageBoxImage] Icon
     #   The type of message that will be displayed to the user, usually
     #   indicated by an icon on the far left side of the message with the
     #   associated system sound that relates to the event type.
-    #
     #   https://docs.microsoft.com/en-us/dotnet/api/system.windows.messageboximage
     # -------------------------------
     # Output:
