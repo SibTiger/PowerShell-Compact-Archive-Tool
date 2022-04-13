@@ -49,6 +49,10 @@ class CommonGUI
     #  This function provides a simple message box to the user.
     #  The interaction within this simplistic message box only
     #   contains an 'OK' button, all other interactions are ignored.
+    #
+    # Resources:
+    #   - https://docs.microsoft.com/en-us/dotnet/api/system.windows.messagebox
+    #   - https://docs.microsoft.com/en-us/dotnet/api/system.windows.messageboximage
     # -------------------------------
     # Input:
     #  [string] Message
@@ -57,7 +61,6 @@ class CommonGUI
     #   The type of message that will be displayed to the user, usually
     #   indicated by an icon on the far left side of the message with the
     #   associated system sound that relates to the event type.
-    #   https://docs.microsoft.com/en-us/dotnet/api/system.windows.messageboximage
     # -------------------------------
     # Output:
     #  [System.Windows.MessageBoxResult] User's Feedback
@@ -91,6 +94,12 @@ class CommonGUI
     #  The intention of this message box is too the ability to ask
     #   the user a question and to provide the appropriate choices,
     #   reducing the amount of work necessary.
+    #
+    # Resources:
+    #   - https://docs.microsoft.com/en-us/dotnet/api/system.windows.messagebox
+    #   - https://docs.microsoft.com/en-us/dotnet/api/system.windows.messageboximage
+    #   - https://docs.microsoft.com/en-us/dotnet/api/system.windows.messageboxbutton
+    #   - https://docs.microsoft.com/en-us/dotnet/api/system.windows.messageboxresult
     # -------------------------------
     # Input:
     #  [string] Message
@@ -99,15 +108,12 @@ class CommonGUI
     #   The type of message that will be displayed to the user, usually
     #   indicated by an icon on the far left side of the message with the
     #   associated system sound that relates to the event type.
-    #   https://docs.microsoft.com/en-us/dotnet/api/system.windows.messageboximage
     #  [System.Windows.MessageBoxButton] Button
     #   The specified buttons that will be available to the end-user to
     #   interact within the Message Box.
-    #   https://docs.microsoft.com/en-us/dotnet/api/system.windows.messageboxbutton
     #  [System.Windows.MessageBoxResult] Default Button
     #   The default button that is easily selectable when the user presses
     #   the enter key without using a pointing device (mouse).
-    #   https://docs.microsoft.com/en-us/dotnet/api/system.windows.messageboxresult
     # -------------------------------
     # Output:
     #  [System.Windows.MessageBoxResult] User's Feedback
