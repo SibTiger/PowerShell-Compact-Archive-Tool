@@ -76,4 +76,57 @@ class CommonGUI
                                         [System.Windows.MessageBoxButton]::OK,  ` # Okay Button
                                         $icon);                                   # Visual Icon
     } # MessageBox()
+
+
+
+
+
+   <# MessageBox - Customizable Buttons
+    # -------------------------------
+    # Documentation:
+    #  This function provides the user with the ability to provide
+    #   interaction with a Message Box that contains more than one
+    #   button, such as: OK Cancel, Yes No, Yes No Cancel.
+    #
+    #  The intention of this message box is too the ability to ask
+    #   the user a question and to provide the appropriate choices,
+    #   reducing the amount of work necessary.
+    # -------------------------------
+    # Input:
+    #  [string] Message
+    #   The message that will be presented within the Message Box.
+    #  [System.Windows.MessageBoxImage] Icon
+    #   The type of message that will be displayed to the user, usually
+    #   indicated by an icon on the far left side of the message with the
+    #   associated system sound that relates to the event type.
+    #   https://docs.microsoft.com/en-us/dotnet/api/system.windows.messageboximage
+    #  [System.Windows.MessageBoxButton] Button
+    #   The specified buttons that will be available to the end-user to
+    #   interact within the Message Box.
+    #   https://docs.microsoft.com/en-us/dotnet/api/system.windows.messageboxbutton
+    #  [System.Windows.MessageBoxResult] Default Button
+    #   The default button that is easily selectable when the user presses
+    #   the enter key without using a pointing device (mouse).
+    #   https://docs.microsoft.com/en-us/dotnet/api/system.windows.messageboxresult
+    # -------------------------------
+    # Output:
+    #  [System.Windows.MessageBoxResult] User's Feedback
+    #   Returns the user's feedback
+    #
+    #  NOTE: This function will only return 'OK' as that is the only
+    #           button that will be available to the user.
+    # -------------------------------
+    #>
+    static [System.Windows.MessageBoxResult] MessageBox([string] $message,                                  ` # Message
+                                                        [System.Windows.MessageBoxImage] $icon,             ` # Message Box Title
+                                                        [System.Windows.MessageBoxButton] $button,          ` # Desired Buttons
+                                                        [System.Windows.MessageBoxResult] $defaultButton)   ` # Default Selected Button
+    {
+        # Display the message box
+        [System.Windows.MessageBox]::Show($message,             ` # Message
+                                        $Global:_PROGRAMNAME_,  ` # Message Box Title
+                                        $button,                ` # Okay Button
+                                        $icon,                  ` # Visual Icon
+                                        $defaultButton);        ` # Default Button
+    } # MessageBox()
 } # CommonGUI
