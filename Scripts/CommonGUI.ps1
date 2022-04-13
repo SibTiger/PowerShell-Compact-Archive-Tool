@@ -71,10 +71,10 @@ class CommonGUI
                                                         [System.Windows.MessageBoxImage] $icon)     # Message Box Graphical Icon
     {
         # Display the message box
-        [System.Windows.MessageBox]::Show($message,                             ` # Message
-                                        $Global:_PROGRAMNAME_,                  ` # Message Box Title
-                                        [System.Windows.MessageBoxButton]::OK,  ` # Okay Button
-                                        $icon);                                   # Visual Icon
+        return [System.Windows.MessageBox]::Show($message,                              ` # Message
+                                                $Global:_PROGRAMNAME_,                  ` # Message Box Title
+                                                [System.Windows.MessageBoxButton]::OK,  ` # Okay Button
+                                                $icon);                                   # Visual Icon
     } # MessageBox()
 
 
@@ -123,10 +123,10 @@ class CommonGUI
                                                         [System.Windows.MessageBoxResult] $defaultButton)   ` # Default Selected Button
     {
         # Display the message box
-        [System.Windows.MessageBox]::Show($message,             ` # Message
-                                        $Global:_PROGRAMNAME_,  ` # Message Box Title
-                                        $button,                ` # Okay Button
-                                        $icon,                  ` # Visual Icon
-                                        $defaultButton);        ` # Default Button
+        return [System.Windows.MessageBox]::Show($message,              ` # Message
+                                                $Global:_PROGRAMNAME_,  ` # Message Box Title
+                                                $button,                ` # Okay Button
+                                                $icon,                  ` # Visual Icon
+                                                $defaultButton);        ` # Default Button
     } # MessageBox()
 } # CommonGUI
