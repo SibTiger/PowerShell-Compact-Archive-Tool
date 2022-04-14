@@ -74,10 +74,10 @@ class CommonGUI
                                                         [System.Windows.MessageBoxImage] $icon)     # Message Box Graphical Icon
     {
         # Display the message box
-        return [System.Windows.MessageBox]::Show($message,                              ` # Message
-                                                $Global:_PROGRAMNAME_,                  ` # Message Box Title
-                                                [System.Windows.MessageBoxButton]::OK,  ` # Okay Button
-                                                $icon);                                   # Visual Icon
+        return [CommonGUI]::MessageBox($message,                                    ` # Message
+                                        $icon,                                      ` # Visual Icon
+                                        [System.Windows.MessageBoxButton]::OK,      ` # OK Button
+                                        [System.Windows.MessageBoxResult]::OK);     ` # Default Button
     } # MessageBox()
 
 
