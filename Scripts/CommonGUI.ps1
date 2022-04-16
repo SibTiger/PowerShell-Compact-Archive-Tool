@@ -143,4 +143,78 @@ class CommonGUI
                                                 $icon,                  ` # Visual Icon
                                                 $defaultButton);        ` # Default Button
     } # MessageBox()
+
+
+
+
+
+   <# Browse for Directory
+    # -------------------------------
+    # Documentation:
+    #   This function will allow the user to select a directory using the
+    #   Folder Browser dialog window.  By using this functionality, the
+    #   user will be able to expeditiously navigate to the desired directory
+    #   with ease - instead of having to spend extra time digging for a
+    #   specific folder within the host's filesystem.
+    #
+    # Resources:
+    #   - https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.folderbrowserdialog
+    # -------------------------------
+    # Input:
+    #  [string] Instructions
+    #   Provide a brief description as to what the user needs to find within the local host.
+    #  [string] (REFERENCE) Results
+    #   If a directory were to be selected, then we will return the value within this variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Path Selected
+    #   $true   = The user had selected a directory and the result had been stored.
+    #   $false  = The user had cancelled the operation, no directory had been selected.
+    # -------------------------------
+    #>
+    static [bool] BrowseDirectory([string] $instructions, [ref] $result)
+    {
+        # Declarations and Initializations
+        # -------------------------------------
+        # This will store the Folder Browser Dialog object
+        [System.Windows.Forms.FolderBrowserDialog] $directoryBrowser;
+
+        # Used to obtain the results from the Folder Browser.
+        [System.Windows.Forms.DialogResult] $browserResult;
+        # -------------------------------------
+
+
+        # Generate the Folder Browser Dialog object
+        $directoryBrowser = New-Object System.Windows.Forms.FolderBrowserDialog;
+
+
+        # Setup the properties for the Folder Browser Dialog
+        #   General Settings
+        $directoryBrowser.AutoUpgradeEnabled    = $true;                                            # Choose between modern or classical browser.
+        $directoryBrowser.UseDescriptionForTitle= $false;                                           # Place the description at the title bar?
+
+        #   Classical Folder Browser Settings
+        $directoryBrowser.RootPath              = [System.Environment+SpecialFolder]::MyComputer;   # Allow the user full access to the system.
+        $directoryBrowser.ShowNewFolderButton   = $true;                                            # Allow the user to create a new directory.
+        #   Modern Folder Browser Settings
+        $directoryBrowser.InitialDirectory      = $env:USERPROFILE;                                 # Start the user at their Home directory.
+
+
+
+        # Open the Folder Browser Dialog window
+        if (($browserResult = $directoryBrowser.ShowDialog()) -eq [System.Windows.Forms+DialogResult]::Cancel)
+        {
+            # The user chose to abort.
+            return $false;
+        } # if : User Cancelled
+
+
+
+        # If we made it this far, then we know that the user had chosen a path.
+        # Provide the path that the user had chose.
+        $result.Value = $directoryBrowser.SelectedPath;
+
+        # Let the calling function know that the user provided a path.
+        return $true;
+    } # BrowseDirectory()
 } # CommonGUI
