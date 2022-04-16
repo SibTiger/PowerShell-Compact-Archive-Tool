@@ -184,9 +184,6 @@ class CommonGUI
         # -------------------------------------
 
 
-        # Generate the Folder Browser Dialog object
-        $directoryBrowser = New-Object System.Windows.Forms.FolderBrowserDialog;
-
 
         # Setup the properties for the Folder Browser Dialog
         #   General Settings
