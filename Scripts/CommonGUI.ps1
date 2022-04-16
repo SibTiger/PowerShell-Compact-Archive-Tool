@@ -202,7 +202,7 @@ class CommonGUI
 
 
         # Open the Folder Browser Dialog window
-        if (($browserResult = $directoryBrowser.ShowDialog()) -eq [System.Windows.Forms+DialogResult]::Cancel)
+        if (($browserResult = $directoryBrowser.ShowDialog()) -eq [System.Windows.Forms.DialogResult]::Cancel)
         {
             # The user chose to abort.
             return $false;
