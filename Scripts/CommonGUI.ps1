@@ -163,6 +163,8 @@ class CommonGUI
     # Input:
     #  [string] Instructions
     #   Provide a brief description as to what the user needs to find within the local host.
+    #  [BrowseDirectoryInterfaceStyle] Style
+    #   This provides the ability to determine which browser interface is to be drawn to the user.
     #  [string] (REFERENCE) Results
     #   If a directory were to be selected, then we will return the value within this variable.
     # -------------------------------
@@ -172,7 +174,9 @@ class CommonGUI
     #   $false  = The user had cancelled the operation, no directory had been selected.
     # -------------------------------
     #>
-    static [bool] BrowseDirectory([string] $instructions, [ref] $result)
+    static [bool] BrowseDirectory([string] $instructions,               ` # Show description to the user; reminder
+                                [BrowseDirectoryInterfaceStyle] $style, ` # Style of the Browser interface
+                                [ref] $result)                          ` # Selected directory to be returned.
     {
         # Declarations and Initializations
         # -------------------------------------
@@ -187,7 +191,8 @@ class CommonGUI
 
         # Setup the properties for the Folder Browser Dialog
         #   General Settings
-        $directoryBrowser.AutoUpgradeEnabled    = $true;                                            # Choose between modern or classical browser.
+        $directoryBrowser.AutoUpgradeEnabled    = `                                                 # Choose between modern or classical browser.
+                            ($style -eq [BrowseDirectoryInterfaceStyle]::Modern) ? $true : $false;
         $directoryBrowser.UseDescriptionForTitle= $false;                                           # Place the description at the title bar?
 
         #   Classical Folder Browser Settings
@@ -215,3 +220,17 @@ class CommonGUI
         return $true;
     } # BrowseDirectory()
 } # CommonGUI
+
+
+
+
+<# Browse Directory Interface Style [ENUM]
+ # -------------------------------
+ # This provides the ability to determine which type of 
+ # -------------------------------
+ #>
+ enum BrowseDirectoryInterfaceStyle
+ {
+     Classic    = 0;    # The ol' Directory Browser
+     Modern     = 1;    # The modern Directory Browser
+ } # BrowseDirectoryInterfaceStyle
