@@ -35,9 +35,17 @@
 
 
 
-# Add to the Session
-Add-Type -AssemblyName PresentationCore,PresentationFramework
+# Add to Session
+# ---------------------------------------------------
+# Required in order to use the Message Box functionality within the Windows environment.
+Add-Type -AssemblyName PresentationCore;
+Add-Type -AssemblyName PresentationFramework;
 
+# Required in order to use the following GUI functionalities within the Windows Environment
+#   - File Browser Dialog
+#   - Folder Browser Dialog
+Add-Type -AssemblyName System.Windows.Forms;
+# ---------------------------------------------------
 
 
 
