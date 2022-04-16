@@ -177,10 +177,10 @@ class CommonGUI
         # Declarations and Initializations
         # -------------------------------------
         # This will store the Folder Browser Dialog object
-        [System.Windows.Forms.FolderBrowserDialog] $directoryBrowser;
+        [System.Windows.Forms.FolderBrowserDialog] $directoryBrowser = [System.Windows.Forms.FolderBrowserDialog]::New();
 
         # Used to obtain the results from the Folder Browser.
-        [System.Windows.Forms.DialogResult] $browserResult;
+        [System.Windows.Forms.DialogResult] $browserResult = [System.Windows.Forms.DialogResult]::None;
         # -------------------------------------
 
 
