@@ -236,17 +236,21 @@ class CommonGUI
     #   - https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.openfiledialog
     # -------------------------------
     # Input:
-
-
-
-
-
-    #  [string] Instructions
-    #   Provide a brief description as to what the user needs to find within the local host.
-    #  [BrowseDirectoryInterfaceStyle] Style
-    #   This provides the ability to determine which browser interface is to be drawn to the user.
-    #  [string] (REFERENCE) Results
-    #   If a directory were to be selected, then we will return the value within this variable.
+    #  [string] Title
+    #   This will display a very brief description onto the Title bar of the Dialog window.
+    #  [string] Default Extension
+    #   Provides the default, or preferred, file extension that calling function is requiring.
+    #  [string] Filter Extension Options
+    #   Provides additional file extensions that are acceptable.
+    #  [Bool] Select Multiple Files
+    #   When true, the user can select one or more files.  False, however, the user can
+    #   only pick just one file.
+    #  [Browser Interface Style] Style
+    #   This provides the ability to determine which browser interface is to be drawn to the
+    #   user.
+    #  [System.Collections.ArrayList] Files
+    #   This provides the list of files that had been selected by the user.  This is returned
+    #   to the calling function for further evaluation.
     # -------------------------------
     # Output:
     #  [bool] File(s) Selected
@@ -254,12 +258,12 @@ class CommonGUI
     #   $false  = The user had cancelled the operation, no file had been selected.
     # -------------------------------
     #>
-    static [bool] BrowseFile([string] $title,
-                            [string] $defaultExtension,
-                            [string] $filterExtensionOptions,
-                            [bool] $selectMultipleFiles,
-                            [BrowserInterfaceStyle] $style,
-                            [System.Collections.ArrayList] $files)
+    static [bool] BrowseFile([string] $title,                       ` # Brief Description in Title Bar.
+                            [string] $defaultExtension,             ` # Default File Extension.
+                            [string] $filterExtensionOptions,       ` # Additional File Extensions.
+                            [bool] $selectMultipleFiles,            ` # Select only one OR at least one file.
+                            [BrowserInterfaceStyle] $style,         ` # Style of the Browser interface.
+                            [System.Collections.ArrayList] $files)    # Selected files to be returned.
     {
         # Declarations and Initializations
         # -------------------------------------
@@ -272,20 +276,20 @@ class CommonGUI
 
 
         # Setup the properties for the File Browser Dialog
-        $fileBrowser.AutoUpgradeEnabled             = `                                                 # Choose between modern or classical browser.
-                            ($style -eq [BrowserInterfaceStyle]::Modern) ? $true : $false;
-        $fileBrowser.CheckFileExists                = $true;       # Warn the user if the file does not exist within the filesystem.
-        $fileBrowser.CheckPathExists                = $true;       # Warn the user if the path does not exist within the filesystem.
-        $fileBrowser.DefaultExt                     = $defaultExtension;
-        $fileBrowser.Filter                         = $filterExtensionOptions;
-        $fileBrowser.DereferenceLinks               = $true;
-        $fileBrowser.Multiselect                    = $selectMultipleFiles;
-        $fileBrowser.RestoreDirectory               = $true;
-        $fileBrowser.ShowHelp                       = $false;
-        $fileBrowser.Title                          = $title;
-        $fileBrowser.ValidateNames                  = $true;
-        $fileBrowser.SupportMultiDottedExtensions   = $false;
-        $fileBrowser.InitialDirectory               = $env:USERPROFILE;
+        $fileBrowser.AutoUpgradeEnabled             = `                                                 # Choose Browser Style
+                                        ($style -eq [BrowserInterfaceStyle]::Modern) ? $true : $false;
+        $fileBrowser.CheckFileExists                = $true;                                            # Warn user if file non-existent.
+        $fileBrowser.CheckPathExists                = $true;                                            # Warn user if path non-existent.
+        $fileBrowser.DefaultExt                     = $defaultExtension;                                # Preferred File Extension
+        $fileBrowser.Filter                         = $filterExtensionOptions;                          # Additional File Extensions
+        $fileBrowser.DereferenceLinks               = $true;                                            # Dereference symbolic links
+        $fileBrowser.Multiselect                    = $selectMultipleFiles;                             # Select only one file or multiple files.
+        $fileBrowser.RestoreDirectory               = $true;                                            # Restore previous location upon new session
+        $fileBrowser.ShowHelp                       = $false;                                           # Hide Help icon
+        $fileBrowser.Title                          = $title;                                           # Brief description in Title bar
+        $fileBrowser.ValidateNames                  = $true;                                            # Assure file name is legal
+        $fileBrowser.SupportMultiDottedExtensions   = $false;                                           # Disallow multiple file extensions (MyText.txt.zip)
+        $fileBrowser.InitialDirectory               = $env:USERPROFILE;                                 # Start the user at their Home directory.
 
 
 
