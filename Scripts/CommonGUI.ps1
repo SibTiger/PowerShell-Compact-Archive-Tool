@@ -194,7 +194,7 @@ class CommonGUI
         $directoryBrowser.UseDescriptionForTitle= $false;                                           # Place the description at the title bar?
 
         #   Classical Folder Browser Settings
-        $directoryBrowser.RootPath              = [System.Environment+SpecialFolder]::MyComputer;   # Allow the user full access to the system.
+        $directoryBrowser.RootFolder            = [System.Environment+SpecialFolder]::MyComputer;   # Allow the user full access to the system.
         $directoryBrowser.ShowNewFolderButton   = $true;                                            # Allow the user to create a new directory.
         #   Modern Folder Browser Settings
         $directoryBrowser.InitialDirectory      = $env:USERPROFILE;                                 # Start the user at their Home directory.
