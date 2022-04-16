@@ -275,7 +275,7 @@ class CommonGUI
                             ($style -eq [BrowserInterfaceStyle]::Modern) ? $true : $false;
         $fileBrowser.CheckFileExists                = $true;       # Warn the user if the file does not exist within the filesystem.
         $fileBrowser.CheckPathExists                = $true;       # Warn the user if the path does not exist within the filesystem.
-        $fileBrowser.DefaultEx                      = $defaultExtension;
+        $fileBrowser.DefaultExt                     = $defaultExtension;
         $fileBrowser.Filter                         = $filterExtensionOptions;
         $fileBrowser.DereferenceLinks               = $true;
         $fileBrowser.Multiselect                    = $selectMultipleFiles;
