@@ -219,6 +219,91 @@ class CommonGUI
         # Let the calling function know that the user provided a path.
         return $true;
     } # BrowseDirectory()
+
+
+
+
+   <# Browse for Files
+    # -------------------------------
+    # Documentation:
+    #   This function will allow the user to select a particular or a handful of files with
+    #   the respected file-extensions.  By using this functionality, the user will be able
+    #   to expeditiously navigate to the desired file or files with ease - instead of having
+    #   to spend extra time digging for a specific file's URI.
+    #
+    # Resources:
+    #   - https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.openfiledialog
+    # -------------------------------
+    # Input:
+
+
+
+
+
+    #  [string] Instructions
+    #   Provide a brief description as to what the user needs to find within the local host.
+    #  [BrowseDirectoryInterfaceStyle] Style
+    #   This provides the ability to determine which browser interface is to be drawn to the user.
+    #  [string] (REFERENCE) Results
+    #   If a directory were to be selected, then we will return the value within this variable.
+    # -------------------------------
+    # Output:
+    #  [bool] File(s) Selected
+    #   $true   = The user had selected at least one file
+    #   $false  = The user had cancelled the operation, no file had been selected.
+    # -------------------------------
+    #>
+    static [bool] BrowseFile([string] $title,
+                            [string] $defaultExtension,
+                            [string] $filterExtensionOptions,
+                            [bool] $selectMultipleFiles,
+                            [BrowserInterfaceStyle] $style,
+                            [string[]] $files)
+    {
+        # Declarations and Initializations
+        # -------------------------------------
+        # This will store the the File Browser Dialog object
+        [System.Windows.Forms.OpenFileDialog] $fileBrowser = [System.Windows.Forms.OpenFileDialog]::New();
+
+        # Used to obtain the results from the Folder Browser.
+        [System.Windows.Forms.DialogResult] $browserResult = [System.Windows.Forms.DialogResult]::None;
+        # -------------------------------------
+
+
+        # Setup the properties for the File Browser Dialog
+        $fileBrowser.AutoUpgradeEnabled             = `                                                 # Choose between modern or classical browser.
+                            ($style -eq [BrowserInterfaceStyle]::Modern) ? $true : $false;
+        $fileBrowser.CheckFileExists                = $true;       # Warn the user if the file does not exist within the filesystem.
+        $fileBrowser.CheckPathExists                = $true;       # Warn the user if the path does not exist within the filesystem.
+        $fileBrowser.DefaultEx                      = $defaultExtension;
+        $fileBrowser.Filter                         = $filterExtensionOptions;
+        $fileBrowser.DereferenceLinks               = $true;
+        $fileBrowser.Multiselect                    = $selectMultipleFiles;
+        $fileBrowser.RestoreDirectory               = $true;
+        $fileBrowser.ShowHelp                       = $false;
+        $fileBrowser.Title                          = $title;
+        $fileBrowser.ValidateNames                  = $true;
+        $fileBrowser.SupportMultiDottedExtensions   = $false;
+        $fileBrowser.InitialDirectory               = $env:USERPROFILE;
+
+
+
+        # Open the File Browser Dialog window
+        if (($browserResult = $fileBrowser.ShowDialog()) -eq [System.Windows.Forms.DialogResult]::Cancel)
+        {
+            # The user chose to abort.
+            return $false;
+        } # if : User Cancelled
+
+
+
+        # If we made it this far, then we know that the user had chosen one or many files.
+        #  Provide the file(s) that the user had selected.
+        $files = $fileBrowser.FileNames;
+
+        # Let the calling function know that the user provided atleast one file.
+        return $true;
+    } # BrowseFile()
 } # CommonGUI
 
 
