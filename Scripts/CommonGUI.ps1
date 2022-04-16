@@ -226,7 +226,13 @@ class CommonGUI
 
 <# Browse Directory Interface Style [ENUM]
  # -------------------------------
- # This provides the ability to determine which type of 
+ # This provides the ability to determine which type of browser that the user will be
+ #  interacting.  The interface styles are merely either the classical or modern.
+ # - Classical interface is very constrained in functionality as well as features that
+ #      are inherited within the dialog window.
+ # - Modern interface provides the latest newest functionalities that the operating
+ #      system provides to the user, but also provides new features that are inherited
+ #      within the the dialog window.
  # -------------------------------
  #>
  enum BrowseDirectoryInterfaceStyle
