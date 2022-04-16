@@ -163,7 +163,7 @@ class CommonGUI
     # Input:
     #  [string] Instructions
     #   Provide a brief description as to what the user needs to find within the local host.
-    #  [BrowseDirectoryInterfaceStyle] Style
+    #  [BrowserInterfaceStyle] Style
     #   This provides the ability to determine which browser interface is to be drawn to the user.
     #  [string] (REFERENCE) Results
     #   If a directory were to be selected, then we will return the value within this variable.
@@ -174,9 +174,9 @@ class CommonGUI
     #   $false  = The user had cancelled the operation, no directory had been selected.
     # -------------------------------
     #>
-    static [bool] BrowseDirectory([string] $instructions,               ` # Show description to the user; reminder
-                                [BrowseDirectoryInterfaceStyle] $style, ` # Style of the Browser interface
-                                [ref] $result)                          ` # Selected directory to be returned.
+    static [bool] BrowseDirectory([string] $instructions,           ` # Show description to the user; reminder
+                                [BrowserInterfaceStyle] $style,     ` # Style of the Browser interface
+                                [ref] $result)                      ` # Selected directory to be returned.
     {
         # Declarations and Initializations
         # -------------------------------------
@@ -192,7 +192,7 @@ class CommonGUI
         # Setup the properties for the Folder Browser Dialog
         #   General Settings
         $directoryBrowser.AutoUpgradeEnabled    = `                                                 # Choose between modern or classical browser.
-                            ($style -eq [BrowseDirectoryInterfaceStyle]::Modern) ? $true : $false;
+                            ($style -eq [BrowserInterfaceStyle]::Modern) ? $true : $false;
         $directoryBrowser.UseDescriptionForTitle= $false;                                           # Place the description at the title bar?
 
         #   Classical Folder Browser Settings
@@ -224,7 +224,7 @@ class CommonGUI
 
 
 
-<# Browse Directory Interface Style [ENUM]
+<# Browser Interface Style [ENUM]
  # -------------------------------
  # This provides the ability to determine which type of browser that the user will be
  #  interacting.  The interface styles are merely either the classical or modern.
@@ -235,8 +235,8 @@ class CommonGUI
  #      within the the dialog window.
  # -------------------------------
  #>
- enum BrowseDirectoryInterfaceStyle
- {
-     Classic    = 0;    # The ol' Directory Browser
-     Modern     = 1;    # The modern Directory Browser
- } # BrowseDirectoryInterfaceStyle
+enum BrowserInterfaceStyle
+{
+    Classic    = 0;    # The ol' browser
+    Modern     = 1;    # The modern browser
+} # BrowserInterfaceStyle
