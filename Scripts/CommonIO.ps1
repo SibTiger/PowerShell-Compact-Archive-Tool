@@ -69,7 +69,7 @@ class CommonIO
     static [string] FetchUserInput()
     {
         # Flush the current input buffer
-        $Global:Host.UI.RawUI.FlushInputBuffer();
+        (Get-Host).UI.RawUI.FlushInputBuffer();
 
         # Because I love Python's input prompt, we will emulate it here.
         #  I find this to be easier on the user to unify an action from the end-user.
@@ -81,7 +81,7 @@ class CommonIO
         [string] $stdInput = (Get-Host).UI.ReadLine();
 
         # Flush the current input buffer again
-        $Global:Host.UI.RawUI.FlushInputBuffer();
+        (Get-Host).UI.RawUI.FlushInputBuffer();
 
         # Return the value as a string
         return [string] $stdInput;
