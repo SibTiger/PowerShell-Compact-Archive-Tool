@@ -100,6 +100,9 @@ class CommonIO
     #>
     static [void] FetchEnterKey()
     {
+        # Flush the current input buffer
+        (Get-Host).UI.RawUI.FlushInputBuffer();
+
         # The user will press the 'Enter' key in order to continue onwards with the algorithm
         #  or program in general.
         [CommonIO]::WriteToBuffer("Press the Enter Key to continue. . .", `
@@ -108,6 +111,9 @@ class CommonIO
 
         # Wait for the user to provide the 'Enter' key character.
         (Get-Host).UI.ReadLine();
+
+        # Flush the current input buffer again
+        (Get-Host).UI.RawUI.FlushInputBuffer();
 
         # Finished waiting for the feedback from the user.
         return;
