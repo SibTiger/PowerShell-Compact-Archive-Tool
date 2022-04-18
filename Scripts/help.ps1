@@ -52,7 +52,9 @@
         2 = Uninstall mode; removes all genrrated data
 
 .OUTPUTS
-    Nothing is to be returned or to be sent to the pipe.
+    Operation Return Code
+        0 - Operation was Successful
+        1 - Compatibility Error
 
 .EXAMPLE
     .\PSCAT.ps1
