@@ -46,7 +46,10 @@
     Project Website: https://github.com/SibTiger/PowerShell-Compact-Archive-Tool
 
 .INPUTS
-    Nothing is to be given or to be provided from a command or pipe.
+    Program Mode [integer value]
+        0 = Notmal mode; compile projects (Default)
+        1 = Clean up mode; remove some generated data
+        2 = Uninstall mode; removes all genrrated data
 
 .OUTPUTS
     Nothing is to be returned or to be sent to the pipe.
