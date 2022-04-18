@@ -57,7 +57,11 @@
         1 - Compatibility Error
 
 .EXAMPLE
-    .\PSCAT.ps1
+    .\PSCAT.ps1 (-programmode n)
+        Where n, can be [0, 1, 2]
+        Please see Inputs for Program Mode options.
+        Note that the -programmode argument is optional.
+        Example is: .\PSCAT.ps1 -programmode 0
 
 .LINK
     https://github.com/SibTiger/PowerShell-Compact-Archive-Tool
