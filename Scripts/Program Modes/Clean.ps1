@@ -68,7 +68,7 @@
 function Initialization()
 {
     # PSCAT Filename
-    Set-Variable -Name "__PSCAT_FILENAME__" -Value "PSCAT.ps1" `
+    Set-Variable -Name "__PSCAT_FILENAME__" -Value "Launcher.ps1" `
         -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
         -Visibility Public `
         -Description "PowerShell Compact-Archive Tool's filename";
