@@ -41,7 +41,12 @@
     Nothing is to be given or to be provided from a command or pipe.
 
 .OUTPUTS
-    Nothing is to be returned or to be sent to the pipe.
+    Operation Return Code
+        0   = Operation was Successful
+        1   = General Failure
+        500 = Unable to find the PowerShell Compact-Archive Tool.
+        501 = Unable to launch the PowerShell Compact-Archive Tool.
+        502 = Unable to find the PowerShell Core application.
 
 .EXAMPLE
     .\Uninstall.ps1
