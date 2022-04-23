@@ -32,6 +32,7 @@
             This is required in order for the PSCAT software to work properly.
         PowerShell Compact-Archive Tool (version 1.1.0 minimum)
             This specifies which version of PSCAT supports this functionality.
+
 .NOTES
     Author: Nicholas Gautier
     Email: Nicholas.Gautier.Tiger@GMail.com
