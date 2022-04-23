@@ -47,9 +47,9 @@
 
 .INPUTS
     Program Mode [integer value]
-        0 = Notmal mode; compile projects (Default)
+        0 = Normal mode; compile projects (Default)
         1 = Clean up mode; remove some generated data
-        2 = Uninstall mode; removes all genrrated data
+        2 = Uninstall mode; removes all generated data
 
 .OUTPUTS
     Operation Return Code
