@@ -46,6 +46,7 @@
             Retrieve project's repository information and pull updates to project's local repository.
         Microsoft Word 2016 or Later [Optional]
             Generate a report in Portable Document File (PDF).
+
 .NOTES
     Author: Nicholas Gautier
     Email: Nicholas.Gautier.Tiger@GMail.com
