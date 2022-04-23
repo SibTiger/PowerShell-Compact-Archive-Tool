@@ -28,6 +28,12 @@
     Make sure that your project source (or custom source) follows the ZDoom's ZIP Specifications.  For more information, please look at the following resources:
         https://zdoom.org/wiki/Using_ZIPs_as_WAD_replacement
 
+
+    To Run this Application:
+        You must first run the Launcher, which will prepare the Powershell's environment for the PSCAT application.  Without doing this first, you will not able to run PSCAT properly.
+        Reason for this [Technical]: https://stackoverflow.com/questions/42837447/powershell-unable-to-find-type-when-using-ps-5-classes
+
+
     Tools that this program utilizes are:
         PowerShell Core 7.1.x Minimum
             The required shell in order for this application to work properly.
