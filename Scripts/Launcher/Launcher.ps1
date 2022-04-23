@@ -18,60 +18,6 @@
 
 
 
-
-<#
-.SYNOPSIS
-    This script is designed to prepare the environment for the PowerShell Compact-Archive Tool and then start the main application.
-
-.DESCRIPTION
-    This launcher is designed to prepare the environment for the PowerShell Compact-Archive Tool, such that it is able to run
-    properly for the end-user's experience.  Without this Launcher, it is not possible to run the PSCAT application due to limitations
-    with Powershell and how objects work [1].
-
-    The environment that this launcher prepares is the need to include libraries into the environment session of the instance of
-    PowerShell.  If there are APIs and classes being in the same source, then - due to how Powershell parses the data - it will fail
-    to load-in the APIs first before loading the classes.  To get around this, this launcher will include the necessary libraries first
-    then start the main application as normally.
-
-    Tools that this program utilizes are:
-        PowerShell Core 7.1.x Minimum
-            This is required in order for the PSCAT software to work properly.
-        PowerShell Compact-Archive Tool (version 1.1.0 minimum)
-            This specifies which version of PSCAT supports this functionality.
-
-
-    Resources:
-    [1] - https://stackoverflow.com/questions/42837447/powershell-unable-to-find-type-when-using-ps-5-classes
-
-.NOTES
-    Author: Nicholas Gautier
-    Email: Nicholas.Gautier.Tiger@GMail.com
-    Project Website: https://github.com/SibTiger/PowerShell-Compact-Archive-Tool
-
-.INPUTS
-    Program Mode [integer value]
-        0 = Normal mode; compile projects (Default)
-        1 = Clean up mode; remove some generated data
-        2 = Uninstall mode; removes all generated data
-
-.OUTPUTS
-    Operation Return Code
-        0   = Operation was Successful
-        1   = General Failure
-        500 = Unable to find the PowerShell Compact-Archive Tool.
-        501 = Unable to launch the PowerShell Compact-Archive Tool.
-        502 = Unable to find the PowerShell Core application.
-
-.EXAMPLE
-    .\Launcher.ps1 (-ProgramMode n)
-        Where n, can be [0, 1, 2]
-        Please see Inputs for Program Mode options.
-        Note that the -ProgramMode argument is optional.
-        Example is: .\Launcher.ps1 -ProgramMode 0
-                OR  .\Launcher.ps1
-
-.LINK
-    https://github.com/SibTiger/PowerShell-Compact-Archive-Tool
 <# PowerShell Compact-Archive Tool Launcher
  # ------------------------------
  # ==============================

@@ -62,7 +62,6 @@
         Please see Inputs for Program Mode options.
         Note that the -ProgramMode argument is optional.
         Example is: .\PSCAT.ps1 -ProgramMode 0
-                OR  .\PSCAT.ps1
 
 .LINK
     https://github.com/SibTiger/PowerShell-Compact-Archive-Tool
