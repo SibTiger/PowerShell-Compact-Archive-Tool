@@ -60,7 +60,6 @@
         1   = General Failure
         500 = Unable to find the PowerShell Compact-Archive Tool.
         501 = Unable to launch the PowerShell Compact-Archive Tool.
-        502 = Unable to find the PowerShell Core application.
 
 .EXAMPLE
     .\Launcher.ps1 (-ProgramMode n)
@@ -155,25 +154,6 @@ function Initialization()
         -Visibility Public `
         -Description "Program Mode; Using this variable as a helper, I cannot figure out how to use programMode directly in an object.";
 
-    # PowerShell Core Executable Name
-    Set-Variable -Name "__POWERSHELL_EXECUTABLE__" -Value "pwsh.exe" `
-        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
-        -Visibility Public `
-        -Description "PowerShell Core's filename";
-
-    # PowerShell Core Path
-    Set-Variable -Name "__POWERSHELL_PATH__" -Value "$($env:ProgramFiles)\PowerShell\" `
-        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
-        -Visibility Public `
-        -Description "Common base path for PowerShell Core";
-
-    # PowerShell Core Complete Path
-    #  Populated later within the application.
-    Set-Variable -Name "__POWERSHELL_COMPLETE_PATH__" -Value $null `
-        -Option None -Scope Global -ErrorAction SilentlyContinue `
-        -Visibility Public `
-        -Description "PowerShell Core's absolute path [Must be generated before use]";
-
     # Exit Codes : Cannot Find PSCAT
     Set-Variable -Name "__EXITCODE_CANNOT_FIND_PSCAT__" -Value 500 `
         -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
@@ -185,12 +165,6 @@ function Initialization()
         -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
         -Visibility Public `
         -Description "Exit Code Signifying that the PowerShell Compact-Archive Tool could not be started.";
-
-    # Exit Codes : Cannot Find PowerShell Core
-    Set-Variable -Name "__EXITCODE_CANNOT_FIND_POSHCORE__" -Value 502 `
-        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
-        -Visibility Public `
-        -Description "Exit Code signifying that the PowerShell Core could not be found.";
 } # Initialization()
 
 
@@ -229,24 +203,6 @@ function Uninitialization()
         -Force `
         -ErrorAction SilentlyContinue;
 
-    # PowerShell Core Executable Name
-    Remove-Variable -Name "__POWERSHELL_EXECUTABLE__" `
-        -Scope Global `
-        -Force `
-        -ErrorAction SilentlyContinue;
-
-    # PowerShell Core Path
-    Remove-Variable -Name "__POWERSHELL_PATH__" `
-        -Scope Global `
-        -Force `
-        -ErrorAction SilentlyContinue;
-
-    # PowerShell Core Complete Path
-    Remove-Variable -Name "__POWERSHELL_COMPLETE_PATH__" `
-        -Scope Global `
-        -Force `
-        -ErrorAction SilentlyContinue;
-
     # Exit Codes : Cannot Find PSCAT
     Remove-Variable -Name "__EXITCODE_CANNOT_FIND_PSCAT__" `
         -Scope Global `
@@ -255,12 +211,6 @@ function Uninitialization()
 
     # Exit Codes : Failed Launch PSCAT
     Remove-Variable -Name "__EXITCODE_FAILED_TO_LAUNCH_PSCAT__" `
-        -Scope Global `
-        -Force `
-        -ErrorAction SilentlyContinue;
-
-    # Exit Codes : Cannot Find PowerShell Core
-    Remove-Variable -Name "__EXITCODE_CANNOT_FIND_POSHCORE__" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
@@ -316,9 +266,6 @@ Class Launcher
         # We are going to use 'Splatting' to make this easier to construct the Start-Process arguments.
         [System.Collections.Hashtable] $hashArguments = [System.Collections.Hashtable]::New();
 
-        # We are going to use this variable to capture the Exit Code from PSCAT.
-        [System.Diagnostics.Process] $processInformation = [System.Diagnostics.Process]::New();
-
         # Error Message
         #  Chief Reason for Error
         [string] $errorTitle = "((REASON IS NOT KNOWN))";
@@ -328,60 +275,20 @@ Class Launcher
 
         # Construct the arguments
         $hashArguments = @{
-            FilePath            = "$($Global:__POWERSHELL_COMPLETE_PATH__)";
-            WorkingDirectory    = "$($Global:__PSCAT_FULL_PATH__)";
-            ArgumentList        = "-File "".\$($Global:__PSCAT_FILENAME__)"" -ProgramMode $($GLOBAL:__PSCAT_PROGRAM_MODE__)";
-            Wait                = $true;
-            NoNewWindow         = $true;
-            PassThru            = $true;
-            ErrorAction         = "Stop";
-            } # Start-Process Arguments
+            Command         = "&"".\$($Global:__PSCAT_FILENAME__)"" -ProgramMode ""$($GLOBAL:__PSCAT_PROGRAM_MODE__)""";
+            ErrorAction     = "Stop";
+        } # Start-Process Arguments
 
 
 
-        # Try to launch the PowerShell Core application
+        # Try to launch PowerShell Compact-Archive Tool application
         try
         {
             # Launch the PowerShell Compact-Archive Tool program
-            $processInformation = Start-Process @hashArguments;
+            Invoke-Expression @hashArguments;
 
-
-            # Evaluate POSHCore's return code; check to see if we reached an internal error or if the operation was successful.
-            switch($processInformation.ExitCode)
-            {
-                # General Error
-                1
-                {
-                    # Provide the error message
-                    $errorTitle = "PowerShell reached a very general error!";
-                } # 1 : General Error
-
-
-                # POSH: Bad script name or path to script
-                64
-                {
-                    # Provide the error message
-                    $errorTitle = "Could not find the PowerShell Compact-Archive Tool!";
-                } # 64: Bad File Path
-
-
-                # PSCAT - POSH: Incorrect Argument Conditions
-                501
-                {
-                    # Provide the error message
-                    $errorTitle = "Program Mode was out of range!"
-                } # 501: Incorrect Argument Conditions
-
-
-                # Operation was successful
-                default
-                {
-                    # Operation was successful
-
-                    # Return PSCAT's Exit Code
-                    return $processInformation.ExitCode;
-                } # Default: No errors detected
-            } # switch : Evaluate Return Code
+            # Operation was successful
+            return $LASTEXITCODE;
         } # Try: Launch POSHCore with PSCAT
 
 
@@ -389,20 +296,15 @@ Class Launcher
         catch
         {
             # Provide the error message
-            $errorTitle = "Failed to launch PowerShell Core!"
+            $errorTitle = "Failed to launch PowerShell Compact-Archive Tool!"
         } # Catch: Caught an error
 
 
 
         # Generate the full error message
         [string] $errorMessage = ("$($errorTitle)`r`n" + `
-                                "Tried to invoke PowerShell Core using: $($hashArguments.FilePath)`r`n" + `
-                                "Working Directory was set to: $($hashArguments.WorkingDirectory)`r`n" + `
-                                "Arguments that were used: $($hashArguments.ArgumentList)`r`n" + `
+                                "Tried to use this command: $($hashArguments.Command)`r`n" + `
                                 "Other properties that were used:`r`n" + `
-                                "`tWait: $($hashArguments.Wait)`r`n" + `
-                                "`tNo New Window: $($hashArguments.NoNewWindow)`r`n" + `
-                                "`tPass Through: $($hashArguments.PassThru)`r`n" + `
                                 "`tError Action: $($hashArguments.ErrorAction)");
 
 
@@ -446,86 +348,6 @@ Class Launcher
         # Unable to find the target file
         return $false;
     } # TestFilePath()
-
-
-
-
-
-
-    # Find PowerShell Core
-    # -------------------------------
-    # Documentation:
-    #   This function will examine the common ways in which we can be able to locate the PowerShell Core
-    #   application within the host system's environment.
-    #
-    #   This function will try to find the PowerShell Core by checking the following:
-    #       1) Checking the system's environment variable, $PATH.
-    #       2) Checking the default install location.
-    # -------------------------------
-    hidden static [bool] FindPowerShellCore()
-    {
-        # Declarations and Initializations
-        # --------------------------------------------
-        # We will use this to store as many directories associated with the PowerShell Core's install location.
-        [System.Object[]] $qualifiedDirectory = [System.Object]::New();
-        # --------------------------------------------
-
-
-
-        # Lets first take the easy approach, $PATH
-        if ($null -ne $(Get-Command -Name "$($GLOBAL:__POWERSHELL_EXECUTABLE__)" -CommandType Application))
-        {
-            # Successfully found it in $PATH
-
-
-            # Update the global variable's value.
-            $Global:__POWERSHELL_COMPLETE_PATH__ = "$($GLOBAL:__POWERSHELL_EXECUTABLE__)";
-
-
-            # Successfully found POSH from the System's environment variable
-            return $true;
-        } # if : Scan $PATH
-
-
-        # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-
-        # Try to find it within the default installation path.
-        $qualifiedDirectory = Get-ChildItem -Path "$Global:__POWERSHELL_PATH__" | `     # Obtain all possible sub-directories within the location
-                                Where-Object {$_ -match '([7-9]$|[0-9].$)'} | `         # Filter all names that do not start with 7 to 9
-                                Sort-Object -Property {[UInt16]$_.Name};                # Output all results that fit the criteria.
-
-
-        # Check to make sure that we where able to capture one or more hits; otherwise - we may not proceed.
-        if ($qualifiedDirectory.Count -eq 0)
-        {
-            # Because we could not find any installed versions, we can not proceed.
-            return $false;
-        } # if : No PowerShell Core Installation
-
-
-        # Try to use the latest version of the PowerShell Core application
-        for ([uint16] $i = $qualifiedDirectory.Count; $i -ge 0; $i--)
-        {
-            # Construct the complete path
-            $Global:__POWERSHELL_COMPLETE_PATH__ = ("$($Global:__POWERSHELL_PATH__)" + `            # Base path
-                                                    "$($qualifiedDirectory[$i - 1].Name)" + `       # Qualified Directory
-                                                    "\$($Global:__POWERSHELL_EXECUTABLE__)");       # Executable File Name
-
-
-            # Check the path
-            if (Test-Path -LiteralPath $Global:__POWERSHELL_COMPLETE_PATH__ `
-                        -PathType Leaf)
-            {
-                # Successfully found PowerShell Core
-                return $true;
-            } # if : Found PowerShell Core at Path
-        } # for : Scan for PowerShell Core Executable
-
-
-        # Failed to find the PowerShell Core executable
-        return $false;
-    } # FindPowerShellCore()
 
 
 
@@ -635,31 +457,8 @@ Class Launcher
 
 
 
-        # Try to detect if the PowerShell Core is presently installed within the host's system.
-        #  If we can find it, then we will be able to know how to directly invoke POSH Core.
-        if (!$([Launcher]::FindPowerShellCore()))
-        {
-            # Because we cannot find POSH Core, we cannot continue.
-            # Generate the error message
-            $errorMessage = ("Failed to detect $($Global:__POWERSHELL_EXECUTABLE__)`r`n" + `
-                            "Please make sure that the PowerShell Core application had been installed on your system.`r`n" + `
-                            "Expected to find PowerShell Core in the following:`r`n" + `
-                            "`t- `$PATH`r`n" + `
-                            "`tOR`r`n" + `
-                            "`t- $($Global:__POWERSHELL_PATH__)");
-
-
-            # Adjust the return code to signify that an error had been reached.
-            $exitCode = $Global:__EXITCODE_CANNOT_FIND_POSHCORE__;
-
-
-            # We caught an error
-            $caughtError = $true;
-        } # if : Unable to find POSHCore
-
-
         # Try to detect if the PowerShell Compact-Archive Tool had been found.
-        elseif (!$([Launcher]::TestFilePath($Global:__PSCAT_COMPLETE_PATH__)))
+        if (!$([Launcher]::TestFilePath($Global:__PSCAT_COMPLETE_PATH__)))
         {
             # Because we cannot find the PSCAT, we cannot continue.
             # Generate the error message
@@ -677,7 +476,7 @@ Class Launcher
         } # if : Unable to find PSCAT
 
 
-        # If we successfully found POSHCore and PSCAT, then launch the program.
+        # If we successfully found PSCAT, then launch the program.
         else
         {
             # Execute PSCAT
