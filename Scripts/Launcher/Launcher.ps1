@@ -311,7 +311,7 @@ Class Launcher
     {
         # Declarations and Initializations
         # --------------------------------------
-        # We are going to use 'Splatting' to make this easier to construct the Start-Process arguments.
+        # We are going to use 'Splatting' to make this easier to construct the Invoke-Expression arguments.
         [System.Collections.Hashtable] $hashArguments = [System.Collections.Hashtable]::New();
 
         # Error Message
@@ -325,7 +325,7 @@ Class Launcher
         $hashArguments = @{
             Command         = "&"".\$($Global:__PSCAT_FILENAME__)"" -ProgramMode ""$($GLOBAL:__PSCAT_PROGRAM_MODE__)""";
             ErrorAction     = "Stop";
-        } # Start-Process Arguments
+        } # Invoke-Expression Arguments
 
 
 
