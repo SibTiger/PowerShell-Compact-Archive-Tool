@@ -60,6 +60,7 @@
         1   = General Failure
         500 = Unable to find the PowerShell Compact-Archive Tool.
         501 = Unable to launch the PowerShell Compact-Archive Tool.
+        502 = Unable to load the required dependencies.
 
 .EXAMPLE
     .\Launcher.ps1 (-ProgramMode n)
@@ -165,6 +166,12 @@ function Initialization()
         -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
         -Visibility Public `
         -Description "Exit Code Signifying that the PowerShell Compact-Archive Tool could not be started.";
+
+    # Exit Codes : Failed Load Dependency
+    Set-Variable -Name "__EXITCODE_FAILED_TO_LOAD_DEPENDENCY__" -Value 502 `
+        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
+        -Visibility Public `
+        -Description "Exit Code Signifying that the dependencies could not loaded into PowerShell's environment.";
 } # Initialization()
 
 
@@ -214,30 +221,13 @@ function Uninitialization()
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
+
+    # Exit Codes : Failed Load Dependency
+    Remove-Variable -Name "__EXITCODE_FAILED_TO_LOAD_DEPENDENCY__" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
 } # Uninitialization()
-
-
-
-
-
-# Load Library
-# -------------------------------
-# Documentation:
-#   This function will load the proper environment that is required for the PowerShell Compact-Archive Tool to
-#   function correctly.  Without this crucial step, it is not possible for the PowerShell Compact-Archive Tool
-#   to run.
-# -------------------------------
-function LoadLibrary()
-{
-    # Required in order to use the Message Box functionality within the Windows environment.
-    Add-Type -AssemblyName PresentationCore;
-    Add-Type -AssemblyName PresentationFramework;
-
-    # Required in order to use the following GUI functionalities within the Windows Environment
-    #   - File Browser Dialog
-    #   - Folder Browser Dialog
-    Add-Type -AssemblyName System.Windows.Forms;
-} # LoadLibrary()
 
 
 
@@ -250,6 +240,64 @@ function LoadLibrary()
 #           without it getting ridiculous....
 Class Launcher
 {
+    # Load Library
+    # -------------------------------
+    # Documentation:
+    #   This function will load the proper environment that is required for the PowerShell Compact-Archive Tool to
+    #   function correctly.  Without this crucial step, it is not possible for the PowerShell Compact-Archive Tool
+    #   to run.
+    # -------------------------------
+    # Output:
+    #   [Bool] Exist Result
+    #       $True   - Successfully loaded the required dependencies.
+    #       $False  - Failed to load the required dependencies.
+    # -------------------------------
+    hidden static [bool] LoadLibrary([ref] $dependencyName)
+    {
+        # Declarations and Initializations
+        # --------------------------------------
+        # This array will contain the binaries that will need to be loaded into the environment.
+        [System.Collections.ArrayList] $binaryList = [System.Collections.ArrayList]::new();
+        # --------------------------------------
+
+
+
+        # Setup the binary list
+        $binaryList.Add("PresentationCore");
+        $binaryList.Add("PresentationFramework");
+        $binaryList.Add("System.Windows.Forms");
+
+
+
+        foreach ($item in $binaryList)
+        {
+            # Update the Error Dependency string, if incase the binary could not be loaded correctly.
+            $dependencyName.Value = $item;
+
+            # Try to load the binary into the PowerShell environment.
+            try
+            {
+                Add-Type -AssemblyName $item -ErrorAction Stop;
+            } # Try : Load Binary
+
+            # Caught an error
+            catch
+            {
+                # Failed to load binary; unable to continue
+                return $false;
+            } # Catch : Caught an error
+        } # foreach : Load Binaries
+
+
+
+        # Operation was successful
+        return $true;
+    } # LoadLibrary()
+
+
+
+
+
     # Launch the PowerShell Compact-Archive Tool
     # -------------------------------
     # Documentation:
@@ -289,10 +337,10 @@ Class Launcher
 
             # Operation was successful
             return $LASTEXITCODE;
-        } # Try: Launch POSHCore with PSCAT
+        } # Try: Launch PSCAT
 
 
-        # Caught an error during POSH Launch
+        # Caught an error during Launch
         catch
         {
             # Provide the error message
@@ -316,7 +364,7 @@ Class Launcher
         [Launcher]::FetchEnterKey();
 
 
-        # Return the error code that we were unable to start PSCAT via POSHCore.
+        # Return the error code that we were unable to start PSCAT.
         return $Global:__EXITCODE_FAILED_TO_LAUNCH_PSCAT__;
     } # LaunchPSCAT()
 
@@ -448,32 +496,58 @@ Class Launcher
         # We will use this variable to signify the entire operation's status.
         [int32] $exitCode = 0;
 
-        # This variable will signify if an error was detected; this will help to reduce code duplication.
-        [bool] $caughtError = $false;
-
-        # Provides an error message that will be presented to the user.
-        [string] $errorMessage = $null;
+        # This will hold the dependency name that could not be loaded within the environment.
+        [string] $errorDependencyName = $null;
         # --------------------------------------
 
 
 
+        # Load the necessary libraries required for PSCAT to work properly.
+        if (![Launcher]::LoadLibrary([ref] $errorDependencyName))
+        {
+            # Because we cannot load the necessary dependencies, we cannot continue.
+            # Generate the error message
+            [string] $errorMessage = ("Failed to load the necessary dependencies!`r`n" + `
+                                        "Tried to load:`r`n" + `
+                                        "`t$($errorDependencyName)");
+
+
+            # Adjust the return code to signify that an error had been reached.
+            $exitCode = $Global:__EXITCODE_FAILED_TO_LOAD_DEPENDENCY__;
+
+
+            # Display the error message to the user
+            [Launcher]::DisplayErrorMessage($errorMessage);
+
+
+            # Allow the user to read the message.
+            [Launcher]::FetchEnterKey();
+        } # if : Unable to Load Dependencies
+
+
+
         # Try to detect if the PowerShell Compact-Archive Tool had been found.
-        if (!$([Launcher]::TestFilePath($Global:__PSCAT_COMPLETE_PATH__)))
+        elseif (![Launcher]::TestFilePath($Global:__PSCAT_COMPLETE_PATH__))
         {
             # Because we cannot find the PSCAT, we cannot continue.
             # Generate the error message
-            $errorMessage = ("Failed to locate $($Global:__PSCAT_FILENAME__)`r`n" + `
-                            "Expected Path was:`r`n" + `
-                            "`t$($Global:__PSCAT_COMPLETE_PATH__)");
+            [string] $errorMessage = ("Failed to locate $($Global:__PSCAT_FILENAME__)`r`n" + `
+                                        "Expected Path was:`r`n" + `
+                                        "`t$($Global:__PSCAT_COMPLETE_PATH__)");
 
 
             # Adjust the return code to signify that an error had been reached.
             $exitCode = $Global:__EXITCODE_CANNOT_FIND_PSCAT__;
 
 
-            # We caught an error
-            $caughtError = $true;
+            # Display the error message to the user
+            [Launcher]::DisplayErrorMessage($errorMessage);
+
+
+            # Allow the user to read the message.
+            [Launcher]::FetchEnterKey();
         } # if : Unable to find PSCAT
+
 
 
         # If we successfully found PSCAT, then launch the program.
@@ -482,18 +556,6 @@ Class Launcher
             # Execute PSCAT
             $exitCode = [Launcher]::LaunchPSCAT();
         } # Else : Launch the Application
-
-
-
-        # Did we catch an error during the detections?
-        if ($caughtError)
-        {
-            # We already have the error message provided to us already, all that we have to do is show the message.
-            [Launcher]::DisplayErrorMessage($errorMessage);
-
-            # Allow the user to read the message.
-            [Launcher]::FetchEnterKey();
-        } # if : Error During Checks
 
 
 
@@ -520,10 +582,6 @@ Class Launcher
 
 # Initialize the global variables that we will use within this program.
 Initialization;
-
-
-# Load the necessary libraries required for PSCAT to work properly.
-LoadLibrary;
 
 
 # Start the program and then return the exit code upon terminating.
