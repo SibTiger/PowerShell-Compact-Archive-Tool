@@ -9,6 +9,12 @@
 # Compiled Launcher
 /Compile/Launcher.ps1
 
+# Program Mode: Uninstall
+/Compile/Clean.ps1
+
+# Program Mode: Clean
+/Compile/Uninstall.ps1
+
 
 
 
