@@ -252,7 +252,7 @@ class Settings
     #>
     hidden static [bool] __EvaluateExecuteUserRequest([string] $userRequest)
     {
-                # Declarations and Initializations
+        # Declarations and Initializations
         # ----------------------------------------
         # These variables will determine what menus are to be hidden from the user,
         #  as the options are possibly not available or not ready for the user to
