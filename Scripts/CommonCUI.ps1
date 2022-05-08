@@ -630,6 +630,8 @@ class CommonCUI
     #   does not exists within the provided location, then a $false will be given instead.
     # -------------------------------
     # Input:
+    #  [string] Instructions
+    #   Provide instructions to the user as to what is expected.
     #  [string] (REFERENCE) Path to Target Directory
     #   This will provide the the path to the desired target directory.
     # -------------------------------
@@ -639,13 +641,27 @@ class CommonCUI
     #   $false = The given path did not exist.
     # -------------------------------
     #>
-    static [bool] BrowseForTargetDirectory([ref] $pathToTarget)
+    static [bool] BrowseForTargetDirectory([string] $instructions,  ` # Show description to the user; reminder
+                                            [ref] $pathToTarget)      # Target Directory
     {
         # Declarations and Initializations
         # ----------------------------------------
         # This will hold the user's path temporarily so that we may further validate the path.
         [string] $cacheTarget = $null;
         # ----------------------------------------
+
+
+
+        # Provide some padding from the content and the requested input.
+        [Logging]::DisplayMessage("`r`n`r`n")
+
+
+        # Show a brief description to the user such that they know what the program is expecting.
+        [Logging]::DisplayMessage($instructions);
+
+
+        # Display a border to separate the input from the program's content.
+        [Logging]::DisplayMessage("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
 
 
 
