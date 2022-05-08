@@ -933,9 +933,10 @@ class SettingsGeneralProgram
         [Logging]::DisplayMessage("`r`n`r`n");
 
 
-
         # Determine if the path that were provided is valid and can be used by the program.
-        if ([CommonCUI]::BrowseForTargetFile([ref] $newProjectPath))
+        if ([UserExperience]::BrowseForFolder("Locate the Project Folder",              ` # Instructions
+                                            [BrowserInterfaceStyle]::Modern,            ` # GUI Style
+                                            [ref] $newProjectPath))                     ` # Selected Directory
         {
             # Because the path is valid, we will use the requested target directory.
             $userPreferences.SetProjectPath($newProjectPath);
@@ -944,25 +945,19 @@ class SettingsGeneralProgram
         # The provided path is not valid
         else
         {
-            # If the user provided "Cancel" or "X", then do not bother the user with an error message.
-            #  Otherwise, provide an error message as the path is incorrect.
-            if (($newProjectPath -ne "Cancel") -and `
-                ($newProjectPath -ne "x"))
-            {
-                # Alert the user that the path is incorrect.
-                [NotificationAudible]::Notify([NotificationAudibleEventType]::Warning);
+            # Alert the user that the path is incorrect.
+            [NotificationAudible]::Notify([NotificationAudibleEventType]::Warning);
 
 
-                # Because the path is not valid, let the user know that the path does not exist
-                #  and will not be used as part of the project directory.
-                [Logging]::DisplayMessage("`r`n" + `
-                                        "The provided path does not exist and cannot be used as the Project Directory." + `
-                                        "`r`n`r`n");
+            # Because the path is not valid, let the user know that the path does not exist
+            #  and will not be used as part of the project directory.
+            [Logging]::DisplayMessage("`r`n" + `
+                                    "The provided path does not exist and cannot be used as the Project Directory." + `
+                                    "`r`n`r`n");
 
 
-                # Wait for the user to provide feedback; thus allowing the user to see the message.
-                [Logging]::GetUserEnterKey();
-            } # if : User Provided incorrect path
+            # Wait for the user to provide feedback; thus allowing the user to see the message.
+            [Logging]::GetUserEnterKey();
         } # else : Path is invalid
     } # __LocateProjectPathNewPath()
     #endregion
