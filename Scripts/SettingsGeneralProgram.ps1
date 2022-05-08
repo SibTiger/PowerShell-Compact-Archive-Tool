@@ -1237,7 +1237,7 @@ class SettingsGeneralProgram
         # Determine if the path that were provided is valid and can be used by the program.
         if ([UserExperience]::BrowseForFolder("Store Compiled Builds to this directory",    ` # Instructions
                                             [BrowserInterfaceStyle]::Modern,                ` # GUI Style
-                                            [ref] $newOutputPath))                         ` # Selected Directory
+                                            [ref] $newOutputPath))                          ` # Selected Directory
         {
             # Because the path is valid, we will use the requested target directory.
             $userPreferences.SetProjectBuildsPath($newOutputPath);
