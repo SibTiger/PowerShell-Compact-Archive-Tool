@@ -149,8 +149,8 @@ class UserExperience
 
 
         # Determine if we should use the Graphical User Interface variant
-        if (([SystemInformation]::OperatingSystem() -eq [SystemInformationOperatingSystem]::Windows) -and `       # Host is running Windows
-            ($userPreferences.GetUseWindowsExplorer() -eq $true))                                   # User wants Graphical UI
+        if (([SystemInformation]::OperatingSystem() -eq [SystemInformationOperatingSystem]::Windows) -and `     # Host is running Windows
+            ($userPreferences.GetUseWindowsExplorer() -eq $true))                                               # User wants Graphical UI
         {   # Use the Graphical User Interface
             return [CommonGUI]::BrowseDirectory($instructions,          ` # Show description to the user; reminder
                                                     $style,             ` # Style of the Browser interface
