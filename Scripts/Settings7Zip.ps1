@@ -1323,25 +1323,19 @@ class Settings7Zip
         # The provided path is not valid
         else
         {
-            # If the user provided "Cancel" or "X", then do not bother the user with an error message.
-            #  Otherwise, provide an error message as the path is incorrect.
-            if (($newPath -ne "Cancel") -and `
-                ($newPath -ne "x"))
-            {
-                # Alert the user that the path is incorrect.
-                [NotificationAudible]::Notify([NotificationAudibleEventType]::Warning);
+            # Alert the user that the path is incorrect.
+            [NotificationAudible]::Notify([NotificationAudibleEventType]::Warning);
 
 
-                # Because the path is not valid, let the user know that the path does not exist
-                #  and will not be used.
-                [Logging]::DisplayMessage("`r`n" + `
-                                        "The provided path does not exist and cannot be used." + `
-                                        "`r`n`r`n");
+            # Because the path is not valid, let the user know that the path does not exist
+            #  and will not be used.
+            [Logging]::DisplayMessage("`r`n" + `
+                                    "The provided path does not exist and cannot be used." + `
+                                    "`r`n`r`n");
 
 
-                # Wait for the user to provide feedback; thus allowing the user to see the message.
-                [Logging]::GetUserEnterKey();
-            } # if : User Provided incorrect path
+            # Wait for the user to provide feedback; thus allowing the user to see the message.
+            [Logging]::GetUserEnterKey();
         } # else : Path is invalid
     } # __Locate7ZipPathManually()
     #endregion
