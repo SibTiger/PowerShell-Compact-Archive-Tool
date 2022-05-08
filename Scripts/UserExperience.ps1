@@ -161,5 +161,5 @@ class UserExperience
         {   # Use the Terminal User Interface
             return [CommonCUI]::BrowseForTargetFile($targetFolder);
         } # else : Use Console UI
-    } # BrowseForFolder
+    } # BrowseForFolder()
 } # Class : UserExperience
