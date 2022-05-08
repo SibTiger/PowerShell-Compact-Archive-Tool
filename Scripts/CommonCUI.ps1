@@ -540,12 +540,6 @@ class CommonCUI
     #   system's filesystem.  The results if the path exists will determine the result in which this function
     #   returns.  As such, if the path exists - then the function will return a $true.  Otherwise, if the path
     #   does not exist within the provided location, then a $false will be given instead.
-    #
-    # NOTE:
-    #   Because we are using the CUI, we cannot provide any nice user interface to help accomplish this task.
-    #     I am aware that CUI's are for sure capable of pulling off fancy UIs, such as HTOP from the Linux realm,
-    #     but - remember we are using Powershell.  We are severally limited in terms of the functionality that
-    #     is allowed.
     # -------------------------------
     # Input:
     #  [string] (REFERENCE) Path to Target File
