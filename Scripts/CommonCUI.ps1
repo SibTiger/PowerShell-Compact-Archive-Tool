@@ -542,7 +542,13 @@ class CommonCUI
     #   does not exist within the provided location, then a $false will be given instead.
     # -------------------------------
     # Input:
-    #  [string] (REFERENCE) Path to Target File
+    #  [string] Brief Description
+    #   This provides a very brief reminder to the user of what is expected.
+    #  [string] Extension
+    #   Specifies that the file MUST have a specific file extension associated with the input.
+    #
+    #   NOTE: Wildcard is acceptable; any file extension is allowed or optional.
+    #  [System.Collections.ArrayList] Path to Target File
     #   This will provide the the path to the desired target file.
     # -------------------------------
     # Output:
@@ -551,13 +557,27 @@ class CommonCUI
     #   $false = The given path did not exist.
     # -------------------------------
     #>
-    static [bool] BrowseForTargetFile([ref] $pathToTarget)
+    static [bool] BrowseForTargetFile([string] $briefDescription,                   # Brief description
+                                    [string] $extension,                            # Extension that is allowed
+                                    [System.Collections.ArrayList] $pathToTarget)   # File Target
     {
         # Declarations and Initializations
         # ----------------------------------------
         # This will hold the user's path temporarily so that we may further validate the path.
         [string] $cacheTarget = $null;
         # ----------------------------------------
+
+
+        # Provide some padding from the content and the requested input.
+        [Logging]::DisplayMessage("`r`n`r`n")
+
+
+        # Show a brief description to the user such that they know what the program is expecting.
+        [Logging]::DisplayMessage($briefDescription);
+
+
+        # Display a border to separate the input from the program's content.
+        [Logging]::DisplayMessage("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
 
 
 
@@ -570,11 +590,13 @@ class CommonCUI
 
 
         # Make sure that the path is valid and is a file.
-        if ([CommonIO]::CheckPathExists($cacheTarget, $true) -and `     # Path is valid?
-            (Get-Item $cacheTarget) -is [System.IO.FileInfo])           # Target is a Directory
+        if (([CommonIO]::CheckPathExists($cacheTarget, $true)) -and `               # Path is valid?
+            ((Get-Item $cacheTarget) -is [System.IO.FileInfo]) -and `               # Target is a Directory
+                (($extension -eq "*") -or `                                         # Any extension is allowed
+                ([System.IO.Path]::GetExtension($cacheTarget) -eq $extension)))     # OR: Specific extension was provided
         {
             # Target is validated as a file; we may use this path.
-            $pathToTarget.Value = $cacheTarget;
+            $pathToTarget.Add($cacheTarget);
 
             # Path is valid
             return $true;
