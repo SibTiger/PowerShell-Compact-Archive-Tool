@@ -227,6 +227,7 @@ function MakeCompilerDriver()
                         "CommonIO.ps1", `
                         "CommonCUI.ps1", `
                         "CommonGUI.ps1", `
+                        "UserExperience.ps1", `
                         "CommonFunctions.ps1", `
                         "ProgramFunctions.ps1", `
                         "DefaultCompress.ps1", `
