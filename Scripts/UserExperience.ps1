@@ -135,7 +135,7 @@ class UserExperience
     #>
     static [bool] BrowseForFolder([string] $instructions,               ` # Show description to the user; reminder
                                     [BrowserInterfaceStyle] $style,     ` # Style of the Browser interface
-                                    [ref] $targetFolder)                ` # Selected directory to be returned.
+                                    [ref] $targetFolder)                  # Selected directory to be returned.
     {
         # Declarations and Initializations
         # ----------------------------------------
