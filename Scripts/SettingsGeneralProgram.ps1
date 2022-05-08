@@ -1218,7 +1218,7 @@ class SettingsGeneralProgram
         # This will temporarily hold the user's requested path; if the path is valid -
         #  then we will use the value already given from this variable to store it to the
         #  Compiled Builds Output Path variable.
-        [string] $newProjectPath = $NULL;
+        [string] $newOutputPath = $NULL;
 
         # We will use this instance so that we can apply the new location to the Compiled
         #  Builds Output Path.
@@ -1235,34 +1235,30 @@ class SettingsGeneralProgram
 
 
         # Determine if the path that were provided is valid and can be used by the program.
-        if ([CommonCUI]::BrowseForTargetFile([ref] $newProjectPath))
+        if ([UserExperience]::BrowseForFolder("Store Compiled Builds to this directory",    ` # Instructions
+                                            [BrowserInterfaceStyle]::Modern,                ` # GUI Style
+                                            [ref] $newOutputPath))                         ` # Selected Directory
         {
             # Because the path is valid, we will use the requested target directory.
-            $userPreferences.SetProjectBuildsPath($newProjectPath);
-        } # if: Path is Valid
+            $userPreferences.SetProjectBuildsPath($newOutputPath);
+        } # if: Path is valid
 
         # The provided path is not valid
         else
         {
-            # If the user provided "Cancel" or "X", then do not bother the user with an error message.
-            #  Otherwise, provide an error message as the path is incorrect.
-            if (($newProjectPath -ne "Cancel") -and `
-                ($newProjectPath -ne "x"))
-            {
-                # Alert the user that the path is incorrect.
-                [NotificationAudible]::Notify([NotificationAudibleEventType]::Warning);
+            # Alert the user that the path is incorrect.
+            [NotificationAudible]::Notify([NotificationAudibleEventType]::Warning);
 
 
-                # Because the path is not valid, let the user know that the path does not exist
-                #  and will not be used as part of the Compiled Builds Output directory.
-                [Logging]::DisplayMessage("`r`n" + `
-                                        "The provided path does not exist and cannot be used as the Compiled Builds Output Directory." + `
-                                        "`r`n`r`n");
+            # Because the path is not valid, let the user know that the path does not exist
+            #  and will not be used as part of the Compiled Builds Output directory.
+            [Logging]::DisplayMessage("`r`n" + `
+                                    "The provided path does not exist and cannot be used as the Compiled Builds Output Directory." + `
+                                    "`r`n`r`n");
 
 
-                # Wait for the user to provide feedback; thus allowing the user to see the message.
-                [Logging]::GetUserEnterKey();
-            } # if : User Provided incorrect path
+            # Wait for the user to provide feedback; thus allowing the user to see the message.
+            [Logging]::GetUserEnterKey();
         } # else : Path is invalid
     } # __CompiledBuildsOutputPathNewPath()
     #endregion
