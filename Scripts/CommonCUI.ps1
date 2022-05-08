@@ -588,6 +588,61 @@ class CommonCUI
 
 
 
+   <# Browse for Target Directory
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the ability for the user to browse for a specific folder within their filesystem.
+    #   Once a path had been provided, this function will check to make sure that the path exists within the
+    #   system's filesystem.  The results if the path exists will determine the result in which this function
+    #   returns.  As such, if the path exists - then the function will return a $true.  Otherwise, if the path
+    #   does not exists within the provided location, then a $false will be given instead.
+    # -------------------------------
+    # Input:
+    #  [string] (REFERENCE) Path to Target Directory
+    #   This will provide the the path to the desired target directory.
+    # -------------------------------
+    # Output:
+    #  [bool] Path Validation
+    #   $true = The given path exists.
+    #   $false = The given path did not exist.
+    # -------------------------------
+    #>
+    static [bool] BrowseForTargetDirectory([ref] $pathToTarget)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This will hold the user's path temporarily so that we may further validate the path.
+        [string] $cacheTarget = $null;
+        # ----------------------------------------
+
+
+
+        # Ask the user to provide a new path
+        [CommonCUI]::DrawWaitingForUserResponse([DrawWaitingForUserInputText]::PleaseProvideANewPath);
+
+
+        # Obtain the user's feedback
+        $cacheTarget = [Logging]::GetUserInput();
+
+
+        # If incase the user is pointing at a file by mistake, trim out the leaf.
+        if (([CommonIO]::CheckPathExists($cacheTarget, $true)) -and `   # Path is valid?
+            ((Get-Item $cacheTarget) -is [System.IO.DirectoryInfo]))    # Target is a Directory
+        {
+            # Target is validated as a directory; we may use this path.
+            $pathToTarget.Value = $cacheTarget;
+
+            # Path is valid
+            return $true;
+        } # if : Path is Valid and is a Directory
+
+        # Path is not valid and will not be used.
+        return $false;
+    } # BrowseForTargetDirectory()
+
+
+
+
    <# Draw Formatted List
     # -------------------------------
     # Documentation:
