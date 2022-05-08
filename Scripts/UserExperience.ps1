@@ -91,12 +91,12 @@ class UserExperience
         if (($operatingSystemPlatform -eq [SystemInformationOperatingSystem]::Windows) -and `
             ($userPreferences.GetUseWindowsExplorer() -eq $true))
         {   # Use the Graphical User Interface
-            return [CommonGUI]::BrowseForTargetFile($title,                     ` # Brief Description in Title Bar
-                                                    $defaultExtension,          ` # Default File Extension
-                                                    $filterExtensionOptions,    ` # Additional File Extensions
-                                                    $selectMultipleFiles,       ` # Select only one _or_ multiple files.
-                                                    $style,                     ` # Style of the Browser interface.
-                                                    $files);}                     # Selected files to be returned.
+            return [CommonGUI]::BrowseFile($title,                  ` # Brief Description in Title Bar
+                                        $defaultExtension,          ` # Default File Extension
+                                        $filterExtensionOptions,    ` # Additional File Extensions
+                                        $selectMultipleFiles,       ` # Select only one _or_ multiple files.
+                                        $style,                     ` # Style of the Browser interface.
+                                        $files);}                     # Selected files to be returned.
 
         # Use the Console UI instead
         else
