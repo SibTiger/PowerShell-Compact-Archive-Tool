@@ -1294,7 +1294,7 @@ class Settings7Zip
         # This will temporarily hold the user's requested path; if the path is valid -
         #  then we will use the value already given from this variable to store it to the
         #  7Zip Path variable.
-        [string] $newPath = $NULL;
+        [System.Collections.ArrayList] $newPath = [System.Collections.ArrayList]::new();
 
         # We will use this instance so that we can apply the new location to the object.
         [SevenZip] $sevenZip = [SevenZip]::GetInstance();
@@ -1309,10 +1309,15 @@ class Settings7Zip
 
 
         # Determine if the path that were provided is valid and can be used by the program.
-        if ([CommonCUI]::BrowseForTargetFile([ref] $newPath))
+        if ([UserExperience]::BrowseForFile("Provide full path to 7Zip.exe",            ` # Title
+                                            "exe",                                      ` # Extension we are wanting
+                                            "Executable (*.exe) | *.exe",               ` # Additional Extensions
+                                            $false,                                     ` # Select multiple files
+                                            [BrowserInterfaceStyle]::Classic,            ` # GUI Style
+                                            $newPath))                                  ` # Selected files
         {
             # Because the path is valid, we will use the requested target directory.
-            $sevenZip.SetExecutablePath($newPath);
+            $sevenZip.SetExecutablePath($newPath[0]);
         } # if: Path is valid
 
         # The provided path is not valid
