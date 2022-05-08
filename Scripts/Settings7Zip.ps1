@@ -1313,7 +1313,7 @@ class Settings7Zip
                                             "exe",                                      ` # Extension we are wanting
                                             "Executable (*.exe) | *.exe",               ` # Additional Extensions
                                             $false,                                     ` # Select multiple files
-                                            [BrowserInterfaceStyle]::Classic,            ` # GUI Style
+                                            [BrowserInterfaceStyle]::Modern,            ` # GUI Style
                                             $newPath))                                  ` # Selected files
         {
             # Because the path is valid, we will use the requested target directory.
