@@ -553,16 +553,36 @@ class CommonCUI
     #>
     static [bool] BrowseForTargetFile([ref] $pathToTarget)
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This will hold the user's path temporarily so that we may further validate the path.
+        [string] $cacheTarget = $null;
+        # ----------------------------------------
+
+
+
         # Ask the user to provide a new path
         [CommonCUI]::DrawWaitingForUserResponse([DrawWaitingForUserInputText]::PleaseProvideANewPath);
 
 
         # Obtain the user's feedback
-        $pathToTarget.Value = [Logging]::GetUserInput();
+        $cacheTarget = [Logging]::GetUserInput();
 
 
-        # Now that we have the user's feedback, check to make sure that the directory or file exists.
-        return [CommonIO]::CheckPathExists($pathToTarget.Value, $true);
+        # Make sure that the path is valid and is a file.
+        if ([CommonIO]::CheckPathExists($cacheTarget, $true) -and `     # Path is valid?
+            (Get-Item $cacheTarget) -is [System.IO.FileInfo])           # Target is a Directory
+        {
+            # Target is validated as a file; we may use this path.
+            $pathToTarget.Value = $cacheTarget;
+
+            # Path is valid
+            return $true;
+        } # if : Path is Valid and is a File
+
+
+        # Path is not valid and will not be used.
+        return $false;
     } # BrowseForTargetFile()
 
 
