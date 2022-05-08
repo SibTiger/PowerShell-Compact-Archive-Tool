@@ -568,6 +568,16 @@ class CommonCUI
         # ----------------------------------------
 
 
+        # Make sure that the extension contains a period at the very beginning; but skip this step if a wildcard is in place.
+        if (($extension -ne "*") -and `     # Wildcard is in use
+            ($extension[0] -ne "."))        # First character is not a period
+        {
+            # Add the period
+            $extension = $extension.Insert(0, ".");
+        } # If : Provide a Period
+
+
+
         # Provide some padding from the content and the requested input.
         [Logging]::DisplayMessage("`r`n`r`n")
 
