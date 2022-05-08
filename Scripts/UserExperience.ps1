@@ -141,9 +141,6 @@ class UserExperience
         # ----------------------------------------
         # We will use this instance so that we can apply the new location to the project.
         [UserPreferences] $userPreferences                          = [UserPreferences]::GetInstance();
-
-        # Obtain the current Operating System from the host.
-        [SystemInformationOperatingSystem] $operatingSystemPlatform = [SystemInformation]::OperatingSystem();
         # ----------------------------------------
 
 
