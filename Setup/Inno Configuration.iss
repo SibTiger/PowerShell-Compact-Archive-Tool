@@ -8,6 +8,99 @@
 #define MyAppURL "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool"
 
 [Setup]
+
+
+
+
+;        Compiler Related Configurations
+; =============================================
+; =============================================
+; ---------------------------------------------
+
+; Internal Compression Level
+; - - - - - - - - - - - - - -
+; This defines the compression level that will be used for Inno's internal structure.  Ideally, there's no
+;   real need to configure this - other than to maybe save a few kilobytes.
+InternalCompressLevel=normal
+
+
+; Compression Algorithm and Compression Level
+; - - - - - -
+; This will define the compression type and compression level that will be using when compacting the software's
+;   assets into the installation package.  We will use LZMA\2 with the best possible compression possible.
+Compression = lzma2/ultra64
+
+
+; Solid Compression
+; - - - - - - - - -
+; Compact the files in such a way that it benefits the overall compression ratio within the installer package.
+;   In doing so, data contents that are a like, will be combined instead of containing duplicated data.
+;   Decompressing, however, in Real-Time will be hindered.
+SolidCompression = yes
+
+
+; LZMA Algorithm
+; - - - - - - - -
+; This controls the algorithm that will be used for LZMA\2 Compressor.  Use the normal algorithm to benefit
+;   overall compression.
+LZMAAlgorithm = 1
+
+
+; LZMA Use Separate Process
+; - - - - - - - - - - - - -
+; Allow the ability for the LZMA\2 Compressor to use its own system resources, instead of being tied down
+;   to Inno's process.
+LZMAUseSeparateProcess = yes
+
+
+; LZMA Match Finder
+; - - - - - - - - -
+; Determine the Match Finder method that will be used with the LZMA\2 Compressor.  Using Binary Tree will
+;   give use additional increase in compression.
+LZMAMatchFinder = BT
+
+
+; Compression Threads
+; - - - - - - - - - -
+; Determines if the LZMA\2 Compressor will utilize the host's one or multiple CPU virtual threads, if
+;   available.  Using 'auto' will allow the Compressor to automatically determine the threads it will
+;   need in order successfully compact the data efficiently.
+CompressionThreads = auto
+
+
+; Merge Duplicate Files
+; - - - - - - - - - - -
+; If incase there exists multiple duplicate files, then we can be able to ignore all other duplicate
+;   sources but only use the first instance instance.  By doing this, we minimize the need to store
+;   every duplicate file - thus reducing the overall package size.  Moreover, the output that
+;   requires the duplicated data to exist, will still be provided as intended.
+MergeDuplicateFiles = yes
+
+
+; Encryption
+; - - - - - -
+; Determine if the installer package contents will be encrypted.
+Encryption = no
+
+
+; Data Execution Prevention
+; - - - - - - - - - - - - -
+; Allow compatibility with the Data Execution Prevention (DEP) functionality.
+DEPCompatible = yes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{02B00588-4477-4E98-AF59-E8825F957C03}
@@ -28,8 +121,8 @@ InfoAfterFile=C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Too
 PrivilegesRequiredOverridesAllowed=dialog
 OutputDir=C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Tool\Output
 OutputBaseFilename=PSCAT Installer
-Compression=lzma
-SolidCompression=yes
+;Compression=lzma
+;SolidCompression=yes
 WizardStyle=modern
 
 [Languages]
