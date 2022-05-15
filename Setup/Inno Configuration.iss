@@ -19,9 +19,9 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={autopf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-LicenseFile=C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Tool\LICENSE
-InfoBeforeFile=C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Tool\LICENSE
-InfoAfterFile=C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Tool\LICENSE
+LicenseFile=C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Tool\Source\LICENSE
+InfoBeforeFile=C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Tool\Source\LICENSE
+InfoAfterFile=C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Tool\Source\LICENSE
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
@@ -35,10 +35,10 @@ WizardStyle=modern
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-Source: "C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Tool\PSCAT.ps1"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Tool\Operational Scripts\Clean.ps1"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Tool\Operational Scripts\Uninstall.ps1"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Tool\Webpages\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Tool\Source\Compile\PSCAT.ps1"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Tool\Source\Scripts\Program Modes\Clean.ps1"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Tool\Source\Scripts\Program Modes\Uninstall.ps1"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Tool\Source\Setup\Resources\Web\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
