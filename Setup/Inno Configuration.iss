@@ -77,18 +77,6 @@ CompressionThreads = auto
 MergeDuplicateFiles = yes
 
 
-; Encryption
-; - - - - - -
-; Determine if the installer package contents will be encrypted.
-Encryption = no
-
-
-; Data Execution Prevention
-; - - - - - - - - - - - - -
-; Allow compatibility with the Data Execution Prevention (DEP) functionality.
-DEPCompatible = yes
-
-
 
 
 
