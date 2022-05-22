@@ -8,11 +8,26 @@
 #define MyAppURL "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool"
 #define MyAppInstallerName "PSCAT Installer" + " " + "v" + MyAppVersion
 
+
+
+
+; Debug and Testing
+; ~ ~ ~ ~ ~ ~ ~ ~ ~
+; This defines if we are wanting to generate an installer package or if we want to check this script for errors
+;   without generating an executable file.
+; NOTE: Regardless of this setting, the Output Directory will be cleaned.
+;
+; Values:
+;   No  = Only check this script for errors, nothing is generated.
+;   Yes = Generates an installer executable file.
+#define GenerateInstaller "Yes"
+
+
+
+
+
+
 [Setup]
-
-
-
-
 ;        Compiler Related Configurations
 ; =============================================
 ; =============================================
@@ -105,7 +120,20 @@ MergeDuplicateFiles = yes
 
 
 
+;           Output Configuration
+; =============================================
+; =============================================
+; ---------------------------------------------
 
+; Output
+; - - - -
+; This specifies if we are wanting to generate an installer package or to merely test the script
+;   for errors.  However, regardless of this setting, Inno will still perform a cleanup operation
+;   within the OutputDir.
+;
+; Resource:
+;   - https://jrsoftware.org/ishelp/index.php?topic=setup_output
+Output = {#GenerateInstaller}
 
 
 
