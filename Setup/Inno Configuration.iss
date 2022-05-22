@@ -6,6 +6,7 @@
 #define MyAppVersion "1.1.0"
 #define MyAppPublisher "Nicholas Gautier"
 #define MyAppURL "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool"
+#define MyAppInstallerName "PSCAT Installer" + " " + "v" + MyAppVersion
 
 [Setup]
 
