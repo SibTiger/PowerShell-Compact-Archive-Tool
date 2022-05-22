@@ -135,17 +135,6 @@ MergeDuplicateFiles = yes
 ; =============================================
 ; ---------------------------------------------
 
-; Output
-; - - - -
-; This specifies if we are wanting to generate an installer package or to merely test the script
-;   for errors.  However, regardless of this setting, Inno will still perform a cleanup operation
-;   within the OutputDir.
-;
-; Resource:
-;   - https://jrsoftware.org/ishelp/index.php?topic=setup_output
-Output = {#GenerateInstaller}
-
-
 ; Output Base File Name
 ; - - - - - - - - - - -
 ; This provides the setup filename in the output result.  This essentially is our final compiled
@@ -215,6 +204,40 @@ OutputManifestFile = {#MyManifestName}
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_sourcedir
 SourceDir = "..\"
+
+
+
+
+
+
+
+;              Test and Debugging
+; =============================================
+; =============================================
+; ---------------------------------------------
+
+; Create Installer Package
+; - - - - - - - - - - - - -
+; This specifies if we are wanting to generate an installer package or to merely test the script
+;   for errors.  However, regardless of this setting, Inno will still perform a cleanup operation
+;   within the OutputDir.
+;
+; Resource:
+;   - https://jrsoftware.org/ishelp/index.php?topic=setup_output
+Output = {#GenerateInstaller}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
