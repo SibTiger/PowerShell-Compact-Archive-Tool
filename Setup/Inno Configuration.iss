@@ -7,6 +7,7 @@
 #define MyAppPublisher "Nicholas Gautier"
 #define MyAppURL "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool"
 #define MyAppInstallerName "PSCAT Installer" + " " + "v" + MyAppVersion
+#define MyManifestName "Manifest" + " " + "v" + MyAppVersion + ".txt"
 
 
 
@@ -163,7 +164,26 @@ OutputBaseFilename = {#MyAppInstallerName}
 OutputDir = {#OutputDirectory}
 
 
-
+; Manifest File
+; - - - - - - -
+; The manifest provides information regarding the files that had been stored within the installer
+;   package.  With this information, it can be used to determine if a file was properly packaged
+;   within the installer and determine the meta data of a specific file.
+;
+; Such information of the file(s) stored provides the following:
+;       1. Index
+;       2. Source File Name
+;       3. Time Stamp
+;       4. Version
+;       5. SHA1
+;       6. Original Size
+;       7. First Slice
+;       8. Last Slice
+;       9. Start Offset
+;       10. Chunk Sub-Offset
+;       11. Chunk Compressed Size
+;       12. Encrypted
+OutputManifestFile = {#MyManifestName}
 
 
 
