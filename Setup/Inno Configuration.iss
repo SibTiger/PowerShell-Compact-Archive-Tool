@@ -16,7 +16,7 @@
 ; ~ ~ ~ ~ ~ ~
 ; This defines the output path of the installer.
 ; NOTE: Relative Path only.
-#define OutputDirectory "..\..\Installers\" + MyAppVersion + "\"
+#define OutputDirectory "..\Installers\" + MyAppVersion + "\"
 
 
 ; Generate Installer
@@ -201,6 +201,27 @@ OutputManifestFile = {#MyManifestName}
 
 
 
+;                 Source Directory
+; =============================================
+; =============================================
+; ---------------------------------------------
+
+; Source Directory
+; - - - - - - - - -
+; This will specify the location as to where the files are generally located or a common-location.
+;   With this set, this changes all or most of the Output Directories and individual source file
+;   locations.  With that said, the relative path depends upon this variable.
+;
+; Resource:
+;   - https://jrsoftware.org/ishelp/index.php?topic=setup_sourcedir
+SourceDir = "..\"
+
+
+
+
+
+
+
 
 
 
@@ -216,9 +237,9 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={autopf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-LicenseFile=C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Tool\Source\LICENSE
-InfoBeforeFile=C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Tool\Source\LICENSE
-InfoAfterFile=C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Tool\Source\LICENSE
+LicenseFile=LICENSE
+InfoBeforeFile=LICENSE
+InfoAfterFile=LICENSE
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
@@ -232,10 +253,10 @@ WizardStyle=modern
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-Source: "C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Tool\Source\Compile\PSCAT.ps1"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Tool\Source\Scripts\Program Modes\Clean.ps1"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Tool\Source\Scripts\Program Modes\Uninstall.ps1"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Tool\Source\Setup\Resources\Web\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "Compile\PSCAT.ps1"; DestDir: "{app}"; Flags: ignoreversion
+Source: "Scripts\Program Modes\Clean.ps1"; DestDir: "{app}"; Flags: ignoreversion
+Source: "Scripts\Program Modes\Uninstall.ps1"; DestDir: "{app}"; Flags: ignoreversion
+Source: "Setup\Resources\Web\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
