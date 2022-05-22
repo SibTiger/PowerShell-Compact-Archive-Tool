@@ -7,6 +7,13 @@
 #define MyAppPublisher "Nicholas Gautier"
 #define MyAppURL "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool"
 #define MyAppInstallerName "PSCAT Installer" + " " + "v" + MyAppVersion
+#define AppCopyright "2022.05.22"
+#define AppDescription MyAppName + "Setup"
+#define OriginalFileName "PSCAT"
+#define ProductName "PowerShell Compact-Archive Tool"
+#define ProductTextVersion MyAppVersion
+#define ProductVersion MyAppVersion
+#define InstallerVersion MyAppVersion
 #define MyManifestName "Manifest" + " " + "v" + MyAppVersion + ".txt"
 
 
@@ -37,6 +44,88 @@
 
 
 [Setup]
+;               Project Meta Data
+; =============================================
+; =============================================
+; ---------------------------------------------
+
+; Company
+; - - - -
+; Name of the company or publisher regarding the project.
+;
+; Resource:
+;   - https://jrsoftware.org/ishelp/index.php?topic=setup_versioninfocompany
+VersionInfoCompany = {#MyAppPublisher}
+
+
+; Copyright
+; - - - - -
+; This specifies the project's copyright information.
+;
+; Resource:
+;   - https://jrsoftware.org/ishelp/index.php?topic=setup_versioninfocopyright
+VersionInfoCopyright = {#AppCopyright}
+
+
+; Description
+; - - - - - -
+; This provides a brief description of the project.
+;
+; Resource:
+;   - https://jrsoftware.org/ishelp/index.php?topic=setup_versioninfodescription
+VersionInfoDescription = {#AppDescription}
+
+
+; Original File Name
+; - - - - - - - - - -
+; This specifies the origitgnal file name for the setup.
+;
+; Resource:
+;   - https://jrsoftware.org/ishelp/index.php?topic=setup_versioninfooriginalfilename
+VersionInfoOriginalFileName = {#OriginalFileName}
+
+
+; Product Name
+; - - - - - - -
+; This will specify the product name.
+;
+; Resource:
+;   - https://jrsoftware.org/ishelp/index.php?topic=setup_versioninfoproductname
+VersionInfoProductName = {#ProductName}
+
+
+; Product Text Version
+; - - - - - - - - - - -
+; This will provide a textual product version
+;
+; Resource:
+;   - https://jrsoftware.org/ishelp/index.php?topic=setup_versioninfoproducttextversion
+VersionInfoProductTextVersion = {#ProductTextVersion}
+
+
+; Product Version
+; - - - - - - - -
+; This will provide a product version
+;
+; Resource:
+;   - https://jrsoftware.org/ishelp/index.php?topic=setup_versioninfoproductversion
+VersionInfoProductVersion = {#ProductVersion}
+
+
+; Version
+; - - - -
+; This will provide a version of the installer
+;
+; Resource:
+;   - https://jrsoftware.org/ishelp/index.php?topic=setup_versioninfoversion
+VersionInfoVersion = {#InstallerVersion}
+
+
+
+
+
+
+
 ;        Compiler Related Configurations
 ; =============================================
 ; =============================================
