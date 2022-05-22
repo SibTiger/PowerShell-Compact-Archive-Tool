@@ -183,6 +183,9 @@ OutputDir = {#OutputDirectory}
 ;       10. Chunk Sub-Offset
 ;       11. Chunk Compressed Size
 ;       12. Encrypted
+;
+; Resource:
+;   - https://jrsoftware.org/ishelp/index.php?topic=setup_outputmanifestfile
 OutputManifestFile = {#MyManifestName}
 
 
