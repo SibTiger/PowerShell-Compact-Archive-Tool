@@ -11,6 +11,13 @@
 
 
 
+; Output Path
+; ~ ~ ~ ~ ~ ~
+; This defines the output path of the installer.
+; NOTE: Relative Path only.
+#define OutputDirectory "..\..\Installers\"
+
+
 ; Debug and Testing
 ; ~ ~ ~ ~ ~ ~ ~ ~ ~
 ; This defines if we are wanting to generate an installer package or if we want to check this script for errors
@@ -146,6 +153,29 @@ Output = {#GenerateInstaller}
 OutputBaseFilename = {#MyAppInstallerName}
 
 
+; Output Directory
+; - - - - - - - - -
+; This will specify the location in which the setup file will be stored once the Inno Builder had
+;   successfully compiled, or generated, the installer file(s).
+;
+; Resource:
+;   - https://jrsoftware.org/ishelp/index.php?topic=setup_outputdir
+OutputDir = {#OutputDirectory}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -167,7 +197,7 @@ InfoAfterFile=C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Too
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
-OutputDir=C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Tool\Output
+;OutputDir=C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Tool\Output
 ;OutputBaseFilename=PSCAT Installer
 ;Compression=lzma
 ;SolidCompression=yes
