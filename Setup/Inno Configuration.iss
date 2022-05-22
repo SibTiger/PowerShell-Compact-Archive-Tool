@@ -15,7 +15,7 @@
 ; ~ ~ ~ ~ ~ ~
 ; This defines the output path of the installer.
 ; NOTE: Relative Path only.
-#define OutputDirectory "..\..\Installers\"
+#define OutputDirectory "..\..\Installers\" + MyAppVersion + "\"
 
 
 ; Debug and Testing
