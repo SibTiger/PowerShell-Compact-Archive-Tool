@@ -136,7 +136,14 @@ MergeDuplicateFiles = yes
 Output = {#GenerateInstaller}
 
 
-
+; Output Base File Name
+; - - - - - - - - - - -
+; This provides the setup filename in the output result.  This essentially is our final compiled
+;   build that the user will install.
+;
+; Resource:
+;   - https://jrsoftware.org/ishelp/index.php?topic=setup_outputbasefilename
+OutputBaseFilename = {#MyAppInstallerName}
 
 
 
