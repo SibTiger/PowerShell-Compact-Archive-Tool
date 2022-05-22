@@ -350,7 +350,7 @@ InfoBeforeFile=LICENSE
 InfoAfterFile=LICENSE
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-PrivilegesRequiredOverridesAllowed=dialog
+;PrivilegesRequiredOverridesAllowed=dialog
 ;OutputDir=C:\Users\Nicholas\Projects\Software\PowerShell-Compact-Archive-Tool\Output
 ;OutputBaseFilename=PSCAT Installer
 ;Compression=lzma
