@@ -14,19 +14,21 @@
 
 ; Product Information
 ; - - - - - - - - - - -
-#define _PRODUCT_AUTHOR_                        "Nicholas Gautier"
-#define _PRODUCT_NAME_FULL_                     "PowerShell Compact-Archive Tool"
-#define _PRODUCT_NAME_SHORT_                    "PSCAT"
-#define _PRODUCT_VERSION_                       "1.1.0"
-#define _PRODUCT_VERSION_CODENAME_              "Cordis"
-#define _PRODUCT_VERSION_DATE_                  "2022.05.22"
-#define _PRODUCT_WEBSITE_HOMEPAGE_              "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool"
-#define _PRODUCT_WEBSITE_AUTHOR_                "https://tiger.rfc1337.net/"
-#define _PRODUCT_WEBSITE_SUPPORT_               "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/wiki"
-#define _PRODUCT_WEBSITE_UPDATES_               "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/releases"
-#define _PRODUCT_README_FILE_                   "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/wiki"
-#define _PRODUCT_BRIEF_DESCRIPTION_             "Generates PK3\PK7 ZDoom Mods"
-#define _PRODUCT_COPYRIGHT_                     "2018-2022" + _PRODUCT_AUTHOR_
+; Project Details
+#include ".\Setup Scripts\Project Information.iss"
+;#define _PRODUCT_AUTHOR_                        "Nicholas Gautier"
+;#define _PRODUCT_NAME_FULL_                     "PowerShell Compact-Archive Tool"
+;#define _PRODUCT_NAME_SHORT_                    "PSCAT"
+;#define _PRODUCT_VERSION_                       "1.1.0"
+;#define _PRODUCT_VERSION_CODENAME_              "Cordis"
+;#define _PRODUCT_VERSION_DATE_                  "2022.05.22"
+;#define _PRODUCT_WEBSITE_HOMEPAGE_              "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool"
+;#define _PRODUCT_WEBSITE_AUTHOR_                "https://tiger.rfc1337.net/"
+;#define _PRODUCT_WEBSITE_SUPPORT_               "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/wiki"
+;#define _PRODUCT_WEBSITE_UPDATES_               "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/releases"
+;#define _PRODUCT_README_FILE_                   "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/wiki"
+;#define _PRODUCT_BRIEF_DESCRIPTION_             "Generates PK3\PK7 ZDoom Mods"
+;#define _PRODUCT_COPYRIGHT_                     "2018-2022" + _PRODUCT_AUTHOR_
 
 
 
