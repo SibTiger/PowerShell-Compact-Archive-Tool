@@ -48,10 +48,11 @@
 
 ; Directories and Files
 ; - - - - - - - - - - -
-#define _FILE_NAME_INSTALLER_                   _PRODUCT_NAME_SHORT_ + " v" + _PRODUCT_VERSION_ + " Installer"
-#define _FILE_NAME_MANIFEST_                    "Manifest" + " v" + _PRODUCT_VERSION_ + ".txt"
-#define _INSTALLER_OUTPUT_DIRECTORY_            "..\Installers\" + _PRODUCT_VERSION_ + "\"
-#define _PRODUCT_DEFAULT_STARTMENU_DIRECTORY_   _PRODUCT_NAME_FULL_
+#include ".\Setup Scripts\Directories and Files.iss"
+;#define _FILE_NAME_INSTALLER_                   _PRODUCT_NAME_SHORT_ + " v" + _PRODUCT_VERSION_ + " Installer"
+;#define _FILE_NAME_MANIFEST_                    "Manifest" + " v" + _PRODUCT_VERSION_ + ".txt"
+;#define _INSTALLER_OUTPUT_DIRECTORY_            "..\Installers\" + _PRODUCT_VERSION_ + "\"
+;#define _PRODUCT_DEFAULT_STARTMENU_DIRECTORY_   _PRODUCT_NAME_FULL_
 
 
 

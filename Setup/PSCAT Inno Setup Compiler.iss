@@ -33,6 +33,9 @@
 ; Installer Metadata
 #include ".\Setup Scripts\Installer Metadata.iss"
 
+; Directories and Files
+#include ".\Setup Scripts\Directories and Files.iss"
+
 
 
 
