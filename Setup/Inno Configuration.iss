@@ -36,10 +36,11 @@
 
 ; Installer Metadata
 ; - - - - - - - - - - -
-#define _INSTALLER_METADATA_VERSION_            "1.0.0.0"
-#define _INSTALLER_METADATA_COPYRIGHT_          _PRODUCT_VERSION_DATE_
-#define _INSTALLER_METADATA_DESCRIPTION_        _PRODUCT_NAME_FULL_ + " Installer"
-#define _INSTALLER_METADATA_PRODUCT_VERSION_    _PRODUCT_VERSION_ + " (" + _PRODUCT_VERSION_CODENAME_ + ") - " + _PRODUCT_VERSION_DATE_
+#include ".\Setup Scripts\Installer Metadata.iss"
+;#define _INSTALLER_METADATA_VERSION_            "1.0.0.0"
+;#define _INSTALLER_METADATA_COPYRIGHT_          _PRODUCT_VERSION_DATE_
+;#define _INSTALLER_METADATA_DESCRIPTION_        _PRODUCT_NAME_FULL_ + " Installer"
+;#define _INSTALLER_METADATA_PRODUCT_VERSION_    _PRODUCT_VERSION_ + " (" + _PRODUCT_VERSION_CODENAME_ + ") - " + _PRODUCT_VERSION_DATE_
 
 
 
