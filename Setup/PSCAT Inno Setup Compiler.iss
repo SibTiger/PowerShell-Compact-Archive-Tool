@@ -36,6 +36,9 @@
 ; Directories and Files
 #include ".\Setup Scripts\Directories and Files.iss"
 
+; Testing and Debuging
+#include ".\Setup Scripts\Testing.iss"
+
 
 
 

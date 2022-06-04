@@ -61,6 +61,7 @@
 
 ; Specialized Operations
 ; - - - - - - - - - - -
+#include ".\Setup Scripts\Testing.iss"
 ; Generate Installer
 ; ~ ~ ~ ~ ~ ~ ~ ~ ~
 ; This defines if we are wanting to generate an installer package or if we want to check this script for
