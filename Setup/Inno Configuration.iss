@@ -71,7 +71,7 @@
 ; Values:
 ;   No  = Only check this script for errors, nothing is generated.
 ;   Yes = Generates an installer executable file.                   [Default]
-#define _SPECIAL_OPERATIONS_GENERATE_INSTALLER_ "Yes"
+;#define _SPECIAL_OPERATIONS_GENERATE_INSTALLER_ "Yes"
 
 
 
