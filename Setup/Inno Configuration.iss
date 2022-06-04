@@ -84,7 +84,8 @@
 
 
 [Setup]
-#define _PRODUCT_DEFAULT_INSTALL_DIRECTORY_     "{autopf}\{#_PRODUCT_NAME_FULL_}"
+#include ".\Setup Scripts\Application ID.iss"
+; #define _PRODUCT_DEFAULT_INSTALL_DIRECTORY_     "{autopf}\{#_PRODUCT_NAME_FULL_}"
 ;               Project Metadata               
 ; =============================================
 ; =============================================
