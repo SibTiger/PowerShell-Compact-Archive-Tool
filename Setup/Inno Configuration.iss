@@ -15,7 +15,7 @@
 ; Product Information
 ; - - - - - - - - - - -
 ; Project Details
-#include ".\Setup Scripts\Project Information.iss"
+#include ".\Scripts\Project Information.iss"
 ;#define _PRODUCT_AUTHOR_                        "Nicholas Gautier"
 ;#define _PRODUCT_NAME_FULL_                     "PowerShell Compact-Archive Tool"
 ;#define _PRODUCT_NAME_SHORT_                    "PSCAT"
@@ -36,7 +36,7 @@
 
 ; Installer Metadata
 ; - - - - - - - - - - -
-#include ".\Setup Scripts\Installer Metadata.iss"
+#include ".\Scripts\Global\Installer Metadata.iss"
 ;#define _INSTALLER_METADATA_VERSION_            "1.0.0.0"
 ;#define _INSTALLER_METADATA_COPYRIGHT_          _PRODUCT_VERSION_DATE_
 ;#define _INSTALLER_METADATA_DESCRIPTION_        _PRODUCT_NAME_FULL_ + " Installer"
@@ -48,7 +48,7 @@
 
 ; Directories and Files
 ; - - - - - - - - - - -
-#include ".\Setup Scripts\Directories and Files.iss"
+#include ".\Scripts\Global\Directories and Files.iss"
 ;#define _FILE_NAME_INSTALLER_                   _PRODUCT_NAME_SHORT_ + " v" + _PRODUCT_VERSION_ + " Installer"
 ;#define _FILE_NAME_MANIFEST_                    "Manifest" + " v" + _PRODUCT_VERSION_ + ".txt"
 ;#define _INSTALLER_OUTPUT_DIRECTORY_            "..\Installers\" + _PRODUCT_VERSION_ + "\"
@@ -61,7 +61,7 @@
 
 ; Specialized Operations
 ; - - - - - - - - - - -
-#include ".\Setup Scripts\Testing.iss"
+#include ".\Scripts\Debug\Testing.iss"
 ; Generate Installer
 ; ~ ~ ~ ~ ~ ~ ~ ~ ~
 ; This defines if we are wanting to generate an installer package or if we want to check this script for
@@ -84,7 +84,7 @@
 
 
 [Setup]
-#include ".\Setup Scripts\Application ID.iss"
+#include ".\Scripts\Application GUID.iss"
 ; #define _PRODUCT_DEFAULT_INSTALL_DIRECTORY_     "{autopf}\{#_PRODUCT_NAME_FULL_}"
 ;               Project Metadata               
 ; =============================================
