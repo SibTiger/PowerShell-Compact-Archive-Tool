@@ -1,0 +1,18 @@
+ASCII Art
+~~~~~~~~~~~~~~
+
+
+
+
+Websites:
+----------------
+    - Main Site:                    https://patorjk.com/software/taag
+    - Main Site w/ Font Properties: https://patorjk.com/software/taag/#p=display&h=0&v=0&f=Big&t=
+        + Use this to avoid having to setup the font; everything is ready for you.
+
+
+Font Properties:
+----------------
+    - Font:     Big
+    - Width:    Full
+    - Height:   Full
