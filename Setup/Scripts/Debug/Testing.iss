@@ -29,3 +29,14 @@
 ;   No  = Only check this script for errors, nothing is generated.
 ;   Yes = Generates an installer executable file.                   [Default]
 #define _SPECIAL_OPERATIONS_GENERATE_INSTALLER_ "Yes"
+
+
+[SETUP]
+; Create Installer Package
+; - - - - - - - - - - - - -
+; This specifies if we are wanting to generate an installer package or to merely test the script for errors.
+;   However, regardless of this setting, Inno will still perform a cleanup operation within the OutputDir.
+;
+; Resource:
+;   - https://jrsoftware.org/ishelp/index.php?topic=setup_output
+Output = {#_SPECIAL_OPERATIONS_GENERATE_INSTALLER_}
