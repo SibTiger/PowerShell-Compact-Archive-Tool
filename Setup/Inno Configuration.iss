@@ -485,7 +485,7 @@
 ; =============================================
 ; =============================================
 ; ---------------------------------------------
-#include ".\Scripts\Setup\Installer Configuration.iss"
+#include ".\Scripts\Setup\Wizard Configuration.iss"
 ; Allow Cancel During Install
 ; - - - - - - - - - - - - - -
 ; This allows the ability for the end-user to abort the on-going installation operation.
