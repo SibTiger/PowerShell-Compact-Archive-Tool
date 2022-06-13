@@ -1110,7 +1110,8 @@
 WizardStyle=modern
 
 [Languages]
-Name: "english"; MessagesFile: "compiler:Default.isl"
+#include ".\Scripts\Language\English.iss"
+;Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
 Source: "Compile\PSCAT.ps1"; DestDir: "{app}"; Flags: ignoreversion
