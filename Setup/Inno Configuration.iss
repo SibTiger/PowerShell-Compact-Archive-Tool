@@ -1107,7 +1107,8 @@
 
 
 
-WizardStyle=modern
+#include ".\Scripts\Interface\Interface Style.iss"
+;WizardStyle=modern
 
 [Languages]
 #include ".\Scripts\Language\English.iss"
