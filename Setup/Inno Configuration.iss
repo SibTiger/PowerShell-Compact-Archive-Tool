@@ -1122,6 +1122,7 @@ WizardStyle=modern
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{group}\{cm:ProgramOnTheWeb,{#_PRODUCT_NAME_FULL_}}"; Filename: "{#_PRODUCT_WEBSITE_HOMEPAGE_}"
-Name: "{group}\{cm:UninstallProgram,{#_PRODUCT_NAME_FULL_}}"; Filename: "{uninstallexe}"
+#include ".\Scripts\Interface\Icons.iss"
+;Name: "{group}\{cm:ProgramOnTheWeb,{#_PRODUCT_NAME_FULL_}}"; Filename: "{#_PRODUCT_WEBSITE_HOMEPAGE_}"
+;Name: "{group}\{cm:UninstallProgram,{#_PRODUCT_NAME_FULL_}}"; Filename: "{uninstallexe}"
 
