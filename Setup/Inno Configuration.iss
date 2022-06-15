@@ -1114,10 +1114,11 @@ WizardStyle=modern
 ;Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-Source: "Compile\PSCAT.ps1"; DestDir: "{app}"; Flags: ignoreversion
-Source: "Scripts\Program Modes\Clean.ps1"; DestDir: "{app}"; Flags: ignoreversion
-Source: "Scripts\Program Modes\Uninstall.ps1"; DestDir: "{app}"; Flags: ignoreversion
-Source: "Setup\Resources\Web\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+#include ".\Scripts\Installation Files\Files.iss"
+;Source: "Compile\PSCAT.ps1"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "Scripts\Program Modes\Clean.ps1"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "Scripts\Program Modes\Uninstall.ps1"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "Setup\Resources\Web\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
