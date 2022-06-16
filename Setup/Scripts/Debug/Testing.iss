@@ -19,24 +19,17 @@
 
 
 
-; Generate Installer
-; ~ ~ ~ ~ ~ ~ ~ ~ ~
-; This defines if we are wanting to generate an installer package or if we want to check this script for
-;   errors without generating an executable file.
-; NOTE: Regardless of this setting, the Output Directory will be cleaned.
-;
-; Values:
-;   No  = Only check this script for errors, nothing is generated.
-;   Yes = Generates an installer executable file.                   [Default]
-#define _SPECIAL_OPERATIONS_GENERATE_INSTALLER_ "Yes"
-
-
 [SETUP]
 ; Create Installer Package
 ; - - - - - - - - - - - - -
-; This specifies if we are wanting to generate an installer package or to merely test the script for errors.
-;   However, regardless of this setting, Inno will still perform a cleanup operation within the OutputDir.
+; This will specify if we are wanting to generate an installer package or if we want to check for script
+;   errors without needing to create an installer package.  However, regardless this setting, the Output
+;   Directory (or OutputDir) will be cleaned.
+;
+; Values:
+;   Yes = Generates an installer package [Default]
+;   No  = Only check this script for errors, an installer will not be generated.
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_output
-Output = {#_SPECIAL_OPERATIONS_GENERATE_INSTALLER_}
+Output = "Yes"
