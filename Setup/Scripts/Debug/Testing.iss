@@ -22,13 +22,13 @@
 [SETUP]
 ; Create Installer Package
 ; - - - - - - - - - - - - -
-; This will specify if we are wanting to generate an installer package or if we want to check for script
-;   errors without needing to create an installer package.  However, regardless this setting, the Output
+; This will specify if we are wanting to generate an installer package or if we only want to check for script
+;   errors without needing to create an installer package.  However, regardless of this setting, the Output
 ;   Directory (or OutputDir) will be cleaned.
 ;
 ; Values:
 ;   Yes = Generates an installer package [Default]
-;   No  = Only check this script for errors, an installer will not be generated.
+;   No  = Only check for script errors; An installer will not be generated.
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_output
