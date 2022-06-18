@@ -19,4 +19,12 @@
 
 
 
-#define _PRODUCT_DEFAULT_INSTALL_DIRECTORY_     "{autopf}\{#_PRODUCT_NAME_FULL_}"
+; Application ID
+; - - - - - - - -
+; This provides a unique ID in which identifies this application.
+;   NOTE: In order to generate a GUID: Click 'Tools' and then select 'Generate GUID' using the Inno Setup
+;           IDE.
+;
+; Resource:
+;   - https://jrsoftware.org/ishelp/index.php?topic=setup_appid
+AppId={{02B00588-4477-4E98-AF59-E8825F957C03}
