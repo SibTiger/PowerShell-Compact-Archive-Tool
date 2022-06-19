@@ -3,15 +3,16 @@
 ;                                    | |  |  \| | |  \| | | | | |   \___ \   / _ \ | __| | | | | | '_ \
 ;                                    | |  | |\  | | |\  | | |_| |    ___) | |  __/ | |_  | |_| | | |_) |
 ;                                   |___| |_| \_| |_| \_|  \___/    |____/   \___|  \__|  \__,_| | .__/
+;                                                                                                | |
 ;                                                                                                |_|
-;   ____            _                     _        _____                    __   _                                  _     _
-;  / __ \          | |                   | |      / ____|                  / _| (_)                                | |   (_)
-; | |  | |  _   _  | |_   _ __    _   _  | |_    | |        ___    _ __   | |_   _    __ _   _   _   _ __    __ _  | |_   _    ___    _ __
-; | |  | | | | | | | __| | '_ \  | | | | | __|   | |       / _ \  | '_ \  |  _| | |  / _` | | | | | | '__|  / _` | | __| | |  / _ \  | '_ \
-; | |__| | | |_| | | |_  | |_) | | |_| | | |_    | |____  | (_) | | | | | | |   | | | (_| | | |_| | | |    | (_| | | |_  | | | (_) | | | | |
-;  \____/   \__,_|  \__| | .__/   \__,_|  \__|    \_____|  \___/  |_| |_| |_|   |_|  \__, |  \__,_| |_|     \__,_|  \__| |_|  \___/  |_| |_|
-;                        | |                                                          __/ |
-;                        |_|                                                         |___/
+;                                               ____            _                     _
+;                                              / __ \          | |                   | |
+;                                             | |  | |  _   _  | |_   _ __    _   _  | |_
+;                                             | |  | | | | | | | __| | '_ \  | | | | | __|
+;                                             | |__| | | |_| | | |_  | |_) | | |_| | | |_
+;                                              \____/   \__,_|  \__| | .__/   \__,_|  \__|
+;                                                                    | |
+;                                                                    |_|
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 ; = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -28,7 +29,8 @@
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_outputbasefilename
-OutputBaseFilename = {#_FILE_NAME_INSTALLER_}
+OutputBaseFilename = {#_PRODUCT_NAME_SHORT_} + " v" + {#_PRODUCT_VERSION_} + " Installer"
+
 
 
 ; Output Directory
@@ -38,7 +40,8 @@ OutputBaseFilename = {#_FILE_NAME_INSTALLER_}
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_outputdir
-OutputDir = {#_INSTALLER_OUTPUT_DIRECTORY_}
+OutputDir = "..\Installers\" + {#_PRODUCT_VERSION_} + "\"
+
 
 
 ; Manifest File
@@ -63,4 +66,4 @@ OutputDir = {#_INSTALLER_OUTPUT_DIRECTORY_}
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_outputmanifestfile
-OutputManifestFile = {#_FILE_NAME_MANIFEST_}
+OutputManifestFile = "Manifest" + " v" + {#_PRODUCT_VERSION_} + ".txt"

@@ -3,6 +3,7 @@
 ;                                    | |  |  \| | |  \| | | | | |   \___ \   / _ \ | __| | | | | | '_ \
 ;                                    | |  | |\  | | |\  | | |_| |    ___) | |  __/ | |_  | |_| | | |_) |
 ;                                   |___| |_| \_| |_| \_|  \___/    |____/   \___|  \__|  \__,_| | .__/
+;                                                                                                | |
 ;                                                                                                |_|
 ;             _____                     _                 _       __  __          _                 _           _
 ;            |  __ \                   (_)               | |     |  \/  |        | |               | |         | |
@@ -30,6 +31,7 @@
 AppName = {#_PRODUCT_NAME_FULL_}
 
 
+
 ; Application Version Name
 ; - - - - - - - - - - - - -
 ; This will provide the name and version of the product.  This will be visible in the Add/Remove Programs
@@ -38,6 +40,7 @@ AppName = {#_PRODUCT_NAME_FULL_}
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_appvername
 AppVerName = {#_PRODUCT_NAME_FULL_} + " " + {#_PRODUCT_VERSION_} + " (" + _PRODUCT_VERSION_CODENAME_ + ")"
+
 
 
 ; Application Version
@@ -50,6 +53,7 @@ AppVerName = {#_PRODUCT_NAME_FULL_} + " " + {#_PRODUCT_VERSION_} + " (" + _PRODU
 AppVersion = {#_PRODUCT_VERSION_}
 
 
+
 ; Application Comments
 ; - - - - - - - - - - -
 ; This will be displayed in the Add/Remove Programs within the classical Control Panel.
@@ -57,6 +61,7 @@ AppVersion = {#_PRODUCT_VERSION_}
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_appcomments
 AppComments = {#_PRODUCT_BRIEF_DESCRIPTION_}
+
 
 
 ; Application Contact
@@ -68,6 +73,7 @@ AppComments = {#_PRODUCT_BRIEF_DESCRIPTION_}
 AppContact = {#_PRODUCT_WEBSITE_SUPPORT_}
 
 
+
 ; Application Publisher
 ; - - - - - - - - - - -
 ; This will be displayed in the Add/Remove Programs within the classical Control Panel.
@@ -75,6 +81,7 @@ AppContact = {#_PRODUCT_WEBSITE_SUPPORT_}
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_apppublisher
 AppPublisher = {#_PRODUCT_AUTHOR_}
+
 
 
 ; Application Publisher Homepage
@@ -86,6 +93,7 @@ AppPublisher = {#_PRODUCT_AUTHOR_}
 AppPublisherURL = {#_PRODUCT_WEBSITE_AUTHOR_}
 
 
+
 ; Application Readme File
 ; - - - - - - - - - - - -
 ; This will be displayed in the Add/Remove Programs within the classical Control Panel.
@@ -93,6 +101,7 @@ AppPublisherURL = {#_PRODUCT_WEBSITE_AUTHOR_}
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_appreadmefile
 AppReadmeFile = {#_PRODUCT_README_FILE_}
+
 
 
 ; Application Support URL
@@ -104,6 +113,7 @@ AppReadmeFile = {#_PRODUCT_README_FILE_}
 AppSupportURL = {#_PRODUCT_WEBSITE_SUPPORT_}
 
 
+
 ; Application Updates URL
 ; - - - - - - - - - - - -
 ; This will be displayed in the Add/Remove Programs within the classical Control Panel.
@@ -111,6 +121,7 @@ AppSupportURL = {#_PRODUCT_WEBSITE_SUPPORT_}
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_appupdatesurl
 AppUpdatesURL = {#_PRODUCT_WEBSITE_UPDATES_}
+
 
 
 ; Application Copyright

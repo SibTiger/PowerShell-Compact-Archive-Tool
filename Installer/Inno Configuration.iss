@@ -6,7 +6,7 @@
 
 ; Installer GUID
 ; - - - - - - - -
-#define _GENERATED_UNIQUE_GUID_                 "{{02B00588-4477-4E98-AF59-E8825F957C03}"
+;#define _GENERATED_UNIQUE_GUID_                 "{{02B00588-4477-4E98-AF59-E8825F957C03}"
 
 
 

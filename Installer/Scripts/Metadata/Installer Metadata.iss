@@ -3,6 +3,7 @@
 ;                                    | |  |  \| | |  \| | | | | |   \___ \   / _ \ | __| | | | | | '_ \
 ;                                    | |  | |\  | | |\  | | |_| |    ___) | |  __/ | |_  | |_| | | |_) |
 ;                                   |___| |_| \_| |_| \_|  \___/    |____/   \___|  \__|  \__,_| | .__/
+;                                                                                                | |
 ;                                                                                                |_|
 ;         _____                 _             _   _                   __  __          _                 _           _
 ;        |_   _|               | |           | | | |                 |  \/  |        | |               | |         | |
@@ -28,13 +29,15 @@
 VersionInfoCompany = {#_PRODUCT_AUTHOR_}
 
 
+
 ; Copyright
 ; - - - - -
 ; This specifies the project's copyright information.
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_versioninfocopyright
-VersionInfoCopyright = {#_INSTALLER_METADATA_COPYRIGHT_}
+VersionInfoCopyright = {#_PRODUCT_VERSION_DATE_}
+
 
 
 ; Description
@@ -43,7 +46,8 @@ VersionInfoCopyright = {#_INSTALLER_METADATA_COPYRIGHT_}
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_versioninfodescription
-VersionInfoDescription = {#_INSTALLER_METADATA_DESCRIPTION_}
+VersionInfoDescription = {#_PRODUCT_NAME_FULL_} + " Installer"
+
 
 
 ; Original File Name
@@ -55,6 +59,7 @@ VersionInfoDescription = {#_INSTALLER_METADATA_DESCRIPTION_}
 VersionInfoOriginalFileName = {#_PRODUCT_NAME_SHORT_}
 
 
+
 ; Product Name
 ; - - - - - - -
 ; This will specify the product name.
@@ -64,13 +69,15 @@ VersionInfoOriginalFileName = {#_PRODUCT_NAME_SHORT_}
 VersionInfoProductName = {#_PRODUCT_NAME_FULL_}
 
 
+
 ; Product Text Version
 ; - - - - - - - - - - -
 ; This will provide a textual product version
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_versioninfoproducttextversion
-VersionInfoProductTextVersion = {#_INSTALLER_METADATA_PRODUCT_VERSION_}
+VersionInfoProductTextVersion = {#_PRODUCT_VERSION_} + " (" + {#_PRODUCT_VERSION_CODENAME_} + ") - " + {#_PRODUCT_VERSION_DATE_}
+
 
 
 ; Product Version
@@ -82,10 +89,11 @@ VersionInfoProductTextVersion = {#_INSTALLER_METADATA_PRODUCT_VERSION_}
 VersionInfoProductVersion = {#_PRODUCT_VERSION_}
 
 
+
 ; Version
 ; - - - -
 ; This will provide a version of the installer
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_versioninfoversion
-VersionInfoVersion = {#_INSTALLER_METADATA_VERSION_}
+VersionInfoVersion = "1.0.0.0"

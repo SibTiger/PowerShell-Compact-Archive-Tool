@@ -3,15 +3,14 @@
 ;                                    | |  |  \| | |  \| | | | | |   \___ \   / _ \ | __| | | | | | '_ \
 ;                                    | |  | |\  | | |\  | | |_| |    ___) | |  __/ | |_  | |_| | | |_) |
 ;                                   |___| |_| \_| |_| \_|  \___/    |____/   \___|  \__|  \__,_| | .__/
+;                                                                                                | |
 ;                                                                                                |_|
-; __          __  _                            _      _____                    __   _                                  _     _
-; \ \        / / (_)                          | |    / ____|                  / _| (_)                                | |   (_)
-;  \ \  /\  / /   _   ____   __ _   _ __    __| |   | |        ___    _ __   | |_   _    __ _   _   _   _ __    __ _  | |_   _    ___    _ __
-;   \ \/  \/ /   | | |_  /  / _` | | '__|  / _` |   | |       / _ \  | '_ \  |  _| | |  / _` | | | | | | '__|  / _` | | __| | |  / _ \  | '_ \
-;    \  /\  /    | |  / /  | (_| | | |    | (_| |   | |____  | (_) | | | | | | |   | | | (_| | | |_| | | |    | (_| | | |_  | | | (_) | | | | |
-;     \/  \/     |_| /___|  \__,_| |_|     \__,_|    \_____|  \___/  |_| |_| |_|   |_|  \__, |  \__,_| |_|     \__,_|  \__| |_|  \___/  |_| |_|
-;                                                                                        __/ |
-;                                                                                       |___/
+;                                           __          __  _                            _
+;                                           \ \        / / (_)                          | |
+;                                            \ \  /\  / /   _   ____   __ _   _ __    __| |
+;                                             \ \/  \/ /   | | |_  /  / _` | | '__|  / _` |
+;                                              \  /\  /    | |  / /  | (_| | | |    | (_| |
+;                                               \/  \/     |_| /___|  \__,_| |_|     \__,_|
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 ; = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -30,6 +29,7 @@
 AllowCancelDuringInstall= No
 
 
+
 ; Allow Installation on a Network Drive
 ; - - - - - - - - - - - - - - - - - - -
 ; This allows or disallows the ability to install the product onto a Network Shared Drive.
@@ -37,6 +37,7 @@ AllowCancelDuringInstall= No
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_allownetworkdrive
 AllowNetworkDrive = No
+
 
 
 ; Allow Start Menu Icons
@@ -48,6 +49,7 @@ AllowNetworkDrive = No
 AllowNoIcons = yes
 
 
+
 ; Allow Installation on Root Directory
 ; - - - - - - - - - - - - - - - - - - -
 ; Allow the user with the ability to install the product's contents onto a system's root Filesystem.
@@ -57,6 +59,7 @@ AllowNoIcons = yes
 AllowRootDirectory = no
 
 
+
 ; Allow Installation within a Network
 ; - - - - - - - - - - - - - - - - - -
 ; This allows or disallows the ability to install the product onto a server.
@@ -64,6 +67,7 @@ AllowRootDirectory = no
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_allowuncpath
 AllowUNCPath = no
+
 
 
 ; Always Restart
@@ -76,6 +80,7 @@ AllowUNCPath = no
 AlwaysRestart = no
 
 
+
 ; Always Show Components List
 ; - - - - - - - - - - - - - - -
 ; This can provide the ability for the user to select components that are available within the installer.
@@ -84,6 +89,7 @@ AlwaysRestart = no
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_alwaysshowcomponentslist
 AlwaysShowComponentsList = yes
+
 
 
 ; Always Show Install Directory on Ready Page
@@ -97,6 +103,7 @@ AlwaysShowComponentsList = yes
 AlwaysShowDirOnReadyPage = yes
 
 
+
 ; Always Show Start Menu Directory on Ready Page
 ; - - - - - - - - - - - - - - - - - - - - - - - -
 ; Visually show the expected directory name of the Start Menu that the user will be able to find the
@@ -106,6 +113,7 @@ AlwaysShowDirOnReadyPage = yes
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_alwaysshowgrouponreadypage
 AlwaysShowGroupOnReadyPage = yes
+
 
 
 ; Always Use Personal Start Menu
@@ -118,6 +126,7 @@ AlwaysShowGroupOnReadyPage = yes
 AlwaysUsePersonalGroup = yes
 
 
+
 ; Append Default Directory Name
 ; - - - - - - - - - - - - - - -
 ; When set as 'yes', the Installer will automatically provide a parent directory in which the contents of the
@@ -126,6 +135,7 @@ AlwaysUsePersonalGroup = yes
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_appenddefaultdirname
 AppendDefaultDirName = yes
+
 
 
 ; Append Default Start Menu Directory Name
@@ -139,6 +149,7 @@ AppendDefaultDirName = yes
 AppendDefaultGroupName = yes
 
 
+
 ; Architectures Allowed
 ; - - - - - - - - - - -
 ; Specifies which processor architecutre the installer is allowed to run on.
@@ -146,6 +157,7 @@ AppendDefaultGroupName = yes
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_architecturesallowed
 ArchitecturesAllowed =
+
 
 
 ; Architectures Install in 64Bit Mode
@@ -158,6 +170,7 @@ ArchitecturesAllowed =
 ArchitecturesInstallIn64BitMode =
 
 
+
 ; Changes Association
 ; - - - - - - - - - -
 ; This will allow the ability for the Windows File Explorer to refresh its File Association information,
@@ -166,6 +179,7 @@ ArchitecturesInstallIn64BitMode =
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_changesassociations
 ChangesAssociations= no
+
 
 
 ; Changes Environment
@@ -178,6 +192,7 @@ ChangesAssociations= no
 ChangesEnvironment = no
 
 
+
 ; Close Applications
 ; - - - - - - - - - -
 ; When set to 'yes', the Installer will pause right before the installation operation happens when it
@@ -188,6 +203,7 @@ ChangesEnvironment = no
 CloseApplications = yes
 
 
+
 ; Close Application Filter
 ; - - - - - - - - - - - - -
 ; This will limit which files and Install-Delete entries Setup will check for what is currently being in use;
@@ -196,6 +212,7 @@ CloseApplications = yes
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_closeapplicationsfilter
 CloseApplicationsFilter=*.exe,*.dll,*.chm
+
 
 
 ; Create Application Directory
@@ -209,6 +226,7 @@ CloseApplicationsFilter=*.exe,*.dll,*.chm
 CreateAppDir = yes
 
 
+
 ; Create Uninstall Registry Key
 ; - - - - - - - - - - - - - - -
 ; This will allow the ability for the application to contain an uninstaller entry within the Add/Remove
@@ -220,6 +238,7 @@ CreateAppDir = yes
 CreateUninstallRegKey = yes
 
 
+
 ; Default Install Directory Name
 ; - - - - - - - - - - - - - - - -
 ; This will provide a default install location.
@@ -229,13 +248,15 @@ CreateUninstallRegKey = yes
 DefaultDirName = {autopf}\{#_PRODUCT_NAME_FULL_}
 
 
+
 ; Default Start Menu Directory Name
 ; - - - - - - - - - - - - - - - - -
 ; This will provide a default Start Menu directory.
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_defaultgroupname
-DefaultGroupName = {#_PRODUCT_DEFAULT_STARTMENU_DIRECTORY_}
+DefaultGroupName = {#_PRODUCT_NAME_FULL_}
+
 
 
 ; Directory Exists Warning
@@ -249,6 +270,7 @@ DefaultGroupName = {#_PRODUCT_DEFAULT_STARTMENU_DIRECTORY_}
 DirExistsWarning = auto
 
 
+
 ; Disable Directory Page
 ; - - - - - - - - - - - -
 ; When set to 'yes', the Installer will never ask the end-user where to install the product onto their
@@ -257,6 +279,7 @@ DirExistsWarning = auto
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_disabledirpage
 DisableDirPage = auto
+
 
 
 ; Disable Finished Page
@@ -269,6 +292,7 @@ DisableDirPage = auto
 DisableFinishedPage = no
 
 
+
 ; Disable Start Menu Page
 ; - - - - - - - - - - - - - -
 ; When set to 'yes', the user will not be prompted regarding the wither the Start Menu shortcuts will be
@@ -277,6 +301,7 @@ DisableFinishedPage = no
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_disableprogramgrouppage
 DisableProgramGroupPage = auto
+
 
 
 ; Disable Ready Memo
@@ -288,6 +313,7 @@ DisableProgramGroupPage = auto
 DisableReadyMemo = no
 
 
+
 ; Disable Ready Page
 ; - - - - - - - - - -
 ; When this is set to 'yes', the installer will not show the 'Ready to Install' page to the user.
@@ -295,6 +321,7 @@ DisableReadyMemo = no
 ; Resources:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_disablereadypage
 DisableReadyPage = no
+
 
 
 ; Disable Startup Prompt
@@ -307,6 +334,7 @@ DisableReadyPage = no
 DisableStartupPrompt= no
 
 
+
 ; Disable Welcome Page
 ; - - - - - - - - - - -
 ; When this setting is set to 'yes', then the Installer will not show the 'Welcome' page to the user.
@@ -314,6 +342,7 @@ DisableStartupPrompt= no
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_disablewelcomepage
 DisableWelcomePage = no
+
 
 
 ; Enable Directory Does not Exist Warning
@@ -327,6 +356,7 @@ DisableWelcomePage = no
 EnableDirDoesntExistWarning = yes
 
 
+
 ; Extra Disk Space Required
 ; - - - - - - - - - - - - -
 ; This will define how much more additional space is required on the host in order to install the product.
@@ -334,6 +364,7 @@ EnableDirDoesntExistWarning = yes
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_extradiskspacerequired
 ExtraDiskSpaceRequired = 1048576
+
 
 
 ; Information After File
@@ -347,6 +378,7 @@ ExtraDiskSpaceRequired = 1048576
 InfoAfterFile = LICENSE
 
 
+
 ; Information Before File
 ; - - - - - - - - - - - -
 ; This will specify of a ReadMe file that will be shown to the user before the installation process.
@@ -358,6 +390,7 @@ InfoAfterFile = LICENSE
 InfoBeforeFile = LICENSE
 
 
+
 ; License File
 ; - - - - - - -
 ; This will specify of a License file that will be shown to the user, in which they must agree to before
@@ -367,6 +400,7 @@ InfoBeforeFile = LICENSE
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_licensefile
 LicenseFile = LICENSE
+
 
 
 ; Minimum Requirements
@@ -381,6 +415,7 @@ LicenseFile = LICENSE
 MinVersion = 6.1sp1
 
 
+
 ; Maximum Requirements
 ; - - - - - - - - - - -
 ; This will specify the maximum Windows Operating System requirements that is supported with the software.
@@ -393,6 +428,7 @@ MinVersion = 6.1sp1
 OnlyBelowVersion = 0
 
 
+
 ; Privileges Required
 ; - - - - - - - - - -
 ; When this is set to 'yes', the user will be prompted to run the Installer with Administrative Privileges.
@@ -400,6 +436,7 @@ OnlyBelowVersion = 0
 ; Resources:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_privilegesrequired
 PrivilegesRequired = admin
+
 
 
 ; Privileges Required Overrides Allowed
@@ -412,6 +449,7 @@ PrivilegesRequired = admin
 PrivilegesRequiredOverridesAllowed = dialog
 
 
+
 ; Restart Applications
 ; - - - - - - - - - - -
 ; When this value is set to 'yes' and the Close Applications is also set to 'yes', the Installer will attempt
@@ -420,6 +458,7 @@ PrivilegesRequiredOverridesAllowed = dialog
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_restartapplications
 RestartApplications = yes
+
 
 
 ; Restart if Needed by Run
@@ -433,6 +472,7 @@ RestartApplications = yes
 RestartIfNeededByRun = yes
 
 
+
 ; Log Installation
 ; - - - - - - - - -
 ; When this set had been set to 'yes', the Installer will log its activities.
@@ -440,6 +480,7 @@ RestartIfNeededByRun = yes
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_setuplogging
 SetupLogging = yes
+
 
 
 ; Show Language Selection Dialog
@@ -452,6 +493,7 @@ SetupLogging = yes
 ShowLanguageDialog = yes
 
 
+
 ; Time Stamps in UTC
 ; - - - - - - - - - -
 ; All of the files date and time information that are included within the Installer will be updated based
@@ -460,6 +502,7 @@ ShowLanguageDialog = yes
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_timestampsinutc
 TimeStampsInUTC = yes
+
 
 
 ; Touch Date
@@ -474,6 +517,7 @@ TimeStampsInUTC = yes
 TouchDate = current
 
 
+
 ; Touch Time
 ; - - - - - -
 ; The time used in the time/date stamp of files referenced by [Files] section entries that include the touch
@@ -486,6 +530,7 @@ TouchDate = current
 TouchTime = current
 
 
+
 ; Uninstallable
 ; - - - - - - -
 ; When set to 'yes', the Installer will create an Uninstaller - in which the user can be able to expunge the
@@ -494,6 +539,7 @@ TouchTime = current
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_uninstallable
 Uninstallable = yes
+
 
 
 ; Uninstall Display Icon
@@ -507,6 +553,7 @@ Uninstallable = yes
 UninstallDisplayIcon = {app}\image.png
 
 
+
 ; Uninstall Display Name
 ; - - - - - - - - - - - -
 ; This lets you specify a custom name for the program's entry in the Add/Remove Programs Control Panel
@@ -515,6 +562,7 @@ UninstallDisplayIcon = {app}\image.png
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_uninstalldisplayname
 UninstallDisplayName = {#_PRODUCT_NAME_FULL_}
+
 
 
 ; Uninstall Files Directory
@@ -526,6 +574,7 @@ UninstallDisplayName = {#_PRODUCT_NAME_FULL_}
 UninstallFilesDir = {app}
 
 
+
 ; Uninstall Log Mode
 ; - - - - - - - - - -
 ; This will configure how the uninstall operation will be logged within the system.
@@ -533,6 +582,7 @@ UninstallFilesDir = {app}
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_uninstalllogmode
 UninstallLogMode = append
+
 
 
 ; Uninstall Restart Computer
@@ -546,6 +596,7 @@ UninstallLogMode = append
 UninstallRestartComputer = no
 
 
+
 ; Update Uninstall Log Application Name
 ; - - - - - - - - - - - - - - - - - - -
 ; If yes, when appending to an existing uninstall log, Setup will replace the AppName field in the log with
@@ -556,6 +607,7 @@ UninstallRestartComputer = no
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_updateuninstalllogappname
 UpdateUninstallLogAppName = yes
+
 
 
 ; Use Previous Start Menu
@@ -571,6 +623,7 @@ UpdateUninstallLogAppName = yes
 UsePreviousGroup = yes
 
 
+
 ; Use Previous Language
 ; - - - - - - - - - - -
 ; When this directive is yes, the default, at startup Setup will look in the registry to see if the same
@@ -580,6 +633,7 @@ UsePreviousGroup = yes
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_usepreviouslanguage
 UsePreviousLanguage = yes
+
 
 
 ; Use Previous Privileges
@@ -593,6 +647,7 @@ UsePreviousLanguage = yes
 UsePreviousPrivileges = yes
 
 
+
 ; Use Previous Setup Type
 ; - - - - - - - - - - - -
 ; When this directive is yes, the default, at startup Setup will look in the registry to see if the same
@@ -602,6 +657,7 @@ UsePreviousPrivileges = yes
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_useprevioussetuptype
 UsePreviousSetupType = yes
+
 
 
 ; Use Previous Tasks
@@ -615,6 +671,7 @@ UsePreviousSetupType = yes
 UsePreviousTasks = yes
 
 
+
 ; Use Previous User Information
 ; - - - - - - - - - - - - - - -
 ; When this directive is yes, the default, at startup Setup will look in the registry to see if the same
@@ -624,6 +681,7 @@ UsePreviousTasks = yes
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_useprevioususerinfo
 UsePreviousUserInfo = yes
+
 
 
 ; User Information Page
