@@ -26,7 +26,7 @@
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_versioninfocompany
-VersionInfoCompany = {#_PRODUCT_AUTHOR_}
+VersionInfoCompany = "{#_PRODUCT_AUTHOR_}"
 
 
 
@@ -36,7 +36,7 @@ VersionInfoCompany = {#_PRODUCT_AUTHOR_}
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_versioninfocopyright
-VersionInfoCopyright = {#_PRODUCT_VERSION_DATE_}
+VersionInfoCopyright = "{#_PRODUCT_VERSION_DATE_}"
 
 
 
@@ -46,7 +46,7 @@ VersionInfoCopyright = {#_PRODUCT_VERSION_DATE_}
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_versioninfodescription
-VersionInfoDescription = {#_PRODUCT_NAME_FULL_} + " Installer"
+VersionInfoDescription = "{#_PRODUCT_NAME_FULL_} Installer"
 
 
 
@@ -56,7 +56,7 @@ VersionInfoDescription = {#_PRODUCT_NAME_FULL_} + " Installer"
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_versioninfooriginalfilename
-VersionInfoOriginalFileName = {#_PRODUCT_NAME_SHORT_}
+VersionInfoOriginalFileName = "{#_PRODUCT_NAME_SHORT_}"
 
 
 
@@ -66,7 +66,7 @@ VersionInfoOriginalFileName = {#_PRODUCT_NAME_SHORT_}
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_versioninfoproductname
-VersionInfoProductName = {#_PRODUCT_NAME_FULL_}
+VersionInfoProductName = "{#_PRODUCT_NAME_FULL_}"
 
 
 
@@ -76,7 +76,7 @@ VersionInfoProductName = {#_PRODUCT_NAME_FULL_}
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_versioninfoproducttextversion
-VersionInfoProductTextVersion = {#_PRODUCT_VERSION_} + " (" + {#_PRODUCT_VERSION_CODENAME_} + ") - " + {#_PRODUCT_VERSION_DATE_}
+VersionInfoProductTextVersion = "{#_PRODUCT_VERSION_} ({#_PRODUCT_VERSION_CODENAME_}) - {#_PRODUCT_VERSION_DATE_}"
 
 
 
@@ -86,7 +86,7 @@ VersionInfoProductTextVersion = {#_PRODUCT_VERSION_} + " (" + {#_PRODUCT_VERSION
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_versioninfoproductversion
-VersionInfoProductVersion = {#_PRODUCT_VERSION_}
+VersionInfoProductVersion = "{#_PRODUCT_VERSION_}"
 
 
 

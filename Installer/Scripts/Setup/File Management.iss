@@ -31,4 +31,4 @@
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_mergeduplicatefiles
-MergeDuplicateFiles = yes
+MergeDuplicateFiles = "Yes"

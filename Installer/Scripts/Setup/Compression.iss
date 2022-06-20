@@ -29,7 +29,7 @@
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_internalcompresslevel
-InternalCompressLevel = normal
+InternalCompressLevel = "Normal"
 
 
 
@@ -41,7 +41,7 @@ InternalCompressLevel = normal
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_compression
-Compression = lzma2/ultra64
+Compression = "LZMA2/Ultra64"
 
 
 
@@ -53,7 +53,7 @@ Compression = lzma2/ultra64
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_solidcompression
-SolidCompression = yes
+SolidCompression = "Yes"
 
 
 
@@ -75,7 +75,7 @@ LZMAAlgorithm = 1
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_lzmauseseparateprocess
-LZMAUseSeparateProcess = yes
+LZMAUseSeparateProcess = "Yes"
 
 
 
@@ -86,7 +86,7 @@ LZMAUseSeparateProcess = yes
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_lzmamatchfinder
-LZMAMatchFinder = BT
+LZMAMatchFinder = "BT"
 
 
 
@@ -98,4 +98,4 @@ LZMAMatchFinder = BT
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_compressionthreads
-CompressionThreads = auto
+CompressionThreads = "Auto"

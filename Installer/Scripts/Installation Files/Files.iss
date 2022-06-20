@@ -23,4 +23,4 @@
 Source: "Compile\PSCAT.ps1"; DestDir: "{app}"; Flags: ignoreversion
 Source: "Scripts\Program Modes\Clean.ps1"; DestDir: "{app}"; Flags: ignoreversion
 Source: "Scripts\Program Modes\Uninstall.ps1"; DestDir: "{app}"; Flags: ignoreversion
-Source: "Setup\Resources\Web\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "Installer\Product Assets\Web\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs

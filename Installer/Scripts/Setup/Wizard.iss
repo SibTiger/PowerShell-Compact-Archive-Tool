@@ -26,7 +26,7 @@
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_allowcancelduringinstall
-AllowCancelDuringInstall= No
+AllowCancelDuringInstall = "No"
 
 
 
@@ -36,7 +36,7 @@ AllowCancelDuringInstall= No
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_allownetworkdrive
-AllowNetworkDrive = No
+AllowNetworkDrive = "No"
 
 
 
@@ -46,7 +46,7 @@ AllowNetworkDrive = No
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_allownoicons
-AllowNoIcons = yes
+AllowNoIcons = "Yes"
 
 
 
@@ -56,7 +56,7 @@ AllowNoIcons = yes
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_allowrootdirectory
-AllowRootDirectory = no
+AllowRootDirectory = "No"
 
 
 
@@ -66,7 +66,7 @@ AllowRootDirectory = no
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_allowuncpath
-AllowUNCPath = no
+AllowUNCPath = "No"
 
 
 
@@ -77,7 +77,7 @@ AllowUNCPath = no
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_alwaysrestart
-AlwaysRestart = no
+AlwaysRestart = "No"
 
 
 
@@ -88,7 +88,7 @@ AlwaysRestart = no
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_alwaysshowcomponentslist
-AlwaysShowComponentsList = yes
+AlwaysShowComponentsList = "Yes"
 
 
 
@@ -100,7 +100,7 @@ AlwaysShowComponentsList = yes
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_alwaysshowdironreadypage
-AlwaysShowDirOnReadyPage = yes
+AlwaysShowDirOnReadyPage = "Yes"
 
 
 
@@ -112,7 +112,7 @@ AlwaysShowDirOnReadyPage = yes
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_alwaysshowgrouponreadypage
-AlwaysShowGroupOnReadyPage = yes
+AlwaysShowGroupOnReadyPage = "Yes"
 
 
 
@@ -123,7 +123,7 @@ AlwaysShowGroupOnReadyPage = yes
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_alwaysusepersonalgroup
-AlwaysUsePersonalGroup = yes
+AlwaysUsePersonalGroup = "Yes"
 
 
 
@@ -134,7 +134,7 @@ AlwaysUsePersonalGroup = yes
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_appenddefaultdirname
-AppendDefaultDirName = yes
+AppendDefaultDirName = "Yes"
 
 
 
@@ -146,7 +146,7 @@ AppendDefaultDirName = yes
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_appenddefaultgroupname
-AppendDefaultGroupName = yes
+AppendDefaultGroupName = "Yes"
 
 
 
@@ -156,7 +156,7 @@ AppendDefaultGroupName = yes
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_architecturesallowed
-ArchitecturesAllowed =
+ArchitecturesAllowed = ""
 
 
 
@@ -167,7 +167,7 @@ ArchitecturesAllowed =
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_architecturesinstallin64bitmode
-ArchitecturesInstallIn64BitMode =
+ArchitecturesInstallIn64BitMode = ""
 
 
 
@@ -178,7 +178,7 @@ ArchitecturesInstallIn64BitMode =
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_changesassociations
-ChangesAssociations= no
+ChangesAssociations = "No"
 
 
 
@@ -189,7 +189,7 @@ ChangesAssociations= no
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_changesenvironment
-ChangesEnvironment = no
+ChangesEnvironment = "No"
 
 
 
@@ -200,7 +200,7 @@ ChangesEnvironment = no
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_closeapplications
-CloseApplications = yes
+CloseApplications = "Yes"
 
 
 
@@ -211,7 +211,7 @@ CloseApplications = yes
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_closeapplicationsfilter
-CloseApplicationsFilter=*.exe,*.dll,*.chm
+CloseApplicationsFilter = "*.exe,*.dll,*.chm"
 
 
 
@@ -223,7 +223,7 @@ CloseApplicationsFilter=*.exe,*.dll,*.chm
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_createappdir
-CreateAppDir = yes
+CreateAppDir = "Yes"
 
 
 
@@ -235,7 +235,7 @@ CreateAppDir = yes
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_createuninstallregkey
-CreateUninstallRegKey = yes
+CreateUninstallRegKey = "Yes"
 
 
 
@@ -245,7 +245,7 @@ CreateUninstallRegKey = yes
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_defaultdirname
-DefaultDirName = {autopf}\{#_PRODUCT_NAME_FULL_}
+DefaultDirName = "{autopf}\{#_PRODUCT_NAME_FULL_}"
 
 
 
@@ -255,7 +255,7 @@ DefaultDirName = {autopf}\{#_PRODUCT_NAME_FULL_}
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_defaultgroupname
-DefaultGroupName = {#_PRODUCT_NAME_FULL_}
+DefaultGroupName = "{#_PRODUCT_NAME_FULL_}"
 
 
 
@@ -267,7 +267,7 @@ DefaultGroupName = {#_PRODUCT_NAME_FULL_}
 ;
 ; Resources:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_direxistswarning
-DirExistsWarning = auto
+DirExistsWarning = "Auto"
 
 
 
@@ -278,7 +278,7 @@ DirExistsWarning = auto
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_disabledirpage
-DisableDirPage = auto
+DisableDirPage = "Auto"
 
 
 
@@ -289,7 +289,7 @@ DisableDirPage = auto
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_disablefinishedpage
-DisableFinishedPage = no
+DisableFinishedPage = "No"
 
 
 
@@ -300,7 +300,7 @@ DisableFinishedPage = no
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_disableprogramgrouppage
-DisableProgramGroupPage = auto
+DisableProgramGroupPage = "Auto"
 
 
 
@@ -310,7 +310,7 @@ DisableProgramGroupPage = auto
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_disablereadymemo
-DisableReadyMemo = no
+DisableReadyMemo = "No"
 
 
 
@@ -320,7 +320,7 @@ DisableReadyMemo = no
 ;
 ; Resources:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_disablereadypage
-DisableReadyPage = no
+DisableReadyPage = "No"
 
 
 
@@ -331,7 +331,7 @@ DisableReadyPage = no
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_disablestartupprompt
-DisableStartupPrompt= no
+DisableStartupPrompt = "No"
 
 
 
@@ -341,7 +341,7 @@ DisableStartupPrompt= no
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_disablewelcomepage
-DisableWelcomePage = no
+DisableWelcomePage = "No"
 
 
 
@@ -353,7 +353,7 @@ DisableWelcomePage = no
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_enabledirdoesntexistwarning
-EnableDirDoesntExistWarning = yes
+EnableDirDoesntExistWarning = "Yes"
 
 
 
@@ -375,7 +375,7 @@ ExtraDiskSpaceRequired = 1048576
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_infoafterfile
-InfoAfterFile = LICENSE
+InfoAfterFile = "LICENSE"
 
 
 
@@ -387,7 +387,7 @@ InfoAfterFile = LICENSE
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_infobeforefile
-InfoBeforeFile = LICENSE
+InfoBeforeFile = "LICENSE"
 
 
 
@@ -399,7 +399,7 @@ InfoBeforeFile = LICENSE
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_licensefile
-LicenseFile = LICENSE
+LicenseFile = "LICENSE"
 
 
 
@@ -412,7 +412,7 @@ LicenseFile = LICENSE
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_minversion
-MinVersion = 6.1sp1
+MinVersion = "6.1sp1"
 
 
 
@@ -425,7 +425,7 @@ MinVersion = 6.1sp1
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_onlybelowversion
-OnlyBelowVersion = 0
+OnlyBelowVersion = "0"
 
 
 
@@ -435,7 +435,7 @@ OnlyBelowVersion = 0
 ;
 ; Resources:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_privilegesrequired
-PrivilegesRequired = admin
+PrivilegesRequired = "Admin"
 
 
 
@@ -446,7 +446,7 @@ PrivilegesRequired = admin
 ;
 ; Resources:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_privilegesrequiredoverridesallowed
-PrivilegesRequiredOverridesAllowed = dialog
+PrivilegesRequiredOverridesAllowed = "Dialog"
 
 
 
@@ -457,7 +457,7 @@ PrivilegesRequiredOverridesAllowed = dialog
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_restartapplications
-RestartApplications = yes
+RestartApplications = "Yes"
 
 
 
@@ -469,7 +469,7 @@ RestartApplications = yes
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_restartifneededbyrun
-RestartIfNeededByRun = yes
+RestartIfNeededByRun = "Yes"
 
 
 
@@ -479,7 +479,7 @@ RestartIfNeededByRun = yes
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_setuplogging
-SetupLogging = yes
+SetupLogging = "Yes"
 
 
 
@@ -490,7 +490,7 @@ SetupLogging = yes
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_showlanguagedialog
-ShowLanguageDialog = yes
+ShowLanguageDialog = "Yes"
 
 
 
@@ -501,7 +501,7 @@ ShowLanguageDialog = yes
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_timestampsinutc
-TimeStampsInUTC = yes
+TimeStampsInUTC = "Yes"
 
 
 
@@ -514,7 +514,7 @@ TimeStampsInUTC = yes
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_touchdate
-TouchDate = current
+TouchDate = "Current"
 
 
 
@@ -527,7 +527,7 @@ TouchDate = current
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_touchtime
-TouchTime = current
+TouchTime = "Current"
 
 
 
@@ -538,7 +538,7 @@ TouchTime = current
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_uninstallable
-Uninstallable = yes
+Uninstallable = "Yes"
 
 
 
@@ -550,7 +550,7 @@ Uninstallable = yes
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_uninstalldisplayicon
-UninstallDisplayIcon = {app}\image.png
+UninstallDisplayIcon = "{app}\image.png"
 
 
 
@@ -561,7 +561,7 @@ UninstallDisplayIcon = {app}\image.png
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_uninstalldisplayname
-UninstallDisplayName = {#_PRODUCT_NAME_FULL_}
+UninstallDisplayName = "{#_PRODUCT_NAME_FULL_}"
 
 
 
@@ -571,7 +571,7 @@ UninstallDisplayName = {#_PRODUCT_NAME_FULL_}
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_uninstallfilesdir
-UninstallFilesDir = {app}
+UninstallFilesDir = "{app}"
 
 
 
@@ -581,7 +581,7 @@ UninstallFilesDir = {app}
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_uninstalllogmode
-UninstallLogMode = append
+UninstallLogMode = "Append"
 
 
 
@@ -593,7 +593,7 @@ UninstallLogMode = append
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_uninstallrestartcomputer
-UninstallRestartComputer = no
+UninstallRestartComputer = "No"
 
 
 
@@ -606,7 +606,7 @@ UninstallRestartComputer = no
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_updateuninstalllogappname
-UpdateUninstallLogAppName = yes
+UpdateUninstallLogAppName = "Yes"
 
 
 
@@ -620,7 +620,7 @@ UpdateUninstallLogAppName = yes
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_usepreviousgroup
-UsePreviousGroup = yes
+UsePreviousGroup = "Yes"
 
 
 
@@ -632,7 +632,7 @@ UsePreviousGroup = yes
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_usepreviouslanguage
-UsePreviousLanguage = yes
+UsePreviousLanguage = "Yes"
 
 
 
@@ -644,7 +644,7 @@ UsePreviousLanguage = yes
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_usepreviousprivileges
-UsePreviousPrivileges = yes
+UsePreviousPrivileges = "Yes"
 
 
 
@@ -656,7 +656,7 @@ UsePreviousPrivileges = yes
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_useprevioussetuptype
-UsePreviousSetupType = yes
+UsePreviousSetupType = "Yes"
 
 
 
@@ -668,7 +668,7 @@ UsePreviousSetupType = yes
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_useprevioustasks
-UsePreviousTasks = yes
+UsePreviousTasks = "Yes"
 
 
 
@@ -680,7 +680,7 @@ UsePreviousTasks = yes
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_useprevioususerinfo
-UsePreviousUserInfo = yes
+UsePreviousUserInfo = "Yes"
 
 
 
@@ -693,4 +693,4 @@ UsePreviousUserInfo = yes
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_userinfopage
-UserInfoPage = no
+UserInfoPage = "No"

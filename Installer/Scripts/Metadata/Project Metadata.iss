@@ -28,7 +28,7 @@
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_appname
-AppName = {#_PRODUCT_NAME_FULL_}
+AppName = "{#_PRODUCT_NAME_FULL_}"
 
 
 
@@ -39,7 +39,7 @@ AppName = {#_PRODUCT_NAME_FULL_}
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_appvername
-AppVerName = {#_PRODUCT_NAME_FULL_} + " " + {#_PRODUCT_VERSION_} + " (" + _PRODUCT_VERSION_CODENAME_ + ")"
+AppVerName = "{#_PRODUCT_NAME_FULL_} v{#_PRODUCT_VERSION_} ({#_PRODUCT_VERSION_CODENAME_})"
 
 
 
@@ -50,7 +50,7 @@ AppVerName = {#_PRODUCT_NAME_FULL_} + " " + {#_PRODUCT_VERSION_} + " (" + _PRODU
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_appversion
-AppVersion = {#_PRODUCT_VERSION_}
+AppVersion = "{#_PRODUCT_VERSION_}"
 
 
 
@@ -60,7 +60,7 @@ AppVersion = {#_PRODUCT_VERSION_}
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_appcomments
-AppComments = {#_PRODUCT_BRIEF_DESCRIPTION_}
+AppComments = "{#_PRODUCT_BRIEF_DESCRIPTION_}"
 
 
 
@@ -70,7 +70,7 @@ AppComments = {#_PRODUCT_BRIEF_DESCRIPTION_}
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_appcontact
-AppContact = {#_PRODUCT_WEBSITE_SUPPORT_}
+AppContact = "{#_PRODUCT_WEBSITE_SUPPORT_}"
 
 
 
@@ -80,7 +80,7 @@ AppContact = {#_PRODUCT_WEBSITE_SUPPORT_}
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_apppublisher
-AppPublisher = {#_PRODUCT_AUTHOR_}
+AppPublisher = "{#_PRODUCT_AUTHOR_}"
 
 
 
@@ -90,7 +90,7 @@ AppPublisher = {#_PRODUCT_AUTHOR_}
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_apppublisherurl
-AppPublisherURL = {#_PRODUCT_WEBSITE_AUTHOR_}
+AppPublisherURL = "{#_PRODUCT_WEBSITE_AUTHOR_}"
 
 
 
@@ -100,7 +100,7 @@ AppPublisherURL = {#_PRODUCT_WEBSITE_AUTHOR_}
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_appreadmefile
-AppReadmeFile = {#_PRODUCT_README_FILE_}
+AppReadmeFile = "{#_PRODUCT_README_FILE_}"
 
 
 
@@ -110,7 +110,7 @@ AppReadmeFile = {#_PRODUCT_README_FILE_}
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_appsupporturl
-AppSupportURL = {#_PRODUCT_WEBSITE_SUPPORT_}
+AppSupportURL = "{#_PRODUCT_WEBSITE_SUPPORT_}"
 
 
 
@@ -120,7 +120,7 @@ AppSupportURL = {#_PRODUCT_WEBSITE_SUPPORT_}
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_appupdatesurl
-AppUpdatesURL = {#_PRODUCT_WEBSITE_UPDATES_}
+AppUpdatesURL = "{#_PRODUCT_WEBSITE_UPDATES_}"
 
 
 
@@ -130,4 +130,4 @@ AppUpdatesURL = {#_PRODUCT_WEBSITE_UPDATES_}
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_appcopyright
-AppCopyright = "Copyright (C) " + {#_PRODUCT_COPYRIGHT_}
+AppCopyright = "Copyright (C) {#_PRODUCT_COPYRIGHT_}"

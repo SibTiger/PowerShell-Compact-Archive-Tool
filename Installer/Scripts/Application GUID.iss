@@ -27,4 +27,4 @@
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_appid
-AppId={{02B00588-4477-4E98-AF59-E8825F957C03}
+AppId = "{{02B00588-4477-4E98-AF59-E8825F957C03}"

@@ -29,7 +29,7 @@
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_outputbasefilename
-OutputBaseFilename = {#_PRODUCT_NAME_SHORT_} + " v" + {#_PRODUCT_VERSION_} + " Installer"
+OutputBaseFilename = "{#_PRODUCT_NAME_SHORT_} v{#_PRODUCT_VERSION_} Installer"
 
 
 
@@ -40,7 +40,7 @@ OutputBaseFilename = {#_PRODUCT_NAME_SHORT_} + " v" + {#_PRODUCT_VERSION_} + " I
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_outputdir
-OutputDir = "..\Installers\" + {#_PRODUCT_VERSION_} + "\"
+OutputDir = "..\Installers\{#_PRODUCT_VERSION_}\"
 
 
 
@@ -66,4 +66,4 @@ OutputDir = "..\Installers\" + {#_PRODUCT_VERSION_} + "\"
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_outputmanifestfile
-OutputManifestFile = "Manifest" + " v" + {#_PRODUCT_VERSION_} + ".txt"
+OutputManifestFile = "Manifest v{#_PRODUCT_VERSION_}.txt"

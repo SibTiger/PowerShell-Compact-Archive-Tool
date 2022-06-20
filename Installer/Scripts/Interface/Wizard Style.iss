@@ -33,4 +33,4 @@
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_wizardstyle
-WizardStyle = Modern
+WizardStyle = "Modern"
