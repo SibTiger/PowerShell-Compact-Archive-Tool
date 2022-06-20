@@ -435,7 +435,7 @@ OnlyBelowVersion = "0"
 ;
 ; Resources:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_privilegesrequired
-PrivilegesRequired = "Admin"
+PrivilegesRequired = "lowest"
 
 
 
@@ -446,7 +446,7 @@ PrivilegesRequired = "Admin"
 ;
 ; Resources:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_privilegesrequiredoverridesallowed
-PrivilegesRequiredOverridesAllowed = "Dialog"
+PrivilegesRequiredOverridesAllowed = ""
 
 
 
