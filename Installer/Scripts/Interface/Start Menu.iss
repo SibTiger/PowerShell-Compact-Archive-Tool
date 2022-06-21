@@ -20,5 +20,18 @@
 
 
 
-Name: "{group}\{cm:ProgramOnTheWeb,{#_PRODUCT_NAME_FULL_}}"; Filename: "{#_PRODUCT_WEBSITE_HOMEPAGE_}"
+; Applications
+Name: "{group}\{#_PRODUCT_NAME_FULL_}";             Filename: "{app}\Bin\{#_PRODUCT_NAME_SHORT_}.ps1"
+Name: "{group}\{#_PRODUCT_NAME_SHORT_} Clean";      Filename: "{app}\Bin\Clean.ps1"
+Name: "{group}\{#_PRODUCT_NAME_SHORT_} Deep-Clean"; Filename: "{app}\Bin\Uninstall.ps1"
+
+
+; Uninstall Software
 Name: "{group}\{cm:UninstallProgram,{#_PRODUCT_NAME_FULL_}}"; Filename: "{uninstallexe}"
+
+
+; Websites
+Name: "{group}\Websites\{#_PRODUCT_NAME_SHORT_} Homepage";  Filename: "{#_PRODUCT_WEBSITE_HOMEPAGE_}"
+Name: "{group}\Websites\{#_PRODUCT_NAME_SHORT_} Updates";   Filename: "{#_PRODUCT_WEBSITE_UPDATES_}"
+Name: "{group}\Websites\{#_PRODUCT_NAME_SHORT_} Forum";     Filename: "{#_PRODUCT_WEBSITE_COMMUNITY_}"
+Name: "{group}\Websites\{#_PRODUCT_NAME_SHORT_} Wiki";      Filename: "{#_PRODUCT_WEBSITE_SUPPORT_}"
