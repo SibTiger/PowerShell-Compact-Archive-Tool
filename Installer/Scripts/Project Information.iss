@@ -37,4 +37,4 @@
 #define public _PRODUCT_WEBSITE_UPDATES_               "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/releases"
 #define public _PRODUCT_README_FILE_                   "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/wiki"
 #define public _PRODUCT_BRIEF_DESCRIPTION_             "Generates PK3\PK7 ZDoom Mods"
-#define public _PRODUCT_COPYRIGHT_                     "2018-2022" + _PRODUCT_AUTHOR_
+#define public _PRODUCT_COPYRIGHT_                     "2018-2022" + _PRODUCT_AUTHOR_#define public _PRODUCT_BRIEF_DESCRIPTION_              "Generates PK3\PK7 ZDoom Mods"
