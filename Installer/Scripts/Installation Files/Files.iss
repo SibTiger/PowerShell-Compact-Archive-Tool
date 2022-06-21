@@ -19,8 +19,14 @@
 
 
 
+; Application and Scripts
+; - - - - - - - - - - - -
+Source: "Compile\PSCAT.ps1";                    DestDir: "{app}\Bin\";      Flags: confirmoverwrite recursesubdirs createallsubdirs ignoreversion touch
+Source: "Scripts\Program Modes\Clean.ps1";      DestDir: "{app}\Bin\";      Flags: confirmoverwrite recursesubdirs createallsubdirs ignoreversion touch
+Source: "Scripts\Program Modes\Uninstall.ps1";  DestDir: "{app}\Bin\";      Flags: confirmoverwrite recursesubdirs createallsubdirs ignoreversion touch
 
-Source: "Compile\PSCAT.ps1"; DestDir: "{app}"; Flags: ignoreversion
-Source: "Scripts\Program Modes\Clean.ps1"; DestDir: "{app}"; Flags: ignoreversion
-Source: "Scripts\Program Modes\Uninstall.ps1"; DestDir: "{app}"; Flags: ignoreversion
-Source: "Installer\Product Assets\Web\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+
+
+; Online Resources
+; - - - - - - - - -
+Source: "Installer\Product Assets\Web\*";       DestDir: "{app}\Websites\"; Flags: recursesubdirs createallsubdirs ignoreversion touch
