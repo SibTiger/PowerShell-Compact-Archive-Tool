@@ -26,5 +26,10 @@
 
 
 
+[Dirs]
+#include ".\Scripts\Installation Files\Directories.iss"
+
+
+
 [Icons]
 #include ".\Scripts\Interface\Start Menu.iss"
