@@ -387,7 +387,7 @@ InfoAfterFile = "LICENSE"
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_infobeforefile
-InfoBeforeFile = "LICENSE"
+InfoBeforeFile = ".\Installer\Product Assets\Text\Before_Install.txt"
 
 
 
