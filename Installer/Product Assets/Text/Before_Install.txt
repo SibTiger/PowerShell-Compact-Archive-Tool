@@ -1,9 +1,9 @@
-Thank you for installing the PowerShell Compact-Archive Tool (PSCAT)!
-----------------------------------------------------------------------------
+Thank you for installing the PowerShell Compact-Archive Tool (PSCAT)!
+-------------------------------------------------------------------------------------
 
-
-The PowerShell Compact-Archive Tool gives you the ability to quickly compile your ZDoom project into a PK3 or even a PK7 file format in a few clicks – with pure ease for you, your team, and your audience.
-
 
-For more information about the PowerShell Compact-Archive Tool and available features, please visit the  at:
+The PowerShell Compact-Archive Tool gives you the ability to quickly compile your ZDoom project into a PK3 or even a PK7 file format in a few clicks - with pure ease for you, your team, and your audience.
+
+
+For more information about the PowerShell Compact-Archive Tool and available features, please visit the wiki at:
 https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/wiki
