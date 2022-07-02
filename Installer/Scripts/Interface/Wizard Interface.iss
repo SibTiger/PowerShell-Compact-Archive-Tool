@@ -52,3 +52,15 @@ WizardImageStretch = "Yes"
 
 
 
+; Wizard Installer Window Resizable
+; - - - - - - - - - - - - -
+; When set to 'Yes', this will allow the end-user to resize the Wizard Installer window from a range of
+;   pre-defined size anchors.
+;
+; Values:
+;   No  = Disallow the user to resize the Wizard Installer window.
+;   Yes = Allow the ability for the user to resize the Wizard Installer window.
+;
+; Resource:
+;   - https://jrsoftware.org/ishelp/index.php?topic=setup_wizardresizable
+WizardResizable = "No"
