@@ -32,3 +32,23 @@
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_wizardimagefile
 WizardImageFile = ".\Installer\Product Assets\Graphic - Wizard - Left Panel\*.bmp"
+
+
+
+
+; Wizard Image Stretch
+; - - - - - - - - - - - - -
+; This option will allow the ability to stretch the Left Panel image such that it fits the appropriate area
+;   within the installer.  Otherwise, the Left Panel image will be centered within the area instead.
+;
+; Values:
+;   No  = Center the panel image if it is smaller than the panel section.
+;   Yes = Stretch the panel image if it is smaller than the panel section.
+;
+; Resource:
+;   - https://jrsoftware.org/ishelp/index.php?topic=setup_wizardimagestretch
+WizardImageStretch = "Yes"
+
+
+
+
