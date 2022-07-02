@@ -13,6 +13,7 @@
 #include ".\Scripts\Setup\Output.iss"
 #include ".\Scripts\Setup\Wizard.iss"
 #include ".\Scripts\Interface\Wizard Style.iss"
+#include ".\Scripts\Interface\Wizard Interface.iss"
 
 
 
