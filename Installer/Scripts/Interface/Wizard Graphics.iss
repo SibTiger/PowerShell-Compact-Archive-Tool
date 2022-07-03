@@ -22,6 +22,21 @@
 
 
 
+; Setup Icon
+; - - - - - - - - - - - - -
+; This will specify the icon that will be associated with the Installer and Uninstaller applications.
+;
+; Values:
+;   (BLANK)         = Default Inno Setup Icon
+;   (custom String) = Defined icon
+;
+; Resource:
+;   - https://jrsoftware.org/ishelp/index.php?topic=setup_setupiconfile
+SetupIconFile = ".\Installer\Product Assets\Graphic - Setup\Icon\Setup Icon.ico"
+
+
+
+
 ; Wizard Image File
 ; - - - - - - - - - - - - -
 ; This will specify the image that will be displayed on the left side of the Wizard Installer window.
