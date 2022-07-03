@@ -21,21 +21,6 @@
 
 
 
-; Wizard Image File
-; - - - - - - - - - - - - -
-; This will specify the image that will be displayed on the left side of the Wizard Installer window.
-;
-; Values:
-;   (BLANK)         = Default Inno Wizard Installer images
-;   (custom String) = Defined images
-;
-; Resource:
-;   - https://jrsoftware.org/ishelp/index.php?topic=setup_wizardimagefile
-WizardImageFile = ".\Installer\Product Assets\Graphic - Wizard - Left Panel\*.bmp"
-
-
-
-
 ; Wizard Image Stretch
 ; - - - - - - - - - - - - -
 ; This option will allow the ability to stretch the Left Panel image such that it fits the appropriate area
@@ -64,18 +49,3 @@ WizardImageStretch = "Yes"
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_wizardresizable
 WizardResizable = "No"
-
-
-
-
-; Wizard Small Image File
-; - - - - - - - - - - - - -
-; This will specify the image that will be displayed on the right side of the Wizard Installer window.
-;
-; Values:
-;   (BLANK)         = Default Inno Wizard Installer images
-;   (custom String) = Defined images
-;
-; Resource:
-;   - https://jrsoftware.org/ishelp/index.php?topic=setup_wizardsmallimagefile
-WizardSmallImageFile = ".\Installer\Product Assets\Graphic - Wizard - Icon\*.bmp"
