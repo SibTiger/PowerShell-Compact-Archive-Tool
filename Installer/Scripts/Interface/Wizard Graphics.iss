@@ -32,7 +32,7 @@
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_wizardimagefile
-WizardImageFile = ".\Installer\Product Assets\Graphic - Wizard - Left Panel\*.bmp"
+WizardImageFile = ".\Installer\Product Assets\Graphic - Wizard\Banner\*.bmp"
 
 
 
@@ -47,4 +47,4 @@ WizardImageFile = ".\Installer\Product Assets\Graphic - Wizard - Left Panel\*.bm
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_wizardsmallimagefile
-WizardSmallImageFile = ".\Installer\Product Assets\Graphic - Wizard - Icon\*.bmp"
+WizardSmallImageFile = ".\Installer\Product Assets\Graphic - Wizard\Logo\*.bmp"
