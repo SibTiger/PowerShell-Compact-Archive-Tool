@@ -35,3 +35,8 @@
 
 [Icons]
 #include ".\Scripts\Interface\Start Menu.iss"
+
+
+
+; Additional Tasks and Operations
+#include ".\Scripts\Tasks\Desktop Shortcut.iss"
