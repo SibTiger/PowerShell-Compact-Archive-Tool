@@ -32,7 +32,7 @@
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_setupiconfile
-SetupIconFile = ".\Installer\Product Assets\Graphic - Setup\Icon\Setup Icon.ico"
+SetupIconFile = ".\Installer\Product Assets\Graphic - Setup\Install\Setup Icon.ico"
 
 
 
