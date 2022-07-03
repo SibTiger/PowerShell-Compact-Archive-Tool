@@ -542,18 +542,6 @@ Uninstallable = "Yes"
 
 
 
-; Uninstall Display Icon
-; - - - - - - - - - - - -
-; This lets you specify a particular icon file (either an executable or an .ico file) to display for the
-;   Uninstall entry in the Add/Remove Programs Control Panel applet. The filename will normally begin with
-;   a directory constant.
-;
-; Resource:
-;   - https://jrsoftware.org/ishelp/index.php?topic=setup_uninstalldisplayicon
-UninstallDisplayIcon = "{app}\image.png"
-
-
-
 ; Uninstall Display Name
 ; - - - - - - - - - - - -
 ; This lets you specify a custom name for the program's entry in the Add/Remove Programs Control Panel

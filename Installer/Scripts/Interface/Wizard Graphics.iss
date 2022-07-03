@@ -37,6 +37,19 @@ SetupIconFile = ".\Installer\Product Assets\Graphic - Setup\Install\Setup Icon.i
 
 
 
+; Uninstall Display Icon
+; - - - - - - - - - - - -
+; This lets you specify a particular icon file (either an executable or an .ico file) to display for the
+;   Uninstall entry in the Add/Remove Programs Control Panel applet. The filename will normally begin with
+;   a directory constant.
+;
+; Resource:
+;   - https://jrsoftware.org/ishelp/index.php?topic=setup_uninstalldisplayicon
+UninstallDisplayIcon = "{app}\icons\Uninstall Icon.ico"
+
+
+
+
 ; Wizard Image File
 ; - - - - - - - - - - - - -
 ; This will specify the image that will be displayed on the left side of the Wizard Installer window.
