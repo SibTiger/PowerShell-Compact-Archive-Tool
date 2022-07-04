@@ -40,3 +40,4 @@
 
 ; Additional Tasks and Operations
 #include ".\Scripts\Tasks\Desktop Shortcut.iss"
+#include ".\Scripts\Tasks\Optional Downloads.iss"
