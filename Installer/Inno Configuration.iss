@@ -41,3 +41,4 @@
 ; Additional Tasks and Operations
 #include ".\Scripts\Tasks\Desktop Shortcut.iss"
 #include ".\Scripts\Tasks\Optional Downloads.iss"
+#include ".\Scripts\Tasks\Check POSHCore.iss"
