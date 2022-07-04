@@ -30,8 +30,8 @@
 
 
 [Tasks]
-Name: "desktopicon"; Description:  "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: Unchecked
+Name: "DesktopIcon"; Description:  "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: Unchecked
 
 
 [Icons]
-Name: "{userdesktop}\{#_PRODUCT_NAME_FULL_}"; FileName: "{app}\Bin\PSCAT.ps1"; IconFilename: "{app}\Icons\Desktop Icon.ico"; Tasks: desktopicon
+Name: "{userdesktop}\{#_PRODUCT_NAME_FULL_}"; FileName: "{app}\Bin\PSCAT.ps1"; IconFilename: "{app}\Icons\Desktop Icon.ico"; Tasks: DesktopIcon
