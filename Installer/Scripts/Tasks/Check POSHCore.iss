@@ -73,17 +73,22 @@ begin
                             if (RegQueryDWordValue(HKEY_LOCAL_MACHINE, KeyNameCurrent, 'VersionMajor', POSHMajorVer)) and (POSHMajorVer >= 7) then
                             begin
                                 MsgBox('Found it!', mbInformation, MB_OK);
+                                Exit;
                             end
                             else
                             begin
-                                MsgBox('Unable to find it!', mbCriticalError, MB_OK);
+                                MsgBox('Older version found!', mbCriticalError, MB_OK);
                                 shellexec('open', 'https://github.com/PowerShell/PowerShell/releases/latest', '', '', SW_SHOW, ewNoWait, errorCode);
+                                Exit;
                             end;
                         end;
                     end;
                 end;
             end;
         end;
+
+    MsgBox('Unable to find it!', mbCriticalError, MB_OK);
+    shellexec('open', 'https://github.com/PowerShell/PowerShell/releases/latest', '', '', SW_SHOW, ewNoWait, errorCode);
     end;
 end;
 
