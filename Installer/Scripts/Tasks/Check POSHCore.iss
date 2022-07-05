@@ -120,7 +120,7 @@ begin
         end;
 
         MsgBox('Unable to find it!', mbCriticalError, MB_OK);
-        //shellexec('open', 'https://github.com/PowerShell/PowerShell/releases/latest', '', '', SW_SHOW, ewNoWait, exitCodeExec);
+        shellexec('open', 'https://github.com/PowerShell/PowerShell/releases/latest', '', '', SW_SHOW, ewNoWait, exitCodeExec);
         Exit;
     end // if : SubKey Names Retrieved
 
