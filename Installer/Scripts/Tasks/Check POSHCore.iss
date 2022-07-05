@@ -53,6 +53,9 @@ const
     // This defines the desired keyword that we are wanting to inspect within the DisplayName.
     _DEFAULT_KEYWORD_EXEC_  = 'PowerShell';
 
+    // This will define the Value within the SubKey that we must examine
+    _DEFAULT_SUBKEY_VALUE_  = 'DisplayName';
+
     // This defines the Major Version required, at minimum, for PowerShell.
     _DEFAULT_MAJOR_VERSION_ = 7;
 
@@ -130,45 +133,37 @@ begin
     else
     begin
         Log(Format('Inspecting Value: %s',[SubKeyOrValue]));
-        // Retrieve all possible Values within the SubKey location
-        //  Recursion Step
-        if (RegGetValueNames(_DEFAULT_ROOTKEY_, SubKeyOrValue, itemArray)) then
+
+        // Check to see if 'DisplayName' exists within the SubKey.
+        if ((RegValueExists(_DEFAULT_ROOTKEY_, SubKeyOrValue, _DEFAULT_SUBKEY_VALUE_)) and (RegQueryStringValue(_DEFAULT_ROOTKEY_, SubKeyOrValue, _DEFAULT_SUBKEY_VALUE_, itemSelected))) then
         begin
-            // Examine all obtained Values
-            for loopIterator := 0 to GetArrayLength(itemArray) - 1 do
+            // Because the PowerShell Core has a space within its Data in the SubKey DisplayName, containing version and other information,
+            //  we will have to parse out all other reminaces and only focus strictly on the 'PowerShell' keyword.
+            positionCounter := Pos(' ', itemSelected);
+            itemSelected    := Copy(itemSelected, 1, positionCounter - 1);
+
+            // Compare the string
+            if (CompareText(itemSelected, _DEFAULT_KEYWORD_EXEC_) = 0) then
             begin
-                // Obtain the desired data within the Value of the SubKey.
-                if (RegQueryStringValue(_DEFAULT_ROOTKEY_, SubKeyOrValue, itemArray[loopIterator], itemSelected)) then
+                // Found PowerShell Core!
+                FOUND_TARGET := True;
+
+                // Make sure that it's version meets the requirements
+                if ((RegQueryDWordValue(_DEFAULT_ROOTKEY_, SubKeyOrValue, 'VersionMajor', versionMajor)) and (versionMajor >= _DEFAULT_MAJOR_VERSION_)) then
                 begin
-                    // Because the PowerShell Core has a space within its Data in the SubKey DisplayName, containing version and other information,
-                    //  we will have to parse out all other reminaces and only focus strictly on the 'PowerShell' keyword.
-                    positionCounter := Pos(' ', itemSelected);
-                    itemSelected    := Copy(itemSelected, 1, positionCounter - 1);
+                    // The installed instance meets the requirements
+                    MsgBox('Found it!', mbInformation, MB_OK);
+                    Exit;
+                end
 
-                    // Compare the string
-                    if (CompareText(itemSelected, _DEFAULT_KEYWORD_EXEC_) = 0) then
-                    begin
-                        // Found PowerShell Core!
-                        FOUND_TARGET := True;
-
-                        // Make sure that it's version meets the requirements
-                        if ((RegQueryDWordValue(_DEFAULT_ROOTKEY_, SubKeyOrValue, 'VersionMajor', versionMajor)) and (versionMajor >= _DEFAULT_MAJOR_VERSION_)) then
-                        begin
-                            // The installed instance meets the requirements
-                            MsgBox('Found it!', mbInformation, MB_OK);
-                            Exit;
-                        end
-
-                        // The instance does not meet the desired requirements
-                        else
-                        begin
-                            MsgBox('Older version found!', mbCriticalError, MB_OK);
-                            shellexec('open', 'https://github.com/PowerShell/PowerShell/releases/latest', '', '', SW_SHOW, ewNoWait, exitCodeExec);
-                            Exit;
-                        end;
-                    end;
+                // The instance does not meet the desired requirements
+                else
+                begin
+                    MsgBox('Older version found!', mbCriticalError, MB_OK);
+                    shellexec('open', 'https://github.com/PowerShell/PowerShell/releases/latest', '', '', SW_SHOW, ewNoWait, exitCodeExec);
+                    Exit;
                 end;
             end;
         end;
-    end; // else : Values Inspected
+    end;
 end; // DetectPowerShellCore();
