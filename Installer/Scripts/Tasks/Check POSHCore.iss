@@ -29,66 +29,122 @@ SetupLogging = yes
 
 ;function PrepareToInstall(var NeedsRestart: Boolean) : String;
 [Code]
+// Global Constant Variables
+const
+    // This defines the SubKey path that we want to examine within the Windows Registry.
+    _DEFAULT_SUBKEY_PATH_   = 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall';
+
+    // This defines the Hivekey that we want to access that contains the desired SubKey.
+    _DEFAULT_ROOTKEY_       = HKEY_LOCAL_MACHINE;
+
+    // This defines the desired keyword that we are wanting to inspect within the DisplayName.
+    _DEFAULT_KEYWORD_EXEC_  = 'PowerShell';
+
+    // This defines the Major Version required, at minimum, for PowerShell.
+    _DEFAULT_MAJOR_VERSION_ = 7;
+
+
+
+
+// Function Prototype for our DetectPowerShellCore().
+procedure DetectPowerShellCore(SubKeyOrValue: String); forward;
+
+
+
+// Inno Setup will automatically call this function when appropriate.
 function InitializeSetup() : Boolean;
-var
-    iterator        : Integer;          // This will be used in the for-loop as we scan the KeyNameList var.
-    KeyNameList     : TArrayOfString;   // This will hold the values within the Key
-    KeyNameCurrent  : string;           // This will hold the value
-    // - - - -
-    iteratorInner   : Integer;
-    ValueNameList   : TArrayOfString;
-    ValueNameCurrent: string;
-    // - - - -
-    ValueDataString : string;
-    ParsedValue     : string;
-    posCount        : Integer;
-    POSHMajorVer    : Cardinal;
-    errorCode       : Integer;
 begin
-    if RegGetSubkeyNames(HKEY_LOCAL_MACHINE, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall', KeyNameList) then
+    // Try to find the current install of PowerShell Core.
+    DetectPowerShellCore(_DEFAULT_SUBKEY_PATH_);
+end;
+
+
+
+
+// Detect PowerShell Core
+// --------------------------------------
+// This algorithm will try its best to find a current installation of the PowerShell Core.  If the install
+//  could not be found, then the installer will alert the user.  If the install was found, then the operation
+//  will continue as normal.
+// --------------------------------------
+procedure DetectPowerShellCore(SubKeyOrValue : String);
+// Variables
+var
+    // Global Step Variables
+    loopIterator    : Integer;          // Used for our For-Loop to scan the SubKeys or Values.
+    itemArray       : TArrayOfString;   // This will hold all of the SubKeys and Values that had been obtained.
+    itemSelected    : String;           // The current SubKey or Value that will be examined.
+
+    // - - - -
+    // Second Step Variables:
+    positionCounter : Integer;          // This will determine the position of when the delimiter occurs.
+    versionMajor    : Cardinal;         // This will hold the value returned by the Windows Registry.
+    exitCodeExec    : Integer;          // This holds the exit code provided by the Windows Shell Environment.
+begin
+    // Determine if we are inspecting SubKeys or Values within the desired SubKey.
+
+    // Retrieve all possible SubKeys within the provided location.
+    //  RECURSION NOTE: If there are no SubKeys but only Values instead, then procede to the next step.
+    Log(Format('Inspecting: %s',[SubKeyOrValue]));
+    if (RegGetSubkeyNames(_DEFAULT_ROOTKEY_, SubKeyOrValue, itemArray) and (GetArrayLength(itemArray) > 0)) then
     begin
-        for iterator := 0 to GetArrayLength(KeyNameList) - 1 do
+        Log('Executing this...');
+        // Examine all obtained SubKeys
+        for loopIterator := 0 to GetArrayLength(itemArray) - 1 do
         begin
-            KeyNameCurrent := 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall' + '\' + KeyNameList[iterator];
+            // Cache the result such that we can easily pass it.
+            itemSelected := _DEFAULT_SUBKEY_PATH_ + '\' + itemArray[loopIterator];
 
-            Log(Format('Found Key %s', [KeyNameCurrent]));
+            Log(Format('Inspecting SubKey: %s',[itemSelected]));
+            // Call this function again, such that we may examine the values.
+            DetectPowerShellCore(itemSelected);
+        end;
 
-            if RegGetValueNames(HKEY_LOCAL_MACHINE, KeyNameCurrent, ValueNameList) then
+        MsgBox('Unable to find it!', mbCriticalError, MB_OK);
+        //shellexec('open', 'https://github.com/PowerShell/PowerShell/releases/latest', '', '', SW_SHOW, ewNoWait, exitCodeExec);
+        Exit;
+    end // if : SubKey Names Retrieved
+
+    else
+    begin
+        Log(Format('Inspecting Value: %s',[SubKeyOrValue]));
+        // Retrieve all possible Values within the SubKey location
+        //  Recursion Step
+        if (RegGetValueNames(_DEFAULT_ROOTKEY_, SubKeyOrValue, itemArray)) then
+        begin
+            // Examine all obtained Values
+            for loopIterator := 0 to GetArrayLength(itemArray) - 1 do
             begin
-                for iteratorInner := 0 to GetArrayLength(ValueNameList) - 1 do
+                // Obtain the desired data within the Value of the SubKey.
+                if (RegQueryStringValue(_DEFAULT_ROOTKEY_, SubKeyOrValue, itemArray[loopIterator], itemSelected)) then
                 begin
-                    ValueNameCurrent := KeyNameCurrent + '\' + ValueNameList[iteratorInner];
+                    // Because the PowerShell Core has a space within its Data in the SubKey DisplayName, containing version and other information,
+                    //  we will have to parse out all other reminaces and only focus strictly on the 'PowerShell' keyword.
+                    positionCounter := Pos(' ', itemSelected);
+                    itemSelected    := Copy(itemSelected, 1, positionCounter - 1);
 
-                    Log(Format('Found Value of %s', [ValueNameCurrent]));
-
-                    if (RegQueryStringValue(HKEY_LOCAL_MACHINE, KeyNameCurrent, ValueNameList[iteratorInner], ValueDataString)) then
+                    // Compare the string
+                    if (CompareText(itemSelected, _DEFAULT_KEYWORD_EXEC_) = 0) then
                     begin
-                        posCount := Pos(' ', ValueDataString);
-                        ParsedValue := Copy(ValueDataString, 1, posCount - 1);
-
-                        Log(Format('Data is %s', [ParsedValue]));
-
-                        if (CompareText(ParsedValue, 'PowerShell') = 0) then
+                        // Found PowerShell Core!
+                        // Make sure that it's version meets the requirements
+                        if ((RegQueryDWordValue(_DEFAULT_ROOTKEY_, SubKeyOrValue, 'VersionMajor', versionMajor)) and (versionMajor >= _DEFAULT_MAJOR_VERSION_)) then
                         begin
-                            if (RegQueryDWordValue(HKEY_LOCAL_MACHINE, KeyNameCurrent, 'VersionMajor', POSHMajorVer)) and (POSHMajorVer >= 7) then
-                            begin
-                                MsgBox('Found it!', mbInformation, MB_OK);
-                                Exit;
-                            end
-                            else
-                            begin
-                                MsgBox('Older version found!', mbCriticalError, MB_OK);
-                                shellexec('open', 'https://github.com/PowerShell/PowerShell/releases/latest', '', '', SW_SHOW, ewNoWait, errorCode);
-                                Exit;
-                            end;
+                            // The installed instance meets the requirements
+                            MsgBox('Found it!', mbInformation, MB_OK);
+                            Exit;
+                        end
+
+                        // The instance does not meet the desired requirements
+                        else
+                        begin
+                            MsgBox('Older version found!', mbCriticalError, MB_OK);
+                            shellexec('open', 'https://github.com/PowerShell/PowerShell/releases/latest', '', '', SW_SHOW, ewNoWait, exitCodeExec);
+                            Exit;
                         end;
                     end;
                 end;
             end;
         end;
-
-    MsgBox('Unable to find it!', mbCriticalError, MB_OK);
-    shellexec('open', 'https://github.com/PowerShell/PowerShell/releases/latest', '', '', SW_SHOW, ewNoWait, errorCode);
-    end;
-end;
-
+    end; // else : Values Inspected
+end; // DetectPowerShellCore();
