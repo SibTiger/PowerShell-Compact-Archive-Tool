@@ -27,6 +27,9 @@
 [Wizard]
 SetupLogging = yes
 
+
+
+
 ;function PrepareToInstall(var NeedsRestart: Boolean) : String;
 [Code]
 // Global Variables
