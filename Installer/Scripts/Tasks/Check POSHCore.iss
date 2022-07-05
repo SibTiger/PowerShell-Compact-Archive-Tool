@@ -29,6 +29,16 @@ SetupLogging = yes
 
 ;function PrepareToInstall(var NeedsRestart: Boolean) : String;
 [Code]
+// Global Variables
+var
+    // This will help us to determine if we were able to find the PowerShell instance and
+    //  alert the parent function, within the stack, to abort.
+    //  - False = Continue Scanning; Nested Function had not yet found instance.
+    //  - True  = Found POSHCore; Nested Function had alerted the user.
+    FOUND_TARGET            : Boolean;
+
+
+
 // Global Constant Variables
 const
     // This defines the SubKey path that we want to examine within the Windows Registry.
@@ -54,6 +64,9 @@ procedure DetectPowerShellCore(SubKeyOrValue: String); forward;
 // Inno Setup will automatically call this function when appropriate.
 function InitializeSetup() : Boolean;
 begin
+    // Initialize the global variables for this algorithm to function properly.
+    FOUND_TARGET := false;
+
     // Try to find the current install of PowerShell Core.
     DetectPowerShellCore(_DEFAULT_SUBKEY_PATH_);
 end;
@@ -98,6 +111,12 @@ begin
             Log(Format('Inspecting SubKey: %s',[itemSelected]));
             // Call this function again, such that we may examine the values.
             DetectPowerShellCore(itemSelected);
+
+            // If the nested function had found an instance, then we are finished.
+            if (FOUND_TARGET) then
+            begin
+                Exit;
+            end;
         end;
 
         MsgBox('Unable to find it!', mbCriticalError, MB_OK);
@@ -127,6 +146,8 @@ begin
                     if (CompareText(itemSelected, _DEFAULT_KEYWORD_EXEC_) = 0) then
                     begin
                         // Found PowerShell Core!
+                        FOUND_TARGET := True;
+
                         // Make sure that it's version meets the requirements
                         if ((RegQueryDWordValue(_DEFAULT_ROOTKEY_, SubKeyOrValue, 'VersionMajor', versionMajor)) and (versionMajor >= _DEFAULT_MAJOR_VERSION_)) then
                         begin
