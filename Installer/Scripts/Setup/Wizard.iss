@@ -387,7 +387,7 @@ InfoAfterFile = ".\Installer\Product Assets\Text\Before_Install.txt"
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_infobeforefile
-InfoBeforeFile = ".\Installer\Product Assets\Text\Before_Install.txt"
+InfoBeforeFile = ".\Documents\ReadMe.txt"
 
 
 
