@@ -32,23 +32,15 @@ SetupLogging = yes
 
 ;function PrepareToInstall(var NeedsRestart: Boolean) : String;
 [Code]
-// Global Variables
-var
-    // This will help us to determine if we were able to find the PowerShell instance and
-    //  alert the parent function, within the stack, to abort.
-    //  - False = Continue Scanning; Nested Function had not yet found instance.
-    //  - True  = Found POSHCore; Nested Function had alerted the user.
-    FOUND_TARGET            : Boolean;
-
-
-
 // Global Constant Variables
+// ------------------------------------------------------------
 const
     // This defines the SubKey path that we want to examine within the Windows Registry.
     _DEFAULT_SUBKEY_PATH_   = 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall';
 
     // This defines the Hivekey that we want to access that contains the desired SubKey.
-    _DEFAULT_ROOTKEY_       = HKEY_LOCAL_MACHINE;
+    _DEFAULT_ROOTKEY_32_    = HKLM32;   // HKEY_LOCAL_MACHINE - 32Bit
+    _DEFAULT_ROOTKEY_64_    = HKLM64;   // HKEY_LOCAL_MACHINE - 64Bit
 
     // This defines the desired keyword that we are wanting to inspect within the DisplayName.
     _DEFAULT_KEYWORD_EXEC_  = 'PowerShell';
@@ -65,111 +57,181 @@ const
 
 
 
-// Function Prototype for our DetectPowerShellCore().
-procedure DetectPowerShellCore(SubKeyOrValue: String); forward;
+// Function Prototypes
+// ------------------------------------------------------------
+function DetectPowerShellCore() : Boolean; forward;
+function RetrieveSubKeyList(const HiveKey : Integer) : TArrayOfString; forward;
+function ScanRetrievedSubKeys(const hiveKey : Integer; const subKeyItemList : TArrayOfString) : Cardinal; forward;
+function FindValueTarget(const HiveKey : Integer; const ValueToInspect : String) : Cardinal; forward;
+procedure AlertUserResults(const searchResults : Cardinal); forward;
+
+
+
+
+
+// ------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------
 
 
 
 // Inno Setup will automatically call this function when appropriate.
 function InitializeSetup() : Boolean;
 begin
-    // Initialize the global variables for this algorithm to function properly.
-    FOUND_TARGET := false;
-
     // Try to find the current install of PowerShell Core.
-    DetectPowerShellCore(_DEFAULT_SUBKEY_PATH_);
-
-    // Return our results from the linear search algo.
-    Result := FOUND_TARGET;
+    Result := DetectPowerShellCore();
+    Exit;
 end;
 
 
 
 
-// Detect PowerShell Core
+// Detect PowerShell Core - Main
 // --------------------------------------
-// This algorithm will try its best to find a current installation of the PowerShell Core.  If the install
-//  could not be found, then the installer will alert the user.  If the install was found, then the operation
-//  will continue as normal.
+// This algorithm will try its best to find the current installation of the PowerShell Core.  To perform this
+//  operation, we will break this algorithm out into several parts - making this function the main spine.
+//
+//
 // --------------------------------------
-procedure DetectPowerShellCore(SubKeyOrValue : String);
+function DetectPowerShellCore() : Boolean;
 // Variables
 var
-    // Global Step Variables
-    loopIterator    : Integer;          // Used for our For-Loop to scan the SubKeys or Values.
+    // We will use this to determine which area within the Windows Registry we will be focusing.
+    //  The main Hivekey will always be 'HKEY_LOCAL_MACHINE', but due to the difference of 32-Bit
+    //  and 64-Bit Uninstaller programs - we will have to explictly state with part of the registry
+    //  that we want to examine.
+    // Source: https://stackoverflow.com/questions/4033976/inno-setup-doesnt-allow-access-to-all-registry-keys-why
+    defaultRootKey  : Integer;
+    // - - - -
+    itemArray       : TArrayOfString;   // This will hold all of the SubKeys and Values that had been obtained.
+    scanResults     : Cardinal;         // This will hold the Results from the Scan.
+begin
+    defaultRootKey := _DEFAULT_ROOTKEY_64_;
+    scanResults := ScanRetrievedSubKeys(defaultRootKey, RetrieveSubKeyList(defaultRootKey));
+
+    AlertUserResults(scanResults);
+    Result := False;
+    Exit;
+end; // DetectPowerShellCore()
+
+
+
+
+function RetrieveSubKeyList(const HiveKey : Integer) : TArrayOfString;
+begin
+    RegGetSubkeyNames(HiveKey, _DEFAULT_SUBKEY_PATH_, Result);
+    Exit;
+end; // RetrieveSubKeyList()
+
+
+
+
+function ScanRetrievedSubKeys(const hiveKey : Integer; const subKeyItemList : TArrayOfString) : Cardinal;
+var
+    loopIterator    : Integer;          // Used for our For-Loop to scan the SubKeys.
     itemArray       : TArrayOfString;   // This will hold all of the SubKeys and Values that had been obtained.
     itemSelected    : String;           // The current SubKey or Value that will be examined.
+begin
+    // If there's nothing within the list, then there's nothing for us to do.
+    if (GetArrayLength(subKeyItemList) <= 0) then
+    begin
+        // There's nothing for us to do.
+        Result := 0;
+        Exit;
+    end;
 
-    // - - - -
-    // Second Step Variables:
+    // Scan each SubKey
+    for loopIterator := 0 to GetArrayLength(subKeyItemList) - 1 do
+    begin
+        // Cache the result such that we can easily pass it.
+        itemSelected := _DEFAULT_SUBKEY_PATH_ + '\' + subKeyItemList[loopIterator];
+
+        Log(Format('Inspecting SubKey: %s',[itemSelected]));
+        // Call this function again, such that we may examine the values.
+        FindValueTarget(hiveKey, itemSelected);
+    end;
+end; // ScanRetrievedSubKeys()
+
+
+
+
+
+// Find Value Target
+// --------------------------------------
+// This function will try to specifically look for the desired target with the given Windows Registry Value.
+//  How this function operates, we already know that we want to examine the 'DisplayName', so we will inspect
+//  the SubKey's DisplayName Value.
+// --------------------------------------
+// Return:
+//  0 = Target was not found.
+//  1 = Target was found, no issues.
+//  2 = Target was found, older version.
+// --------------------------------------
+function FindValueTarget(const HiveKey : Integer; const ValueToInspect : String) : Cardinal;
+var
+    itemSelected    : String;           // The Value that will be examined.
     positionCounter : Integer;          // This will determine the position of when the delimiter occurs.
-    versionMajor    : Cardinal;         // This will hold the value returned by the Windows Registry.
+    versionMajor    : Cardinal;         // This will hold the value returned by the Windows Registry, POSH Major Version.
+    versionMinor    : Cardinal;         // This will hold the value returned by the Windows Registry, POSH Minor Version.
     exitCodeExec    : Integer;          // This holds the exit code provided by the Windows Shell Environment.
 begin
-    // Determine if we are inspecting SubKeys or Values within the desired SubKey.
+    Log(Format('Inspecting Value: %s', [ValueToInspect]));
 
-    // Retrieve all possible SubKeys within the provided location.
-    //  RECURSION NOTE: If there are no SubKeys but only Values instead, then procede to the next step.
-    Log(Format('Inspecting: %s',[SubKeyOrValue]));
-    if (RegGetSubkeyNames(_DEFAULT_ROOTKEY_, SubKeyOrValue, itemArray) and (GetArrayLength(itemArray) > 0)) then
+    // Check to see if 'DisplayName' exists within the SubKey.
+    if ((RegValueExists(HiveKey, ValueToInspect, _DEFAULT_SUBKEY_VALUE_)) and (RegQueryStringValue(HiveKey, ValueToInspect, _DEFAULT_SUBKEY_VALUE_, itemSelected))) then
     begin
-        Log('Executing this...');
-        // Examine all obtained SubKeys
-        for loopIterator := 0 to GetArrayLength(itemArray) - 1 do
+        // Because the Value of the 'DisplayName' in the PowerShell Core SubKey contains its version and the product's name, we will have to parse it such that we can properly examine the string.
+        //  We are only interested in the 'PowerShell' keyword, all others are ignored.
+        positionCounter := Pos(' ', itemSelected);
+        itemSelected    := Copy(itemSelected, 1, positionCounter - 1);
+
+        // Compare the string
+        if (CompareText(itemSelected, _DEFAULT_KEYWORD_EXEC_) = 0) then
         begin
-            // Cache the result such that we can easily pass it.
-            itemSelected := _DEFAULT_SUBKEY_PATH_ + '\' + itemArray[loopIterator];
-
-            Log(Format('Inspecting SubKey: %s',[itemSelected]));
-            // Call this function again, such that we may examine the values.
-            DetectPowerShellCore(itemSelected);
-
-            // If the nested function had found an instance, then we are finished.
-            if (FOUND_TARGET) then
+            // Make sure that it's version meets the requirements
+            if ((RegQueryDWordValue(HiveKey, ValueToInspect, 'VersionMajor', versionMajor)) and (versionMajor >= _DEFAULT_MAJOR_VERSION_) and (RegQueryDWordValue(HiveKey, ValueToInspect, 'VersionMinor', versionMinor)) and (versionMinor >= _DEFAULT_MINOR_VERSION_)) then
             begin
+                Result := 1;
+                Exit;
+            end
+
+            // The instance does not meet the desired requirements
+            else
+            begin
+                Result := 2;
                 Exit;
             end;
         end;
+    end;
+    Result := 0;
+end; // FindValueTarget()
 
-        MsgBox('Unable to find it!', mbCriticalError, MB_OK);
-        shellexec('open', 'https://github.com/PowerShell/PowerShell/releases/latest', '', '', SW_SHOW, ewNoWait, exitCodeExec);
-        Exit;
-    end // if : SubKey Names Retrieved
 
-    else
-    begin
-        Log(Format('Inspecting Value: %s',[SubKeyOrValue]));
 
-        // Check to see if 'DisplayName' exists within the SubKey.
-        if ((RegValueExists(_DEFAULT_ROOTKEY_, SubKeyOrValue, _DEFAULT_SUBKEY_VALUE_)) and (RegQueryStringValue(_DEFAULT_ROOTKEY_, SubKeyOrValue, _DEFAULT_SUBKEY_VALUE_, itemSelected))) then
+
+procedure AlertUserResults(const searchResults : Cardinal);
+var
+    exitCodeExec    : Integer;          // This holds the exit code provided by the Windows Shell Environment.
+begin
+    case searchResults of
+        0:
         begin
-            // Because the PowerShell Core has a space within its Data in the SubKey DisplayName, containing version and other information,
-            //  we will have to parse out all other reminaces and only focus strictly on the 'PowerShell' keyword.
-            positionCounter := Pos(' ', itemSelected);
-            itemSelected    := Copy(itemSelected, 1, positionCounter - 1);
+            MsgBox('Unable to find it!', mbCriticalError, MB_OK);
+            Exit;
+        end;
 
-            // Compare the string
-            if (CompareText(itemSelected, _DEFAULT_KEYWORD_EXEC_) = 0) then
-            begin
-                // Found PowerShell Core!
-                FOUND_TARGET := True;
+        1:
+        begin
+            MsgBox('Found it!', mbInformation, MB_OK);
+            Exit;
+        end;
 
-                // Make sure that it's version meets the requirements
-                if ((RegQueryDWordValue(_DEFAULT_ROOTKEY_, SubKeyOrValue, 'VersionMajor', versionMajor)) and (versionMajor >= _DEFAULT_MAJOR_VERSION_) and (RegQueryDWordValue(_DEFAULT_ROOTKEY_, SubKeyOrValue, 'VersionMinor', versionMinor)) and (versionMinor >= _DEFAULT_MINOR_VERSION_)) then
-                begin
-                    // The installed instance meets the requirements
-                    MsgBox('Found it!', mbInformation, MB_OK);
-                    Exit;
-                end
-
-                // The instance does not meet the desired requirements
-                else
-                begin
-                    MsgBox('Older version found!', mbCriticalError, MB_OK);
-                    shellexec('open', 'https://github.com/PowerShell/PowerShell/releases/latest', '', '', SW_SHOW, ewNoWait, exitCodeExec);
-                    Exit;
-                end;
-            end;
+        2:
+        begin
+            MsgBox('Older version found!', mbCriticalError, MB_OK);
+            ;shellexec('open', 'https://github.com/PowerShell/PowerShell/releases/latest', '', '', SW_SHOW, ewNoWait, exitCodeExec);
+            Exit;
         end;
     end;
-end; // DetectPowerShellCore();
+
+    MsgBox('Unknown Search Results', mbCriticalError, MB_OK);
+end; // AlertUserResults()
