@@ -27,6 +27,12 @@ Source: "Scripts\Program Modes\Uninstall.ps1";  DestDir: "{app}\Bin\";      Flag
 
 
 
+; Documents
+; - - - - -
+Source: "Documents\ReadMe.txt"; DestDir: "{app}\"; Flags: confirmoverwrite recursesubdirs createallsubdirs ignoreversion touch
+
+
+
 ; Icons and Shortcuts
 ; - - - - - - - - - -
 Source: "Installer\Product Assets\Desktop Icon\Desktop Icon.ico";   DestDir: "{app}\icons\";    Flags: confirmoverwrite recursesubdirs createallsubdirs ignoreversion touch

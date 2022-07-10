@@ -26,6 +26,10 @@ Name: "{group}\{#_PRODUCT_NAME_SHORT_}\{#_PRODUCT_NAME_SHORT_} Clean";      File
 Name: "{group}\{#_PRODUCT_NAME_SHORT_}\{#_PRODUCT_NAME_SHORT_} Deep-Clean"; Filename: "{app}\Bin\Uninstall.ps1"
 
 
+; Text
+Name: "{group}\Text\ReadMe"; Filename: "{app}\ReadMe.txt"
+
+
 ; Uninstall Software
 Name: "{group}\Uninstall\{cm:UninstallProgram,{#_PRODUCT_NAME_FULL_}}"; Filename: "{uninstallexe}"
 
