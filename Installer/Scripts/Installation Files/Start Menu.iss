@@ -21,13 +21,13 @@
 
 
 ; Applications
-Name: "{group}\{#_PRODUCT_NAME_FULL_}";             Filename: "{app}\Bin\{#_PRODUCT_NAME_SHORT_}.ps1"
-Name: "{group}\{#_PRODUCT_NAME_SHORT_} Clean";      Filename: "{app}\Bin\Clean.ps1"
-Name: "{group}\{#_PRODUCT_NAME_SHORT_} Deep-Clean"; Filename: "{app}\Bin\Uninstall.ps1"
+Name: "{group}\{#_PRODUCT_NAME_SHORT_}\{#_PRODUCT_NAME_FULL_}";             Filename: "{app}\Bin\{#_PRODUCT_NAME_SHORT_}.ps1"
+Name: "{group}\{#_PRODUCT_NAME_SHORT_}\{#_PRODUCT_NAME_SHORT_} Clean";      Filename: "{app}\Bin\Clean.ps1"
+Name: "{group}\{#_PRODUCT_NAME_SHORT_}\{#_PRODUCT_NAME_SHORT_} Deep-Clean"; Filename: "{app}\Bin\Uninstall.ps1"
 
 
 ; Uninstall Software
-Name: "{group}\{cm:UninstallProgram,{#_PRODUCT_NAME_FULL_}}"; Filename: "{uninstallexe}"
+Name: "{group}\Uninstall\{cm:UninstallProgram,{#_PRODUCT_NAME_FULL_}}"; Filename: "{uninstallexe}"
 
 
 ; Websites
