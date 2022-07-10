@@ -104,8 +104,19 @@ var
     // - - - -
     scanResults     : Cardinal;         // This will hold the Results from the Scan.
 begin
-    defaultRootKey := _DEFAULT_ROOTKEY_64_;
-    scanResults := ScanRetrievedSubKeys(defaultRootKey, RetrieveSubKeyList(defaultRootKey));
+    if (IsWin64) then
+    begin
+        scanResults := ScanRetrievedSubKeys(_DEFAULT_ROOTKEY_64_, RetrieveSubKeyList(_DEFAULT_ROOTKEY_64_));
+
+        if (scanResults = 0) then
+            scanResults := ScanRetrievedSubKeys(_DEFAULT_ROOTKEY_32_, RetrieveSubKeyList(_DEFAULT_ROOTKEY_32_));
+    end
+    else;
+    begin
+        scanResults := ScanRetrievedSubKeys(_DEFAULT_ROOTKEY_32_, RetrieveSubKeyList(_DEFAULT_ROOTKEY_32_));
+    end;
+
+
 
     AlertUserResults(scanResults);
     Result := True;
