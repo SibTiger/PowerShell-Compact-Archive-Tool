@@ -375,7 +375,7 @@ ExtraDiskSpaceRequired = 1048576
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_infoafterfile
-InfoAfterFile = ".\Installer\Product Assets\Text\Before_Install.txt"
+InfoAfterFile = ".\Installer\Product Assets\Text\After_Install.txt"
 
 
 
