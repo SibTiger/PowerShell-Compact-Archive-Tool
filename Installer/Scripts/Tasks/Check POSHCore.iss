@@ -59,6 +59,9 @@ const
     // This defines the Major Version required, at minimum, for PowerShell.
     _DEFAULT_MAJOR_VERSION_ = 7;
 
+    // This defines the Minor Version required - but incorporated with the Major Version.
+    _DEFAULT_MINOR_VERSION_ = 2;
+
 
 
 
@@ -149,7 +152,7 @@ begin
                 FOUND_TARGET := True;
 
                 // Make sure that it's version meets the requirements
-                if ((RegQueryDWordValue(_DEFAULT_ROOTKEY_, SubKeyOrValue, 'VersionMajor', versionMajor)) and (versionMajor >= _DEFAULT_MAJOR_VERSION_)) then
+                if ((RegQueryDWordValue(_DEFAULT_ROOTKEY_, SubKeyOrValue, 'VersionMajor', versionMajor)) and (versionMajor >= _DEFAULT_MAJOR_VERSION_) and (RegQueryDWordValue(_DEFAULT_ROOTKEY_, SubKeyOrValue, 'VersionMinor', versionMinor)) and (versionMinor >= _DEFAULT_MINOR_VERSION_)) then
                 begin
                     // The installed instance meets the requirements
                     MsgBox('Found it!', mbInformation, MB_OK);
