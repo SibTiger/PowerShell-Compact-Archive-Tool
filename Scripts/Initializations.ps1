@@ -125,7 +125,7 @@ function InitializationProgramSites()
         -Description "Provides a URL to the application's wiki site.";
 
     # Program Downloads
-    Set-Variable -Name "_PROGRAMSITEDOWNLOADS_" -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/releases" `
+    Set-Variable -Name "_PROGRAMSITEDOWNLOADS_" -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/releases/latest" `
         -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
         -Visibility Public `
         -Description "Provides a URL to the application's download page site.";
