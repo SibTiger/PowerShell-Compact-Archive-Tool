@@ -34,7 +34,7 @@
 
 
 [Icons]
-#include ".\Scripts\Interface\Start Menu.iss"
+#include ".\Scripts\Installation Files\Start Menu.iss"
 
 
 
