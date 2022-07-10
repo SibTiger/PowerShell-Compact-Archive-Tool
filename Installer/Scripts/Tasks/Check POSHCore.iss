@@ -108,7 +108,7 @@ begin
     scanResults := ScanRetrievedSubKeys(defaultRootKey, RetrieveSubKeyList(defaultRootKey));
 
     AlertUserResults(scanResults);
-    Result := False;
+    Result := True;
     Exit;
 end; // DetectPowerShellCore()
 
