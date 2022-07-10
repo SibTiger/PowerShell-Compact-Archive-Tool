@@ -102,7 +102,6 @@ var
     // Source: https://stackoverflow.com/questions/4033976/inno-setup-doesnt-allow-access-to-all-registry-keys-why
     defaultRootKey  : Integer;
     // - - - -
-    itemArray       : TArrayOfString;   // This will hold all of the SubKeys and Values that had been obtained.
     scanResults     : Cardinal;         // This will hold the Results from the Scan.
 begin
     defaultRootKey := _DEFAULT_ROOTKEY_64_;
@@ -128,7 +127,6 @@ end; // RetrieveSubKeyList()
 function ScanRetrievedSubKeys(const hiveKey : Integer; const subKeyItemList : TArrayOfString) : Cardinal;
 var
     loopIterator    : Integer;          // Used for our For-Loop to scan the SubKeys.
-    itemArray       : TArrayOfString;   // This will hold all of the SubKeys and Values that had been obtained.
     itemSelected    : String;           // The current SubKey or Value that will be examined.
 begin
     // If there's nothing within the list, then there's nothing for us to do.
