@@ -145,7 +145,10 @@ begin
 
         Log(Format('Inspecting SubKey: %s',[itemSelected]));
         // Call this function again, such that we may examine the values.
-        FindValueTarget(hiveKey, itemSelected);
+        Result := FindValueTarget(hiveKey, itemSelected);
+
+        if (Result) > 0 then
+            Exit;
     end;
 end; // ScanRetrievedSubKeys()
 
