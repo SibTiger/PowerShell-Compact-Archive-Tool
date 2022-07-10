@@ -78,6 +78,9 @@ begin
 
     // Try to find the current install of PowerShell Core.
     DetectPowerShellCore(_DEFAULT_SUBKEY_PATH_);
+
+    // Return our results from the linear search algo.
+    Result := FOUND_TARGET;
 end;
 
 
