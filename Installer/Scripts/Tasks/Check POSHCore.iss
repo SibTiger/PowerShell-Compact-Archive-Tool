@@ -59,11 +59,11 @@ const
 
 // Function Prototypes
 // ------------------------------------------------------------
-function DetectPowerShellCore() : Boolean; forward;
-function RetrieveSubKeyList(const HiveKey : Integer) : TArrayOfString; forward;
-function ScanRetrievedSubKeys(const hiveKey : Integer; const subKeyItemList : TArrayOfString) : Cardinal; forward;
-function FindValueTarget(const HiveKey : Integer; const ValueToInspect : String) : Cardinal; forward;
-procedure AlertUserResults(const searchResults : Cardinal); forward;
+function    DetectPowerShellCore    ()                                                                  : Boolean           ; forward;
+function    RetrieveSubKeyList      (const HiveKey : Integer)                                           : TArrayOfString    ; forward;
+function    ScanRetrievedSubKeys    (const hiveKey : Integer; const subKeyItemList : TArrayOfString)    : Cardinal          ; forward;
+function    FindValueTarget         (const HiveKey : Integer; const ValueToInspect : String)            : Cardinal          ; forward;
+procedure   AlertUserResults        (const searchResults : Cardinal)                                                        ; forward;
 
 
 
