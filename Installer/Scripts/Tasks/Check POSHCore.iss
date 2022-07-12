@@ -77,10 +77,12 @@ procedure   AlertUserResults        (const searchResults : Cardinal)            
 // Inno Setup will automatically call this function when appropriate.
 function InitializeSetup() : Boolean;
 begin
-    // Try to find the current install of PowerShell Core.
+    // Try to find the current installation instance of PowerShell Core.
     Result := DetectPowerShellCore();
+
+    // Finished!
     Exit;
-end;
+end; // InitializeSetup()
 
 
 
