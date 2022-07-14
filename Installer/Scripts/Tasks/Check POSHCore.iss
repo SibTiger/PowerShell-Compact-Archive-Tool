@@ -80,6 +80,7 @@ begin
     // Try to find the current installation instance of PowerShell Core.
     Result := DetectPowerShellCore();
 
+
     // Finished!
     Exit;
 end; // InitializeSetup()
