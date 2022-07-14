@@ -149,7 +149,6 @@ end; // DetectPowerShellCore()
 function RetrieveSubKeyList(const HiveKey : Integer) : TArrayOfString;
 begin
     RegGetSubkeyNames(HiveKey, _DEFAULT_SUBKEY_PATH_, Result);
-    Exit;
 end; // RetrieveSubKeyList()
 
 
