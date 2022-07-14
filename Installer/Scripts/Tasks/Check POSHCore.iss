@@ -90,39 +90,56 @@ end; // InitializeSetup()
 
 // Detect PowerShell Core - Main
 // --------------------------------------
-// This algorithm will try its best to find the current installation of the PowerShell Core.  To perform this
-//  operation, we will break this algorithm out into several parts - making this function the main spine.
+// This function is the main driver algorithm.  Thus, meaning, that this function will cordinate how the
+//  search will will operate.  We have to keep in mind that the desired application could be installed in
+//  a 32Bit or 64Bit variant within a 64Bit Operating System environment, while a 32Bit Operating System
+//  environment is strictly a 32Bit system.  As such, we have to scan merely dependent on the CPU
+//  Architecture's word-size.
 //
-//
+// NOTE: Due to the nature of 32Bit and 64Bit being intermixed within the Windows' Registry, we will have to
+//          organize the search a bit differently for those using a 64Bit operating system.
+// Source: https://stackoverflow.com/questions/4033976/inno-setup-doesnt-allow-access-to-all-registry-keys-why
 // --------------------------------------
 function DetectPowerShellCore() : Boolean;
 // Variables
 var
-    // We will use this to determine which area within the Windows Registry we will be focusing.
-    //  The main Hivekey will always be 'HKEY_LOCAL_MACHINE', but due to the difference of 32-Bit
-    //  and 64-Bit Uninstaller programs - we will have to explictly state with part of the registry
-    //  that we want to examine.
-    // Source: https://stackoverflow.com/questions/4033976/inno-setup-doesnt-allow-access-to-all-registry-keys-why
-    defaultRootKey  : Integer;
-    // - - - -
-    scanResults     : Cardinal;         // This will hold the Results from the Scan.
+    scanResults : Cardinal;         // This will hold the Results from the Scan.
+
+
+// Code
 begin
+    // Perform the algorithm using the appropriate procedure depending on the host's CPU architecture.
+
+    // Windows 64Bit
     if (IsWin64) then
     begin
-        scanResults := ScanRetrievedSubKeys(_DEFAULT_ROOTKEY_64_, RetrieveSubKeyList(_DEFAULT_ROOTKEY_64_));
+        // Check if the application was a 64Bit.
+        scanResults := ScanRetrievedSubKeys(_DEFAULT_ROOTKEY_64_, \
+                                            RetrieveSubKeyList(_DEFAULT_ROOTKEY_64_));
 
+
+        // Check if the application was a 32Bit, if and only if the 64Bit scan could not find the program.
         if (scanResults = 0) then
-            scanResults := ScanRetrievedSubKeys(_DEFAULT_ROOTKEY_32_, RetrieveSubKeyList(_DEFAULT_ROOTKEY_32_));
+            scanResults := ScanRetrievedSubKeys(_DEFAULT_ROOTKEY_32_, \
+                                                RetrieveSubKeyList(_DEFAULT_ROOTKEY_32_));
     end
+
+
+    // Windows 32Bit
     else;
-    begin
-        scanResults := ScanRetrievedSubKeys(_DEFAULT_ROOTKEY_32_, RetrieveSubKeyList(_DEFAULT_ROOTKEY_32_));
-    end;
+        scanResults := ScanRetrievedSubKeys(_DEFAULT_ROOTKEY_32_, \
+                                            RetrieveSubKeyList(_DEFAULT_ROOTKEY_32_));
 
 
-
+    // With the scan finished, provide the results to the user's attention.
     AlertUserResults(scanResults);
+
+
+    // Allow the Installer the continue forward.
     Result := True;
+
+
+    // Finished!
     Exit;
 end; // DetectPowerShellCore()
 
