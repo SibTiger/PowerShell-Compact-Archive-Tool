@@ -280,8 +280,8 @@ begin
 
     // Check to see if 'DisplayName' exists within the SubKey AND to also obtain the data within the
     //  'DisplayName' value.
-    if ((RegValueExists(HiveKey, ValueToInspect, _DEFAULT_SUBKEY_VALUE_)) and \                         // Does the Value exists?
-        (RegQueryStringValue(HiveKey, ValueToInspect, _DEFAULT_SUBKEY_VALUE_, itemSelected))) then      // Obtain the data from the Value, unless error occurs.
+    if ((RegValueExists(HiveKey, ValueToInspect, _DEFAULT_SUBKEY_VALUE_)) and \
+        (RegQueryStringValue(HiveKey, ValueToInspect, _DEFAULT_SUBKEY_VALUE_, itemSelected))) then
     begin
         // Because the Value of the 'DisplayName' in the PowerShell Core SubKey contains its version and the product's
         //  name, we will have to parse it such that we can properly examine the string.
