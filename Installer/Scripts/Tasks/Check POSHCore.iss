@@ -245,7 +245,10 @@ begin
         if (CompareText(itemSelected, _DEFAULT_KEYWORD_EXEC_) = 0) then
         begin
             // Make sure that it's version meets the requirements
-            if ((RegQueryDWordValue(HiveKey, ValueToInspect, 'VersionMajor', versionMajor)) and (versionMajor >= _DEFAULT_MAJOR_VERSION_) and (RegQueryDWordValue(HiveKey, ValueToInspect, 'VersionMinor', versionMinor)) and (versionMinor >= _DEFAULT_MINOR_VERSION_)) then
+            if ((RegQueryDWordValue(HiveKey, ValueToInspect, 'VersionMajor', versionMajor))     and \
+                    (versionMajor >= _DEFAULT_MAJOR_VERSION_)                                   and \
+                    (RegQueryDWordValue(HiveKey, ValueToInspect, 'VersionMinor', versionMinor)) and \
+                (versionMinor >= _DEFAULT_MINOR_VERSION_)) then
             begin
                 Result := 1;
                 Exit;
