@@ -88,6 +88,7 @@ end; // InitializeSetup()
 
 
 
+
 // Detect PowerShell Core - Main
 // --------------------------------------
 // This function is the main driver algorithm.  Thus, meaning, that this function will cordinate how the
@@ -150,6 +151,7 @@ end; // DetectPowerShellCore()
 
 
 
+
 // Retrieve Subkeys
 // --------------------------------------
 // This function will merely return the Subkeys within the desired address from the Windows Registry.  The
@@ -162,6 +164,7 @@ function RetrieveSubKeyList(const HiveKey : Integer) : TArrayOfString;
 begin
     RegGetSubkeyNames(HiveKey, _DEFAULT_SUBKEY_PATH_, Result);
 end; // RetrieveSubKeyList()
+
 
 
 
@@ -257,6 +260,7 @@ begin
     end;
     Result := 0;
 end; // FindValueTarget()
+
 
 
 
