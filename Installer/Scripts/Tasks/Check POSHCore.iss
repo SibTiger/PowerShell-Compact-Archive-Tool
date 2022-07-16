@@ -228,7 +228,6 @@ var
     positionCounter : Integer;          // This will determine the position of when the delimiter occurs.
     versionMajor    : Cardinal;         // This will hold the value returned by the Windows Registry, POSH Major Version.
     versionMinor    : Cardinal;         // This will hold the value returned by the Windows Registry, POSH Minor Version.
-    exitCodeExec    : Integer;          // This holds the exit code provided by the Windows Shell Environment.
 begin
     Log(Format('Inspecting Value: %s', [ValueToInspect]));
 
