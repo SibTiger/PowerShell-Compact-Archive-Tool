@@ -155,6 +155,9 @@ end; // DetectPowerShellCore()
 // This function will merely return the Subkeys within the desired address from the Windows Registry.  The
 //  Subkeys that were provided by the Windows Registry will be returned to the caller function.
 // --------------------------------------
+// Return:
+//  SubKey Array size of $N.
+// --------------------------------------
 function RetrieveSubKeyList(const HiveKey : Integer) : TArrayOfString;
 begin
     RegGetSubkeyNames(HiveKey, _DEFAULT_SUBKEY_PATH_, Result);
