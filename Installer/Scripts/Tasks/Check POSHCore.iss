@@ -236,7 +236,8 @@ begin
     if ((RegValueExists(HiveKey, ValueToInspect, _DEFAULT_SUBKEY_VALUE_)) and \
         (RegQueryStringValue(HiveKey, ValueToInspect, _DEFAULT_SUBKEY_VALUE_, itemSelected))) then
     begin
-        // Because the Value of the 'DisplayName' in the PowerShell Core SubKey contains its version and the product's name, we will have to parse it such that we can properly examine the string.
+        // Because the Value of the 'DisplayName' in the PowerShell Core SubKey contains its version and the product's
+        //  name, we will have to parse it such that we can properly examine the string.
         //  We are only interested in the 'PowerShell' keyword, all others are ignored.
         positionCounter := Pos(' ', itemSelected);
         itemSelected    := Copy(itemSelected, 1, positionCounter - 1);
