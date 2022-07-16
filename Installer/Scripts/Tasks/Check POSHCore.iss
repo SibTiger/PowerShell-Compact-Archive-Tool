@@ -319,5 +319,11 @@ begin
 
 
     // Take the user to the download page.
-    ;shellexec('open', 'https://github.com/PowerShell/PowerShell/releases/latest', '', '', SW_SHOW, ewNoWait, exitCodeExec);
+    shellexec('open', \
+                'https://github.com/PowerShell/PowerShell/releases/latest', \
+                '', \
+                '', \
+                SW_SHOW, \
+                ewNoWait, \
+                exitCodeExec);
 end; // AlertUserResults()
