@@ -54,6 +54,9 @@ const
     // This defines the Minor Version required - but incorporated with the Major Version.
     _DEFAULT_MINOR_VERSION_ = 2;
 
+    // Allow Debug messages to be logged\shown in Inno Setup Debug Output console?
+    _ALLOW_DEBUG_MESSAGES_  = true;
+
 
 
 
@@ -227,8 +230,9 @@ begin
 
 
         // Debug stuff
-        //  Display what Subkey is currently being inspected.
-        Log(Format('Inspecting SubKey: %s',[itemSelected]));
+        if (_ALLOW_DEBUG_MESSAGES_) then
+            //  Display what Subkey is currently being inspected.
+            Log(Format('Inspecting SubKey: %s',[itemSelected]));
 
 
         // Determine if the target dependency exists
@@ -274,8 +278,9 @@ var
 // Code
 begin
     // Debug stuff.
-    //  This is to make sure that the arguments contains the right informaiton.
-    Log(Format('Inspecting Value: %s', [ValueToInspect]));
+    if (_ALLOW_DEBUG_MESSAGES_) then
+        //  This is to make sure that the arguments contains the right informaiton.
+        Log(Format('Inspecting Value: %s', [ValueToInspect]));
 
 
     // Check to see if 'DisplayName' exists within the SubKey AND to also obtain the data within the
