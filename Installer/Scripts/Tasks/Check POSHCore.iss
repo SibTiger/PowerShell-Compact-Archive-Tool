@@ -293,7 +293,6 @@ begin
         0:
         begin
             MsgBox('Unable to find it!', mbCriticalError, MB_OK);
-            Exit;
         end;
 
         1:
@@ -305,7 +304,6 @@ begin
         2:
         begin
             MsgBox('Older version found!', mbCriticalError, MB_OK);
-            ;shellexec('open', 'https://github.com/PowerShell/PowerShell/releases/latest', '', '', SW_SHOW, ewNoWait, exitCodeExec);
         end;
 
         else
@@ -315,4 +313,7 @@ begin
         end;
     end;
 
+
+    // Take the user to the download page.
+    ;shellexec('open', 'https://github.com/PowerShell/PowerShell/releases/latest', '', '', SW_SHOW, ewNoWait, exitCodeExec);
 end; // AlertUserResults()
