@@ -166,6 +166,16 @@ end; // RetrieveSubKeyList()
 
 
 
+// Scan Retrieved Subkeys from Windows Registry
+// --------------------------------------
+// This function is designed to scan through the entire Subkey list, provided by the dynamic size array.  To
+//  perform this search, this function will stitch together the full path of the SubKey to a helper-function
+//  inwhich it will utlimately inspect if a specific value, that we are searching for, exists or not exists
+//  within the system's registry.
+// --------------------------------------
+// Return:
+//  SubKey Array size of $N.
+// --------------------------------------
 function ScanRetrievedSubKeys(const hiveKey : Integer; const subKeyItemList : TArrayOfString) : Cardinal;
 var
     loopIterator    : Integer;          // Used for our For-Loop to scan the SubKeys.
