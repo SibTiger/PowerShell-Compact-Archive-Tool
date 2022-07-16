@@ -100,6 +100,10 @@ end; // InitializeSetup()
 //          organize the search a bit differently for those using a 64Bit operating system.
 // Source: https://stackoverflow.com/questions/4033976/inno-setup-doesnt-allow-access-to-all-registry-keys-why
 // --------------------------------------
+// Return:
+//  true  = Found PowerShell Core installation
+//  false = Unable to find a PowerShell Core installation
+// --------------------------------------
 function DetectPowerShellCore() : Boolean;
 // Variables
 var
