@@ -123,6 +123,7 @@ var
 begin
     // Perform the algorithm using the appropriate procedure depending on the host's CPU architecture.
 
+
     // Windows 64Bit
     if (IsWin64) then
     begin
@@ -198,28 +199,43 @@ end; // RetrieveSubKeyList()
 //  SubKey Array size of $N.
 // --------------------------------------
 function ScanRetrievedSubKeys(const hiveKey : Integer; const subKeyItemList : TArrayOfString) : Cardinal;
+// Variables
 var
     loopIterator    : Integer;          // Used for our For-Loop to scan the SubKeys.
     itemSelected    : String;           // The current SubKey or Value that will be examined.
+
+
+// Code
 begin
     // If there's nothing within the list, then there's nothing for us to do.
     if (GetArrayLength(subKeyItemList) <= 0) then
     begin
         // There's nothing for us to do.
         Result := 0;
+
+
+        // Leave from this function
         Exit;
     end;
 
-    // Scan each SubKey
+
+    // Scan each SubKey within the array.
     for loopIterator := 0 to GetArrayLength(subKeyItemList) - 1 do
     begin
-        // Cache the result such that we can easily pass it.
+        // Generate the full Subkey address that we want to further inspect.
         itemSelected := _DEFAULT_SUBKEY_PATH_ + '\' + subKeyItemList[loopIterator];
 
+
+        // Debug stuff.
         Log(Format('Inspecting SubKey: %s',[itemSelected]));
-        // Call this function again, such that we may examine the values.
+
+
+        // Determine if the target dependency exists
         Result := FindValueTarget(hiveKey, itemSelected);
 
+
+        // If we found the target, then we may leave this function.
+        //  Otherwise, continue with the algorithm.
         if (Result) > 0 then
             Exit;
     end;
