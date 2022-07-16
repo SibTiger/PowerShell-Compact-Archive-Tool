@@ -139,7 +139,7 @@ begin
         if (scanResults = 0) then
             scanResults := ScanRetrievedSubKeys(_DEFAULT_ROOTKEY_32_, \
                                                 RetrieveSubKeyList(_DEFAULT_ROOTKEY_32_));
-    end
+    end // if: Windows OS 64Bit
 
 
     // Windows 32Bit
@@ -219,7 +219,7 @@ begin
 
         // Leave from this function
         Exit;
-    end;
+    end; // if : No Items in Array
 
 
     // Scan each SubKey within the array.
@@ -243,7 +243,7 @@ begin
         //  Otherwise, continue with the algorithm.
         if (Result) > 0 then
             Exit;
-    end;
+    end; // for()
 end; // ScanRetrievedSubKeys()
 
 
@@ -315,7 +315,8 @@ begin
 
                 // Finished
                 Exit;
-            end
+            end // if : Target Found & Meets Requirements
+
 
             // The instance does not meet the desired requirements
             else
@@ -326,9 +327,9 @@ begin
 
                 // Finished
                 Exit;
-            end;
-        end;
-    end;
+            end; // else : Target Found & Fails to Meet Requirements
+        end; // if : Found Target
+    end; // if : SubKey contains 'DisplayName' Value with Data.
 
 
     // Unable to find the target.
