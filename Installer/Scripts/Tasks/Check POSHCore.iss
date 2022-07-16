@@ -226,7 +226,8 @@ begin
         itemSelected := _DEFAULT_SUBKEY_PATH_ + '\' + subKeyItemList[loopIterator];
 
 
-        // Debug stuff.
+        // Debug stuff
+        //  Display what Subkey is currently being inspected.
         Log(Format('Inspecting SubKey: %s',[itemSelected]));
 
 
@@ -262,45 +263,70 @@ end; // ScanRetrievedSubKeys()
 //  2 = Target was found, older version.
 // --------------------------------------
 function FindValueTarget(const HiveKey : Integer; const ValueToInspect : String) : Cardinal;
+// Variables
 var
     itemSelected    : String;           // The Value that will be examined.
     positionCounter : Integer;          // This will determine the position of when the delimiter occurs.
     versionMajor    : Cardinal;         // This will hold the value returned by the Windows Registry, POSH Major Version.
     versionMinor    : Cardinal;         // This will hold the value returned by the Windows Registry, POSH Minor Version.
+
+
+// Code
 begin
+    // Debug stuff.
+    //  This is to make sure that the arguments contains the right informaiton.
     Log(Format('Inspecting Value: %s', [ValueToInspect]));
 
-    // Check to see if 'DisplayName' exists within the SubKey.
-    if ((RegValueExists(HiveKey, ValueToInspect, _DEFAULT_SUBKEY_VALUE_)) and \
-        (RegQueryStringValue(HiveKey, ValueToInspect, _DEFAULT_SUBKEY_VALUE_, itemSelected))) then
+
+    // Check to see if 'DisplayName' exists within the SubKey AND to also obtain the data within the
+    //  'DisplayName' value.
+    if ((RegValueExists(HiveKey, ValueToInspect, _DEFAULT_SUBKEY_VALUE_)) and \                         // Does the Value exists?
+        (RegQueryStringValue(HiveKey, ValueToInspect, _DEFAULT_SUBKEY_VALUE_, itemSelected))) then      // Obtain the data from the Value, unless error occurs.
     begin
         // Because the Value of the 'DisplayName' in the PowerShell Core SubKey contains its version and the product's
         //  name, we will have to parse it such that we can properly examine the string.
         //  We are only interested in the 'PowerShell' keyword, all others are ignored.
+        // For instance: "PowerShell 7.2.5.0-x64"
+        //  We only want "PowerShell" while omitting all other characters after the stem word, 'PowerShell'.
         positionCounter := Pos(' ', itemSelected);
         itemSelected    := Copy(itemSelected, 1, positionCounter - 1);
 
-        // Compare the string
+
+        // Compare the strings; did we find the target?
         if (CompareText(itemSelected, _DEFAULT_KEYWORD_EXEC_) = 0) then
         begin
+            // Found the target!
+
+
             // Make sure that it's version meets the requirements
             if ((RegQueryDWordValue(HiveKey, ValueToInspect, 'VersionMajor', versionMajor))     and \
                     (versionMajor >= _DEFAULT_MAJOR_VERSION_)                                   and \
                     (RegQueryDWordValue(HiveKey, ValueToInspect, 'VersionMinor', versionMinor)) and \
                 (versionMinor >= _DEFAULT_MINOR_VERSION_)) then
             begin
+                // Version meets the requirements
                 Result := 1;
+
+
+                // Finished
                 Exit;
             end
 
             // The instance does not meet the desired requirements
             else
             begin
+                // Version requirements were not met.
                 Result := 2;
+
+
+                // Finished
                 Exit;
             end;
         end;
     end;
+
+
+    // Unable to find the target.
     Result := 0;
 end; // FindValueTarget()
 
@@ -334,26 +360,39 @@ end; // FindValueTarget()
 //          c. Finished.
 // --------------------------------------
 procedure AlertUserResults(const searchResults : Cardinal);
+// Variables
 var
     exitCodeExec    : Integer;          // This holds the exit code provided by the Windows Shell Environment.
+
+
+// Code
 begin
+
+    // Determine what action to take.
     case searchResults of
+        // Unable to find the target
         0:
         begin
             MsgBox('Unable to find it!', mbCriticalError, MB_OK);
         end;
 
+
+        // Found the target and meets the requirements.
         1:
         begin
             MsgBox('Found it!', mbInformation, MB_OK);
             Exit;
         end;
 
+
+        // Found the target but does not meet the requirements.
         2:
         begin
             MsgBox('Older version found!', mbCriticalError, MB_OK);
         end;
 
+
+        // Obtained a result that was not expected.
         else
         begin
             MsgBox('Unknown Search Results', mbCriticalError, MB_OK);
