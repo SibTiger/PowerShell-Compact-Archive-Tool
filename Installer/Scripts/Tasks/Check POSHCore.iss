@@ -261,6 +261,26 @@ end; // FindValueTarget()
 
 
 
+// Retrieve Subkeys
+// --------------------------------------
+// This function will provide the results to the end-user.  Dependent solely on the provided results, this
+//  function could alert the user that the required dependency is not installed or if it was able to find the
+//  necessary dependency.  Further, this function could also alert the user if the required dependency is
+//  outdated.
+//
+// NOTE:
+//  Actions that are to take place depending on the value of $searchResults.
+//      0 = Unable to find the dependency
+//          a. Alert the User of an issue.
+//          b. Take the user to the dependency download page.
+//          c. Finished.
+//      1 = Found the dependency and meets the version requirements.
+//          a. Finished.
+//      2 = Found the dependency but does not meet the version requirements.
+//          a. Alert the User of an issue.
+//          b. Take the user to the dependency download page.
+//          c. Finished.
+// --------------------------------------
 procedure AlertUserResults(const searchResults : Cardinal);
 var
     exitCodeExec    : Integer;          // This holds the exit code provided by the Windows Shell Environment.
