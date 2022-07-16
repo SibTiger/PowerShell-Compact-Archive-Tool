@@ -306,9 +306,13 @@ begin
         begin
             MsgBox('Older version found!', mbCriticalError, MB_OK);
             ;shellexec('open', 'https://github.com/PowerShell/PowerShell/releases/latest', '', '', SW_SHOW, ewNoWait, exitCodeExec);
+        end;
+
+        else
+        begin
+            MsgBox('Unknown Search Results', mbCriticalError, MB_OK);
             Exit;
         end;
     end;
 
-    MsgBox('Unknown Search Results', mbCriticalError, MB_OK);
 end; // AlertUserResults()
