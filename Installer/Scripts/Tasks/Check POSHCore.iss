@@ -139,7 +139,7 @@ begin
     AlertUserResults(scanResults);
 
 
-    // Allow the Installer the continue forward.
+    // Allow the Installer to continue forward anyways.
     Result := True;
 
 
