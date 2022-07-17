@@ -146,10 +146,6 @@ begin
 
     // Allow the Installer to continue forward anyways.
     Result := True;
-
-
-    // Finished!
-    Exit;
 end; // DetectPowerShellCore()
 
 
