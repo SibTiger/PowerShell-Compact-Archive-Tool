@@ -44,12 +44,33 @@ ManuallyDownloadAndInstallResource_BurntToast   = BurntToast%n  Provides Toast N
 
 
 [Tasks]
-Name: "OpenURL_7Zip"; Description: "{cm:ManuallyDownloadAndInstallResource_7Zip}"; GroupDescription: "{cm:ManuallyDownloadAndInstallOptionalApplications}"; Flags: unchecked
-Name: "OpenURL_Git"; Description: "{cm:ManuallyDownloadAndInstallResource_GitSCM}"; GroupDescription: "{cm:ManuallyDownloadAndInstallOptionalApplications}"; Flags: unchecked
-Name: "OpenURL_BurntToast"; Description: "{cm:ManuallyDownloadAndInstallResource_BurntToast}"; GroupDescription: "{cm:ManuallyDownloadAndInstallOptionalApplications}"; Flags: unchecked
+Name: "OpenURL_7Zip";                                                               \
+    Description: "{cm:ManuallyDownloadAndInstallResource_7Zip}";                    \
+    GroupDescription: "{cm:ManuallyDownloadAndInstallOptionalApplications}";        \
+    Flags: unchecked;
+
+Name: "OpenURL_Git";                                                                \
+    Description: "{cm:ManuallyDownloadAndInstallResource_GitSCM}";                  \
+    GroupDescription: "{cm:ManuallyDownloadAndInstallOptionalApplications}";        \
+    Flags: unchecked;
+
+Name: "OpenURL_BurntToast";                                                         \
+    Description: "{cm:ManuallyDownloadAndInstallResource_BurntToast}";              \
+    GroupDescription: "{cm:ManuallyDownloadAndInstallOptionalApplications}";        \
+    Flags: unchecked;
+
+
 
 
 [Run]
-FileName: "https://www.7-zip.org/"; Flags: shellexec runasoriginaluser; Tasks: OpenURL_7Zip
-FileName: "https://git-scm.com/"; Flags: shellexec runasoriginaluser; Tasks: OpenURL_Git
-FileName: "https://github.com/Windos/BurntToast"; Flags: shellexec runasoriginaluser; Tasks: OpenURL_BurntToast
+FileName: "https://www.7-zip.org/";                 \
+    Flags: shellexec runasoriginaluser;             \
+    Tasks: OpenURL_7Zip;
+
+FileName: "https://git-scm.com/";                   \
+    Flags: shellexec runasoriginaluser;             \
+    Tasks: OpenURL_Git;
+
+FileName: "https://github.com/Windos/BurntToast";   \
+    Flags: shellexec runasoriginaluser;             \
+    Tasks: OpenURL_BurntToast;
