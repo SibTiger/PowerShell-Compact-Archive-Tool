@@ -129,21 +129,13 @@ begin
 
     // Windows 64Bit
     if (IsWin64) then
-    begin
-        // Check if the application was a 64Bit.
+        // Check if the application was a 64Bit version.
         scanResults := ScanRetrievedSubKeys(_DEFAULT_ROOTKEY_64_, \
                                             RetrieveSubKeyList(_DEFAULT_ROOTKEY_64_));
 
 
-        // Check if the application was a 32Bit, if and only if the 64Bit scan could not find the program.
-        if (scanResults = 0) then
-            scanResults := ScanRetrievedSubKeys(_DEFAULT_ROOTKEY_32_, \
-                                                RetrieveSubKeyList(_DEFAULT_ROOTKEY_32_));
-    end // if: Windows OS 64Bit
-
-
-    // Windows 32Bit
-    else;
+    // Windows 32Bit OR 64Bit application was not found
+    if (scanResults = 0) then
         scanResults := ScanRetrievedSubKeys(_DEFAULT_ROOTKEY_32_, \
                                             RetrieveSubKeyList(_DEFAULT_ROOTKEY_32_));
 
