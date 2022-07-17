@@ -30,6 +30,22 @@ SetupLogging = yes
 
 
 
+[CustomMessages]
+; PowerShell Core was not found
+MSGBOX_POSH_NOT_FOUND   =Unable to find an installation of PowerShell Core!%n%nPlease keep in mind that PowerShell Core is required in order for the {#_PRODUCT_NAME_FULL_} to work properly.
+
+; PowerShell Core was found
+MSGBOX_POSH_FOUND       =Successfully located an install instance of PowerShell Core!
+
+; PowerShell Core was found but is an older version
+MSGBOX_POSH_OUTDATED    =Installed version of PowerShell Core is outdated!%n%n{#_PRODUCT_NAME_FULL_} requires a later version of PowerShell Core than what is presently already installed.
+
+; Detection Algorithm had failed or retrieved an unexpected value
+MSGBOX_UNKNOWN_RESULT   =Unable to determine if PowerShell Core was already installed!%n%nPlease be sure that you have the PowerShell Core already installed.
+
+
+
+
 ;function PrepareToInstall(var NeedsRestart: Boolean) : String;
 [Code]
 // Global Constant Variables
@@ -366,7 +382,9 @@ begin
     case searchResults of
         // Unable to find the target
         0:
-            MsgBox('Unable to find it!', mbError, MB_OK);
+            MsgBox(ExpandConstant('{cm:MSGBOX_POSH_NOT_FOUND}'), \
+                    mbError, \
+                    MB_OK);
 
 
         // Found the target and meets the requirements.
@@ -377,7 +395,9 @@ begin
             // Debug Stuff
             if (_ALLOW_DEBUG_MESSAGES_) then
                 // Provide a message box showing that the algorithm had successfully found the target.
-                MsgBox('Found the target!', mbInformation, MB_OK);
+                MsgBox(ExpandConstant('{cm:MSGBOX_POSH_FOUND}'), \
+                        mbInformation, \
+                        MB_OK);
 
             // Finished!
             Exit;
@@ -386,13 +406,17 @@ begin
 
         // Found the target but does not meet the requirements.
         2:
-            MsgBox('Older version found!', mbError, MB_OK);
+            MsgBox(ExpandConstant('{cm:MSGBOX_POSH_OUTDATED}'), \
+                    mbError, \
+                    MB_OK);
 
 
         // Obtained a result that was not expected.
         else
         begin
-            MsgBox('Unknown Search Results', mbCriticalError, MB_OK);
+            MsgBox(ExpandConstant('{cm:MSGBOX_UNKNOWN_RESULT}'), \
+                    mbCriticalError, \
+                    MB_OK);
             Exit;
 
 
