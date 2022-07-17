@@ -21,25 +21,45 @@
 
 ; Application and Scripts
 ; - - - - - - - - - - - -
-Source: "Compile\PSCAT.ps1";                    DestDir: "{app}\Bin\";      Flags: confirmoverwrite recursesubdirs createallsubdirs ignoreversion touch
-Source: "Scripts\Program Modes\Clean.ps1";      DestDir: "{app}\Bin\";      Flags: confirmoverwrite recursesubdirs createallsubdirs ignoreversion touch
-Source: "Scripts\Program Modes\Uninstall.ps1";  DestDir: "{app}\Bin\";      Flags: confirmoverwrite recursesubdirs createallsubdirs ignoreversion touch
+Source: "Compile\PSCAT.ps1";                    \
+    DestDir: "{app}\Bin\";                      \
+    Flags: confirmoverwrite touch;
+
+Source: "Scripts\Program Modes\Clean.ps1";      \
+    DestDir: "{app}\Bin\";                      \
+    Flags: confirmoverwrite touch;
+
+Source: "Scripts\Program Modes\Uninstall.ps1";  \
+    DestDir: "{app}\Bin\";                      \
+    Flags: confirmoverwrite touch;
+
 
 
 
 ; Documents
 ; - - - - -
-Source: "Documents\ReadMe.txt"; DestDir: "{app}\"; Flags: confirmoverwrite recursesubdirs createallsubdirs ignoreversion touch
+Source: "Documents\ReadMe.txt";     \
+    DestDir: "{app}\";              \
+    Flags: confirmoverwrite touch;
+
 
 
 
 ; Icons and Shortcuts
 ; - - - - - - - - - -
-Source: "Installer\Product Assets\Desktop Icon\Desktop Icon.ico";   DestDir: "{app}\icons\";    Flags: confirmoverwrite recursesubdirs createallsubdirs ignoreversion touch
-Source: "Installer\Product Assets\Graphic - Setup\Uninstall\Uninstall Icon.ico";    DestDir: "{app}\icons\"; Flags: confirmoverwrite recursesubdirs createallsubdirs ignoreversion touch
+Source: "Installer\Product Assets\Desktop Icon\Desktop Icon.ico";                   \
+    DestDir: "{app}\icons\";                                                        \
+    Flags: confirmoverwrite touch;
+
+Source: "Installer\Product Assets\Graphic - Setup\Uninstall\Uninstall Icon.ico";    \
+    DestDir: "{app}\icons\";                                                        \
+    Flags: confirmoverwrite touch;
+
 
 
 
 ; Online Resources
 ; - - - - - - - - -
-Source: "Installer\Product Assets\Web\*";       DestDir: "{app}\Websites\"; Flags: recursesubdirs createallsubdirs ignoreversion touch
+Source: "Installer\Product Assets\Web\*";   \
+    DestDir: "{app}\Websites\";             \
+    Flags: confirmoverwrite touch;
