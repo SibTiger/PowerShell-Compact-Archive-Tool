@@ -49,7 +49,6 @@ MSGBOX_DOWNLOAD_POSH    =Would you like to download the latest official PowerShe
 
 
 
-;function PrepareToInstall(var NeedsRestart: Boolean) : String;
 [Code]
 // Global Constant Variables
 // ------------------------------------------------------------
@@ -82,7 +81,7 @@ const
 
 // Function Prototypes
 // ------------------------------------------------------------
-function    DetectPowerShellCore    ()                                                                  : Boolean           ; forward;
+procedure   DetectPowerShellCore    ()                                                                                      ; forward;
 function    RetrieveSubKeyList      (const HiveKey : Integer)                                           : TArrayOfString    ; forward;
 function    ScanRetrievedSubKeys    (const hiveKey : Integer; const subKeyItemList : TArrayOfString)    : Cardinal          ; forward;
 function    FindValueTarget         (const HiveKey : Integer; const ValueToInspect : String)            : Cardinal          ; forward;
@@ -100,14 +99,18 @@ procedure   AlertUserResults        (const searchResults : Cardinal)            
 
 
 // Inno Setup will automatically call this function when appropriate.
-function InitializeSetup() : Boolean;
+function PrepareToInstall(var NeedsRestart: Boolean) : String;
 begin
     // Try to find the current installation instance of PowerShell Core.
-    Result := DetectPowerShellCore();
+    DetectPowerShellCore();
 
 
-    // Finished!
-    Exit;
+    // Restarting the system is not necessary
+    NeedsRestart := false;
+
+
+    // Return an empty string
+    Result := '';
 end; // InitializeSetup()
 
 
@@ -131,11 +134,7 @@ end; // InitializeSetup()
 //          organize the search a bit differently for those using a 64Bit operating system.
 // Source: https://stackoverflow.com/questions/4033976/inno-setup-doesnt-allow-access-to-all-registry-keys-why
 // --------------------------------------
-// Return:
-//  true  = Found PowerShell Core installation
-//  false = Unable to find a PowerShell Core installation
-// --------------------------------------
-function DetectPowerShellCore() : Boolean;
+procedure DetectPowerShellCore();
 // Variables
 var
     scanResults : Cardinal;         // This will hold the Results from the Scan.
@@ -161,10 +160,6 @@ begin
 
     // With the scan finished, provide the results to the user's attention.
     AlertUserResults(scanResults);
-
-
-    // Allow the Installer to continue forward anyways.
-    Result := True;
 end; // DetectPowerShellCore()
 
 
