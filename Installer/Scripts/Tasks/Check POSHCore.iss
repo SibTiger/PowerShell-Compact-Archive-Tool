@@ -398,8 +398,6 @@ begin
         begin
             MsgBox('Unknown Search Results', mbCriticalError, MB_OK);
             Exit;
-        end;
-    end;
 
 
     // Take the user to the download page.
@@ -410,4 +408,6 @@ begin
                 SW_SHOW, \
                 ewNoWait, \
                 exitCodeExec);
+        end; // Error Case
+    end; // Switch
 end; // AlertUserResults()
