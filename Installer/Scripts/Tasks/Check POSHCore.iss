@@ -55,7 +55,7 @@ const
     _DEFAULT_MINOR_VERSION_ = 2;
 
     // Allow Debug messages to be logged\shown in Inno Setup Debug Output console?
-    _ALLOW_DEBUG_MESSAGES_  = true;
+    _ALLOW_DEBUG_MESSAGES_  = false;
 
 
 
