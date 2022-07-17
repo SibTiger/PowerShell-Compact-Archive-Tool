@@ -43,6 +43,9 @@ MSGBOX_POSH_OUTDATED    =Installed version of PowerShell Core is outdated!%n%n{#
 ; Detection Algorithm had failed or retrieved an unexpected value
 MSGBOX_UNKNOWN_RESULT   =Unable to determine if PowerShell Core was already installed!%n%nPlease be sure that you have the PowerShell Core already installed.
 
+; Download PowerShell Core Alert
+MSGBOX_DOWNLOAD_POSH    =Would you like to download the latest official PowerShell Core build?
+
 
 
 
@@ -418,16 +421,20 @@ begin
                     mbCriticalError, \
                     MB_OK);
             Exit;
-
-
-    // Take the user to the download page.
-    shellexec('open', \
-                'https://github.com/PowerShell/PowerShell/releases/latest', \
-                '', \
-                '', \
-                SW_SHOW, \
-                ewNoWait, \
-                exitCodeExec);
         end; // Error Case
     end; // Switch
+
+
+
+
+    // Ask the user if they want to be directed to PowerShell Core's official download page.
+    if (MsgBox(ExpandConstant('{cm:MSGBOX_DOWNLOAD_POSH}'), mbConfirmation, mb_YESNO) = IDYES) then
+        // Take the user to the download page.
+        shellexec('open', \
+                    'https://github.com/PowerShell/PowerShell/releases/latest', \
+                    '', \
+                    '', \
+                    SW_SHOW, \
+                    ewNoWait, \
+                    exitCodeExec);
 end; // AlertUserResults()
