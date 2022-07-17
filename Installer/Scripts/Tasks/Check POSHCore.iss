@@ -383,7 +383,7 @@ begin
 
             // Finished!
             Exit;
-        end;
+        end; // Case 1 : Found Target
 
 
         // Found the target but does not meet the requirements.
