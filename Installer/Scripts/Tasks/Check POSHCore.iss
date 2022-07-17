@@ -374,7 +374,14 @@ begin
         // Found the target and meets the requirements.
         1:
         begin
-            MsgBox('Found it!', mbInformation, MB_OK);
+            // Found the target!
+
+            // Debug Stuff
+            if (_ALLOW_DEBUG_MESSAGES_) then
+                // Provide a message box showing that the algorithm had successfully found the target.
+                MsgBox('Found the target!', mbInformation, MB_OK);
+
+            // Finished!
             Exit;
         end;
 
