@@ -22,7 +22,7 @@
 
 
 
-; Descrition
+; Description
 ; ------------------------
 ; This provides the user with the ability to manually download additional applications that will work with
 ;   intended software.  Normally, traditional installers will package all of the requried applications for the
