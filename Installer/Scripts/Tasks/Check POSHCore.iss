@@ -367,7 +367,7 @@ begin
         // Unable to find the target
         0:
         begin
-            MsgBox('Unable to find it!', mbCriticalError, MB_OK);
+            MsgBox('Unable to find it!', mbError, MB_OK);
         end;
 
 
@@ -389,7 +389,7 @@ begin
         // Found the target but does not meet the requirements.
         2:
         begin
-            MsgBox('Older version found!', mbCriticalError, MB_OK);
+            MsgBox('Older version found!', mbError, MB_OK);
         end;
 
 
