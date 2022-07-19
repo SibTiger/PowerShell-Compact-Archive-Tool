@@ -39,6 +39,7 @@
 
 
 ; Additional Tasks and Operations
+#include ".\Scripts\Tasks\Uninstall Wizard.iss"
 #include ".\Scripts\Tasks\Desktop Shortcut.iss"
 #include ".\Scripts\Tasks\Optional Downloads.iss"
 #include ".\Scripts\Tasks\Check POSHCore.iss"
