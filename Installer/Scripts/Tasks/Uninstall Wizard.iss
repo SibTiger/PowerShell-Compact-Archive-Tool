@@ -37,9 +37,16 @@
 
 
 [CustomMessages]
+; First Page: Caption
 UNINSTALL_CAPTION_PAGENAME_FIRSTPAGE            =Uninstall Options
+
+; First Page: Description Caption
 UNINSTALL_CAPTION_PAGEDESCRIPTION_FIRSTPAGE     =Select the following option:
+
+; Second Page: Caption
 UNINSTALL_CAPTION_PAGENAME_SECONDPAGE           =Uninstall {#_PRODUCT_NAME_FULL_}
+
+; Second Page: Description Caption
 UNINSTALL_CAPTION_PAGEDESCRIPTION_SECONDPAGE    =Uninstall Confirmation
 
 
