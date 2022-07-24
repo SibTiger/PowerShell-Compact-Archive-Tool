@@ -37,9 +37,9 @@
 
 
 [Code]
+// Global Variables
+// ------------------------------------------------------------
 var
-    // Global Variables
-    // ------------------------------------------------------------
     // Definitions for UI pages that we will use for the Uninstallation process.
     // - - - -
     // Welcome Page
