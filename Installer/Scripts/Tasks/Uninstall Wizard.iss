@@ -37,10 +37,10 @@
 
 
 [CustomMessages]
-UNINSTALL_CAPTION_PAGENAME_FIRSTPAGE            =ASDF
-UNINSTALL_CAPTION_PAGEDESCRIPTION_FIRSTPAGE     =ASDF
-UNINSTALL_CAPTION_PAGENAME_SECONDPAGE           =ASDF
-UNINSTALL_CAPTION_PAGEDESCRIPTION_SECONDPAGE    =ASDF
+UNINSTALL_CAPTION_PAGENAME_FIRSTPAGE            =Uninstall Options
+UNINSTALL_CAPTION_PAGEDESCRIPTION_FIRSTPAGE     =Select the following option:
+UNINSTALL_CAPTION_PAGENAME_SECONDPAGE           =Uninstall {#_PRODUCT_NAME_FULL_}
+UNINSTALL_CAPTION_PAGEDESCRIPTION_SECONDPAGE    =Uninstall Confirmation
 
 
 
@@ -119,15 +119,15 @@ begin
     // Uninstall Page: Options
     if (UninstallProgressForm.InnerNotebook.ActivePage = UninstallFirstPage) then
     begin
-        UninstallProgressForm.PageNameLabel.Caption         := 'Uninstall Options';
-        UninstallProgressForm.PageDescriptionLabel.Caption  := 'How do you want to ';
+        UninstallProgressForm.PageNameLabel.Caption         := ExpandConstant('{cm:UNINSTALL_CAPTION_PAGENAME_FIRSTPAGE}');
+        UninstallProgressForm.PageDescriptionLabel.Caption  := ExpandConstant('{cm:UNINSTALL_CAPTION_PAGEDESCRIPTION_FIRSTPAGE}');
     end
 
     // Uninstall Page: Confirmation
     else if (UninstallProgressForm.InnerNotebook.ActivePage = UninstallSecondPage) then
     begin
-        UninstallProgressForm.PageNameLabel.Caption         := 'Uninstall Confirmation';
-        UninstallProgressForm.PageDescriptionLabel.Caption  := 'Even more stuff';
+        UninstallProgressForm.PageNameLabel.Caption         := ExpandConstant('{cm:UNINSTALL_CAPTION_PAGENAME_SECONDPAGE}');
+        UninstallProgressForm.PageDescriptionLabel.Caption  := ExpandConstant('{cm:UNINSTALL_CAPTION_PAGEDESCRIPTION_SECONDPAGE}');
     end;
 end; // UpdateUninstallWizardCaptions()
 
