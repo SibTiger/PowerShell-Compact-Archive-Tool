@@ -375,7 +375,6 @@ var
 
 // Code
 begin
-
     // Determine what action to take.
     case searchResults of
         // Unable to find the target
