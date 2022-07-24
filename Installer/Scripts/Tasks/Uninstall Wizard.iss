@@ -133,7 +133,7 @@ end; // UpdateUninstallWizardCaptions()
 
 
 
-procedure UpdateUninstallWizardButtons
+procedure UpdateUninstallWizardButtons;
 begin
     // Determine how the buttons will be used for navigation purposes.
     UninstallBackButton.Visible := (UninstallProgressForm.OuterNotebook.ActivePage <> UninstallWelcomePage);
