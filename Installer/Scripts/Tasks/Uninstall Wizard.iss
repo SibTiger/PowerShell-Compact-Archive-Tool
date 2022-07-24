@@ -97,10 +97,10 @@ procedure   UpdateUninstallWizardButtons        ();     forward;
 procedure UpdateUninstallWizard;
 begin
     // Provide captions
-    UpdateUninstallWizardCaptions;
+    UpdateUninstallWizardCaptions();
 
     // Update the buttons
-    UpdateUninstallWizardButtons;
+    UpdateUninstallWizardButtons();
 end; // UpdateUninstallWizard()
 
 
