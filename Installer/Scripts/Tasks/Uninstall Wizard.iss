@@ -91,8 +91,8 @@ procedure   UpdateUninstallWizardButtons        ();     forward;
 
 // Update Uninstall Wizard
 // --------------------------------------
-// This function will provide a way to update the Uninstall Page's UI elements.
-//  Such that we can provide the appropriate information.
+// This function will provide a way to update the Uninstall Page's UI elements.  Such that we can provide
+//  the appropriate information and functionality.
 // --------------------------------------
 procedure UpdateUninstallWizard;
 begin
