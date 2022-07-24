@@ -97,7 +97,7 @@ procedure   UpdateUninstallWizardButtons        ();     forward;
 procedure UpdateUninstallWizard;
 begin
     // Provide captions
-    UpdateUninstallWizardButtons;
+    UpdateUninstallWizardCaptions;
 
     // Update the buttons
     UpdateUninstallWizardButtons;
