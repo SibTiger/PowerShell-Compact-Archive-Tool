@@ -36,6 +36,15 @@
 
 
 
+[CustomMessages]
+UNINSTALL_CAPTION_PAGENAME_FIRSTPAGE            =ASDF
+UNINSTALL_CAPTION_PAGEDESCRIPTION_FIRSTPAGE     =ASDF
+UNINSTALL_CAPTION_PAGENAME_SECONDPAGE           =ASDF
+UNINSTALL_CAPTION_PAGEDESCRIPTION_SECONDPAGE    =ASDF
+
+
+
+
 [Code]
 // Global Variables
 // ------------------------------------------------------------
@@ -45,10 +54,10 @@ var
     // Welcome Page
     UninstallWelcomePage    : TNewNotebookPage;
 
-    // Options Page
+    // Uninstall Options Page
     UninstallFirstPage      : TNewNotebookPage;
 
-    // Confirmation Page
+    // Uninstall Confirmation Page
     UninstallSecondPage     : TNewNotebookPage;
 
 
@@ -66,8 +75,9 @@ var
 
 // Function Prototypes
 // ------------------------------------------------------------
-procedure UpdateUninstallWizard(); forward;
-
+procedure   UpdateUninstallWizard               ();     forward;
+procedure   UpdateUninstallWizardCaptions       ();     forward;
+procedure   UpdateUninstallWizardButtons        ();     forward;
 
 
 
@@ -81,24 +91,50 @@ procedure UpdateUninstallWizard(); forward;
 
 // Update Uninstall Wizard
 // --------------------------------------
+// This function will provide a way to update the Uninstall Page's UI elements.
+//  Such that we can provide the appropriate information.
 // --------------------------------------
 procedure UpdateUninstallWizard;
 begin
-    // In this portion, we will update the captions that are shown within the desired pages.
+    // Provide captions
+    UpdateUninstallWizardButtons;
+
+    // Update the buttons
+    UpdateUninstallWizardButtons;
+end; // UpdateUninstallWizard()
+
+
+
+
+
+// Update Uninstall Wizard - Captions
+// --------------------------------------
+// This function will update the captions that will be displayed at the top of the UI Page.
+//  With the appropriate page shown to the user, this will let the user know what part of the
+//  Uninstall page they are presently viewing.
+// --------------------------------------
+procedure UpdateUninstallWizardCaptions;
+begin
+    // Uninstall Page: Options
     if (UninstallProgressForm.InnerNotebook.ActivePage = UninstallFirstPage) then
     begin
-        UninstallProgressForm.PageNameLabel.Caption         := 'Uninstall Wizardist';
-        UninstallProgressForm.PageDescriptionLabel.Caption  := 'Stuff';
+        UninstallProgressForm.PageNameLabel.Caption         := 'Uninstall Options';
+        UninstallProgressForm.PageDescriptionLabel.Caption  := 'How do you want to ';
     end
 
+    // Uninstall Page: Confirmation
     else if (UninstallProgressForm.InnerNotebook.ActivePage = UninstallSecondPage) then
     begin
-        UninstallProgressForm.PageNameLabel.Caption         := 'Uninstall Wizarder';
+        UninstallProgressForm.PageNameLabel.Caption         := 'Uninstall Confirmation';
         UninstallProgressForm.PageDescriptionLabel.Caption  := 'Even more stuff';
     end;
+end; // UpdateUninstallWizardCaptions()
 
 
 
+
+procedure UpdateUninstallWizardButtons
+begin
     // Determine how the buttons will be used for navigation purposes.
     UninstallBackButton.Visible := (UninstallProgressForm.OuterNotebook.ActivePage <> UninstallWelcomePage);
 
@@ -115,8 +151,7 @@ begin
         // Make the 'Uninstall' button break the ShowModal Loop.
         UninstallNextButton.ModalResult     := mrOk;
     end;
-end; // UpdateUninstallWizard()
-
+end; // UpdateUninstallWizardButtons()
 
 
 
