@@ -141,17 +141,27 @@ end; // UpdateUninstallWizardCaptions()
 
 
 
+
+// Update Uninstall Wizard - Buttons
+// --------------------------------------
+// This function will update the buttons that are displayed within the setup pages.  With these buttons
+//  displayed onto the pages, it will allow the user with the ability to navigate 
+// --------------------------------------
 procedure UpdateUninstallWizardButtons;
 begin
-    // Determine how the buttons will be used for navigation purposes.
+    // Dispaly the 'Back' button if and only if we are not at the Welcome Page.
     UninstallBackButton.Visible := (UninstallProgressForm.OuterNotebook.ActivePage <> UninstallWelcomePage);
 
+    // If the user is viewing the Options or any other page, then make sure that the 'Next' button will
+    //  navigate to the next page - instead of performing the Uninstallation Operation.
     if (UninstallProgressForm.InnerNotebook.ActivePage <> UninstallSecondPage) then
     begin
         UninstallNextButton.Caption         := SetupMessage(msgButtonNext);
         UninstallNextButton.ModalResult     := mrNone;
     end
 
+    // Once at the confirmation page, the 'Next' button will now behave as the entry point to the
+    //  'Uninstall' operation.
     else
     begin
         UninstallNextButton.Caption         := 'Uninstall';
@@ -160,6 +170,7 @@ begin
         UninstallNextButton.ModalResult     := mrOk;
     end;
 end; // UpdateUninstallWizardButtons()
+
 
 
 
