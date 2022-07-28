@@ -225,18 +225,24 @@ end; // UninstallNextButtonClick()
 
 // Handler: Back Button on Click
 // --------------------------------------
+// This function will automatically execute when the end-user clicks on the 'Back' button.
+//  When the user clicks on the button, this function will determine which pages should be
+//  presented to the user.
 // --------------------------------------
 procedure UninstallBackButtonClick(Sender: TObject);
 begin
+    // If the user is presently in the 'Options' page, then change back to the 'Welcome' page.
     if (UninstallProgressForm.InnerNotebook.ActivePage = UninstallFirstPage) then
     begin
         UninstallProgressForm.OuterNotebook.ActivePage := UninstallWelcomePage;
     end
 
+    // If the user is presently in the 'Confirmation' page, then change back to the 'Options' page.
     else if (UninstallProgressForm.InnerNotebook.ActivePage = UninstallSecondPage) then
         UninstallProgressForm.InnerNotebook.ActivePage  := UninstallFirstPage;
 
 
+    // Update the page contents.
     UpdateUninstallWizard;
 end; // UninstallBackButtonClick()
 
