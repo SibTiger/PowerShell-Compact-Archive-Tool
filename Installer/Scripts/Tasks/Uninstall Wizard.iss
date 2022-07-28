@@ -152,6 +152,7 @@ begin
     // Dispaly the 'Back' button if and only if we are not at the Welcome Page.
     UninstallBackButton.Visible := (UninstallProgressForm.OuterNotebook.ActivePage <> UninstallWelcomePage);
 
+
     // If the user is viewing the Options or any other page, then make sure that the 'Next' button will
     //  navigate to the next page - instead of performing the Uninstallation Operation.
     if (UninstallProgressForm.InnerNotebook.ActivePage <> UninstallSecondPage) then
