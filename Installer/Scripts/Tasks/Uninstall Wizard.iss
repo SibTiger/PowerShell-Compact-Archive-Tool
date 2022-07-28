@@ -178,27 +178,39 @@ end; // UpdateUninstallWizardButtons()
 
 // Handler: Next Button on Click
 // --------------------------------------
+// This function will automatically execute when the end-user clicks on the 'Next' button.
+//  When the user clicks on the button, this function will determine which pages should be
+//  presented to the user.
 // --------------------------------------
 procedure UninstallNextButtonClick(Sender: TObject);
 begin
+    // The user is presently in the 'Welcome' page.
     if (UninstallProgressForm.OuterNotebook.ActivePage = UninstallWelcomePage) then
     begin
+        // Change to the 'Options' page.
         UninstallProgressForm.OuterNotebook.ActivePage  := UninstallProgressForm.InnerPage;
         UninstallProgressForm.InnerNotebook.ActivePage  := UninstallFirstPage;
+
+        // Update the page contents.
         UpdateUninstallWizard;
     end
 
+    // The user is in a custom page.
     else
     begin
+        // The user is presently in any other page, except for the 'Confirmation' page.
         if (UninstallProgressForm.InnerNotebook.ActivePage <> UninstallSecondPage) then
         begin
+            // The user is presently in the 'Options' page.
             if (UninstallProgressForm.InnerNotebook.ActivePage = UninstallFirstPage) then
+                // Change to the 'Confirmation' page.
                 UninstallProgressForm.InnerNotebook.ActivePage  := UninstallSecondPage;
 
-
+            // Update the page contents.
             UpdateUninstallWizard;
         end
 
+        // The user is presently in the 'Confirmation' page; the Uninstall button will be present.
         else
         begin
             UninstallNextButton.Visible := False;
