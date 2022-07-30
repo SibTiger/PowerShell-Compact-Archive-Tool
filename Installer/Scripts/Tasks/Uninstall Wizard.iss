@@ -197,29 +197,30 @@ begin
 
         // Update the page contents.
         UpdateUninstallWizard;
+
+        // Finished!
+        return;
     end
 
-    // The user is in a custom page.
+
+
+    // The user is presently in some other page, except for the 'Confirmation' page.
+    if (UninstallProgressForm.InnerNotebook.ActivePage <> UninstallSecondPage) then
+    begin
+        // The user is presently in the 'Options' page.
+        if (UninstallProgressForm.InnerNotebook.ActivePage = UninstallFirstPage) then
+            // Change to the 'Confirmation' page.
+            UninstallProgressForm.InnerNotebook.ActivePage  := UninstallSecondPage;
+
+        // Update the page contents.
+        UpdateUninstallWizard;
+    end
+
+    // The user is presently in the 'Confirmation' page; the Uninstall button will be present.
     else
     begin
-        // The user is presently in any other page, except for the 'Confirmation' page.
-        if (UninstallProgressForm.InnerNotebook.ActivePage <> UninstallSecondPage) then
-        begin
-            // The user is presently in the 'Options' page.
-            if (UninstallProgressForm.InnerNotebook.ActivePage = UninstallFirstPage) then
-                // Change to the 'Confirmation' page.
-                UninstallProgressForm.InnerNotebook.ActivePage  := UninstallSecondPage;
-
-            // Update the page contents.
-            UpdateUninstallWizard;
-        end
-
-        // The user is presently in the 'Confirmation' page; the Uninstall button will be present.
-        else
-        begin
-            UninstallNextButton.Visible := False;
-            UninstallBackButton.Visible := False;
-        end;
+        UninstallNextButton.Visible := False;
+        UninstallBackButton.Visible := False;
     end;
 end; // UninstallNextButtonClick()
 
