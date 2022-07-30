@@ -131,6 +131,7 @@ begin
         UninstallProgressForm.PageDescriptionLabel.Caption  := ExpandConstant('{cm:UNINSTALL_CAPTION_PAGEDESCRIPTION_FIRSTPAGE}');
     end
 
+
     // Uninstall Page: Confirmation
     else if (UninstallProgressForm.InnerNotebook.ActivePage = UninstallSecondPage) then
     begin
