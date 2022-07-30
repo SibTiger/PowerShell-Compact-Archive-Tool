@@ -163,6 +163,7 @@ begin
         UninstallNextButton.ModalResult     := mrNone;
     end
 
+
     // Once at the confirmation page, the 'Next' button will now behave as the entry point to the
     //  'Uninstall' operation.
     else
