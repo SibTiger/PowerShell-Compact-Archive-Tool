@@ -99,8 +99,8 @@ procedure   UpdateUninstallWizardButtons        ();     forward;
 
 // Update Uninstall Wizard
 // --------------------------------------
-// This function will provide a way to update the Uninstall Page's UI elements.  Such that we can provide
-//  the appropriate information and functionality.
+// This function will provide a way to update the Uninstall Page's UI elements.  Such that we can provide the
+//  appropriate information and functionality.
 // --------------------------------------
 procedure UpdateUninstallWizard;
 begin
@@ -118,16 +118,16 @@ end; // UpdateUninstallWizard()
 
 // Update Uninstall Wizard - Captions
 // --------------------------------------
-// This function will update the captions that will be displayed at the top of the UI Page.
-//  With the appropriate page shown to the user, this will let the user know what part of the
-//  Uninstall page they are presently viewing.
+// This function will update the captions that will be displayed at the top of the UI Page.  With the
+//  appropriate page shown to the user, this will let the user know what part of the Uninstall page they are
+//  presently viewing.
 // --------------------------------------
 procedure UpdateUninstallWizardCaptions;
 begin
     // Uninstall Page: Options
     if (UninstallProgressForm.InnerNotebook.ActivePage = UninstallFirstPage) then
     begin
-        UninstallProgressForm.PageNameLabel.Caption         := ExpandConstant('{cm:UNINSTALL_CAPTION_PAGENAME_FIRSTPAGE}');
+        UninstallProgressForm.PageNameLabel.Caption         := ExpandConstant('{cm:4UNINSTALL_CAPTION_PAGENAME_FIRSTPAGE}');
         UninstallProgressForm.PageDescriptionLabel.Caption  := ExpandConstant('{cm:UNINSTALL_CAPTION_PAGEDESCRIPTION_FIRSTPAGE}');
     end
 
@@ -167,8 +167,8 @@ begin
     end
 
 
-    // Once at the confirmation page, the 'Next' button will now behave as the entry point to the
-    //  'Uninstall' operation.
+    // Once at the confirmation page, the 'Next' button will now behave as the entry point to the 'Uninstall'
+    //  operation.
     UninstallNextButton.Caption         := 'Uninstall';
 
 
@@ -182,9 +182,8 @@ end; // UpdateUninstallWizardButtons()
 
 // Handler: Next Button on Click
 // --------------------------------------
-// This function will automatically execute when the end-user clicks on the 'Next' button.
-//  When the user clicks on the button, this function will determine which pages should be
-//  presented to the user.
+// This function will automatically execute when the end-user clicks on the 'Next' button.  When the user
+//  clicks on the button, this function will determine which pages should be presented to the user.
 // --------------------------------------
 procedure UninstallNextButtonClick(Sender: TObject);
 begin
@@ -230,9 +229,8 @@ end; // UninstallNextButtonClick()
 
 // Handler: Back Button on Click
 // --------------------------------------
-// This function will automatically execute when the end-user clicks on the 'Back' button.
-//  When the user clicks on the button, this function will determine which pages should be
-//  presented to the user.
+// This function will automatically execute when the end-user clicks on the 'Back' button.  When the user
+//  clicks on the button, this function will determine which pages should be presented to the user.
 // --------------------------------------
 procedure UninstallBackButtonClick(Sender: TObject);
 begin
