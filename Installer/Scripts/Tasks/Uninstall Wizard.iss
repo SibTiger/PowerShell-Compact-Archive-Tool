@@ -107,6 +107,7 @@ begin
     // Provide captions
     UpdateUninstallWizardCaptions();
 
+
     // Update the buttons
     UpdateUninstallWizardButtons();
 end; // UpdateUninstallWizard()
