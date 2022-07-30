@@ -161,18 +161,19 @@ begin
     begin
         UninstallNextButton.Caption         := SetupMessage(msgButtonNext);
         UninstallNextButton.ModalResult     := mrNone;
+
+        // Finished
+        return;
     end
 
 
     // Once at the confirmation page, the 'Next' button will now behave as the entry point to the
     //  'Uninstall' operation.
-    else
-    begin
-        UninstallNextButton.Caption         := 'Uninstall';
+    UninstallNextButton.Caption         := 'Uninstall';
 
-        // Make the 'Uninstall' button break the ShowModal Loop.
-        UninstallNextButton.ModalResult     := mrOk;
-    end;
+
+    // Make the 'Uninstall' button break the ShowModal Loop.
+    UninstallNextButton.ModalResult     := mrOk;
 end; // UpdateUninstallWizardButtons()
 
 
