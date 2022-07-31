@@ -21,34 +21,127 @@
 
 
 
+; Debugger Tools
+; ----------------------------------------------------------
+; ==========================================================
+; ----------------------------------------------------------
+
+; Generate Project Installer
+#include ".\Scripts\Debug\Generate Compiler.iss"
+
+
+
+
+
 
 ; Global Definitions
 ; ----------------------------------------------------------
 ; ==========================================================
 ; ----------------------------------------------------------
 
-; Project Details
-#include ".\Setup Scripts\Project Information.iss"
+; Project Information
+#include ".\Scripts\Project Information.iss"
+
+; Project Metadata
+#include ".\Scripts\Metadata\Project Metadata.iss"
 
 ; Installer Metadata
-#include ".\Setup Scripts\Installer Metadata.iss"
-
-; Directories and Files
-#include ".\Setup Scripts\Directories and Files.iss"
-
-; Testing and Debuging
-#include ".\Setup Scripts\Testing.iss"
+#include ".\Scripts\Metadata\Installer Metadata.iss"
 
 
 
 
 
 
-
-; Setup
+; Installer Behavior
 ; ----------------------------------------------------------
 ; ==========================================================
 ; ----------------------------------------------------------
-[Setup]
-; Application ID
-#include ".\Setup Scripts\Application ID.iss"
+
+; Application Identifier (GUID)
+#include ".\Scripts\Application GUID.iss"
+
+; Source Directory
+#include ".\Scripts\Setup\Source Directory.iss"
+
+; Compression
+#include ".\Scripts\Setup\Compression.iss"
+
+; File Management
+#include ".\Scripts\Setup\File Management.iss"
+
+; Installer Output
+#include ".\Scripts\Setup\Output.iss"
+
+; Wizard Behavior
+#include ".\Scripts\Setup\Wizard.iss"
+
+
+
+
+
+
+; Wizard Interface
+; ----------------------------------------------------------
+; ==========================================================
+; ----------------------------------------------------------
+
+; Wizard Style
+#include ".\Scripts\Interface\Wizard Style.iss"
+
+; Wizard Interface
+#include ".\Scripts\Interface\Wizard Interface.iss"
+
+; Graphics
+#include ".\Scripts\Interface\Wizard Graphics.iss"
+
+
+
+
+
+
+; Languages
+; ----------------------------------------------------------
+; ==========================================================
+; ----------------------------------------------------------
+
+; English - United States
+#include ".\Scripts\Language\English.iss"
+
+
+
+
+
+
+; Installation Files and Directories
+; ----------------------------------------------------------
+; ==========================================================
+; ----------------------------------------------------------
+
+; Files
+#include ".\Scripts\Installation Files\Files.iss"
+
+; Directories
+#include ".\Scripts\Installation Files\Directories.iss"
+
+; Start Menu
+#include ".\Scripts\Installation Files\Start Menu.iss"
+
+
+
+
+
+
+; Additional Tasks and Operations
+; ----------------------------------------------------------
+; ==========================================================
+; ----------------------------------------------------------
+
+; Ask user to Create Desktop Shortcut
+#include ".\Scripts\Tasks\Desktop Shortcut.iss"
+
+; Ask user to Download Optional Dependencies
+#include ".\Scripts\Tasks\Optional Downloads.iss"
+
+; Check for PowerShell Core Dependency
+#include ".\Scripts\Tasks\Check POSHCore.iss"
