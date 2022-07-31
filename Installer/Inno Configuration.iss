@@ -42,4 +42,3 @@
 #include ".\Scripts\Tasks\Desktop Shortcut.iss"
 #include ".\Scripts\Tasks\Optional Downloads.iss"
 #include ".\Scripts\Tasks\Check POSHCore.iss"
-#include ".\Scripts\Tasks\Uninstall Wizard.iss"
