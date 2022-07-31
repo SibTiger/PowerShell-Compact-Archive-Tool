@@ -1,5 +1,5 @@
 #include ".\Scripts\Project Information.iss"
-#include ".\Scripts\Debug\Testing.iss"
+#include ".\Scripts\Debug\Generate Compiler.iss"
 
 
 
