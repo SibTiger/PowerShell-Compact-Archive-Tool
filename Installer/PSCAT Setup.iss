@@ -29,6 +29,11 @@
 ; Generate Project Installer
 #include ".\Scripts\Debug\Generate Compiler.iss"
 
+; Log results to the Inno Terminal
+;   AND
+; Log results to a Logfile in %TEMP%
+#include ".\Scripts\Debug\Logging.iss"
+
 
 
 

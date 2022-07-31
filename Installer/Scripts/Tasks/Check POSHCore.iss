@@ -25,11 +25,6 @@
 ; ------------------------
 ; This script is designed to assure that the PowerShell Core application is available within the host system.
 ;   Without POSHCore, it is not possible to run this software.  This is a mandatory prerequesit.
-[Wizard]
-SetupLogging = yes
-[/Wizard]
-
-
 
 
 [CustomMessages]

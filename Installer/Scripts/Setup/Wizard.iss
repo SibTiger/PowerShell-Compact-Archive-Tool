@@ -477,16 +477,6 @@ RestartIfNeededByRun = "Yes"
 
 
 
-; Log Installation
-; - - - - - - - - -
-; When this set had been set to 'yes', the Installer will log its activities.
-;
-; Resource:
-;   - https://jrsoftware.org/ishelp/index.php?topic=setup_setuplogging
-SetupLogging = "Yes"
-
-
-
 ; Show Language Selection Dialog
 ; - - - - - - - - - - - - - - - -
 ; When this value is set to 'yes' and there exists multiple languages, then the user will be prompted to
