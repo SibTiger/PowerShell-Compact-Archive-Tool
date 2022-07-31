@@ -56,7 +56,7 @@ VersionInfoDescription = "{#_PRODUCT_NAME_FULL_} Installer"
 
 ; Original File Name
 ; - - - - - - - - - -
-; This specifies the origitgnal file name for the setup.
+; This specifies the original file name for the setup.
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_versioninfooriginalfilename

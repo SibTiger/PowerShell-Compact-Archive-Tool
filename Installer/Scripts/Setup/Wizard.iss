@@ -111,7 +111,7 @@ AlwaysShowDirOnReadyPage = "Yes"
 ; Always Show Start Menu Directory on Ready Page
 ; - - - - - - - - - - - - - - - - - - - - - - - -
 ; Visually show the expected directory name of the Start Menu that the user will be able to find the
-;   product's content shortcuts.  This is mainly for convienience such that the user will see where the
+;   product's content shortcuts.  This is mainly for convenience such that the user will see where the
 ;   shortcuts can be accessible.
 ;
 ; Resource:
@@ -156,7 +156,7 @@ AppendDefaultGroupName = "Yes"
 
 ; Architectures Allowed
 ; - - - - - - - - - - -
-; Specifies which processor architecutre the installer is allowed to run on.
+; Specifies which processor architecture the installer is allowed to run on.
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_architecturesallowed
@@ -211,7 +211,7 @@ CloseApplications = "Yes"
 ; Close Application Filter
 ; - - - - - - - - - - - - -
 ; This will limit which files and Install-Delete entries Setup will check for what is currently being in use;
-;   only files that are matching one of the wilecards will be checked.
+;   only files that are matching one of the wildcards will be checked.
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_closeapplicationsfilter
@@ -445,7 +445,7 @@ PrivilegesRequired = "lowest"
 
 ; Privileges Required Overrides Allowed
 ; - - - - - - - - - - - - - - - - - - -
-; This can be used to set one or more overides which allows the end user to override the Privileges Required
+; This can be used to set one or more overrides which allows the end user to override the Privileges Required
 ;   configuration.
 ;
 ; Resources:

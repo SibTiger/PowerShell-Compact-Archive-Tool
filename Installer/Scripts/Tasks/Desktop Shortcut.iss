@@ -23,7 +23,7 @@
 
 
 
-; Descrition
+; Description
 ; ------------------------
 ; Create a desktop shortcut to the application.
 

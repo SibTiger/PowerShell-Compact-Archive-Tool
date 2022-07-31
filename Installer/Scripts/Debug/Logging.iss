@@ -31,7 +31,7 @@
 ; This allows the ability for generating a Logfile containing sane-verbosity of all internalized actions that
 ;   are taking place within the installer in a step-by-step procedure.
 ;
-; The information is viewable in two ways, simutaneously.
+; The information is viewable in two ways, simultaneously.
 ;   1. Terminal Output from the Inno Setup
 ;   2. Logfile located within the %TEMP% directory.
 ;

@@ -24,7 +24,7 @@
 ; Descrition
 ; ------------------------
 ; This script is designed to assure that the PowerShell Core application is available within the host system.
-;   Without POSHCore, it is not possible to run this software.  This is a mandatory prerequesit.
+;   Without POSHCore, it is not possible to run this software.  This is a mandatory prerequisite.
 
 
 [CustomMessages]
@@ -129,7 +129,7 @@ end; // InitializeSetup()
 
 // Detect PowerShell Core - Main
 // --------------------------------------
-// This function is the main driver algorithm.  Thus, meaning, that this function will cordinate how the
+// This function is the main driver algorithm.  Thus, meaning, that this function will coordinate how the
 //  search will will operate.  We have to keep in mind that the desired application could be installed in
 //  a 32Bit or 64Bit variant within a 64Bit Operating System environment, while a 32Bit Operating System
 //  environment is strictly a 32Bit system.  As such, we have to scan merely dependent on the CPU
@@ -202,7 +202,7 @@ end; // RetrieveSubKeyList()
 // --------------------------------------
 // This function is designed to scan through the entire Subkey list, provided by the dynamic size array.  To
 //  perform this search, this function will stitch together the full path of the SubKey to a helper-function
-//  inwhich it will utlimately inspect if a specific value, that we are searching for, exists or not exists
+//  in-which it will ultimately inspect if a specific value, that we are searching for, exists or not exists
 //  within the system's registry.
 // --------------------------------------
 // Return:
@@ -286,7 +286,7 @@ var
 begin
     // Debug stuff.
     if (_ALLOW_DEBUG_MESSAGES_) then
-        //  This is to make sure that the arguments contains the right informaiton.
+        //  This is to make sure that the arguments contains the right information.
         Log(Format('Inspecting Value: %s', [ValueToInspect]));
 
 

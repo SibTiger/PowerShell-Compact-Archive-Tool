@@ -26,10 +26,10 @@
 ; Description
 ; ------------------------
 ; This provides the user with the ability to manually download additional applications that will work with
-;   intended software.  Normally, traditional installers will package all of the requried applications for the
+;   intended software.  Normally, traditional installers will package all of the required applications for the
 ;   user by default.  But the difference here is in two scenarios:
 ;       1) The additional applications are merely optional, not required.
-;       2) If we packaged the additional applications, they may become obselete when a new user were to use
+;       2) If we packaged the additional applications, they may become obsolete when a new user were to use
 ;           this installer.  I'd much rather the user to use the latest and greatest available; providing
 ;           further enhancements, fixes, and even security improvements.
 

@@ -36,7 +36,7 @@ Name: "{localappdata}\{#_PRODUCT_NAME_FULL_}";          \
 
 ; User's %AppData%
 ; - - - - - - - - -
-; Contains application data that can be, within a domain infustracture, transported from one system to another.
+; Contains application data that can be, within a domain infrastructure, transported from one system to another.
 ;   Thus, allowing the user's data to be movable with the user needs as they see fit.
 Name: "{userappdata}\{#_PRODUCT_NAME_FULL_}";           \
     flags: uninsalwaysuninstall;

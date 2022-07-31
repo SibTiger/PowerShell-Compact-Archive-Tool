@@ -70,7 +70,7 @@ AppComments = "{#_PRODUCT_BRIEF_DESCRIPTION_}"
 
 ; Application Contact
 ; - - - - - - - - - -
-; This will be displayed in the Add/Remove Porgrams within the classical Control Panel.
+; This will be displayed in the Add/Remove Programs within the classical Control Panel.
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_appcontact
