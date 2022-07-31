@@ -22,6 +22,10 @@
 
 
 
+
+[Setup]
+
+
 ; Internal Compression Level
 ; - - - - - - - - - - - - - -
 ; This defines the compression level that will be used for Inno's internal structure.  Ideally, there's no
@@ -99,3 +103,6 @@ LZMAMatchFinder = "BT"
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_compressionthreads
 CompressionThreads = "Auto"
+
+
+[/Setup]

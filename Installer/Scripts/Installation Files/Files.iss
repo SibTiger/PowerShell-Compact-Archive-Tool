@@ -19,6 +19,11 @@
 
 
 
+
+
+[Files]
+
+
 ; Application and Scripts
 ; - - - - - - - - - - - -
 Source: "Compile\PSCAT.ps1";                    \
@@ -63,3 +68,6 @@ Source: "Installer\Product Assets\Graphic - Setup\Uninstall\Uninstall Icon.ico";
 Source: "Installer\Product Assets\Web\*";   \
     DestDir: "{app}\Websites\";             \
     Flags: confirmoverwrite touch;
+
+
+[/Files]

@@ -20,6 +20,10 @@
 
 
 
+
+[Dirs]
+
+
 ; User's %LocalAppData%
 ; - - - - - - - - - - -
 ; Local application data that is to remain localized within the user's profile.
@@ -49,3 +53,6 @@ Name: "{userappdata}\{#_PRODUCT_NAME_FULL_}\Configs";   \
 ;   the generated builds.
 Name: "{userdocs}\{#_PRODUCT_NAME_FULL_}";              \
     flags: uninsneveruninstall;
+
+
+[/Dirs]

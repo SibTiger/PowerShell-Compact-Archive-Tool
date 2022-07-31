@@ -22,6 +22,10 @@
 
 
 
+
+[Setup]
+
+
 ; Output Base File Name
 ; - - - - - - - - - - -
 ; This provides the setup filename in the output result.  This essentially is our final compiled build that
@@ -67,3 +71,6 @@ OutputDir = "..\Installers\{#_PRODUCT_VERSION_}\"
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_outputmanifestfile
 OutputManifestFile = "Manifest v{#_PRODUCT_VERSION_}.txt"
+
+
+[/Setup]

@@ -22,6 +22,10 @@
 
 
 
+
+[Setup]
+
+
 ; Source Directory
 ; - - - - - - - - -
 ; This will specify the location as to where the files are generally located or a common-location.  With this
@@ -31,3 +35,6 @@
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_sourcedir
 SourceDir = "..\"
+
+
+[/Setup]

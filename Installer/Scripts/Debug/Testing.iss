@@ -20,7 +20,10 @@
 
 
 
-[SETUP]
+
+[Setup]
+
+
 ; Create Installer Package
 ; - - - - - - - - - - - - -
 ; This will specify if we are wanting to generate an installer package or if we only want to check for script
@@ -34,3 +37,6 @@
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_output
 Output = "Yes"
+
+
+[/Setup]

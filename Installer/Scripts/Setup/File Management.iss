@@ -22,6 +22,10 @@
 
 
 
+
+[Setup]
+
+
 ; Merge Duplicate Files
 ; - - - - - - - - - - -
 ; If incase there exists multiple duplicate files, then we can be able to ignore all other duplicate sources
@@ -32,3 +36,6 @@
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_mergeduplicatefiles
 MergeDuplicateFiles = "Yes"
+
+
+[/Setup]

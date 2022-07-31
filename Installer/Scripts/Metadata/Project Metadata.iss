@@ -22,6 +22,10 @@
 
 
 
+
+[Setup]
+
+
 ; Application Name
 ; - - - - - - - - -
 ; This will provide the name of the product.  This will be visible throughout the entire installation wizard.
@@ -131,3 +135,6 @@ AppUpdatesURL = "{#_PRODUCT_WEBSITE_UPDATES_}"
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_appcopyright
 AppCopyright = "Copyright (C) {#_PRODUCT_COPYRIGHT_}"
+
+
+[/Setup]

@@ -3,7 +3,7 @@
 
 
 
-[Setup]
+;[Setup]
 #include ".\Scripts\Application GUID.iss"
 #include ".\Scripts\Metadata\Project Metadata.iss"
 #include ".\Scripts\Metadata\Installer Metadata.iss"
@@ -18,22 +18,22 @@
 
 
 
-[Languages]
+;[Languages]
 #include ".\Scripts\Language\English.iss"
 
 
 
-[Files]
+;[Files]
 #include ".\Scripts\Installation Files\Files.iss"
 
 
 
-[Dirs]
+;[Dirs]
 #include ".\Scripts\Installation Files\Directories.iss"
 
 
 
-[Icons]
+;[Icons]
 #include ".\Scripts\Installation Files\Start Menu.iss"
 
 

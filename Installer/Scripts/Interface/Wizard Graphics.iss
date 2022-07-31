@@ -22,6 +22,10 @@
 
 
 
+
+[Setup]
+
+
 ; Setup Icon
 ; - - - - - - - - - - - - -
 ; This will specify the icon that will be associated with the Installer and Uninstaller applications.
@@ -76,3 +80,6 @@ WizardImageFile = ".\Installer\Product Assets\Graphic - Wizard\Banner\*.bmp"
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_wizardsmallimagefile
 WizardSmallImageFile = ".\Installer\Product Assets\Graphic - Wizard\Logo\*.bmp"
+
+
+[/Setup]

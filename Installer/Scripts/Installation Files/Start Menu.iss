@@ -20,6 +20,10 @@
 
 
 
+
+[Icons]
+
+
 ; Applications
 Name: "{group}\{#_PRODUCT_NAME_SHORT_}\{#_PRODUCT_NAME_FULL_}";             \
     Filename: "{app}\Bin\{#_PRODUCT_NAME_SHORT_}.ps1";
@@ -59,3 +63,6 @@ Name: "{group}\Websites\{#_PRODUCT_NAME_SHORT_} Forum";                     \
 
 Name: "{group}\Websites\{#_PRODUCT_NAME_SHORT_} Wiki";                      \
     Filename: "{#_PRODUCT_WEBSITE_SUPPORT_}";
+
+
+[/Icons]

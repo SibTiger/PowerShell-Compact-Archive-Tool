@@ -20,17 +20,21 @@
 
 
 
+
 ; Descrition
 ; ------------------------
 ; This script is designed to assure that the PowerShell Core application is available within the host system.
 ;   Without POSHCore, it is not possible to run this software.  This is a mandatory prerequesit.
 [Wizard]
 SetupLogging = yes
+[/Wizard]
 
 
 
 
 [CustomMessages]
+
+
 ; PowerShell Core was not found
 MSGBOX_POSH_NOT_FOUND   =Unable to find an installation of PowerShell Core!%n%nPlease keep in mind that PowerShell Core is required in order for the {#_PRODUCT_NAME_FULL_} to work properly.
 
@@ -47,9 +51,15 @@ MSGBOX_UNKNOWN_RESULT   =Unable to determine if PowerShell Core was already inst
 MSGBOX_DOWNLOAD_POSH    =Would you like to download the latest official PowerShell Core build?
 
 
+[/CustomMessages]
+
+
+
 
 
 [Code]
+
+
 // Global Constant Variables
 // ------------------------------------------------------------
 const
@@ -432,4 +442,6 @@ begin
                     ewNoWait, \
                     exitCodeExec);
 end; // AlertUserResults()
+
+
 [/code]

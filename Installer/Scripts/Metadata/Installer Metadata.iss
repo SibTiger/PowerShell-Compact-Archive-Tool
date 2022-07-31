@@ -20,6 +20,10 @@
 
 
 
+
+[Setup]
+
+
 ; Company
 ; - - - -
 ; Name of the company or publisher regarding the project.
@@ -97,3 +101,6 @@ VersionInfoProductVersion = "{#_PRODUCT_VERSION_}"
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_versioninfoversion
 VersionInfoVersion = "1.0.0.0"
+
+
+[/Setup]

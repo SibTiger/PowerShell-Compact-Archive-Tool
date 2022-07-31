@@ -21,6 +21,10 @@
 
 
 
+
+[Setup]
+
+
 ; Wizard Image Stretch
 ; - - - - - - - - - - - - -
 ; This option will allow the ability to stretch the Left Panel image such that it fits the appropriate area
@@ -49,3 +53,6 @@ WizardImageStretch = "Yes"
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_wizardresizable
 WizardResizable = "No"
+
+
+[/Setup]

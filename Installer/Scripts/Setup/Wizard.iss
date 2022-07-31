@@ -20,6 +20,10 @@
 
 
 
+
+[Setup]
+
+
 ; Allow Cancel During Install
 ; - - - - - - - - - - - - - -
 ; This allows the ability for the end-user to abort the on-going installation operation.
@@ -682,3 +686,6 @@ UsePreviousUserInfo = "Yes"
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_userinfopage
 UserInfoPage = "No"
+
+
+[/Setup]

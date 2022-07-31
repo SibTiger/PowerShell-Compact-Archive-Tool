@@ -22,6 +22,10 @@
 
 
 
+
+[Setup]
+
+
 ; Wizard Style
 ; - - - - - - - - - - - - -
 ; This will define the look and feel of the installer wizard that is presented to the user.  The design of
@@ -34,3 +38,6 @@
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_wizardstyle
 WizardStyle = "Modern"
+
+
+[/Setup]
