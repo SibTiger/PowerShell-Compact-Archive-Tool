@@ -163,7 +163,7 @@ begin
         UninstallNextButton.ModalResult     := mrNone;
 
         // Finished
-        return;
+        Exit;
     end
 
 
@@ -198,7 +198,7 @@ begin
         UpdateUninstallWizard;
 
         // Finished!
-        return;
+        Exit;
     end
 
 
