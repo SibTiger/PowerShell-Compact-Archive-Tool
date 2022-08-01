@@ -282,7 +282,7 @@ DirExistsWarning = "Auto"
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_disabledirpage
-DisableDirPage = "Auto"
+DisableDirPage = "Yes"
 
 
 
