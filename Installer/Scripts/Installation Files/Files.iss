@@ -61,13 +61,4 @@ Source: "Installer\Product Assets\Graphic - Setup\Uninstall\Uninstall Icon.ico";
     Flags: confirmoverwrite touch;
 
 
-
-
-; Online Resources
-; - - - - - - - - -
-Source: "Installer\Product Assets\Web\*";   \
-    DestDir: "{app}\Websites\";             \
-    Flags: confirmoverwrite touch;
-
-
 [/Files]
