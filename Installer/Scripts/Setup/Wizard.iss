@@ -357,7 +357,7 @@ DisableWelcomePage = "No"
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_enabledirdoesntexistwarning
-EnableDirDoesntExistWarning = "Yes"
+EnableDirDoesntExistWarning = "No"
 
 
 
