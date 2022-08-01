@@ -304,7 +304,7 @@ DisableFinishedPage = "No"
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_disableprogramgrouppage
-DisableProgramGroupPage = "Auto"
+DisableProgramGroupPage = "Yes"
 
 
 
