@@ -553,7 +553,7 @@ UninstallDisplayName = "{#_PRODUCT_NAME_FULL_}"
 ;
 ; Resource:
 ;   - https://jrsoftware.org/ishelp/index.php?topic=setup_uninstallfilesdir
-UninstallFilesDir = "{app}"
+UninstallFilesDir = "{app}/Uninstall"
 
 
 
