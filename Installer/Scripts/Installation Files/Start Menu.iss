@@ -44,13 +44,6 @@ Name: "{group}\Text\ReadMe";                                                \
 
 
 
-; Uninstall Software
-Name: "{group}\Uninstall\{cm:UninstallProgram,{#_PRODUCT_NAME_FULL_}}";     \
-    Filename: "{uninstallexe}";
-
-
-
-
 ; Websites
 Name: "{group}\Websites\{#_PRODUCT_NAME_SHORT_} Homepage";                  \
     Filename: "{#_PRODUCT_WEBSITE_HOMEPAGE_}";
