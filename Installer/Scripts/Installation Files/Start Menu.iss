@@ -34,6 +34,15 @@ Name: "{group}\{#_PRODUCT_NAME_SHORT_}\{#_PRODUCT_NAME_SHORT_} Clean";      \
 Name: "{group}\{#_PRODUCT_NAME_SHORT_}\{#_PRODUCT_NAME_SHORT_} Deep-Clean"; \
     Filename: "{app}\Bin\Uninstall.ps1";
 
+Name: "{group}\{#_PRODUCT_NAME_SHORT_}\{#_PRODUCT_NAME_SHORT_}";            \
+    Filename: "{app}\Bootstrap\Bootstrap Loader.bat";
+
+Name: "{group}\{#_PRODUCT_NAME_SHORT_}\{#_PRODUCT_NAME_SHORT_} Clean";      \
+    Filename: "{app}\Bootstrap\Clean.bat";
+
+Name: "{group}\{#_PRODUCT_NAME_SHORT_}\{#_PRODUCT_NAME_SHORT_} Deep Clean"; \
+    Filename: "{app}\Bootstrap\Deep Clean.bat";
+
 
 
 
