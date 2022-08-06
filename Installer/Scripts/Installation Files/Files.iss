@@ -42,6 +42,14 @@ Source: "Installer\Product Assets\Bootstrap\Bootstrap Loader.bat";  \
     DestDir: "{app}\Bootstrap\";                                    \
     Flags: confirmoverwrite touch;
 
+Source: "Installer\Product Assets\Bootstrap\Clean.bat";             \
+    DestDir: "{app}\Bootstrap\";                                    \
+    Flags: confirmoverwrite touch;
+
+Source: "Installer\Product Assets\Bootstrap\Deep Clean.bat";        \
+    DestDir: "{app}\Bootstrap\";                                    \
+    Flags: confirmoverwrite touch;
+
 
 
 
