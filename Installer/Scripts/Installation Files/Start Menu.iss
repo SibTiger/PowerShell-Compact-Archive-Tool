@@ -25,15 +25,6 @@
 
 
 ; Applications
-Name: "{group}\{#_PRODUCT_NAME_SHORT_}\{#_PRODUCT_NAME_FULL_}";             \
-    Filename: "{app}\Bin\{#_PRODUCT_NAME_SHORT_}.ps1";
-
-Name: "{group}\{#_PRODUCT_NAME_SHORT_}\{#_PRODUCT_NAME_SHORT_} Clean";      \
-    Filename: "{app}\Bin\Clean.ps1";
-
-Name: "{group}\{#_PRODUCT_NAME_SHORT_}\{#_PRODUCT_NAME_SHORT_} Deep-Clean"; \
-    Filename: "{app}\Bin\Uninstall.ps1";
-
 Name: "{group}\{#_PRODUCT_NAME_SHORT_}\{#_PRODUCT_NAME_SHORT_}";            \
     Filename: "{app}\Bootstrap\Bootstrap Loader.bat";
 
