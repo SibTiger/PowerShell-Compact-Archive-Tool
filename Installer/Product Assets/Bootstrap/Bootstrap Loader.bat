@@ -89,7 +89,16 @@ SET "ProgramVersion=1.0.0"
 
 REM PowerShell Core
 SET "PowerShellPath=NULL"
-SET "PowerShellExec=NULL"
+SET "PowerShellExec=pwsh.exe"
+
+
+REM PowerShell Core Installation Defaults
+SET "PowerShellInstallDefault_Pathx86=%ProgramFiles(x86)%\PowerShell\"
+SET "PowerShellInstallDefault_Pathx64=%ProgramFiles%\PowerShell\"
+
+
+REM Cache Variables; Anything Goes-Variables
+SET "cacheVar0=NULL"
 
 
 REM Title
@@ -143,6 +152,31 @@ REM #   Try to find the installation of the PowerShell Core within
 REM #       the host system's filesystem.
 REM # ============================================
 :FindPowerShell
+
+REM Before we try to find the file, first make sure that the default installation path works.
+IF EXIST "%PowerShellInstallDefault_Pathx64%" (
+    REM Found a 64Bit version of PowerShell Core.
+    SET "cacheVar0=%PowerShellInstallDefault_Pathx64%"
+) ELSE (
+    REM 32Bit version may only be available, but we will check - instead of assuming.
+    if EXIST "%PowerShellInstallDefault_Pathx86%" SET "cacheVar0=%PowerShellInstallDefault_Pathx86%" ELSE EXIT /B 0
+)
+
+ECHO Searching using these results: [%cacheVar0%]
+pause
+
+
+REM Try to find the target POSH in the x64 %ProgramFiles%
+FOR /R "%cacheVar0%" %%i in * do if ["%%~nxi"] == ["%PowerShellInstallDefault_FileName%"] SET "PowerShellPath=%%i"& SET "PowerShellExec=%%~nxi"& EXIT /B 1
+
+
+
+
+
+
+
+
+
 EXIT /B 0
 REM # ============================================
 
