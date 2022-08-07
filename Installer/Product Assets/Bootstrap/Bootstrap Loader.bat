@@ -96,6 +96,10 @@ REM Title
 SET "WindowTitle=%ProgramName% ^(Version: %ProgramVersion%^)"
 
 
+REM Text Formatting
+SET "Tabulation=    "
+
+
 REM Finished
 GOTO :EOF
 REM # ============================================
@@ -160,14 +164,14 @@ CALL :Bell
 REM Show the error message
 ECHO.
 ECHO.
-ECHO ^<!^> CANNOT LOCATE POWERSHELL CORE ^<!^>
-ECHO - - - - - - - - - - - - - - - - - - - - - -
+ECHO %Tabulation% %Tabulation% %Tabulation% %Tabulation% ^<!^> CANNOT LOCATE POWERSHELL CORE ^<!^>
+ECHO %Tabulation% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ECHO.
-ECHO It seems that I could not find an installation of the PowerShell Core!
-ECHO Please be sure that you had already installed the PowerShell Core on your system.
+ECHO %Tabulation% It seems that I could not find an installation of the PowerShell Core!
+ECHO %Tabulation% Please be sure that you had already installed the PowerShell Core on your system.
 ECHO.
-ECHO You may download the latest version of PowerShell Core using the official site:
-ECHO https://github.com/PowerShell/PowerShell/releases/latest
+ECHO %Tabulation% You may download the latest version of PowerShell Core using the official site:
+ECHO %Tabulation% %Tabulation% https://github.com/PowerShell/PowerShell/releases/latest
 ECHO.
 ECHO.
 
