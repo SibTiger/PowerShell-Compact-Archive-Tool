@@ -167,21 +167,18 @@ IF EXIST "%PowerShellInstallDefault_Pathx64%" (
     if EXIST "%PowerShellInstallDefault_Pathx86%" SET "cacheVar0=%PowerShellInstallDefault_Pathx86%" ELSE EXIT /B 0
 )
 
-ECHO Searching using these results: [%cacheVar0%]
-pause
+
+REM Try to find the PowerShell Core executable
+FOR /R "%cacheVar0%" %%i in (*) do if "[%%~nxi]" == "[%PowerShellExec%]" (
+    REM Found the executable, we will now use this path.
+    SET "PowerShellPath=%%i"
+
+    REM Finished!
+    EXIT /B 1
+)
 
 
-REM Try to find the target POSH in the x64 %ProgramFiles%
-FOR /R "%cacheVar0%" %%i in * do if ["%%~nxi"] == ["%PowerShellInstallDefault_FileName%"] SET "PowerShellPath=%%i"& SET "PowerShellExec=%%~nxi"& EXIT /B 1
-
-
-
-
-
-
-
-
-
+REM Unable to find the PowerShell Core executable.
 EXIT /B 0
 REM # ============================================
 
