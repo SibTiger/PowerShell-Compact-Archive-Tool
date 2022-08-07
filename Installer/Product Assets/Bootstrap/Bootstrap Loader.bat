@@ -9,6 +9,10 @@ REM Launch the Bootstrap program
 CALL :Main %1
 
 
+REM Relieve the localization environment.
+ENDLOCAL
+
+
 REM When we finish with the Main method, then terminate the program as we are finished.
 EXIT /B %ERRORLEVEL%
 
