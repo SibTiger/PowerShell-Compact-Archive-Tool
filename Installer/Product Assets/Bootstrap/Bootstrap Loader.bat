@@ -1,3 +1,4 @@
+@REM Do not output each statement into the terminal output buffer.
 @ECHO OFF
 
 
