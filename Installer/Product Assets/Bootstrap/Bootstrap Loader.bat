@@ -172,6 +172,10 @@ ECHO.
 ECHO.
 
 
+REM Allow the user to view the message shown in the terminal buffer
+PAUSE
+
+
 REM Finished
 GOTO :EOF
 REM # ============================================
