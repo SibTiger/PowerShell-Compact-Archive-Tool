@@ -10,7 +10,7 @@ CALL :Main %1
 
 
 REM When we finish with the Main method, then terminate the program as we are finished.
-CALL :EOF %ERRORLEVEL%
+EXIT /B %ERRORLEVEL%
 
 
 
@@ -139,8 +139,7 @@ REM #   Try to find the installation of the PowerShell Core within
 REM #       the host system's filesystem.
 REM # ============================================
 :FindPowerShell
-
-GOTO :EOF
+EXIT /B 0
 REM # ============================================
 
 
