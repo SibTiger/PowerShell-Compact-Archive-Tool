@@ -42,6 +42,7 @@ REM # Return:
 REM #   [Integer] Exit Code
 REM #       0 = Operation was Successful
 REM #       1 = Unable to find PowerShell Core
+REM #       2 = Unable to find PSCAT
 REM # ============================================
 :Main
 
@@ -67,6 +68,21 @@ IF %ERRORLEVEL% EQU 0 (
 )
 
 
+REM Check to make sure that we are able to find the PowerShell Compact-Archive Tool application.
+CALL :CheckTargetPath
+
+
+REM Were we unable to find PSCAT?
+IF %ERRORLEVEL% EQU 0 (
+    REM Alert the user that something went horribly wrong.
+    CALL :UnableFindTarget
+
+    REM Terminate this program with an error.
+    EXIT /B 2
+)
+
+
+
 REM Finished
 EXIT /B 0
 REM # ============================================
@@ -85,6 +101,7 @@ REM # ============================================
 REM Target Application that we want to launch
 SET "TargetNiceName=PowerShell Compact-Archive Tool"
 SET "TargetFileName=PSCAT.ps1"
+SET "TargetFilePath=..\Bin\PSCAT.ps1"
 
 
 REM Bootstrap Program Meta-Data
@@ -208,6 +225,65 @@ ECHO %Tabulation% Please be sure that you had already installed the PowerShell C
 ECHO.
 ECHO %Tabulation% You may download the latest version of PowerShell Core using the official site:
 ECHO %Tabulation% %Tabulation% https://github.com/PowerShell/PowerShell/releases/latest
+ECHO.
+ECHO.
+
+
+REM Allow the user to view the message shown in the terminal buffer
+PAUSE
+
+
+REM Finished
+GOTO :EOF
+REM # ============================================
+
+
+
+
+
+REM # Check PSCAT Path
+REM # ============================================
+REM # Documentation:
+REM #   Try to find the PowerShell Compact-Archive Tool application, merely for assurance purposes.
+REM # ============================================
+:CheckTargetPath
+
+IF EXIST "%TargetFilePath%" (
+    REM Found PSCAT
+    EXIT /B 1
+)
+
+
+REM Unable to find PSCAT
+EXIT /B 0
+REM # ============================================
+
+
+
+
+
+REM # Unable to Find PowerShell Compact-Archive Tool
+REM # ============================================
+REM # Documentation:
+REM #   Alert the user that we could not find the PowerShell Compact-Archive Tool
+REM # ============================================
+:UnableFindTarget
+
+REM Alert the user that an error had occurred.
+CALL :Bell
+
+
+REM Show the error message
+ECHO.
+ECHO.
+ECHO %Tabulation% %Tabulation% %Tabulation% %Tabulation% ^<!^> CANNOT LOCATE %TargetFileName% ^<!^>
+ECHO %Tabulation% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ECHO.
+ECHO %Tabulation% It seems that I cannot find the %TargetNiceName%!
+ECHO %Tabulation% Perhaps the installation was corrupted and cannot be launched normally.
+ECHO.
+ECHO %Tabulation% You may need to reinstall %TargetNiceName% from the official site:
+ECHO %Tabulation% %Tabulation% https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/releases/latest
 ECHO.
 ECHO.
 
