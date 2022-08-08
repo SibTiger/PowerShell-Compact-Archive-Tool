@@ -6,6 +6,10 @@ REM All environment changes from here-on-out will be locked within this shellscr
 SETLOCAL
 
 
+REM Obtain the current location of this shellscript.
+SET "selfPath=%~dp0"
+
+
 REM Launch the Bootstrap program
 CALL :Main %1
 
@@ -82,6 +86,9 @@ IF %ERRORLEVEL% EQU 0 (
 )
 
 
+REM Launch the application
+CALL :LaunchTarget
+
 
 REM Finished
 EXIT /B 0
@@ -100,8 +107,9 @@ REM # ============================================
 
 REM Target Application that we want to launch
 SET "TargetNiceName=PowerShell Compact-Archive Tool"
-SET "TargetFileName=PSCAT.ps1"
-SET "TargetFilePath=..\Bin\PSCAT.ps1"
+SET "TargetFileName=Launcher.ps1"
+SET "TargetFilePath=..\Bin\%TargetFileName%"
+
 
 
 REM Bootstrap Program Meta-Data
@@ -294,4 +302,17 @@ PAUSE
 
 REM Finished
 GOTO :EOF
+REM # ============================================
+
+
+
+
+
+REM # Launch the PowerShell Compact-Archive Tool
+REM # ============================================
+REM # Documentation:
+REM #   Launch the PowerShell Compact-Archive Tool through PowerShell Core.
+REM # ============================================
+:LaunchTarget
+START "Run %TargetFileName%. . ." /D "%selfPath%" /NORMAL "%PowerShellPath%" -ExecutionPolicy Bypass -File "%selfPath%\%TargetFilePath%"
 REM # ============================================
