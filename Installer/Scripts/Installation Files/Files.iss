@@ -30,6 +30,10 @@ Source: "Compile\PSCAT.ps1";                                        \
     DestDir: "{app}\Bin\";                                          \
     Flags: confirmoverwrite touch;
 
+Source: "Compile\Launcher.ps1";
+    DestDir: "{app}\Bin\";
+    Flags: confirmoverwrite touch;
+
 Source: "Scripts\Program Modes\Clean.ps1";                          \
     DestDir: "{app}\Bin\";                                          \
     Flags: confirmoverwrite touch;
