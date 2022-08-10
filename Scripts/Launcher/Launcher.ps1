@@ -323,7 +323,7 @@ Class Launcher
 
         # Construct the arguments
         $hashArguments = @{
-            Command         = "&"".\$($Global:__PSCAT_FILENAME__)"" -ProgramMode ""$($GLOBAL:__PSCAT_PROGRAM_MODE__)""";
+            Command         = "&""$($Global:__PSCAT_COMPLETE_PATH__)"" -ProgramMode ""$($GLOBAL:__PSCAT_PROGRAM_MODE__)""";
             ErrorAction     = "Stop";
         } # Invoke-Expression Arguments
 
