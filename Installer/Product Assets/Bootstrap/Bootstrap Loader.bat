@@ -47,6 +47,7 @@ REM #   [Integer] Exit Code
 REM #       0 = Operation was Successful
 REM #       1 = Unable to find PowerShell Core
 REM #       2 = Unable to find PSCAT
+REM #       3 = Unable to find Bootstrap Loader [External Shellscripts that call this script.]
 REM # ============================================
 :Main
 
