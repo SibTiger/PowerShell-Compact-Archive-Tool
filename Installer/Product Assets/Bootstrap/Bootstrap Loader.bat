@@ -88,7 +88,7 @@ IF %ERRORLEVEL% EQU 0 (
 
 
 REM Launch the application
-CALL :LaunchTarget
+CALL :LaunchTarget %1
 
 
 REM Finished
@@ -107,9 +107,9 @@ REM # ============================================
 :Initialization
 
 REM Target Application that we want to launch
-SET "TargetNiceName=PowerShell Compact-Archive Tool"
+SET "TargetNiceName=PowerShell Compact-Archive Tool Launcher"
 SET "TargetFileName=Launcher.ps1"
-SET "TargetFilePath=..\Bin\%TargetFileName%"
+SET "TargetFilePath=%selfPath%\..\Bin\%TargetFileName%"
 
 
 
@@ -315,5 +315,5 @@ REM # Documentation:
 REM #   Launch the PowerShell Compact-Archive Tool through PowerShell Core.
 REM # ============================================
 :LaunchTarget
-START "Run %TargetFileName%. . ." /D "%selfPath%" /NORMAL "%PowerShellPath%" -ExecutionPolicy Bypass -File "%selfPath%\%TargetFilePath%"
+START "Run %TargetFileName%. . ." /D "%selfPath%" /NORMAL "%PowerShellPath%" -ExecutionPolicy Bypass -File "%TargetFilePath%" "%1"
 REM # ============================================
