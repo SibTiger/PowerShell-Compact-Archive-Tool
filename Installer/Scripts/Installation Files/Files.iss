@@ -30,7 +30,7 @@ Source: "Compile\PSCAT.ps1";                                        \
     DestDir: "{app}\Bin\";                                          \
     Flags: confirmoverwrite touch;
 
-Source: "Compile\Launcher.ps1";                                     \
+Source: "Scripts\Launcher\Launcher.ps1";                            \
     DestDir: "{app}\Bin\";                                          \
     Flags: confirmoverwrite touch;
 
