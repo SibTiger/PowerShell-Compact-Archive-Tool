@@ -52,7 +52,7 @@ REM # ============================================
 :Main
 
 REM Setup the variables that we will be using within this program.
-CALL :Initialization
+CALL :Initialization %1
 
 
 REM Update the Window Title
@@ -88,7 +88,7 @@ IF %ERRORLEVEL% EQU 0 (
 
 
 REM Launch the application
-CALL :LaunchTarget %1
+CALL :LaunchTarget %ProgramMode%
 
 
 REM Finished
@@ -111,6 +111,15 @@ SET "TargetNiceName=PowerShell Compact-Archive Tool Launcher"
 SET "TargetFileName=Launcher.ps1"
 SET "TargetFilePath=%selfPath%\..\Bin\%TargetFileName%"
 
+
+REM Program Mode
+IF "%1" EQU "" (
+    REM No argument for Program Mode was provided, use the default '0'.
+    SET "ProgramMode=0"
+) ELSE (
+    REM Argument for Program Mode was provided.
+    SET "ProgramMode=%1"
+)
 
 
 REM Bootstrap Program Meta-Data
