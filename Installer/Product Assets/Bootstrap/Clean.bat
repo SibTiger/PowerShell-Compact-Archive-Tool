@@ -90,6 +90,10 @@ SET "BootstrapFileName=Bootstrap Loader.bat"
 SET "BootstrapFilePath=%selfPath%\%BootstrapFileName%"
 
 
+REM Program Mode
+SET "ProgramMode=1"
+
+
 REM Text Formatting
 SET "Tabulation=    "
 
@@ -181,5 +185,5 @@ REM # Documentation:
 REM #   Launch the Bootstrap Loader as it will properly execute the PowerShell Compact-Archive Tool.
 REM # ============================================
 :LaunchBootstrap
-START "Run %BootstrapFileName%. . ." /D "%selfPath%" /NORMAL "%BootstrapFilePath%" 1
+START "Run %BootstrapFileName%. . ." /D "%selfPath%" /NORMAL "%BootstrapFilePath%" %ProgramMode%
 REM # ============================================
