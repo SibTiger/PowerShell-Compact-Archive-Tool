@@ -44,9 +44,9 @@ Name: "DesktopIcon";                                \
 
 [Icons]
 
-Name: "{userdesktop}\{#_PRODUCT_NAME_FULL_}";       \
-    FileName: "{app}\Bin\PSCAT.ps1";                \
-    IconFilename: "{app}\Icons\Desktop Icon.ico";   \
+Name: "{userdesktop}\{#_PRODUCT_NAME_FULL_}";           \
+    FileName: "{app}\Bootstrap\Bootstrap Loader.bat";   \
+    IconFilename: "{app}\Icons\Desktop Icon.ico";       \
     Tasks: DesktopIcon;
 
 [/Icons]
