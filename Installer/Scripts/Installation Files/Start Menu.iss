@@ -38,23 +38,23 @@ Name: "{group}\{#_PRODUCT_NAME_SHORT_}\{#_PRODUCT_NAME_FULL_} - Deep Clean"; \
 
 
 ; Text
-Name: "{group}\Text\ReadMe";                                                \
+Name: "{group}\Text\ReadMe";                                                 \
     Filename: "{app}\ReadMe.txt";
 
 
 
 
 ; Websites
-Name: "{group}\Websites\{#_PRODUCT_NAME_SHORT_} Homepage";                  \
+Name: "{group}\Websites\{#_PRODUCT_NAME_SHORT_} Homepage";                   \
     Filename: "{#_PRODUCT_WEBSITE_HOMEPAGE_}";
 
-Name: "{group}\Websites\{#_PRODUCT_NAME_SHORT_} Updates";                   \
+Name: "{group}\Websites\{#_PRODUCT_NAME_SHORT_} Updates";                    \
     Filename: "{#_PRODUCT_WEBSITE_UPDATES_}";
 
-Name: "{group}\Websites\{#_PRODUCT_NAME_SHORT_} Forum";                     \
+Name: "{group}\Websites\{#_PRODUCT_NAME_SHORT_} Forum";                      \
     Filename: "{#_PRODUCT_WEBSITE_COMMUNITY_}";
 
-Name: "{group}\Websites\{#_PRODUCT_NAME_SHORT_} Wiki";                      \
+Name: "{group}\Websites\{#_PRODUCT_NAME_SHORT_} Wiki";                       \
     Filename: "{#_PRODUCT_WEBSITE_SUPPORT_}";
 
 
