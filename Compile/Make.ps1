@@ -43,8 +43,14 @@ Set-Variable -Name "SCRIPTPATH" -Value $PSScriptRoot `
 # Compiler Script File Name
 Set-Variable -Name "SCRIPTFILENAME" -Value "PSCAT.ps1" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+# Launcher Script File Name
+Set-Variable -Name "SCRIPTFILENAMELAUNCHER" -Value "Launcher.ps1" `
+    -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Subscripts Directory
 Set-Variable -Name "SCRIPTSDIRECTORY" -Value "$($SCRIPTPATH)\..\Scripts\" `
+    -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+# Launcher Subscripts Directory
+Set-Variable -Name "SCRIPTSDIRECTORYLAUCNHER" -Value "$($SCRIPTPATH)\..\Scripts\Launcher\" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Output Compiler Directory
 Set-Variable -Name "OUTPUTDIRECTORY" -Value "$(Resolve-Path "$($PSScriptRoot)\" | Select-Object -ExpandProperty Path)" `
@@ -220,6 +226,8 @@ function MakeCompilerDriver()
                         "Uninitializations.ps1", `
                         "CommonIO.ps1", `
                         "CommonCUI.ps1", `
+                        "CommonGUI.ps1", `
+                        "UserExperience.ps1", `
                         "CommonFunctions.ps1", `
                         "ProgramFunctions.ps1", `
                         "DefaultCompress.ps1", `
@@ -516,6 +524,61 @@ function WaitUserInput()
 
 
 
+# Provide Launcher Script
+# --------------------------
+# Documentation
+#   This function will provide the Launcher script
+#   file to the user's focus, this usually is combined
+#   with the core of the application.  The Launcher
+#   program is a small piece to the main application,
+#   but its importance is too great - such that without
+#   the Launcher the main application can not work
+#   correctly.  The Launcher will prepare the environment
+#   where the main application can run successfully and
+#   further enrich the user's experience.
+# --------------------------
+function ProvideLauncher()
+{
+    # Does the file already exists?
+    if (FileDetection $SCRIPTFILENAMELAUNCHER)
+    {
+        # Found the script file, try to remove it.
+        try
+        {
+            Remove-Item -Path "$($OUTPUTDIRECTORY)\$($SCRIPTFILENAMELAUNCHER)" `
+                        -ErrorAction Stop;
+        } # Try : Remove Script File
+
+        # Error
+        catch
+        {
+            return 1;
+        } # Catch : Failed to Remove Script File
+    } # if : Detected Launcher Script File
+
+
+    # Try to duplicate the Launcher file to the output directory
+    try
+    {
+        Copy-Item -Path "$($SCRIPTSDIRECTORYLAUCNHER)\$($SCRIPTFILENAMELAUNCHER)" `
+                    -Destination "$($OUTPUTDIRECTORY)\$($SCRIPTFILENAMELAUNCHER)" `
+                    -ErrorAction Stop;
+    } # Try : Duplicate Script File
+
+    # Error
+    catch
+    {
+        return 1;
+    } # Catch : Failed to Duplicate Script File
+
+
+    # Operation was successful
+    return 0;
+} # ProvideLauncher()
+
+
+
+
 # Main [Entry Point]
 # --------------------------
 # Documentation
@@ -601,11 +664,38 @@ function main()
 
     # ===============================================
     # ===============================================
+    # Fourth, provide the Launcher script file
+
+
+    if($DEBUGMODE)
+    {
+        Printf 3 "Providing $($SCRIPTFILENAMELAUNCHER) script file. . .";
+    } # DEBUG MODE
+
+    # Setup the Launcher for easy access
+    if (ProvideLauncher)
+    {
+        Printf 2 "Failure to prepare the Launcher script file";
+        return 1;
+    } # Prepare the Launcher
+
+    if ($DEBUGMODE)
+    {
+        Printf 3 "  Done!";
+    } # DEBUG MODE
+
+
+    # ===============================================
+    # ===============================================
 
     # Display a message that the build has been generated
+    Printf 1 "$($SCRIPTFILENAMELAUNCHER) is ready!";
+    Printf 1 "You may find the $($SCRIPTFILENAMELAUNCHER) in this path:";
+    Printf 1 "  $($OUTPUTDIRECTORY)$($SCRIPTFILENAMELAUNCHER)";
     Printf 1 "$($SCRIPTFILENAME) has been successfully created!";
     Printf 1 "You may find the $($SCRIPTFILENAME) in this path:";
     Printf 1 "  $($OUTPUTFILE)";
+
 
     # Successful operation
     return 0;

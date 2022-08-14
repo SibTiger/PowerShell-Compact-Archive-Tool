@@ -71,6 +71,15 @@ function clean()
     # This variable will provide how long the splash screen should be displayed on the terminal.
     #  Because I want the splash screen to be displayed AND still having some work done in the background, we will capture the time now.
     [UInt64] $splashScreenHoldTime = ((Get-Date) + (New-TimeSpan -Seconds $Global:_STARTUPSPLASHSCREENHOLDTIME_)).Ticks;
+
+
+    # This will hold what directories could not be automatically removed.  Once fully populated,
+    #   the results stored in this variable will be visible in a message box.
+    [string] $messageBoxError = $null;
+
+
+    # When there was an error during the removal process, this flag will be raised again.
+    [bool] $errorFlag = $false;
     # ----------------------------------------
 
 
@@ -166,6 +175,13 @@ function clean()
 
     if (![CommonIO]::DeleteDirectory($GLOBAL:_PROGRAMDATA_ROOT_LOCAL_PATH_))
     {
+        # Raise the error flag
+        if (!$errorFlag) {$errorFlag = $true;}
+
+        # Include the directory path.
+        $messageBoxError += "`r`n>>> $($GLOBAL:_PROGRAMDATA_ROOT_LOCAL_PATH_)";
+
+        # Show that the directory could not be removed.
         [CommonIO]::WriteToBuffer("`t`tFailed!", + `
                                     [LogMessageLevel]::Error, + `
                                     $false);
@@ -188,6 +204,13 @@ function clean()
 
         if (![CommonIO]::DeleteDirectory($GLOBAL:_PROGRAMDATA_ROOT_ROAMING_PATH_))
         {
+            # Raise the error flag
+            if (!$errorFlag) {$errorFlag = $true;}
+
+            # Include the directory path.
+            $messageBoxError += "`r`n>>> $($GLOBAL:_PROGRAMDATA_ROOT_ROAMING_PATH_)";
+
+            # Show that the directory could not be removed.
             [CommonIO]::WriteToBuffer("`t`tFailed!", + `
                                         [LogMessageLevel]::Error, + `
                                         $false);
@@ -209,6 +232,13 @@ function clean()
 
     if (![CommonIO]::DeleteDirectory($GLOBAL:_USERDATA_ROOT_PATH_))
     {
+        # Raise the error flag
+        if (!$errorFlag) {$errorFlag = $true;}
+
+        # Include the directory path.
+        $messageBoxError += "`r`n>>> $($GLOBAL:_USERDATA_ROOT_PATH_)";
+
+        # Show that the directory could be removed.
         [CommonIO]::WriteToBuffer("`t`tFailed!", + `
                                     [LogMessageLevel]::Error, + `
                                     $false);
@@ -248,6 +278,24 @@ function clean()
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
     #                                    Finished!
+
+
+
+    # Display an error message to the user that there were errors during the operation.
+    if ($errorFlag)
+    {
+        # Display the Message Box to the user indicating the errors.
+        [CommonGUI]::MessageBox("Failed to delete the following directories:$($messageBoxError)", `
+                                [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+    } # if : Errors Occurred
+
+    # Display a message indicating that the operation was successful
+    else
+    {
+        # Display the Message Box to the user indicating that the operation was successful.
+        [CommonGUI]::MessageBox("Operation was successful!", `
+                                [System.Windows.MessageBoxImage]::Asterisk) | Out-Null;
+    } # else : Operation was Successful
 
 
 

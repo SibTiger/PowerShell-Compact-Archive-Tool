@@ -1,26 +1,38 @@
 # ================================
-#    miscellaneous
+# PowerShell Compact-Archive Tool
+# User and Compiler Generated Files
 # ================================
 
-# Project Compiler Shellscript
-PSCAT.ps1
+# Compiled PSCAT Build
+/Compile/PSCAT.ps1
+
+# Compiled Launcher
+/Compile/Launcher.ps1
+
+# Program Mode: Uninstall
+/Compile/Clean.ps1
+
+# Program Mode: Clean
+/Compile/Uninstall.ps1
 
 
 
+
+# ================================
 # Text Editors and IDEs
-# ---------------------
+# Special Resources
+# ================================
 
-# Visual Code
+# Visual Studio Code
 .vscode
 
 
 
-# Standard GitIgnore:
-# ---------------------
 
-#############
-## Windows detritus
-#############
+# ================================
+# Microsoft Windows
+# Operating System Generated Files
+# ================================
 
 # Windows image file caches
 Thumbs.db

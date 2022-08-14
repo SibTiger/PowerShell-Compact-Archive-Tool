@@ -540,15 +540,15 @@ class CommonCUI
     #   system's filesystem.  The results if the path exists will determine the result in which this function
     #   returns.  As such, if the path exists - then the function will return a $true.  Otherwise, if the path
     #   does not exist within the provided location, then a $false will be given instead.
-    #
-    # NOTE:
-    #   Because we are using the CUI, we cannot provide any nice user interface to help accomplish this task.
-    #     I am aware that CUI's are for sure capable of pulling off fancy UIs, such as HTOP from the Linux realm,
-    #     but - remember we are using Powershell.  We are severally limited in terms of the functionality that
-    #     is allowed.
     # -------------------------------
     # Input:
-    #  [string] (REFERENCE) Path to Target File
+    #  [string] Brief Description
+    #   This provides a very brief reminder to the user of what is expected.
+    #  [string] Extension
+    #   Specifies that the file MUST have a specific file extension associated with the input.
+    #
+    #   NOTE: Wildcard is acceptable; any file extension is allowed or optional.
+    #  [System.Collections.ArrayList] Path to Target File
     #   This will provide the the path to the desired target file.
     # -------------------------------
     # Output:
@@ -557,19 +557,136 @@ class CommonCUI
     #   $false = The given path did not exist.
     # -------------------------------
     #>
-    static [bool] BrowseForTargetFile([ref] $pathToTarget)
+    static [bool] BrowseForTargetFile([string] $briefDescription,                   # Brief description
+                                    [string] $extension,                            # Extension that is allowed
+                                    [System.Collections.ArrayList] $pathToTarget)   # File Target
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This will hold the user's path temporarily so that we may further validate the path.
+        [string] $cacheTarget = $null;
+        # ----------------------------------------
+
+
+        # Make sure that the extension contains a period at the very beginning; but skip this step if a wildcard is in place.
+        if (($extension -ne "*") -and `     # Wildcard is in use
+            ($extension[0] -ne "."))        # First character is not a period
+        {
+            # Add the period
+            $extension = $extension.Insert(0, ".");
+        } # If : Provide a Period
+
+
+
+        # Provide some padding from the content and the requested input.
+        [Logging]::DisplayMessage("`r`n`r`n")
+
+
+        # Show a brief description to the user such that they know what the program is expecting.
+        [Logging]::DisplayMessage($briefDescription);
+
+
+        # Display a border to separate the input from the program's content.
+        [Logging]::DisplayMessage("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
+
+
+
         # Ask the user to provide a new path
         [CommonCUI]::DrawWaitingForUserResponse([DrawWaitingForUserInputText]::PleaseProvideANewPath);
 
 
         # Obtain the user's feedback
-        $pathToTarget.Value = [Logging]::GetUserInput();
+        $cacheTarget = [Logging]::GetUserInput();
 
 
-        # Now that we have the user's feedback, check to make sure that the directory or file exists.
-        return [CommonIO]::CheckPathExists($pathToTarget.Value, $true);
+        # Make sure that the path is valid and is a file.
+        if (([CommonIO]::CheckPathExists($cacheTarget, $true)) -and `               # Path is valid?
+            ((Get-Item $cacheTarget) -is [System.IO.FileInfo]) -and `               # Target is a Directory
+                (($extension -eq "*") -or `                                         # Any extension is allowed
+                ([System.IO.Path]::GetExtension($cacheTarget) -eq $extension)))     # OR: Specific extension was provided
+        {
+            # Target is validated as a file; we may use this path.
+            $pathToTarget.Add($cacheTarget);
+
+            # Path is valid
+            return $true;
+        } # if : Path is Valid and is a File
+
+
+        # Path is not valid and will not be used.
+        return $false;
     } # BrowseForTargetFile()
+
+
+
+
+   <# Browse for Target Directory
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the ability for the user to browse for a specific folder within their filesystem.
+    #   Once a path had been provided, this function will check to make sure that the path exists within the
+    #   system's filesystem.  The results if the path exists will determine the result in which this function
+    #   returns.  As such, if the path exists - then the function will return a $true.  Otherwise, if the path
+    #   does not exists within the provided location, then a $false will be given instead.
+    # -------------------------------
+    # Input:
+    #  [string] Instructions
+    #   Provide instructions to the user as to what is expected.
+    #  [string] (REFERENCE) Path to Target Directory
+    #   This will provide the the path to the desired target directory.
+    # -------------------------------
+    # Output:
+    #  [bool] Path Validation
+    #   $true = The given path exists.
+    #   $false = The given path did not exist.
+    # -------------------------------
+    #>
+    static [bool] BrowseForTargetDirectory([string] $instructions,  ` # Show description to the user; reminder
+                                            [ref] $pathToTarget)      # Target Directory
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This will hold the user's path temporarily so that we may further validate the path.
+        [string] $cacheTarget = $null;
+        # ----------------------------------------
+
+
+
+        # Provide some padding from the content and the requested input.
+        [Logging]::DisplayMessage("`r`n`r`n")
+
+
+        # Show a brief description to the user such that they know what the program is expecting.
+        [Logging]::DisplayMessage($instructions);
+
+
+        # Display a border to separate the input from the program's content.
+        [Logging]::DisplayMessage("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
+
+
+
+        # Ask the user to provide a new path
+        [CommonCUI]::DrawWaitingForUserResponse([DrawWaitingForUserInputText]::PleaseProvideANewPath);
+
+
+        # Obtain the user's feedback
+        $cacheTarget = [Logging]::GetUserInput();
+
+
+        # If incase the user is pointing at a file by mistake, trim out the leaf.
+        if (([CommonIO]::CheckPathExists($cacheTarget, $true)) -and `   # Path is valid?
+            ((Get-Item $cacheTarget) -is [System.IO.DirectoryInfo]))    # Target is a Directory
+        {
+            # Target is validated as a directory; we may use this path.
+            $pathToTarget.Value = $cacheTarget;
+
+            # Path is valid
+            return $true;
+        } # if : Path is Valid and is a Directory
+
+        # Path is not valid and will not be used.
+        return $false;
+    } # BrowseForTargetDirectory()
 
 
 

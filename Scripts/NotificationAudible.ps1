@@ -228,7 +228,7 @@ class NotificationAudible
     static hidden [void] __PlaySoundHand()
     {
         # Try to play or provide the sound as necessary
-        [System.Media.SystemSounds]::Hand.Play()
+        [System.Media.SystemSounds]::Hand.Play();
     } # __PlaySoundHand()
 
 

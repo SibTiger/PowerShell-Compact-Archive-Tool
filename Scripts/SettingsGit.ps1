@@ -1215,7 +1215,7 @@ class SettingsGit
         # This will temporarily hold the user's requested path; if the path is valid -
         #  then we will use the value already given from this variable to store it to the
         #  Git Path variable.
-        [string] $newPath = $NULL;
+        [System.Collections.ArrayList] $newPath = [System.Collections.ArrayList]::new();
 
         # We will use this instance so that we can apply the new location to the object.
         [GitControl] $gitControl = [GitControl]::GetInstance();
@@ -1230,34 +1230,33 @@ class SettingsGit
 
 
         # Determine if the path that were provided is valid and can be used by the program.
-        if ([CommonCUI]::BrowseForTargetFile([ref] $newPath))
+        if ([UserExperience]::BrowseForFile("Provide full path to git.exe",             ` # Title
+                                            "exe",                                      ` # Extension we are wanting
+                                            "Executable (*.exe) | *.exe",               ` # Additional Extensions
+                                            $false,                                     ` # Select multiple files
+                                            [BrowserInterfaceStyle]::Modern,            ` # GUI Style
+                                            $newPath))                                  ` # Selected files
         {
             # Because the path is valid, we will use the requested target directory.
-            $gitControl.SetExecutablePath($newPath);
+            $gitControl.SetExecutablePath($newPath[0]);
         } # if: Path is valid
 
         # The provided path is not valid
         else
         {
-            # If the user provided "Cancel" or "X", then do not bother the user with an error message.
-            #  Otherwise, provide an error message as the path is incorrect.
-            if (($newPath -ne "Cancel") -and `
-                ($newPath -ne "x"))
-            {
-                # Alert the user that the path is incorrect.
-                [NotificationAudible]::Notify([NotificationAudibleEventType]::Warning);
+            # Alert the user that the path is incorrect.
+            [NotificationAudible]::Notify([NotificationAudibleEventType]::Warning);
 
 
-                # Because the path is not valid, let the user know that the path does not exist
-                #  and will not be used.
-                [Logging]::DisplayMessage("`r`n" + `
-                                        "The provided path does not exist and cannot be used." + `
-                                        "`r`n`r`n");
+            # Because the path is not valid, let the user know that the path does not exist
+            #  and will not be used.
+            [Logging]::DisplayMessage("`r`n" + `
+                                    "The provided path does not exist and cannot be used." + `
+                                    "`r`n`r`n");
 
 
-                # Wait for the user to provide feedback; thus allowing the user to see the message.
-                [Logging]::GetUserEnterKey();
-            } # if : User Provided incorrect path
+            # Wait for the user to provide feedback; thus allowing the user to see the message.
+            [Logging]::GetUserEnterKey();
         } # else : Path is invalid
     } # __LocateGitPathManually()
     #endregion

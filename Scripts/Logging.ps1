@@ -430,7 +430,9 @@ class Logging
         {
             # Because the logging directory could not be created, there is no point in
             #  trying to write information to a log file - when the directory does not exist.
-            Write-Output "ERR! Program Log Directory failed to be created!";
+            [string] $errorMessage = "ERR! Program Log Directory failed to be created!";
+            Write-Output $errorMessage;
+            [CommonGUI]::MessageBox($errorMessage, [System.Windows.MessageBoxImage]::Hand)
 
             # Provide an error code
             $exitCode = $false;
@@ -441,8 +443,10 @@ class Logging
         #  there is no point in trying to write to the logfile.
         elseif ($null -eq $message)
         {
-            # Because the message is empty, there is really no point in written to the logfile.
-            Write-Output "ERR! Message can not be recorded as it is null!";
+            # Because the message is empty, there is really no point in written to the logfile.\
+            [string] $errorMessage = "ERR! Message can not be recorded as it is null!";
+            Write-Output $errorMessage;
+            [CommonGUI]::MessageBox($errorMessage, [System.Windows.MessageBoxImage]::Hand)
 
             # Provide an error code
             $exitCode = $false;

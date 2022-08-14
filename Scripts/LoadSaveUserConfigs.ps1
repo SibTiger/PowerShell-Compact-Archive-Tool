@@ -619,6 +619,10 @@
             [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
             # * * * * * * * * * * * * * * * * * * *
         } # Catch : Error Creating User Configuration
 
@@ -768,6 +772,10 @@
                 [Logging]::DisplayMessage($displayErrorMessage, `   # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
+                # Alert the user through a message box as well that an issue had occurred;
+                #   the message will be brief as the full details remain within the terminal.
+                [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
                 # * * * * * * * * * * * * * * * * * * *
 
 
@@ -809,6 +817,10 @@
             #  and log that same message for referencing purpose.
             [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
         } # Catch : Exception Reached while Reading Configuration File
@@ -1767,6 +1779,10 @@
         #  and log that same message for referencing purpose.
         [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                     [LogMessageLevel]::Error);  # Message level
+
+        # Alert the user through a message box as well that an issue had occurred;
+        #   the message will be brief as the full details remain within the terminal.
+        [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
     } # __LoadStepWiseError()
     #endregion
  } # LoadSaveUserConfiguration

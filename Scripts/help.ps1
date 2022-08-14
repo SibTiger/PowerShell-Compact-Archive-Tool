@@ -28,6 +28,12 @@
     Make sure that your project source (or custom source) follows the ZDoom's ZIP Specifications.  For more information, please look at the following resources:
         https://zdoom.org/wiki/Using_ZIPs_as_WAD_replacement
 
+
+    To Run this Application:
+        You must first run the Launcher, which will prepare the Powershell's environment for the PSCAT application.  Without doing this first, you will not able to run PSCAT properly.
+        Reason for this [Technical]: https://stackoverflow.com/questions/42837447/powershell-unable-to-find-type-when-using-ps-5-classes
+
+
     Tools that this program utilizes are:
         PowerShell Core 7.1.x Minimum
             The required shell in order for this application to work properly.
@@ -40,19 +46,30 @@
             Retrieve project's repository information and pull updates to project's local repository.
         Microsoft Word 2016 or Later [Optional]
             Generate a report in Portable Document File (PDF).
+
 .NOTES
     Author: Nicholas Gautier
     Email: Nicholas.Gautier.Tiger@GMail.com
     Project Website: https://github.com/SibTiger/PowerShell-Compact-Archive-Tool
 
 .INPUTS
-    Nothing is to be given or to be provided from a command or pipe.
+    Program Mode [integer value]
+        0 = Normal mode; compile projects (Default)
+        1 = Clean up mode; remove some generated data
+        2 = Uninstall mode; removes all generated data
 
 .OUTPUTS
-    Nothing is to be returned or to be sent to the pipe.
+    Operation Return Code
+        0 = Operation was Successful
+        1 = Compatibility Error
 
 .EXAMPLE
-    .\PSCAT.ps1
+    .\PSCAT.ps1 (-ProgramMode n)
+        Where n, can be [0, 1, 2]
+        Please see Inputs for Program Mode options.
+        Note that the -ProgramMode argument is optional.
+        Example is: .\PSCAT.ps1 -ProgramMode 0
+                OR  .\PSCAT.ps1
 
 .LINK
     https://github.com/SibTiger/PowerShell-Compact-Archive-Tool

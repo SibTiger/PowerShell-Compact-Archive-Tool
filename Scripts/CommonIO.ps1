@@ -68,6 +68,9 @@ class CommonIO
     #>
     static [string] FetchUserInput()
     {
+        # Flush the current input buffer
+        (Get-Host).UI.RawUI.FlushInputBuffer();
+
         # Because I love Python's input prompt, we will emulate it here.
         #  I find this to be easier on the user to unify an action from the end-user.
         [CommonIO]::WriteToBuffer(">>>>> ", `
@@ -76,6 +79,9 @@ class CommonIO
 
         # Get input from the user.
         [string] $stdInput = (Get-Host).UI.ReadLine();
+
+        # Flush the current input buffer again
+        (Get-Host).UI.RawUI.FlushInputBuffer();
 
         # Return the value as a string
         return [string] $stdInput;
@@ -94,6 +100,9 @@ class CommonIO
     #>
     static [void] FetchEnterKey()
     {
+        # Flush the current input buffer
+        (Get-Host).UI.RawUI.FlushInputBuffer();
+
         # The user will press the 'Enter' key in order to continue onwards with the algorithm
         #  or program in general.
         [CommonIO]::WriteToBuffer("Press the Enter Key to continue. . .", `
@@ -102,6 +111,9 @@ class CommonIO
 
         # Wait for the user to provide the 'Enter' key character.
         (Get-Host).UI.ReadLine();
+
+        # Flush the current input buffer again
+        (Get-Host).UI.RawUI.FlushInputBuffer();
 
         # Finished waiting for the feedback from the user.
         return;
@@ -1158,6 +1170,10 @@ class CommonIO
             [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
             # * * * * * * * * * * * * * * * * * * *
 
 
@@ -1390,6 +1406,10 @@ class CommonIO
             [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
             # * * * * * * * * * * * * * * * * * * *
 
 
@@ -1431,6 +1451,10 @@ class CommonIO
                 #  and log that same message for referencing purpose.
                 [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                             [LogMessageLevel]::Error);  # Message level
+
+                # Alert the user through a message box as well that an issue had occurred;
+                #   the message will be brief as the full details remain within the terminal.
+                [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -1539,6 +1563,10 @@ class CommonIO
             [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
 
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
             # * * * * * * * * * * * * * * * * * * *
 
 
@@ -1602,6 +1630,10 @@ class CommonIO
                 #  and log that same message for referencing purpose.
                 [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                             [LogMessageLevel]::Error);  # Message level
+
+                # Alert the user through a message box as well that an issue had occurred;
+                #   the message will be brief as the full details remain within the terminal.
+                [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -1668,6 +1700,10 @@ class CommonIO
             #  and log that same message for referencing purpose.
             [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1774,6 +1810,10 @@ class CommonIO
             #  and log that same message for referencing purpose.
             [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1987,6 +2027,10 @@ class CommonIO
                 [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                             [LogMessageLevel]::Error);  # Message level
 
+                # Alert the user through a message box as well that an issue had occurred;
+                #   the message will be brief as the full details remain within the terminal.
+                [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
                 # * * * * * * * * * * * * * * * * * * *
 
 
@@ -2022,6 +2066,10 @@ class CommonIO
                 #  and log that same message for referencing purpose.
                 [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                             [LogMessageLevel]::Error);  # Message level
+
+                # Alert the user through a message box as well that an issue had occurred;
+                #   the message will be brief as the full details remain within the terminal.
+                [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
                 # * * * * * * * * * * * * * * * * * * *
 
@@ -2126,6 +2174,10 @@ class CommonIO
                     [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                                 [LogMessageLevel]::Error);  # Message level
 
+                    # Alert the user through a message box as well that an issue had occurred;
+                    #   the message will be brief as the full details remain within the terminal.
+                    [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
                     # * * * * * * * * * * * * * * * * * * *
 
 
@@ -2172,6 +2224,10 @@ class CommonIO
             #  and log that same message for referencing purpose.
             [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2235,6 +2291,10 @@ class CommonIO
             #  and log that same message for referencing purpose.
             [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2351,6 +2411,10 @@ class CommonIO
                 #  and log that same message for referencing purpose.
                 [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                             [LogMessageLevel]::Error);  # Message level
+
+                # Alert the user through a message box as well that an issue had occurred;
+                #   the message will be brief as the full details remain within the terminal.
+                [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
                 # * * * * * * * * * * * * * * * * * * *
             } # Catch : Failed to Create Directory
@@ -4528,6 +4592,10 @@ class CommonIO
             [Logging]::DisplayMessage($logMessage, `            # Message to display
                                     [LogMessageLevel]::Error);  # Message level
 
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
             # * * * * * * * * * * * * * * * * * * *
 
 
@@ -4589,6 +4657,10 @@ class CommonIO
             [Logging]::DisplayMessage($logMessage, `            # Message to display
                                     [LogMessageLevel]::Error);  # Message level
 
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
             # * * * * * * * * * * * * * * * * * * *
 
 
@@ -4640,6 +4712,10 @@ class CommonIO
             #  and log that same message for referencing purpose.
             [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                         [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
 

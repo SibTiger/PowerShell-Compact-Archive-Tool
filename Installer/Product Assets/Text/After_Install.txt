@@ -1,0 +1,15 @@
+Thank you for installing the PowerShell Compact-Archive Tool (PSCAT)!
+-------------------------------------------------------------------------------------
+
+
+Please Remember:
+=================
+
+If help is required, check out the PowerShell Compact-Archive Tool's Wiki for further
+    detailed information and common situations.
+    - https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/wiki
+
+
+If, however, a specific situation is not covered and requiring more technical assistance,
+    please try reaching out through the forums:
+    - https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/discussions/categories/q-a
