@@ -93,7 +93,7 @@ function clean()
 
 
     # Provide a new Window Title
-    [CommonIO]::SetTerminalWindowTitle("$($Global:_PROGRAMNAME_) (Version $($Global:_VERSION_)) for $([ProjectInformation]::projectName) - $([ProjectInformation]::codeName)");
+    [CommonIO]::SetTerminalWindowTitle("$($Global:_PROGRAMNAME_) (Version $($Global:_VERSION_)) - Clean Mode");
 
 
     # Load the user's configurations, if available.
