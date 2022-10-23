@@ -41,7 +41,7 @@ param(
     #       Software runs normally, no changes.
     #   1 = Clean Up Mode
     #       Deletes all builds, logs, and report files.
-    #   2 = Uninstall Mode
+    #   2 = Deep Clean Up Mode
     #       Deletes all builds, logs, report files, and user configuration.
     [Parameter(Mandatory=$false)]
     [ValidateRange(0, 2)]

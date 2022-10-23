@@ -34,14 +34,6 @@ Source: "Scripts\Launcher\Launcher.ps1";                            \
     DestDir: "{app}\Bin\";                                          \
     Flags: confirmoverwrite touch;
 
-Source: "Scripts\Program Modes\Clean.ps1";                          \
-    DestDir: "{app}\Bin\";                                          \
-    Flags: confirmoverwrite touch;
-
-Source: "Scripts\Program Modes\Uninstall.ps1";                      \
-    DestDir: "{app}\Bin\";                                          \
-    Flags: confirmoverwrite touch;
-
 Source: "Installer\Product Assets\Bootstrap\Bootstrap Loader.bat";  \
     DestDir: "{app}\Bootstrap\";                                    \
     Flags: confirmoverwrite touch;
