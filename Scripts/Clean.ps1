@@ -31,7 +31,7 @@
  #      - Compiled Builds
  #      - Log files
  #      - Report files
- #  - Uninstall
+ #  - Deep Cleanup
  #      - Compiled Builds
  #      - Log files
  #      - Report files
@@ -119,14 +119,14 @@ function clean()
         } # Clean Up Mode
 
 
-        # Uninstall Mode
-        {($_ -eq [CleanUpModeType]::Uninstall)}
+        # Deep Clean Up Mode
+        {($_ -eq [CleanUpModeType]::DeepCleanUp)}
         {
-            # Let the user know that the application is uninstalling itself.
-            [CommonIO]::WriteToBuffer("Uninstalling`r`n`r`n", + `
+            # Let the user know that the application is performing a deep cleanup.
+            [CommonIO]::WriteToBuffer("Deep Clean Up`r`n`r`n", + `
                                         [LogMessageLevel]::Warning, + `
                                         $false);
-        } # Uninstall Mode
+        } # Deep Clean Up Mode
     } # switch : Program Mode
 
 
@@ -195,7 +195,7 @@ function clean()
 
 
     # Delete the user configuration file
-    if ($programMode -eq [CleanUpModeType]::Uninstall)
+    if ($programMode -eq [CleanUpModeType]::DeepCleanUp)
     {
         [CommonIO]::WriteToBuffer("`tUser Configuration`r`n`t`t$GLOBAL:_PROGRAMDATA_ROOT_ROAMING_PATH_", + `
                                     [LogMessageLevel]::Warning, + `
@@ -215,7 +215,7 @@ function clean()
                                         [LogMessageLevel]::Error, + `
                                         $false);
         } # if : Failed to Delete Directory - Logs\Reports
-    } # if : Uninstall
+    } # if : Deep Clean Up
 
 
 
@@ -244,32 +244,6 @@ function clean()
                                     $false);
     } # if : Failed to Delete Directory - Compiled Builds
 
-
-
-    # Program Files
-    # -----------
-    # -----------
-
-
-    # Let the user know that they will need to expunge the program files manually, but if and only if the Uninstall flag is raised.
-    if ($programMode -eq [CleanUpModeType]::Uninstall)
-    {
-        [CommonIO]::WriteToBuffer("`tProgram Files", + `
-                                    [LogMessageLevel]::Warning, + `
-                                    $false);
-
-
-        # Because it is going to take large amounts of time to make this functionality work, it is best to have the user to delete the directory themselves.
-        #  NOTE: This approach is mainly for Power Users; others will benefit from the Installer packages.
-        [CommonIO]::WriteToBuffer("`t`tIn order to delete the $($GLOBAL:_PROGRAMNAME_) Program Files, you will have to delete following directory:", + `
-                                    [LogMessageLevel]::Attention, + `
-                                    $false);
-
-
-        [CommonIO]::WriteToBuffer("`t`t$GLOBAL:_SCRIPTPATH_", + `
-                                    [LogMessageLevel]::Warning, + `
-                                    $false);
-    } # if : Uninstall
 
 
 
@@ -329,5 +303,5 @@ enum CleanUpModeType
 {
     Nothing     = 0;        # No cleaning is required
     CleanUp     = 1;        # Standard Cleanup Operation
-    Uninstall   = 2;        # Uninstall the Application
+    DeepCleanUp = 2;        # Deep Cleanup Operation
 } # CleanUpModeType

@@ -52,7 +52,7 @@
     Program Mode [integer value]
         0 = Normal mode; compile projects (Default)
         1 = Clean up mode; remove some generated data
-        2 = Uninstall mode; removes all generated data
+        2 = Deep clean up mode; removes all generated data
 
 .OUTPUTS
     Operation Return Code
@@ -111,7 +111,7 @@ param(
     #       Software runs normally, no changes.
     #   1 = Clean Up Mode
     #       Deletes all builds, logs, and report files.
-    #   2 = Uninstall Mode
+    #   2 = Deep Clean Up Mode
     #       Deletes all builds, logs, report files, and user configuration.
     [Parameter(Mandatory=$false)]
     [ValidateRange(0, 2)]
