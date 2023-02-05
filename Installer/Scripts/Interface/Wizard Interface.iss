@@ -55,4 +55,23 @@ WizardImageStretch = "Yes"
 WizardResizable = "No"
 
 
+
+
+; Wizard Image Alpha Format
+; - - - - - - - - - - - - -
+; Allows the ability to use a transparent background of the desired image, such that the picture itself
+;   can be able to use the Setup's colours as the background for the non-focused regions.  With this
+;   functionality, the graphic presented will always use the background colours from the Setup Wizard
+;   directly.
+;
+; Values:
+;   None            = There will not be an alpha channel.
+;   Premultiplied   = The RGB colour channels will have its values pre-multiplied with the alpha channel value.
+;   defined         = The RGB colour channels will not have its values pre-multiplied with the alpha channel value.
+;
+; Resources:
+;   - https://jrsoftware.org/ishelp/index.php?topic=setup_wizardimagealphaformat
+WizardImageAlphaFormat = "Defined"
+
+
 [/Setup]
