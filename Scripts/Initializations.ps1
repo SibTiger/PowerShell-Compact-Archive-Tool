@@ -87,7 +87,7 @@ function InitializationProgramIdentity()
 
     # Release Date
     # Date Format: DD.MM.YYYY with leading zeros
-    Set-Variable -Name "_RELEASEDATE_" -Value "15.01.2023" `
+    Set-Variable -Name "_RELEASEDATE_" -Value "05.02.2023" `
         -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
         -Visibility Public `
         -Description "The date in which the version of the application was released.";
