@@ -527,11 +527,8 @@ class Settings7Zip
         #  Show the Compression Method if the following conditions are true:
         #   - Compression Tool is 7Zip
         #   - Found 7Zip
-        #   OR
-        #   - Show Hidden Menus
-        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) `
-                -and [CommonFunctions]::IsAvailable7Zip()) `
-                -or $userPreferences.GetShowHiddenMenu())
+        if (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) `
+                -and [CommonFunctions]::IsAvailable7Zip())
         {
             $showMenuCompressionMethod.Value = $true;
         } # If: Compression Method is Visible
@@ -556,12 +553,9 @@ class Settings7Zip
         #   - Compression Tool is 7Zip
         #   - Found 7Zip
         #   - Compression Method is Zip
-        #   OR
-        #   - Show Hidden Menus
-        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and `
+        if (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and `
             ([CommonFunctions]::IsAvailable7Zip()) -and `
-            ($sevenZip.GetCompressionMethod() -eq [SevenZipCompressionMethod]::Zip)) -or `
-                $userPreferences.GetShowHiddenMenu())
+            ($sevenZip.GetCompressionMethod() -eq [SevenZipCompressionMethod]::Zip))
         {
             $showMenuZipAlgorithms.Value = $true;
         } # If: Zip Algorithm is Visible
@@ -586,12 +580,9 @@ class Settings7Zip
         #   - Compression Tool is 7Zip
         #   - Found 7Zip
         #   - Compression Method is 7Zip
-        #   OR
-        #   - Show Hidden Menus
-        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and `
+        if (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and `
             ([CommonFunctions]::IsAvailable7Zip()) -and `
-            ($sevenZip.GetCompressionMethod() -eq [SevenZipCompressionMethod]::SevenZip)) -or `
-                $userPreferences.GetShowHiddenMenu())
+            ($sevenZip.GetCompressionMethod() -eq [SevenZipCompressionMethod]::SevenZip))
         {
             $showMenu7ZipAlgorithms.Value = $true;
         } # If: 7Zip Algorithm is Visible
@@ -615,11 +606,8 @@ class Settings7Zip
         #  Show the Compression Level if the following conditions are true:
         #   - Compression Tool is 7Zip
         #   - Found 7Zip
-        #   OR
-        #   - Show Hidden Menus
-        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) `
-                -and [CommonFunctions]::IsAvailable7Zip()) `
-                -or $userPreferences.GetShowHiddenMenu())
+        if (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) `
+                -and [CommonFunctions]::IsAvailable7Zip())
         {
             $showMenuCompressionLevel.Value = $true;
         } # If: Compression Level is Visible
@@ -643,11 +631,8 @@ class Settings7Zip
         #  Show the Verify Build if the following conditions are true:
         #   - Compression Tool is 7Zip
         #   - Found 7Zip
-        #   OR
-        #   - Show Hidden Menus
-        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) `
-                -and [CommonFunctions]::IsAvailable7Zip()) `
-                -or $userPreferences.GetShowHiddenMenu())
+        if (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) `
+                -and [CommonFunctions]::IsAvailable7Zip())
         {
             $showMenuVerifyBuild.Value = $true;
         } # If: Verify Build is Visible
@@ -671,11 +656,8 @@ class Settings7Zip
         #  Show the Generate Report if the following conditions are true:
         #   - Compression Tool is 7Zip
         #   - Found 7Zip
-        #   OR
-        #   - Show Hidden Menus
-        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) `
-                -and [CommonFunctions]::IsAvailable7Zip()) `
-                -or $userPreferences.GetShowHiddenMenu())
+        if (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) `
+                -and [CommonFunctions]::IsAvailable7Zip())
         {
             $ShowMenuGenerateReport.Value = $true;
         } # If: Generate Reports is Visible

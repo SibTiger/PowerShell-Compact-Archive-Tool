@@ -134,12 +134,6 @@ class UserPreferences
     Hidden [bool] $__useWindowsExplorer;
 
 
-    # Show Hidden Menus and Options
-    # ---------------
-    # When true, this will enforce all menus to be visible to the user.
-    Hidden [bool] $__showHiddenMenu;
-
-
     # Object GUID
     # ---------------
     # Provides a unique identifier to the object, useful to make sure that we are using
@@ -175,9 +169,6 @@ class UserPreferences
         # Use Windows Explorer
         $this.__useWindowsExplorer = $true;
 
-        # Show all menus
-        $this.__showHiddenMenu = $false;
-
         # Object Identifier (GUID)
         $this.__objectGUID = [GUID]::NewGuid();
     } # Default Constructor
@@ -190,8 +181,7 @@ class UserPreferences
                     [string] $projectPath, `
                     [string] $outputBuildsPath, `
                     [bool] $useGitFeatures, `
-                    [bool] $useWindowsExplorer, `
-                    [bool] $showHiddenMenu)
+                    [bool] $useWindowsExplorer)
     {
         # Compression Tool
         $this.__compressionTool = $compressionTool;
@@ -207,9 +197,6 @@ class UserPreferences
 
         # Use Windows Explorer
         $this.__useWindowsExplorer = $useWindowsExplorer;
-
-        # Show all menus
-        $this.__showHiddenMenu = $showHiddenMenu;
 
         # Object Identifier (GUID)
         $this.__objectGUID = [GUID]::NewGuid();
@@ -307,24 +294,6 @@ class UserPreferences
     {
         return $this.__useWindowsExplorer;
     } # GetUseWindowsExplorer()
-
-
-
-
-   <# Get Show Hidden Menus and Options
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'Show Hidden Menus and Options' variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Show Hidden Menus and Options
-    #   The value of the Show Hidden Menus and Options.
-    # -------------------------------
-    #>
-    [bool] GetShowHiddenMenu()
-    {
-        return $this.__showHiddenMenu;
-    } # GetShowHiddenMenu()
 
 
 
@@ -505,37 +474,6 @@ class UserPreferences
         # Successfully updated.
         return $true;
     } # SetUseWindowsExplorer()
-
-
-
-
-   <# Set Show Hidden Menus and Options
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Show Hidden Menus and Options' variable.
-    # -------------------------------
-    # Input:
-    #  [bool] Show Hidden Menus and Options
-    #   When true, this will allow the user to view all of the menus and options
-    #    that were previously hidden to them.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetShowHiddenMenu([bool] $newVal)
-    {
-        # Because the value is either true or false, there really is no
-        #  point in checking if the new requested value is 'legal'.
-        #  Thus, we are going to trust the value and automatically
-        #  return success.
-        $this.__showHiddenMenu = $newVal;
-
-        # Successfully updated.
-        return $true;
-    } # SetShowHiddenMenu()
 
     #endregion
 } # UserPreferences

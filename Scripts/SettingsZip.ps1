@@ -385,11 +385,8 @@ class SettingsZip
         #  Show the Compression Level if the following conditions are true:
         #   - Selected Compression Level is Default
         #   - Found Compression Module
-        #   OR
-        #   - Show Hidden Menus
-        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) `
-                -and [CommonFunctions]::IsAvailableZip()) `
-            -or $userPreferences.GetShowHiddenMenu())
+        if (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) `
+                -and [CommonFunctions]::IsAvailableZip())
         {
             $showMenuCompressionLevel.Value = $true;
         } # If: Compression Level is Visible
@@ -413,11 +410,8 @@ class SettingsZip
         #  Show the Verify Build if the following conditions are true:
         #   - Selected Compression Level is Default
         #   - Found Compression Module
-        #   OR
-        #   - Show Hidden Menus
-        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) `
-                -and [CommonFunctions]::IsAvailableZip()) `
-            -or $userPreferences.GetShowHiddenMenu())
+        if (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) `
+                -and [CommonFunctions]::IsAvailableZip())
         {
             $showMenuVerifyBuild.Value = $true;
         } # If: Verify Build is Visible
@@ -441,11 +435,8 @@ class SettingsZip
         #  Show the Generate Report if the following conditions are true:
         #   - Selected Compression Level is Default
         #   - Found Compression Module
-        #   OR
-        #   - Show Hidden Menus
-        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) `
-                -and [CommonFunctions]::IsAvailableZip()) `
-            -or $userPreferences.GetShowHiddenMenu())
+        if (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) `
+                -and [CommonFunctions]::IsAvailableZip())
         {
             $ShowMenuGenerateReport.Value = $true;
         } # If: Generate Report is Visible

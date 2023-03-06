@@ -109,19 +109,10 @@ class Settings
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # This will hold a message that will be displayed to the user, in which
-        #   it indicates the current value of the Show Hidden Menus and Options
-        #   variable.
-        # NOTE: Use a space character as default, so the spacing is consistent
-        #        in the menu.
-        [string] $currentValueShowHiddenMenus = " ";
-
         # These variables will determine what menus are to be hidden from the user,
         #  as the options are possibly not available or not ready for the user to
         #  configure.
-        [bool] $showMenu7Zip = $true;   # 7Zip Menu
         [bool] $showMenuZip = $true;    # Zip Menu
-        [bool] $showMenuGit = $true;    # Git Menu
 
         # Retrieve the User Preference object.
         [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
@@ -129,22 +120,9 @@ class Settings
 
 
 
+
         # Determine what menus are to be displayed to the user.
-        [Settings]::__DrawMenuDetermineHiddenMenus([ref] $showMenu7Zip, `   # 7Zip Menu
-                                                    [ref] $showMenuZip, `   # Zip Menu
-                                                    [ref] $showMenuGit);    # Git Menu
-
-
-
-        # Determine the current value of the "Show Hidden Menus and Options" and
-        #  prepare a nice message to the user indicating the current value.
-        # Display hidden menus and options
-        if ($userPreferences.GetShowHiddenMenu())
-        {
-            # We are displaying hidden menus to the user.
-            $currentValueShowHiddenMenus = "Showing all hidden menus";
-        } # if: Display Hidden Menus
-
+        [Settings]::__DrawMenuDetermineHiddenMenus([ref] $showMenuZip);
 
 
 
@@ -158,43 +136,32 @@ class Settings
                                 $true);
 
 
-        # Only show this option if it is available to the user
+        # Determine if the dotNET Zip Archive functionality is available to the user in this current session.
         if ($showMenuZip)
         {
-            # Option is available, so display it on the settings main menu.
-            #  Configure the dotNET Zip Archive settings
+            # Configure the dotNET Zip Archive settings
             [CommonCUI]::DrawMenuItem('Z', `
                                     "Zip Preferences [PK3 Builds Only]", `
                                     "Configure the Internal Zip's functionality and preferences.", `
                                     $NULL, `
                                     $true);
-        } # if: Display .NET Core ZIP Option
+        } # if : Show dotNET Zip Settings Menu
 
 
-        # Only show this option if it is available to the user
-        if ($showMenu7Zip)
-        {
-            # Option is available, so display it on the settings main menu.
-            #  Configure the 7Zip Application settings
-            [CommonCUI]::DrawMenuItem('7', `
-                                    "7Zip Preferences [PK3 or PK7 Builds]", `
-                                    "Configure the 7Zip's functionality and preferences.", `
-                                    $NULL, `
-                                    $true);
-        } # if: Display 7Zip Option
+        # Configure the 7Zip Application settings
+        [CommonCUI]::DrawMenuItem('7', `
+                                "7Zip Preferences [PK3 or PK7 Builds]", `
+                                "Configure the 7Zip's functionality and preferences.", `
+                                $NULL, `
+                                $true);
 
 
-        # Only show this option if it available to the user
-        if ($showMenuGit)
-        {
-            # Option is available, so display it on the settings main menu.
-            #  Configure the Git Application settings
-            [CommonCUI]::DrawMenuItem('G', `
-                                    "Git Preferences", `
-                                    "Configure the Git's functionality and preferences.", `
-                                    $NULL, `
-                                    $true);
-        } # if: Display Git Option
+        # Configure the Git Application settings
+        [CommonCUI]::DrawMenuItem('G', `
+                                "Git Preferences", `
+                                "Configure the Git's functionality and preferences.", `
+                                $NULL, `
+                                $true);
 
 
         # Help Documentation
@@ -209,14 +176,6 @@ class Settings
         [CommonCUI]::DrawMenuItem('#', `
                                 "Report an issue or feature", `
                                 "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Online Bug Tracker.", `
-                                $NULL, `
-                                $true);
-
-
-        # Show or Hide Hidden Menus and Options
-        [CommonCUI]::DrawMenuItem('~', `
-                                "Toggle Hidden Menus", `
-                                $currentValueShowHiddenMenus, `
                                 $NULL, `
                                 $true);
 
@@ -257,9 +216,7 @@ class Settings
         # These variables will determine what menus are to be hidden from the user,
         #  as the options are possibly not available or not ready for the user to
         #  configure.
-        [bool] $showMenu7Zip = $true;   # 7Zip Menu
         [bool] $showMenuZip = $true;    # Zip Menu
-        [bool] $showMenuGit = $true;    # Git Menu
 
         # Retrieve the User Preference object.
         [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
@@ -267,10 +224,9 @@ class Settings
 
 
 
+
         # Determine what menus are to be displayed to the user.
-        [Settings]::__DrawMenuDetermineHiddenMenus([ref] $showMenu7Zip, `   # 7Zip Menu
-                                                    [ref] $showMenuZip, `   # Zip Menu
-                                                    [ref] $showMenuGit);    # Git Menu
+        [Settings]::__DrawMenuDetermineHiddenMenus([ref] $showMenuZip);
 
 
 
@@ -280,7 +236,7 @@ class Settings
             #  NOTE: Allow the user's request when they type: 'Configure General $project
             #           Preferences', 'Configure General', 'Configure Program', as well
             #           as 'P'.
-            {($_ -eq "P") -or `
+            {   ($_ -eq "P") -or `
                 ($_ -eq "Configure General $([ProjectInformation]::projectName) Preferences") -or `
                 ($_ -eq "Configure General") -or `
                 ($_ -eq "Configure Program")}
@@ -298,13 +254,11 @@ class Settings
             # Configure Zip Preferences
             #  NOTE: Allow the user's request when they type: 'Configure Zip Preferences',
             #           'Configure Zip', 'Zip', as well as 'Z'.
-            #       Further, only allow the option if and only if the feature is available
-            #           within the current session of the program's instance.
-            {($showMenuZip) -and `
+            {   ($showMenuZip) -and `
                 (($_ -eq "Z") -or `
-                ($_ -eq "Configure Zip Preferences") -or `
-                ($_ -eq "Configure Zip") -or `
-                ($_ -eq "Zip"))}
+                 ($_ -eq "Configure Zip Preferences") -or `
+                 ($_ -eq "Configure Zip") -or `
+                 ($_ -eq "Zip"))}
             {
                 # Open the Zip preferences menu
                 [SettingsZip]::Main();
@@ -319,14 +273,11 @@ class Settings
             # Configure 7Zip Preferences
             #  NOTE: Allow the user's request when they type: 'Configure 7Zip Preferences',
             #           'Configure 7Zip', '7Zip', '7Z', as well as '7'.
-            #       Further, only allow the option if and only if the feature is available
-            #           within the current session of the program's instance.
-            {($showMenu7Zip) -and `
-                (($_ -eq "7") -or `
+            {   ($_ -eq "7") -or `
                 ($_ -eq "Configure 7Zip Preferences") -or `
                 ($_ -eq "Configure 7Zip") -or `
                 ($_ -eq "7Zip") -or `
-                ($_ -eq "7Z"))}
+                ($_ -eq "7Z")}
             {
                 # Open the 7Zip preferences menu
                 [Settings7Zip]::Main();
@@ -341,13 +292,10 @@ class Settings
             # Configure Git Preferences
             #  NOTE: Allow the user's request when they type: 'Configure Git Preferences',
             #           'Configure Git', 'Git', as well as 'G'.
-            #       Further, only allow the option if and only if the feature is available
-            #           within the current session of the program's instance.
-            {($showMenuGit) -and `
-                (($_ -eq "G") -or `
+            {   ($_ -eq "G") -or `
                 ($_ -eq "Configure Git Preferences") -or `
                 ($_ -eq "Configure Git") -or `
-                ($_ -eq "Git"))}
+                ($_ -eq "Git")}
             {
                 # Open the Git preferences menu
                 [SettingsGit]::Main();
@@ -362,7 +310,7 @@ class Settings
             # Access the Help Program's Documentation
             #  NOTE: Allow the user's request when they type: 'Help', 'Helpme',
             #           'Help me', as well as '?'.
-            {($_ -eq "?") -or `
+            {   ($_ -eq "?") -or `
                 ($_ -eq "help") -or `
                 ($_ -eq "helpme") -or `
                 ($_ -eq "help me")}
@@ -385,7 +333,7 @@ class Settings
 
             # Access the Program's Bug Tracker
             #  NOTE: Allow the user's request when they type: 'Report' or '#'.
-            {($_ -eq "#") -or `
+            {   ($_ -eq "#") -or `
                 ($_ -eq "Report")}
             {
                 # Open the webpage as requested
@@ -404,24 +352,13 @@ class Settings
 
 
 
-            # Toggle the Show Hidden Menus and Options
-            #  NOTE: Allow the user's request when they type: "Toggle hidden menus" and "~"
-            {($_ -eq "~") -or `
-                ($_ -eq "Toggle hidden menus")}
-            {
-                # Toggle the Show Hidden Menus and Options
-                $userPreferences.SetShowHiddenMenu(-not($userPreferences.GetShowHiddenMenu()));
-            } # Toggle Show Hidden Menus
-
-
-
             # Exit
             #  NOTE: Allow the user's request when they type: 'Exit', 'Cancel', 'Return',
             #         'Main Menu', as well as 'X'.
             #         This can come handy if the user is in a panic - remember that the terminal
             #         is intimidating for some which may cause user's to panic, and this can be
             #         helpful if user's are just used to typing 'Exit' or perhaps 'Quit'.
-            {($_ -eq "X") -or `
+            {   ($_ -eq "X") -or `
                 ($_ -eq "Exit") -or `
                 ($_ -eq "Cancel") -or `
                 ($_ -eq "Return") -or `
@@ -472,63 +409,16 @@ class Settings
     #   a way that has no real effect.
     # -------------------------------
     # Input:
-    #  [bool] (REFERENCE) 7Zip Menu
-    #   Provides the 7Zip Menu
     #  [bool] (REFERENCE) Zip Menu
     #   Provides the Zip Menu
-    #  [bool] (REFERENCE) Git Menu
-    #   Provides the Git Menu
     # -------------------------------
     #>
-    hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenu7Zip, `      # 7Zip Menu
-                                                        [ref] $showMenuZip, `       # Zip Menu
-                                                        [ref] $showMenuGit)         # Git Menu
+    hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuZip)
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Retrieve the User Preferences object
-        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
-        # ----------------------------------------
-
-
-
-        # Show 7Zip Menu
-        #  Show the 7Zip Menu if the following conditions are true:
-        #   - Found 7Zip
-        #   - Compression Tool is 7Zip
-        #   OR
-        #   - Show Hidden Menus
-        if (([CommonFunctions]::IsAvailable7Zip() -and `
-            ($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip)) -or `
-            $userPreferences.GetShowHiddenMenu())
-        {
-            $showMenu7Zip.Value = $true;
-        } # If: 7Zip Menu is Visible
-
-        # 7Zip Menu is Hidden
-        else
-        {
-            $showMenu7Zip.Value = $false;
-        } # Else: 7Zip Menu is Hidden
-
-
-
-
-        # - - - - - - - - - - - - - - - - - - - - - -
-        # - - - - - - - - - - - - - - - - - - - - - -
-
-
-
-
         # Show Zip Menu
         #  Show the Zip Menu if the following conditions are true:
         #   - Found Zip Module
-        #   - Compression Tool is Zip
-        #   OR
-        #   - Show Hidden Menus
-        if (([CommonFunctions]::IsAvailableZip() -and `
-            ($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip)) -or `
-            $userPreferences.GetShowHiddenMenu())
+        if ([CommonFunctions]::IsAvailableZip())
         {
             $showMenuZip.Value = $true;
         } # If: Zip Menu is Visible
@@ -538,32 +428,5 @@ class Settings
         {
             $showMenuZip.Value = $false;
         } # Else: Zip Menu is Hidden
-
-
-
-
-        # - - - - - - - - - - - - - - - - - - - - - -
-        # - - - - - - - - - - - - - - - - - - - - - -
-
-
-
-
-        # Show Git Menu
-        #  Show the Git Menu if the following conditions are true:
-        #   - Found Git
-        #   - Use Git Features
-        #   OR
-        #   - Show Hidden Menus
-        if (([CommonFunctions]::IsAvailableGit() -and $userPreferences.GetUseGitFeatures()) -or `
-            $userPreferences.GetShowHiddenMenu())
-        {
-            $showMenuGit.Value = $true;
-        } # If: Git Menu is Visible
-
-        # Git Menu is Hidden
-        else
-        {
-            $showMenuGit.Value = $false;
-        } # Else: Git Menu is Hidden
     } # __DrawMenuDetermineHiddenMenus()
 } # Settings

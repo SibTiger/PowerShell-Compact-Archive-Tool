@@ -497,10 +497,7 @@ class SettingsGit
         #  Show the Update Source if the following conditions are true:
         #   - Use Git Features
         #   - Found Git
-        #   OR
-        #   - Show Hidden Menus
-        if (($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit()) `
-                -or $userPreferences.GetShowHiddenMenu())
+        if ($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit())
         {
             $showMenuUpdateSource.Value = $true;
         } # If: Update Source is Visible
@@ -524,10 +521,7 @@ class SettingsGit
         #  Show the Commit ID Size if the following conditions are true:
         #   - Use Git Features
         #   - Found Git
-        #   OR
-        #   - Show Hidden Menus
-        if (($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit()) `
-                -or $userPreferences.GetShowHiddenMenu())
+        if ($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit())
         {
             $showMenuCommitIDSize.Value = $true;
         } # If: Commit ID Size is Visible
@@ -551,10 +545,7 @@ class SettingsGit
         #  Show the Retrieve History if the following conditions are true:
         #   - Use Git Features
         #   - Found Git
-        #   OR
-        #   - Show Hidden Menus
-        if (($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit()) `
-                -or $userPreferences.GetShowHiddenMenu())
+        if ($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit())
         {
             $showMenuRetrieveHistory.Value = $true;
         } # If: Retrieve History is Visible
@@ -579,11 +570,8 @@ class SettingsGit
         #   - Use Git Features
         #   - Found Git
         #   - Retrieve History is $true
-        #   OR
-        #   - Show Hidden Menus
-        if (($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit() `
-                -and $gitControl.GetFetchChangelog()) `
-            -or $userPreferences.GetShowHiddenMenu())
+        if ($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit() `
+                -and $gitControl.GetFetchChangelog())
         {
             $showMenuHistorySize.Value = $true;
         } # If: History Size is Visible
@@ -607,10 +595,7 @@ class SettingsGit
         #  Show the Generate Report if the following conditions are true:
         #   - Use Git Features
         #   - Found Git
-        #   OR
-        #   - Show Hidden Menus
-        if (($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit()) `
-            -or $userPreferences.GetShowHiddenMenu())
+        if ($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit())
         {
             $ShowMenuGenerateReport.Value = $true;
         } # If: Generate Reports is Visible

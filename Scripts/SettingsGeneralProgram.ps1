@@ -372,10 +372,7 @@ class SettingsGeneralProgram
         #  Show the Compression Tool if the following conditions are true:
         #   - Found dotNET Zip Archive
         #   - Found 7Zip
-        #   OR
-        #   - Show Hidden Menus
-        if(([CommonFunctions]::IsAvailableZip() -and [CommonFunctions]::IsAvailable7Zip()) -or `
-            $userPreferences.GetShowHiddenMenu())
+        if ([CommonFunctions]::IsAvailableZip() -and [CommonFunctions]::IsAvailable7Zip())
         {
             $showMenuCompressionTool.Value = $true;
         } # If: Compression Tool is Visible
@@ -398,9 +395,7 @@ class SettingsGeneralProgram
         # Show Menu: Git Features
         #  Show the Git Features if the following conditions are true:
         #   - Found Git
-        #   OR
-        #   - Show Hidden Menus
-        if ([CommonFunctions]::IsAvailableGit() -or $userPreferences.GetShowHiddenMenu())
+        if ([CommonFunctions]::IsAvailableGit())
         {
             $showMenuGitFeatures.Value = $true;
         } # If: Git Features is Visible
@@ -423,10 +418,7 @@ class SettingsGeneralProgram
         # Show Menu: Windows Features
         #  Show the Windows Features if the following conditions are true:
         #   - Operating System is Windows
-        #   OR
-        #   - Show Hidden Menus
-        if (([SystemInformation]::OperatingSystem() -eq [SystemInformationOperatingSystem]::Windows) -or `
-            $userPreferences.GetShowHiddenMenu())
+        if ([SystemInformation]::OperatingSystem() -eq [SystemInformationOperatingSystem]::Windows)
         {
             $showMenuWindowsFeatures.Value = $true;
         } # If: Windows Features is Visible
