@@ -113,7 +113,7 @@ class SettingsZip
         #  configure.
         [bool] $showMenuCompressionLevel = $true;   # Compression Level
         [bool] $showMenuVerifyBuild = $true;        # Verify Build
-        [bool] $ShowMenuGenerateReport = $true;     # Generate Report
+        [bool] $showMenuGenerateReport = $true;     # Generate Report
         # ----------------------------------------
 
 
@@ -127,7 +127,7 @@ class SettingsZip
         # Determine what menus are to be displayed to the user.
         [SettingsZip]::__DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionLevel, `    # Compression Level
                                                         [ref] $showMenuVerifyBuild, `       # Verify Build
-                                                        [ref] $ShowMenuGenerateReport);     # Generate Report
+                                                        [ref] $showMenuGenerateReport);     # Generate Report
 
 
 
@@ -157,7 +157,7 @@ class SettingsZip
 
 
         # Allow or disallow the ability to generate a report
-        if ($ShowMenuGenerateReport)
+        if ($showMenuGenerateReport)
         {
             [CommonCUI]::DrawMenuItem('R', `
                                     "Generate Report of the Archive Datafile", `
@@ -371,7 +371,7 @@ class SettingsZip
     #>
     hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionLevel, `      # Locate Git
                                                         [ref] $showMenuVerifyBuild, `           # Update Source
-                                                        [ref] $ShowMenuGenerateReport)          # Generate Report
+                                                        [ref] $showMenuGenerateReport)          # Generate Report
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -438,13 +438,13 @@ class SettingsZip
         if (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) `
                 -and [CommonFunctions]::IsAvailableZip())
         {
-            $ShowMenuGenerateReport.Value = $true;
+            $showMenuGenerateReport.Value = $true;
         } # If: Generate Report is Visible
 
         # Generate Report is Hidden
         else
         {
-            $ShowMenuGenerateReport.Value = $false;
+            $showMenuGenerateReport.Value = $false;
         } # Else: Generate Report is Hidden
     } # __DrawMenuDetermineHiddenMenus()
 
@@ -478,14 +478,14 @@ class SettingsZip
         #  configure.
         [bool] $showMenuCompressionLevel = $true;   # Compression Level
         [bool] $showMenuVerifyBuild = $true;        # Verify Build
-        [bool] $ShowMenuGenerateReport = $true;     # Generate Report
+        [bool] $showMenuGenerateReport = $true;     # Generate Report
         # ----------------------------------------
 
 
         # Determine what menus are to be displayed to the user.
         [SettingsZip]::__DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionLevel, `    # Compression Level
                                                         [ref] $showMenuVerifyBuild, `       # Verify Build
-                                                        [ref] $ShowMenuGenerateReport);     # Generate Report
+                                                        [ref] $showMenuGenerateReport);     # Generate Report
 
 
 
@@ -531,7 +531,7 @@ class SettingsZip
             # Generate Report of Archive Datafile
             #  NOTE: Allow the user's request when they type: 'Report', 'Generate Report',
             #           'Generate Report of Archive Datafile', as well as 'R'.
-            {($ShowMenuGenerateReport) -and `
+            {($showMenuGenerateReport) -and `
                 (($_ -eq "R") -or `
                     ($_ -eq "Generate Report") -or `
                     ($_ -eq "Report") -or `
