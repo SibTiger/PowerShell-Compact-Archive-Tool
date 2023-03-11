@@ -118,7 +118,7 @@ class Settings7Zip
         [bool] $showMenu7ZipAlgorithms = $true;         # 7Zip Algorithms
         [bool] $showMenuCompressionLevel = $true;       # Compression Level
         [bool] $showMenuVerifyBuild = $true;            # Verify Build
-        [bool] $ShowMenuGenerateReport = $true;         # Generate Report
+        [bool] $showMenuGenerateReport = $true;         # Generate Report
 
         # Retrieve the 7Zip object
         [SevenZip] $sevenZip = [SevenZip]::GetInstance();
@@ -140,7 +140,7 @@ class Settings7Zip
                                                         [ref] $showMenu7ZipAlgorithms, `        # 7Zip Algorithms
                                                         [ref] $showMenuCompressionLevel, `      # Compression Level
                                                         [ref] $showMenuVerifyBuild, `           # Verify Build
-                                                        [ref] $ShowMenuGenerateReport);         # Generate Report
+                                                        [ref] $showMenuGenerateReport);         # Generate Report
 
 
 
@@ -214,7 +214,7 @@ class Settings7Zip
 
 
         # Allow or disallow the ability to generate a report
-        if ($ShowMenuGenerateReport)
+        if ($showMenuGenerateReport)
         {
             [CommonCUI]::DrawMenuItem('R', `
                                     "Generate Report of the Archive Datafile", `
@@ -497,7 +497,7 @@ class Settings7Zip
                                                         [ref] $showMenu7ZipAlgorithms, `        # 7Zip Algorithms
                                                         [ref] $showMenuCompressionLevel, `      # Compression Level
                                                         [ref] $showMenuVerifyBuild, `           # Verify Build
-                                                        [ref] $ShowMenuGenerateReport)          # Generate Report
+                                                        [ref] $showMenuGenerateReport)          # Generate Report
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -659,13 +659,13 @@ class Settings7Zip
         if (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) `
                 -and [CommonFunctions]::IsAvailable7Zip())
         {
-            $ShowMenuGenerateReport.Value = $true;
+            $showMenuGenerateReport.Value = $true;
         } # If: Generate Reports is Visible
 
         # Generate Reports is hidden
         else
         {
-            $ShowMenuGenerateReport.Value = $false;
+            $showMenuGenerateReport.Value = $false;
         } # Else: Generate Reports is Hidden
     } # __DrawMenuDetermineHiddenMenus()
 
@@ -703,7 +703,7 @@ class Settings7Zip
         [bool] $showMenu7ZipAlgorithms = $true;         # 7Zip Algorithms
         [bool] $showMenuCompressionLevel = $true;       # Compression Level
         [bool] $showMenuVerifyBuild = $true;            # Verify Build
-        [bool] $ShowMenuGenerateReport = $true;         # Generate Report
+        [bool] $showMenuGenerateReport = $true;         # Generate Report
         # ----------------------------------------
 
 
@@ -714,7 +714,7 @@ class Settings7Zip
                                                         [ref] $showMenu7ZipAlgorithms, `        # 7Zip Algorithms
                                                         [ref] $showMenuCompressionLevel, `      # Compression Level
                                                         [ref] $showMenuVerifyBuild, `           # Verify Build
-                                                        [ref] $ShowMenuGenerateReport);         # Generate Report
+                                                        [ref] $showMenuGenerateReport);         # Generate Report
 
 
 
@@ -828,7 +828,7 @@ class Settings7Zip
             # Generate Report of Archive Datafile
             #  NOTE: Allow the user's request when they type: 'Report', 'Generate Report',
             #           'Generate Report of Archive Datafile', as well as 'R'.
-            {($ShowMenuGenerateReport) -and `
+            {($showMenuGenerateReport) -and `
                 (($_ -eq "R") -or `
                     ($_ -eq "Generate Report") -or `
                     ($_ -eq "Report") -or `
