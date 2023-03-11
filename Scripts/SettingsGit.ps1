@@ -118,7 +118,7 @@ class SettingsGit
         [bool] $showMenuCommitIDSize = $true;       # Commit ID Size
         [bool] $showMenuRetrieveHistory = $true;    # Retrieve History
         [bool] $showMenuHistorySize = $true;        # History Size
-        [bool] $ShowMenuGenerateReport = $true;     # Generate Report
+        [bool] $showMenuGenerateReport = $true;     # Generate Report
 
         # Retrieve the Git Control object
         [GitControl] $gitControl = [GitControl]::GetInstance();
@@ -140,7 +140,7 @@ class SettingsGit
                                                         [ref] $showMenuCommitIDSize, `      # Commit ID Size
                                                         [ref] $showMenuRetrieveHistory, `   # Retrieve History
                                                         [ref] $showMenuHistorySize, `       # History Size
-                                                        [ref] $ShowMenuGenerateReport);     # Generate Report
+                                                        [ref] $showMenuGenerateReport);     # Generate Report
 
 
 
@@ -203,7 +203,7 @@ class SettingsGit
 
 
         # Enable or disable the ability to generate a report
-        if ($ShowMenuGenerateReport)
+        if ($showMenuGenerateReport)
         {
             [CommonCUI]::DrawMenuItem('R', `
                                     "Generate Report of Project Repository", `
@@ -467,7 +467,7 @@ class SettingsGit
                                                         [ref] $showMenuCommitIDSize, `      # Commit ID Size
                                                         [ref] $showMenuRetrieveHistory, `   # Retrieve History
                                                         [ref] $showMenuHistorySize, `       # History Size
-                                                        [ref] $ShowMenuGenerateReport)      # Generate Report
+                                                        [ref] $showMenuGenerateReport)      # Generate Report
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -597,13 +597,13 @@ class SettingsGit
         #   - Found Git
         if ($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit())
         {
-            $ShowMenuGenerateReport.Value = $true;
+            $showMenuGenerateReport.Value = $true;
         } # If: Generate Reports is Visible
 
         # Generate Reports is hidden
         else
         {
-            $ShowMenuGenerateReport.Value = $false;
+            $showMenuGenerateReport.Value = $false;
         } # Else: Generate Reports is Hidden
     } # __DrawMenuDetermineHiddenMenus()
 
@@ -640,7 +640,7 @@ class SettingsGit
         [bool] $showMenuCommitIDSize = $true;       # Commit ID Size
         [bool] $showMenuRetrieveHistory = $true;    # Retrieve History
         [bool] $showMenuHistorySize = $true;        # History Size
-        [bool] $ShowMenuGenerateReport = $true;     # Generate Report
+        [bool] $showMenuGenerateReport = $true;     # Generate Report
         # ----------------------------------------
 
 
@@ -650,7 +650,7 @@ class SettingsGit
                                                         [ref] $showMenuCommitIDSize, `      # Commit ID Size
                                                         [ref] $showMenuRetrieveHistory, `   # Retrieve History
                                                         [ref] $showMenuHistorySize, `       # History Size
-                                                        [ref] $ShowMenuGenerateReport);     # Generate Report
+                                                        [ref] $showMenuGenerateReport);     # Generate Report
 
 
 
@@ -754,7 +754,7 @@ class SettingsGit
             # Generate Report of Project's Repository
             #  NOTE: Allow the user's request when they type: 'Report', 'Generate Report',
             #           as well as 'R'.
-            {($ShowMenuGenerateReport) -and `
+            {($showMenuGenerateReport) -and `
                 (($_ -eq "R") -or `
                     ($_ -eq "Generate Report") -or `
                     ($_ -eq "Report"))}
