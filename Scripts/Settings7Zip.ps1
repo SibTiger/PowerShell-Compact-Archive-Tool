@@ -491,7 +491,7 @@ class Settings7Zip
     #   Determines if the user wanted a report of the project's latest developments.
     # -------------------------------
     #>
-    hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuLocate7Zip, `            # Locate Git
+    hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuLocate7Zip, `            # Locate 7Zip
                                                         [ref] $showMenuCompressionMethod, `     # Compression Method
                                                         [ref] $showMenuZipAlgorithms, `         # Zip Algorithms
                                                         [ref] $showMenu7ZipAlgorithms, `        # 7Zip Algorithms
