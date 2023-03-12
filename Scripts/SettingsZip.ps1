@@ -369,9 +369,9 @@ class SettingsZip
     #   Determines if the user wanted a report of the newly compiled build.
     # -------------------------------
     #>
-    hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionLevel, `      # Locate Git
-                                                        [ref] $showMenuVerifyBuild, `           # Update Source
                                                         [ref] $showMenuGenerateReport)          # Generate Report
+    hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionLevel, `      # Compression Level
+                                                        [ref] $showMenuVerifyBuild, `           # Verify Build
     {
         # Declarations and Initializations
         # ----------------------------------------
