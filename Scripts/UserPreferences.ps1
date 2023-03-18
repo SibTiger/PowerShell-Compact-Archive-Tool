@@ -73,8 +73,7 @@ class UserPreferences
     static [UserPreferences] GetInstance([UserPreferencesCompressTool] $compressionTool, `  # Which Compression Software to use
                                         [string] $projectPath, `                            # Project's absolute path
                                         [string] $outputBuildsPath, `                       # Output Builds absolute path
-                                        [bool] $useGitFeatures, `                           # Utilize Git features (if software available)
-                                        [bool] $useWindowsExplorer)                         # Use Windows Explorer
+                                        [bool] $useGitFeatures)                             # Utilize Git features (if software available)
     {
         # if there was no previous instance of the object - then create one.
         if ($null -eq [UserPreferences]::_instance)
@@ -83,8 +82,7 @@ class UserPreferences
             [UserPreferences]::_instance = [UserPreferences]::new($compressionTool, `
                                                                 $projectPath, `
                                                                 $outputBuildsPath, `
-                                                                $useGitFeatures, `
-                                                                $useWindowsExplorer);
+                                                                $useGitFeatures);
         } # If: No Singleton Instance
 
         # Provide an instance of the object.
@@ -127,13 +125,6 @@ class UserPreferences
     Hidden [bool] $__useGitFeatures;
 
 
-    # Use Windows Explorer
-    # ---------------
-    # When true, this program will try to use Windows Explorer to open directory paths;
-    #  useful to show where the builds are located within the user's filesystem.
-    Hidden [bool] $__useWindowsExplorer;
-
-
     # Object GUID
     # ---------------
     # Provides a unique identifier to the object, useful to make sure that we are using
@@ -166,9 +157,6 @@ class UserPreferences
         # Use Git Features
         $this.__useGitFeatures = $true;
 
-        # Use Windows Explorer
-        $this.__useWindowsExplorer = $true;
-
         # Object Identifier (GUID)
         $this.__objectGUID = [GUID]::NewGuid();
     } # Default Constructor
@@ -180,8 +168,7 @@ class UserPreferences
     UserPreferences([UserPreferencesCompressTool] $compressionTool, `
                     [string] $projectPath, `
                     [string] $outputBuildsPath, `
-                    [bool] $useGitFeatures, `
-                    [bool] $useWindowsExplorer)
+                    [bool] $useGitFeatures)
     {
         # Compression Tool
         $this.__compressionTool = $compressionTool;
@@ -194,9 +181,6 @@ class UserPreferences
 
         # Use Git Features
         $this.__useGitFeatures = $useGitFeatures;
-
-        # Use Windows Explorer
-        $this.__useWindowsExplorer = $useWindowsExplorer;
 
         # Object Identifier (GUID)
         $this.__objectGUID = [GUID]::NewGuid();
@@ -276,24 +260,6 @@ class UserPreferences
     {
         return $this.__useGitFeatures;
     } # GetUseGitFeatures()
-
-
-
-
-   <# Get Use Windows Explorer
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the Use 'Windows Explorer' variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Use Windows Explorer
-    #   The value of the Use Windows Explorer.
-    # -------------------------------
-    #>
-    [bool] GetUseWindowsExplorer()
-    {
-        return $this.__useWindowsExplorer;
-    } # GetUseWindowsExplorer()
 
 
 
@@ -443,37 +409,6 @@ class UserPreferences
         # Successfully updated.
         return $true;
     } # SetUseGitFeatures()
-
-
-
-
-   <# Set Use Windows Explorer
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Use Windows Explorer' variable.
-    # -------------------------------
-    # Input:
-    #  [bool] Use Windows Explorer Functionality
-    #   When true, this will allow the application to utilize functionality
-    #    from the Windows Explorer shell.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetUseWindowsExplorer([bool] $newVal)
-    {
-        # Because the value is either true or false, there really is no
-        #  point in checking if the new requested value is 'legal'.
-        #  Thus, we are going to trust the value and automatically
-        #  return success.
-        $this.__useWindowsExplorer = $newVal;
-
-        # Successfully updated.
-        return $true;
-    } # SetUseWindowsExplorer()
 
     #endregion
 } # UserPreferences

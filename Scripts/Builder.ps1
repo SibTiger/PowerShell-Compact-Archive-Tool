@@ -2452,13 +2452,10 @@ class Builder
             # = - - - - - - - - - - - =
             [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportTextFile);
 
-            # Reveal the location using the user's preferred GUI Shell
-            if ($userPreferences.GetUseWindowsExplorer())
-            {
-                # Access the desired directory and select the file.
-                [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportTextFile), `
-                                            [System.IO.Path]::GetFileName($fullPathReportTextFile));
-            } # if : Reveal using the GUI Shell
+
+            # Access the desired directory and select the file.
+            [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportTextFile), `
+                                        [System.IO.Path]::GetFileName($fullPathReportTextFile));
 
 
             # Report File - PDF Report
@@ -2469,13 +2466,9 @@ class Builder
                 # User allowed the ability for PDF files to be generated
                 [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportPDFFile);
 
-                # Reveal the location using the user's preferred GUI Shell
-                if ($userPreferences.GetUseWindowsExplorer())
-                {
-                    # Access the desired directory and select the file.
-                    [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportPDFFile), `
-                                                [System.IO.Path]::GetFileName($fullPathReportPDFFile));
-                } # if : Reveal using the GUI Shell
+                # Access the desired directory and select the file.
+                [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportPDFFile), `
+                                            [System.IO.Path]::GetFileName($fullPathReportPDFFile));
             } # if : Show PDF Report
 
 
@@ -2644,13 +2637,9 @@ class Builder
             # = - - - - - - - - - - - =
             [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportTextFile);
 
-            # Reveal the location using the user's preferred GUI Shell
-            if ($userPreferences.GetUseWindowsExplorer())
-            {
-                # Access the desired directory and select the file.
-                [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportTextFile), `
-                                            [System.IO.Path]::GetFileName($fullPathReportTextFile));
-            } # if : Reveal using the GUI Shell
+            # Access the desired directory and select the file.
+            [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportTextFile), `
+                                        [System.IO.Path]::GetFileName($fullPathReportTextFile));
 
 
             # Report File - PDF Report
@@ -2660,13 +2649,9 @@ class Builder
                 # User allowed the ability for PDF files to be generated
                 [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportPDFFile);
 
-                # Reveal the location using the user's preferred GUI Shell
-                if ($userPreferences.GetUseWindowsExplorer())
-                {
-                    # Access the desired directory and select the file.
-                    [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportPDFFile), `
-                                                [System.IO.Path]::GetFileName($fullPathReportPDFFile));
-                } # if : Reveal using the GUI Shell
+                # Access the desired directory and select the file.
+                [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportPDFFile), `
+                                            [System.IO.Path]::GetFileName($fullPathReportPDFFile));
             } # if : Show PDF Report
         } # if : Report Created Successfully
 
@@ -2741,13 +2726,9 @@ class Builder
         # Show the path
         [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Child, $projectPath);
 
-
         # Reveal the project to the user using their preferred GUI Shell
-        if ($userPreferences.GetUseWindowsExplorer())
-        {
-            [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($projectPath), `
-                                        [System.IO.Path]::GetFileName($projectPath));
-        } # if : Reveal using GUI Shell
+        [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($projectPath), `
+                                    [System.IO.Path]::GetFileName($projectPath));
     } # __ShowProjectLocation()
 
 
