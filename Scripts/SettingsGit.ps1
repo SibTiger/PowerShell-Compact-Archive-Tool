@@ -119,6 +119,7 @@ class SettingsGit
         [bool] $showMenuRetrieveHistory = $true;    # Retrieve History
         [bool] $showMenuHistorySize = $true;        # History Size
         [bool] $showMenuGenerateReport = $true;     # Generate Report
+        [bool] $showMenuUseTool = $true;            # Use Git functionality
 
         # Retrieve the Git Control object
         [GitControl] $gitControl = [GitControl]::GetInstance();
@@ -140,11 +141,39 @@ class SettingsGit
                                                         [ref] $showMenuCommitIDSize, `      # Commit ID Size
                                                         [ref] $showMenuRetrieveHistory, `   # Retrieve History
                                                         [ref] $showMenuHistorySize, `       # History Size
-                                                        [ref] $showMenuGenerateReport);     # Generate Report
+                                                        [ref] $showMenuGenerateReport, `    # Generate Report
+                                                        [ref] $showMenuUseTool);            # Use Get functionality
 
 
 
         # Display the menu list
+
+
+        # Ask the user if they wish to use the Git-SCM functionality.
+        if (!($showMenuUseTool))
+        {
+            [CommonCUI]::DrawMenuItem('G', `
+                                    "Git-SCM", `
+                                    "Use Git-SCM to manage your local repository and obtain project development information.", `
+                                    $NULL, `
+                                    $true);
+        } # if: Ask to use Git-SCM Functionality
+
+        # Ask the user if they wish to disable the Git-SCM functionality.
+        else
+        {
+            [CommonCUI]::DrawMenuItem('G', `
+                                    "Git-SCM", `
+                                    "Disable Git-SCM functionality.", `
+                                    $NULL, `
+                                    $true);
+        } # else : Ask to disable Git-SCM Functionality
+
+
+
+        # - - - - - - - - - - - -
+        # - - - - - - - - - - - -
+
 
 
         # Find Git
@@ -460,6 +489,8 @@ class SettingsGit
     #   How many commits will be recorded.
     #  [bool] (REFERENCE) Generate Report
     #   Determines if the user wanted a report of the project's latest developments.
+    #  [bool] (REFERENCE) Use Tool
+    #   Determines if the Git-SCM application functionality had been enabled.
     # -------------------------------
     #>
     hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuLocateGit, `         # Locate Git
@@ -467,7 +498,8 @@ class SettingsGit
                                                         [ref] $showMenuCommitIDSize, `      # Commit ID Size
                                                         [ref] $showMenuRetrieveHistory, `   # Retrieve History
                                                         [ref] $showMenuHistorySize, `       # History Size
-                                                        [ref] $showMenuGenerateReport)      # Generate Report
+                                                        [ref] $showMenuGenerateReport, `    # Generate Report
+                                                        [ref] $showMenuUseTool)             # Use Git-SCM functionality
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -480,82 +512,62 @@ class SettingsGit
 
 
 
-        # Show Menu: Locate Git
-        #  Always show Locate Git
-        $showMenuLocateGit.Value = $true;
-
-
-
-
-        # - - - - - - - - - - - - - - - - - - - - - -
-        # - - - - - - - - - - - - - - - - - - - - - -
-
-
-
-
-        # Show Menu: Update Source
-        #  Show the Update Source if the following conditions are true:
-        #   - Use Git Features
-        #   - Found Git
-        if ($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit())
+        # Are we able to locate the Git-SCM application?
+        if (!([CommonFunctions]::IsAvailableGit()))
         {
-            $showMenuUpdateSource.Value = $true;
-        } # If: Update Source is Visible
+            # Because we are not able to find the Git-SCM application, hide all options associated
+            #   with Git's configuration.
+            $showMenuUpdateSource.Value     = $false;   # Update Source
+            $showMenuCommitIDSize.Value     = $false;   # Commit ID Size
+            $showMenuRetrieveHistory.Value  = $false;   # Retrieve History
+            $showMenuHistorySize.Value      = $false;   # History Size
+            $showMenuGenerateReport.Value   = $false;   # Generate Report
+            $showMenuUseTool.Value          = $true;    # Use Tool
 
-        # Update Source is hidden
-        else
+
+            # Allow the user to locate the Git-SCM Executable.
+            $showMenuLocateGit.Value        = $true;    # Browse Git Software
+
+
+            # Finished
+            return;
+        } # If : Unable to find Git-SCM
+
+
+
+        # Did the user disable Git-SCM functionality?
+        if (!($userPreferences.GetUseGitFeatures()))
         {
-            $showMenuUpdateSource.Value = $false;
-        } # Else: Update Source is Hidden
+            # Because the user wishes to not use any Git-SCM functionality, hide all options associated with
+            #   the version control.
+            $showMenuLocateGit.Value        = $false;   # Browse Git-SCM Software
+            $showMenuUpdateSource.Value     = $false;   # Update Source
+            $showMenuCommitIDSize.Value     = $false;   # Commit ID Size
+            $showMenuRetrieveHistory.Value  = $false;   # Retrieve History
+            $showMenuHistorySize.Value      = $false;   # History Size
+            $showMenuGenerateReport.Value   = $false;   # Generate Report
+
+
+            # Ask the user if they wish to enable Git-SCM functionality?
+            $showMenuUseTool.Value          = $false;   # Use Tool
+
+
+            # Finished
+            return;
+        } # If : Git-SCM Disabled
 
 
 
-
-        # - - - - - - - - - - - - - - - - - - - - - -
-        # - - - - - - - - - - - - - - - - - - - - - -
-
-
+        # If we made it here, then that would indicate that the user is presently utilizing the Git-SCM software.
+        #   Show the menu items that are associated with the Git-SCM application, however some menu items may
+        #   be hidden due to dependent options.
 
 
-        # Show Menu: Commit ID Size
-        #  Show the Commit ID Size if the following conditions are true:
-        #   - Use Git Features
-        #   - Found Git
-        if ($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit())
-        {
-            $showMenuCommitIDSize.Value = $true;
-        } # If: Commit ID Size is Visible
-
-        # Commit ID Size is hidden
-        else
-        {
-            $showMenuCommitIDSize.Value = $false;
-        } # Else: Commit ID Size is Hidden
-
-
-
-
-        # - - - - - - - - - - - - - - - - - - - - - -
-        # - - - - - - - - - - - - - - - - - - - - - -
-
-
-
-
-        # Show Menu: Retrieve History
-        #  Show the Retrieve History if the following conditions are true:
-        #   - Use Git Features
-        #   - Found Git
-        if ($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit())
-        {
-            $showMenuRetrieveHistory.Value = $true;
-        } # If: Retrieve History is Visible
-
-        # Retrieve History is hidden
-        else
-        {
-            $showMenuRetrieveHistory.Value = $false;
-        } # Else: Retrieve History is Hidden
-
+        $showMenuLocateGit.Value        = $true;    # Browse Git-SCM Software
+        $showMenuUpdateSource.Value     = $true;    # Update Source
+        $showMenuCommitIDSize.Value     = $true;    # Commit ID Size
+        $showMenuRetrieveHistory.Value  = $true;    # Retrieve History
+        $showMenuGenerateReport.Value   = $true;    # Generate Report
 
 
 
@@ -564,47 +576,19 @@ class SettingsGit
 
 
 
-
-        # Show Menu: History Size
-        #  Show the History Size if the following conditions are true:
-        #   - Use Git Features
-        #   - Found Git
-        #   - Retrieve History is $true
-        if ($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit() `
-                -and $gitControl.GetFetchChangelog())
+        # Retrieve History Size
+        #  When the user had requested to retrieve commit history, the user can also specify how many
+        #   commits are to be logged.
+        if ($gitControl.GetFetchChangelog())
         {
             $showMenuHistorySize.Value = $true;
-        } # If: History Size is Visible
+        } # If : Retrieve History Size is Visible
 
-        # History Size is hidden
+        # Retrieve History Size
         else
         {
             $showMenuHistorySize.Value = $false;
-        } # Else: History Size is Hidden
-
-
-
-
-        # - - - - - - - - - - - - - - - - - - - - - -
-        # - - - - - - - - - - - - - - - - - - - - - -
-
-
-
-
-        # Show Menu: Generate Report
-        #  Show the Generate Report if the following conditions are true:
-        #   - Use Git Features
-        #   - Found Git
-        if ($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit())
-        {
-            $showMenuGenerateReport.Value = $true;
-        } # If: Generate Reports is Visible
-
-        # Generate Reports is hidden
-        else
-        {
-            $showMenuGenerateReport.Value = $false;
-        } # Else: Generate Reports is Hidden
+        } # else : Retrieve History Size is Hidden
     } # __DrawMenuDetermineHiddenMenus()
 
 
@@ -632,6 +616,10 @@ class SettingsGit
     {
         # Declarations and Initializations
         # ----------------------------------------
+        # Retrieve the User Preferences object
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+
+
         # These variables will determine what menus are to be hidden from the user,
         #  as the options are possibly not available or not ready for the user to
         #  configure.
@@ -641,6 +629,7 @@ class SettingsGit
         [bool] $showMenuRetrieveHistory = $true;    # Retrieve History
         [bool] $showMenuHistorySize = $true;        # History Size
         [bool] $showMenuGenerateReport = $true;     # Generate Report
+        [bool] $showMenuUseTool = $true;            # Use Git-SCM functionality
         # ----------------------------------------
 
 
@@ -650,12 +639,47 @@ class SettingsGit
                                                         [ref] $showMenuCommitIDSize, `      # Commit ID Size
                                                         [ref] $showMenuRetrieveHistory, `   # Retrieve History
                                                         [ref] $showMenuHistorySize, `       # History Size
-                                                        [ref] $showMenuGenerateReport);     # Generate Report
+                                                        [ref] $showMenuGenerateReport, `    # Generate Report
+                                                        [ref] $showMenuUseTool)             # Use Git-SCM functionality
 
 
 
         switch ($userRequest)
         {
+            # Use Tool - Disabled
+            #  NOTE: Allow the user's request when they type: "enable" as well as 'G'.
+            {((($showMenuUseTool) -eq $false) -and `
+                (($_ -eq "G") -or `
+                 ($_ -eq "enable")))
+            }
+            {
+                # The user had selected to enable Git-SCM functionality.
+                $userPreferences.SetUseGitFeatures($true);
+
+
+                # Finished
+                break;
+            } # Selected Enable Git-SCM
+
+
+
+            # Use Tool - Enabled
+            #  NOTE: Allow the user's request when they type: "disable" as well as 'G'.
+            {(($showMenuUseTool) -and `
+                (($_ -eq "G") -or `
+                 ($_ -eq "disable")))
+            }
+            {
+                # The user had selected to dis4able Git-SCM functionality.
+                $userPreferences.SetUseGitFeatures($false);
+
+
+                # Finished
+                break;
+            } # Selected Disabled Git-SCM
+
+
+
             # Browse for Git
             #  NOTE: Allow the user's request when they type: 'Browse for Git', 'Find Git',
             #           'Locate Git', 'Browse Git', as well as 'B'.
