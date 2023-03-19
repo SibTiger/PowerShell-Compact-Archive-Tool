@@ -113,9 +113,6 @@ class Settings
         #  as the options are possibly not available or not ready for the user to
         #  configure.
         [bool] $showMenuZip = $true;    # Zip Menu
-
-        # Retrieve the User Preference object.
-        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
         # ----------------------------------------
 
 
@@ -217,9 +214,6 @@ class Settings
         #  as the options are possibly not available or not ready for the user to
         #  configure.
         [bool] $showMenuZip = $true;    # Zip Menu
-
-        # Retrieve the User Preference object.
-        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
         # ----------------------------------------
 
 
