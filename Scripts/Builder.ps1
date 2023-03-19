@@ -2711,15 +2711,6 @@ class Builder
     #>
     hidden static [void] __ShowProjectLocation([string] $projectPath)
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Retrieve the current instance of the User Preferences object; this contains the user's
-        #  generalized settings.
-        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
-        # ----------------------------------------
-
-
-
         # Let the user know that we are about to show them the path to their newly generated compiled build.
         [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "You will find `"$([System.IO.Path]::GetFileName($projectPath))`" in this location:");
 
