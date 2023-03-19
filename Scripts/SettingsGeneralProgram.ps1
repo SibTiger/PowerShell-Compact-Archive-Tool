@@ -175,18 +175,6 @@ class SettingsGeneralProgram
     #>
     hidden static [bool] __EvaluateExecuteUserRequest([string] $userRequest)
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # These variables will determine what menus are to be hidden from the user,
-        #  as the options are possibly not available or not ready for the user to
-        #  configure.
-        [bool] $showMenuCompressionTool = $true;            # Compression Tool
-        [bool] $showMenuGitFeatures = $true;                # Git Features
-        [bool] $showMenuWindowsFeatures = $true;            # Windows Features
-        # ----------------------------------------
-
-
-
         # Evaluate the user's request
         switch ($userRequest)
         {
