@@ -215,25 +215,6 @@ class SettingsGeneralProgram
 
 
 
-            # Graphical User Interface Features
-            #  NOTE: Allow the user's request when they type: 'Graphical User Interface Features',
-            #           'GUI Features', as well as 'E'.
-            {($showMenuWindowsFeatures) -and `
-                (($_ -eq "E") -or `
-                 ($_ -eq "Graphical User Interface Features") -or `
-                 ($_ -eq "GUI Features"))}
-            {
-                # Allow the user to configure the state of the Use Windows Explorer variable, thus giving
-                #  the user the ability to benefit - if chosen so - of using Windows Explorer functionality.
-                [SettingsGeneralProgram]::__UseWindowsExplorer();
-
-
-                # Finished
-                break;
-            } # Graphical User Interface Features
-
-
-
             # Access the Help Program's Documentation
             #  NOTE: Allow the user's request when they type: 'Help', 'Helpme',
             #           'Help me', as well as '?'.
