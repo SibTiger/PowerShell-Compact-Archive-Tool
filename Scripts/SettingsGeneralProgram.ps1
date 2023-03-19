@@ -104,21 +104,6 @@ class SettingsGeneralProgram
         # ----------------------------------------
         # Retrieve the user's preferences
         [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
-
-
-        # Here are some variables that are used to help the user to understand the
-        #  meaning behind a particular setting.  Thus, instead of saying "True" or
-        #  an enumerator value that is not easy to decipher, we can break it down in
-        #  a way that it is easier to convey the point across to the user.
-        [string] $currentSettingCompressionTool = $NULL;    # Compression Tool
-        [string] $currentSettingGitFeatures = $NULL;        # Git Features
-        [string] $currentSettingNotification = $NULL;       # Notifications
-
-        # These variables will determine what menus are to be hidden from the user,
-        #  as the options are possibly not available or not ready for the user to
-        #  configure.
-        [bool] $showMenuCompressionTool = $true;            # Compression Tool
-        [bool] $showMenuGitFeatures = $true;                # Git Features
         # ----------------------------------------
 
 
