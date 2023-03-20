@@ -536,7 +536,7 @@ class SettingsGit
 
 
         # Did the user disable Git-SCM functionality?
-        if (!($userPreferences.GetUseGitFeatures()))
+        if ($userPreferences.GetVersionControlTool() -ne [UserPreferencesVersionControlTool]::GitSCM)
         {
             # Because the user wishes to not use any Git-SCM functionality, hide all options associated with
             #   the version control.
@@ -654,7 +654,7 @@ class SettingsGit
             }
             {
                 # The user had selected to enable Git-SCM functionality.
-                $userPreferences.SetUseGitFeatures($true);
+                $userPreferences.SetVersionControlTool([UserPreferencesVersionControlTool]::GitSCM);
 
 
                 # Finished
@@ -671,7 +671,7 @@ class SettingsGit
             }
             {
                 # The user had selected to dis4able Git-SCM functionality.
-                $userPreferences.SetUseGitFeatures($false);
+                $userPreferences.SetVersionControlTool([UserPreferencesVersionControlTool]::GitSCM);
 
 
                 # Finished

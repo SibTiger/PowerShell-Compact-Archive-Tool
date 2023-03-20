@@ -955,12 +955,12 @@
 
 
 
-        # USER PREFERENCES -- USE GIT FEATURES
+        # USER PREFERENCES -- USE VERSION CONTROL TOOL
         # - - - - - - - - - - - - - - - - - - - - - - - - - -
         try
         {
-            # Set: Use Git Features
-            $userPref.SetUseGitFeatures([bool]$cachedUserConfig[0].__useGitFeatures);
+            # Set: Use Version Control Tool
+            $userPref.SetVersionControlTool([UserPreferencesVersionControlTool]$cachedUserConfig[0].__versionControlTool);
         } # Try : Load Value from Config
 
         # Error trying to load variable into the current program's instance.
@@ -970,11 +970,11 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__useGitFeatures", `                             # The Variable Name
-                                    "User Preferences", `                               # The Variable Category
-                                    [string]$cachedUserConfig[0].__useGitFeatures, `    # Value Stored in Config
-                                    [string]$userPref.GetUseGitFeatures(), `            # Current Value
-                                    $_.Exception);                                      # Exception Details
+            $this.__LoadStepWiseError("__versionControlTool", `                             # The Variable Name
+                                    "User Preferences", `                                   # The Variable Category
+                                    [string]$cachedUserConfig[0].__versionControlTool, `    # Value Stored in Config
+                                    [string]$userPref.GetVersionControlTool(), `            # Current Value
+                                    $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
 

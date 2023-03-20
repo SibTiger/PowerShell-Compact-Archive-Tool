@@ -744,7 +744,7 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
 
         # Determine if the user wanted us to use Git Features
-        if ($userPreferences.GetUseGitFeatures())
+        if ($userPreferences.GetVersionControlTool() -eq [UserPreferencesVersionControlTool]::GitSCM)
         {
             # Check the current status of the Git application
             $boolCacheValue = [CommonFunctions]::IsAvailableGit();
@@ -899,7 +899,7 @@ class Builder
 
 
         # First we will want to make sure that the user wanted us to update the project's source files
-        if (($userPreferences.GetUseGitFeatures() -and $gitControl.GetUpdateSource()) -eq $false)
+        if ((($userPreferences.GetVersionControlTool() -eq [UserPreferencesVersionControlTool]::GitSCM) -and $gitControl.GetUpdateSource()) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -909,7 +909,7 @@ class Builder
             $logMessage = "The user does not wish to update the $([ProjectInformation]::projectName) local repository!";
 
             # Generate any additional information that might be useful
-            $logAdditionalMSG = ("User's Preferences for using Git Features: $($userPreferences.GetUseGitFeatures())`r`n" + `
+            $logAdditionalMSG = ("User's Preferences for using Git Features: $($userPreferences.GetVersionControlTool())`r`n" + `
                                 "`tGit's Settings for Updating Project Source: $($gitControl.GetUpdateSource())");
 
             # Pass the information to the logging system
