@@ -1737,4 +1737,37 @@
         [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
     } # __LoadStepWiseError()
     #endregion
+
+
+
+    #region Public Static Functions
+
+   <# Save User Configuration
+    # -------------------------------
+    # Documentation:
+    #  This function will provide a bridge allowing outside objects to easily save
+    #   the user's configurations.  By using this bridge, outside objects will not
+    #   need to initialize a temporary Load\Save User Configuration object in order
+    #   to promptly save the user's settings.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #   $true = Successfully saved the user's settings.
+    #   $false = Failed to save the user's settings.
+    # -------------------------------
+    #>
+    static [bool] SaveUserConfiguration()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Create a self reference of the Load\Save User Configuration object.
+        [LoadSaveUserConfiguration] $loadSaveUserConfig = [LoadSaveUserConfiguration]::GetInstance();
+        # ----------------------------------------
+
+
+        # Update the user's settings.
+        return $loadSaveUserConfig.Save();
+    } # SaveUserConfiguration()
+
+    #endregion
  } # LoadSaveUserConfiguration
