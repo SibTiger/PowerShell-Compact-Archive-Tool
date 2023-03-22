@@ -656,6 +656,8 @@ class SettingsGit
                 # The user had selected to enable Git-SCM functionality.
                 $userPreferences.SetVersionControlTool([UserPreferencesVersionControlTool]::GitSCM);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -673,6 +675,8 @@ class SettingsGit
                 # The user had selected to dis4able Git-SCM functionality.
                 $userPreferences.SetVersionControlTool([UserPreferencesVersionControlTool]::GitSCM);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -1059,6 +1063,8 @@ class SettingsGit
                 # Try to find the Git Application automatically.
                 [SettingsGit]::__LocateGitPathAutomatically();
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -1077,6 +1083,8 @@ class SettingsGit
                 # Find the Git Application manually
                 [SettingsGit]::__LocateGitPathManually();
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -1461,6 +1469,8 @@ class SettingsGit
                 # Allow the ability to update the project' source files.
                 $gitControl.SetUpdateSource($true);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -1477,6 +1487,8 @@ class SettingsGit
                 # Allow the ability to update the project' source files.
                 $gitControl.SetUpdateSource($false);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -1742,6 +1754,9 @@ class SettingsGit
                 # Only retrieve short Commit SHA ID's
                 $gitControl.SetLengthCommitID([GitCommitLength]::short);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Short Commit SHA ID
@@ -1757,6 +1772,9 @@ class SettingsGit
             {
                 # Only retrieve Long Commit SHA ID's
                 $gitControl.SetLengthCommitID([GitCommitLength]::long);
+
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -2017,6 +2035,9 @@ class SettingsGit
                 # Retrieve the history
                 $gitControl.SetFetchChangelog($true);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Obtain the History
@@ -2030,6 +2051,9 @@ class SettingsGit
             {
                 # Retrieve the history
                 $gitControl.SetFetchChangelog($false);
+
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -2267,6 +2291,9 @@ class SettingsGit
             {
                 # Retrieve the history
                 [SettingsGit]::__HistoryCommitSizeNewSize();
+
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -2615,6 +2642,9 @@ class SettingsGit
                 # The user does not wish to generate PDF reports
                 $gitControl.SetGenerateReportFilePDF($false);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Selected Generate Reports
@@ -2637,6 +2667,9 @@ class SettingsGit
                 # The user wishes to generate PDF reports
                 $gitControl.SetGenerateReportFilePDF($true);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Selected Generate PDF Reports
@@ -2654,6 +2687,9 @@ class SettingsGit
 
                 # The user does not wish to generate PDF reports
                 $gitControl.SetGenerateReportFilePDF($false);
+
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
