@@ -558,6 +558,8 @@ class SettingsZip
                 # Allow the user to switch compression tool.
                 $userPreferences.SetCompressionTool([UserPreferencesCompressTool]::InternalZip);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -932,6 +934,9 @@ class SettingsZip
                 # The user had selected to use the optimal compression setting.
                 $defaultCompress.SetCompressionLevel([DefaultCompressionLevel]::Optimal);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Selected Optimal Compression
@@ -947,6 +952,9 @@ class SettingsZip
                 # The user had selected to use the fastest compression setting.
                 $defaultCompress.SetCompressionLevel([DefaultCompressionLevel]::Fastest);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Selected Fastest Compression
@@ -960,6 +968,9 @@ class SettingsZip
             {
                 # The user had selected to not use any compression while compacting files.
                 $defaultCompress.SetCompressionLevel([DefaultCompressionLevel]::NoCompression);
+
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -1218,6 +1229,9 @@ class SettingsZip
                 # The user had selected to verify the newly generated project build.
                 $defaultCompress.SetVerifyBuild($true);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Selected Verify Build
@@ -1231,6 +1245,9 @@ class SettingsZip
             {
                 # The user had selected to not verify the newly generated project build.
                 $defaultCompress.SetVerifyBuild($false);
+
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -1509,6 +1526,9 @@ class SettingsZip
                 # The user does not wish to generate PDF reports
                 $defaultCompress.SetGenerateReportFilePDF($false);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Selected Generate Reports
@@ -1531,6 +1551,9 @@ class SettingsZip
                 # The user wishes to generate PDF reports
                 $defaultCompress.SetGenerateReportFilePDF($true);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Selected Generate PDF Reports
@@ -1548,6 +1571,9 @@ class SettingsZip
 
                 # The user does not wish to generate PDF reports
                 $defaultCompress.SetGenerateReportFilePDF($false);
+
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
