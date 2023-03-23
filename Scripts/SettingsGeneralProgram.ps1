@@ -579,6 +579,9 @@ class SettingsGeneralProgram
         {
             # Because the path is valid, we will use the requested target directory.
             $userPreferences.SetProjectPath($newProjectPath);
+
+            # Update the user's configuration with the latest changes.
+            [LoadSaveUserConfiguration]::SaveUserConfiguration();
         } # if: Path is valid
 
         # The provided path is not valid
@@ -880,6 +883,9 @@ class SettingsGeneralProgram
         {
             # Because the path is valid, we will use the requested target directory.
             $userPreferences.SetProjectBuildsPath($newOutputPath);
+
+            # Update the user's configuration with the latest changes.
+            [LoadSaveUserConfiguration]::SaveUserConfiguration();
         } # if: Path is valid
 
         # The provided path is not valid
