@@ -677,6 +677,9 @@ class Settings7Zip
                 # The user had selected to use the 7Zip Compression Tool.
                 $userPreferences.SetCompressionTool([UserPreferencesCompressTool]::SevenZip);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Selected 7Zip
@@ -1074,6 +1077,8 @@ class Settings7Zip
                 # Try to find the 7Zip Application automatically.
                 [Settings7Zip]::__Locate7ZipPathAutomatically();
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -1092,6 +1097,8 @@ class Settings7Zip
                 # Find the 7Zip Application manually.
                 [Settings7Zip]::__Locate7ZipPathManually();
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -1482,6 +1489,8 @@ class Settings7Zip
                 # Use the 7Zip Compression Methodology
                 $sevenZip.SetCompressionMethod([SevenZipCompressionMethod]::SevenZip);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -1496,6 +1505,8 @@ class Settings7Zip
                 # Use the Zip Compression Methodology
                 $sevenZip.SetCompressionMethod([SevenZipCompressionMethod]::Zip);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -1774,6 +1785,8 @@ class Settings7Zip
                 # Use the Deflate Algorithm when using the Zip Compression Methodology
                 $sevenZip.SetAlgorithmZip([SevenZipAlgorithmZip]::Deflate);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -1788,6 +1801,8 @@ class Settings7Zip
                 # Use the LZMA Algorithm when using the Zip Compression Methodology
                 $sevenZip.SetAlgorithmZip([SevenZipAlgorithmZip]::LZMA);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -1802,6 +1817,8 @@ class Settings7Zip
                 # Use the BZip2 Algorithm when using the Zip Compression Methodology
                 $sevenZip.SetAlgorithmZip([SevenZipAlgorithmZip]::BZip2);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -2100,6 +2117,8 @@ class Settings7Zip
                 # Use the LZMA2 Algorithm when using the 7Zip Compression Methodology
                 $sevenZip.SetAlgorithm7Zip([SevenZipAlgorithm7Zip]::LZMA2);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -2114,6 +2133,8 @@ class Settings7Zip
                 # Use the LZMA Algorithm when using the 7Zip Compression Methodology
                 $sevenZip.SetAlgorithm7Zip([SevenZipAlgorithm7Zip]::LZMA);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -2128,6 +2149,8 @@ class Settings7Zip
                 # Use the BZip2 Algorithm when using the Zip Compression Methodology
                 $sevenZip.SetAlgorithm7Zip([SevenZipAlgorithm7Zip]::BZip2);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -2142,6 +2165,8 @@ class Settings7Zip
                 # Use the PPMd Algorithm when using the 7Zip Compression Methodology
                 $sevenZip.SetAlgorithm7Zip([SevenZipAlgorithm7Zip]::PPMd);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -2441,6 +2466,8 @@ class Settings7Zip
                 # Use the Store Compression Level
                 $sevenZip.SetCompressionLevel([SevenZipCompressionLevel]::Store);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -2455,6 +2482,8 @@ class Settings7Zip
                 # Use the Minimal Compression Level
                 $sevenZip.SetCompressionLevel([SevenZipCompressionLevel]::Minimal);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -2469,6 +2498,8 @@ class Settings7Zip
                 # Use the Normal Compression Level
                 $sevenZip.SetCompressionLevel([SevenZipCompressionLevel]::Normal);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -2483,6 +2514,8 @@ class Settings7Zip
                 # Use the Maximum Compression Level
                 $sevenZip.SetCompressionLevel([SevenZipCompressionLevel]::Maximum);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -2741,6 +2774,9 @@ class Settings7Zip
                 # The user had selected to verify the newly generated project build.
                 $sevenZip.SetVerifyBuild($true);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Selected Verify Build
@@ -2754,6 +2790,9 @@ class Settings7Zip
             {
                 # The user had selected to not verify the newly generated project build.
                 $sevenZip.SetVerifyBuild($false);
+
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -3032,6 +3071,9 @@ class Settings7Zip
                 # The user does not wish to generate PDF reports
                 $sevenZip.SetGenerateReportFilePDF($false);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Selected Generate Reports
@@ -3054,6 +3096,9 @@ class Settings7Zip
                 # The user wishes to generate PDF reports
                 $sevenZip.SetGenerateReportFilePDF($true);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Selected Generate PDF Reports
@@ -3071,6 +3116,9 @@ class Settings7Zip
 
                 # The user does not wish to generate PDF reports
                 $sevenZip.SetGenerateReportFilePDF($false);
+
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
