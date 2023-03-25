@@ -174,18 +174,6 @@ function InitializationProgramData()
         -Visibility Public `
         -Description "Allows control to either enable or disable the program's logging functionalities.";
 
-    # Logging Lock Key
-    #  This will help to avoid recursive function calls when an event is being logged.
-    #  This key, when 'false' will adhere to the user's logging preference.  But when
-    #  'true', the user's logging preference will be ignored (regardless true or false)
-    #  and will disallow events to be logged.
-    # NOTE: This functionality is mainly utilized with the WriteToFile() function in the
-    #  CommonIO object.
-    Set-Variable -Name "_LOGGINGLOCKKEY_" -Value $false `
-        -Option None -Scope Global -ErrorAction SilentlyContinue `
-        -Visibility Public `
-        -Description "This variable will help to prevent a stack overflow issue that could occur when writing logged data.";
-
     # Splash Screen Hold Timer (Seconds)
     #  How many seconds the splash screen will remain visible to the user, yet locking the
     #  program from proceeding onwards.

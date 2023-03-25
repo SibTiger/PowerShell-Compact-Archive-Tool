@@ -119,12 +119,6 @@
         -Force `
         -ErrorAction SilentlyContinue;
 
-    # Logging Lock Key
-    Remove-Variable -Name "_LOGGINGLOCKKEY_" `
-        -Scope Global `
-        -Force `
-        -ErrorAction SilentlyContinue;
-
     # Splash Screen Hold Timer (Seconds)
     Remove-Variable -Name "_STARTUPSPLASHSCREENHOLDTIME_" `
         -Scope Global `
