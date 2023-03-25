@@ -125,14 +125,6 @@ class Settings
 
         # Display the Main Settings Menu list
 
-        # Generate Project and View Project Information
-        [CommonCUI]::DrawMenuItem('P', `
-                                "General $($GLOBAL:_PROGRAMNAME_) Preferences", `
-                                "Configure the $($GLOBAL:_PROGRAMNAMESHORT_) generalized functionality and preferences.", `
-                                $NULL, `
-                                $true);
-
-
         # Determine if the dotNET Zip Archive functionality is available to the user in this current session.
         if ($showMenuZip)
         {
@@ -226,25 +218,6 @@ class Settings
 
         switch ($userRequest)
         {
-            # Configure General Program Preferences
-            #  NOTE: Allow the user's request when they type: 'Configure General $project
-            #           Preferences', 'Configure General', 'Configure Program', as well
-            #           as 'P'.
-            {   ($_ -eq "P") -or `
-                ($_ -eq "Configure General $([ProjectInformation]::projectName) Preferences") -or `
-                ($_ -eq "Configure General") -or `
-                ($_ -eq "Configure Program")}
-            {
-                # Open the General Program preferences menu
-                [SettingsGeneralProgram]::Main();
-
-
-                # Finished
-                break;
-            } # Configure General Program Preferences
-
-
-
             # Configure Zip Preferences
             #  NOTE: Allow the user's request when they type: 'Configure Zip Preferences',
             #           'Configure Zip', 'Zip', as well as 'Z'.
