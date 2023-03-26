@@ -110,6 +110,24 @@ class MainMenu
     #>
     hidden static [void] __DrawMainMenu()
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # These variables will determine what menus are to be hidden from the user,
+        #  as the options are possibly not available.
+        [bool] $showMenuProjectHomePage     = $true;    # Project's Homepage
+        [bool] $showMenuProjectWikiPage     = $true;    # Project's Wiki Page
+        [bool] $showMenuProjectSourceCode   = $true;    # Project's Source Code
+        # ----------------------------------------
+
+
+
+        # Determine what options are to be hidden or to be visible to the user.
+        [MainMenu]::__DrawMenuDetermineHiddenMenus([ref] $showMenuProjectHomePage, `        # Project's Homepage
+                                                    [ref] $showMenuProjectWikiPage, `       # Project's Wiki Page
+                                                    [ref] $showMenuProjectSourceCode);      # Project's Source Code
+
+
+
         # Display the Main Menu list
 
         # Generate Project and View Project Information
@@ -129,27 +147,36 @@ class MainMenu
 
 
         # Project's Homepage
-        [CommonCUI]::DrawMenuItem('H', `
-                                "$([ProjectInformation]::projectName) Homepage", `
-                                "Access the $([ProjectInformation]::projectName)'s Homepage online.", `
-                                $NULL, `
-                                $true);
+        if ($showMenuProjectHomePage)
+        {
+            [CommonCUI]::DrawMenuItem('H', `
+                                    "$([ProjectInformation]::projectName) Homepage", `
+                                    "Access the $([ProjectInformation]::projectName)'s Homepage online.", `
+                                    $NULL, `
+                                    $true);
+        } # if : Show Project's Homepage
 
 
         # Project's Wiki
-        [CommonCUI]::DrawMenuItem('W', `
-                                "$([ProjectInformation]::projectName) Wiki", `
-                                "Access the $([ProjectInformation]::projectName)'s Wiki documentation online.", `
-                                $NULL, `
-                                $true);
+        if ($showMenuProjectWikiPage)
+        {
+            [CommonCUI]::DrawMenuItem('W', `
+                                    "$([ProjectInformation]::projectName) Wiki", `
+                                    "Access the $([ProjectInformation]::projectName)'s Wiki documentation online.", `
+                                    $NULL, `
+                                    $true);
+        } # if : Show Project's Wiki Page
 
 
         # Project's Source Code
-        [CommonCUI]::DrawMenuItem('S', `
-                                "$([ProjectInformation]::projectName) Source Code", `
-                                "Access the $([ProjectInformation]::projectName)'s source code online.", `
-                                $NULL, `
-                                $true);
+        if ($showMenuProjectSourceCode)
+        {
+            [CommonCUI]::DrawMenuItem('S', `
+                                    "$([ProjectInformation]::projectName) Source Code", `
+                                    "Access the $([ProjectInformation]::projectName)'s source code online.", `
+                                    $NULL, `
+                                    $true);
+        } # if : Show Project's Source Code
 
 
         # Preferences
@@ -207,6 +234,25 @@ class MainMenu
     #>
     hidden static [bool] __EvaluateExecuteUserRequest([string] $userRequest)
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # These variables will determine what menus are to be hidden from the user,
+        #  as the options are possibly not available.
+        [bool] $showMenuProjectHomePage     = $true;    # Project's Homepage
+        [bool] $showMenuProjectWikiPage     = $true;    # Project's Wiki Page
+        [bool] $showMenuProjectSourceCode   = $true;    # Project's Source Code
+        # ----------------------------------------
+
+
+
+        # Determine what options are to be hidden or to be visible to the user.
+        [MainMenu]::__DrawMenuDetermineHiddenMenus([ref] $showMenuProjectHomePage, `        # Project's Homepage
+                                                    [ref] $showMenuProjectWikiPage, `       # Project's Wiki Page
+                                                    [ref] $showMenuProjectSourceCode);      # Project's Source Code
+
+
+
+        # Determine what action was requested by the user.
         switch ($userRequest)
         {
             # Build the desired ZDoom project
@@ -252,8 +298,9 @@ class MainMenu
 
             # Access the ZDoom project's Homepage
             #  NOTE: Allow the user's request when they type: '$project Homepage' or 'H'.
-            {($_ -eq "H") -or `
-                ($_ -eq "$([ProjectInformation]::projectName) Homepage")}
+            {($showMenuProjectHomePage) -and `
+                (($_ -eq "H") -or `
+                 ($_ -eq "$([ProjectInformation]::projectName) Homepage"))}
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General([ProjectInformation]::urlWebsite,                ` # Project's Homepage
@@ -271,8 +318,9 @@ class MainMenu
 
             # Access the ZDoom project's Wiki Page
             #  NOTE: Allow the user's request when they type: '$project Wiki' or 'W'.
-            {($_ -eq "W") -or `
-                ($_ -eq "$([ProjectInformation]::projectName) Wiki")}
+            {($showMenuProjectWikiPage) -and `
+                (($_ -eq "W") -or `
+                 ($_ -eq "$([ProjectInformation]::projectName) Wiki"))}
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General([ProjectInformation]::urlWiki,               ` # Project's Wiki
@@ -290,9 +338,10 @@ class MainMenu
 
             # Access the ZDoom project's Source Code Repository
             #  NOTE: Allow the user's request when they type: '$project Source Code', '$project Source', as well as 'S'.
-            {($_ -eq "S") -or `
-                ($_ -eq "$([ProjectInformation]::projectName) Source Code") -or `
-                ($_ -eq "$([ProjectInformation]::projectName) Source")}
+            {($showMenuProjectSourceCode) -and `
+                (($_ -eq "S") -or `
+                 ($_ -eq "$([ProjectInformation]::projectName) Source Code") -or `
+                 ($_ -eq "$([ProjectInformation]::projectName) Source"))}
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General([ProjectInformation]::urlSource,                             ` # Project's Repository
@@ -398,4 +447,83 @@ class MainMenu
         # Return back to the menu
         return $true;
     } # __EvaluateExecuteUserRequest()
+
+
+
+
+   <# Draw Menu: Determine Hidden Menus
+    # -------------------------------
+    # Documentation:
+    #  This function will determine what menus and options are to be displayed
+    #   to the user.  Menus can be considered hidden if a particular setting,
+    #   feature, or environment is not available to the user or is not considered
+    #   ready to be used.  This can happen if a parent feature had been disabled,
+    #   thus causes a sub-feature to be hidden from the user.
+    #  This helps to declutter the menu screen by hiding sub-menus from the user
+    #   in-which have no effect as the main feature is disabled or configured in
+    #   a way that has no real effect.
+    # -------------------------------
+    # Input:
+    #  [bool] (REFERENCE) Project's Homepage
+    #   Provides access to the project's Homepage.
+    #  [bool] (REFERENCE) Project's Wiki Page
+    #   Provides access to the project's Wiki page.
+    #  [bool] (REFERENCE) Project's Source Code
+    #   Provides access to the project's source code.
+    # -------------------------------
+    #>
+    hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuProjectHomePage, `       # Project's Homepage
+                                                        [ref] $showMenuProjectWikiPage, `       # Project's Wiki Page
+                                                        [ref] $showMenuProjectSourceCode)       # Project's Source Code
+    {
+        # We will only be able to check if the strings are empty.  If the string is populated,
+        #   then we will be able to use the URL.
+
+
+        # Project's Homepage - Hidden
+        #   Value not provided
+        if (($null -eq [ProjectInformation]::urlWebsite) -or `
+            ("$($null)" -eq [ProjectInformation]::urlWebsite))
+        {
+            $showMenuProjectHomePage.Value = $false;
+        } # if : Project's homepage - Hidden
+
+        # Project's Homepage - Visible
+        else
+        {
+            $showMenuProjectHomePage.Value = $true;
+        } # else : Project's Homepage - Visible
+
+
+
+        # Project's Wiki Page - Hidden
+        #   Value not provided
+        if (($null -eq [ProjectInformation]::urlWiki) -or `
+            ("$($null)" -eq [ProjectInformation]::urlWiki))
+        {
+            $showMenuProjectWikiPage.Value = $false;
+        } # if : Project's Wiki Page - Hidden
+
+        # Project's Wiki Page - Visible
+        else
+        {
+            $showMenuProjectWikiPage.Value = $true;
+        } # else : Project's Wiki Page - Visible
+
+
+
+        # Project's Source Code: Hidden
+        #   Value not provided
+        if (($null -eq [ProjectInformation]::urlSource) -or `
+            ("$($null)" -eq [ProjectInformation]::urlSource))
+        {
+            $showMenuProjectSourceCode.Value = $false;
+        } # if : Project's Source Code - Hidden
+
+        # Project's Source Code: Visible
+        else
+        {
+            $showMenuProjectSourceCode.Value = $true;
+        } # else : Project's Source Code - Visible
+    } # __DrawMenuDetermineHiddenMenus()
 } # MainMenu
