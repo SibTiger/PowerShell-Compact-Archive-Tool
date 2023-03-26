@@ -257,8 +257,7 @@ class MainMenu
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General([ProjectInformation]::urlWebsite,                ` # Project's Homepage
-                                                            "$([ProjectInformation]::projectName) Homepage",    ` # Show page title
-                                                            $false))                                            ` # Do not force Web Browser functionality.
+                                                            "$([ProjectInformation]::projectName) Homepage"))   ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -277,8 +276,7 @@ class MainMenu
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General([ProjectInformation]::urlWiki,               ` # Project's Wiki
-                                                            "$([ProjectInformation]::projectName) Wiki",    ` # Show page title
-                                                            $false))                                        ` # Do not force Web Browser functionality.
+                                                            "$([ProjectInformation]::projectName) Wiki"))   ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -298,8 +296,7 @@ class MainMenu
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General([ProjectInformation]::urlSource,                             ` # Project's Repository
-                                                            "$([ProjectInformation]::projectName) Source Code Repository",  ` # Show page title
-                                                            $false))                                                        ` # Do not force Web Browser functionality.
+                                                            "$([ProjectInformation]::projectName) Source Code Repository")) ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -335,8 +332,7 @@ class MainMenu
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMSITEWIKI_,                   ` # Program's Wiki
-                                                            "$([ProjectInformation]::projectName) Wiki",    ` # Show page title
-                                                            $false))                                        ` # Do not force Web Browser functionality.
+                                                            "$([ProjectInformation]::projectName) Wiki"))   ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -355,8 +351,7 @@ class MainMenu
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
-                                                            $true))                                                 ` # Override the user's settings; access webpage
+                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);

@@ -807,8 +807,7 @@ class SettingsGit
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMSITEWIKI_,                   ` # Program's Wiki
-                                                            "$([ProjectInformation]::projectName) Wiki",    ` # Show page title
-                                                            $false))                                        ` # Do not force Web Browser functionality.
+                                                            "$([ProjectInformation]::projectName) Wiki"))   ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -828,8 +827,7 @@ class SettingsGit
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
-                                                            $true))                                                 ` # Override the user's settings; access webpage
+                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -1099,8 +1097,7 @@ class SettingsGit
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
-                                                            $true))                                                 ` # Override the user's settings; access webpage
+                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -1502,8 +1499,7 @@ class SettingsGit
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
-                                                            $true))                                                 ` # Override the user's settings; access webpage
+                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -1789,8 +1785,7 @@ class SettingsGit
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
-                                                            $true))                                                 ` # Override the user's settings; access webpage
+                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -2067,8 +2062,7 @@ class SettingsGit
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
-                                                            $true))                                                 ` # Override the user's settings; access webpage
+                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -2307,8 +2301,7 @@ class SettingsGit
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
-                                                            $true))                                                 ` # Override the user's settings; access webpage
+                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -2703,8 +2696,7 @@ class SettingsGit
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
-                                                            $true))                                                 ` # Override the user's settings; access webpage
+                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
