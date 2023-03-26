@@ -119,6 +119,7 @@ class MainMenu
                                 $NULL, `
                                 $true);
 
+
         # Generate Development Project and View Dev. Project Information
         [CommonCUI]::DrawMenuItem('D', `
                                 "Build a Development Build of $([ProjectInformation]::projectName)", `
@@ -127,18 +128,23 @@ class MainMenu
                                 $true);
 
 
+        # Project's Homepage
         [CommonCUI]::DrawMenuItem('H', `
                                 "$([ProjectInformation]::projectName) Homepage", `
                                 "Access the $([ProjectInformation]::projectName)'s Homepage online.", `
                                 $NULL, `
                                 $true);
 
+
+        # Project's Wiki
         [CommonCUI]::DrawMenuItem('W', `
                                 "$([ProjectInformation]::projectName) Wiki", `
                                 "Access the $([ProjectInformation]::projectName)'s Wiki documentation online.", `
                                 $NULL, `
                                 $true);
 
+
+        # Project's Source Code
         [CommonCUI]::DrawMenuItem('S', `
                                 "$([ProjectInformation]::projectName) Source Code", `
                                 "Access the $([ProjectInformation]::projectName)'s source code online.", `
@@ -146,30 +152,21 @@ class MainMenu
                                 $true);
 
 
-        # Program Tools
+        # Preferences
         [CommonCUI]::DrawMenuItem('P', `
                                 "Preferences", `
                                 "Configure how $($GLOBAL:_PROGRAMNAME_) works within your desired environment.", `
                                 $NULL, `
                                 $true);
 
-        [CommonCUI]::DrawMenuItem('U', `
-                                "Update $($Global:_PROGRAMNAME_)", `
-                                "Check for new available versions of $($GLOBAL:_PROGRAMNAMESHORT_).", `
-                                $NULL, `
-                                $true);
 
-        [CommonCUI]::DrawMenuItem('A', `
-                                "About $($GLOBAL:_PROGRAMNAME_)", `
-                                "Access the $($Global:_PROGRAMNAME_) About information", `
-                                $NULL, `
-                                $true);
-
+        # Help Documentation
         [CommonCUI]::DrawMenuItem('?', `
                                 "Help Documentation", `
                                 "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Wiki documentation online.", `
                                 $NULL, `
                                 $true);
+
 
         # Report an Issue or Feature
         [CommonCUI]::DrawMenuItem('#', `
@@ -327,49 +324,6 @@ class MainMenu
                 # Finished
                 break;
             } # Configure User Preferences
-
-
-            # Update Software
-            #  NOTE: Allow the user's request when they type: 'Update' or 'U'.
-            {($_ -eq "U") -or `
-                ($_ -eq "update")}
-            {
-                # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_Update($Global:_PROGRAMSITEDOWNLOADS_,       ` # Program's Download Page
-                                                            "Update $($Global:_PROGRAMNAME_)",      ` # Show page title
-                                                            $false))                                ` # Do not force Web Browser functionality.
-                {
-                    # Alert the user that the web functionality did not successfully work as intended.
-                    [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
-                } # If : Failed to Provide Webpage
-
-
-                # Finished
-                break;
-            } # Update Software
-
-
-            # About the Software
-            # NOTE: Allow the user's request when they type: 'About' or 'A'.
-            {($_ -eq "A") -or `
-                ($_ -eq "About")}
-            {
-                # Open the About page
-                [CommonCUI]::DrawProgramAboutInformation();
-
-
-                # Add some padding in the terminal
-                [Logging]::DisplayMessage("`r`n`r`n");
-
-
-                # Allow the user to read the results before returning back
-                #   to the menu.
-                [Logging]::GetUserEnterKey();
-
-
-                # Finished
-                break;
-            } # About the Software
 
 
             # Access the Help Program's Documentation

@@ -153,6 +153,22 @@ class Settings
                                 $true);
 
 
+        # Update Application
+        [CommonCUI]::DrawMenuItem('U', `
+                                "Update $($Global:_PROGRAMNAME_)", `
+                                "Check for new available versions of $($GLOBAL:_PROGRAMNAMESHORT_).", `
+                                $NULL, `
+                                $true);
+
+
+        # About Application
+        [CommonCUI]::DrawMenuItem('A', `
+                                "About $($GLOBAL:_PROGRAMNAME_)", `
+                                "Access the $($Global:_PROGRAMNAME_) About information", `
+                                $NULL, `
+                                $true);
+
+
         # Help Documentation
         [CommonCUI]::DrawMenuItem('?', `
                                 "Help Documentation", `
@@ -271,6 +287,51 @@ class Settings
                 # Finished
                 break;
             } # Configure Git Preferences
+
+
+
+            # Update Software
+            #  NOTE: Allow the user's request when they type: 'Update' or 'U'.
+            {($_ -eq "U") -or `
+                ($_ -eq "update")}
+            {
+                # Open the webpage as requested
+                if (![WebsiteResources]::AccessWebSite_Update($Global:_PROGRAMSITEDOWNLOADS_,       ` # Program's Download Page
+                                                            "Update $($Global:_PROGRAMNAME_)",      ` # Show page title
+                                                            $false))                                ` # Do not force Web Browser functionality.
+                {
+                    # Alert the user that the web functionality did not successfully work as intended.
+                    [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
+                } # If : Failed to Provide Webpage
+
+
+                # Finished
+                break;
+            } # Update Software
+
+
+
+            # About the Software
+            # NOTE: Allow the user's request when they type: 'About' or 'A'.
+            {($_ -eq "A") -or `
+                ($_ -eq "About")}
+            {
+                # Open the About page
+                [CommonCUI]::DrawProgramAboutInformation();
+
+
+                # Add some padding in the terminal
+                [Logging]::DisplayMessage("`r`n`r`n");
+
+
+                # Allow the user to read the results before returning back
+                #   to the menu.
+                [Logging]::GetUserEnterKey();
+
+
+                # Finished
+                break;
+            } # About the Software
 
 
 
