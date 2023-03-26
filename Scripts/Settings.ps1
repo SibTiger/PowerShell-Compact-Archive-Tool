@@ -297,8 +297,7 @@ class Settings
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_Update($Global:_PROGRAMSITEDOWNLOADS_,       ` # Program's Download Page
-                                                            "Update $($Global:_PROGRAMNAME_)",      ` # Show page title
-                                                            $false))                                ` # Do not force Web Browser functionality.
+                                                            "Update $($Global:_PROGRAMNAME_)"))     ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
