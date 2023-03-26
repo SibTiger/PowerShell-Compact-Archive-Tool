@@ -73,7 +73,7 @@ function InitializationProgramIdentity()
         -Description "The short name of the application";
 
     # Version
-    Set-Variable -Name "_VERSION_" -Value "1.1.0" `
+    Set-Variable -Name "_VERSION_" -Value "1.2.0 [Alpha]" `
         -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
         -Visibility Public `
         -Description "The version of the application";
@@ -87,7 +87,7 @@ function InitializationProgramIdentity()
 
     # Release Date
     # Date Format: DD.MM.YYYY with leading zeros
-    Set-Variable -Name "_RELEASEDATE_" -Value "05.02.2023" `
+    Set-Variable -Name "_RELEASEDATE_" -Value "DD.MM.2023" `
         -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
         -Visibility Public `
         -Description "The date in which the version of the application was released.";
