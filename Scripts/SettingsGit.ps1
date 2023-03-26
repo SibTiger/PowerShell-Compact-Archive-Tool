@@ -1,5 +1,5 @@
 <# PowerShell Compact-Archive Tool
- # Copyright (C) 2022
+ # Copyright (C) 2023
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -118,7 +118,8 @@ class SettingsGit
         [bool] $showMenuCommitIDSize = $true;       # Commit ID Size
         [bool] $showMenuRetrieveHistory = $true;    # Retrieve History
         [bool] $showMenuHistorySize = $true;        # History Size
-        [bool] $ShowMenuGenerateReport = $true;     # Generate Report
+        [bool] $showMenuGenerateReport = $true;     # Generate Report
+        [bool] $showMenuUseTool = $true;            # Use Git functionality
 
         # Retrieve the Git Control object
         [GitControl] $gitControl = [GitControl]::GetInstance();
@@ -140,11 +141,39 @@ class SettingsGit
                                                         [ref] $showMenuCommitIDSize, `      # Commit ID Size
                                                         [ref] $showMenuRetrieveHistory, `   # Retrieve History
                                                         [ref] $showMenuHistorySize, `       # History Size
-                                                        [ref] $ShowMenuGenerateReport);     # Generate Report
+                                                        [ref] $showMenuGenerateReport, `    # Generate Report
+                                                        [ref] $showMenuUseTool);            # Use Get functionality
 
 
 
         # Display the menu list
+
+
+        # Ask the user if they wish to use the Git-SCM functionality.
+        if (!($showMenuUseTool))
+        {
+            [CommonCUI]::DrawMenuItem('G', `
+                                    "Git-SCM", `
+                                    "Use Git-SCM to manage your local repository and obtain project development information.", `
+                                    $NULL, `
+                                    $true);
+        } # if: Ask to use Git-SCM Functionality
+
+        # Ask the user if they wish to disable the Git-SCM functionality.
+        else
+        {
+            [CommonCUI]::DrawMenuItem('G', `
+                                    "Git-SCM", `
+                                    "Disable Git-SCM functionality.", `
+                                    $NULL, `
+                                    $true);
+        } # else : Ask to disable Git-SCM Functionality
+
+
+
+        # - - - - - - - - - - - -
+        # - - - - - - - - - - - -
+
 
 
         # Find Git
@@ -203,7 +232,7 @@ class SettingsGit
 
 
         # Enable or disable the ability to generate a report
-        if ($ShowMenuGenerateReport)
+        if ($showMenuGenerateReport)
         {
             [CommonCUI]::DrawMenuItem('R', `
                                     "Generate Report of Project Repository", `
@@ -460,6 +489,8 @@ class SettingsGit
     #   How many commits will be recorded.
     #  [bool] (REFERENCE) Generate Report
     #   Determines if the user wanted a report of the project's latest developments.
+    #  [bool] (REFERENCE) Use Tool
+    #   Determines if the Git-SCM application functionality had been enabled.
     # -------------------------------
     #>
     hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuLocateGit, `         # Locate Git
@@ -467,7 +498,8 @@ class SettingsGit
                                                         [ref] $showMenuCommitIDSize, `      # Commit ID Size
                                                         [ref] $showMenuRetrieveHistory, `   # Retrieve History
                                                         [ref] $showMenuHistorySize, `       # History Size
-                                                        [ref] $ShowMenuGenerateReport)      # Generate Report
+                                                        [ref] $showMenuGenerateReport, `    # Generate Report
+                                                        [ref] $showMenuUseTool)             # Use Git-SCM functionality
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -480,91 +512,62 @@ class SettingsGit
 
 
 
-        # Show Menu: Locate Git
-        #  Always show Locate Git
-        $showMenuLocateGit.Value = $true;
-
-
-
-
-        # - - - - - - - - - - - - - - - - - - - - - -
-        # - - - - - - - - - - - - - - - - - - - - - -
-
-
-
-
-        # Show Menu: Update Source
-        #  Show the Update Source if the following conditions are true:
-        #   - Use Git Features
-        #   - Found Git
-        #   OR
-        #   - Show Hidden Menus
-        if (($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit()) `
-                -or $userPreferences.GetShowHiddenMenu())
+        # Are we able to locate the Git-SCM application?
+        if (!([CommonFunctions]::IsAvailableGit()))
         {
-            $showMenuUpdateSource.Value = $true;
-        } # If: Update Source is Visible
+            # Because we are not able to find the Git-SCM application, hide all options associated
+            #   with Git's configuration.
+            $showMenuUpdateSource.Value     = $false;   # Update Source
+            $showMenuCommitIDSize.Value     = $false;   # Commit ID Size
+            $showMenuRetrieveHistory.Value  = $false;   # Retrieve History
+            $showMenuHistorySize.Value      = $false;   # History Size
+            $showMenuGenerateReport.Value   = $false;   # Generate Report
+            $showMenuUseTool.Value          = $true;    # Use Tool
 
-        # Update Source is hidden
-        else
+
+            # Allow the user to locate the Git-SCM Executable.
+            $showMenuLocateGit.Value        = $true;    # Browse Git Software
+
+
+            # Finished
+            return;
+        } # If : Unable to find Git-SCM
+
+
+
+        # Did the user disable Git-SCM functionality?
+        if ($userPreferences.GetVersionControlTool() -ne [UserPreferencesVersionControlTool]::GitSCM)
         {
-            $showMenuUpdateSource.Value = $false;
-        } # Else: Update Source is Hidden
+            # Because the user wishes to not use any Git-SCM functionality, hide all options associated with
+            #   the version control.
+            $showMenuLocateGit.Value        = $false;   # Browse Git-SCM Software
+            $showMenuUpdateSource.Value     = $false;   # Update Source
+            $showMenuCommitIDSize.Value     = $false;   # Commit ID Size
+            $showMenuRetrieveHistory.Value  = $false;   # Retrieve History
+            $showMenuHistorySize.Value      = $false;   # History Size
+            $showMenuGenerateReport.Value   = $false;   # Generate Report
+
+
+            # Ask the user if they wish to enable Git-SCM functionality?
+            $showMenuUseTool.Value          = $false;   # Use Tool
+
+
+            # Finished
+            return;
+        } # If : Git-SCM Disabled
 
 
 
-
-        # - - - - - - - - - - - - - - - - - - - - - -
-        # - - - - - - - - - - - - - - - - - - - - - -
-
-
+        # If we made it here, then that would indicate that the user is presently utilizing the Git-SCM software.
+        #   Show the menu items that are associated with the Git-SCM application, however some menu items may
+        #   be hidden due to dependent options.
 
 
-        # Show Menu: Commit ID Size
-        #  Show the Commit ID Size if the following conditions are true:
-        #   - Use Git Features
-        #   - Found Git
-        #   OR
-        #   - Show Hidden Menus
-        if (($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit()) `
-                -or $userPreferences.GetShowHiddenMenu())
-        {
-            $showMenuCommitIDSize.Value = $true;
-        } # If: Commit ID Size is Visible
-
-        # Commit ID Size is hidden
-        else
-        {
-            $showMenuCommitIDSize.Value = $false;
-        } # Else: Commit ID Size is Hidden
-
-
-
-
-        # - - - - - - - - - - - - - - - - - - - - - -
-        # - - - - - - - - - - - - - - - - - - - - - -
-
-
-
-
-        # Show Menu: Retrieve History
-        #  Show the Retrieve History if the following conditions are true:
-        #   - Use Git Features
-        #   - Found Git
-        #   OR
-        #   - Show Hidden Menus
-        if (($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit()) `
-                -or $userPreferences.GetShowHiddenMenu())
-        {
-            $showMenuRetrieveHistory.Value = $true;
-        } # If: Retrieve History is Visible
-
-        # Retrieve History is hidden
-        else
-        {
-            $showMenuRetrieveHistory.Value = $false;
-        } # Else: Retrieve History is Hidden
-
+        $showMenuLocateGit.Value        = $true;    # Browse Git-SCM Software
+        $showMenuUpdateSource.Value     = $true;    # Update Source
+        $showMenuCommitIDSize.Value     = $true;    # Commit ID Size
+        $showMenuRetrieveHistory.Value  = $true;    # Retrieve History
+        $showMenuGenerateReport.Value   = $true;    # Generate Report
 
 
 
@@ -573,53 +576,19 @@ class SettingsGit
 
 
 
-
-        # Show Menu: History Size
-        #  Show the History Size if the following conditions are true:
-        #   - Use Git Features
-        #   - Found Git
-        #   - Retrieve History is $true
-        #   OR
-        #   - Show Hidden Menus
-        if (($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit() `
-                -and $gitControl.GetFetchChangelog()) `
-            -or $userPreferences.GetShowHiddenMenu())
+        # Retrieve History Size
+        #  When the user had requested to retrieve commit history, the user can also specify how many
+        #   commits are to be logged.
+        if ($gitControl.GetFetchChangelog())
         {
             $showMenuHistorySize.Value = $true;
-        } # If: History Size is Visible
+        } # If : Retrieve History Size is Visible
 
-        # History Size is hidden
+        # Retrieve History Size
         else
         {
             $showMenuHistorySize.Value = $false;
-        } # Else: History Size is Hidden
-
-
-
-
-        # - - - - - - - - - - - - - - - - - - - - - -
-        # - - - - - - - - - - - - - - - - - - - - - -
-
-
-
-
-        # Show Menu: Generate Report
-        #  Show the Generate Report if the following conditions are true:
-        #   - Use Git Features
-        #   - Found Git
-        #   OR
-        #   - Show Hidden Menus
-        if (($userPreferences.GetUseGitFeatures() -and [CommonFunctions]::IsAvailableGit()) `
-            -or $userPreferences.GetShowHiddenMenu())
-        {
-            $ShowMenuGenerateReport.Value = $true;
-        } # If: Generate Reports is Visible
-
-        # Generate Reports is hidden
-        else
-        {
-            $ShowMenuGenerateReport.Value = $false;
-        } # Else: Generate Reports is Hidden
+        } # else : Retrieve History Size is Hidden
     } # __DrawMenuDetermineHiddenMenus()
 
 
@@ -647,6 +616,10 @@ class SettingsGit
     {
         # Declarations and Initializations
         # ----------------------------------------
+        # Retrieve the User Preferences object
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+
+
         # These variables will determine what menus are to be hidden from the user,
         #  as the options are possibly not available or not ready for the user to
         #  configure.
@@ -655,7 +628,8 @@ class SettingsGit
         [bool] $showMenuCommitIDSize = $true;       # Commit ID Size
         [bool] $showMenuRetrieveHistory = $true;    # Retrieve History
         [bool] $showMenuHistorySize = $true;        # History Size
-        [bool] $ShowMenuGenerateReport = $true;     # Generate Report
+        [bool] $showMenuGenerateReport = $true;     # Generate Report
+        [bool] $showMenuUseTool = $true;            # Use Git-SCM functionality
         # ----------------------------------------
 
 
@@ -665,12 +639,51 @@ class SettingsGit
                                                         [ref] $showMenuCommitIDSize, `      # Commit ID Size
                                                         [ref] $showMenuRetrieveHistory, `   # Retrieve History
                                                         [ref] $showMenuHistorySize, `       # History Size
-                                                        [ref] $ShowMenuGenerateReport);     # Generate Report
+                                                        [ref] $showMenuGenerateReport, `    # Generate Report
+                                                        [ref] $showMenuUseTool)             # Use Git-SCM functionality
 
 
 
         switch ($userRequest)
         {
+            # Use Tool - Disabled
+            #  NOTE: Allow the user's request when they type: "enable" as well as 'G'.
+            {((($showMenuUseTool) -eq $false) -and `
+                (($_ -eq "G") -or `
+                 ($_ -eq "enable")))
+            }
+            {
+                # The user had selected to enable Git-SCM functionality.
+                $userPreferences.SetVersionControlTool([UserPreferencesVersionControlTool]::GitSCM);
+
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
+                # Finished
+                break;
+            } # Selected Enable Git-SCM
+
+
+
+            # Use Tool - Enabled
+            #  NOTE: Allow the user's request when they type: "disable" as well as 'G'.
+            {(($showMenuUseTool) -and `
+                (($_ -eq "G") -or `
+                 ($_ -eq "disable")))
+            }
+            {
+                # The user had selected to dis4able Git-SCM functionality.
+                $userPreferences.SetVersionControlTool([UserPreferencesVersionControlTool]::GitSCM);
+
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
+                # Finished
+                break;
+            } # Selected Disabled Git-SCM
+
+
+
             # Browse for Git
             #  NOTE: Allow the user's request when they type: 'Browse for Git', 'Find Git',
             #           'Locate Git', 'Browse Git', as well as 'B'.
@@ -769,7 +782,7 @@ class SettingsGit
             # Generate Report of Project's Repository
             #  NOTE: Allow the user's request when they type: 'Report', 'Generate Report',
             #           as well as 'R'.
-            {($ShowMenuGenerateReport) -and `
+            {($showMenuGenerateReport) -and `
                 (($_ -eq "R") -or `
                     ($_ -eq "Generate Report") -or `
                     ($_ -eq "Report"))}
@@ -794,8 +807,7 @@ class SettingsGit
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMSITEWIKI_,                   ` # Program's Wiki
-                                                            "$([ProjectInformation]::projectName) Wiki",    ` # Show page title
-                                                            $false))                                        ` # Do not force Web Browser functionality.
+                                                            "$([ProjectInformation]::projectName) Wiki"))   ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -815,8 +827,7 @@ class SettingsGit
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
-                                                            $true))                                                 ` # Override the user's settings; access webpage
+                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -1050,6 +1061,8 @@ class SettingsGit
                 # Try to find the Git Application automatically.
                 [SettingsGit]::__LocateGitPathAutomatically();
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -1068,6 +1081,8 @@ class SettingsGit
                 # Find the Git Application manually
                 [SettingsGit]::__LocateGitPathManually();
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -1082,8 +1097,7 @@ class SettingsGit
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
-                                                            $true))                                                 ` # Override the user's settings; access webpage
+                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -1452,6 +1466,8 @@ class SettingsGit
                 # Allow the ability to update the project' source files.
                 $gitControl.SetUpdateSource($true);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -1468,6 +1484,8 @@ class SettingsGit
                 # Allow the ability to update the project' source files.
                 $gitControl.SetUpdateSource($false);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -1481,8 +1499,7 @@ class SettingsGit
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
-                                                            $true))                                                 ` # Override the user's settings; access webpage
+                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -1733,6 +1750,9 @@ class SettingsGit
                 # Only retrieve short Commit SHA ID's
                 $gitControl.SetLengthCommitID([GitCommitLength]::short);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Short Commit SHA ID
@@ -1749,6 +1769,9 @@ class SettingsGit
                 # Only retrieve Long Commit SHA ID's
                 $gitControl.SetLengthCommitID([GitCommitLength]::long);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Long Commit SHA ID
@@ -1762,8 +1785,7 @@ class SettingsGit
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
-                                                            $true))                                                 ` # Override the user's settings; access webpage
+                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -2008,6 +2030,9 @@ class SettingsGit
                 # Retrieve the history
                 $gitControl.SetFetchChangelog($true);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Obtain the History
@@ -2022,6 +2047,9 @@ class SettingsGit
                 # Retrieve the history
                 $gitControl.SetFetchChangelog($false);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Do not obtain the History
@@ -2034,8 +2062,7 @@ class SettingsGit
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
-                                                            $true))                                                 ` # Override the user's settings; access webpage
+                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -2259,6 +2286,9 @@ class SettingsGit
                 # Retrieve the history
                 [SettingsGit]::__HistoryCommitSizeNewSize();
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Change History Commit Size
@@ -2271,8 +2301,7 @@ class SettingsGit
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
-                                                            $true))                                                 ` # Override the user's settings; access webpage
+                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -2606,6 +2635,9 @@ class SettingsGit
                 # The user does not wish to generate PDF reports
                 $gitControl.SetGenerateReportFilePDF($false);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Selected Generate Reports
@@ -2628,6 +2660,9 @@ class SettingsGit
                 # The user wishes to generate PDF reports
                 $gitControl.SetGenerateReportFilePDF($true);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Selected Generate PDF Reports
@@ -2646,6 +2681,9 @@ class SettingsGit
                 # The user does not wish to generate PDF reports
                 $gitControl.SetGenerateReportFilePDF($false);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Selected Do not Generate Reports
@@ -2658,8 +2696,7 @@ class SettingsGit
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
-                                                            $true))                                                 ` # Override the user's settings; access webpage
+                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);

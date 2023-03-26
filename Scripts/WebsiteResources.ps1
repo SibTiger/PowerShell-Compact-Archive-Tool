@@ -1,5 +1,5 @@
 <# PowerShell Compact-Archive Tool
- # Copyright (C) 2022
+ # Copyright (C) 2023
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -52,11 +52,9 @@
     # -------------------------------
     # Documentation:
     #  This function will open the desired web page using the user's preferred
-    #   web browser.  Once this function had been called, there will be several
-    #   conditions that will be checked:
-    #   - Does the user allow Web Browser to be used?
-    #   - Is the site reachable?
-    #  The checks performed will determine if it is possible to open the web site
+    #   web browser.  Once this function had been called, we will need to assure
+    #   that we are able to reach the desired site.
+    #  The check performed will determine if it is possible to open the web site
     #   using the preferred Web Browser or to only output the web page URL to the
     #   terminal's output buffer.
     # -------------------------------
@@ -68,9 +66,6 @@
     #  [bool] Update Behavioral
     #   When true, this will cause some extra information to be present in
     #   the terminal's output buffer.
-    #  [bool] Ignore User Settings
-    #   When true, this will ignore the user's settings and forcefully open the
-    #   web page using the user's preferred Web Browser.
     # -------------------------------
     # Output:
     #  [bool] Operation Status
@@ -80,14 +75,10 @@
     #>
     Hidden static [bool] __AccessWebSite([string] $siteURL, `               # The Site's URL to access
                                         [string] $siteName, `               # The Site's name
-                                        [bool] $update, `                   # Perform the Update Behavioral
-                                        [bool] $ignoreUserSetting)          # Ignore User's Settings and open Web Browser
+                                        [bool] $update)                     # Perform the Update Behavioral
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Retrieve the User's Preferences
-        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
-
         # This will provide the overall status of the entire operation.
         [bool] $operationStatus = $false;
 
@@ -103,66 +94,20 @@
         [Logging]::DisplayMessage("`r`n`r`n");
 
 
-        # Does the user wish to open the web page within their preferred Web Browser,
-        #                                   OR
-        # Are we supposed to forcibly open the web page using the user's preferred Web Browser?
-        if (($userPreferences.GetUseWindowsExplorer() -eq $true) -or `
-            ($ignoreUserSetting -eq $true))
+
+        # Check to make sure that we are able to access the desired webpage.
+        if ([WebsiteResources]::CheckSiteAvailability($siteURL) -eq $true)
         {
-            # Check to make sure that we are able to access the desired webpage.
-            if ([WebsiteResources]::CheckSiteAvailability($siteURL) -eq $true)
+            # The website is accessible, try to open the webpage.
+
+            # Let the user know that the desired page is about to be opened
+            [Logging]::DisplayMessage("Accessing $($siteName). . .");
+            [Logging]::DisplayMessage("URL: $($siteURL)");
+
+            # Try to access the website
+            if (![CommonIO]::AccessWebpage($siteURL))
             {
-                # The website is accessible, try to open the webpage.
-
-                # Let the user know that the desired page is about to be opened
-                [Logging]::DisplayMessage("Accessing $($siteName). . .");
-                [Logging]::DisplayMessage("URL: $($siteURL)");
-
-                # Try to access the website
-                if (![CommonIO]::AccessWebpage($siteURL))
-                {
-                    # There was an issue that caused the site to be inaccessible.
-
-
-                    # * * * * * * * * * * * * * * * * * * *
-                    # Debugging
-                    # --------------
-
-                    # Generate the initial message
-                    [string] $logMessage = ("Unable to automatically open the desired web site due to an error!`r`n" + `
-                                            "The user will need to open the webpage themselves, manually.");
-
-                    # Generate any additional information that might be useful
-                    [string] $logAdditionalMSG = ("Site Requested: $($siteURL)`r`n" + `
-                                                "`tSite Name: $($siteName)`r`n" + `
-                                                "`tUpdate Flag: $($update)`r`n" + `
-                                                "`tUser Setting: $($userPreferences.GetUseWindowsExplorer())`r`n" + `
-                                                "`tForce Web Browser: $($ignoreUserSetting)");
-
-                    # Pass the information to the logging system
-                    [Logging]::LogProgramActivity($logMessage, `                # Initial message
-                                                $logAdditionalMSG, `            # Additional information
-                                                [LogMessageLevel]::Warning);    # Message level
-
-                    # * * * * * * * * * * * * * * * * * * *
-
-                    # We will show the user the URL that they will need to access
-                    #   manually through their web browser of their choice.
-                    $manualFallBack = $true;
-                } # If: Unable to access site
-
-                # Successfully opened the site automatically for the user
-                else
-                {
-                    # Because the operation was successful, update the Status Signal as appropriate.
-                    $operationStatus = $true;
-                } # Else : Operation was successful
-            } # If: Webpage was available
-
-            # Web site validation failed
-            else
-            {
-                # The desired webpage could not be validated, as such - the page cannot be opened.
+                # There was an issue that caused the site to be inaccessible.
 
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -170,15 +115,13 @@
                 # --------------
 
                 # Generate the initial message
-                [string] $logMessage = ("Unable to automatically open the desired web site due to a validation error!`r`n" + `
+                [string] $logMessage = ("Unable to automatically open the desired web site due to an error!`r`n" + `
                                         "The user will need to open the webpage themselves, manually.");
 
                 # Generate any additional information that might be useful
                 [string] $logAdditionalMSG = ("Site Requested: $($siteURL)`r`n" + `
                                             "`tSite Name: $($siteName)`r`n" + `
-                                            "`tUpdate Flag: $($update)`r`n" + `
-                                            "`tUser Setting: $($userPreferences.GetUseWindowsExplorer())`r`n" + `
-                                            "`tForce Web Browser: $($ignoreUserSetting)");
+                                            "`tUpdate Flag: $($update)");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -190,13 +133,20 @@
                 # We will show the user the URL that they will need to access
                 #   manually through their web browser of their choice.
                 $manualFallBack = $true;
-            } # Else: Site Validation Failed
-        } # If: Web Browsers Allowed
+            } # If: Unable to access site
 
-        # The user does not prefer the webpage to be opened; they prefer a manual approach.
+            # Successfully opened the site automatically for the user
+            else
+            {
+                # Because the operation was successful, update the Status Signal as appropriate.
+                $operationStatus = $true;
+            } # Else : Operation was successful
+        } # If: Webpage was available
+
+        # Web site validation failed
         else
         {
-            # User prefers to do the manual approach
+            # The desired webpage could not be validated, as such - the page cannot be opened.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -204,61 +154,42 @@
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = ("Unable to automatically open the desired web site as requested by the user's configurations.");
+            [string] $logMessage = ("Unable to automatically open the desired web site due to a validation error!`r`n" + `
+                                    "The user will need to open the webpage themselves, manually.");
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Site Requested: $($siteURL)`r`n" + `
                                         "`tSite Name: $($siteName)`r`n" + `
-                                        "`tUpdate Flag: $($update)`r`n" + `
-                                        "`tUser Setting: $($userPreferences.GetUseWindowsExplorer())`r`n" + `
-                                        "`tForce Web Browser: $($ignoreUserSetting)");
+                                        "`tUpdate Flag: $($update)`r`n");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
                                         $logAdditionalMSG, `            # Additional information
-                                        [LogMessageLevel]::Verbose);    # Message level
+                                        [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the user does not want this program to automatically access the webpage,
-            #  we will - instead - show the user the URL in the terminal buffer screen.  From
-            #  there, the user may access the webpage using their preferred web browser, if
-            #  they choose to do so.
+            # We will show the user the URL that they will need to access
+            #   manually through their web browser of their choice.
             $manualFallBack = $true;
-        } # Else: Do not Open Webpage
+        } # Else: Site Validation Failed
 
 
 
-        # If we are unable to automatically access the desired webpage, either by user choice or
-        #  an error had risen, then provide the URL path to the user.  Thus allowing the user to
-        #  access the site manually using their preferred web browser.
+        # If we are unable to automatically access the desired webpage, then we will instead provide the URL
+        #  path to the user.  Thus allowing the user to access the site manually using their preferred web
+        #  browser.
         if ($manualFallBack)
         {
-            # Determine how the message will be displayed to the user.
-            # Did the user wanted to access the webpage themselves manually?
-            if (!$userPreferences.GetUseWindowsExplorer())
-            {
-                # Remind the user that this program will NOT open the desired webpage due to their preferences.
-                [Logging]::DisplayMessage("As requested, the webpage will not be accessed automatically by the $($GLOBAL:_PROGRAMNAME_) software.`r`n", `
-                                            [LogMessageLevel]::Verbose);
-
-                # Because the user prefers to access the site themselves, then we should mark the operation as successful.
-                $operationStatus = $true;
-            } # if: User Prefers Manual Approach
-
-            # There was an error which prevented the webpage to automatically open for the user.
-            else
-            {
-                # Alert the user that webpage cannot be opened due to an an error.
-                [Logging]::DisplayMessage("Failed to access $($siteName) due to an error.`r`n" + `
-                                        "As such, it is not possible for the $($GLOBAL:_PROGRAMNAME_) to automatically open the page for you at this given moment.`r`n", `
-                                        [LogMessageLevel]::Warning);
+            # Alert the user that webpage cannot be opened due to an an error.
+            [Logging]::DisplayMessage("Failed to access $($siteName) due to an error.`r`n" + `
+                                    "As such, it is not possible for the $($GLOBAL:_PROGRAMNAME_) to automatically open the page for you at this given moment.`r`n", `
+                                    [LogMessageLevel]::Warning);
 
 
-                # Alert the user that something horrible just happened
-                [NotificationAudible]::Notify([NotificationAudibleEventType]::Warning);
-            } # else: Failed to Automatically Open Site
+            # Alert the user that something horrible just happened
+            [NotificationAudible]::Notify([NotificationAudibleEventType]::Warning);
 
 
             # Now show the information that is needed for the user to access the URL themselves.
@@ -315,9 +246,6 @@
     #   The web page that will be accessed.
     #  [string] Site Name
     #   The name of the web page that we will be accessing.
-    #  [bool] Ignore User Settings
-    #   When true, this will ignore the user's settings and forcefully open the
-    #   web page using the user's preferred Web Browser.
     # -------------------------------
     # Output:
     #  [bool] Operation Status
@@ -326,15 +254,13 @@
     # -------------------------------
     #>
     static [bool] AccessWebSite_General([string] $siteURL, `                # The Site's URL to access
-                                        [string] $siteName, `               # The Site's name
-                                        [bool] $ignoreUserSetting)          # Ignore User's Settings and open Web Browser
+                                        [string] $siteName)                 # The Site's name
     {
         # Access the Main Function that will open the Web Browser functionality; return
         #  the operation status back to the calling function.
         return [WebsiteResources]::__AccessWebSite($siteURL, `              # Site URL
                                                     $siteName, `            # Site's Name (or Nice name)
-                                                    $false, `               # Update Protocol
-                                                    $ignoreUserSetting); `  # Forcefully Open the Web Browser
+                                                    $false);                # Update Protocol
     } # AccessWebSite_General()
 
 
@@ -352,9 +278,6 @@
     #   The web page that will be accessed.
     #  [string] Site Name
     #   The name of the web page that we will be accessing.
-    #  [bool] Ignore User Settings
-    #   When true, this will ignore the user's settings and forcefully open the
-    #   web page using the user's preferred Web Browser.
     # -------------------------------
     # Output:
     #  [bool] Operation Status
@@ -363,15 +286,13 @@
     # -------------------------------
     #>
     static [bool] AccessWebSite_Update([string] $siteURL, `                 # The Site's URL to access
-                                        [string] $siteName, `               # The Site's name
-                                        [bool] $ignoreUserSetting)          # Ignore User's Settings and open Web Browser
+                                        [string] $siteName)                 # The Site's name
     {
         # Access the Main Function that will open the Web Browser functionality; return
         #  the operation status back to the calling function.
         return [WebsiteResources]::__AccessWebSite($siteURL, `              # Site URL
                                                     $siteName, `            # Site's Name (or Nice Name)
-                                                    $true, `                # Update Protocol
-                                                    $ignoreUserSetting); `  # Forcefully Open the Web Browser
+                                                    $true);                 # Update Protocol
     } # AccessWebSite_Update()
 
 

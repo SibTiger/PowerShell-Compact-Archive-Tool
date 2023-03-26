@@ -1,5 +1,5 @@
 <# PowerShell Compact-Archive Tool
- # Copyright (C) 2022
+ # Copyright (C) 2023
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -744,7 +744,7 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
 
         # Determine if the user wanted us to use Git Features
-        if ($userPreferences.GetUseGitFeatures())
+        if ($userPreferences.GetVersionControlTool() -eq [UserPreferencesVersionControlTool]::GitSCM)
         {
             # Check the current status of the Git application
             $boolCacheValue = [CommonFunctions]::IsAvailableGit();
@@ -899,7 +899,7 @@ class Builder
 
 
         # First we will want to make sure that the user wanted us to update the project's source files
-        if (($userPreferences.GetUseGitFeatures() -and $gitControl.GetUpdateSource()) -eq $false)
+        if ((($userPreferences.GetVersionControlTool() -eq [UserPreferencesVersionControlTool]::GitSCM) -and $gitControl.GetUpdateSource()) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -909,7 +909,7 @@ class Builder
             $logMessage = "The user does not wish to update the $([ProjectInformation]::projectName) local repository!";
 
             # Generate any additional information that might be useful
-            $logAdditionalMSG = ("User's Preferences for using Git Features: $($userPreferences.GetUseGitFeatures())`r`n" + `
+            $logAdditionalMSG = ("User's Preferences for using Git Features: $($userPreferences.GetVersionControlTool())`r`n" + `
                                 "`tGit's Settings for Updating Project Source: $($gitControl.GetUpdateSource())");
 
             # Pass the information to the logging system
@@ -2452,13 +2452,10 @@ class Builder
             # = - - - - - - - - - - - =
             [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportTextFile);
 
-            # Reveal the location using the user's preferred GUI Shell
-            if ($userPreferences.GetUseWindowsExplorer())
-            {
-                # Access the desired directory and select the file.
-                [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportTextFile), `
-                                            [System.IO.Path]::GetFileName($fullPathReportTextFile));
-            } # if : Reveal using the GUI Shell
+
+            # Access the desired directory and select the file.
+            [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportTextFile), `
+                                        [System.IO.Path]::GetFileName($fullPathReportTextFile));
 
 
             # Report File - PDF Report
@@ -2469,13 +2466,9 @@ class Builder
                 # User allowed the ability for PDF files to be generated
                 [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportPDFFile);
 
-                # Reveal the location using the user's preferred GUI Shell
-                if ($userPreferences.GetUseWindowsExplorer())
-                {
-                    # Access the desired directory and select the file.
-                    [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportPDFFile), `
-                                                [System.IO.Path]::GetFileName($fullPathReportPDFFile));
-                } # if : Reveal using the GUI Shell
+                # Access the desired directory and select the file.
+                [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportPDFFile), `
+                                            [System.IO.Path]::GetFileName($fullPathReportPDFFile));
             } # if : Show PDF Report
 
 
@@ -2644,13 +2637,9 @@ class Builder
             # = - - - - - - - - - - - =
             [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportTextFile);
 
-            # Reveal the location using the user's preferred GUI Shell
-            if ($userPreferences.GetUseWindowsExplorer())
-            {
-                # Access the desired directory and select the file.
-                [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportTextFile), `
-                                            [System.IO.Path]::GetFileName($fullPathReportTextFile));
-            } # if : Reveal using the GUI Shell
+            # Access the desired directory and select the file.
+            [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportTextFile), `
+                                        [System.IO.Path]::GetFileName($fullPathReportTextFile));
 
 
             # Report File - PDF Report
@@ -2660,13 +2649,9 @@ class Builder
                 # User allowed the ability for PDF files to be generated
                 [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportPDFFile);
 
-                # Reveal the location using the user's preferred GUI Shell
-                if ($userPreferences.GetUseWindowsExplorer())
-                {
-                    # Access the desired directory and select the file.
-                    [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportPDFFile), `
-                                                [System.IO.Path]::GetFileName($fullPathReportPDFFile));
-                } # if : Reveal using the GUI Shell
+                # Access the desired directory and select the file.
+                [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportPDFFile), `
+                                            [System.IO.Path]::GetFileName($fullPathReportPDFFile));
             } # if : Show PDF Report
         } # if : Report Created Successfully
 
@@ -2726,28 +2711,15 @@ class Builder
     #>
     hidden static [void] __ShowProjectLocation([string] $projectPath)
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Retrieve the current instance of the User Preferences object; this contains the user's
-        #  generalized settings.
-        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
-        # ----------------------------------------
-
-
-
         # Let the user know that we are about to show them the path to their newly generated compiled build.
         [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "You will find `"$([System.IO.Path]::GetFileName($projectPath))`" in this location:");
 
         # Show the path
         [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Child, $projectPath);
 
-
         # Reveal the project to the user using their preferred GUI Shell
-        if ($userPreferences.GetUseWindowsExplorer())
-        {
-            [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($projectPath), `
-                                        [System.IO.Path]::GetFileName($projectPath));
-        } # if : Reveal using GUI Shell
+        [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($projectPath), `
+                                    [System.IO.Path]::GetFileName($projectPath));
     } # __ShowProjectLocation()
 
 

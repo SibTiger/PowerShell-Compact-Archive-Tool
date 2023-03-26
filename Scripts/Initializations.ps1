@@ -1,5 +1,5 @@
 ﻿<# PowerShell Compact-Archive Tool
- # Copyright (C) 2022
+ # Copyright (C) 2023
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -73,7 +73,7 @@ function InitializationProgramIdentity()
         -Description "The short name of the application";
 
     # Version
-    Set-Variable -Name "_VERSION_" -Value "1.1.0" `
+    Set-Variable -Name "_VERSION_" -Value "1.2.0 [Alpha]" `
         -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
         -Visibility Public `
         -Description "The version of the application";
@@ -87,7 +87,7 @@ function InitializationProgramIdentity()
 
     # Release Date
     # Date Format: DD.MM.YYYY with leading zeros
-    Set-Variable -Name "_RELEASEDATE_" -Value "05.02.2023" `
+    Set-Variable -Name "_RELEASEDATE_" -Value "DD.MM.2023" `
         -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
         -Visibility Public `
         -Description "The date in which the version of the application was released.";
@@ -173,18 +173,6 @@ function InitializationProgramData()
         -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
         -Visibility Public `
         -Description "Allows control to either enable or disable the program's logging functionalities.";
-
-    # Logging Lock Key
-    #  This will help to avoid recursive function calls when an event is being logged.
-    #  This key, when 'false' will adhere to the user's logging preference.  But when
-    #  'true', the user's logging preference will be ignored (regardless true or false)
-    #  and will disallow events to be logged.
-    # NOTE: This functionality is mainly utilized with the WriteToFile() function in the
-    #  CommonIO object.
-    Set-Variable -Name "_LOGGINGLOCKKEY_" -Value $false `
-        -Option None -Scope Global -ErrorAction SilentlyContinue `
-        -Visibility Public `
-        -Description "This variable will help to prevent a stack overflow issue that could occur when writing logged data.";
 
     # Splash Screen Hold Timer (Seconds)
     #  How many seconds the splash screen will remain visible to the user, yet locking the

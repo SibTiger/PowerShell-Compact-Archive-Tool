@@ -1,5 +1,5 @@
 <# PowerShell Compact-Archive Tool
- # Copyright (C) 2022
+ # Copyright (C) 2023
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -118,7 +118,8 @@ class Settings7Zip
         [bool] $showMenu7ZipAlgorithms = $true;         # 7Zip Algorithms
         [bool] $showMenuCompressionLevel = $true;       # Compression Level
         [bool] $showMenuVerifyBuild = $true;            # Verify Build
-        [bool] $ShowMenuGenerateReport = $true;         # Generate Report
+        [bool] $showMenuGenerateReport = $true;         # Generate Report
+        [bool] $showMenuUseTool = $true;                # Use 7Zip functionality
 
         # Retrieve the 7Zip object
         [SevenZip] $sevenZip = [SevenZip]::GetInstance();
@@ -140,11 +141,23 @@ class Settings7Zip
                                                         [ref] $showMenu7ZipAlgorithms, `        # 7Zip Algorithms
                                                         [ref] $showMenuCompressionLevel, `      # Compression Level
                                                         [ref] $showMenuVerifyBuild, `           # Verify Build
-                                                        [ref] $ShowMenuGenerateReport);         # Generate Report
+                                                        [ref] $showMenuGenerateReport, `        # Generate Report
+                                                        [ref] $showMenuUseTool);                # Use 7Zip functionality
 
 
 
         # Display the menu list
+
+
+        # Ask the user if they wish to change compression software
+        if (!($showMenuUseTool))
+        {
+            [CommonCUI]::DrawMenuItem('7', `
+                                    "7Zip", `
+                                    "Use 7Zip's functionality to create ZDoom PK3 or PK7 WAD files.", `
+                                    $NULL, `
+                                    $true);
+        } # if : Ask to Use Tool
 
 
         # Find the 7Zip Application
@@ -214,7 +227,7 @@ class Settings7Zip
 
 
         # Allow or disallow the ability to generate a report
-        if ($ShowMenuGenerateReport)
+        if ($showMenuGenerateReport)
         {
             [CommonCUI]::DrawMenuItem('R', `
                                     "Generate Report of the Archive Datafile", `
@@ -489,15 +502,18 @@ class Settings7Zip
     #   Determines if the archive datafile is to undergo an integrity check.
     #  [bool] (REFERENCE) Generate Report
     #   Determines if the user wanted a report of the project's latest developments.
+    #  [bool] (REFERENCE) Use Tool
+    #   Determines if the 7Zip application functionality had been enabled.
     # -------------------------------
     #>
-    hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuLocate7Zip, `            # Locate Git
+    hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuLocate7Zip, `            # Locate 7Zip
                                                         [ref] $showMenuCompressionMethod, `     # Compression Method
                                                         [ref] $showMenuZipAlgorithms, `         # Zip Algorithms
                                                         [ref] $showMenu7ZipAlgorithms, `        # 7Zip Algorithms
                                                         [ref] $showMenuCompressionLevel, `      # Compression Level
                                                         [ref] $showMenuVerifyBuild, `           # Verify Build
-                                                        [ref] $ShowMenuGenerateReport)          # Generate Report
+                                                        [ref] $showMenuGenerateReport, `        # Generate Report
+                                                        [ref] $showMenuUseTool)                 # Use 7Zip functionality
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -510,38 +526,64 @@ class Settings7Zip
 
 
 
-        # Show Menu: Locate 7Zip
-        #  Always show Locate 7Zip
-        $showMenuLocate7Zip.Value = $true;
-
-
-
-
-        # - - - - - - - - - - - - - - - - - - - - - -
-        # - - - - - - - - - - - - - - - - - - - - - -
-
-
-
-
-        # Show Menu: Compression Method
-        #  Show the Compression Method if the following conditions are true:
-        #   - Compression Tool is 7Zip
-        #   - Found 7Zip
-        #   OR
-        #   - Show Hidden Menus
-        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) `
-                -and [CommonFunctions]::IsAvailable7Zip()) `
-                -or $userPreferences.GetShowHiddenMenu())
+        # Are we able to locate the 7Zip application?
+        if (!([CommonFunctions]::IsAvailable7Zip()))
         {
-            $showMenuCompressionMethod.Value = $true;
-        } # If: Compression Method is Visible
+            # Because we were not able to find the 7Zip application, hide all options associated
+            #   with 7Zip's configuration.
+            $showMenuCompressionMethod.Value    = $false;       # Compression Method
+            $showMenuZipAlgorithms.Value        = $false;       # Zip Algorithms
+            $showMenu7ZipAlgorithms.Value       = $false;       # 7Zip Algorithms
+            $showMenuCompressionLevel.Value     = $false;       # Compression Level
+            $showMenuVerifyBuild.Value          = $false;       # Verify Build
+            $showMenuGenerateReport.Value       = $false;       # Generate Report
+            $showMenuUseTool.Value              = $true;        # Use Tool
 
-        # Compression Method is hidden
-        else
+
+            # Allow the user to locate the 7Zip Executable
+            $showMenuLocate7Zip.Value           = $true;       # Browse 7Zip software
+
+
+            # Finished
+            return;
+        } # if : Unable to find 7Zip
+
+
+
+        # Is the user utilizing some other compression software tool?
+        if ($userPreferences.GetCompressionTool() -ne [UserPreferencesCompressTool]::SevenZip)
         {
-            $showMenuCompressionMethod.Value = $false;
-        } # Else: Compression Method is Hidden
+            # Because the user is using another compression software, hide all options associated with this tool.
+            $showMenuLocate7Zip.Value           = $false;       # Browse 7Zip software
+            $showMenuCompressionMethod.Value    = $false;       # Compression Method
+            $showMenuZipAlgorithms.Value        = $false;       # Zip Algorithms
+            $showMenu7ZipAlgorithms.Value       = $false;       # 7Zip Algorithms
+            $showMenuCompressionLevel.Value     = $false;       # Compression Level
+            $showMenuVerifyBuild.Value          = $false;       # Verify Build
+            $showMenuGenerateReport.Value       = $false;       # Generate Report
 
+
+            # Ask the user if they wish to change settings.
+            $showMenuUseTool.Value              = $false;       # Use Tool
+
+
+            # Finished
+            return;
+        } # if : Not using 7Zip Functionality
+
+
+
+        # If we made it here, then that would indicate that the user is presently utilizing the 7Zip software.
+        #   Show the menu items that are associated with the 7Zip application, however some menu items may be
+        #   hidden due to dependent options.
+
+
+        $showMenuLocate7Zip.Value           = $false;      # Browse 7Zip software
+        $showMenuCompressionMethod.Value    = $true;       # Compression Method
+        $showMenuCompressionLevel.Value     = $true;       # Compression Level
+        $showMenuVerifyBuild.Value          = $true;       # Verify Build
+        $showMenuGenerateReport.Value       = $true;       # Generate Report
+        $showMenuUseTool.Value              = $true;       # Use Tool
 
 
 
@@ -550,141 +592,21 @@ class Settings7Zip
 
 
 
-
-        # Show Menu: Zip Algorithm
-        #  Show the Zip Algorithm if the following conditions are true:
-        #   - Compression Tool is 7Zip
-        #   - Found 7Zip
-        #   - Compression Method is Zip
-        #   OR
-        #   - Show Hidden Menus
-        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and `
-            ([CommonFunctions]::IsAvailable7Zip()) -and `
-            ($sevenZip.GetCompressionMethod() -eq [SevenZipCompressionMethod]::Zip)) -or `
-                $userPreferences.GetShowHiddenMenu())
+        # 7Zip \ Zip Algorithms
+        #  Show the 7Zip Algorithm if and only if the Compression Method is set to _7Zip_.
+        #  Show the Zip Algorithm if and only if the Compression Method is set to _Zip_.
+        if ($sevenZip.GetCompressionMethod() -eq [SevenZipCompressionMethod]::Zip)
         {
-            $showMenuZipAlgorithms.Value = $true;
+            $showMenu7ZipAlgorithms.Value   = $false;   # Hide 7Zip Algo.
+            $showMenuZipAlgorithms.Value    = $true;    # Show Zip Algo.
         } # If: Zip Algorithm is Visible
 
-        # Zip Algorithm is hidden
+        # 7Zip Algorithm is Visible
         else
         {
-            $showMenuZipAlgorithms.Value = $false;
-        } # Else: Zip Algorithm is Hidden
-
-
-
-
-        # - - - - - - - - - - - - - - - - - - - - - -
-        # - - - - - - - - - - - - - - - - - - - - - -
-
-
-
-
-        # Show Menu: 7Zip Algorithm
-        #  Show the 7Zip Algorithm if the following conditions are true:
-        #   - Compression Tool is 7Zip
-        #   - Found 7Zip
-        #   - Compression Method is 7Zip
-        #   OR
-        #   - Show Hidden Menus
-        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and `
-            ([CommonFunctions]::IsAvailable7Zip()) -and `
-            ($sevenZip.GetCompressionMethod() -eq [SevenZipCompressionMethod]::SevenZip)) -or `
-                $userPreferences.GetShowHiddenMenu())
-        {
-            $showMenu7ZipAlgorithms.Value = $true;
-        } # If: 7Zip Algorithm is Visible
-
-        # 7Zip Algorithm is hidden
-        else
-        {
-            $showMenu7ZipAlgorithms.Value = $false;
-        } # Else: 7Zip Algorithm is Hidden
-
-
-
-
-        # - - - - - - - - - - - - - - - - - - - - - -
-        # - - - - - - - - - - - - - - - - - - - - - -
-
-
-
-
-        # Show Menu: Compression Level
-        #  Show the Compression Level if the following conditions are true:
-        #   - Compression Tool is 7Zip
-        #   - Found 7Zip
-        #   OR
-        #   - Show Hidden Menus
-        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) `
-                -and [CommonFunctions]::IsAvailable7Zip()) `
-                -or $userPreferences.GetShowHiddenMenu())
-        {
-            $showMenuCompressionLevel.Value = $true;
-        } # If: Compression Level is Visible
-
-        # Compression Level is hidden
-        else
-        {
-            $showMenuCompressionLevel.Value = $false;
-        } # Else: Compression Level is Hidden
-
-
-
-
-        # - - - - - - - - - - - - - - - - - - - - - -
-        # - - - - - - - - - - - - - - - - - - - - - -
-
-
-
-
-        # Show Menu: Verify Build
-        #  Show the Verify Build if the following conditions are true:
-        #   - Compression Tool is 7Zip
-        #   - Found 7Zip
-        #   OR
-        #   - Show Hidden Menus
-        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) `
-                -and [CommonFunctions]::IsAvailable7Zip()) `
-                -or $userPreferences.GetShowHiddenMenu())
-        {
-            $showMenuVerifyBuild.Value = $true;
-        } # If: Verify Build is Visible
-
-        # Verify Build is hidden
-        else
-        {
-            $showMenuVerifyBuild.Value = $false;
-        } # Else: Verify Build is Hidden
-
-
-
-
-        # - - - - - - - - - - - - - - - - - - - - - -
-        # - - - - - - - - - - - - - - - - - - - - - -
-
-
-
-
-        # Show Menu: Generate Report
-        #  Show the Generate Report if the following conditions are true:
-        #   - Compression Tool is 7Zip
-        #   - Found 7Zip
-        #   OR
-        #   - Show Hidden Menus
-        if ((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) `
-                -and [CommonFunctions]::IsAvailable7Zip()) `
-                -or $userPreferences.GetShowHiddenMenu())
-        {
-            $ShowMenuGenerateReport.Value = $true;
-        } # If: Generate Reports is Visible
-
-        # Generate Reports is hidden
-        else
-        {
-            $ShowMenuGenerateReport.Value = $false;
-        } # Else: Generate Reports is Hidden
+            $showMenu7ZipAlgorithms.Value   = $true;    # Show 7Zip Algo.
+            $showMenuZipAlgorithms.Value    = $false;   # Hide Zip Algo.
+        } # Else: 7Zip Algorithm is Visible
     } # __DrawMenuDetermineHiddenMenus()
 
 
@@ -712,6 +634,11 @@ class Settings7Zip
     {
         # Declarations and Initializations
         # ----------------------------------------
+        # Retrieve the current instance of the User Preferences object; this contains the user's
+        #  generalized settings.
+        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+
+
         # These variables will determine what menus are to be hidden from the user,
         #  as the options are possibly not available or not ready for the user to
         #  configure.
@@ -721,7 +648,8 @@ class Settings7Zip
         [bool] $showMenu7ZipAlgorithms = $true;         # 7Zip Algorithms
         [bool] $showMenuCompressionLevel = $true;       # Compression Level
         [bool] $showMenuVerifyBuild = $true;            # Verify Build
-        [bool] $ShowMenuGenerateReport = $true;         # Generate Report
+        [bool] $showMenuGenerateReport = $true;         # Generate Report
+        [bool] $showMenuUseTool = $true;                # Use 7Zip functionality
         # ----------------------------------------
 
 
@@ -732,12 +660,32 @@ class Settings7Zip
                                                         [ref] $showMenu7ZipAlgorithms, `        # 7Zip Algorithms
                                                         [ref] $showMenuCompressionLevel, `      # Compression Level
                                                         [ref] $showMenuVerifyBuild, `           # Verify Build
-                                                        [ref] $ShowMenuGenerateReport);         # Generate Report
+                                                        [ref] $showMenuGenerateReport, `        # Generate Report
+                                                        [ref] $showMenuUseTool);                # Use 7Zip functionality
 
 
 
         switch ($userRequest)
         {
+            # Use Tool
+            #  NOTE: Allow the user's request when they type: "7Zip", "7Z", as well as "7"
+            {((($showMenuUseTool) -eq $false) -and `
+                (($_ -eq "7") -or `
+                 ($_ -eq "7Zip") -or `
+                 ($_ -eq "7Z")))}
+            {
+                # The user had selected to use the 7Zip Compression Tool.
+                $userPreferences.SetCompressionTool([UserPreferencesCompressTool]::SevenZip);
+
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
+                # Finished
+                break;
+            } # Selected 7Zip
+
+
+
             # Browse for 7Zip
             #  NOTE: Allow the user's request when they type: 'Browse for 7Zip', 'Find 7Zip',
             #           'Locate 7Zip', 'Browse 7Zip', as well as 'B'.
@@ -846,7 +794,7 @@ class Settings7Zip
             # Generate Report of Archive Datafile
             #  NOTE: Allow the user's request when they type: 'Report', 'Generate Report',
             #           'Generate Report of Archive Datafile', as well as 'R'.
-            {($ShowMenuGenerateReport) -and `
+            {($showMenuGenerateReport) -and `
                 (($_ -eq "R") -or `
                     ($_ -eq "Generate Report") -or `
                     ($_ -eq "Report") -or `
@@ -872,8 +820,7 @@ class Settings7Zip
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMSITEWIKI_,                   ` # Program's Wiki
-                                                            "$([ProjectInformation]::projectName) Wiki",    ` # Show page title
-                                                            $false))                                        ` # Do not force Web Browser functionality.
+                                                            "$([ProjectInformation]::projectName) Wiki"))   ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -893,8 +840,7 @@ class Settings7Zip
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
-                                                            $true))                                                 ` # Override the user's settings; access webpage
+                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -1129,6 +1075,8 @@ class Settings7Zip
                 # Try to find the 7Zip Application automatically.
                 [Settings7Zip]::__Locate7ZipPathAutomatically();
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -1147,6 +1095,8 @@ class Settings7Zip
                 # Find the 7Zip Application manually.
                 [Settings7Zip]::__Locate7ZipPathManually();
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -1161,8 +1111,7 @@ class Settings7Zip
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
-                                                            $true))                                                 ` # Override the user's settings; access webpage
+                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -1537,6 +1486,8 @@ class Settings7Zip
                 # Use the 7Zip Compression Methodology
                 $sevenZip.SetCompressionMethod([SevenZipCompressionMethod]::SevenZip);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -1551,6 +1502,8 @@ class Settings7Zip
                 # Use the Zip Compression Methodology
                 $sevenZip.SetCompressionMethod([SevenZipCompressionMethod]::Zip);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -1564,8 +1517,7 @@ class Settings7Zip
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
-                                                            $true))                                                 ` # Override the user's settings; access webpage
+                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -1829,6 +1781,8 @@ class Settings7Zip
                 # Use the Deflate Algorithm when using the Zip Compression Methodology
                 $sevenZip.SetAlgorithmZip([SevenZipAlgorithmZip]::Deflate);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -1843,6 +1797,8 @@ class Settings7Zip
                 # Use the LZMA Algorithm when using the Zip Compression Methodology
                 $sevenZip.SetAlgorithmZip([SevenZipAlgorithmZip]::LZMA);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -1857,6 +1813,8 @@ class Settings7Zip
                 # Use the BZip2 Algorithm when using the Zip Compression Methodology
                 $sevenZip.SetAlgorithmZip([SevenZipAlgorithmZip]::BZip2);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -1870,8 +1828,7 @@ class Settings7Zip
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
-                                                            $true))                                                 ` # Override the user's settings; access webpage
+                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -2155,6 +2112,8 @@ class Settings7Zip
                 # Use the LZMA2 Algorithm when using the 7Zip Compression Methodology
                 $sevenZip.SetAlgorithm7Zip([SevenZipAlgorithm7Zip]::LZMA2);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -2169,6 +2128,8 @@ class Settings7Zip
                 # Use the LZMA Algorithm when using the 7Zip Compression Methodology
                 $sevenZip.SetAlgorithm7Zip([SevenZipAlgorithm7Zip]::LZMA);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -2183,6 +2144,8 @@ class Settings7Zip
                 # Use the BZip2 Algorithm when using the Zip Compression Methodology
                 $sevenZip.SetAlgorithm7Zip([SevenZipAlgorithm7Zip]::BZip2);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -2197,6 +2160,8 @@ class Settings7Zip
                 # Use the PPMd Algorithm when using the 7Zip Compression Methodology
                 $sevenZip.SetAlgorithm7Zip([SevenZipAlgorithm7Zip]::PPMd);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -2210,8 +2175,7 @@ class Settings7Zip
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
-                                                            $true))                                                 ` # Override the user's settings; access webpage
+                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -2496,6 +2460,8 @@ class Settings7Zip
                 # Use the Store Compression Level
                 $sevenZip.SetCompressionLevel([SevenZipCompressionLevel]::Store);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -2510,6 +2476,8 @@ class Settings7Zip
                 # Use the Minimal Compression Level
                 $sevenZip.SetCompressionLevel([SevenZipCompressionLevel]::Minimal);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -2524,6 +2492,8 @@ class Settings7Zip
                 # Use the Normal Compression Level
                 $sevenZip.SetCompressionLevel([SevenZipCompressionLevel]::Normal);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -2538,6 +2508,8 @@ class Settings7Zip
                 # Use the Maximum Compression Level
                 $sevenZip.SetCompressionLevel([SevenZipCompressionLevel]::Maximum);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
@@ -2551,8 +2523,7 @@ class Settings7Zip
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
-                                                            $true))                                                 ` # Override the user's settings; access webpage
+                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -2796,6 +2767,9 @@ class Settings7Zip
                 # The user had selected to verify the newly generated project build.
                 $sevenZip.SetVerifyBuild($true);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Selected Verify Build
@@ -2810,6 +2784,9 @@ class Settings7Zip
                 # The user had selected to not verify the newly generated project build.
                 $sevenZip.SetVerifyBuild($false);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Selected Fastest Compression
@@ -2822,8 +2799,7 @@ class Settings7Zip
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
-                                                            $true))                                                 ` # Override the user's settings; access webpage
+                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -3087,6 +3063,9 @@ class Settings7Zip
                 # The user does not wish to generate PDF reports
                 $sevenZip.SetGenerateReportFilePDF($false);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Selected Generate Reports
@@ -3109,6 +3088,9 @@ class Settings7Zip
                 # The user wishes to generate PDF reports
                 $sevenZip.SetGenerateReportFilePDF($true);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Selected Generate PDF Reports
@@ -3127,6 +3109,9 @@ class Settings7Zip
                 # The user does not wish to generate PDF reports
                 $sevenZip.SetGenerateReportFilePDF($false);
 
+                # Update the user's configuration with the latest changes.
+                [LoadSaveUserConfiguration]::SaveUserConfiguration();
+
                 # Finished
                 break;
             } # Selected Do not Generate Reports
@@ -3139,8 +3124,7 @@ class Settings7Zip
             {
                 # Open the webpage as requested
                 if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker",     ` # Show page title
-                                                            $true))                                                 ` # Override the user's settings; access webpage
+                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);

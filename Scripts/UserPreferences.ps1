@@ -1,5 +1,5 @@
 ﻿<# PowerShell Compact-Archive Tool
- # Copyright (C) 2022
+ # Copyright (C) 2023
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -70,11 +70,10 @@ class UserPreferences
     # Get the instance of this singleton object (With Args)
     #  Useful if we already know that we have to instantiate
     #  a new instance of this particular object.
-    static [UserPreferences] GetInstance([UserPreferencesCompressTool] $compressionTool, `  # Which Compression Software to use
-                                        [string] $projectPath, `                            # Project's absolute path
-                                        [string] $outputBuildsPath, `                       # Output Builds absolute path
-                                        [bool] $useGitFeatures, `                           # Utilize Git features (if software available)
-                                        [bool] $useWindowsExplorer)                         # Use Windows Explorer
+    static [UserPreferences] GetInstance([UserPreferencesCompressTool] $compressionTool, `      # Which Compression Software to use
+                                        [string] $projectPath, `                                # Project's absolute path
+                                        [string] $outputBuildsPath, `                           # Output Builds absolute path
+                                        [UserPreferencesVersionControlTool] $versionControl)    # Utilize Git features (if software available)
     {
         # if there was no previous instance of the object - then create one.
         if ($null -eq [UserPreferences]::_instance)
@@ -83,8 +82,7 @@ class UserPreferences
             [UserPreferences]::_instance = [UserPreferences]::new($compressionTool, `
                                                                 $projectPath, `
                                                                 $outputBuildsPath, `
-                                                                $useGitFeatures, `
-                                                                $useWindowsExplorer);
+                                                                $versionControl);
         } # If: No Singleton Instance
 
         # Provide an instance of the object.
@@ -121,23 +119,11 @@ class UserPreferences
     Hidden [string] $__outputBuildsPath;
 
 
-    # Use Git Features
+    # Version Control Choice
     # ---------------
-    # When true, this program will try to use Git functionality.
-    Hidden [bool] $__useGitFeatures;
-
-
-    # Use Windows Explorer
-    # ---------------
-    # When true, this program will try to use Windows Explorer to open directory paths;
-    #  useful to show where the builds are located within the user's filesystem.
-    Hidden [bool] $__useWindowsExplorer;
-
-
-    # Show Hidden Menus and Options
-    # ---------------
-    # When true, this will enforce all menus to be visible to the user.
-    Hidden [bool] $__showHiddenMenu;
+    # The choice of which software tool be used for managing the local copy or local
+    #   repository of the project's source files.
+    Hidden [UserPreferencesVersionControlTool] $__versionControlTool;
 
 
     # Object GUID
@@ -170,13 +156,7 @@ class UserPreferences
         $this.__outputBuildsPath = $global:_USERDATA_BUILDS_PATH_;
 
         # Use Git Features
-        $this.__useGitFeatures = $true;
-
-        # Use Windows Explorer
-        $this.__useWindowsExplorer = $true;
-
-        # Show all menus
-        $this.__showHiddenMenu = $false;
+        $this.__versionControlTool = [UserPreferencesVersionControlTool]::None;
 
         # Object Identifier (GUID)
         $this.__objectGUID = [GUID]::NewGuid();
@@ -189,9 +169,7 @@ class UserPreferences
     UserPreferences([UserPreferencesCompressTool] $compressionTool, `
                     [string] $projectPath, `
                     [string] $outputBuildsPath, `
-                    [bool] $useGitFeatures, `
-                    [bool] $useWindowsExplorer, `
-                    [bool] $showHiddenMenu)
+                    [UserPreferencesVersionControlTool] $versionControl)
     {
         # Compression Tool
         $this.__compressionTool = $compressionTool;
@@ -203,13 +181,7 @@ class UserPreferences
         $this.__outputBuildsPath = $outputBuildsPath;
 
         # Use Git Features
-        $this.__useGitFeatures = $useGitFeatures;
-
-        # Use Windows Explorer
-        $this.__useWindowsExplorer = $useWindowsExplorer;
-
-        # Show all menus
-        $this.__showHiddenMenu = $showHiddenMenu;
+        $this.__versionControlTool = $versionControl;
 
         # Object Identifier (GUID)
         $this.__objectGUID = [GUID]::NewGuid();
@@ -275,56 +247,20 @@ class UserPreferences
 
 
 
-   <# Get Use Git Features
+   <# Get Version Control Tool
     # -------------------------------
     # Documentation:
-    #  Returns the value of the 'Use Git Features' variable.
+    #  Returns the value of the 'Version Control Tool' variable.
     # -------------------------------
     # Output:
-    #  [bool] Use Git Features
-    #   The value of the Use Git Features.
+    #  [UserPreferencesVersionControlTool] Version Control Tool
+    #   The value of the Version Control Tool.
     # -------------------------------
     #>
-    [bool] GetUseGitFeatures()
+    [UserPreferencesVersionControlTool] GetVersionControlTool()
     {
-        return $this.__useGitFeatures;
-    } # GetUseGitFeatures()
-
-
-
-
-   <# Get Use Windows Explorer
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the Use 'Windows Explorer' variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Use Windows Explorer
-    #   The value of the Use Windows Explorer.
-    # -------------------------------
-    #>
-    [bool] GetUseWindowsExplorer()
-    {
-        return $this.__useWindowsExplorer;
-    } # GetUseWindowsExplorer()
-
-
-
-
-   <# Get Show Hidden Menus and Options
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'Show Hidden Menus and Options' variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Show Hidden Menus and Options
-    #   The value of the Show Hidden Menus and Options.
-    # -------------------------------
-    #>
-    [bool] GetShowHiddenMenu()
-    {
-        return $this.__showHiddenMenu;
-    } # GetShowHiddenMenu()
+        return $this.__versionControlTool;
+    } # GetVersionControlTool()
 
 
 
@@ -445,17 +381,18 @@ class UserPreferences
 
 
 
-   <# Set Use Git Features
+   <# Set Version Control Tool
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the 'Use Git Features' variable.
+    #  Sets a new value for the 'Version Control Tool' variable.
     # -------------------------------
     # Input:
-    #  [bool] Use Git Functionality
-    #   When true, this will allow the application to utilize functionality
-    #    from Git in order to perform certain tasks.  If the Git software was
-    #    not found on the user's system or if this value is false, then the
-    #    functionality will not be consumed.
+    #  [UserPreferencesVersionControlTool] Version Control Tool
+    #   When set to any other value than 'None' (Nothing), this will allow
+    #   the application to utilize the functionality of the Version Control
+    #   software to manage or obtain information regarding the local working
+    #   copy or local repository of the source files on the host's local
+    #   machine.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -463,79 +400,17 @@ class UserPreferences
     #   false = Failure; could not set a new value.
     # -------------------------------
     #>
-    [bool] SetUseGitFeatures([bool] $newVal)
+    [bool] SetVersionControlTool([UserPreferencesVersionControlTool] $newVal)
     {
-        # Because the value is either true or false, there really is no
-        #  point in checking if the new requested value is 'legal'.
-        #  Thus, we are going to trust the value and automatically
-        #  return success.
-        $this.__useGitFeatures = $newVal;
+        # Because the value must fit within the 'UserPreferencesVersionControlTool'
+        #   datatype, there really is no point in checking if the new requested
+        #   value is considered 'legal'.  Thus, we are going to trust the value
+        #   and automatically return success.
+        $this.__versionControlTool = $newVal;
 
         # Successfully updated.
         return $true;
-    } # SetUseGitFeatures()
-
-
-
-
-   <# Set Use Windows Explorer
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Use Windows Explorer' variable.
-    # -------------------------------
-    # Input:
-    #  [bool] Use Windows Explorer Functionality
-    #   When true, this will allow the application to utilize functionality
-    #    from the Windows Explorer shell.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetUseWindowsExplorer([bool] $newVal)
-    {
-        # Because the value is either true or false, there really is no
-        #  point in checking if the new requested value is 'legal'.
-        #  Thus, we are going to trust the value and automatically
-        #  return success.
-        $this.__useWindowsExplorer = $newVal;
-
-        # Successfully updated.
-        return $true;
-    } # SetUseWindowsExplorer()
-
-
-
-
-   <# Set Show Hidden Menus and Options
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Show Hidden Menus and Options' variable.
-    # -------------------------------
-    # Input:
-    #  [bool] Show Hidden Menus and Options
-    #   When true, this will allow the user to view all of the menus and options
-    #    that were previously hidden to them.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetShowHiddenMenu([bool] $newVal)
-    {
-        # Because the value is either true or false, there really is no
-        #  point in checking if the new requested value is 'legal'.
-        #  Thus, we are going to trust the value and automatically
-        #  return success.
-        $this.__showHiddenMenu = $newVal;
-
-        # Successfully updated.
-        return $true;
-    } # SetShowHiddenMenu()
+    } # SetVersionControlTool()
 
     #endregion
 } # UserPreferences
@@ -556,3 +431,20 @@ enum UserPreferencesCompressTool
     InternalZip = 0; # Microsoft's .NET 4.5 (or later)
     SevenZip    = 1; # 7Zip's 7Za (CLI)
 } # UserPreferencesCompressTool
+
+
+
+
+<# User Preferences Version Control Tool [ENUM]
+ # -------------------------------
+ # Associated with what type of Version Control (VCS or SCM) will be used to manage the
+ #  local copy or local repository stored on the user's host system.
+ #
+ # This provides a list of software that this application supports.
+ # -------------------------------
+ #>
+enum UserPreferencesVersionControlTool
+{
+    None    = 0;    # Nothing
+    GitSCM  = 1;    # Git-SCM
+} # UserPreferencesVersionControlTool

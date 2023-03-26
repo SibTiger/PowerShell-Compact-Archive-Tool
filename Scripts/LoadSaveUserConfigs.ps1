@@ -1,5 +1,5 @@
 ﻿<# PowerShell Compact-Archive Tool
- # Copyright (C) 2022
+ # Copyright (C) 2023
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -955,12 +955,12 @@
 
 
 
-        # USER PREFERENCES -- USE GIT FEATURES
+        # USER PREFERENCES -- USE VERSION CONTROL TOOL
         # - - - - - - - - - - - - - - - - - - - - - - - - - -
         try
         {
-            # Set: Use Git Features
-            $userPref.SetUseGitFeatures([bool]$cachedUserConfig[0].__useGitFeatures);
+            # Set: Use Version Control Tool
+            $userPref.SetVersionControlTool([UserPreferencesVersionControlTool]$cachedUserConfig[0].__versionControlTool);
         } # Try : Load Value from Config
 
         # Error trying to load variable into the current program's instance.
@@ -970,58 +970,10 @@
 
 
             # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__useGitFeatures", `                             # The Variable Name
-                                    "User Preferences", `                               # The Variable Category
-                                    [string]$cachedUserConfig[0].__useGitFeatures, `    # Value Stored in Config
-                                    [string]$userPref.GetUseGitFeatures(), `            # Current Value
-                                    $_.Exception);                                      # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
-        # USER PREFERENCES -- USE WINDOWS EXPLORER
-        # - - - - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Use Windows Explorer
-            $userPref.SetUseWindowsExplorer([bool]$cachedUserConfig[0].__useWindowsExplorer);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__useWindowsExplorer", `                             # The Variable Name
+            $this.__LoadStepWiseError("__versionControlTool", `                             # The Variable Name
                                     "User Preferences", `                                   # The Variable Category
-                                    [string]$cachedUserConfig[0].__useWindowsExplorer, `    # Value Stored in Config
-                                    [string]$userPref.GetUseWindowsExplorer(), `            # Current Value
-                                    $_.Exception);                                          # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
-        # USER PREFERENCES -- SHOW HIDDEN MENUS AND OPTIONS
-        # - - - - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Show Hidden Menus and Options
-            $userPref.SetShowHiddenMenu([string]$cachedUserConfig[0].__showHiddenMenu);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__showHiddenMenu", `                                 # The Variable Name
-                                    "User Preferences", `                                   # The Variable Category
-                                    [string]$cachedUserConfig[0].__showHiddenMenu, `        # Value Stored in Config
-                                    [string]$userPref.GetShowHiddenMenu(), `                # Current Value
+                                    [string]$cachedUserConfig[0].__versionControlTool, `    # Value Stored in Config
+                                    [string]$userPref.GetVersionControlTool(), `            # Current Value
                                     $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
@@ -1784,5 +1736,38 @@
         #   the message will be brief as the full details remain within the terminal.
         [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
     } # __LoadStepWiseError()
+    #endregion
+
+
+
+    #region Public Static Functions
+
+   <# Save User Configuration
+    # -------------------------------
+    # Documentation:
+    #  This function will provide a bridge allowing outside objects to easily save
+    #   the user's configurations.  By using this bridge, outside objects will not
+    #   need to initialize a temporary Load\Save User Configuration object in order
+    #   to promptly save the user's settings.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #   $true = Successfully saved the user's settings.
+    #   $false = Failed to save the user's settings.
+    # -------------------------------
+    #>
+    static [bool] SaveUserConfiguration()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Create a self reference of the Load\Save User Configuration object.
+        [LoadSaveUserConfiguration] $loadSaveUserConfig = [LoadSaveUserConfiguration]::GetInstance();
+        # ----------------------------------------
+
+
+        # Update the user's settings.
+        return $loadSaveUserConfig.Save();
+    } # SaveUserConfiguration()
+
     #endregion
  } # LoadSaveUserConfiguration

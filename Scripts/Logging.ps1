@@ -1,5 +1,5 @@
 ﻿<# PowerShell Compact-Archive Tool
- # Copyright (C) 2022
+ # Copyright (C) 2023
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -68,6 +68,11 @@ class Logging
     #   is disabled.  When false, logging is enabled - which is the default behavior.
     Static [bool] $RestrictLogging = $false;
 
+    # Logging Lock Key
+    # ---------------
+    # This variable will help to prevent a stack overflow issue that could occur when writing logged data.
+    Static [bool] $LoggingLockKey = $false;
+
     #endregion
 
 
@@ -97,7 +102,7 @@ class Logging
     #>
     static Hidden [bool] __GetLoggingLockKey()
     {
-        return $Global:_LOGGINGLOCKKEY_;
+        return [Logging]::LoggingLockKey;
     } # __GetLoggingLockKey()
 
 
@@ -125,7 +130,7 @@ class Logging
     #>
     static Hidden [void] __SetLoggingLockKey([bool] $value)
     {
-        $Global:_LOGGINGLOCKKEY_ = $value;
+        [Logging]::LoggingLockKey = $value;
     } # __SetLoggingLockKey()
 
 

@@ -1,5 +1,5 @@
 <# PowerShell Compact-Archive Tool
- # Copyright (C) 2022
+ # Copyright (C) 2023
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -115,12 +115,6 @@
 
     # Debug Logging functionality
     Remove-Variable -Name "_DEBUGLOGGING_" `
-        -Scope Global `
-        -Force `
-        -ErrorAction SilentlyContinue;
-
-    # Logging Lock Key
-    Remove-Variable -Name "_LOGGINGLOCKKEY_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;

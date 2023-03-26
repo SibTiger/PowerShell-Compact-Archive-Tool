@@ -1,5 +1,5 @@
 <# PowerShell Compact-Archive Tool
- # Copyright (C) 2022
+ # Copyright (C) 2023
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -76,27 +76,16 @@ class UserExperience
                                 [BrowserInterfaceStyle] $style,         ` # Style of the Browser interface.
                                 [System.Collections.ArrayList] $files)    # Selected files to be returned.
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # We will use this instance so that we can apply the new location to the project.
-        [UserPreferences] $userPreferences                          = [UserPreferences]::GetInstance();
-
-        # Obtain the current Operating System from the host.
-        [SystemInformationOperatingSystem] $operatingSystemPlatform = [SystemInformation]::OperatingSystem();
-        # ----------------------------------------
-
-
-
         # Determine if we should use the Graphical User Interface variant
-        if (($operatingSystemPlatform -eq [SystemInformationOperatingSystem]::Windows) -and `
-            ($userPreferences.GetUseWindowsExplorer() -eq $true))
+        if ([SystemInformation]::OperatingSystem() -eq [SystemInformationOperatingSystem]::Windows)
         {   # Use the Graphical User Interface
             return [CommonGUI]::BrowseFile($title,                  ` # Brief Description in Title Bar
                                         $defaultExtension,          ` # Default File Extension
                                         $filterExtensionOptions,    ` # Additional File Extensions
                                         $selectMultipleFiles,       ` # Select only one _or_ multiple files.
                                         $style,                     ` # Style of the Browser interface.
-                                        $files);}                     # Selected files to be returned.
+                                        $files);                      # Selected files to be returned.
+        } # if : Provide GUI
 
         # Use the Console UI instead
         else
@@ -137,21 +126,12 @@ class UserExperience
                                     [BrowserInterfaceStyle] $style,     ` # Style of the Browser interface
                                     [ref] $targetFolder)                  # Selected directory to be returned.
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # We will use this instance so that we can apply the new location to the project.
-        [UserPreferences] $userPreferences                          = [UserPreferences]::GetInstance();
-        # ----------------------------------------
-
-
-
         # Determine if we should use the Graphical User Interface variant
-        if (([SystemInformation]::OperatingSystem() -eq [SystemInformationOperatingSystem]::Windows) -and `     # Host is running Windows
-            ($userPreferences.GetUseWindowsExplorer() -eq $true))                                               # User wants Graphical UI
+        if ([SystemInformation]::OperatingSystem() -eq [SystemInformationOperatingSystem]::Windows)
         {   # Use the Graphical User Interface
-            return [CommonGUI]::BrowseDirectory($instructions,          ` # Show description to the user; reminder
-                                                    $style,             ` # Style of the Browser interface
-                                                    $targetFolder);}      # Selected directory to be returned.
+            return [CommonGUI]::BrowseDirectory($instructions,      ` # Show description to the user; reminder
+                                                $style,             ` # Style of the Browser interface
+                                                $targetFolder);}      # Selected directory to be returned.
 
         # Use the Console UI instead
         else
