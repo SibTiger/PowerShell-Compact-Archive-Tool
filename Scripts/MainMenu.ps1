@@ -483,7 +483,8 @@ class MainMenu
         # Project's Homepage - Hidden
         #   Value not provided
         if (($null -eq [ProjectInformation]::urlWebsite) -or `
-            ("$($null)" -eq [ProjectInformation]::urlWebsite))
+            ("$($null)" -eq [ProjectInformation]::urlWebsite) -or `
+            (![WebsiteResources]::CheckSiteAvailability([ProjectInformation]::urlWebsite, $true)))
         {
             $showMenuProjectHomePage.Value = $false;
         } # if : Project's homepage - Hidden
@@ -499,7 +500,8 @@ class MainMenu
         # Project's Wiki Page - Hidden
         #   Value not provided
         if (($null -eq [ProjectInformation]::urlWiki) -or `
-            ("$($null)" -eq [ProjectInformation]::urlWiki))
+            ("$($null)" -eq [ProjectInformation]::urlWiki) -or `
+            (![WebsiteResources]::CheckSiteAvailability([ProjectInformation]::urlWiki, $true)))
         {
             $showMenuProjectWikiPage.Value = $false;
         } # if : Project's Wiki Page - Hidden
@@ -515,7 +517,8 @@ class MainMenu
         # Project's Source Code: Hidden
         #   Value not provided
         if (($null -eq [ProjectInformation]::urlSource) -or `
-            ("$($null)" -eq [ProjectInformation]::urlSource))
+            ("$($null)" -eq [ProjectInformation]::urlSource) -or `
+            (![WebsiteResources]::CheckSiteAvailability([ProjectInformation]::urlSource, $true)))
         {
             $showMenuProjectSourceCode.Value = $false;
         } # if : Project's Source Code - Hidden

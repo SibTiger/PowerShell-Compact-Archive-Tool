@@ -96,7 +96,7 @@
 
 
         # Check to make sure that we are able to access the desired webpage.
-        if ([WebsiteResources]::CheckSiteAvailability($siteURL) -eq $true)
+        if ([WebsiteResources]::CheckSiteAvailability($siteURL, $false) -eq $true)
         {
             # The website is accessible, try to open the webpage.
 
@@ -327,11 +327,12 @@
     #    - False: Website is not available to the user.
     # -------------------------------
     #>
-    static [bool] CheckSiteAvailability([string] $site)
+    static [bool] CheckSiteAvailability([string] $site,         # Desired Website
+                                        [string] $quiet)        # Suppress Error Messages
     {
         # Check the website's availability status.
-        return ([WebsiteResources]::__CheckSiteAvailability_SiteProvided($site -eq $true) -and `    # Make sure that the string is not null\empty
-                [WebsiteResources]::__CheckSiteAvailability_SiteResponse($site) -eq $true);         # Make sure that the Web Host and site is reachable
+        return (([WebsiteResources]::__CheckSiteAvailability_SiteProvided($site)            -eq $true) -and `   # Make sure that the string is not null\empty
+                ([WebsiteResources]::__CheckSiteAvailability_SiteResponse($site, $quiet)    -eq $true));        # Make sure that the Web Host and site is reachable
     } # CheckSiteAvailability()
 
 
@@ -393,7 +394,11 @@
     # -------------------------------
     # Input:
     #  [string] Site
-    #    The desired website to inspect.
+    #   The desired website to inspect.
+    #  [bool] Quiet
+    #   When Quiet is set to true, then all error messages that would be visible to the user - will be ignored.
+    #   When Quiet is set to false, then all error messages will be shown to the user.
+    #   NOTE: Regardless of the setting, the error messages will continue to be logged within the program's logfile.
     # -------------------------------
     # Output:
     #  [bool] Response Status
@@ -402,7 +407,8 @@
     #    - False: Site is presently NOT available for access.
     # -------------------------------
     #>
-    Hidden static [bool] __CheckSiteAvailability_SiteResponse([string] $site)
+    Hidden static [bool] __CheckSiteAvailability_SiteResponse([string] $site,       # Desired Site to Access
+                                                                [bool] $quiet)      # Suppress Error Messages
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -472,14 +478,18 @@
                                         $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
-                                        [LogMessageLevel]::Error);  # Message level
+            # Suppress Error Messages?
+            if (!$quiet)
+            {
+                # Display a message to the user that something went horribly wrong
+                #  and log that same message for referencing purpose.
+                [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                            [LogMessageLevel]::Error);  # Message level
 
-            # Alert the user through a message box as well that an issue had occurred;
-            #   the message will be brief as the full details remain within the terminal.
-            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+                # Alert the user through a message box as well that an issue had occurred;
+                #   the message will be brief as the full details remain within the terminal.
+                [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+            } # If : Suppress Error Messages
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -547,14 +557,18 @@
                                         $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
-                                        [LogMessageLevel]::Error);  # Message level
+            # Suppress Error Messages?
+            if (!$quiet)
+            {
+                # Display a message to the user that something went horribly wrong
+                #  and log that same message for referencing purpose.
+                [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                            [LogMessageLevel]::Error);  # Message level
 
-            # Alert the user through a message box as well that an issue had occurred;
-            #   the message will be brief as the full details remain within the terminal.
-            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+                # Alert the user through a message box as well that an issue had occurred;
+                #   the message will be brief as the full details remain within the terminal.
+                [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+            } # if : Suppress Error Messages
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -620,14 +634,19 @@
                                         $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Warning);    # Message level
 
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
-                                    [LogMessageLevel]::Warning);    # Message level
+            # Suppress Error Messages?
+            if (!$quiet)
+            {
+                # Display a message to the user that something went horribly wrong
+                #  and log that same message for referencing purpose.
+                [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Warning);    # Message level
 
-            # Alert the user through a message box as well that an issue had occurred;
-            #   the message will be brief as the full details remain within the terminal.
-            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Exclamation) | Out-Null;
+                # Alert the user through a message box as well that an issue had occurred;
+                #   the message will be brief as the full details remain within the terminal.
+                [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Exclamation) | Out-Null;
+            } # if : Suppress Error Messages
+
             # * * * * * * * * * * * * * * * * * * *
         } # else: Site not Available
 
