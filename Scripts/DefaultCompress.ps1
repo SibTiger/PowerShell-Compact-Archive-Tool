@@ -87,7 +87,7 @@ class DefaultCompress
     static [DefaultCompress] GetInstance([DefaultCompressionLevel] $compressionLevel, ` # Compression Level
                                         [bool] $verifyBuild, `                          # Verify Archive datafile
                                         [bool] $generateReport, `                       # Create report
-                                        [bool] $generateReportFilePDF)          # Create a PDF Report
+                                        [bool] $generateReportFilePDF)                  # Create a PDF Report
     {
         # if there was no previous instance of the object - then create one.
         if ($null -eq [DefaultCompress]::_instance)
