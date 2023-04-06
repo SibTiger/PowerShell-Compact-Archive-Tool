@@ -62,6 +62,6 @@ class EmbedInstaller
     #>
     static [bool] EmbedInstaller()
     {
-
+        return $true;
     } # EmbedInstaller()
 } # EmbedInstaller
