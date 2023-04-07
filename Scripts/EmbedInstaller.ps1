@@ -65,3 +65,38 @@ class EmbedInstaller
         return $true;
     } # EmbedInstaller()
 } # EmbedInstaller
+
+
+
+
+<# Embed Installer - Install Destination [ENUM]
+ # -------------------------------
+ # This specifies a list of pre-defined directories that
+ #  are supported for the installation process.
+ # -------------------------------
+ #>
+enum EmbedInstallerInstallDestination
+{
+    WindowsToastNotification        = 0;    # Windows 10's Toast Notification
+    Project                         = 1;    # Supported Projects
+} # EmbedInstallerInstallDestination
+
+
+
+
+<# Embed Installer - Item Type [ENUM]
+ # -------------------------------
+ # Specifies what type of item is going to be installed onto the host system.
+ #
+ # Type of Items:
+ #  File        - Single file of any type, with or without extension.
+ #  Directory   - Single directory
+ #  Archive     - Single archive data file that will be extracted in the specified destination.
+ # -------------------------------
+ #>
+enum EmbedInstallerItemType
+{
+    File            = 0;    # Item Type: File
+    Directory       = 1;    # Item Type: Directory
+    Archive         = 2;    # Item Type: Archive Datafile
+} # EmbedInstallerItemType
