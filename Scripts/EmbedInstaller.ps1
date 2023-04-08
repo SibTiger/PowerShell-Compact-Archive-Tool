@@ -60,7 +60,7 @@ class EmbedInstaller
     #     $true  = Successfully installed\updated resource
     # -------------------------------
     #>
-    static [bool] EmbedInstaller()
+    static [bool] EmbedInstaller([EmbedInstallerInstallDestination] $installLocation)
     {
         return $true;
     } # EmbedInstaller()
