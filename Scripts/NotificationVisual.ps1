@@ -39,6 +39,49 @@
 
 class NotificationVisual
 {
+    # Member Variables :: Properties
+    # =================================================
+    # =================================================
+
+
+    # Burnt Toast - Main Website
+    # ---------------
+    # Burnt Toast's main website URL
+    Static Hidden [string] $__BurntToastWebsiteURL = "https://github.com/Windos/BurntToast";
+
+
+    # Burnt Toast's latest release URL
+    Static Hidden [string] $__BurntToastDownloadURL = "https://github.com/Windos/BurntToast/releases/latest";
+
+
+
+
+    # Member Functions :: Methods
+    # =================================================
+    # =================================================
+
+
+
+   <# Get Burnt Toast Website
+    # ---------------
+    # Returns the value of the Burnt Toast Website URL
+    #>
+    Static [String] GetBurntToastWebsiteURL() { return [NotificationVisual]::__BurntToastWebsiteURL; }
+
+
+
+
+
+   <# Get Burnt Toast Latest Release
+    # ---------------
+    # Returns the value of the Burnt Toast Latest Release URL
+    #>
+    Static [String] GetBurntToastDownloadURL() { return [NotificationVisual]::__BurntToastDownloadURL; }
+
+
+
+
+
    <# Notify [Main Function]
     # -------------------------------
     # Documentation:
