@@ -46,16 +46,6 @@
 
 class EmbedInstaller
 {
-    # Member Variables :: Properties
-    # =================================================
-    # =================================================
-
-
-    # Member Functions :: Methods
-    # =================================================
-    # =================================================
-
-
    <# Embed Installer
     # -------------------------------
     # Documentation:
@@ -98,6 +88,30 @@ class EmbedInstaller
                                             [ref] $temporaryDirectoryPath) `
             -eq $false)
         {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Cannot continue with the EmbedInstaller as a Temporary Directory could not be created.`r`n"    +
+                                    "The temporary directory is a requirement in such that the user can provide the desired files.");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "$($NULL)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # Alert the user through a message box signifying that an issue had occurred.
+            [CommonGUI]::MessageBox($logMessage, `
+                                    [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
             # Send error signal
             return $false;
         } # if : Failed to Create Temp. Directory
@@ -106,9 +120,46 @@ class EmbedInstaller
         # Did the user request to install\update Windows Notification?
         if ($installLocation -eq [EmbedInstallerInstallDestination]::WindowsToastNotification)
         {
-            # Open the URL using the preferred web browser.
+            # Check to make sure that the site is reachable before trying to access it.
+            if([WebsiteResources]::CheckSiteAvailability([NotificationVisual]::GetBurntToastDownloadURL(), $true))
+            {
+                # Open the URL using the preferred web browser.
+                if (![WebsiteResources]::AccessWebSite_General([NotificationVisual]::GetBurntToastDownloadURL(),    ` # Burnt Toast Download's URL
+                                                                "Burnt Toast Downloads"))                           ` # Page Title
+                {
+                    # Unable to access the website; possibly a host issue?
 
+
+                    # * * * * * * * * * * * * * * * * * * *
+                    # Debugging
+                    # --------------
+
+                    # Generate the initial message
+                    [string] $logMessage = ("Unable to access the download page for Burnt Toast!`r`n"   + `
+                                            "The user will have to access the website manually.");
+
+                    # Generate any additional information that might be useful
+                    [string] $logAdditionalMSG = "Site Requested: $([NotificationVisual]::GetBurntToastDownloadURL())";
+
+                    # Pass the information to the logging system
+                    [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                                $logAdditionalMSG, `            # Additional information
+                                                [LogMessageLevel]::Warning);    # Message level
+
+                    # Alert the user through a message box signifying that an issue had occurred.
+                    [CommonGUI]::MessageBox("Unable to automatically access $([NotificationVisual]::GetBurntToastDownloadURL())", `
+                                            [System.Windows.MessageBoxImage]::Exclamation) | Out-Null;
+
+
+                    # * * * * * * * * * * * * * * * * * * *
+                } # if : Unable to Access Website
+            } # if : Site is Reachable
         } # if : Request to Install
+
+
+        # Provide extra spacing to separate the Website Resources verbose information and the instructions
+        #   that are soon to be provided.
+        [Logging]::DisplayMessage("`r`n`r`n");
 
 
         # Provide the instructions
@@ -171,25 +222,25 @@ class EmbedInstaller
             ([EmbedInstallerInstallDestination]::WindowsToastNotification)
             {
                 # Set the string
-                $instructionString = (  " Instructions for Windows Burnt Toast`r`n"                                                                     , `
-                                        "-------------------------------------`r`n"                                                                     , `
-                                        "`r`n"                                                                                                          , `
-                                        " Github Repository:`r`n"                                                                                       , `
-                                        "`t`thttps://github.com/Windos/BurntToast`r`n"                                                                  , `
-                                        " Download Latest Version:`r`n"                                                                                 , `
-                                        "`t`thttps://github.com/Windos/BurntToast/releases/latest`r`n"                                                  , `
-                                        "`r`n"                                                                                                          , `
-                                        "`r`n"                                                                                                          , `
-                                        "You can easily install or update Burnt Toast onto your system using $($GLOBAL:_PROGRAMNAME_) Installer.`r`n"   , `
-                                        "`r`n"                                                                                                          , `
-                                        "Follow the instructions below:`r`n"                                                                            , `
-                                        "- - - - - - - - - - - - - - - -`r`n"                                                                           , `
-                                        "  1) Download the latest version of Windows Burnt Toast using the download link provided above.`r`n"           , `
-                                        "  2) Place the newly downloaded Zip file into the temporary folder named $($directoryName).`r`n"               , `
-                                        "  3) Press the Enter Key to continue the install process.`r`n"                                                 , `
-                                        "`r`n`r`n"                                                                                                      , `
-                                        "NOTE: To abort this operation, you may close the temporary directory and press the Enter Key."                 , `
-                                        "`tBy doing this, this will cancel the operation."                                                              , `
+                $instructionString = (  " Instructions for Windows Burnt Toast`r`n"                                                                     + `
+                                        "-------------------------------------`r`n"                                                                     + `
+                                        "`r`n"                                                                                                          + `
+                                        " Github Repository:`r`n"                                                                                       + `
+                                        "`t`t$([NotificationVisual]::GetBurntToastWebsiteURL())`r`n"                                                    + `
+                                        " Download Latest Version:`r`n"                                                                                 + `
+                                        "`t`t$([NotificationVisual]::GetBurntToastDownloadURL())`r`n"                                                   + `
+                                        "`r`n"                                                                                                          + `
+                                        "`r`n"                                                                                                          + `
+                                        "You can easily install or update Burnt Toast onto your system using $($GLOBAL:_PROGRAMNAME_) Installer.`r`n"   + `
+                                        "`r`n"                                                                                                          + `
+                                        "Follow the instructions below:`r`n"                                                                            + `
+                                        "- - - - - - - - - - - - - - - -`r`n"                                                                           + `
+                                        "  1) Download the latest version of Windows Burnt Toast using the download link provided above.`r`n"           + `
+                                        "  2) Place the newly downloaded Zip file into the temporary folder named $($directoryName).`r`n"               + `
+                                        "  3) Press the Enter Key to continue the install process.`r`n"                                                 + `
+                                        "`r`n`r`n"                                                                                                      + `
+                                        "NOTE: To abort this operation, you may close the temporary directory and press the Enter Key."                 + `
+                                        "`tBy doing this, this will cancel the operation."                                                              + `
                                         "`r`n`r`n");
 
 
@@ -203,19 +254,19 @@ class EmbedInstaller
             ([EmbedInstallerInstallDestination]::Project)
             {
                 # Set the string
-                $instructionString = (  " Instructions for $($GLOBAL:_PROGRAMNAME_) Projects`r`n"                                                       , `
-                                        "-------------------------------------`r`n"                                                                     , `
-                                        "`r`n"                                                                                                          , `
-                                        "You can easily install or update your project(s) into $($GLOBAL:_PROGRAMNAME_).`r`n"                           , `
-                                        "`r`n"                                                                                                          , `
-                                        "Follow the instructions below:`r`n"                                                                            , `
-                                        "- - - - - - - - - - - - - - - -`r`n"                                                                           , `
-                                        "  1) Download the latest version(s) of the desired project(s) you wish to install.`r`n"                        , `
-                                        "  2) Place the newly downloaded Zip file(s) into the temporary folder named $($directoryName).`r`n"            , `
-                                        "  3) Press the Enter Key to continue with the installation process."                                           , `
-                                        "`r`n`r`n"                                                                                                      , `
-                                        "NOTE: To abort this operation, you may close the temporary directory and press the Enter Key."                 , `
-                                        "`tBy doing this, this will cancel the operation."                                                              , `
+                $instructionString = (  " Instructions for $($GLOBAL:_PROGRAMNAME_) Projects`r`n"                                                       + `
+                                        "-------------------------------------`r`n"                                                                     + `
+                                        "`r`n"                                                                                                          + `
+                                        "You can easily install or update your project(s) into $($GLOBAL:_PROGRAMNAME_).`r`n"                           + `
+                                        "`r`n"                                                                                                          + `
+                                        "Follow the instructions below:`r`n"                                                                            + `
+                                        "- - - - - - - - - - - - - - - -`r`n"                                                                           + `
+                                        "  1) Download the latest version(s) of the desired project(s) you wish to install.`r`n"                        + `
+                                        "  2) Place the newly downloaded Zip file(s) into the temporary folder named $($directoryName).`r`n"            + `
+                                        "  3) Press the Enter Key to continue with the installation process."                                           + `
+                                        "`r`n`r`n"                                                                                                      + `
+                                        "NOTE: To abort this operation, you may close the temporary directory and press the Enter Key."                 + `
+                                        "`tBy doing this, this will cancel the operation."                                                              + `
                                         "`r`n`r`n");
 
 
