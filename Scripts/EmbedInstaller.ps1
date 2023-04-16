@@ -53,7 +53,12 @@ class EmbedInstaller
     #   user can easily perform new installation and updates into the desired
     #   environment.  As such, this function will guide the user through
     #   the installation procedure.
-    # ----
+    # -------------------------------
+    # Input:
+    #  [EmbedInstallerInstallDestination] Installation Location
+    #   This value explicitly states the type of installation that will
+    #   be performed within the main program.
+    # -------------------------------
     # Output:
     #  [bool] Exit Code
     #     $false = Failed to install\update resource
