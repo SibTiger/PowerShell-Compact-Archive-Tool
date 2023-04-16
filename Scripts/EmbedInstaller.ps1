@@ -196,7 +196,15 @@ class EmbedInstaller
    <# Draw Main Instructions
     # -------------------------------
     # Documentation:
-    #  Alert the user of instructions as to how this operation works.
+    #  Provide the instructions to the user such that they are aware as
+    #   to what is happening within this operation.  By doing this, they
+    #   will understand the procedure and what is expected from the user.
+    # -------------------------------
+    # Input:
+    #  [EmbedInstallerInstallDestination] Install Type
+    #   This defines what content is expected to be installed within the environment.
+    #  [string] Temporary Directory
+    #   Provides the absolute path of the temporary directory.
     # -------------------------------
     #>
     hidden static [void] __DrawMainInstructions([EmbedInstallerInstallDestination] $installType,
