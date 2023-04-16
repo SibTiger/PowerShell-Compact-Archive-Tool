@@ -207,8 +207,8 @@ class EmbedInstaller
     #   Provides the absolute path of the temporary directory.
     # -------------------------------
     #>
-    hidden static [void] __DrawMainInstructions([EmbedInstallerInstallDestination] $installType,
-                                                [string] $temporaryDirectory)
+    hidden static [void] __DrawMainInstructions([EmbedInstallerInstallDestination] $installType, `  # Installation Contents
+                                                [string] $temporaryDirectory)                       # Path to Directory
     {
         # Declarations and Initializations
         # ----------------------------------------
