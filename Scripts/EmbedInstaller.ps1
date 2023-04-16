@@ -174,6 +174,7 @@ class EmbedInstaller
 
         # Open the directory to the user such that they may drag and drop
         #   the contents into the temporary directory.
+        [EmbedInstaller]::__OpenDirectoryAndWaitForClose($temporaryDirectoryPath);
 
 
 
@@ -287,6 +288,35 @@ class EmbedInstaller
         # Wait for the user to press the Enter Key, acknowledging that they read the instructions.
         [CommonIO]::FetchEnterKey();
     } # __DrawMainInstructions()
+
+
+
+
+   <# Open Temporary Directory
+    # -------------------------------
+    # Documentation:
+    #  With calling this function, it will open and display the temporary
+    #   directory to the user and wait for the window to be closed by the
+    #   user before proceeding onward with the operation.
+    #
+    #
+    # NOTE:
+    #  - This function requires that the temporary directory path must had
+    #       already been created and exists within the specified location.
+    #  - This function will HALT the program until the Temporary Folder
+    #       had been closed by the user.
+    # -------------------------------
+    # Input:
+    #  [string] Temporary Directory
+    #   Provides the absolute path of the temporary directory.
+    # -------------------------------
+    #>
+    hidden static [void] __OpenDirectoryAndWaitForClose([string] $temporaryDirectoryPath)
+    {
+        # Open the directory to the user.
+        [CommonIO]::AccessDirectory($temporaryDirectoryPath, `  # Temporary Directory
+                                    $NULL);                     # Nothing to highlight
+    } # __OpenDirectoryAndWaitForClose()
 } # EmbedInstaller
 
 
