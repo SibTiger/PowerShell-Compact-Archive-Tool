@@ -172,15 +172,6 @@ class EmbedInstaller
                                                 $temporaryDirectoryPath);
 
 
-
-
-
-
-
-
-        # Create a temporary directory
-
-
         # Open the directory to the user such that they may drag and drop
         #   the contents into the temporary directory.
 
