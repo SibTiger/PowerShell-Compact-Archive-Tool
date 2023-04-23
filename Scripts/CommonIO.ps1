@@ -4783,7 +4783,7 @@ class CommonIO
 
 
 
-    #region Timers
+    #region Timers and Waits
 
    <# Delay - Seconds
     # -------------------------------
@@ -4828,6 +4828,28 @@ class CommonIO
         while (((Get-Date).ticks) -le $ticks)
         {;}
     } # DelayTicks()
+
+
+
+
+   <# Wait - Process ID
+    # -------------------------------
+    # Documentation:
+    #  This function will wait for the specified Process ID, assigned by the Operating System,
+    #   to be terminated.  If the Process ID is never released (or terminated), then this
+    #   function will not return back to the normal operation.
+    #
+    #
+    # CAUTION:
+    #   This function has the potential to permanently block the entire program, if the Process ID
+    #   is never released back to the Operating System!
+    # -------------------------------
+    # Input:
+    #  [Int32] Process ID
+    #   Defines a specific application's process ID, assigned by the Operating System, to monitor.
+    # -------------------------------
+    #>
+    static [void] WaitForProcess([Int32] $processID) { Wait-Process -Id $processID; }
     #endregion
 } # CommonIO
 
