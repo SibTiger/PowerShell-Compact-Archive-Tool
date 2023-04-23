@@ -242,10 +242,10 @@ class EmbedInstaller
                                         "- - - - - - - - - - - - - - - -`r`n"                                                                           + `
                                         "  1) Download the latest version of Windows Burnt Toast using the download link provided above.`r`n"           + `
                                         "  2) Place the newly downloaded Zip file into the temporary folder named $($directoryName).`r`n"               + `
-                                        "  3) Press the Enter Key to continue the install process.`r`n"                                                 + `
+                                        "  3) Close the temporary folder window to continue the install process.`r`n"                                   + `
                                         "`r`n`r`n"                                                                                                      + `
-                                        "NOTE: To abort this operation, you may close the temporary directory and press the Enter Key."                 + `
-                                        "`tBy doing this, this will cancel the operation."                                                              + `
+                                        "NOTE: To abort this operation, you may close the temporary directory while it is empty."                       + `
+                                        "`tBy doing this, it will cancel the operation."                                                                + `
                                         "`r`n`r`n");
 
 
@@ -268,10 +268,10 @@ class EmbedInstaller
                                         "- - - - - - - - - - - - - - - -`r`n"                                                                           + `
                                         "  1) Download the latest version(s) of the desired project(s) you wish to install.`r`n"                        + `
                                         "  2) Place the newly downloaded Zip file(s) into the temporary folder named $($directoryName).`r`n"            + `
-                                        "  3) Press the Enter Key to continue with the installation process."                                           + `
+                                        "  3) Close the temporary folder window to continue the install process.`r`n"                                   + `
                                         "`r`n`r`n"                                                                                                      + `
-                                        "NOTE: To abort this operation, you may close the temporary directory and press the Enter Key."                 + `
-                                        "`tBy doing this, this will cancel the operation."                                                              + `
+                                        "NOTE: To abort this operation, you may close the temporary directory while it is empty."                       + `
+                                        "`tBy doing this, it will cancel the operation."                                                                + `
                                         "`r`n`r`n");
 
 
