@@ -316,6 +316,10 @@ class EmbedInstaller
         # Open the directory to the user.
         [CommonIO]::AccessDirectory($temporaryDirectoryPath, `  # Temporary Directory
                                     $NULL);                     # Nothing to highlight
+
+
+        # Now wait for the user to finish
+        [CommonIO]::WaitForFileExplorer($temporaryDirectoryPath);
     } # __OpenDirectoryAndWaitForClose()
 } # EmbedInstaller
 
