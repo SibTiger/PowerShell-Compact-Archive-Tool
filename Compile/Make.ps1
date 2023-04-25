@@ -246,6 +246,7 @@ function MakeCompilerDriver()
                         "SettingsZip.ps1", `
                         "SettingsGit.ps1", `
                         "EmbedInstaller.ps1", `
+                        "EmbedInstallerFile.ps1", `
                         "MainMenu.ps1", `
                         "Builder.ps1", `
                         "Clean.ps1", `
