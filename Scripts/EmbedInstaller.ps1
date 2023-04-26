@@ -71,6 +71,10 @@ class EmbedInstaller
         # ----------------------------------------
         # This will hold the Temporary Directory's absolute Path.
         [string] $temporaryDirectoryPath = $NULL;
+
+
+        # This will contain a collection of files that had been provided by the user.
+        [System.Collections.ArrayList] $temporaryDirectoryContents = [System.Collections.ArrayList]::new();
         # ----------------------------------------
 
 
@@ -175,6 +179,14 @@ class EmbedInstaller
         # Open the directory to the user such that they may drag and drop
         #   the contents into the temporary directory.
         [EmbedInstaller]::__OpenDirectoryAndWaitForClose($temporaryDirectoryPath);
+
+
+        # Obtain a list of what files exists within the temporary directory.
+        [EmbedInstaller]::__GetListFileContents($temporaryDirectoryPath, `
+                                                $temporaryDirectoryContents);
+
+
+        
 
 
 
@@ -321,6 +333,54 @@ class EmbedInstaller
         # Now wait for the user to finish
         [CommonIO]::WaitForFileExplorer($temporaryDirectoryPath);
     } # __OpenDirectoryAndWaitForClose()
+
+
+
+
+   <# Get List File Contents
+    # -------------------------------
+    # Documentation:
+    #  This function will inspect the provided directory for files that had been uploaded
+    #   by the user.  When there are files within the directory, it will be recorded as an
+    #   Embed Installer File object type.  By using the Embed Installer File, we can capture
+    #   what information is important for this entire operation as a whole.
+    #  Additionally, this function will only record *.ZIP files.  Any other types will be ignored.
+    #
+    #
+    # CAUTION:
+    #   This function will only capture Zip files, all others are ignored.
+    # -------------------------------
+    # Input:
+    #  [string] Temporary Directory
+    #   Provides the absolute path of the temporary directory.
+    #  [System.Collections.ArrayList] File Collection
+    #   This will hold *.ZIP files that had been placed within the temporary directory.
+    # -------------------------------
+    #>
+    hidden static [void] __GetListFileContents([string] $temporaryDirectoryPath, `
+                                                [System.Collections.ArrayList] $fileCollection)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # We will use this variable to collect the output from the Get-ChildItem CMDLet.
+        [System.Object[]] $fileItems = [System.Object]::new();
+        # ----------------------------------------
+
+
+
+        # Obtain a list of contents that exists within the directory.
+        $fileItems = Get-ChildItem -LiteralPath $temporaryDirectoryPath `
+                                    -Filter "*.zip";
+
+
+
+        # Record all of the files found
+        foreach ($file in $fileItems)
+        {
+            # Add the file into the collection.
+            $fileCollection.Add($file);
+        } # foreach : Record Files
+    } # __GetListFileContents()
 } # EmbedInstaller
 
 
