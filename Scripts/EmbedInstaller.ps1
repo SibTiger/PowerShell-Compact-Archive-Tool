@@ -186,7 +186,13 @@ class EmbedInstaller
                                                 $temporaryDirectoryContents);
 
 
-        
+        # Determine if the user is wanting to cancel the operation
+        if ([EmbedInstaller]::__CancelOperation($temporaryDirectoryContents, `
+                                                $temporaryDirectoryPath)) 
+        {
+            # Abort the operation.
+            return $false;
+        } # if : User Requested Abort
 
 
 
@@ -381,6 +387,66 @@ class EmbedInstaller
             $fileCollection.Add($file);
         } # foreach : Record Files
     } # __GetListFileContents()
+
+
+
+
+   <# Cancel Operation
+    # -------------------------------
+    # Documentation:
+    #  This function will determine if the user had requested to cancel the installation
+    #   procedure and then provide them with feedback stating that the operation will be
+    #   terminated.
+    # -------------------------------
+    # Input:
+    #  [System.Collections.ArrayList] File Collection
+    #   This will hold *.ZIP files that had been placed within the temporary directory.
+    #  [string] Temporary Directory Path
+    #   Contains the path to the temporary directory, if incase we need to delete it.
+    # -------------------------------
+    # Output:
+    #  Alerts the calling function if the user wanted to abort the operation.
+    #   true    = Abort the operation.
+    #   false   = Continue forward.
+    # -------------------------------
+    #>
+    hidden static [bool] __CancelOperation([System.Collections.ArrayList] $fileList,
+                                            [string] $temporaryDirectoryPath)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This string will alert the user that the installation process
+        #   is aborting, as requested.
+        [string] $message = $NULL;
+        # ----------------------------------------
+
+
+
+        # Does the file list contain at least one or more files?
+        #  If there exists at least one file, allow the procedure to continue on.
+        if ($fileList.Count -gt 0) { return $false; }
+
+
+        # User had requested to cancel the operation.
+        # Delete the temporary directory.
+        [CommonIO]::DeleteDirectory($temporaryDirectoryPath);
+
+
+        # Alert the user that the operation is terminating.
+        $message = "`r`n`r`nInstallation had been cancelled!  Unable to find any ZIP files within the directory!`r`n`r`n"
+
+
+        # Display the message to the user
+        [Logging]::DisplayMessage($message);
+
+
+        # Wait for the user to press the Enter Key, thus allowing them to understand what is happening.
+        [CommonIO]::FetchEnterKey();
+
+
+        # Alert the calling function to abort.
+        return $true;
+    } # __CancelOperation()
 } # EmbedInstaller
 
 
