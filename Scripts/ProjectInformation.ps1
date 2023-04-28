@@ -50,6 +50,14 @@ class ProjectInformation
     Static [string] $codeName = "projectsCodeNameHere";
 
 
+    # Project Version
+    # ---------------
+    # The base version of the project's version within this program.
+    # NOTE: The version does not reflect the version of the project
+    #           itself, but the version in regards to this program.
+    Static [string] $version = "";
+
+
     # Output Filename
     # ---------------
     # The filename that will be used in compiled builds.
