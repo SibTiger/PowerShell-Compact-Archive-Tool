@@ -188,7 +188,7 @@ class EmbedInstaller
 
         # Determine if the user is wanting to cancel the operation
         if ([EmbedInstaller]::__CancelOperation($temporaryDirectoryContents, `
-                                                $temporaryDirectoryPath)) 
+                                                $temporaryDirectoryPath))
         {
             # Abort the operation.
             return $false;
