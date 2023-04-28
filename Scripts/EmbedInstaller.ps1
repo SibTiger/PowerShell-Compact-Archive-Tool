@@ -196,6 +196,35 @@ class EmbedInstaller
 
 
 
+        # Now that we made it this far, now we can perform the desired installation
+        switch ($installLocation)
+        {
+            # Installation: Burnt Toast
+            [EmbedInstallerInstallDestination]::WindowsToastNotification
+            {
+                # Perform the Installation
+                [EmbedInstaller]::__EmbedInstallerBurntToast($temporaryDirectoryContents);
+
+
+                # Finished
+                break;
+            } # Case : Burnt Toast
+
+
+            # Installation: Project
+            [EmbedInstallerInstallDestination]::Project
+            {
+                # Perform the Installation
+                [EmbedInstaller]::__EmbedInstallerProjects($temporaryDirectoryContents);
+
+
+                # Finished
+                break;
+            } # Case : Projects
+        } # switch : Installation Type
+
+
+
         PAUSE
         return $true;
     } # Main()
@@ -447,6 +476,58 @@ class EmbedInstaller
         # Alert the calling function to abort.
         return $true;
     } # __CancelOperation()
+
+
+
+
+   <# Embed Installer - Install Burnt Toast
+    # -------------------------------
+    # Documentation:
+    #  This function will try to install Burnt Toast onto the user's system.
+    #   By doing this, we will need to assure that the environment is ready
+    #   as well as possible updates to an already existing Burnt Toast
+    #   installation.
+    # -------------------------------
+    # Input:
+    #  [System.Collections.ArrayList] File Collection
+    #   This will hold *.ZIP files that had been placed within the temporary directory.
+    # -------------------------------
+    # Output:
+    #  Installation status
+    #   true    = Installation was successful.
+    #   false   = Installation had failed.
+    # -------------------------------
+    #>
+    hidden static [bool] __EmbedInstallerBurntToast([System.Collections.ArrayList] $temporaryDirectoryContents)
+    {
+        return $true;
+    } # __EmbedInstallerBurntToast()
+
+
+
+
+   <# Embed Installer - Install Project
+    # -------------------------------
+    # Documentation:
+    #  This function will try to install the desired project(s) onto the
+    #   user's system.  By doing this, we will need to assure that the
+    #   environment is ready as well as possible updates to an already
+    #   existing Burnt Toast installation.
+    # -------------------------------
+    # Input:
+    #  [System.Collections.ArrayList] File Collection
+    #   This will hold *.ZIP files that had been placed within the temporary directory.
+    # -------------------------------
+    # Output:
+    #  Installation status
+    #   true    = Installation was successful.
+    #   false   = Installation had failed.
+    # -------------------------------
+    #>
+    hidden static [bool] __EmbedInstallerProject([System.Collections.ArrayList] $temporaryDirectoryContents)
+    {
+        return $true;
+    } # __EmbedInstallerProject()
 } # EmbedInstaller
 
 
