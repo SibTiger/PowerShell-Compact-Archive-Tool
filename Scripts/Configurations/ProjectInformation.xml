@@ -1,0 +1,27 @@
+<Objs Version="1.1.0.1" xmlns="http://schemas.microsoft.com/powershell/2004/04">
+  <Obj RefId="0">
+    <TN RefId="0">
+      <T>System.Object[]</T>
+      <T>System.Array</T>
+      <T>System.Object</T>
+    </TN>
+    <LST>
+      <Obj RefId="1">
+        <TN RefId="1">
+          <T>ProjectInformation</T>
+          <T>System.Object</T>
+        </TN>
+        <ToString>ProjectInformation_</ToString>
+        <Props>
+          <S N="projectName">projectNameHere</S>
+          <S N="codeName">projectsCodeNameHere</S>
+          <S N="version">1.0.0</S>
+          <S N="fileName">projectsFileNameHere</S>
+          <S N="urlWebsite">127.0.0.1:80</S>
+          <S N="urlWiki">127.0.0.1:80</S>
+          <S N="urlSource">127.0.0.1:80</S>
+        </Props>
+      </Obj>
+    </LST>
+  </Obj>
+</Objs>
