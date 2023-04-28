@@ -161,6 +161,12 @@
         -Force `
         -ErrorAction SilentlyContinue;
 
+    # Project's Art Directory Path
+    Remove-Variable -Name "_USERDATA_ART_PATH_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
     # Program-Data Root Directory Path
     Remove-Variable -Name "_PROGRAMDATA_ROOT_LOCAL_PATH_" `
         -Scope Global `

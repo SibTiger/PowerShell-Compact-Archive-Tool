@@ -258,6 +258,15 @@ function InitializationDirectory()
         -Description "Holds the path for all developmental compiled builds that will be stored.";
 
 
+    # Project Art Directory Path
+    # ---------------
+    # The directory that will contain the project's images that will be visible using Windows' Toast Notifications.
+    Set-Variable -Name "_USERDATA_ART_PATH_" -Value "$($GLOBAL:_USERDATA_PROJECT_PATH_)\Art" `
+        -Scope Global -Force -Option ReadOnly -ErrorAction SilentlyContinue `
+        -Visibility Public `
+        -Description "Holds the path for the project's art pieces, such as logo and banner images.";
+
+
     # ----
     # Program Data [Local AppData]
 
