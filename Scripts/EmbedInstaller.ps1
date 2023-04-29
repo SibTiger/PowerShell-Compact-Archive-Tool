@@ -506,7 +506,7 @@ class EmbedInstaller
 
 
 
-   <# Embed Installer - Install Project
+   <# Embed Installer - Install Projects
     # -------------------------------
     # Documentation:
     #  This function will try to install the desired project(s) onto the
@@ -524,10 +524,10 @@ class EmbedInstaller
     #   false   = Installation had failed.
     # -------------------------------
     #>
-    hidden static [bool] __EmbedInstallerProject([System.Collections.ArrayList] $temporaryDirectoryContents)
+    hidden static [bool] __EmbedInstallerProjects([System.Collections.ArrayList] $temporaryDirectoryContents)
     {
         return $true;
-    } # __EmbedInstallerProject()
+    } # __EmbedInstallerProjects()
 } # EmbedInstaller
 
 
