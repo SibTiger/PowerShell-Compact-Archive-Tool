@@ -11,7 +11,7 @@
           <T>ProjectInformation</T>
           <T>System.Object</T>
         </TN>
-        <ToString>ProjectInformation_</ToString>
+        <ToString>ProjectInformation</ToString>
         <Props>
           <S N="projectName">projectNameHere</S>
           <S N="codeName">projectsCodeNameHere</S>
