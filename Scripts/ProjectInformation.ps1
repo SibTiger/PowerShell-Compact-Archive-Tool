@@ -88,4 +88,13 @@ class ProjectInformation
     #  allow the user to view the project's source code via their preferred web-browser.  Prime example
     #  of Repositories: GitHub, SourceForge, BitBucket, GitLab, and many more.
     Static [string] $urlSource = "";
+
+
+    # Project's Path
+    # ---------------
+    # This will provide the location as to where the project is located within the host's system.
+    #  More specifically, where the user has it stored within their system.  By having this member
+    #   variable available, we can easily auto-assign this with the desired path already provided
+    #   by the user during load.
+    Static [string] $pathToProject = "";
 } # ProjectInformation
