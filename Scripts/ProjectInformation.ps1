@@ -33,36 +33,99 @@
 
 class ProjectInformation
 {
+    # Object Singleton Instance
+    # =================================================
+    # =================================================
+
+
+    #region Singleton Instance
+
+    # Singleton Instance of the object
+    hidden static [ProjectInformation] $_instance = $null;
+
+
+
+
+    # Get the instance of this singleton object (Default)
+    static [ProjectInformation] GetInstance()
+    {
+        # if there was no previous instance of the object - then create one.
+        if ($null -eq [ProjectInformation]::_instance)
+        {
+            # Create a new instance of the singleton object.
+            [ProjectInformation]::_instance = [ProjectInformation]::new();
+        } # If : No Singleton Instance
+
+        # Provide an instance of the object.
+        return [ProjectInformation]::_instance;
+    } # GetInstance()
+
+
+
+
+    # Get the instance of this singleton object (with Args)
+    #  Useful if we already know that we have to instantiate
+    #  a new instance of this particular object.
+    static [ProjectInformation] GetInstance([string] $projectName,      `   # Project's full name
+                                            [string] $codeName,         `   # Project's Codename (or version codename)
+                                            [string] $compilerVersion,  `   # Project's Compiler Version
+                                            [string] $fileName,         `   # Project's Filename (compiled name)
+                                            [string] $urlWebsite,       `   # Project's Website Link
+                                            [string] $urlWiki,          `   # Project's Wiki Link
+                                            [string] $urlSource,        `   # Project's Source Line
+                                            [string] $pathToSource)         # Project's Source files; local filesystem path.
+    {
+        # if there was no previous instance of the object - then create one.
+        if ($null -eq [ProjectInformation]::_instance)
+        {
+            # Create a new instance of the singleton object.
+            [ProjectInformation]::_instance = [ProjectInformation]::new($projectName,       $codeName,
+                                                                        $compilerVersion,   $fileName,
+                                                                        $urlWebsite,        $urlWiki,
+                                                                        $urlSource,         $pathToSource);
+        } # If : No Singleton Instance
+
+        # Provide an instance of the object.
+        return [ProjectInformation]::_instance;
+    } # GetInstance()
+
+    #endregion
+
+
+
+
     # Member Variables :: Properties
     # =================================================
     # =================================================
 
 
+    #region Private Variables (emulated)
+
     # Project's Name
     # ---------------
     # The formal name of the project.
-    Static [string] $projectName = "projectNameHere";
+    Hidden [string] $__projectName = "projectNameHere";
 
 
     # Project's Code Name (or Version Code Name)
     # ---------------
     # The code name of the overall project or version of the project.
-    Static [string] $codeName = "projectsCodeNameHere";
+    Hidden [string] $__codeName = "projectsCodeNameHere";
 
 
-    # Project Version
+    # Project's Compiler Version
     # ---------------
     # The base version of the project's version within this program.
     # NOTE: The version does not reflect the version of the project
     #           itself, but the version in regards to this program.
-    Static [string] $version = "";
+    Hidden [string] $__compilerVersion = "";
 
 
     # Output Filename
     # ---------------
     # The filename that will be used in compiled builds.
     # NOTE: Remember that /idgames has a fixed 8char upper-limit!
-    Static [string] $fileName = "projectsFileNameHere";
+    Hidden [string] $__fileName = "projectsFileNameHere";
 
 
     # Project's Website
@@ -70,7 +133,7 @@ class ProjectInformation
     # The project's official website; which can be accessed by the end-user by request.  This can be
     #  helpful to the user, in-which they may check out the project's latest public announcements and
     #  insights regarding the project.
-    Static [string] $urlWebsite = "";
+    Hidden [string] $__urlWebsite = "";
 
 
     # Project's Help Documentation
@@ -79,7 +142,7 @@ class ProjectInformation
     #  greatly be helpful to the user, as they may view the project's help-documentation for abroad
     #  reasons but not limited to using this very tool.
     # NOTE: Wiki's are usually provided in some Developer\Repositories Web-Services, such as GitHub.
-    Static [string] $urlWiki = "";
+    Hidden [string] $__urlWiki = "";
 
 
     # Project's Repository
@@ -87,7 +150,7 @@ class ProjectInformation
     # The project's official repository; which can be accessed by the end-user by request.  This can
     #  allow the user to view the project's source code via their preferred web-browser.  Prime example
     #  of Repositories: GitHub, SourceForge, BitBucket, GitLab, and many more.
-    Static [string] $urlSource = "";
+    Hidden [string] $__urlSource = "";
 
 
     # Project's Path
@@ -96,5 +159,485 @@ class ProjectInformation
     #  More specifically, where the user has it stored within their system.  By having this member
     #   variable available, we can easily auto-assign this with the desired path already provided
     #   by the user during load.
-    Static [string] $pathToProject = "";
+    Hidden [string] $__pathToProject = "";
+
+    #endregion
+
+
+
+
+    # Member Functions :: Methods
+    # =================================================
+    # =================================================
+
+
+    #region Constructor Functions
+
+    # Default Constructor
+    ProjectInformation()
+    {
+        # Project Name
+        $this.__projectName     = $null;
+
+        # Code Name
+        $this.__codeName        = $null;
+
+        # Compile Version
+        $this.__compilerVersion = $null;
+
+        # File Name
+        $this.__fileName        = $null;
+
+        # Website URL
+        $this.__urlWebsite      = $null;
+
+        # Wiki URL
+        $this.__urlWiki         = $null;
+
+        # Source Repository URL
+        $this.__urlSource       = $null;
+
+        # File Path
+        $this.__pathToProject   = $null;
+    } # Default Constructor
+
+
+
+
+    # Project Information : On-Demand
+    ProjectInformation([string] $projectName,       `   # Project's full name
+                        [string] $codeName,         `   # Project's Codename (or version codename)
+                        [string] $CompilerVersion,  `   # Project's Compiler Version
+                        [string] $fileName,         `   # Project's Filename (compiled name)
+                        [string] $urlWebsite,       `   # Project's Website Link
+                        [string] $urlWiki,          `   # Project's Wiki Link
+                        [string] $urlSource,        `   # Project's Source Line
+                        [string] $pathToSource)         # Project's Source files; local filesystem path.
+    {
+        # Project Name
+        $this.__projectName     = $projectName;
+
+        # Code Name
+        $this.__codeName        = $codeName;
+
+        # Compile Version
+        $this.__compilerVersion = $compilerVersion;
+
+        # File Name
+        $this.__fileName        = $fileName;
+
+        # Website URL
+        $this.__urlWebsite      = $urlWebsite;
+
+        # Wiki URL
+        $this.__urlWiki         = $urlWiki;
+
+        # Source Repository URL
+        $this.__urlSource       = $urlSource;
+
+        # File Path
+        $this.__pathToProject   = $pathToSource;
+    } # Project Information Constructor
+
+
+
+
+    #region Getter Functions
+
+   <# Get Project Name
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the 'Project Name' variable.
+    # -------------------------------
+    # Output:
+    #  [String] Project Name
+    #   The value of the 'Project Name'.
+    # -------------------------------
+    #>
+    [String] GetProjectName()
+    {
+        return $this.__projectName;
+    } # GetProjectName()
+
+
+
+
+   <# Get Code Name
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the 'Code Name' variable.
+    # -------------------------------
+    # Output:
+    #  [String] Code Name
+    #   The value of the 'Code Name'.
+    # -------------------------------
+    #>
+    [String] GetCodeName()
+    {
+        return $this.__codeName;
+    } # GetCodeName()
+
+
+
+
+   <# Get Compiler Version
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the 'Compiler Version' variable.
+    # -------------------------------
+    # Output:
+    #  [String] Compiler Version
+    #   The value of the 'Compiler Version'.
+    # -------------------------------
+    #>
+    [String] GetCompilerVersion()
+    {
+        return $this.__compilerVersion;
+    } # GetCompilerVersion()
+
+
+
+
+   <# Get File Name
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the 'File Name' variable.
+    # -------------------------------
+    # Output:
+    #  [String] File Name
+    #   The value of the 'File Name'.
+    # -------------------------------
+    #>
+    [String] GetFileName()
+    {
+        return $this.__fileName;
+    } # GetFileName()
+
+
+
+
+   <# Get Website URL
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the 'Website URL' variable.
+    # -------------------------------
+    # Output:
+    #  [String] Website URL
+    #   The value of the 'Website URL'.
+    # -------------------------------
+    #>
+    [String] GetURLWebsite()
+    {
+        return $this.__urlWebsite;
+    } # GetURLWebsite()
+
+
+
+
+   <# Get Wiki URL
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the 'Wiki URL' variable.
+    # -------------------------------
+    # Output:
+    #  [String] Wiki URL
+    #   The value of the 'Wiki URL'.
+    # -------------------------------
+    #>
+    [String] GetURLWiki()
+    {
+        return $this.__urlWiki;
+    } # GetURLWiki()
+
+
+
+
+   <# Get Source URL
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the 'Source URL' variable.
+    # -------------------------------
+    # Output:
+    #  [String] Source URL
+    #   The value of the 'Source URL'.
+    # -------------------------------
+    #>
+    [String] GetURLSource()
+    {
+        return $this.__urlSource;
+    } # GetURLSource()
+
+
+
+
+   <# Get Path to Project
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the 'Path to Project' variable.
+    # -------------------------------
+    # Output:
+    #  [String] Path to Project
+    #   The value of the 'Path to Project'.
+    # -------------------------------
+    #>
+    [String] GetPathToProject()
+    {
+        return $this.__pathToProject;
+    } # GetPathToProject()
+
+    #endregion
+
+
+
+
+    #region Setter Functions
+
+   <# Set Project Name
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'Project Name' variable.
+    # -------------------------------
+    # Input:
+    #  [string] Project Name
+    #   Defines the Project's Name variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetProjectName([string] $newVal)
+    {
+        # Insure that the provided value is not null.
+        # If it is null, we cannot accept the change as it is a mandatory value.
+        if ($null -eq $newVal) { return $false; }
+
+
+        # Set the Project Name as requested.
+        $this.__projectName = $newVal;
+
+
+        # Finished!
+        return $true;
+    } # SetProjectName()
+
+
+
+
+   <# Set Project's Code Name
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'Code Name' variable.
+    # -------------------------------
+    # Input:
+    #  [string] Code Name
+    #   Defines the Project's Code Name variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetCodeName([string] $newVal)
+    {
+        # Insure that the provided value is not null.
+        # If it is null, we cannot accept the change as it is a mandatory value.
+        if ($null -eq $newVal) { return $false; }
+
+
+        # Set the Project's Code Name as requested.
+        $this.__codeName = $newVal;
+
+
+        # Finished!
+        return $true;
+    } # SetCodeName()
+
+
+
+
+   <# Set Compiler Version
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'Compiler Version' variable.
+    # -------------------------------
+    # Input:
+    #  [string] Compiler Version
+    #   Defines the Project's Compiler Version variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetCompilerVersion([string] $newVal)
+    {
+        # Insure that the provided value is not null.
+        # If it is null, we cannot accept the change as it is a mandatory value.
+        if ($null -eq $newVal) { return $false; }
+
+
+        # Set the Project's Compiler Version as requested.
+        $this.__compilerVersion = $newVal;
+
+
+        # Finished!
+        return $true;
+    } # SetCompilerVersion()
+
+
+
+
+   <# Set File Name
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'File Name' variable.
+    # -------------------------------
+    # Input:
+    #  [string] File Name
+    #   Defines the File Name variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetFileName([string] $newVal)
+    {
+        # Insure that the provided value is not null.
+        # If it is null, we cannot accept the change as it is a mandatory value.
+        if ($null -eq $newVal) { return $false; }
+
+
+        # Set the File Name as requested.
+        $this.__fileName = $newVal;
+
+
+        # Finished!
+        return $true;
+    } # SetFileName()
+
+
+
+
+   <# Set Website URL
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'Website URL' variable.
+    # -------------------------------
+    # Input:
+    #  [string] Website URL
+    #   Defines the Website URL variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetURLWebsite([string] $newVal)
+    {
+        # Set the URL Website as requested.
+        $this.__urlWebsite = $newVal;
+
+
+        # Finished!
+        return $true;
+    } # SetURLWebsite()
+
+
+
+
+   <# Set Wiki URL
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'Wiki URL' variable.
+    # -------------------------------
+    # Input:
+    #  [string] Wiki URL
+    #   Defines the Wiki URL variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetURLWiki([string] $newVal)
+    {
+        # Set the URL Wiki as requested.
+        $this.__urlWiki = $newVal;
+
+
+        # Finished!
+        return $true;
+    } # SetURLWiki()
+
+
+
+
+   <# Set Source URL
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'Source URL' variable.
+    # -------------------------------
+    # Input:
+    #  [string] Source URL
+    #   Defines the Source URL variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetURLSource([string] $newVal)
+    {
+        # Set the URL Source as requested.
+        $this.__urlSource = $newVal;
+
+
+        # Finished!
+        return $true;
+    } # SetURLSource()
+
+
+
+
+   <# Set Path to Project
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'Path to Project' variable.
+    # -------------------------------
+    # Input:
+    #  [string] Path to Project
+    #   Defines the Path to Project variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetPathToProject([string] $newVal)
+    {
+        # Inspect to see if the path
+        if (Test-Path $newVal.Trim())
+        {
+            # Path exists; use it as requested.
+            $this.__pathToProject = $newVal;
+
+
+            # Finished successfully
+            return $true;
+        } # if : Path Exists
+
+
+        # Failure; Path did not exist.
+        return $false;
+    } # SetPathToProject()
 } # ProjectInformation
