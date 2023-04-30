@@ -226,7 +226,7 @@ function InitializationDirectory()
     # ---------------
     # The project's parent directory where the user's data will be stored.
     Set-Variable -Name "_USERDATA_PROJECT_PATH_" -Value "$($GLOBAL:_USERDATA_ROOT_PATH_)\$([ProjectInformation]::projectName)" `
-        -Scope Global -Force -Option ReadOnly -ErrorAction SilentlyContinue `
+        -Scope Global -Force -Option None -ErrorAction SilentlyContinue `
         -Visibility Public `
         -Description "Provides the project's directory to help separate from other potential projects.";
 
@@ -235,7 +235,7 @@ function InitializationDirectory()
     # ---------------
     # The root directory that the builds reside.
     Set-Variable -Name "_USERDATA_BUILDS_PATH_" -Value "$($GLOBAL:_USERDATA_PROJECT_PATH_)\Builds" `
-        -Scope Global -Force -Option ReadOnly -ErrorAction SilentlyContinue `
+        -Scope Global -Force -Option None -ErrorAction SilentlyContinue `
         -Visibility Public `
         -Description "Holds the parent path in which all complied builds will be stored.";
 
@@ -244,7 +244,7 @@ function InitializationDirectory()
     # ---------------
     # The directory that holds the 'Release' builds.
     Set-Variable -Name "_USERDATA_RELEASEBUILDS_PATH_" -Value "$($GLOBAL:_USERDATA_BUILDS_PATH_)\Release" `
-        -Scope Global -Force -Option ReadOnly -ErrorAction SilentlyContinue `
+        -Scope Global -Force -Option None -ErrorAction SilentlyContinue `
         -Visibility Public `
         -Description "Holds the path for all released compiled builds that will be stored.";
 
@@ -253,7 +253,7 @@ function InitializationDirectory()
     # ---------------
     # The directory that holds the 'Development' builds.
     Set-Variable -Name "_USERDATA_DEVBUILDS_PATH_" -Value "$($GLOBAL:_USERDATA_BUILDS_PATH_)\Development" `
-        -Scope Global -Force -Option ReadOnly -ErrorAction SilentlyContinue `
+        -Scope Global -Force -Option None -ErrorAction SilentlyContinue `
         -Visibility Public `
         -Description "Holds the path for all developmental compiled builds that will be stored.";
 
@@ -262,7 +262,7 @@ function InitializationDirectory()
     # ---------------
     # The directory that will contain the project's images that will be visible using Windows' Toast Notifications.
     Set-Variable -Name "_USERDATA_ART_PATH_" -Value "$($GLOBAL:_USERDATA_PROJECT_PATH_)\Art" `
-        -Scope Global -Force -Option ReadOnly -ErrorAction SilentlyContinue `
+        -Scope Global -Force -Option None -ErrorAction SilentlyContinue `
         -Visibility Public `
         -Description "Holds the path for the project's art pieces, such as logo and banner images.";
 
@@ -284,7 +284,7 @@ function InitializationDirectory()
     # ---------------
     # The project parent directory where program-data will be stored.
     Set-Variable -Name "_PROGRAMDATA_PROJECT_PATH_" -Value "$($GLOBAL:_PROGRAMDATA_ROOT_LOCAL_PATH_)\$([ProjectInformation]::projectName)" `
-        -Scope Global -Force -Option ReadOnly -ErrorAction SilentlyContinue `
+        -Scope Global -Force -Option None -ErrorAction SilentlyContinue `
         -Visibility Public `
         -Description "Contains the path of where all related program data will be stored that is affiliated with the loaded project.";
 
@@ -294,7 +294,7 @@ function InitializationDirectory()
     # The directory that will contain the log-files regarding this program and some special
     #  operations.
     Set-Variable -Name "_PROGRAMDATA_LOGS_PATH_" -Value "$($GLOBAL:_PROGRAMDATA_PROJECT_PATH_)\Logs" `
-        -Scope Global -Force -Option ReadOnly -ErrorAction SilentlyContinue `
+        -Scope Global -Force -Option None -ErrorAction SilentlyContinue `
         -Visibility Public `
         -Description "Holds the parent path in which all of the logfiles will be stored.";
 
