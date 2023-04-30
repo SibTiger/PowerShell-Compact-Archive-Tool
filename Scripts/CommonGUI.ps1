@@ -304,7 +304,7 @@ class CommonGUI
 
         # If we made it this far, then we know that the user had chosen one or many files.
         #  Provide the file(s) that the user had selected.
-        foreach ($i in $fileBrowser.FileNames){$files.Add($i);}
+        foreach ($i in $fileBrowser.FileNames) { $files.Add($i); }
 
 
         # Let the calling function know that the user provided atleast one file.
