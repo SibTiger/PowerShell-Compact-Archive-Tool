@@ -71,7 +71,6 @@ class UserPreferences
     #  Useful if we already know that we have to instantiate
     #  a new instance of this particular object.
     static [UserPreferences] GetInstance([UserPreferencesCompressTool] $compressionTool, `      # Which Compression Software to use
-                                        [string] $projectPath, `                                # Project's absolute path
                                         [string] $outputBuildsPath, `                           # Output Builds absolute path
                                         [UserPreferencesVersionControlTool] $versionControl)    # Utilize Git features (if software available)
     {
@@ -80,7 +79,6 @@ class UserPreferences
         {
             # Create a new instance of the singleton object.
             [UserPreferences]::_instance = [UserPreferences]::new($compressionTool, `
-                                                                $projectPath, `
                                                                 $outputBuildsPath, `
                                                                 $versionControl);
         } # If: No Singleton Instance
@@ -105,12 +103,6 @@ class UserPreferences
     # ---------------
     # The choice of which software tool will be used for generating archive data-files.
     Hidden [UserPreferencesCompressTool] $__compressionTool;
-
-
-    # Project Path
-    # ---------------
-    # The absolute path of the ZDoom based project in-which to compile.
-    Hidden [string] $__projectPath;
 
 
     # Project Builds Path
@@ -149,9 +141,6 @@ class UserPreferences
         # Compression Tool
         $this.__compressionTool = [UserPreferencesCompressTool]::InternalZip;
 
-        # Project Path
-        $this.__projectPath = ".\";
-
         # Output Build Path
         $this.__outputBuildsPath = $global:_USERDATA_BUILDS_PATH_;
 
@@ -167,15 +156,11 @@ class UserPreferences
 
     # User Preference : On-Load
     UserPreferences([UserPreferencesCompressTool] $compressionTool, `
-                    [string] $projectPath, `
                     [string] $outputBuildsPath, `
                     [UserPreferencesVersionControlTool] $versionControl)
     {
         # Compression Tool
         $this.__compressionTool = $compressionTool;
-
-        # Project Path
-        $this.__projectPath = $projectPath;
 
         # Output Build Path
         $this.__outputBuildsPath = $outputBuildsPath;
@@ -207,24 +192,6 @@ class UserPreferences
     {
         return $this.__compressionTool;
     } # GetCompressionTool()
-
-
-
-
-   <# Get Project Path
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'Project Path' variable.
-    # -------------------------------
-    # Output:
-    #  [string] Project Path
-    #   The value of the Project Path.
-    # -------------------------------
-    #>
-    [string] GetProjectPath()
-    {
-        return $this.__projectPath;
-    } # GetProjectPath()
 
 
 
@@ -313,38 +280,6 @@ class UserPreferences
         # Successfully updated.
         return $true;
     } # SetCompressionTool()
-
-
-
-
-   <# Set Project Path
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Project Path' variable.
-    # -------------------------------
-    # Input:
-    #  [string] Project Directory Path
-    #   The new location of the Project Directory Path.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetProjectPath([string] $newVal)
-    {
-        # Inspect to see if the path exists
-        if (Test-Path $newVal.trim())
-        {
-            # Path exists; use it as requested
-            $this.__projectPath = $newVal;
-            return $true;
-        } # IF: Path Exists
-
-        # Failure; Path does not exist.
-        return $false;
-    } # SetProjectPath()
 
 
 
