@@ -73,7 +73,7 @@ class ProjectInformation
                                             [string] $urlWebsite,       `   # Project's Website Link
                                             [string] $urlWiki,          `   # Project's Wiki Link
                                             [string] $urlSource,        `   # Project's Source Line
-                                            [string] $pathToSource)         # Project's Source files; local filesystem path.
+                                            [string] $projectPath)          # Project's Source files; local filesystem path.
     {
         # if there was no previous instance of the object - then create one.
         if ($null -eq [ProjectInformation]::_instance)
@@ -82,7 +82,7 @@ class ProjectInformation
             [ProjectInformation]::_instance = [ProjectInformation]::new($projectName,       $codeName,
                                                                         $compilerVersion,   $fileName,
                                                                         $urlWebsite,        $urlWiki,
-                                                                        $urlSource,         $pathToSource);
+                                                                        $urlSource,         $projectPath);
         } # If : No Singleton Instance
 
         # Provide an instance of the object.
@@ -159,7 +159,7 @@ class ProjectInformation
     #  More specifically, where the user has it stored within their system.  By having this member
     #   variable available, we can easily auto-assign this with the desired path already provided
     #   by the user during load.
-    Hidden [string] $__pathToProject = "";
+    Hidden [string] $__projectPath = "";
 
     #endregion
 
@@ -197,8 +197,8 @@ class ProjectInformation
         # Source Repository URL
         $this.__urlSource       = $null;
 
-        $this.__pathToProject   = $null;
         # Project Path
+        $this.__projectPath     = $null;
     } # Default Constructor
 
 
@@ -212,7 +212,7 @@ class ProjectInformation
                         [string] $urlWebsite,       `   # Project's Website Link
                         [string] $urlWiki,          `   # Project's Wiki Link
                         [string] $urlSource,        `   # Project's Source Line
-                        [string] $pathToSource)         # Project's Source files; local filesystem path.
+                        [string] $projectPath)          # Project's Source files; local filesystem path.
     {
         # Project Name
         $this.__projectName     = $projectName;
@@ -235,8 +235,8 @@ class ProjectInformation
         # Source Repository URL
         $this.__urlSource       = $urlSource;
 
-        $this.__pathToProject   = $pathToSource;
         # Project Path
+        $this.__projectPath     = $projectPath;
     } # Project Information Constructor
 
 
@@ -370,20 +370,17 @@ class ProjectInformation
 
 
 
-   <# Get Path to Project
+   <# Get Project Path
     # -------------------------------
     # Documentation:
-    #  Returns the value of the 'Path to Project' variable.
+    #  Returns the value of the 'Project Path' variable.
     # -------------------------------
     # Output:
-    #  [String] Path to Project
-    #   The value of the 'Path to Project'.
+    #  [String] Project Path
+    #   The value of the 'Project Path'.
     # -------------------------------
     #>
-    [String] GetPathToProject()
-    {
-        return $this.__pathToProject;
-    } # GetPathToProject()
+    [String] GetProjectPath() { return $this.__projectPath; }
 
     #endregion
 
@@ -608,14 +605,14 @@ class ProjectInformation
 
 
 
-   <# Set Path to Project
+   <# Set Project Path
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the 'Path to Project' variable.
+    #  Sets a new value for the 'Project Path' variable.
     # -------------------------------
     # Input:
-    #  [string] Path to Project
-    #   Defines the Path to Project variable.
+    #  [string] Project Path
+    #   Defines the Project Path variable.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -623,13 +620,13 @@ class ProjectInformation
     #   false = Failure; could not set a new value.
     # -------------------------------
     #>
-    [bool] SetPathToProject([string] $newVal)
+    [bool] SetProjectPath([string] $newVal)
     {
         # Inspect to see if the path
         if (Test-Path $newVal.Trim())
         {
             # Path exists; use it as requested.
-            $this.__pathToProject = $newVal;
+            $this.__projectPath = $newVal;
 
 
             # Finished successfully
@@ -639,5 +636,5 @@ class ProjectInformation
 
         # Failure; Path did not exist.
         return $false;
-    } # SetPathToProject()
+    } # SetProjectPath()
 } # ProjectInformation
