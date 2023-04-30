@@ -254,10 +254,7 @@ class ProjectInformation
     #   The value of the 'Project Name'.
     # -------------------------------
     #>
-    [String] GetProjectName()
-    {
-        return $this.__projectName;
-    } # GetProjectName()
+    [String] GetProjectName() { return $this.__projectName; }
 
 
 
@@ -272,10 +269,7 @@ class ProjectInformation
     #   The value of the 'Code Name'.
     # -------------------------------
     #>
-    [String] GetCodeName()
-    {
-        return $this.__codeName;
-    } # GetCodeName()
+    [String] GetCodeName() { return $this.__codeName; }
 
 
 
@@ -290,10 +284,7 @@ class ProjectInformation
     #   The value of the 'Compiler Version'.
     # -------------------------------
     #>
-    [String] GetCompilerVersion()
-    {
-        return $this.__compilerVersion;
-    } # GetCompilerVersion()
+    [String] GetCompilerVersion() { return $this.__compilerVersion; }
 
 
 
@@ -308,10 +299,7 @@ class ProjectInformation
     #   The value of the 'File Name'.
     # -------------------------------
     #>
-    [String] GetFileName()
-    {
-        return $this.__fileName;
-    } # GetFileName()
+    [String] GetFileName() { return $this.__fileName; }
 
 
 
@@ -326,10 +314,7 @@ class ProjectInformation
     #   The value of the 'Website URL'.
     # -------------------------------
     #>
-    [String] GetURLWebsite()
-    {
-        return $this.__urlWebsite;
-    } # GetURLWebsite()
+    [String] GetURLWebsite() { return $this.__urlWebsite; }
 
 
 
@@ -344,10 +329,7 @@ class ProjectInformation
     #   The value of the 'Wiki URL'.
     # -------------------------------
     #>
-    [String] GetURLWiki()
-    {
-        return $this.__urlWiki;
-    } # GetURLWiki()
+    [String] GetURLWiki() { return $this.__urlWiki; }
 
 
 
@@ -362,10 +344,7 @@ class ProjectInformation
     #   The value of the 'Source URL'.
     # -------------------------------
     #>
-    [String] GetURLSource()
-    {
-        return $this.__urlSource;
-    } # GetURLSource()
+    [String] GetURLSource() { return $this.__urlSource; }
 
 
 
