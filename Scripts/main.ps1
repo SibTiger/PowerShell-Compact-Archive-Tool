@@ -135,6 +135,11 @@ CreateDirectories | Out-Null;
 [LoadSaveUserConfiguration] $loadSaveUserConfiguration = `
                                 [LoadSaveUserConfiguration]::GetInstance();
 
+
+# Initialize the main Project Information object
+[ProjectInformation] $projectInformation = `
+                                [ProjectInformation]::GetInstance();
+
 #endregion
 
 
