@@ -66,7 +66,7 @@ function main()
 
 
     # Provide a new Window Title
-    [CommonIO]::SetTerminalWindowTitle("$($Global:_PROGRAMNAME_) (Version $($Global:_VERSION_)) for $([ProjectInformation]::projectName) - $([ProjectInformation]::codeName)");
+    [CommonIO]::SetTerminalWindowTitle("$($Global:_PROGRAMNAME_) (Version $($Global:_VERSION_))");
 
 
     # Load the user's configurations, if available.
