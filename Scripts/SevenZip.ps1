@@ -328,10 +328,7 @@ class SevenZip
     #   The value of the 'Executable Path' to the 7z.exe binary file.
     # -------------------------------
     #>
-    [string] GetExecutablePath()
-    {
-        return $this.__executablePath;
-    } # GetExecutablePath()
+    [string] GetExecutablePath() { return $this.__executablePath; }
 
 
 
@@ -346,10 +343,7 @@ class SevenZip
     #   The value of the 'Compression Method'.
     # -------------------------------
     #>
-    [SevenZipCompressionMethod] GetCompressionMethod()
-    {
-        return $this.__compressionMethod;
-    } # GetCompressionMethod()
+    [SevenZipCompressionMethod] GetCompressionMethod() { return $this.__compressionMethod; }
 
 
 
@@ -364,10 +358,7 @@ class SevenZip
     #   The value of the 'Compression Algorithm'.
     # -------------------------------
     #>
-    [SevenZipAlgorithmZip] GetAlgorithmZip()
-    {
-        return $this.__algorithmZip;
-    } # GetAlgorithmZip()
+    [SevenZipAlgorithmZip] GetAlgorithmZip() { return $this.__algorithmZip; }
 
 
 
@@ -382,10 +373,7 @@ class SevenZip
     #   The value of the Compression Algorithm.
     # -------------------------------
     #>
-    [SevenZipAlgorithm7Zip] GetAlgorithm7Zip()
-    {
-        return $this.__algorithm7Zip;
-    } # GetAlgorithm7Zip()
+    [SevenZipAlgorithm7Zip] GetAlgorithm7Zip() { return $this.__algorithm7Zip; }
 
 
 
@@ -400,10 +388,7 @@ class SevenZip
     #   The value of the 'Compression Level'.
     # -------------------------------
     #>
-    [SevenZipCompressionLevel] GetCompressionLevel()
-    {
-        return $this.__compressionLevel;
-    } # GetCompressionLevel()
+    [SevenZipCompressionLevel] GetCompressionLevel() { return $this.__compressionLevel; }
 
 
 
@@ -418,10 +403,7 @@ class SevenZip
     #   The value of the 'Verify Build'.
     # -------------------------------
     #>
-    [bool] GetVerifyBuild()
-    {
-        return $this.__verifyBuild;
-    } # GetVerifyBuild()
+    [bool] GetVerifyBuild() { return $this.__verifyBuild; }
 
 
 
@@ -436,10 +418,7 @@ class SevenZip
     #   The value of the 'Generate Report'.
     # -------------------------------
     #>
-    [bool] GetGenerateReport()
-    {
-        return $this.__generateReport;
-    } # GetGenerateReport()
+    [bool] GetGenerateReport() { return $this.__generateReport; }
 
 
 
@@ -454,10 +433,7 @@ class SevenZip
     #   The value of the 'Generate Report - PDF File'.
     # -------------------------------
     #>
-    [bool] GetGenerateReportFilePDF()
-    {
-        return $this.__generateReportFilePDF;
-    } # GetGenerateReportFilePDF()
+    [bool] GetGenerateReportFilePDF() { return $this.__generateReportFilePDF; }
 
 
 
@@ -472,10 +448,7 @@ class SevenZip
     #   The value of the 'Report Directory Path'.
     # -------------------------------
     #>
-    [string] GetReportPath()
-    {
-        return $this.__reportPath;
-    } # GetReportPath()
+    [string] GetReportPath() { return $this.__reportPath; }
 
 
 
@@ -490,10 +463,7 @@ class SevenZip
     #   The value of the 'Log Directory Path'.
     # -------------------------------
     #>
-    [string] GetLogPath()
-    {
-        return $this.__logPath;
-    } # GetLogPath()
+    [string] GetLogPath() { return $this.__logPath; }
 
 
 
@@ -508,10 +478,7 @@ class SevenZip
     #   The value of the 'Log Root Directory Path'.
     # -------------------------------
     #>
-    [string] GetRootLogPath()
-    {
-        return $this.__rootLogPath;
-    } # GetRootLogPath()
+    [string] GetRootLogPath() { return $this.__rootLogPath; }
 
 
 
@@ -526,10 +493,7 @@ class SevenZip
     #   The value of the object's GUID.
     # -------------------------------
     #>
-    [GUID] GetObjectGUID()
-    {
-        return $this.__objectGUID;
-    } # GetObjectGUID()
+    [GUID] GetObjectGUID() { return $this.__objectGUID; }
 
 
     #endregion
