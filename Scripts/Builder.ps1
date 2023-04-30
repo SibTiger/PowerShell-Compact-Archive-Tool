@@ -360,6 +360,10 @@ class Builder
         #  preferences as to how 7Zip will be utilized within this application.
         [SevenZip] $sevenZip = [SevenZip]::GetInstance();
 
+        # Retrieve the current instance of the Project Information object; this contains details
+        #  in regards to where the source files exists within the user's system.
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+
         # We will use this variable to cache the detection status of a particular item that we want
         #  to check.  Instead of having to recall the exact same checking function over and over again,
         #  we will use this variable to merely cache the value as we step through each process within
@@ -386,7 +390,7 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
 
         # Check the current status of the Project Path
-        $boolCacheValue = [CommonIO]::CheckPathExists($userPreferences.GetProjectPath(), $true);
+        $boolCacheValue = [CommonIO]::CheckPathExists($projectInformation.GetProjectPath(), $true);
 
         # Can we find the project's source files?
         if ($boolCacheValue -eq $false)
@@ -411,7 +415,7 @@ class Builder
             # Generate a message to display to the user.
             [string] $displayErrorMessage = ("I am unable to find the $([ProjectInformation]::projectName) source files!`r`n" + `
                                             "Please reconfigure the path for the $([ProjectInformation]::projectName) project!`r`n" + `
-                                            "`t- $([ProjectInformation]::projectName) Project Path is presently: $($userPreferences.GetProjectPath())`r`n" + `
+                                            "`t- $([ProjectInformation]::projectName) Project Path is presently: $($projectInformation.GetProjectPath())`r`n" + `
                                             "`t- Path Exists Detection Status: $([string]$boolCacheValue)");
 
             # Generate the initial message
@@ -419,7 +423,7 @@ class Builder
 
             # Generate any additional information that might be useful
             $logAdditionalMSG = ("Please reconfigure the location of the $([ProjectInformation]::projectName) Project's Source.`r`n" + `
-                                "`tProject Source Location is: $($userPreferences.GetProjectPath())`r`n" + `
+                                "`tProject Source Location is: $($projectInformation.GetProjectPath())`r`n" + `
                                 "`tProject Source Path Exists: $([string]$boolCacheValue)");
 
             # Pass the information to the logging system
@@ -885,6 +889,10 @@ class Builder
         #  preferences as to how Git will be used within this application.
         [GitControl] $gitControl = [GitControl]::GetInstance();
 
+        # Retrieve the current instance of the Project Information object; this contains details
+        #  in regards to where the source files exists within the user's system.
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+
         # We will use this to hold the local repository's last branch update Commit ID.
         [string] $projectCommitIDNew = $NULL;           # Updated Local Repository Commit ID
         [string] $projectCommitIDOld = $NULL;           # Before the Update Commit ID
@@ -937,7 +945,7 @@ class Builder
 
         # If we made it this far, then we can try to update the project's source files.
         # Retrieve the current Commit ID of the selected Branch:
-        $projectCommitIDOld = $gitControl.FetchCommitID($userPreferences.GetProjectPath());
+        $projectCommitIDOld = $gitControl.FetchCommitID($projectInformation.GetProjectPath());
 
 
         # Show the user the current operation that is about to take place
@@ -946,7 +954,7 @@ class Builder
 
 
         # Try to update the local repository
-        if (!$gitControl.UpdateLocalRepository($userPreferences.GetProjectPath()))
+        if (!$gitControl.UpdateLocalRepository($projectInformation.GetProjectPath()))
         {
             # Reached an error while attempting to update the local repository.
 
@@ -1004,7 +1012,7 @@ class Builder
 
 
         # Retrieve the new Commit ID of the Local Repository's current state.
-        $projectCommitIDNew = $gitControl.FetchCommitID($userPreferences.GetProjectPath());
+        $projectCommitIDNew = $gitControl.FetchCommitID($projectInformation.GetProjectPath());
 
 
         # Show that the project's files had been updated!
@@ -1070,6 +1078,10 @@ class Builder
         # Retrieve the current instance of the User Preferences object; this contains the user's
         #  generalized settings.
         [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
+
+        # Retrieve the current instance of the Project Information object; this contains details
+        #  in regards to where the source files exists within the user's system.
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
         # ----------------------------------------
 
 
@@ -1087,7 +1099,7 @@ class Builder
         if ($makeDevBuild)
         {
             # Because we are constructing a developmental build of the project, we will append the SHA1 hash onto the filename.
-            $archiveFileName += "-dev_" + $gitControl.FetchCommitID($userPreferences.GetProjectPath());
+            $archiveFileName += "-dev_" + $gitControl.FetchCommitID($projectInformation.GetProjectPath());
         } # if: Dev. Build Request
 
 
@@ -1573,6 +1585,11 @@ class Builder
         [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
 
 
+        # Retrieve the current instance of the Project Information object; this contains details
+        #  in regards to where the source files exists within the user's system.
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+
+
         # Debugging Variables
         [string] $logMessage = $NULL;           # Main message regarding the logged event.
         [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
@@ -1581,12 +1598,12 @@ class Builder
 
         # Show that we are about to duplicate the project's source files.
         [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Duplicating $([ProjectInformation]::projectName) source files. . .");
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Source: $($userPreferences.GetProjectPath())");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Source: $($projectInformation.GetProjectPath())");
         [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Destination $($projectTemporaryPath)");
 
 
         # Try to duplicate the files
-        if (![CommonIO]::CopyDirectory("$($userPreferences.GetProjectPath())\*",    # Source Directory
+        if (![CommonIO]::CopyDirectory("$($projectInformation.GetProjectPath())\*",    # Source Directory
                                         $projectTemporaryPath))                     # Destination Directory
         {
             # Alert the user that an error had been reached
@@ -1611,7 +1628,7 @@ class Builder
             $logAdditionalMSG = ("Directories:`r`n" + `
                                 "`tTemporary Directory Root Location: $($env:TEMP)`r`n" + `
                                 "`tTemporary Directory Location: $($projectTemporaryPath)`r`n" + `
-                                "`t$([ProjectInformation]::projectName) Source Location: $($userPreferences.GetProjectPath())");
+                                "`t$([ProjectInformation]::projectName) Source Location: $($projectInformation.GetProjectPath())");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -1650,7 +1667,7 @@ class Builder
         $logAdditionalMSG = ("Directories:`r`n" + `
                             "`tTemporary Directory Root Location: $($env:TEMP)`r`n" + `
                             "`tTemporary Directory Location: $($projectTemporaryPath)`r`n" + `
-                            "`t$([ProjectInformation]::projectName) Source Location: $($userPreferences.GetProjectPath())");
+                            "`t$([ProjectInformation]::projectName) Source Location: $($projectInformation.GetProjectPath())");
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -2553,6 +2570,10 @@ class Builder
         # Retrieve the Git Control object
         [GitControl] $gitControl = [GitControl]::GetInstance();
 
+        # Retrieve the current instance of the Project Information object; this contains details
+        #  in regards to where the source files exists within the user's system.
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+
         # This will store the exit condition provided by the test function.
         [bool] $result = $false;
 
@@ -2610,7 +2631,7 @@ class Builder
         # Show that we are about to generate a report on the project's local repository.
         [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Generating report of the project's local repository");
         [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Report will be based on the " + [ProjectInformation]::projectName + " Local Repository.");
-        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "Using project path: " + $userPreferences.GetProjectPath());
+        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "Using project path: " + $projectInformation.GetProjectPath());
 
 
         # Let the user know that the report is being created
@@ -2618,7 +2639,7 @@ class Builder
 
 
         # Generate the report
-        if ($gitControl.CreateNewReport($userPreferences.GetProjectPath(), `
+        if ($gitControl.CreateNewReport($projectInformation.GetProjectPath(), `
                                         [ref] $fullPathReportTextFile, `
                                         [ref] $fullPathReportPDFFile))
         {
@@ -2679,7 +2700,7 @@ class Builder
         $logMessage = "Successfully attempted to create a report based on the project's local repository!";
 
         # Generate any additional information that might be useful
-        $logAdditionalMSG = ("Report based on the following project path: $($userPreferences.GetProjectPath())`r`n" + `
+        $logAdditionalMSG = ("Report based on the following project path: $($projectInformation.GetProjectPath())`r`n" + `
                             "`tNice Result Provided: $($resultNiceValue)`r`n" + `
                             "`tResult Given: $($result)");
 
