@@ -235,8 +235,8 @@ class ProjectInformation
         # Source Repository URL
         $this.__urlSource       = $urlSource;
 
-        # File Path
         $this.__pathToProject   = $pathToSource;
+        # Project Path
     } # Project Information Constructor
 
 
