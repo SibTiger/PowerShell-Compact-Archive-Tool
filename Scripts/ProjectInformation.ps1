@@ -197,8 +197,8 @@ class ProjectInformation
         # Source Repository URL
         $this.__urlSource       = $null;
 
-        # File Path
         $this.__pathToProject   = $null;
+        # Project Path
     } # Default Constructor
 
 
