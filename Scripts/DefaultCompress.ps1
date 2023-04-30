@@ -261,10 +261,7 @@ class DefaultCompress
     #   The value of the 'Compression Level'.
     # -------------------------------
     #>
-    [DefaultCompressionLevel] GetCompressionLevel()
-    {
-        return $this.__compressionLevel;
-    } # GetCompressionLevel()
+    [DefaultCompressionLevel] GetCompressionLevel() { return $this.__compressionLevel; }
 
 
 
@@ -279,10 +276,7 @@ class DefaultCompress
     #   The value of the 'Verify Build'.
     # -------------------------------
     #>
-    [bool] GetVerifyBuild()
-    {
-        return $this.__verifyBuild;
-    } # GetVerifyBuild()
+    [bool] GetVerifyBuild() { return $this.__verifyBuild; }
 
 
 
@@ -297,10 +291,7 @@ class DefaultCompress
     #   The value of the 'Generate Report'.
     # -------------------------------
     #>
-    [bool] GetGenerateReport()
-    {
-        return $this.__generateReport;
-    } # GetGenerateReport()
+    [bool] GetGenerateReport() { return $this.__generateReport; }
 
 
 
@@ -315,10 +306,7 @@ class DefaultCompress
     #   The value of the 'Generate Report - PDF File'.
     # -------------------------------
     #>
-    [bool] GetGenerateReportFilePDF()
-    {
-        return $this.__generateReportFilePDF;
-    } # GetGenerateReportFilePDF()
+    [bool] GetGenerateReportFilePDF() { return $this.__generateReportFilePDF; }
 
 
 
@@ -333,10 +321,7 @@ class DefaultCompress
     #   The value of the 'Report Directory Path'.
     # -------------------------------
     #>
-    [string] GetReportPath()
-    {
-        return $this.__reportPath;
-    } # GetReportPath()
+    [string] GetReportPath() { return $this.__reportPath; }
 
 
 
@@ -351,10 +336,7 @@ class DefaultCompress
     #   The value of the 'Log Directory Path'.
     # -------------------------------
     #>
-    [string] GetLogPath()
-    {
-        return $this.__logPath;
-    } # GetLogPath()
+    [string] GetLogPath() { return $this.__logPath; }
 
 
 
@@ -369,10 +351,7 @@ class DefaultCompress
     #   The value of the 'Log Root Directory Path'.
     # -------------------------------
     #>
-    [string] GetRootLogPath()
-    {
-        return $this.__rootLogPath;
-    } # GetRootLogPath()
+    [string] GetRootLogPath() { return $this.__rootLogPath; }
 
 
 
@@ -387,10 +366,7 @@ class DefaultCompress
     #   The value of the object's GUID.
     # -------------------------------
     #>
-    [GUID] GetObjectGUID()
-    {
-        return $this.__objectGUID;
-    } # GetObjectGUID()
+    [GUID] GetObjectGUID() { return $this.__objectGUID; }
 
     #endregion
 
