@@ -3183,6 +3183,11 @@ class SevenZip
     {
         # Declarations and Initializations
         # ----------------------------------------
+        # Retrieve the current instance of the Project Information object; this contains details
+        #  in regards to where the source files exists within the user's system.
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+
+
         # Get the filename without the path, extension is kept.
         [string] $fileNameExt = [string](Split-Path $ArchiveFile -leaf);
 
@@ -3534,17 +3539,17 @@ class SevenZip
                                      "$($sectionBorder)`r`n`r`n" + `
                                      "Provided below is information regarding the project.`r`n`r`n" + `
                                      "Project Name:`r`n" + `
-                                     "`t$([ProjectInformation]::projectName)`r`n`r`n" + `
+                                     "`t$($projectInformation.GetProjectName())`r`n`r`n" + `
                                      "Project Code Name:`r`n" + `
-                                     "`t$([ProjectInformation]::codeName)`r`n`r`n" + `
+                                     "`t$($projectInformation.GetCodeName())`r`n`r`n" + `
                                      "Filename:`r`n" + `
-                                     "`t$([ProjectInformation]::fileName)`r`n`r`n" + `
+                                     "`t$($projectInformation.GetFileName())`r`n`r`n" + `
                                      "Project Website:`r`n" + `
-                                     "`t$([ProjectInformation]::urlWebsite)`r`n`r`n" + `
+                                     "`t$($projectInformation.GetURLWebsite())`r`n`r`n" + `
                                      "Project's Documentation:`r`n" + `
-                                     "`t$([ProjectInformation]::urlWiki)`r`n`r`n" + `
+                                     "`t$($projectInformation.URLWiki())`r`n`r`n" + `
                                      "Project's Repository:`r`n" + `
-                                     "`t$([ProjectInformation]::urlSource)`r`n" + `
+                                     "`t$($projectInformation.URLSource())`r`n" + `
                                      "`r`n`r`n");
 
 
