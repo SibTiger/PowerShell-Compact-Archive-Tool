@@ -69,6 +69,10 @@ class Builder
     {
         # Declarations and Initializations
         # ----------------------------------------
+        # Retrieve the current instance of the Project Information object; this contains details
+        #  in regards to where the source files exists within the user's system.
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+
         # Archive datafile's final destination path
         [string] $compiledBuildPath = $null;
 
@@ -91,7 +95,7 @@ class Builder
 
 
         # Show the user that they are at the Main Menu
-        [CommonCUI]::DrawSectionHeader("Compiling the $([ProjectInformation]::projectName) [$([ProjectInformation]::codeName)] Project");
+        [CommonCUI]::DrawSectionHeader("Compiling the $($projectInformation.GetProjectName()) [$($projectInformation.GetCodeName())] Project");
 
 
         # Display the instructions
@@ -314,7 +318,7 @@ class Builder
 
         # Alert the user that the operation had finished
         [NotificationAudible]::Notify([NotificationAudibleEventType]::Success);
-        [NotificationVisual]::Notify("Successfully compiled $([ProjectInformation]::projectName)!");
+        [NotificationVisual]::Notify("Successfully compiled $($projectInformation.GetProjectName())!");
 
 
         # Show that the compiling operation was successful.
@@ -402,7 +406,7 @@ class Builder
 
 
             # Show that the Project's source files could not be found.
-            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find $([ProjectInformation]::projectName) source files!");
+            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find $($projectInformation.GetProjectName()) source files!");
             [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please reconfigure the program settings!");
             [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
 
@@ -413,16 +417,16 @@ class Builder
             # --------------
 
             # Generate a message to display to the user.
-            [string] $displayErrorMessage = ("I am unable to find the $([ProjectInformation]::projectName) source files!`r`n" + `
-                                            "Please reconfigure the path for the $([ProjectInformation]::projectName) project!`r`n" + `
-                                            "`t- $([ProjectInformation]::projectName) Project Path is presently: $($projectInformation.GetProjectPath())`r`n" + `
+            [string] $displayErrorMessage = ("I am unable to find the $($projectInformation.GetProjectName()) source files!`r`n" + `
+                                            "Please reconfigure the path for the $($projectInformation.GetProjectName()) project!`r`n" + `
+                                            "`t- $($projectInformation.GetProjectName()) Project Path is presently: $($projectInformation.GetProjectPath())`r`n" + `
                                             "`t- Path Exists Detection Status: $([string]$boolCacheValue)");
 
             # Generate the initial message
-            $logMessage = "Unable to find the $([ProjectInformation]::projectName) project's source files!";
+            $logMessage = "Unable to find the $($projectInformation.GetProjectName()) project's source files!";
 
             # Generate any additional information that might be useful
-            $logAdditionalMSG = ("Please reconfigure the location of the $([ProjectInformation]::projectName) Project's Source.`r`n" + `
+            $logAdditionalMSG = ("Please reconfigure the location of the $($projectInformation.GetProjectName()) Project's Source.`r`n" + `
                                 "`tProject Source Location is: $($projectInformation.GetProjectPath())`r`n" + `
                                 "`tProject Source Path Exists: $([string]$boolCacheValue)");
 
@@ -450,7 +454,7 @@ class Builder
 
 
         # Successfully found project files
-        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Successful, "Found the $([ProjectInformation]::projectName) source files!");
+        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Successful, "Found the $($projectInformation.GetProjectName()) source files!");
 
 
 
@@ -840,7 +844,7 @@ class Builder
 
         # Generate the initial message
         $logMessage = ("The Prerequisite Check had determined that we have all of the required" + `
-                        "resources necessary to compile the $([ProjectInformation]::projectName) project!");
+                        "resources necessary to compile the $($projectInformation.GetProjectName()) project!");
 
         # Generate any additional information that might be useful
         $logAdditionalMSG = "Prerequisite Check had successfully passed!";
@@ -914,7 +918,7 @@ class Builder
             # --------------
 
             # Generate the initial message
-            $logMessage = "The user does not wish to update the $([ProjectInformation]::projectName) local repository!";
+            $logMessage = "The user does not wish to update the $($projectInformation.GetProjectName()) local repository!";
 
             # Generate any additional information that might be useful
             $logAdditionalMSG = ("User's Preferences for using Git Features: $($userPreferences.GetVersionControlTool())`r`n" + `
@@ -938,7 +942,7 @@ class Builder
 
 
         # Show that we are about to update the project source files
-        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Update $([ProjectInformation]::projectName)");
+        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Update $($projectInformation.GetProjectName())");
 
 
 
@@ -949,7 +953,7 @@ class Builder
 
 
         # Show the user the current operation that is about to take place
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Updating $([ProjectInformation]::projectName)'s source files. . .");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Updating $($projectInformation.GetProjectName())'s source files. . .");
         [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "Current Local Repository Commit ID: $($projectCommitIDOld)");
 
 
@@ -963,7 +967,7 @@ class Builder
 
 
             # Show to the user that there was an error while attempting to update the local repository
-            [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Failure, "An error had occurred while updating your copy of $([ProjectInformation]::projectName)!");
+            [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Failure, "An error had occurred while updating your copy of $($projectInformation.GetProjectName())!");
             [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "If incase you made changes with the files, you may need to commit them before losing your work!");
             [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "If incase you not made any changes, you will need validate your Local Repository against the Remote Repository using Git!");
             [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
@@ -975,14 +979,14 @@ class Builder
             # --------------
 
             # Generate a message to display to the user.
-            [string] $displayErrorMessage = ("An error had occurred while updating your copy of $([ProjectInformation]::projectName)!`r`n" + `
+            [string] $displayErrorMessage = ("An error had occurred while updating your copy of $($projectInformation.GetProjectName())!`r`n" + `
                                             "Please make sure of the following:`r`n" + `
-                                            "`t- If incase you had made some changes to the $([ProjectInformation]::projectName)'s source files, be sure to commit your work or undo the changes!`r`n" + `
-                                            "`t- If incase you had not made any changes to your copy of $([ProjectInformation]::projectName), then please validate your local copy of the project using Git SCM!`r`n" + `
+                                            "`t- If incase you had made some changes to the $($projectInformation.GetProjectName())'s source files, be sure to commit your work or undo the changes!`r`n" + `
+                                            "`t- If incase you had not made any changes to your copy of $($projectInformation.GetProjectName()), then please validate your local copy of the project using Git SCM!`r`n" + `
                                             "Because there exists changes that is causing conflicts with the update, it is not possible to proceed forward with the update!");
 
             # Generate the initial message
-            $logMessage = "Unable to update the user's local repository for $([ProjectInformation]::projectName)!";
+            $logMessage = "Unable to update the user's local repository for $($projectInformation.GetProjectName())!";
 
             # Generate any additional information that might be useful
             $logAdditionalMSG = "Make sure that all file conflicts at been corrected before proceeding.";
@@ -1016,7 +1020,7 @@ class Builder
 
 
         # Show that the project's files had been updated!
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully updated the $([ProjectInformation]::projectName)'s source files!");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully updated the $($projectInformation.GetProjectName())'s source files!");
         [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "New Local Repository Commit ID: $($projectCommitIDNew)");
 
 
@@ -1026,7 +1030,7 @@ class Builder
         # --------------
 
         # Generate the initial message
-        $logMessage = "Successfully updated the $([ProjectInformation]::projectName) local repository!";
+        $logMessage = "Successfully updated the $($projectInformation.GetProjectName()) local repository!";
 
         # Generate any additional information that might be useful
         $logAdditionalMSG = ("Previous Parent Commit ID: $($projectCommitIDOld) `r`n" + `
@@ -1092,7 +1096,7 @@ class Builder
 
 
         # Apply the core filename of the archive datafile
-        $archiveFileName = [ProjectInformation]::fileName;
+        $archiveFileName = $projectInformation.GetFileName();
 
 
         # Determine if we are to apply the git SHA1 onto the filename
@@ -1198,6 +1202,10 @@ class Builder
         #  application.
         [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
 
+        # Retrieve the current instance of the Project Information object; this contains details
+        #  in regards to where the source files exists within the user's system.
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+
 
         # Debugging Variables
         [string] $logMessage = $NULL;           # Main message regarding the logged event.
@@ -1207,8 +1215,8 @@ class Builder
 
 
         # Show that we are about to compact the project's source files into an archive datafile.
-        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Compile $([ProjectInformation]::projectName)");
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Compiling $([ProjectInformation]::projectName). . .");
+        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Compile $($projectInformation.GetProjectName())");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Compiling $($projectInformation.GetProjectName()). . .");
 
 
         # Use the preferred compiler as requested by the user
@@ -1233,7 +1241,7 @@ class Builder
 
 
                     # An error had been reached while compacting the project's files.
-                    [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "An error occurred while compiling $([ProjectInformation]::projectName)!");
+                    [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "An error occurred while compiling $($projectInformation.GetProjectName())!");
                     [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please review the logs for more information!");
                     [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
 
@@ -1244,11 +1252,11 @@ class Builder
                     # --------------
 
                     # Generate a message to display to the user.
-                    [string] $displayErrorMessage = ("Failed to compile $([ProjectInformation]::projectName)!`r`n" + `
+                    [string] $displayErrorMessage = ("Failed to compile $($projectInformation.GetProjectName())!`r`n" + `
                                                     "Please inspect the logs for what could had caused the problem.");
 
                     # Generate the initial message
-                    $logMessage = "An error had been reached while compiling $([ProjectInformation]::projectName)!";
+                    $logMessage = "An error had been reached while compiling $($projectInformation.GetProjectName())!";
 
                     # Generate any additional information that might be useful
                     $logAdditionalMSG = ("Compression Tool: Archive Module [Default]`r`n" + `
@@ -1295,7 +1303,7 @@ class Builder
 
 
                     # An error had been reached while compacting the project's files.
-                    [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "An error occurred while compiling $([ProjectInformation]::projectName)!");
+                    [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "An error occurred while compiling $($projectInformation.GetProjectName())!");
                     [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please review the logs for more information!");
                     [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
 
@@ -1306,11 +1314,11 @@ class Builder
                     # --------------
 
                     # Generate a message to display to the user.
-                    [string] $displayErrorMessage = ("Failed to compile $([ProjectInformation]::projectName)!" + `
+                    [string] $displayErrorMessage = ("Failed to compile $($projectInformation.GetProjectName())!" + `
                                                     "Please inspect the logs for what could had caused the problem.");
 
                     # Generate the initial message
-                    $logMessage = "An error had been reached while compiling $([ProjectInformation]::projectName)!";
+                    $logMessage = "An error had been reached while compiling $($projectInformation.GetProjectName())!";
 
                     # Generate any additional information that might be useful
                     $logAdditionalMSG = ("Compression Tool: 7Zip`r`n" + `
@@ -1358,11 +1366,11 @@ class Builder
                 # --------------
 
                 # Generate a message to display to the user.
-                [string] $displayErrorMessage = ("Unable to compile $([ProjectInformation]::projectName)!" + `
+                [string] $displayErrorMessage = ("Unable to compile $($projectInformation.GetProjectName())!" + `
                                                 "The compression tool is unknown or unrecognizable");
 
                 # Generate the initial message
-                $logMessage = "Cannot compile the $([ProjectInformation]::projectName) project due to an unknown Compression Tool!";
+                $logMessage = "Cannot compile the $($projectInformation.GetProjectName()) project due to an unknown Compression Tool!";
 
                 # Generate any additional information that might be useful
                 $logAdditionalMSG = ("Compression Tool: $($userPreferences.GetCompressionTool())`r`n" + `
@@ -1390,7 +1398,7 @@ class Builder
 
 
         # If we made it this far, that means that the operation was successful!
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully compiled $([ProjectInformation]::projectName)!");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully compiled $($projectInformation.GetProjectName())!");
 
 
 
@@ -1399,7 +1407,7 @@ class Builder
         # --------------
 
         # Generate the initial message
-        $logMessage = "Successfully compiled the $([ProjectInformation]::projectName) project!";
+        $logMessage = "Successfully compiled the $($projectInformation.GetProjectName()) project!";
 
         # Generate any additional information that might be useful
         $logAdditionalMSG = ("Compression Tool: $([string] $userPreferences.GetCompressionTool())`r`n" + `
@@ -1451,6 +1459,10 @@ class Builder
     {
         # Declarations and Initializations
         # ----------------------------------------
+        # Retrieve the current instance of the Project Information object; this contains details
+        #  in regards to where the source files exists within the user's system.
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+
         # This variable will provide the key term of the temporary directory to be created.
         [string] $directoryKeyTerm = $null;
 
@@ -1467,7 +1479,7 @@ class Builder
 
 
         # Generate the Key Term of the Temporary Directory
-        $directoryKeyTerm = "Compile_" + [ProjectInformation]::fileName;
+        $directoryKeyTerm = "Compile_" + $projectInformation.GetFileName();
 
 
         # Create the temporary directory
@@ -1492,7 +1504,7 @@ class Builder
                                             "Please make sure that you have the sufficient privileges to create a temporary directory.");
 
             # Generate the initial message
-            $logMessage = "Unable to create a temporary directory for the $([ProjectInformation]::projectName) source files!";
+            $logMessage = "Unable to create a temporary directory for the $($projectInformation.GetProjectName()) source files!";
 
             # Generate any additional information that might be useful
             $logAdditionalMSG = ("Please assure that you have sufficient privileges to create a temporary directory.`r`n" + `
@@ -1535,7 +1547,7 @@ class Builder
         # --------------
 
         # Generate the initial message
-        $logMessage = "Successfully created a temporary directory for the $([ProjectInformation]::projectName) source files!";
+        $logMessage = "Successfully created a temporary directory for the $($projectInformation.GetProjectName()) source files!";
 
         # Generate any additional information that might be useful
         $logAdditionalMSG = ("Temporary Directory Root Location: $($env:TEMP)`r`n" + `
@@ -1597,7 +1609,7 @@ class Builder
 
 
         # Show that we are about to duplicate the project's source files.
-        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Duplicating $([ProjectInformation]::projectName) source files. . .");
+        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Duplicating $($projectInformation.GetProjectName()) source files. . .");
         [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Source: $($projectInformation.GetProjectPath())");
         [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Destination $($projectTemporaryPath)");
 
@@ -1619,16 +1631,16 @@ class Builder
             # --------------
 
             # Generate a message to display to the user.
-            [string] $displayErrorMessage = ("I was not able to duplicate $([ProjectInformation]::projectName) assets to the temporary directory!");
+            [string] $displayErrorMessage = ("I was not able to duplicate $($projectInformation.GetProjectName()) assets to the temporary directory!");
 
             # Generate the initial message
-            $logMessage = "Unable to duplicate $([ProjectInformation]::projectName) assets to the temporary directory.";
+            $logMessage = "Unable to duplicate $($projectInformation.GetProjectName()) assets to the temporary directory.";
 
             # Generate any additional information that might be useful
             $logAdditionalMSG = ("Directories:`r`n" + `
                                 "`tTemporary Directory Root Location: $($env:TEMP)`r`n" + `
                                 "`tTemporary Directory Location: $($projectTemporaryPath)`r`n" + `
-                                "`t$([ProjectInformation]::projectName) Source Location: $($projectInformation.GetProjectPath())");
+                                "`t$($projectInformation.GetProjectName()) Source Location: $($projectInformation.GetProjectPath())");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -1652,7 +1664,7 @@ class Builder
 
 
         # Successfully created the temporary directory
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully duplicated $([ProjectInformation]::projectName) assets!");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully duplicated $($projectInformation.GetProjectName()) assets!");
 
 
 
@@ -1661,13 +1673,13 @@ class Builder
         # --------------
 
         # Generate the initial message
-        $logMessage = "Successfully duplicated $([ProjectInformation]::projectName) assets!";
+        $logMessage = "Successfully duplicated $($projectInformation.GetProjectName()) assets!";
 
         # Generate any additional information that might be useful
         $logAdditionalMSG = ("Directories:`r`n" + `
                             "`tTemporary Directory Root Location: $($env:TEMP)`r`n" + `
                             "`tTemporary Directory Location: $($projectTemporaryPath)`r`n" + `
-                            "`t$([ProjectInformation]::projectName) Source Location: $($projectInformation.GetProjectPath())");
+                            "`t$($projectInformation.GetProjectName()) Source Location: $($projectInformation.GetProjectPath())");
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -2630,7 +2642,7 @@ class Builder
 
         # Show that we are about to generate a report on the project's local repository.
         [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Generating report of the project's local repository");
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Report will be based on the " + [ProjectInformation]::projectName + " Local Repository.");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Report will be based on the " + $projectInformation.GetProjectName() + " Local Repository.");
         [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "Using project path: " + $projectInformation.GetProjectPath());
 
 
