@@ -3292,6 +3292,11 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
+        # Retrieve the current instance of the Project Information object; this contains details
+        #  in regards to where the source files exists within the user's system.
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+
+
         # The following variables will hold the current date and time from the host system.
         #  With this, it'll be available for the filename and inside the report.
         # - - - -
@@ -3307,10 +3312,10 @@ class GitControl
         # This will hold the report's filename.
         # - - - -
         # >> Standard Textfile
-        [string] $fileNameTXT = "$($this.GetReportPath())\$([ProjectInformation]::projectName) - $($dateTime).txt";
+        [string] $fileNameTXT = "$($this.GetReportPath())\$($projectInformation.GetProjectName()) - $($dateTime).txt";
 
         # >> Portable Document File (PDF)
-        [string] $fileNamePDF = "$($this.GetReportPath())\$([ProjectInformation]::projectName) - $($dateTime).pdf";
+        [string] $fileNamePDF = "$($this.GetReportPath())\$($projectInformation.GetProjectName()) - $($dateTime).pdf";
         # - - - -
 
 
@@ -3526,7 +3531,7 @@ class GitControl
                                       "Synopsis`r`n" + `
                                       "----------`r`n" + `
                                       "This report was generated on $($dateNow) at $($timeNow) for the" + `
-                                      "$([ProjectInformation]::projectName) project.  This report contains an overview of" + `
+                                      "$($projectInformation.GetProjectName()) project.  This report contains an overview of" + `
                                       " the project's activity and workflow.  However, all information is solely based on" + `
                                       " the project's Local Repository instead of the Remote Repository.  To assure that" + `
                                       " the information gathered by this report contains the latest information, be sure" + `
@@ -3641,17 +3646,17 @@ class GitControl
                                       "$($sectionBorder)`r`n`r`n" + `
                                       "Provided below is information regarding the project itself.`r`n`r`n" + `
                                       "Project Name:`r`n" + `
-                                      "`t$([ProjectInformation]::projectName)`r`n`r`n" + `
+                                      "`t$($projectInformation.GetProjectName())`r`n`r`n" + `
                                       "Project Code Name:`r`n" + `
-                                      "`t$([ProjectInformation]::codeName)`r`n`r`n" + `
+                                      "`t$($projectInformation.GetCodeName())`r`n`r`n" + `
                                       "Filename:`r`n" + `
-                                      "`t$([ProjectInformation]::fileName)`r`n`r`n" + `
+                                      "`t$($projectInformation.GetFileName())`r`n`r`n" + `
                                       "Project Website:`r`n" + `
-                                      "`t$([ProjectInformation]::urlWebsite)`r`n`r`n" + `
+                                      "`t$($projectInformation.GetURLWebsite())`r`n`r`n" + `
                                       "Project's Documentation:`r`n" + `
-                                      "`t$([ProjectInformation]::urlWiki)`r`n`r`n" + `
+                                      "`t$($projectInformation.GetURLWiki())`r`n`r`n" + `
                                       "Project's Repository:`r`n" + `
-                                      "`t$([ProjectInformation]::urlSource)`r`n" + `
+                                      "`t$($projectInformation.GetURLSource())`r`n" + `
                                       "`r`n`r`n");
 
 
