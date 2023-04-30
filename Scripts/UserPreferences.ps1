@@ -188,10 +188,7 @@ class UserPreferences
     #   The value of the Software Compression Tool Choice.
     # -------------------------------
     #>
-    [UserPreferencesCompressTool] GetCompressionTool()
-    {
-        return $this.__compressionTool;
-    } # GetCompressionTool()
+    [UserPreferencesCompressTool] GetCompressionTool() { return $this.__compressionTool; }
 
 
 
@@ -206,10 +203,7 @@ class UserPreferences
     #   The value of the Project Builds Path.
     # -------------------------------
     #>
-    [string] GetProjectBuildsPath()
-    {
-        return $this.__outputBuildsPath;
-    } # GetProjectBuildsPath()
+    [string] GetProjectBuildsPath() { return $this.__outputBuildsPath; }
 
 
 
@@ -224,10 +218,7 @@ class UserPreferences
     #   The value of the Version Control Tool.
     # -------------------------------
     #>
-    [UserPreferencesVersionControlTool] GetVersionControlTool()
-    {
-        return $this.__versionControlTool;
-    } # GetVersionControlTool()
+    [UserPreferencesVersionControlTool] GetVersionControlTool() { return $this.__versionControlTool; }
 
 
 
@@ -242,10 +233,7 @@ class UserPreferences
     #   The value of the object's GUID.
     # -------------------------------
     #>
-    [GUID] GetObjectGUID()
-    {
-        return $this.__objectGUID;
-    } # GetObjectGUID()
+    [GUID] GetObjectGUID() { return $this.__objectGUID; }
 
     #endregion
 
