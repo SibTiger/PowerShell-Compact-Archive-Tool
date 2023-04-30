@@ -70,6 +70,15 @@ class CommonCUI
     #>
     static [void] DrawProgramTitleHeader()
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the current instance of the Project Information object; this contains details
+        #  in regards to where the source files exists within the user's system.
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+        # ----------------------------------------
+
+
+
         # Display the top border
         [Logging]::DisplayMessage([CommonCUI]::__borderDashLong);
         # -------------------------------------------------------------------
@@ -89,7 +98,7 @@ class CommonCUI
 
 
         # Display the intended supported ZDoom project name and codename
-        [Logging]::DisplayMessage("Designed for $([ProjectInformation]::projectName) [$([ProjectInformation]::codeName)]");
+        [Logging]::DisplayMessage("Designed for $($projectInformation.GetProjectName()) [$($projectInformation.GetCodeName())]");
         # -------------------------------------------------------------------
 
 
@@ -208,8 +217,17 @@ class CommonCUI
     #>
     static [void] CompileInstructions()
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the current instance of the Project Information object; this contains details
+        #  in regards to where the source files exists within the user's system.
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+        # ----------------------------------------
+
+
+
         # Display the common menu instructions
-        [Logging]::DisplayMessage("Please wait patiently as $([ProjectInformation]::projectName) is being compiled. . .");
+        [Logging]::DisplayMessage("Please wait patiently as $($projectInformation.GetProjectName()) is being compiled. . .");
 
         # Display a border
         [Logging]::DisplayMessage([CommonCUI]::__borderDashLong);
