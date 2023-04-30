@@ -123,6 +123,10 @@ class SettingsGit
 
         # Retrieve the Git Control object
         [GitControl] $gitControl = [GitControl]::GetInstance();
+
+        # Retrieve the current instance of the Project Information object; this contains details
+        #  in regards to where the source files exists within the user's system.
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
         # ----------------------------------------
 
 
@@ -192,8 +196,8 @@ class SettingsGit
         {
             [CommonCUI]::DrawMenuItem('U', `
                                     "Update Source", `
-                                    "Allows the ability to update $([ProjectInformation]::projectName) project files.", `
-                                    "Update $([ProjectInformation]::projectName) project files: $($currentSettingUpdateSource)", `
+                                    "Allows the ability to update $($projectInformation.GetProjectName()) project files.", `
+                                    "Update $($projectInformation.GetProjectName()) project files: $($currentSettingUpdateSource)", `
                                     $true);
         } # If: Show Update Source
 
@@ -214,7 +218,7 @@ class SettingsGit
         {
             [CommonCUI]::DrawMenuItem('H', `
                                     "Retrieve History", `
-                                    "Allows the ability to retrieve a history changelog of $([ProjectInformation]::projectName)'s development.", `
+                                    "Allows the ability to retrieve a history changelog of $($projectInformation.GetProjectName())'s development.", `
                                     "Obtain a changelog history of the project: $($currentSettingRetrieveHistory)", `
                                     $true);
         } # If: Show Retrieve History
@@ -236,7 +240,7 @@ class SettingsGit
         {
             [CommonCUI]::DrawMenuItem('R', `
                                     "Generate Report of Project Repository", `
-                                    "Provides a detailed report regarding $([ProjectInformation]::projectName)'s development.", `
+                                    "Provides a detailed report regarding $($projectInformation.GetProjectName())'s development.", `
                                     "Create a report of the latest developments: $($currentSettingGenerateReport) $($currentSettingGenerateReportPDF)", `
                                     $true);
         } # If: Show Generate Report
@@ -1951,12 +1955,21 @@ class SettingsGit
     #>
     hidden static [void] __DrawMenuHistory()
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the current instance of the Project Information object; this contains details
+        #  in regards to where the source files exists within the user's system.
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+        # ----------------------------------------
+
+
+
         # Display the Menu List
 
         # Retrieve the History Changelog
         [CommonCUI]::DrawMenuItem('H', `
                                 "Retrieve History", `
-                                "Records the latest developments within the $([ProjectInformation]::projectName) project.", `
+                                "Records the latest developments within the $($projectInformation.GetProjectName()) project.", `
                                 $NULL, `
                                 $true);
 
