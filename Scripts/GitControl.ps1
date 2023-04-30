@@ -320,10 +320,7 @@ class GitControl
     #   The value of the 'Executable Path' to the git.exe binary file.
     # -------------------------------
     #>
-    [string] GetExecutablePath()
-    {
-        return $this.__executablePath;
-    } # GetExecutablePath()
+    [string] GetExecutablePath() { return $this.__executablePath; }
 
 
 
@@ -338,10 +335,7 @@ class GitControl
     #   The value of the 'Update Source'.
     # -------------------------------
     #>
-    [bool] GetUpdateSource()
-    {
-        return $this.__updateSource;
-    } # GetUpdateSource()
+    [bool] GetUpdateSource() { return $this.__updateSource; }
 
 
 
@@ -356,10 +350,7 @@ class GitControl
     #   The value of the 'Commit ID Length'.
     # -------------------------------
     #>
-    [GitCommitLength] GetLengthCommitID()
-    {
-        return $this.__lengthCommitID;
-    } # GetLengthCommitID()
+    [GitCommitLength] GetLengthCommitID() { return $this.__lengthCommitID; }
 
 
 
@@ -374,10 +365,7 @@ class GitControl
     #   The value of the 'Fetch History Changelog'.
     # -------------------------------
     #>
-    [bool] GetFetchChangelog()
-    {
-        return $this.__fetchChangelog;
-    } # GetFetchChangelog()
+    [bool] GetFetchChangelog() { return $this.__fetchChangelog; }
 
 
 
@@ -392,10 +380,7 @@ class GitControl
     #   The value of the 'Changelog History Limit'.
     # -------------------------------
     #>
-    [uint32] GetChangelogLimit()
-    {
-        return $this.__changelogLimit;
-    } # GetChangelogLimit()
+    [uint32] GetChangelogLimit() { return $this.__changelogLimit; }
 
 
 
@@ -410,10 +395,7 @@ class GitControl
     #   The value of the 'Generate Report'.
     # -------------------------------
     #>
-    [bool] GetGenerateReport()
-    {
-        return $this.__generateReport;
-    } # GetGenerateReport()
+    [bool] GetGenerateReport() { return $this.__generateReport; }
 
 
 
@@ -428,10 +410,7 @@ class GitControl
     #   The value of the 'Report Directory Path'.
     # -------------------------------
     #>
-    [string] GetReportPath()
-    {
-        return $this.__reportPath;
-    } # GetReportPath()
+    [string] GetReportPath() { return $this.__reportPath; }
 
 
 
@@ -446,10 +425,7 @@ class GitControl
     #   The value of the 'Generate Report - PDF File'.
     # -------------------------------
     #>
-    [bool] GetGenerateReportFilePDF()
-    {
-        return $this.__generateReportFilePDF;
-    } # GetGenerateReportFilePDF()
+    [bool] GetGenerateReportFilePDF() { return $this.__generateReportFilePDF; }
 
 
 
@@ -464,10 +440,7 @@ class GitControl
     #   The value of the 'Log Directory Path'.
     # -------------------------------
     #>
-    [string] GetLogPath()
-    {
-        return $this.__logPath;
-    } # GetLogPath()
+    [string] GetLogPath() { return $this.__logPath; }
 
 
 
@@ -482,10 +455,7 @@ class GitControl
     #   The value of the 'Log Root Directory Path'.
     # -------------------------------
     #>
-    [string] GetRootLogPath()
-    {
-        return $this.__rootLogPath;
-    } # GetRootLogPath()
+    [string] GetRootLogPath() { return $this.__rootLogPath; }
 
 
 
@@ -500,10 +470,7 @@ class GitControl
     #   The value of the object's GUID.
     # -------------------------------
     #>
-    [GUID] GetObjectGUID()
-    {
-        return $this.__objectGUID;
-    } # GetObjectGUID()
+    [GUID] GetObjectGUID() { return $this.__objectGUID; }
 
     #endregion
 
