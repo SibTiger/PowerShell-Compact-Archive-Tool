@@ -522,7 +522,7 @@ class MainMenu
     hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuProjectHomePage, `       # Project's Homepage
                                                         [ref] $showMenuProjectWikiPage, `       # Project's Wiki Page
                                                         [ref] $showMenuProjectSourceCode, `     # Project's Source Code
-                                                        [ref] $showMenuBuildRelease)
+                                                        [ref] $showMenuBuildRelease)            # Build: Release
     {
         # Declarations and Initializations
         # ----------------------------------------
