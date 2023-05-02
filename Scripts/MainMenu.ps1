@@ -119,6 +119,7 @@ class MainMenu
 
         # These variables will determine what menus are to be hidden from the user,
         #  as the options are possibly not available.
+        [bool] $showMenuBuildRelease        = $true;    # Build: Release
         [bool] $showMenuProjectHomePage     = $true;    # Project's Homepage
         [bool] $showMenuProjectWikiPage     = $true;    # Project's Wiki Page
         [bool] $showMenuProjectSourceCode   = $true;    # Project's Source Code
@@ -129,18 +130,22 @@ class MainMenu
         # Determine what options are to be hidden or to be visible to the user.
         [MainMenu]::__DrawMenuDetermineHiddenMenus([ref] $showMenuProjectHomePage, `        # Project's Homepage
                                                     [ref] $showMenuProjectWikiPage, `       # Project's Wiki Page
-                                                    [ref] $showMenuProjectSourceCode);      # Project's Source Code
+                                                    [ref] $showMenuProjectSourceCode, `     # Project's Source Code
+                                                    [ref] $showMenuBuildRelease);           # Build: Release
 
 
 
         # Display the Main Menu list
 
         # Generate Project and View Project Information
-        [CommonCUI]::DrawMenuItem('B', `
-                                "Build $($projectInformation.GetProjectName())", `
-                                "Create a new build of the $($projectInformation.GetProjectName()) ($($projectInformation.GetCodeName())) project.", `
-                                $NULL, `
-                                $true);
+        if ($showMenuBuildRelease)
+        {
+            [CommonCUI]::DrawMenuItem('B', `
+                                    "Build $($projectInformation.GetProjectName())", `
+                                    "Create a new build of the $($projectInformation.GetProjectName()) ($($projectInformation.GetCodeName())) project.", `
+                                    $NULL, `
+                                    $true);
+        } # if : Show Build: Release
 
 
         # Generate Development Project and View Dev. Project Information
@@ -256,6 +261,7 @@ class MainMenu
 
         # These variables will determine what menus are to be hidden from the user,
         #  as the options are possibly not available.
+        [bool] $showMenuBuildRelease        = $true;    # Build: Release
         [bool] $showMenuProjectHomePage     = $true;    # Project's Homepage
         [bool] $showMenuProjectWikiPage     = $true;    # Project's Wiki Page
         [bool] $showMenuProjectSourceCode   = $true;    # Project's Source Code
@@ -266,7 +272,8 @@ class MainMenu
         # Determine what options are to be hidden or to be visible to the user.
         [MainMenu]::__DrawMenuDetermineHiddenMenus([ref] $showMenuProjectHomePage, `        # Project's Homepage
                                                     [ref] $showMenuProjectWikiPage, `       # Project's Wiki Page
-                                                    [ref] $showMenuProjectSourceCode);      # Project's Source Code
+                                                    [ref] $showMenuProjectSourceCode, `     # Project's Source Code
+                                                    [ref] $showMenuBuildRelease);           # Build: Release
 
 
 
@@ -275,11 +282,12 @@ class MainMenu
         {
             # Build the desired ZDoom project
             #  NOTE: Allow the user's request when they type: 'Build', 'Make', 'Make $project', 'Build $project', as well as 'B'.
-            {($_ -eq "B") -or `
-                ($_ -eq "Build") -or `
-                ($_ -eq "Make") -or `
-                ($_ -eq "Make $($projectInformation.GetProjectName())") -or `
-                ($_ -eq "Build $($projectInformation.GetProjectName())")}
+            {($showMenuBuildRelease) -and
+                (($_ -eq "B") -or `
+                 ($_ -eq "Build") -or `
+                 ($_ -eq "Make") -or `
+                 ($_ -eq "Make $($projectInformation.GetProjectName())") -or `
+                 ($_ -eq "Build $($projectInformation.GetProjectName())"))}
             {
                 # Build the desired ZDoom based Project
                 [Builder]::Build($false);
@@ -507,11 +515,14 @@ class MainMenu
     #   Provides access to the project's Wiki page.
     #  [bool] (REFERENCE) Project's Source Code
     #   Provides access to the project's source code.
+    #  [bool] (REFERENCE) Build: Release
+    #   Provide access to the Build Release operation.
     # -------------------------------
     #>
     hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuProjectHomePage, `       # Project's Homepage
                                                         [ref] $showMenuProjectWikiPage, `       # Project's Wiki Page
-                                                        [ref] $showMenuProjectSourceCode)       # Project's Source Code
+                                                        [ref] $showMenuProjectSourceCode, `     # Project's Source Code
+                                                        [ref] $showMenuBuildRelease)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -522,6 +533,34 @@ class MainMenu
 
 
 
+
+        # Check Project
+        # - - - - - -
+        # We will inspect the Project Information available to determine if it is possible
+        #  to build the project or determine if we cannot build the project due to limited
+        #  to no useful data given.
+
+
+        # Build: Release - Hidden
+        #   Limited or No Information Available.
+        if (($null -eq $projectInformation.GetProjectName()) -or `
+            ("$($null)" -eq  $projectInformation.GetProjectName()) -or `
+            ($null -eq $projectInformation.GetProjectPath()))
+        {
+            $showMenuBuildRelease.Value = $false;
+        } # if : Build Release - Hidden
+
+        # Build Release - Visible
+        else
+        {
+            $showMenuBuildRelease.Value = $true;
+        } # else : Build Release - Visible
+
+
+
+
+        # Check URLs
+        # - - - - - -
         # We will only be able to check if the strings are empty.  If the string is populated,
         #   then we will be able to use the URL.
 
