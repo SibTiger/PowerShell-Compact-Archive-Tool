@@ -120,6 +120,7 @@ class MainMenu
         # These variables will determine what menus are to be hidden from the user,
         #  as the options are possibly not available.
         [bool] $showMenuBuildRelease        = $true;    # Build: Release
+        [bool] $showMenuBuildDevelopment    = $true;    # Build: Development
         [bool] $showMenuProjectHomePage     = $true;    # Project's Homepage
         [bool] $showMenuProjectWikiPage     = $true;    # Project's Wiki Page
         [bool] $showMenuProjectSourceCode   = $true;    # Project's Source Code
@@ -131,7 +132,8 @@ class MainMenu
         [MainMenu]::__DrawMenuDetermineHiddenMenus([ref] $showMenuProjectHomePage, `        # Project's Homepage
                                                     [ref] $showMenuProjectWikiPage, `       # Project's Wiki Page
                                                     [ref] $showMenuProjectSourceCode, `     # Project's Source Code
-                                                    [ref] $showMenuBuildRelease);           # Build: Release
+                                                    [ref] $showMenuBuildRelease, `          # Build: Release
+                                                    [ref] $showMenuBuildDevelopment);       # Build: Development
 
 
 
@@ -149,11 +151,14 @@ class MainMenu
 
 
         # Generate Development Project and View Dev. Project Information
-        [CommonCUI]::DrawMenuItem('D', `
-                                "Build a Development Build of $($projectInformation.GetProjectName())", `
-                                "Create a new dev. build of the $($projectInformation.GetProjectName()) ($($projectInformation.GetCodeName())) project.", `
-                                $NULL, `
-                                $true);
+        if ($showMenuBuildDevelopment)
+        {
+            [CommonCUI]::DrawMenuItem('D', `
+                                    "Build a Development Build of $($projectInformation.GetProjectName())", `
+                                    "Create a new dev. build of the $($projectInformation.GetProjectName()) ($($projectInformation.GetCodeName())) project.", `
+                                    $NULL, `
+                                    $true);
+        } # if : Show Build: Development
 
 
         # Project's Homepage
@@ -262,6 +267,7 @@ class MainMenu
         # These variables will determine what menus are to be hidden from the user,
         #  as the options are possibly not available.
         [bool] $showMenuBuildRelease        = $true;    # Build: Release
+        [bool] $showMenuBuildDevelopment    = $true;    # Build: Development
         [bool] $showMenuProjectHomePage     = $true;    # Project's Homepage
         [bool] $showMenuProjectWikiPage     = $true;    # Project's Wiki Page
         [bool] $showMenuProjectSourceCode   = $true;    # Project's Source Code
@@ -273,7 +279,8 @@ class MainMenu
         [MainMenu]::__DrawMenuDetermineHiddenMenus([ref] $showMenuProjectHomePage, `        # Project's Homepage
                                                     [ref] $showMenuProjectWikiPage, `       # Project's Wiki Page
                                                     [ref] $showMenuProjectSourceCode, `     # Project's Source Code
-                                                    [ref] $showMenuBuildRelease);           # Build: Release
+                                                    [ref] $showMenuBuildRelease, `          # Build: Release
+                                                    [ref] $showMenuBuildDevelopment);       # Build: Development
 
 
 
@@ -305,8 +312,9 @@ class MainMenu
 
             # Build a developmental build of the desired ZDoom project
             #  NOTE: Allow the user's request when they type: 'Dev' or 'D'.
-            {($_ -eq "D") -or `
-                ($_ -eq "Dev")}
+            {($showMenuBuildDevelopment) -and
+                (($_ -eq "D") -or `
+                 ($_ -eq "Dev"))}
             {
                 # Build the desired ZDoom based Project
                 [Builder]::Build($true);
@@ -517,12 +525,15 @@ class MainMenu
     #   Provides access to the project's source code.
     #  [bool] (REFERENCE) Build: Release
     #   Provide access to the Build Release operation.
+    #  [bool] (REFERENCE) Build: Development
+    #   Provide access to the Build Development operation.
     # -------------------------------
     #>
     hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuProjectHomePage, `       # Project's Homepage
                                                         [ref] $showMenuProjectWikiPage, `       # Project's Wiki Page
                                                         [ref] $showMenuProjectSourceCode, `     # Project's Source Code
-                                                        [ref] $showMenuBuildRelease)            # Build: Release
+                                                        [ref] $showMenuBuildRelease, `          # Build: Release
+                                                        [ref] $showMenuBuildDevelopment)        # Build: Development
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -555,6 +566,23 @@ class MainMenu
         {
             $showMenuBuildRelease.Value = $true;
         } # else : Build Release - Visible
+
+
+
+        # Build: Development - Hidden
+        #   Limited or No Information Available.
+        if (($null -eq $projectInformation.GetProjectName()) -or `
+            ("$($null)" -eq  $projectInformation.GetProjectName()) -or `
+            ($null -eq $projectInformation.GetProjectPath()))
+        {
+            $showMenuBuildDevelopment.Value = $false;
+        } # if : Build Development - Hidden
+
+        # Build Development - Visible
+        else
+        {
+            $showMenuBuildDevelopment.Value = $true;
+        } # else : Build Development - Visible
 
 
 
