@@ -97,8 +97,9 @@ class CommonCUI
         # -------------------------------------------------------------------
 
 
-        # Display the intended supported ZDoom project name and codename
-        [Logging]::DisplayMessage("Designed for $($projectInformation.GetProjectName()) [$($projectInformation.GetCodeName())]");
+        # Display the current loaded project and its version information to the user.
+        [Logging]::DisplayMessage("Project Loaded: $($projectInformation.GetProjectName()) [$($projectInformation.GetCodeName())");
+        [Logging]::DisplayMessage("Project Compiler Version $($projectInformation.GetCompilerVersion())");
         # -------------------------------------------------------------------
 
 
