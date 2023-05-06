@@ -153,6 +153,14 @@ class ProjectInformation
     Hidden [string] $__urlSource = "";
 
 
+    # Project Loaded
+    # ---------------
+    # This variable will keep track if a project had been loaded within the program's environment.
+    #  By keeping track if a project had been loaded, the program can be able to restrict certain
+    #  operations as well as encouraging the user to load projects.
+    Hidden [bool] $__projectLoaded = $false;
+
+
     # Project's Path
     # ---------------
     # This will provide the location as to where the project is located within the host's system.
@@ -197,6 +205,9 @@ class ProjectInformation
         # Source Repository URL
         $this.__urlSource       = $null;
 
+        # Project Loaded
+        $this.__projectLoaded   = $false;
+
         # Project Path
         $this.__projectPath     = $null;
     } # Default Constructor
@@ -234,6 +245,9 @@ class ProjectInformation
 
         # Source Repository URL
         $this.__urlSource       = $urlSource;
+
+        # Project Loaded
+        $this.__projectLoaded   = $true;
 
         # Project Path
         $this.__projectPath     = $projectPath;
@@ -345,6 +359,21 @@ class ProjectInformation
     # -------------------------------
     #>
     [String] GetURLSource() { return $this.__urlSource; }
+
+
+
+
+   <# Get Project Loaded
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the 'Project Loaded' variable.
+    # -------------------------------
+    # Output:
+    #  [Bool] Project Loaded
+    #   The value of the 'Project Loaded'.
+    # -------------------------------
+    #>
+    [Bool] GetProjectLoaded() { return $this.__projectLoaded; }
 
 
 
@@ -580,6 +609,34 @@ class ProjectInformation
         # Finished!
         return $true;
     } # SetURLSource()
+
+
+
+
+   <# Set Project Loaded
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'Project Loaded' variable.
+    # -------------------------------
+    # Input:
+    #  [Bool] Project Loaded
+    #   Changes the state of the 'Project Loaded' variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetProjectLoaded([bool] $newVal)
+    {
+        # Change the state of the Project Loaded variable.
+        $this.__projectLoaded = $newVal;
+
+
+        # Finished!
+        return $true;
+    } # SetProjectLoaded()
 
 
 
