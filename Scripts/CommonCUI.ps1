@@ -98,6 +98,7 @@ class CommonCUI
 
 
         # Display the current loaded project and its version information to the user.
+        #  However, only if the project information is available.
         if ($projectInformation.GetProjectLoaded())
         {
             [Logging]::DisplayMessage("Project Loaded: $($projectInformation.GetProjectName()) [$($projectInformation.GetCodeName())]");
