@@ -554,9 +554,7 @@ class MainMenu
 
         # Build: Release - Hidden
         #   Limited or No Information Available.
-        if (($null -eq $projectInformation.GetProjectName()) -or `
-            ("$($null)" -eq  $projectInformation.GetProjectName()) -or `
-            ($null -eq $projectInformation.GetProjectPath()))
+        if ($projectInformation.GetProjectLoaded())
         {
             $showMenuBuildRelease.Value = $false;
         } # if : Build Release - Hidden
