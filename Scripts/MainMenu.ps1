@@ -569,9 +569,7 @@ class MainMenu
 
         # Build: Development - Hidden
         #   Limited or No Information Available.
-        if (($null -eq $projectInformation.GetProjectName()) -or `
-            ("$($null)" -eq  $projectInformation.GetProjectName()) -or `
-            ($null -eq $projectInformation.GetProjectPath()))
+        if ($projectInformation.GetProjectLoaded())
         {
             $showMenuBuildDevelopment.Value = $false;
         } # if : Build Development - Hidden
