@@ -590,10 +590,11 @@ class MainMenu
 
 
         # Project's Homepage - Hidden
-        #   Value not provided
-        if (($null -eq $projectInformation.GetURLWebsite()) -or `
-            ("$($null)" -eq $projectInformation.GetURLWebsite()) -or `
-            (![WebsiteResources]::CheckSiteAvailability($projectInformation.GetURLWebsite(), $true)))
+        #   Limited or No Information Available
+        if (($projectInformation.GetProjectLoaded()) -and `
+            (($null -eq $projectInformation.GetURLWebsite()) -or `
+             ("$($null)" -eq $projectInformation.GetURLWebsite()) -or `
+             (![WebsiteResources]::CheckSiteAvailability($projectInformation.GetURLWebsite(), $true))))
         {
             $showMenuProjectHomePage.Value = $false;
         } # if : Project's homepage - Hidden
