@@ -609,9 +609,10 @@ class MainMenu
 
         # Project's Wiki Page - Hidden
         #   Value not provided
-        if (($null -eq $projectInformation.GetURLWiki()) -or `
-            ("$($null)" -eq $projectInformation.GetURLWiki()) -or `
-            (![WebsiteResources]::CheckSiteAvailability($projectInformation.GetURLWiki(), $true)))
+        if (($projectInformation.GetProjectLoaded()) -and `
+            (($null -eq $projectInformation.GetURLWiki()) -or `
+             ("$($null)" -eq $projectInformation.GetURLWiki()) -or `
+             (![WebsiteResources]::CheckSiteAvailability($projectInformation.GetURLWiki(), $true))))
         {
             $showMenuProjectWikiPage.Value = $false;
         } # if : Project's Wiki Page - Hidden
