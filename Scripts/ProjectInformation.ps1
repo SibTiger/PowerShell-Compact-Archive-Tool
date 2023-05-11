@@ -378,6 +378,34 @@ class ProjectInformation
 
 
 
+   <# Deteine Assignmen: Website
+    # -------------------------------
+    # Documentation:
+    #  This determines if the 'Website URL' variable had been populated
+    # -------------------------------
+    # Output:
+    #  [Bool] Determines if URL was Provided
+    #   True  = Website URL had been provided.
+    #   False = Website URL had NOT been provided.
+    # -------------------------------
+    #>
+    [Bool] DetermineAssignedWebsite()
+    {
+        if (($null -eq $this.__urlWebsite) -or
+            ("$null" -eq $this.__urlWebsite))
+        {
+            # Website was not provided.
+            return $false;
+        } # if : No Website Provided
+        
+        
+        # If we made it here, then the Website URL had been provided.
+        return $true;
+    } # DetermineAssignedWebsite()
+
+
+
+
    <# Get Project Path
     # -------------------------------
     # Documentation:
