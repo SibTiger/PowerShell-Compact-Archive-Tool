@@ -117,4 +117,28 @@ class CommonFunctions
         # Return the results from the detection function
         return $defaultCompress.DetectCompressModule();
     } # IsAvailableZip()
+
+
+
+
+   <# Is String Empty
+    # -------------------------------
+    # Documentation:
+    #  This function will determine if the provided string is empty.
+    #
+    # NOTE:
+    #  If the string only contains whitespace(s), then it will be considered empty.
+    # -------------------------------
+    # Input:
+    #  [string] Message
+    #   The desired string to inspect if it is empty or had already been assigned
+    #   to a specific value.
+    # -------------------------------
+    # Output:
+    #  [bool] Is String Empty
+    #   True  = String is empty
+    #   False = String is Populated \ Not-Empty.
+    # -------------------------------
+    #>
+    static [bool] IsStringEmpty([string] $message) { return [string]::IsNullOrEmpty($message.Trim()); }
 } # CommonFunctions
