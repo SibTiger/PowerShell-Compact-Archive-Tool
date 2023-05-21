@@ -1382,7 +1382,7 @@ class DefaultCompress
         {
             # If there is information held in the STDOUT container, then we will convert the data from an array-list
             #  to a literal string.
-            if ($null -ne $execSTDOUT)
+            if (![CommonFunctions]::IsStringEmpty($execSTDOUT))
             {
                 # Because there is information within the STDOUT container, we will convert it to a literal string.
                 #  But because we are going to display the information to a logfile, ultimately, present the data in
@@ -1424,7 +1424,7 @@ class DefaultCompress
 
             # If there is information held in the STDERR container, then we will transform the data from an object
             #  to a literal string.
-            if ($null -ne $execSTDERR)
+            if (![CommonFunctions]::IsStringEmpty($execSTDERR))
             {
                 # Because of how the information is stored in the object, we can just store the data to a literal
                 #  string outright.
@@ -1732,7 +1732,7 @@ class DefaultCompress
 
 
             # If there was information provided, then we will process it accordingly.
-            if ($null -ne $logString)
+            if (![CommonFunctions]::IsStringEmpty($logString))
             {
                 # Because there exists data within the output, we will prepare the output in such a way that
                 #  it can be available within the Logfile in an elegant way.  Ultimately, we want the
@@ -2779,7 +2779,7 @@ class DefaultCompress
             {
                 # If the STDOUT contains the file path of the archive datafile,
                 #  then we will store it for logging purposes.
-                if ($null -ne $execSTDOUT)
+                if (![CommonFunctions]::IsStringEmpty($execSTDOUT))
                 {
                     # Because we only created just one compressed datafile, we
                     #  will only have one output file - not multiple.  With that,
@@ -3604,7 +3604,7 @@ class DefaultCompress
         {
             # if this is the first entry in the variable, then just apply the item
             #  to the string without adding a appending the previous entries.
-            if ($null -eq $knownExtensions)
+            if ([CommonFunctions]::IsStringEmpty($knownExtensions))
             {
                 # First entry to the string.
                 $knownExtensions = $item;
