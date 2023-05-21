@@ -373,7 +373,7 @@ class CommonCUI
         # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
         # Was the Sub-Description provided?
-        if ($null -ne $itemSubDescription)
+        if (![CommonFunctions]::IsStringEmpty($itemSubDescription))
         {
             # Add the Sub-Description
             $displayMenuOutputFormatting += ("`r`n`t$($itemSubDescription)");
@@ -381,7 +381,7 @@ class CommonCUI
 
 
         # Was the Current Setting provided?
-        if ($null -ne $itemCurrentSetting)
+        if (![CommonFunctions]::IsStringEmpty($itemCurrentSetting))
         {
             # Add the Current Setting
             $displayMenuOutputFormatting += ("`r`n`t`t$($itemCurrentSetting)");
@@ -765,10 +765,9 @@ class CommonCUI
 
 
         # Apply the symbol, if it is used.
-        if ($NULL -ne $symbol)
+        if (![CommonFunctions]::IsStringEmpty($symbol))
         {
-            # Attach the symbol now before we append the message onto the
-            #  message.
+            # Attach the symbol now before we append the message onto the message.
             $formattedMessage += [string]$symbol + " ";
         } # If : Attach symbol
 
