@@ -667,7 +667,7 @@ class CommonIO
 
         # Make sure that the description field has something meaningful,
         #  if not (by mistake) - use the executable and args as the description.
-        if ($null -eq $description)
+        if ([CommonFunctions]::IsStringEmpty($description))
         {
             # Generate a new description using what information we have presently.
             [string] $description = [CommonIO]::__ExecuteCommandCreateDescription($command, $arguments);
@@ -916,7 +916,7 @@ class CommonIO
 
         # Is there any data in the STDOUT?
         #  If so, we can continue to evaluate it.  Otherwise, skip over.
-        if ($null -ne $outputResultOut.Value)
+        if (![CommonFunctions]::IsStringEmpty($outputResultOut.Value))
         {
             # Should we store the STDOUT to a variable?
             if ($captureSTDOUT -eq $true)
@@ -969,7 +969,7 @@ class CommonIO
 
 
         # Store the Standard Error in a logfile if there is any data at all?
-        If ($null -ne $outputResultErr.Value)
+        If (![CommonFunctions]::IsStringEmpty($outputResultErr.Value))
         {
             # Write the Standard Error to the logfile
             [Logging]::WriteToLogFile($logStdErr, $outputResultErr.Value);
@@ -2972,7 +2972,7 @@ class CommonIO
 
 
         # Make sure that the requested new name actually contains some sort of 'string'.
-        if ($null -eq $newName)
+        if ([CommonFunctions]::IsStringEmpty($newName))
         {
             # Because there was no new name given, we cannot proceed any further.
 
@@ -3934,7 +3934,7 @@ class CommonIO
     static [Char] DetermineItemType([string] $targetItem)
     {
         # First make sure that there was a path provided.
-        if ($null -eq $targetItem)
+        if ([CommonFunctions]::IsStringEmpty($targetItem))
         {
             # The target item does not exist; no operations can be performed.
 
@@ -4565,8 +4565,7 @@ class CommonIO
 
 
         # Make sure that the directory path is not empty.
-        if (($null -eq $directoryPath) -or
-            ("" -eq $directoryPath))
+        if ([CommonFunctions]::IsStringEmpty($directoryPath))
         {
             # Because the directory was not provided, we may not continue.
 
@@ -4607,8 +4606,7 @@ class CommonIO
 
         # Generate the Path and argument variables.
         #  If a file had not been included, then it will be omitted.
-        if (($null -eq $selectFile) -or
-            ("" -eq $selectFile))
+        if ([CommonFunctions]::IsStringEmpty($selectFile))
         {
             # Only provide the directory path.
             $path = $directoryPath;
