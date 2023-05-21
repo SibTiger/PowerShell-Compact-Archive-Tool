@@ -368,7 +368,7 @@
         # Check if the String of the site is null.
         #  If the string is null\empty, then false will be provided.
         #  Otherwise, true will be given.
-        return ($null -ne $site);
+        return (![CommonFunctions]::IsStringEmpty($site));
     } # __CheckSiteAvailability_SiteProvided()
 
 
