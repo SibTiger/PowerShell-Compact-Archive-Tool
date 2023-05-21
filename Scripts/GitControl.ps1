@@ -1094,7 +1094,7 @@ class GitControl
     [bool] DetectGitExist()
     {
         # Make sure that the value is not empty (or null).
-        if ($null -eq $this.GetExecutablePath())
+        if ([CommonFunctions]::IsStringEmpty($this.GetExecutablePath()))
         {
             # No value was provided; unable to perform a check as nothing was provided.
 
