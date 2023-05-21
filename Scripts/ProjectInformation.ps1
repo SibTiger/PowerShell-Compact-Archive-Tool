@@ -391,8 +391,7 @@ class ProjectInformation
     #>
     [Bool] DetermineAssignedWebsite()
     {
-        if (($null -eq $this.__urlWebsite) -or
-            ("$null" -eq $this.__urlWebsite))
+        if ([CommonFunctions]::IsStringEmpty($this.__urlWebsite))
         {
             # Website was not provided.
             return $false;
@@ -444,7 +443,7 @@ class ProjectInformation
     {
         # Insure that the provided value is not null.
         # If it is null, we cannot accept the change as it is a mandatory value.
-        if ($null -eq $newVal) { return $false; }
+        if ([CommonFunctions]::IsStringEmpty($newVal)) { return $false; }
 
 
         # Set the Project Name as requested.
@@ -477,7 +476,7 @@ class ProjectInformation
     {
         # Insure that the provided value is not null.
         # If it is null, we cannot accept the change as it is a mandatory value.
-        if ($null -eq $newVal) { return $false; }
+        if ([CommonFunctions]::IsStringEmpty($newVal)) { return $false; }
 
 
         # Set the Project's Code Name as requested.
@@ -510,7 +509,7 @@ class ProjectInformation
     {
         # Insure that the provided value is not null.
         # If it is null, we cannot accept the change as it is a mandatory value.
-        if ($null -eq $newVal) { return $false; }
+        if ([CommonFunctions]::IsStringEmpty($newVal)) { return $false; }
 
 
         # Set the Project's Compiler Version as requested.
@@ -543,7 +542,7 @@ class ProjectInformation
     {
         # Insure that the provided value is not null.
         # If it is null, we cannot accept the change as it is a mandatory value.
-        if ($null -eq $newVal) { return $false; }
+        if ([CommonFunctions]::IsStringEmpty($newVal)) { return $false; }
 
 
         # Set the File Name as requested.
