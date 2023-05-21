@@ -1152,7 +1152,7 @@ class SevenZip
     [bool] Detect7ZipExist()
     {
         # Make sure that the value is not empty (or null).
-        if ($null -eq $this.GetExecutablePath())
+        if ([CommonFunctions]::IsStringEmpty($this.GetExecutablePath()))
         {
             # No value was provided; unable to perform a check as nothing was provided.
 
@@ -1552,7 +1552,7 @@ class SevenZip
         # Make sure that the variable containing the Hash information, from 7Zip, is not empty.
         #  We need the variable to be initialized with some sort of data, if the data provided
         #  was empty (or null) - it is not possible to rigorously evaluate the output as needed.
-        if ($null -eq $outputResult)
+        if ([CommonFunctions]::IsStringEmpty($outputResult))
         {
             # The output cannot be evaluated; there is nothing to inspect.
 
@@ -2112,7 +2112,7 @@ class SevenZip
         # Just for assurance; make sure that we have an actual list from the archive
         #  file.  If in case the list was not retrieved successfully, then place an
         #  'ERR' to signify that an issue occurred, but still providing a value.
-        if ($null -eq $outputResult)
+        if ([CommonFunctions]::IsStringEmpty($outputResult))
         {
             # The Output from 7Zip contained no data.
 
@@ -3916,7 +3916,7 @@ class SevenZip
         {
             # if this is the first entry in the variable, then just apply the item
             #  to the string without adding a appending the previous entries.
-            if ($null -eq $knownExtensions)
+            if ([CommonFunctions]::IsStringEmpty($knownExtensions))
             {
                 # First entry to the string.
                 $knownExtensions = $item;
