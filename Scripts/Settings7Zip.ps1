@@ -1199,7 +1199,7 @@ class Settings7Zip
 
         # Now that we have the results from the finder, now determine
         #  if we were able to automatically detect the 7Zip Application.
-        if ($null -eq $find7ZipResults)
+        if ([CommonFunctions]::IsStringEmpty($find7ZipResults))
         {
             # Alert the user that the path is incorrect.
             [NotificationAudible]::Notify([NotificationAudibleEventType]::Warning);
