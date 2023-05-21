@@ -446,7 +446,7 @@ class Logging
 
         # Make sure that there is something to actually write, if there is no message - then
         #  there is no point in trying to write to the logfile.
-        elseif ($null -eq $message)
+        elseif ([CommonFunctions]::IsStringEmpty($message))
         {
             # Because the message is empty, there is really no point in written to the logfile.\
             [string] $errorMessage = "ERR! Message can not be recorded as it is null!";
@@ -562,7 +562,7 @@ class Logging
         #  some default message to indicate that something is wrong - but we managed to log the error regardless.
 
         # There was no initial message provided
-        if ($null -eq $msg)
+        if ([CommonFunctions]::IsStringEmpty($msg))
         {
             # Provide an default error message; helps to indicate that something went horribly wrong.
             $message = "<<UNKNOWN OR BLANK MESSAGE>>";
@@ -612,7 +612,7 @@ class Logging
         # Any additional information provided, optional field.  This can be null (or merely empty).
 
         # No additional information provided
-        if ($null -eq $additionalMsg)
+        if ([CommonFunctions]::IsStringEmpty($additionalMsg))
         {
             # No additional information was provided
             $messageAdditional = $null;
