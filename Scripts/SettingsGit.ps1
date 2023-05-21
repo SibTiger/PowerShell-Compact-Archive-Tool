@@ -1189,7 +1189,7 @@ class SettingsGit
 
         # Now that we have the results from the finder, now determine
         #  if we were able to automatically detect the Git Application.
-        if ($null -eq $findGitResults)
+        if ([CommonFunctions]::IsStringEmpty($findGitResults))
         {
             # Alert the user that the path is incorrect.
             [NotificationAudible]::Notify([NotificationAudibleEventType]::Warning);
