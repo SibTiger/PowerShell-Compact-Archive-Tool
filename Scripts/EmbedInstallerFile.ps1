@@ -228,7 +228,7 @@ class EmbedInstallerFile
     [bool] SetFileName([string] $newValue)
     {
         # Make sure that the value is not null; if null - do not update.
-        if ($null -eq $newValue) { return $false; }
+        if ([CommonFunctions]::IsEmptyString($newValue)) { return $false; }
 
 
         # Update the value as requested.
@@ -260,7 +260,7 @@ class EmbedInstallerFile
     [bool] SetFilePath([string] $newValue)
     {
         # Make sure that the value is not null; if null - do not update.
-        if ($null -eq $newValue) { return $false; }
+        if ([CommonFunctions]::IsEmptyString($newValue)) { return $false; }
 
 
         # Update the value as requested.
@@ -354,7 +354,7 @@ class EmbedInstallerFile
     [bool] SetMessage([string] $newValue)
     {
         # Make sure that the value is not null; if null - do not update.
-        if ($null -eq $newValue) { return $false; }
+        if ([CommonFunctions]::IsEmptyString($newValue)) { return $false; }
 
 
         # Update the value as requested.
