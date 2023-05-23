@@ -225,7 +225,6 @@ class EmbedInstaller
 
 
 
-        PAUSE
         return $true;
     } # Main()
 
