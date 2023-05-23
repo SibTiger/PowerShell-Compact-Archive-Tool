@@ -552,33 +552,21 @@ class MainMenu
         #  to no useful data given.
 
 
-        # Build: Release - Hidden
+        # Build: Release - Visible
+        if ($projectInformation.GetProjectLoaded()) { $showMenuBuildRelease.Value = $true; }
+
+        # Build Release - Hidden
         #   Limited or No Information Available.
-        if ($projectInformation.GetProjectLoaded())
-        {
-            $showMenuBuildRelease.Value = $false;
-        } # if : Build Release - Hidden
-
-        # Build Release - Visible
-        else
-        {
-            $showMenuBuildRelease.Value = $true;
-        } # else : Build Release - Visible
+        else { $showMenuBuildRelease.Value = $false; }
 
 
 
-        # Build: Development - Hidden
+        # Build: Development - Visible
+        if ($projectInformation.GetProjectLoaded()) { $showMenuBuildDevelopment.Value = $true; }
+
+        # Build Development - Hidden
         #   Limited or No Information Available.
-        if ($projectInformation.GetProjectLoaded())
-        {
-            $showMenuBuildDevelopment.Value = $false;
-        } # if : Build Development - Hidden
-
-        # Build Development - Visible
-        else
-        {
-            $showMenuBuildDevelopment.Value = $true;
-        } # else : Build Development - Visible
+        else { $showMenuBuildDevelopment.Value = $false; }
 
 
 
@@ -589,53 +577,53 @@ class MainMenu
         #   then we will be able to use the URL.
 
 
-        # Project's Homepage - Hidden
-        #   Limited or No Information Available
-        if (($projectInformation.GetProjectLoaded()) -and `
-            (([CommonFunctions]::IsStringEmpty($projectInformation.GetURLWebsite())) -or `
-             (![WebsiteResources]::CheckSiteAvailability($projectInformation.GetURLWebsite(), $true))))
-        {
-            $showMenuProjectHomePage.Value = $false;
-        } # if : Project's homepage - Hidden
-
         # Project's Homepage - Visible
-        else
+        if (($projectInformation.GetProjectLoaded()) -and `
+            ((![CommonFunctions]::IsStringEmpty($projectInformation.GetURLWebsite())) -and `
+             ([WebsiteResources]::CheckSiteAvailability($projectInformation.GetURLWebsite(), $true))))
         {
             $showMenuProjectHomePage.Value = $true;
-        } # else : Project's Homepage - Visible
+        } # if : Project's homepage - Visible
 
-
-
-        # Project's Wiki Page - Hidden
-        #   Value not provided
-        if (($projectInformation.GetProjectLoaded()) -and `
-            (([CommonFunctions]::IsStringEmpty($projectInformation.GetURLWiki())) -or `
-             (![WebsiteResources]::CheckSiteAvailability($projectInformation.GetURLWiki(), $true))))
+        # Project's Homepage - Hidden
+        #   Limited or No Information Available.
+        else
         {
-            $showMenuProjectWikiPage.Value = $false;
-        } # if : Project's Wiki Page - Hidden
+            $showMenuProjectHomePage.Value = $false;
+        } # else : Project's Homepage - Hidden
+
+
 
         # Project's Wiki Page - Visible
-        else
+        if (($projectInformation.GetProjectLoaded()) -and `
+            ((![CommonFunctions]::IsStringEmpty($projectInformation.GetURLWiki())) -and `
+             ([WebsiteResources]::CheckSiteAvailability($projectInformation.GetURLWiki(), $true))))
         {
             $showMenuProjectWikiPage.Value = $true;
-        } # else : Project's Wiki Page - Visible
+        } # if : Project's Wiki Page - Visible
 
-
-
-        # Project's Source Code: Hidden
-        #   Value not provided
-        if (($projectInformation.GetProjectLoaded()) -and `
-            (([CommonFunctions]::IsStringEmpty($projectInformation.GetURLSource()) -or `
-             (![WebsiteResources]::CheckSiteAvailability($projectInformation.GetURLSource(), $true)))))
-        {
-            $showMenuProjectSourceCode.Value = $false;
-        } # if : Project's Source Code - Hidden
-
-        # Project's Source Code: Visible
+        # Project's Wiki Page - Hidden
+        #   Limited or No Information Available.
         else
         {
+            $showMenuProjectWikiPage.Value = $false;
+        } # else : Project's Wiki Page - Hidden
+
+
+
+        # Project's Source Code: Visible
+        if (($projectInformation.GetProjectLoaded()) -and `
+            ((![CommonFunctions]::IsStringEmpty($projectInformation.GetURLSource()) -and `
+             ([WebsiteResources]::CheckSiteAvailability($projectInformation.GetURLSource(), $true)))))
+        { 
             $showMenuProjectSourceCode.Value = $true;
-        } # else : Project's Source Code - Visible
+        } # if : Project's Source Code - Visible
+
+        # Project's Source Code: Hidden
+        #   Limited or No Information Available.
+        else
+        {
+            $showMenuProjectSourceCode.Value = $false;
+        } # else : Project's Source Code - Hidden
     } # __DrawMenuDetermineHiddenMenus()
 } # MainMenu
