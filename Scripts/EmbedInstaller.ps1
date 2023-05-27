@@ -55,7 +55,7 @@ class EmbedInstaller
     #   the installation procedure.
     # -------------------------------
     # Input:
-    #  [EmbedInstallerInstallDestination] Installation Location
+    #  [EmbedInstallerInstallationType] Installation Type
     #   This value explicitly states the type of installation that will
     #   be performed within the main program.
     # -------------------------------
@@ -65,7 +65,7 @@ class EmbedInstaller
     #     $true  = Successfully installed\updated resource
     # -------------------------------
     #>
-    static [bool] Main([EmbedInstallerInstallDestination] $installLocation)
+    static [bool] Main([EmbedInstallerInstallationType] $installationType)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -127,7 +127,7 @@ class EmbedInstaller
 
 
         # Did the user request to install\update Windows Notification?
-        if ($installLocation -eq [EmbedInstallerInstallDestination]::WindowsToastNotification)
+        if ($installationType -eq [EmbedInstallerInstallationType]::WindowsToastNotification)
         {
             # Check to make sure that the site is reachable before trying to access it.
             if([WebsiteResources]::CheckSiteAvailability([NotificationVisual]::GetBurntToastDownloadURL(), $true))
@@ -172,7 +172,7 @@ class EmbedInstaller
 
 
         # Provide the instructions
-        [EmbedInstaller]::__DrawMainInstructions($installLocation, `
+        [EmbedInstaller]::__DrawMainInstructions($installationType, `
                                                 $temporaryDirectoryPath);
 
 
@@ -197,10 +197,10 @@ class EmbedInstaller
 
 
         # Now that we made it this far, now we can perform the desired installation
-        switch ($installLocation)
+        switch ($installationType)
         {
             # Installation: Burnt Toast
-            [EmbedInstallerInstallDestination]::WindowsToastNotification
+            [EmbedInstallerInstallationType]::WindowsToastNotification
             {
                 # Perform the Installation
                 [EmbedInstaller]::__EmbedInstallerBurntToast($temporaryDirectoryContents);
@@ -212,7 +212,7 @@ class EmbedInstaller
 
 
             # Installation: Project
-            [EmbedInstallerInstallDestination]::Project
+            [EmbedInstallerInstallationType]::Project
             {
                 # Perform the Installation
                 [EmbedInstaller]::__EmbedInstallerProjects($temporaryDirectoryContents);
@@ -239,13 +239,13 @@ class EmbedInstaller
     #   will understand the procedure and what is expected from the user.
     # -------------------------------
     # Input:
-    #  [EmbedInstallerInstallDestination] Install Type
+    #  [EmbedInstallerInstallationType] Install Type
     #   This defines what content is expected to be installed within the environment.
     #  [string] Temporary Directory
     #   Provides the absolute path of the temporary directory.
     # -------------------------------
     #>
-    hidden static [void] __DrawMainInstructions([EmbedInstallerInstallDestination] $installType, `  # Installation Contents
+    hidden static [void] __DrawMainInstructions([EmbedInstallerInstallationType] $installType, `    # Installation Contents
                                                 [string] $temporaryDirectory)                       # Path to Directory
     {
         # Declarations and Initializations
@@ -270,7 +270,7 @@ class EmbedInstaller
         switch ($installType)
         {
             # Modern Windows Toast Notification
-            ([EmbedInstallerInstallDestination]::WindowsToastNotification)
+            ([EmbedInstallerInstallationType]::WindowsToastNotification)
             {
                 # Set the string
                 $instructionString = (  " Instructions for Windows Burnt Toast`r`n"                                                                     + `
@@ -302,7 +302,7 @@ class EmbedInstaller
 
 
             # PowerShell Compact-Archive Tool Project
-            ([EmbedInstallerInstallDestination]::Project)
+            ([EmbedInstallerInstallationType]::Project)
             {
                 # Set the string
                 $instructionString = (  " Instructions for $($GLOBAL:_PROGRAMNAME_) Projects`r`n"                                                       + `
@@ -532,14 +532,14 @@ class EmbedInstaller
 
 
 
-<# Embed Installer - Install Destination [ENUM]
+<# Embed Installer - Installation Type [ENUM]
  # -------------------------------
  # This specifies a list of pre-defined directories that
  #  are supported for the installation process.
  # -------------------------------
  #>
-enum EmbedInstallerInstallDestination
+enum EmbedInstallerInstallationType
 {
     WindowsToastNotification        = 0;    # Windows 10's Toast Notification
     Project                         = 1;    # Supported Projects
-} # EmbedInstallerInstallDestination
+} # EmbedInstallerInstallationType
