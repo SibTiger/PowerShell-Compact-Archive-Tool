@@ -50,6 +50,27 @@ function Initializations()
 
 
 
+<# Initializations - Update Project Paths
+ # -------------------------------
+ # Documentation:
+ #  This function, when called, will update the project path global variables.  This is useful
+ #   for when a project had been loaded after the initialization ritual, but we need to have the
+ #   paths updated.
+ #  Thus, when we need to load-in a new project into the environment, then we also need to update
+ #   the project paths as well.  This is where this function comes into play.
+ #
+ # NOTE: This function is NOT intended to be loaded before the main Initialization function driver.
+ # -------------------------------
+ #>
+function Initializations_UpdateProjectPaths()
+{
+    # Directory Locations
+    InitializationDirectory;
+} # Initializations_UpdateProjectPaths()
+
+
+
+
 <# Initialization: Program Identity
  # -------------------------------
  # Documentation:
