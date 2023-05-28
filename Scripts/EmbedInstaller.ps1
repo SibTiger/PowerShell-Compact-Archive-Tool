@@ -135,7 +135,7 @@ class EmbedInstaller
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = ("Cannot continue with the EmbedInstaller as a Temporary Directory could not be created.`r`n"    +
+            [string] $logMessage = ("Cannot continue with the EmbedInstaller as a Temporary Directory could not be created!`r`n"    +
                                     "The temporary directory is a requirement in such that the user can provide the desired files.");
 
             # Generate any additional information that might be useful
