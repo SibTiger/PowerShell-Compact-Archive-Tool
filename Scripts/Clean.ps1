@@ -216,7 +216,7 @@ function clean()
             [CommonIO]::WriteToBuffer("`t`tFailed!", + `
                                         [LogMessageLevel]::Error, + `
                                         $false);
-        } # if : Failed to Delete Directory - Logs\Reports
+        } # if : Failed to Delete Directory - User Configuration\Installed Projects
     } # if : Deep Clean Up
 
 
