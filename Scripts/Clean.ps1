@@ -190,14 +190,16 @@ function clean()
 
 
     # User Configuration
+    #        AND
+    # Installed Projects
     # -----------
     # -----------
 
 
-    # Delete the user configuration file
+    # Delete the user configuration AND installed projects
     if ($programMode -eq [CleanUpModeType]::DeepCleanUp)
     {
-        [CommonIO]::WriteToBuffer("`tUser Configuration`r`n`t`t$GLOBAL:_PROGRAMDATA_ROOT_ROAMING_PATH_", + `
+        [CommonIO]::WriteToBuffer("`tUser Configuration and Installed Projects`r`n`t`t$GLOBAL:_PROGRAMDATA_ROOT_ROAMING_PATH_", + `
                                     [LogMessageLevel]::Warning, + `
                                     $false);
 
