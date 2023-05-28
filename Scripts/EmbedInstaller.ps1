@@ -126,9 +126,8 @@ class EmbedInstaller
 
 
         # Create a temporary directory
-        if ([CommonIO]::MakeTempDirectory("$($GLOBAL:_PROGRAMNAMESHORT_)-InstallComponent", `
-                                            [ref] $temporaryDirectoryPath) `
-            -eq $false)
+        if (![CommonIO]::MakeTempDirectory("$($GLOBAL:_PROGRAMNAMESHORT_)-InstallComponent", `
+                                            [ref] $temporaryDirectoryPath))
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
