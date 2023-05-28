@@ -327,7 +327,7 @@ function InitializationDirectory()
     Set-Variable -Name "_PROGRAMDATA_CONFIGS_PATH_" -Value "$($GLOBAL:_PROGRAMDATA_ROOT_ROAMING_PATH_)\Configs" `
         -Scope Global -Force -Option ReadOnly -ErrorAction SilentlyContinue `
         -Visibility Public `
-        -Description "Holds the parent path in which holds the user's configurations";
+        -Description "Holds the parent path in which holds the user's configurations.";
 } # InitializationDirectory()
 
 
