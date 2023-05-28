@@ -328,6 +328,15 @@ function InitializationDirectory()
         -Scope Global -Force -Option ReadOnly -ErrorAction SilentlyContinue `
         -Visibility Public `
         -Description "Holds the parent path in which holds the user's configurations.";
+
+
+    # User Data (Project Installation Path)
+    # ---------------
+    # This directory will hold the user's installed projects.
+    Set-Variable -Name "_PROGRAMDATA_PROJECTINSTALL_PATH_" -Value "$($GLOBAL:_PROGRAMDATA_ROOT_ROAMING_PATH_)\Projects" `
+        -Scope Global -Force -Option ReadOnly -ErrorAction SilentlyContinue `
+        -Visibility Public `
+        -Description "Holds the parent path in which contains the user's installed projects.";
 } # InitializationDirectory()
 
 
