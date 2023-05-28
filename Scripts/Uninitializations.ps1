@@ -101,18 +101,6 @@
         -Force `
         -ErrorAction SilentlyContinue;
 
-    # .NET Framework Requirement
-    Remove-Variable -Name "_DOTNETFRAMEWORK_" `
-        -Scope Global `
-        -Force `
-        -ErrorAction SilentlyContinue;
-
-    # PowerShell Version Requirement
-    Remove-Variable -Name "_POWERSHELLVERSION_" `
-        -Scope Global `
-        -Force `
-        -ErrorAction SilentlyContinue;
-
     # Debug Logging functionality
     Remove-Variable -Name "_DEBUGLOGGING_" `
         -Scope Global `

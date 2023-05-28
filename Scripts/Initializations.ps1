@@ -156,18 +156,6 @@ function InitializationProgramSites()
  #>
 function InitializationProgramData()
 {
-    # .NET Framework Requirement
-    Set-Variable -Name "_DOTNETFRAMEWORK_" -Value "5.0.405" `
-        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
-        -Visibility Public `
-        -Description "Specifies the minimum required version of the dotNET Core Framework.";
-
-    # PowerShell Version Requirement
-    Set-Variable -Name "_POWERSHELLVERSION_" -Value "7.2.1" `
-        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
-        -Visibility Public `
-        -Description "Specifies the minimum required version of the PowerShell Core version.";
-
     # Debug Logging functionality
     Set-Variable -Name "_DEBUGLOGGING_" -Value $true `
         -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
