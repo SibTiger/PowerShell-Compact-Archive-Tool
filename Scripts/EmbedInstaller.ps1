@@ -74,6 +74,7 @@ class EmbedInstaller
 
 
         # This will contain a collection of files that had been provided by the user.
+        #  The datatype within this Array List will be: EmbedInstallerFile, for simplicity sakes.
         [System.Collections.ArrayList] $temporaryDirectoryContents = [System.Collections.ArrayList]::new();
         # ----------------------------------------
 
@@ -443,8 +444,11 @@ class EmbedInstaller
         # Record all of the files found
         foreach ($file in $fileItems)
         {
+            # Create a new instance of the Embed Install File type.
+            [EmbedInstallerFile] $newFileEntry = [EmbedInstallerFile]::New($file.Name, $file.FullName);
+
             # Add the file into the collection.
-            $fileCollection.Add($file);
+            $fileCollection.Add($newFileEntry);
         } # foreach : Record Files
     } # __GetListFileContents()
 
