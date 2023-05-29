@@ -228,6 +228,9 @@ class EmbedInstaller
         } # if : User Requested Abort
 
 
+        # Perform a validation check by assuring that all provided archive datafiles given are healthy.
+        [EmbedInstaller]::__CheckArchiveFileIntegrity($temporaryDirectoryContents);
+
 
         # Now that we made it this far, now we can perform the desired installation
         switch ($installationType)
@@ -400,6 +403,60 @@ class EmbedInstaller
         # Now wait for the user to finish
         [CommonIO]::WaitForFileExplorer($temporaryDirectoryPath);
     } # __OpenDirectoryAndWaitForClose()
+
+
+
+
+   <# Check Archive File Integrity
+    # -------------------------------
+    # Documentation:
+    #  By calling this function, we will want to check all files provided
+    #   within the Array List to assure the files are not corrupted.
+    #   This check is essential to the embedded installer's functionality,
+    #   which will help prevent or reduce potential unforeseen consequences
+    #   during the operations.
+    #
+    # This function will merely update the Array List items, the further
+    #   algorithms will determine the best course of action.  As such,
+    #   we will not return a status regarding the findings.
+    # -------------------------------
+    # Input:
+    #  [System.Collections.ArrayList] {EmbedInstallerFile} File Collections
+    #   Provides a list of all files provided by the user.
+    # -------------------------------
+    #>
+    hidden static [void] __CheckArchiveFileIntegrity([System.Collections.ArrayList] $fileCollection)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the current instance of the user's Default Compressing object; this contains
+        #  the user's preferences as to how the Archive ZIP module will be utilized within this
+        #  application.
+        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        # ----------------------------------------
+
+
+
+        # If there's nothing provided, then there's nothing todo.
+        if ($fileCollection.Count -eq 0) { return; }
+
+
+        # Inspect _ALL_ files and verify that the archive datafile is healthy.
+        foreach ($item in $fileCollection)
+        {
+            # Determine verification status
+            if ($defaultCompress.VerifyArchive($item.GetFilePath()))
+            {
+                $item.SetVerification([EmbedInstallerFileVerification]::Passed);
+            } # if : Verification Passed
+            
+            # Verification had Failed
+            else
+            {
+                $item.SetVerification([EmbedInstallerFileVerification]::Failed);
+            } # else : Verification Failed
+        } # foreach : Verify Archive File(s)
+    } # __CheckArchiveFileIntegrity()
 
 
 
