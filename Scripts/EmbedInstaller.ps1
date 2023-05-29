@@ -441,18 +441,35 @@ class EmbedInstaller
         if ($fileCollection.Count -eq 0) { return; }
 
 
+        # Alert the user that we are inspecting the provided errors.
+        [Logging]::DisplayMessage("Inspecting the following files:");
+
+
         # Inspect _ALL_ files and verify that the archive datafile is healthy.
         foreach ($item in $fileCollection)
         {
+            # Let the user know that this file is being inspected.
+            [Logging]::DisplayMessage("`t$($item.GetFileName())");
+
+
+
             # Determine verification status
             if ($defaultCompress.VerifyArchive($item.GetFilePath()))
             {
+                # Alert the user that the file had passed the verification.
+                [Logging]::DisplayMessage("`t`t- Result: Passed");
+
+                # Adjust the attributes of the desired file entry.
                 $item.SetVerification([EmbedInstallerFileVerification]::Passed);
             } # if : Verification Passed
 
             # Verification had Failed
             else
             {
+                # Alert the user that the file had failed the verification.
+                [Logging]::DisplayMessage("`t`t- Result: Failed", [LogMessageLevel]::Error);
+
+                # Adjust the attributes of the desired file entry.
                 $item.SetVerification([EmbedInstallerFileVerification]::Failed);
             } # else : Verification Failed
         } # foreach : Verify Archive File(s)
