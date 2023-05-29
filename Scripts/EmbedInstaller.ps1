@@ -395,9 +395,26 @@ class EmbedInstaller
     #>
     hidden static [void] __OpenDirectoryAndWaitForClose([string] $temporaryDirectoryPath)
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This is a just a temporary variable such that we can obtain the
+        #   directory name, without the entire absolute path.
+        [System.IO.DirectoryInfo] $directoryInformation = $temporaryDirectoryPath;
+
+
+        # This will hold just the name of the temporary directory.
+        [string] $directoryName = $directoryInformation.NameString;
+        # ----------------------------------------
+
+
+
         # Open the directory to the user.
         [CommonIO]::AccessDirectory($temporaryDirectoryPath, `  # Temporary Directory
                                     $NULL);                     # Nothing to highlight
+
+
+        # Alert the user that the temporary directory window instance must be closed in order to continue.
+        [Logging]::DisplayMessage("`r`n`r`nClose the window named '$($directoryName)' to continue. . .");
 
 
         # Now wait for the user to finish
