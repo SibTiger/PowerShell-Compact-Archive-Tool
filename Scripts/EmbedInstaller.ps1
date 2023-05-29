@@ -522,6 +522,7 @@ class EmbedInstaller
     # Input:
     #  [System.Collections.ArrayList] File Collection
     #   This will hold *.ZIP files that had been placed within the temporary directory.
+    #   The Array List Objects are coming from Get-ChildItem CMDLet.
     # -------------------------------
     # Output:
     #  Installation status
