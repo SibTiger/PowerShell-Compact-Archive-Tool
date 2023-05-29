@@ -232,7 +232,7 @@ class EmbedInstaller
         switch ($installationType)
         {
             # Installation: Burnt Toast
-            [EmbedInstallerInstallationType]::WindowsToastNotification
+            ([EmbedInstallerInstallationType]::WindowsToastNotification)
             {
                 # Perform the Installation
                 [EmbedInstaller]::__EmbedInstallerBurntToast($temporaryDirectoryContents);
@@ -244,7 +244,7 @@ class EmbedInstaller
 
 
             # Installation: Project
-            [EmbedInstallerInstallationType]::Project
+            ([EmbedInstallerInstallationType]::Project)
             {
                 # Perform the Installation
                 [EmbedInstaller]::__EmbedInstallerProjects($temporaryDirectoryContents);
