@@ -441,7 +441,7 @@ class EmbedInstaller
         if ($fileCollection.Count -eq 0) { return; }
 
 
-        # Alert the user that we are inspecting the provided errors.
+        # Alert the user that we are inspecting the provided files.
         [Logging]::DisplayMessage("Inspecting the following files:");
 
 
