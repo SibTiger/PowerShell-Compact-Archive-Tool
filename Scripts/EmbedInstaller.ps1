@@ -449,7 +449,7 @@ class EmbedInstaller
             {
                 $item.SetVerification([EmbedInstallerFileVerification]::Passed);
             } # if : Verification Passed
-            
+
             # Verification had Failed
             else
             {
