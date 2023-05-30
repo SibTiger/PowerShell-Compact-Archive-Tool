@@ -397,6 +397,10 @@ class EmbedInstaller
     {
         # Declarations and Initializations
         # ----------------------------------------
+        # This will hold the instructions that will be presented to the user.
+        [string] $instructions = $null;
+
+
         # This is a just a temporary variable such that we can obtain the
         #   directory name, without the entire absolute path.
         [System.IO.DirectoryInfo] $directoryInformation = $temporaryDirectoryPath;
@@ -408,13 +412,18 @@ class EmbedInstaller
 
 
 
+        # Generate the instructions for this part of the process.
+        $instructions = ("Place the newly downloaded Zip file(s) into the temporary folder named $($directoryName).`r`n" + `
+                        "Once finished, close the temporary folder window named $($directoryName) to continue. . .");
+
+
         # Open the directory to the user.
         [CommonIO]::AccessDirectory($temporaryDirectoryPath, `  # Temporary Directory
                                     $NULL);                     # Nothing to highlight
 
 
         # Alert the user that the temporary directory window instance must be closed in order to continue.
-        [Logging]::DisplayMessage("`r`n`r`nClose the window named '$($directoryName)' to continue. . .");
+        [Logging]::DisplayMessage($instructions);
 
 
         # Now wait for the user to finish
