@@ -476,7 +476,7 @@ class EmbedInstaller
 
 
         # Alert the user that we are inspecting the provided files.
-        [Logging]::DisplayMessage("Inspecting the following file(s):");
+        [Logging]::DisplayMessage("Inspecting the health of the following file(s):");
 
 
         # Inspect _ALL_ files and verify that the archive datafile is healthy.
