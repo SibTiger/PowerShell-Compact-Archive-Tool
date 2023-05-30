@@ -209,9 +209,17 @@ class EmbedInstaller
                                                 $temporaryDirectoryPath);
 
 
+        # Provide some whitespace padding
+        [Logging]::DisplayMessage("`r`n`r`n");
+
+
         # Open the directory to the user such that they may drag and drop
         #   the contents into the temporary directory.
         [EmbedInstaller]::__OpenDirectoryAndWaitForClose($temporaryDirectoryPath);
+
+
+        # Provide some whitespace padding
+        [Logging]::DisplayMessage("`r`n`r`n");
 
 
         # Obtain a list of what files exists within the temporary directory.
