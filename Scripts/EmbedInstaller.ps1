@@ -670,6 +670,43 @@ class EmbedInstaller
     #>
     hidden static [bool] __EmbedInstallerProjects([System.Collections.ArrayList] $temporaryDirectoryContents)
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the current instance of the user's Default Compressing object; this contains
+        #  the user's preferences as to how the Archive ZIP module will be utilized within this
+        #  application.
+        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        # ----------------------------------------
+
+
+
+        foreach ($item in $temporaryDirectoryContents)
+        {
+            # Extracted Directory Absolute Path.
+            [string] $outputDirectory = $NULL;
+
+            # Testing String
+            [string] $debugMessage = $NULL;
+
+            # Exit Status
+            [bool] $exitCondition = $false;
+
+
+            # Extract each project.
+            $exitCondition = $defaultCompress.ExtractArchive($item.GetFilePath(), `
+                                                            $($GLOBAL:_PROGRAMDATA_PROJECT_PATH_), `
+                                                            [ref] $outputDirectory);
+
+            # Debug Message
+            $debugMessage = "Extracted $($item.GetFileName())`r`n`tFull Path: $($outputDirectory)`r`n`tExit Condition: $($exitCondition)`r`n- - - - - -`r`n";
+
+
+            # Testing Purposes
+            [Logging]::DisplayMessage($debugMessage);
+        } # foreach : Extract Contents
+
+
+        PAUSE;
         return $true;
     } # __EmbedInstallerProjects()
 } # EmbedInstaller
