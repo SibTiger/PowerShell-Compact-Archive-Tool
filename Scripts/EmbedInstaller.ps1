@@ -703,7 +703,7 @@ class EmbedInstaller
 
             # Extract each project.
             $exitCondition = $defaultCompress.ExtractArchive($item.GetFilePath(), `
-                                                            $($GLOBAL:_PROGRAMDATA_PROJECT_PATH_), `
+                                                            $($GLOBAL:_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_), `
                                                             [ref] $outputDirectory);
 
             # Debug Message

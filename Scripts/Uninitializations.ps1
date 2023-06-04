@@ -132,19 +132,19 @@
         -ErrorAction SilentlyContinue;
 
     # Output Parent Directory Path
-    Remove-Variable -Name "_USERDATA_BUILDS_PATH_" `
+    Remove-Variable -Name "_USERDATA_PROJECT_BUILDS_PATH_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
 
     # Output Release Directory Path
-    Remove-Variable -Name "_USERDATA_RELEASEBUILDS_PATH_" `
+    Remove-Variable -Name "_USERDATA_PROJECT_BUILDS_RELEASE_PATH_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
 
     # Output Development Directory Path
-    Remove-Variable -Name "_USERDATA_DEVBUILDS_PATH_" `
+    Remove-Variable -Name "_USERDATA_PROJECT_BUILDS_DEVELOPMENT_PATH_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
@@ -156,13 +156,13 @@
         -ErrorAction SilentlyContinue;
 
     # Program-Data Root Directory Path
-    Remove-Variable -Name "_PROGRAMDATA_ROOT_LOCAL_PATH_" `
+    Remove-Variable -Name "_PROGRAMDATA_LOCAL_ROOT_PATH_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
 
     # Program-Data Project Parent Directory Path
-    Remove-Variable -Name "_PROGRAMDATA_PROJECT_PATH_" `
+    Remove-Variable -Name "_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
@@ -174,13 +174,13 @@
         -ErrorAction SilentlyContinue;
 
     # Program-Data Parent Directory Path
-    Remove-Variable -Name "_PROGRAMDATA_ROOT_ROAMING_PATH_" `
+    Remove-Variable -Name "_PROGRAMDATA_ROAMING_ROOT_PATH_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
 
     # User Data (Configuration)
-    Remove-Variable -Name "_PROGRAMDATA_CONFIGS_PATH_" `
+    Remove-Variable -Name "_PROGRAMDATA_ROAMING_USERCONFIG_PATH_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;

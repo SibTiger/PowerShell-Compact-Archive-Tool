@@ -61,7 +61,7 @@
         {
             # Create a new instance of the singleton object.
             [LoadSaveUserConfiguration]::_instance = `
-                    [LoadSaveUserConfiguration]::new($Global:_PROGRAMDATA_CONFIGS_PATH_);
+                    [LoadSaveUserConfiguration]::new($Global:_PROGRAMDATA_ROAMING_USERCONFIG_PATH_);
         } # If: No Singleton Instance
 
         # Provide an instance of the object.

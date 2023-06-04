@@ -142,7 +142,7 @@ class UserPreferences
         $this.__compressionTool = [UserPreferencesCompressTool]::InternalZip;
 
         # Output Build Path
-        $this.__outputBuildsPath = $global:_USERDATA_BUILDS_PATH_;
+        $this.__outputBuildsPath = $global:_USERDATA_PROJECT_BUILDS_PATH_;
 
         # Use Git Features
         $this.__versionControlTool = [UserPreferencesVersionControlTool]::None;
