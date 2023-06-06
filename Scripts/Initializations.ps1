@@ -333,7 +333,7 @@ function InitializationDirectory()
     # Project Art Directory Path
     # ---------------
     # The directory that will contain the project's images that will be visible using Windows' Toast Notifications.
-    Set-Variable -Name "_PROGRAMDATA_ROAMING_PROJECT_ART_PATH_" -Value "$($GLOBAL:_PROGRAMDATA_ROAMING_ROOT_PATH_)\$([ProjectInformation]::projectName)\Art" `
+    Set-Variable -Name "_PROGRAMDATA_ROAMING_PROJECT_ART_PATH_" -Value "$($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_)\$([ProjectInformation]::projectName)\Art" `
         -Scope Global -Force -Option None -ErrorAction SilentlyContinue `
         -Visibility Public `
         -Description "Holds the path for the project's art pieces, such as logo and banner images.";
