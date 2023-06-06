@@ -186,7 +186,7 @@
         -ErrorAction SilentlyContinue;
 
     # User Data (Project Installation Path)
-    Remove-Variable -Name "_PROGRAMDATA_PROJECTINSTALL_PATH_" `
+    Remove-Variable -Name "_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
