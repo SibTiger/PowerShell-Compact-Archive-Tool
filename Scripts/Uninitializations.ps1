@@ -185,6 +185,12 @@
         -Force `
         -ErrorAction SilentlyContinue;
 
+    # User Data (Project Art Directory Path)
+    Remove-Variable -Name "_PROGRAMDATA_ROAMING_PROJECT_ART_PATH_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
     # PowerShell's Window Title
     Remove-Variable -Name "_ENVIRONMENT_WINDOW_TITLE_ORIGINAL_" `
         -Scope Global `
