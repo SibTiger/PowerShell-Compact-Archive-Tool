@@ -91,7 +91,7 @@ function CreateDirectories()
             ([CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_LOGS_PATH_)                     -eq $true)  -and `      # The Program Data Logs [Local]
             ([CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_ROAMING_ROOT_PATH_)             -eq $true)  -and `      # The Program Data Root [Roaming]
             ([CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_ROAMING_USERCONFIG_PATH_)       -eq $true)  -and `      # The Program Data Configs [Roaming]
-            ([CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_PROJECTINSTALL_PATH_)           -eq $true));            # The Installation Path for Projects [Roaming]
+            ([CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_)     -eq $true));            # The Installation Path for Projects [Roaming]
 } # CreateDirectories()
 
 
@@ -141,7 +141,7 @@ function CheckProgramDirectories()
             ([CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_LOGS_PATH_, $true)                    -eq $true)  -and `      # The Program Data Logs [Local]
             ([CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_ROAMING_ROOT_PATH_, $true)            -eq $true)  -and `      # The Program Data Root [Roaming]
             ([CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_ROAMING_USERCONFIG_PATH_, $true)      -eq $true)  -and `      # The Program Data Configs [Roaming]
-            ([CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_PROJECTINSTALL_PATH_, $true)          -eq $true));            # The Installation Path for Projects [Roaming]
+            ([CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_, $true)    -eq $true));            # The Installation Path for Projects [Roaming]
 } # CheckProgramDirectories()
 
 
