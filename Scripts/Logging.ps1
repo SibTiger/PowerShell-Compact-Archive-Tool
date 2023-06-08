@@ -53,7 +53,7 @@ class Logging
     # Program Log Path
     # ---------------
     # The centralized location of where the program's logfiles will be located.
-    Static [string] $ProgramLogPath = "$($GLOBAL:_PROGRAMDATA_LOGS_PATH_)\Program";
+    Static [string] $ProgramLogPath = "$($GLOBAL:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_)";
 
 
     # Program Log Filename

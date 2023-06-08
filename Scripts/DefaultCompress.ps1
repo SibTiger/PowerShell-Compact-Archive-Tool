@@ -199,7 +199,7 @@ class DefaultCompress
         $this.__generateReportFilePDF = $false;
 
         # Log Root Directory Path
-        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\PSArchive";
+        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_)\PSArchive";
 
         # Report Directory Path
         $this.__reportPath = "$($this.__rootLogPath)\reports";
@@ -233,7 +233,7 @@ class DefaultCompress
         $this.__generateReportFilePDF = $generateReportFilePDF;
 
         # Log Root Directory Path
-        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\PSArchive";
+        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_)\PSArchive";
 
         # Report Directory Path
         $this.__reportPath = "$($this.__rootLogPath)\reports";

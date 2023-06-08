@@ -155,14 +155,20 @@
         -Force `
         -ErrorAction SilentlyContinue;
 
-    # Program-Data Project Parent Directory Path
-    Remove-Variable -Name "_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_" `
+    # Program-Data Project Program Log Directory Path
+    Remove-Variable -Name "_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
 
-    # Log Directory Path
-    Remove-Variable -Name "_PROGRAMDATA_LOGS_PATH_" `
+    # Project Parent Directory
+    Remove-Variable -Name "_PROGRAMDATA_LOCAL_PROJECT_PATH_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Project Log Directory Path
+    Remove-Variable -Name "_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;

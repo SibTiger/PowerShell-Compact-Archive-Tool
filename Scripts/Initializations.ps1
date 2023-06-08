@@ -280,23 +280,31 @@ function InitializationDirectory()
         -Description "Holds the root path in which the program data will be stored, but remains local to this system within a Roaming Profile environment.";
 
 
+    # Program-Data Program Log Directory Path
+    # ---------------
+    # The main program logfile directory
+    Set-Variable -Name "_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_" -Value "$($_PROGRAMDATA_LOCAL_ROOT_PATH_)\Program" `
+        -Scope Global -Force -Option ReadOnly -ErrorAction SilentlyContinue `
+        -Visibility Public `
+        -Description "Contains the program's main logfile regarding every action and output.";
+
+
     # Program-Data Project Parent Directory Path
     # ---------------
     # The project parent directory where program-data will be stored.
-    Set-Variable -Name "_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_" -Value "$($GLOBAL:_PROGRAMDATA_LOCAL_ROOT_PATH_)\$([ProjectInformation]::projectName)" `
+    Set-Variable -Name "_PROGRAMDATA_LOCAL_PROJECT_PATH_" -Value "$($GLOBAL:_PROGRAMDATA_LOCAL_ROOT_PATH_)\$([ProjectInformation]::projectName)" `
         -Scope Global -Force -Option None -ErrorAction SilentlyContinue `
         -Visibility Public `
-        -Description "Contains the path of where all related program data will be stored that is affiliated with the loaded project.";
+        -Description "This will contain the path as to where all related data of a loaded project will be stored.";
 
 
-    # Log Directory Path
+    # Log Directory for Projects Path
     # ---------------
-    # The directory that will contain the log-files regarding this program and some special
-    #  operations.
-    Set-Variable -Name "_PROGRAMDATA_LOGS_PATH_" -Value "$($GLOBAL:_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_)\Logs" `
+    # The directory that will contain the log-files regarding activity that occurs while a project is loaded, such as operations.
+    Set-Variable -Name "_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_" -Value "$($GLOBAL:_PROGRAMDATA_LOCAL_PROJECT_PATH_)\Logs" `
         -Scope Global -Force -Option None -ErrorAction SilentlyContinue `
         -Visibility Public `
-        -Description "Holds the parent path in which all of the logfiles will be stored.";
+        -Description "This will hold the logfiles regarding each operation taken place within the loaded project.";
 
 
     # ----

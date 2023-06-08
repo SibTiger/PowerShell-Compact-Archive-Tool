@@ -250,7 +250,7 @@ class SevenZip
         $this.__generateReportFilePDF = $false;
 
         # Log Root Directory Path
-        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\7Zip";
+        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_)\7Zip";
 
         # Report Directory Path
         $this.__reportPath = "$($this.__rootLogPath)\reports";
@@ -300,7 +300,7 @@ class SevenZip
         $this.__generateReportFilePDF = $generateReportFilePDF;
 
         # Log Root Directory Path
-        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\7Zip";
+        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_)\7Zip";
 
         # Report Directory Path
         $this.__reportPath = "$($this.__rootLogPath)\reports";
