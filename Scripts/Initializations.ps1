@@ -412,9 +412,13 @@ function InitializationDirectory()
 function InitializationEnvironment()
 {
     # PowerShell's Window Title
-    Set-Variable -Name "_ENVIRONMENT_WINDOW_TITLE_ORIGINAL_" -Value "$([CommonIO]::GetTerminalWindowTitle())" `
-        -Scope Global -Force -Option ReadOnly -ErrorAction SilentlyContinue `
+    Set-Variable `
+        -Name "_ENVIRONMENT_WINDOW_TITLE_ORIGINAL_" `
+        -Value "$([CommonIO]::GetTerminalWindowTitle())" `
+        -Scope Global `
+        -Option ReadOnly `
         -Visibility Public `
+        -ErrorAction SilentlyContinue `
         -Description "Maintains the current title of the PowerShell's window title; because we will change it - this will allow us to revert the title back.";
 } # InitializationEnvironment()
 
