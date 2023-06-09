@@ -565,3 +565,18 @@ function FetchPathUserDocuments()
 {
     return "$($env:HOMEDRIVE)$($env:HOMEPATH)\Documents";
 } # FetchPathUserDocuments()
+
+
+
+
+<# Initialize Directory Choice [ENUM]
+ # -------------------------------
+ # Provides a readability aid as to what directories are to be
+ #  initialized or re-assigned if necessary.
+ # -------------------------------
+ #>
+enum InitializationsDirectoryChoice
+{
+    Program     = 0;    # Program Directories
+    Project     = 1;    # Project Directories
+} # InitializationsDirectoryChoice
