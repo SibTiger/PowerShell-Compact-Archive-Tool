@@ -222,17 +222,25 @@ function InitializationProgramSites()
 function InitializationProgramData()
 {
     # Debug Logging functionality
-    Set-Variable -Name "_DEBUGLOGGING_" -Value $true `
-        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
+    Set-Variable `
+        -Name "_DEBUGLOGGING_" `
+        -Value $true `
+        -Scope Global `
+        -Option ReadOnly `
         -Visibility Public `
+        -ErrorAction SilentlyContinue `
         -Description "Allows control to either enable or disable the program's logging functionalities.";
 
     # Splash Screen Hold Timer (Seconds)
     #  How many seconds the splash screen will remain visible to the user, yet locking the
     #  program from proceeding onwards.
-    Set-Variable -Name "_STARTUPSPLASHSCREENHOLDTIME_" -Value 4 `
-        -Option None -Scope Global -ErrorAction SilentlyContinue `
+    Set-Variable `
+        -Name "_STARTUPSPLASHSCREENHOLDTIME_" `
+        -Value 4 `
+        -Scope Global `
+        -Option ReadOnly `
         -Visibility Public `
+        -ErrorAction SilentlyContinue `
         -Description "The amount of time that is required for the splash screen to remain present on the terminal buffer.";
 } # InitializationProgramData()
 
