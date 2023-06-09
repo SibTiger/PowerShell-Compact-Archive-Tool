@@ -158,33 +158,53 @@ function InitializationProgramIdentity()
 function InitializationProgramSites()
 {
     # Program Homepage
-    Set-Variable -Name "_PROGRAMSITEHOMEPAGE_" -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool" `
-        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
+    Set-Variable `
+        -Name "_PROGRAMSITEHOMEPAGE_" `
+        -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool" `
+        -Scope Global `
+        -Option ReadOnly `
         -Visibility Public `
+        -ErrorAction SilentlyContinue `
         -Description "Provides a URL to the application's homepage site.";
 
     # Program Wiki
-    Set-Variable -Name "_PROGRAMSITEWIKI_" -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/wiki" `
-        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
+    Set-Variable `
+        -Name "_PROGRAMSITEWIKI_" `
+        -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/wiki" `
+        -Scope Global `
+        -Option ReadOnly `
         -Visibility Public `
+        -ErrorAction SilentlyContinue `
         -Description "Provides a URL to the application's wiki site.";
 
     # Program Downloads
-    Set-Variable -Name "_PROGRAMSITEDOWNLOADS_" -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/releases/latest" `
-        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
+    Set-Variable `
+        -Name "_PROGRAMSITEDOWNLOADS_" `
+        -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/releases/latest" `
+        -Scope Global `
+        -Option ReadOnly `
         -Visibility Public `
+        -ErrorAction SilentlyContinue `
         -Description "Provides a URL to the application's download page site.";
 
     # Program Source Repository
-    Set-Variable -Name "_PROGRAMSITESOURCEREPOSITORY_" -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool" `
-        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
+    Set-Variable `
+        -Name "_PROGRAMSITESOURCEREPOSITORY_" `
+        -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool" `
+        -Scope Global `
+        -Option ReadOnly `
         -Visibility Public `
+        -ErrorAction SilentlyContinue `
         -Description "Provides a URL to the application's source repository site.";
 
     # Report a Bug or Feature
-    Set-Variable -Name "_PROGRAMREPORTBUGORFEATURE_" -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/wiki/Report" `
-        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
+    Set-Variable `
+        -Name "_PROGRAMREPORTBUGORFEATURE_" `
+        -Value "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/wiki/Report" `
+        -Scope Global `
+        -Option ReadOnly `
         -Visibility Public `
+        -ErrorAction SilentlyContinue `
         -Description "Provides a URL to the application's bug tracker site.";
 } # InitializationProgramSites()
 
