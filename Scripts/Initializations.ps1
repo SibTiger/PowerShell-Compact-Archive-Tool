@@ -81,42 +81,66 @@ function Initializations_UpdateProjectPaths()
 function InitializationProgramIdentity()
 {
     # Program Name
-    Set-Variable -Name "_PROGRAMNAME_" -Value "PowerShell Compact-Archive Tool" `
-        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
+    Set-Variable `
+        -Name "_PROGRAMNAME_" `
+        -Value "PowerShell Compact-Archive Tool" `
+        -Scope Global `
+        -Option ReadOnly `
         -Visibility Public `
+        -ErrorAction SilentlyContinue `
         -Description "The full name of the application";
 
 
     # Program Name (Abbreviated)
-    Set-Variable -Name "_PROGRAMNAMESHORT_" -Value "PSCAT" `
-        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
+    Set-Variable `
+        -Name "_PROGRAMNAMESHORT_" `
+        -Value "PSCAT" `
+        -Scope Global `
+        -Option ReadOnly `
         -Visibility Public `
+        -ErrorAction SilentlyContinue `
         -Description "The short name of the application";
 
     # Version
-    Set-Variable -Name "_VERSION_" -Value "1.2.0 [Alpha]" `
-        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
+    Set-Variable `
+        -Name "_VERSION_" `
+        -Value "1.2.0 [Alpha]" `
+        -Scope Global `
+        -Option ReadOnly `
         -Visibility Public `
+        -ErrorAction SilentlyContinue `
         -Description "The version of the application";
 
 
     # Version Name
-    Set-Variable -Name "_VERSIONNAME_" -Value "Cordis" `
-        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
+    Set-Variable `
+        -Name "_VERSIONNAME_" `
+        -Value "Cordis" `
+        -Scope Global `
+        -Option ReadOnly `
         -Visibility Public `
+        -ErrorAction SilentlyContinue `
         -Description "The name of the version; usually the name of the program's foundation.";
 
     # Release Date
     # Date Format: DD.MM.YYYY with leading zeros
-    Set-Variable -Name "_RELEASEDATE_" -Value "DD.MM.2023" `
-        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
+    Set-Variable `
+        -Name "_RELEASEDATE_" `
+        -Value "DD.MM.2023" `
+        -Scope Global `
+        -Option ReadOnly `
         -Visibility Public `
+        -ErrorAction SilentlyContinue `
         -Description "The date in which the version of the application was released.";
 
     # License
-    Set-Variable -Name "_LICENSE_" -Value "GNU General Public License v3.0" `
-        -Option ReadOnly -Scope Global -ErrorAction SilentlyContinue `
+    Set-Variable `
+        -Name "_LICENSE_" `
+        -Value "GNU General Public License v3.0" `
+        -Scope Global `
+        -Option ReadOnly `
         -Visibility Public `
+        -ErrorAction SilentlyContinue `
         -Description "Describes the license that this application utilizes. ";
 } # InitializationProgramIdentity()
 
