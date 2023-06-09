@@ -40,8 +40,8 @@ function Initializations()
     # Program Data and Internal Mutable Data
     InitializationProgramData;
 
-    # Directory Locations
-    InitializationDirectory;
+    # Directory Locations - Program
+    __Initialization_DirectorySetupDriver [InitializationsDirectoryChoice]::Program;
 
     # Program environment
     InitializationEnvironment;
@@ -65,8 +65,55 @@ function Initializations()
 function Initializations_UpdateProjectPaths()
 {
     # Directory Locations
-    InitializationDirectory;
+    __Initialization_DirectorySetupDriver [InitializationsDirectoryChoice]::Project;
 } # Initializations_UpdateProjectPaths()
+
+
+
+
+<# Initializations - Directory Driver
+ # -------------------------------
+ # Documentation:
+ #  This function will provide a gateway into initializing the desired directory global variables.
+ #
+ # NOTE:
+ #  It is strongly recommended to initialize the Program directories before initializing any other
+ #   directory variables!
+ # -------------------------------
+ # Input:
+ #  [InitializationsDirectoryChoice] Directory Setup
+ #   This will determine what directory variables are to be initialized or re-assigned.
+ # -------------------------------
+#>
+hidden function __Initialization_DirectorySetupDriver([InitializationsDirectoryChoice] $directorySetup)
+{
+    # Determine what directory variables to initialize
+    switch ($directorySetup)
+    {
+        # Program Directories
+        {[InitializationsDirectoryChoice]::Program}
+        {
+            # Setup the Program's directories
+            InitializationDirectoryPaths_Program;
+
+
+            # Finished!
+            break;
+        } # Program Directories
+
+
+        # Project Directories
+        {[InitializationsDirectoryChoice]::Project}
+        {
+            # Setup the Loaded Project's directories
+            InitializationDirectoryPaths_Project;
+
+
+            # Finished!
+            break;
+        } # Project Directories
+    } # switch : Determine Directory Initializations
+} # __Initialization_DirectorySetupDriver()
 
 
 
