@@ -30,20 +30,22 @@
  # ----
  #
  #  Directories to Create:
- #   - User-Data Domain
- #    - %HomePath%\Documents\<PROGRAM_NAME>
- #    - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>
- #    - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>\Builds
- #    - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>\Builds\Release
- #    - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>\Builds\Development
+ #   - Program Data:
+ #      - %HomePath%\Documents\<PROGRAM_NAME>
+ #      - %LOCALAPPDATA%\<PROGRAM_NAME>
+ #      - %LOCALAPPDATA%\<PROGRAM_NAME>\Program
+ #      - %APPDATA%\<PROGRAM_NAME>
+ #      - %APPDATA%\<PROGRAM_NAME>\Configs
+ #      - %APPDATA%\<PROGRAM_NAME>\Projects
  #
- #   - Program-Data Domain
- #    - %APPDATA%\<PROGRAM_NAME>
- #    - %APPDATA%\<PROGRAM_NAME>\Configs
- #    - %APPDATA%\<PROGRAM_NAME>\Projects
- #    - %LOCALAPPDATA%\<PROGRAM_NAME>
- #    - %LOCALAPPDATA%\<PROGRAM_NAME>\<PROJECT_NAME>
- #    - %LOCALAPPDATA%\<PROGRAM_NAME>\<PROJECT_NAME>\Logs
+ #   - Program Data:
+ #      - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>
+ #      - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>\Builds
+ #      - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>\Builds\Release
+ #      - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>\Builds\Development
+ #      - %LOCALAPPDATA%\<PROGRAM_NAME>\<PROJECT_NAME>
+ #      - %LOCALAPPDATA%\<PROGRAM_NAME>\<PROJECT_NAME>\Logs
+ #      - %APPDATA%\<PROGRAM_NAME>\Projects\<PROJECT_NAME>\Art
  # -------------------------------
  # Output:
  #  [bool] Exit code
@@ -106,26 +108,29 @@ function CreateDirectories()
 <# Check Program Directories
  # -------------------------------
  # Documentation:
- #  This function will check to make sure that the required directories exists within the user's
- #   filesystem.
+ #  This function will validate if the required directories already exists within the host's filesystem.
+ #   If one required directory is missing, than this function will provide that signal to the calling
+ #   function.
  #
  # ----
  #
- #  Directories to Check:
- #   - User-Data Domain
- #    - %HomePath%\Documents\<PROGRAM_NAME>
- #    - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>
- #    - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>\Builds
- #    - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>\Builds\Release
- #    - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>\Builds\Development
+ #  Directories to Create:
+ #   - Program Data:
+ #      - %HomePath%\Documents\<PROGRAM_NAME>
+ #      - %LOCALAPPDATA%\<PROGRAM_NAME>
+ #      - %LOCALAPPDATA%\<PROGRAM_NAME>\Program
+ #      - %APPDATA%\<PROGRAM_NAME>
+ #      - %APPDATA%\<PROGRAM_NAME>\Configs
+ #      - %APPDATA%\<PROGRAM_NAME>\Projects
  #
- #   - Program-Data Domain
- #    - %APPDATA%\<PROGRAM_NAME>
- #    - %APPDATA%\<PROGRAM_NAME>\Configs
- #    - %APPDATA%\<PROGRAM_NAME>\Projects
- #    - %LOCALAPPDATA%\<PROGRAM_NAME>
- #    - %LOCALAPPDATA%\<PROGRAM_NAME>\<PROJECT_NAME>
- #    - %LOCALAPPDATA%\<PROGRAM_NAME>\<PROJECT_NAME>\Logs
+ #   - Program Data:
+ #      - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>
+ #      - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>\Builds
+ #      - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>\Builds\Release
+ #      - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>\Builds\Development
+ #      - %LOCALAPPDATA%\<PROGRAM_NAME>\<PROJECT_NAME>
+ #      - %LOCALAPPDATA%\<PROGRAM_NAME>\<PROJECT_NAME>\Logs
+ #      - %APPDATA%\<PROGRAM_NAME>\Projects\<PROJECT_NAME>\Art
  # -------------------------------
  # Output:
  #  [bool] Exit code
