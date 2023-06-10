@@ -21,10 +21,11 @@
 <# Create Program Required Directories
  # -------------------------------
  # Documentation:
- #  This function will create the directories that is required to house program-data.  These directories
- #   will be paramount for this program to operate successfully.  If the directories do not exist, then
- #   the directories are to be created on the user's filesystem.  If the directories does exist already,
- #   then nothing will be created nor changed.
+ #  This function is designed to assure that the required directories are available within the user's
+ #   filesystem.  If incase one or more directories could not be found, then this function will try
+ #   to create them.  Because of the design of the program, these directories are paramount in order
+ #   for this application to function properly.  If the directories can not be created successfully,
+ #   then we will return an error stating as such back to the calling function.
  #
  # ----
  #
