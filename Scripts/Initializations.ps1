@@ -148,6 +148,7 @@ function InitializationProgramIdentity()
         -ErrorAction SilentlyContinue `
         -Description "The short name of the application";
 
+
     # Version
     Set-Variable `
         -Name "_VERSION_" `
@@ -169,6 +170,7 @@ function InitializationProgramIdentity()
         -ErrorAction SilentlyContinue `
         -Description "The name of the version; usually the name of the program's foundation.";
 
+
     # Release Date
     # Date Format: DD.MM.YYYY with leading zeros
     Set-Variable `
@@ -179,6 +181,7 @@ function InitializationProgramIdentity()
         -Visibility Public `
         -ErrorAction SilentlyContinue `
         -Description "The date in which the version of the application was released.";
+
 
     # License
     Set-Variable `
@@ -214,6 +217,7 @@ function InitializationProgramSites()
         -ErrorAction SilentlyContinue `
         -Description "Provides a URL to the application's homepage site.";
 
+
     # Program Wiki
     Set-Variable `
         -Name "_PROGRAMSITEWIKI_" `
@@ -223,6 +227,7 @@ function InitializationProgramSites()
         -Visibility Public `
         -ErrorAction SilentlyContinue `
         -Description "Provides a URL to the application's wiki site.";
+
 
     # Program Downloads
     Set-Variable `
@@ -234,6 +239,7 @@ function InitializationProgramSites()
         -ErrorAction SilentlyContinue `
         -Description "Provides a URL to the application's download page site.";
 
+
     # Program Source Repository
     Set-Variable `
         -Name "_PROGRAMSITESOURCEREPOSITORY_" `
@@ -243,6 +249,7 @@ function InitializationProgramSites()
         -Visibility Public `
         -ErrorAction SilentlyContinue `
         -Description "Provides a URL to the application's source repository site.";
+
 
     # Report a Bug or Feature
     Set-Variable `
@@ -277,6 +284,7 @@ function InitializationProgramData()
         -Visibility Public `
         -ErrorAction SilentlyContinue `
         -Description "Allows control to either enable or disable the program's logging functionalities.";
+
 
     # Splash Screen Hold Timer (Seconds)
     #  How many seconds the splash screen will remain visible to the user, yet locking the
