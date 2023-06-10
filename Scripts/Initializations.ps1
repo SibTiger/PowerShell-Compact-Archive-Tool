@@ -305,12 +305,11 @@ function InitializationDirectoryPaths_Program()
 {
     # Script Absolute Script Path
     # ---------------
-    # The path that this script currently resides from.
-    #  Highly useful for 'absolute' paths.
-    # BUG POSSIBLE: If the path has been disrupted at program's runtime,
-    #  then it is possible that this path will be broken - thus causing
-    #  problems when trying to throw or recall files from specific directories
-    #  from an absolute directory.
+    # The path that this script currently resides from.  Highly useful for 'absolute' paths.
+    # BUG POSSIBLE: If the path has been disrupted at program's runtime, then it is possible
+    #                   that this path will be broken - thus causing problems when trying to
+    #                   throw or recall files from specific directories from an absolute
+    #                   directory.
     Set-Variable `
         -Name "_SCRIPTPATH_" `
         -Value $PSScriptRoot `
