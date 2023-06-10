@@ -91,7 +91,7 @@ function __Initialization_DirectorySetupDriver([InitializationsDirectoryChoice] 
     switch ($directorySetup)
     {
         # Program Directories
-        {[InitializationsDirectoryChoice]::Program}
+        ([InitializationsDirectoryChoice]::Program)
         {
             # Setup the Program's directories
             InitializationDirectoryPaths_Program;
@@ -103,7 +103,7 @@ function __Initialization_DirectorySetupDriver([InitializationsDirectoryChoice] 
 
 
         # Project Directories
-        {[InitializationsDirectoryChoice]::Project}
+        ([InitializationsDirectoryChoice]::Project)
         {
             # Setup the Loaded Project's directories
             InitializationDirectoryPaths_Project;
