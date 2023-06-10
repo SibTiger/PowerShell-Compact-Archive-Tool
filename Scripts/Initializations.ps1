@@ -40,7 +40,7 @@ function Initializations()
     # Program Data and Internal Mutable Data
     InitializationProgramData;
 
-    # Directory Locations - Program
+    # Directory Paths - Program
     __Initialization_DirectorySetupDriver([InitializationsDirectoryChoice]::Program);
 
     # Program environment
@@ -64,7 +64,7 @@ function Initializations()
  #>
 function Initializations_UpdateProjectPaths()
 {
-    # Directory Locations
+    # Directory Paths - Project Environment
     __Initialization_DirectorySetupDriver([InitializationsDirectoryChoice]::Project);
 } # Initializations_UpdateProjectPaths()
 
@@ -198,7 +198,7 @@ function InitializationProgramIdentity()
  # -------------------------------
  # Documentation:
  #  This function will initialize variables that will provide helpful website links related
- #   to the program.  Such website links could be: Source Repository, Wiki, Downloads,
+ #   to the program.  Such websites could be the following: Source Repository, Wiki, Downloads,
  #   homepage, and more if necessary.
  # -------------------------------
  #>
