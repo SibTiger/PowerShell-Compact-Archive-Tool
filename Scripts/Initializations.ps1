@@ -570,10 +570,7 @@ function InitializationEnvironment()
  #   The current user's Local AppData directory.
  # -------------------------------
  #>
-function FetchPathAppDataLocal()
-{
-    return $env:LOCALAPPDATA;
-} # FetchPathAppDataLocal()
+function FetchPathAppDataLocal() { return $env:LOCALAPPDATA; }
 
 
 
@@ -589,10 +586,7 @@ function FetchPathAppDataLocal()
  #   The current user's Roaming AppData directory.
  # -------------------------------
  #>
-function FetchPathAppDataRoaming()
-{
-    return $env:APPDATA;
-} # FetchPathAppDataRoaming()
+function FetchPathAppDataRoaming() { return $env:APPDATA; }
 
 
 
@@ -608,10 +602,7 @@ function FetchPathAppDataRoaming()
  #   The current user's Documents directory.
  # -------------------------------
  #>
-function FetchPathUserDocuments()
-{
-    return "$($env:HOMEDRIVE)$($env:HOMEPATH)\Documents";
-} # FetchPathUserDocuments()
+function FetchPathUserDocuments() { return "$($env:HOMEDRIVE)$($env:HOMEPATH)\Documents"; }
 
 
 
