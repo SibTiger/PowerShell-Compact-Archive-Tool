@@ -41,7 +41,7 @@ function Initializations()
     InitializationProgramData;
 
     # Directory Locations - Program
-    __Initialization_DirectorySetupDriver [InitializationsDirectoryChoice]::Program;
+    __Initialization_DirectorySetupDriver([InitializationsDirectoryChoice]::Program);
 
     # Program environment
     InitializationEnvironment;
@@ -65,7 +65,7 @@ function Initializations()
 function Initializations_UpdateProjectPaths()
 {
     # Directory Locations
-    __Initialization_DirectorySetupDriver [InitializationsDirectoryChoice]::Project;
+    __Initialization_DirectorySetupDriver([InitializationsDirectoryChoice]::Project);
 } # Initializations_UpdateProjectPaths()
 
 
