@@ -85,7 +85,7 @@ function Initializations_UpdateProjectPaths()
  #   This will determine what directory variables are to be initialized or re-assigned.
  # -------------------------------
 #>
-hidden function __Initialization_DirectorySetupDriver([InitializationsDirectoryChoice] $directorySetup)
+function __Initialization_DirectorySetupDriver([InitializationsDirectoryChoice] $directorySetup)
 {
     # Determine what directory variables to initialize
     switch ($directorySetup)
