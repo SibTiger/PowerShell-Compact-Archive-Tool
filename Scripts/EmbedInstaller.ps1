@@ -683,12 +683,7 @@ class EmbedInstaller
         foreach ($item in $temporaryDirectoryContents)
         {
             # If the archive datafile is corrupted - then skip to the next file.
-            if ($item.GetVerification() -ne [EmbedInstallerFileVerification]::Passed)
-            {
-                # This file is corrupted, we cannot extract the contents as it is damaged.
-                continue;
-            } # if : Archive Data is Damaged
-
+            if ($item.GetVerification() -ne [EmbedInstallerFileVerification]::Passed) { continue; }
 
 
             # Extracted Directory Absolute Path.
