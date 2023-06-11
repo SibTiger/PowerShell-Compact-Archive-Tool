@@ -706,6 +706,7 @@ class EmbedInstaller
                                                             $($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_), `
                                                             [ref] $outputDirectory);
 
+
             # Debug Message
             $debugMessage = "Extracted $($item.GetFileName())`r`n`tFull Path: $($outputDirectory)`r`n`tExit Condition: $($exitCondition)`r`n- - - - - -`r`n";
 
