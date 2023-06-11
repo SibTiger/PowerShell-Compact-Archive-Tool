@@ -268,6 +268,9 @@ class EmbedInstaller
         } # switch : Installation Type
 
 
+        # Allow the user to view the results before continuing.
+        [CommonIO]::FetchEnterKey();
+
 
         # Finished
         return $true;
