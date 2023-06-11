@@ -711,6 +711,7 @@ class EmbedInstaller
         } # foreach : Extract Contents
 
 
+        # Finished!
         return $true;
     } # __EmbedInstallerProjects()
 } # EmbedInstaller
