@@ -269,6 +269,7 @@ class EmbedInstaller
 
 
 
+        # Finished
         return $true;
     } # Main()
 
