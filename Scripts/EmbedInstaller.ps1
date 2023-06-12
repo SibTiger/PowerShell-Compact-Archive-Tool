@@ -76,6 +76,9 @@ class EmbedInstaller
         # This will contain a collection of files that had been provided by the user.
         #  The datatype within this Array List will be: EmbedInstallerFile, for simplicity sakes.
         [System.Collections.ArrayList] $temporaryDirectoryContents = [System.Collections.ArrayList]::new();
+
+        # Operation Status; this provides the operation state back to the calling function.
+        [Bool] $operationState = $false;
         # ----------------------------------------
 
 
@@ -247,7 +250,7 @@ class EmbedInstaller
             ([EmbedInstallerInstallationType]::WindowsToastNotification)
             {
                 # Perform the Installation
-                [EmbedInstaller]::__EmbedInstallerBurntToast($temporaryDirectoryContents);
+                $operationState = [EmbedInstaller]::__EmbedInstallerBurntToast($temporaryDirectoryContents);
 
 
                 # Finished
@@ -259,7 +262,7 @@ class EmbedInstaller
             ([EmbedInstallerInstallationType]::Project)
             {
                 # Perform the Installation
-                [EmbedInstaller]::__EmbedInstallerProjects($temporaryDirectoryContents);
+                $operationState = [EmbedInstaller]::__EmbedInstallerProjects($temporaryDirectoryContents);
 
 
                 # Finished
@@ -273,7 +276,7 @@ class EmbedInstaller
 
 
         # Finished
-        return $true;
+        return $operationState;
     } # Main()
 
 
