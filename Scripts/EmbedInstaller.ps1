@@ -680,6 +680,10 @@ class EmbedInstaller
         #  the user's preferences as to how the Archive ZIP module will be utilized within this
         #  application.
         [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+
+        # Overall Status of the operation; we will return this value once the operation had been finished.
+        #   By default, we will provide a true result - this will change if an error was caught.
+        [Bool] $overallOperation = $true;
         # ----------------------------------------
 
 
@@ -706,6 +710,11 @@ class EmbedInstaller
                                                             [ref] $outputDirectory);
 
 
+            # Determine the operation
+            #  If this operation had failed, than mark the Overall Operation as failed.
+            if (!$exitCondition) { $overallOperation = $false; }
+
+
             # Debug Message
             $debugMessage = "Extracted $($item.GetFileName())`r`n`tFull Path: $($outputDirectory)`r`n`tExit Condition: $($exitCondition)`r`n- - - - - -`r`n";
 
@@ -716,7 +725,7 @@ class EmbedInstaller
 
 
         # Finished!
-        return $true;
+        return $overallOperation;
     } # __EmbedInstallerProjects()
 } # EmbedInstaller
 
