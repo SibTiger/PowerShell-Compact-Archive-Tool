@@ -483,22 +483,35 @@ class EmbedInstaller
 
 
         # Alert the user that we are inspecting the provided files.
-        [Logging]::DisplayMessage("Inspecting the health of the following file(s):");
+        [Logging]::DisplayMessage("Verifying file(s). . .`r`n");
 
 
         # Inspect _ALL_ files and verify that the archive datafile is healthy.
         foreach ($item in $fileCollection)
         {
-            # Let the user know that this file is being inspected.
-            [Logging]::DisplayMessage("`t$($item.GetFileName())");
+            # Declarations and Initializations
+            # ----------------------------------------
+            # Create a string in which we can use to generate the operation and record the result.
+            #   This information will be logged within the program's logfile -- useful for debugging
+            #   if needed.
+            # We will initialize this variable by including the filename that is being inspected.
+            [string] $logActivity = "Verified file named: $($item.GetFileName())";
+
+            # This will provide additional information that could be useful within the logfile,
+            #   related to the operation.
+            [string] $logAdditionalInformation = $null;
+            # ----------------------------------------
 
 
 
             # Determine verification status
             if ($defaultCompress.VerifyArchive($item.GetFilePath()))
             {
-                # Alert the user that the file had passed the verification.
-                [Logging]::DisplayMessage("`t`t- Result: Passed");
+                # Save the result provided by the verification process.
+                $logActivity = $logActivity + "`r`n`t- Result: Passed!";
+
+                # Provide additional information
+                $logAdditionalInformation = "The file is healthy and can be installed into the environment.";
 
                 # Adjust the attributes of the desired file entry.
                 $item.SetVerification([EmbedInstallerFileVerification]::Passed);
@@ -507,12 +520,21 @@ class EmbedInstaller
             # Verification had Failed
             else
             {
-                # Alert the user that the file had failed the verification.
-                [Logging]::DisplayMessage("`t`t- Result: Failed", [LogMessageLevel]::Error);
+                # Save the result provided by the verification process.
+                $logActivity = $logActivity + "`r`n`t- Result: Failed!";
+
+                # Provide additional information
+                $logAdditionalInformation = "The file is damaged and cannot be installed due to corrupted data.";
 
                 # Adjust the attributes of the desired file entry.
                 $item.SetVerification([EmbedInstallerFileVerification]::Failed);
             } # else : Verification Failed
+
+
+            # Record the information to the program's logfile.
+            [Logging]::LogProgramActivity($logActivity, `
+                                        $logAdditionalInformation, `
+                                        [LogMessageLevel]::Information);
         } # foreach : Verify Archive File(s)
     } # __CheckArchiveFileIntegrity()
 
