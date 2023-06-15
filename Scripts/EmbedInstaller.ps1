@@ -713,17 +713,27 @@ class EmbedInstaller
 
 
 
+        # Tell the user that we are now installing projects.
+        [Logging]::DisplayMessage("Installing Project(s). . .`r`n");
+
+
+
+        # Install each project provided.
         foreach ($item in $temporaryDirectoryContents)
         {
             # If the archive datafile is corrupted - then skip to the next file.
             if ($item.GetVerification() -ne [EmbedInstallerFileVerification]::Passed) { continue; }
 
+            # This string will provide a brief description of the installation activities, this will
+            #   be used for logging purposes.
+            [string] $logActivity = $null;
+
+            # This will provide additional information that could be useful within the logfile,
+            #   related to the operation.
+            [string] $logAdditionalInformation = $null;
 
             # Extracted Directory Absolute Path.
             [string] $outputDirectory = $NULL;
-
-            # Testing String
-            [string] $debugMessage = $NULL;
 
             # Exit Status
             [bool] $exitCondition = $false;
@@ -736,16 +746,29 @@ class EmbedInstaller
 
 
             # Determine the operation
-            #  If this operation had failed, than mark the Overall Operation as failed.
-            if (!$exitCondition) { $overallOperation = $false; }
+            #  If the installation had failed, than mark the Overall Operation as failed.
+            if (!$exitCondition)
+            {
+                # Mark that the entire operation had failed; this will not be reset back to true.
+                $overallOperation = $false;
+
+                # Update the item's description to denote that a failure occurred.
+                $item.SetMessage("Failed to install project file.");
+            } # if : Operation Failed
+
+            # If the installation was successful.
+            else { $item.SetMessage("Successfully installed!"); }
 
 
-            # Debug Message
-            $debugMessage = "Extracted $($item.GetFileName())`r`n`tFull Path: $($outputDirectory)`r`n`tExit Condition: $($exitCondition)`r`n- - - - - -`r`n";
+            # Generate the logged messages
+            $logActivity = "Installation Results for: $($item.GetFileName())";
+            $logAdditionalInformation = "Status: $($item.GetMessage())`r`n`tInstalled: $($exitCondition)`r`n`tInstalled Path: $($outputDirectory)";
 
 
-            # Testing Purposes
-            [Logging]::DisplayMessage($debugMessage);
+            # Record the information to the program's logfile.
+            [Logging]::LogProgramActivity($logActivity, `
+                                        $logAdditionalInformation, `
+                                        [LogMessageLevel]::Information);
         } # foreach : Extract Contents
 
 
