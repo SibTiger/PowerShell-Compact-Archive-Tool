@@ -274,6 +274,17 @@ class EmbedInstallerFile
 
 
 
+   <# Set Empty File Path
+    # -------------------------------
+    # Documentation:
+    #  Sets an empty value within the 'File Path' variable.
+    # -------------------------------
+    #>
+    [void] SetFilePathAsEmpty() { $this.__filePath = $NULL; }
+
+
+
+
    <# Set Verification
     # -------------------------------
     # Documentation:

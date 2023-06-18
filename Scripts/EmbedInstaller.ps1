@@ -279,7 +279,7 @@ class EmbedInstaller
                                             "Verification Passed: " + $item.GetVerification()   + "`r`n" + `
                                             "Installed: "           + $item.GetInstalled()      + "`r`n" + `
                                             "Installed Path: "      + $item.GetFilePath()       + "`r`n" + `
-                                            "Overall Status: "      + $item.GetVerification()   + "`r`n");
+                                            "Overall Status: "      + $item.GetMessage()        + "`r`n");
 
 
                     # Show the results to the user
@@ -554,6 +554,12 @@ class EmbedInstaller
 
                 # Adjust the attributes of the desired file entry.
                 $item.SetVerification([EmbedInstallerFileVerification]::Failed);
+
+                # Provide the reason for why the file will not be installed.
+                $item.SetMessage("The file is determined to be corrupted and cannot be installed.");
+
+                # Clear the absolute path as we can no longer use this file.
+                $item.SetFilePathAsEmpty();
             } # else : Verification Failed
 
 
@@ -778,12 +784,25 @@ class EmbedInstaller
                 # Mark that the entire operation had failed; this will not be reset back to true.
                 $overallOperation = $false;
 
+                # Clear the Installation Path
+                $item.SetFilePathAsEmpty();
+
                 # Update the item's description to denote that a failure occurred.
                 $item.SetMessage("Failed to install project file.");
             } # if : Operation Failed
 
             # If the installation was successful.
-            else { $item.SetMessage("Successfully installed!"); }
+            else
+            {
+                # Mark that the file had been installed.
+                $item.SetInstalled($true);
+
+                # Store the extracted path
+                $item.SetFilePath($outputDirectory);
+
+                # Update the item's description to signify that the file had been installed.
+                $item.SetMessage("Successfully installed!");
+            } # else : Installation Successful
 
 
             # Generate the logged messages
