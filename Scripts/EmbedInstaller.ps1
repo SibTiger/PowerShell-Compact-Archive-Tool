@@ -265,6 +265,11 @@ class EmbedInstaller
                 $operationState = [EmbedInstaller]::__EmbedInstallerProjects($temporaryDirectoryContents);
 
 
+                # Alert the user of the installation status
+                if ($operationState) { [Logging]::DisplayMessage("Successfully installed all desired projects!"); }
+                else { [Logging]::DisplayMessage("One or more files could not be installed!"); }
+
+
                 # Output the results to the user such that they know the what had been installed or could
                 #   not be installed.
                 foreach($item in $temporaryDirectoryContents)
