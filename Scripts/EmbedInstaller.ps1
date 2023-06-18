@@ -286,7 +286,6 @@ class EmbedInstaller
                 } # Foreach : Output Installation Results
 
 
-
                 # Finished
                 break;
             } # Case : Projects
