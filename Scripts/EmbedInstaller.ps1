@@ -265,6 +265,28 @@ class EmbedInstaller
                 $operationState = [EmbedInstaller]::__EmbedInstallerProjects($temporaryDirectoryContents);
 
 
+                # Output the results to the user such that they know the what had been installed or could
+                #   not be installed.
+                foreach($item in $temporaryDirectoryContents)
+                {
+                    # Setup a string containing the results to the user.
+                    [string] $fileResults = ("File Name: "          + $item.GetFileName()       + "`r`n" + `
+                                            "Verification Passed: " + $item.GetVerification()   + "`r`n" + `
+                                            "Installed: "           + $item.GetInstalled()      + "`r`n" + `
+                                            "Installed Path: "      + $item.GetFilePath()       + "`r`n" + `
+                                            "Overall Status: "      + $item.GetVerification()   + "`r`n");
+
+
+                    # Show the results to the user
+                    [Logging]::DisplayMessage($fileResults);
+
+
+                    # Provide a border to help keep the output nicer to read.
+                    [Logging]::DisplayMessage("`r`n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n`r`n");
+                } # Foreach : Output Installation Results
+
+
+
                 # Finished
                 break;
             } # Case : Projects
