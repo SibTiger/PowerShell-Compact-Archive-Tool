@@ -272,6 +272,7 @@ class EmbedInstaller
 
                 # Provide a report of the files that had been installed or could not be installed.
                 [Logging]::DisplayMessage("`r`nInstallation Report of the Following Files:`r`n" + `
+                                            "= = = = = = = = = = = = = = = = = = = = = = = = = = = = = =`r`n" + `
                                             "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n");
 
 
