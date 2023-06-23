@@ -763,7 +763,16 @@ class EmbedInstaller
         foreach ($item in $temporaryDirectoryContents)
         {
             # If the archive datafile is corrupted - then skip to the next file.
-            if ($item.GetVerification() -ne [EmbedInstallerFileVerification]::Passed) { continue; }
+            if ($item.GetVerification() -ne [EmbedInstallerFileVerification]::Passed)
+            {
+                # Because this file could not be installed, flag this as a fault.
+                $overallOperation = $false;
+
+
+                # Continue to the next file.
+                continue;
+            } # if : Archive is Damaged
+
 
             # This string will provide a brief description of the installation activities, this will
             #   be used for logging purposes.
