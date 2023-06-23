@@ -266,8 +266,13 @@ class EmbedInstaller
 
 
                 # Alert the user of the installation status
-                if ($operationState) { [Logging]::DisplayMessage("Successfully installed all desired projects!"); }
-                else { [Logging]::DisplayMessage("One or more files could not be installed!"); }
+                if ($operationState) { [Logging]::DisplayMessage("Successfully installed all desired projects!`r`n"); }
+                else { [Logging]::DisplayMessage("One or more files could not be installed!`r`n"); }
+
+
+                # Provide a report of the files that had been installed or could not be installed.
+                [Logging]::DisplayMessage("`r`nInstallation Report of the Following Files:`r`n" + `
+                                            "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n");
 
 
                 # Output the results to the user such that they know the what had been installed or could
@@ -287,8 +292,12 @@ class EmbedInstaller
 
 
                     # Provide a border to help keep the output nicer to read.
-                    [Logging]::DisplayMessage("`r`n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n`r`n");
+                    [Logging]::DisplayMessage("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n");
                 } # Foreach : Output Installation Results
+
+
+                # Provide some padding such that it is easier to read.
+                [Logging]::DisplayMessage("`r`n");
 
 
                 # Finished
