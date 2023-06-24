@@ -262,7 +262,7 @@ class EmbedInstaller
             ([EmbedInstallerInstallationType]::Project)
             {
                 # Perform the Installation
-                $operationState = [EmbedInstaller]::__EmbedInstallerProjects($temporaryDirectoryContents);
+                $operationState = [EmbedInstallerProjects]::__InstallProjects($temporaryDirectoryContents);
 
 
                 # Alert the user of the installation status
@@ -392,20 +392,7 @@ class EmbedInstaller
             ([EmbedInstallerInstallationType]::Project)
             {
                 # Set the string
-                $instructionString = (  " Instructions for $($GLOBAL:_PROGRAMNAME_) Projects`r`n"                                                       + `
-                                        "-------------------------------------`r`n"                                                                     + `
-                                        "`r`n"                                                                                                          + `
-                                        "You can easily install or update your project(s) into $($GLOBAL:_PROGRAMNAME_).`r`n"                           + `
-                                        "`r`n"                                                                                                          + `
-                                        "Follow the instructions below:`r`n"                                                                            + `
-                                        "- - - - - - - - - - - - - - - -`r`n"                                                                           + `
-                                        "  1) Download the latest version(s) of the desired project(s) you wish to install.`r`n"                        + `
-                                        "  2) Place the newly downloaded Zip file(s) into the temporary folder named $($directoryName).`r`n"            + `
-                                        "  3) Close the temporary folder window to continue the install process.`r`n"                                   + `
-                                        "`r`n`r`n"                                                                                                      + `
-                                        "NOTE: To abort this operation, you may close the temporary directory while it is empty."                       + `
-                                        "`tBy doing this, it will cancel the operation."                                                                + `
-                                        "`r`n`r`n");
+                $instructionString = [EmbedInstallerProjects]::__DrawInstructions($directoryName);
 
 
                 # Finished
@@ -717,128 +704,6 @@ class EmbedInstaller
     {
         return $true;
     } # __EmbedInstallerBurntToast()
-
-
-
-
-   <# Embed Installer - Install Projects
-    # -------------------------------
-    # Documentation:
-    #  This function will try to install the desired project(s) onto the
-    #   user's system.  By doing this, we will need to assure that the
-    #   environment is ready as well as possible updates to an already
-    #   existing Burnt Toast installation.
-    # -------------------------------
-    # Input:
-    #  [System.Collections.ArrayList] File Collection
-    #   This will hold *.ZIP files that had been placed within the temporary directory.
-    # -------------------------------
-    # Output:
-    #  Installation status
-    #   true    = Installation was successful.
-    #   false   = Installation had failed.
-    # -------------------------------
-    #>
-    hidden static [bool] __EmbedInstallerProjects([System.Collections.ArrayList] $temporaryDirectoryContents)
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Retrieve the current instance of the user's Default Compressing object; this contains
-        #  the user's preferences as to how the Archive ZIP module will be utilized within this
-        #  application.
-        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
-
-        # Overall Status of the operation; we will return this value once the operation had been finished.
-        #   By default, we will provide a true result - this will change if an error was caught.
-        [Bool] $overallOperation = $true;
-        # ----------------------------------------
-
-
-
-        # Tell the user that we are now installing projects.
-        [Logging]::DisplayMessage("Installing Project(s). . .`r`n");
-
-
-
-        # Install each project provided.
-        foreach ($item in $temporaryDirectoryContents)
-        {
-            # If the archive datafile is corrupted - then skip to the next file.
-            if ($item.GetVerification() -ne [EmbedInstallerFileVerification]::Passed)
-            {
-                # Because this file could not be installed, flag this as a fault.
-                $overallOperation = $false;
-
-
-                # Continue to the next file.
-                continue;
-            } # if : Archive is Damaged
-
-
-            # This string will provide a brief description of the installation activities, this will
-            #   be used for logging purposes.
-            [string] $logActivity = $null;
-
-            # This will provide additional information that could be useful within the logfile,
-            #   related to the operation.
-            [string] $logAdditionalInformation = $null;
-
-            # Extracted Directory Absolute Path.
-            [string] $outputDirectory = $NULL;
-
-            # Exit Status
-            [bool] $exitCondition = $false;
-
-
-            # Extract each project.
-            $exitCondition = $defaultCompress.ExtractArchive($item.GetFilePath(), `
-                                                            $($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_), `
-                                                            [ref] $outputDirectory);
-
-
-            # Determine the operation
-            #  If the installation had failed, than mark the Overall Operation as failed.
-            if (!$exitCondition)
-            {
-                # Mark that the entire operation had failed; this will not be reset back to true.
-                $overallOperation = $false;
-
-                # Clear the Installation Path
-                $item.SetFilePathAsEmpty();
-
-                # Update the item's description to denote that a failure occurred.
-                $item.SetMessage("Failed to install project file.");
-            } # if : Operation Failed
-
-            # If the installation was successful.
-            else
-            {
-                # Mark that the file had been installed.
-                $item.SetInstalled($true);
-
-                # Store the extracted path
-                $item.SetFilePath($outputDirectory);
-
-                # Update the item's description to signify that the file had been installed.
-                $item.SetMessage("Successfully installed!");
-            } # else : Installation Successful
-
-
-            # Generate the logged messages
-            $logActivity = "Installation Results for: $($item.GetFileName())";
-            $logAdditionalInformation = "Status: $($item.GetMessage())`r`n`tInstalled: $($exitCondition)`r`n`tInstalled Path: $($outputDirectory)";
-
-
-            # Record the information to the program's logfile.
-            [Logging]::LogProgramActivity($logActivity, `
-                                        $logAdditionalInformation, `
-                                        [LogMessageLevel]::Information);
-        } # foreach : Extract Contents
-
-
-        # Finished!
-        return $overallOperation;
-    } # __EmbedInstallerProjects()
 } # EmbedInstaller
 
 
