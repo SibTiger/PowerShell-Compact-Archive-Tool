@@ -248,6 +248,7 @@ function MakeCompilerDriver()
                         "EmbedInstaller.ps1", `
                         "EmbedInstallerFile.ps1", `
                         "EmbedInstallerProjects.ps1", `
+                        "BurntToast.ps1", `
                         "MainMenu.ps1", `
                         "Builder.ps1", `
                         "Clean.ps1", `
