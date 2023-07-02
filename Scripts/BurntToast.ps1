@@ -22,14 +22,15 @@
  # ------------------------------
  # ==============================
  # ==============================
- # This class provides the functionality to use the BurntToast visual notifications.  With
- #  using BurntToast, it provides the ability to use the Windows Toast visual notification
- #  mechanic, in which this program can provide a way to easily alert the user of certain
- #  events - through the Windows notification system.
+ # This class provides the functionality to use the BurntToast visual
+ #  notifications.  With using BurntToast, it provides the ability to
+ #  use the Windows Toast visual notification mechanic, in which this
+ #  program can provide a way to easily alert the user of certain events
+ #  through the Windows notification system.
  #
  # BurntToast can be found in the following URL:
  #  https://github.com/Windos/BurntToast
- #  https://www.powershellgallery.com/packages/BurntToast/0.8.5
+ #  https://www.powershellgallery.com/packages/BurntToast
  #>
 
 
