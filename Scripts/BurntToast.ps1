@@ -505,4 +505,91 @@ class BurntToast
     } # UninstallModule()
 
     #endregion
+
+
+   <# Notify [Main Function]
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the ability to provide a visual notifications to the end-user,
+    #   such that they are aware that an event that had occurred.
+    # -------------------------------
+    # Input:
+    #  [String] Message
+    #   The message that will be shown to the user.
+    #  [String] Project Art (Optional)
+    #   The absolute path of the image that will be displayed to the user.
+    #   If this variable is null, then no image will be displayed.
+    # -------------------------------
+    #>
+    static [void] Notify([String] $message,         ` # The message to be displayed
+                        [string] $projectArtPath)   ` # The Project Art to show, this can be nullable.
+    {
+        # In order to take advantage of this functionality, we first need to make sure that Burnt
+        #  Toast module is available.
+        if ([BurntToast]::__CheckForBurntToast() -ne $true)
+        {
+            # Because we cannot find the appropriate module, we are simply unable to use this
+            #  functionality.
+            return;
+        } # if : Cannot Find Visual Notification
+
+
+        # If we made it this far, we may utilize the Visual Notification functionality.
+        [BurntToast]::__DisplayWindowsToast($message, $projectArtPath);
+    } # Notify()
+
+
+
+   <# Notify [Main Function] (Short-Hand\Standard MSGs)
+    # -------------------------------
+    # Documentation:
+    #  This overload function is merely an expeditious way of reaching the Notify(arg0, arg1) method.
+    #   However, this function will always assume that the Project Art is to be excluded when displaying
+    #   a notification to the user.  Because PowerShell does not allow default arguments to be set, at
+    #   least at the time of writing this statement, this function will allow overloading of the arguments.
+    #
+    # NOTE:
+    #  Any notifications passed through this function will not contain any Project Art.
+    # -------------------------------
+    # Input:
+    #  [String] Message
+    #   The message that will be shown to the user.
+    # -------------------------------
+    #>
+    static [void] Notify([String] $message)
+    {
+        # Access the Notify(arg0, arg1) with the Project Art being omitted.
+        [BurntToast]::Notify($message, $null);
+    } # Notify()
+
+
+
+
+   <# Display Windows Toast
+    # -------------------------------
+    # Documentation:
+    #  This function will be our driver into organizing and managing how the visual notification will
+    #   appear to the user within the Windows Graphical environment.
+    #
+    # NOTE:
+    #  For this functionality to work, we will use Burnt Toast.
+    #  Module: https://github.com/Windos/BurntToast
+    # -------------------------------
+    # Input:
+    #  [String] Message
+    #   The message that will be shown to the user.
+    #  [String] Project Art (Optional)
+    #   The absolute path of the image that will be displayed to the user.
+    #   If this variable is null, then no image will be displayed.
+    # -------------------------------
+    #>
+    hidden static [void] __DisplayWindowsToast([string] $message,       ` # Message that will be displayed
+                                                [string] $projectArt)   ` # The project art that will be shown, this can be nullable.
+    {
+        # Invoke the Burnt Toast Notification functionality.
+        New-BurntToastNotification  -AppLogo $null `
+                                    -HeroImage $null `
+                                    -Text $($GLOBAL:_PROGRAMNAME_), $message `
+                                    -Silent;
+    } # __DisplayWindowsToast()
 } # BurntToast
