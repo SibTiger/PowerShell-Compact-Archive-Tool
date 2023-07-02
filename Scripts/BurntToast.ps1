@@ -564,6 +564,7 @@ class BurntToast
 
 
 
+    #region Back-end Functions
 
    <# Display Windows Toast
     # -------------------------------
@@ -592,4 +593,6 @@ class BurntToast
                                     -Text $($GLOBAL:_PROGRAMNAME_), $message `
                                     -Silent;
     } # __DisplayWindowsToast()
+
+    #endregion
 } # BurntToast
