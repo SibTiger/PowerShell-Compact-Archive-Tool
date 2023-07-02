@@ -36,6 +36,8 @@
 
 class BurntToast
 {
+    #region Module Management
+
    <# Detect BurntToast Module
     # -------------------------------
     # Documentation:
@@ -501,4 +503,6 @@ class BurntToast
         # Finished
         return $operationStatus;
     } # UninstallModule()
+
+    #endregion
 } # BurntToast
