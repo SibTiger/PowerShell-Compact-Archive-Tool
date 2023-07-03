@@ -537,15 +537,13 @@ class BurntToast
 
     #region Back-end Functions
 
-   <# Display Windows Toast
+   <# Show Windows Toast Message
     # -------------------------------
     # Documentation:
-    #  This function will be our driver into organizing and managing how the visual notification will
-    #   appear to the user within the Windows Graphical environment.
-    #
-    # NOTE:
-    #  For this functionality to work, we will use Burnt Toast.
-    #  Module: https://github.com/Windos/BurntToast
+    #  This function will allow the ability to provide a Windows Toast
+    #   notification into the Windows Action Center, thus allowing the
+    #   messages to be visible to the user on their native desktop
+    #   environment.
     # -------------------------------
     # Input:
     #  [String] Message
@@ -555,15 +553,21 @@ class BurntToast
     #   If this variable is null, then no image will be displayed.
     # -------------------------------
     #>
-    hidden static [void] __DisplayWindowsToast([string] $message,       ` # Message that will be displayed
+    hidden static [void] __ShowWindowsToastMessage([string] $message,       ` # Message that will be displayed
                                                 [string] $projectArt)   ` # The project art that will be shown, this can be nullable.
     {
+        # Determine if the BurntToast PowerShell Module had been detected.
+        #  If we cannot find BurntToast, then we can not continue.
+        if (![BurntToast]::DetectModule()) { return; }
+
+
+
         # Invoke the Burnt Toast Notification functionality.
         New-BurntToastNotification  -AppLogo $null `
                                     -HeroImage $null `
                                     -Text $($GLOBAL:_PROGRAMNAME_), $message `
                                     -Silent;
-    } # __DisplayWindowsToast()
+    } # __ShowWindowsToastMessage()
 
     #endregion
 } # BurntToast
