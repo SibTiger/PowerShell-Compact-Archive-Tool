@@ -533,6 +533,31 @@ class BurntToast
     } # ShowProgramMessage()
 
 
+
+
+   <# Show Project Message
+    # -------------------------------
+    # Documentation:
+    #  This function will provide the ability to show event based message
+    #   activities regarding a project.
+    # -------------------------------
+    # Input:
+    #  [String] Message
+    #   The message that will be shown to the user.
+    #  [Bool] Show Banner
+    #   Shows the project's Banner image.
+    #       NOTE: The Banner Image is called "Hero Image", formally.
+    # -------------------------------
+    #>
+    static [void] ShowProjectMessage([string] $message, `       # Message to show to the user
+                                        [Bool] $showBanner)     # Show Banner Image
+    {
+        # Show message
+        [BurntToast]::__ShowWindowsToastMessage($message, `
+                                                $null, `
+                                                $null);
+    } # ShowProjectMessage()
+
     #endregion
 
 
