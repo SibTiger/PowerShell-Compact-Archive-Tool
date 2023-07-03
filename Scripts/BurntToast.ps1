@@ -510,28 +510,29 @@ class BurntToast
 
 
 
+    #region Front-end Functions
 
-   <# Notify [Main Function] (Short-Hand\Standard MSGs)
+   <# Show Program Message
     # -------------------------------
     # Documentation:
-    #  This overload function is merely an expeditious way of reaching the Notify(arg0, arg1) method.
-    #   However, this function will always assume that the Project Art is to be excluded when displaying
-    #   a notification to the user.  Because PowerShell does not allow default arguments to be set, at
-    #   least at the time of writing this statement, this function will allow overloading of the arguments.
-    #
-    # NOTE:
-    #  Any notifications passed through this function will not contain any Project Art.
+    #  This function is designed to show event based messages generated
+    #   by the application.  This differs from the project based
+    #   messages, as the images will be centered around the program.
     # -------------------------------
     # Input:
     #  [String] Message
     #   The message that will be shown to the user.
     # -------------------------------
     #>
-    static [void] Notify([String] $message)
+    static [void] ShowProgramMessage([String] $message)
     {
-        # Access the Notify(arg0, arg1) with the Project Art being omitted.
-        [BurntToast]::Notify($message, $null);
-    } # Notify()
+        # Show message
+        [BurntToast]::__ShowWindowsToastMessage($message, $null);
+    } # ShowProgramMessage()
+
+
+    #endregion
+
 
 
 
