@@ -549,23 +549,42 @@ class BurntToast
     # Input:
     #  [String] Message
     #   The message that will be shown to the user.
-    #  [String] Project Art (Optional)
-    #   The absolute path of the image that will be displayed to the user.
-    #   If this variable is null, then no image will be displayed.
+    #  [string] Project Logo (Optional)
+    #   The absolutely path to the project's dedicated logo image.
+    #  [string] Project Banner (Optional)
+    #   The absolute path to the project's dedicated banner image.
+    #   NOTE: This, formally, is called a 'Hero' image.  Calling this
+    #           a banner image is for my sakes, as it makes sense to me.
     # -------------------------------
     #>
-    hidden static [void] __ShowWindowsToastMessage([string] $message,       ` # Message that will be displayed
-                                                [string] $projectArt)   ` # The project art that will be shown, this can be nullable.
+    hidden static [void] __ShowWindowsToastMessage([string] $message,       `   # Message that will be displayed
+                                                [string] $projectLogo,      `   # [Optional] Project's Logo Image Full Path
+                                                [string] $projectBanner)        # [Optional] Project's Banner Image Full Path
     {
         # Determine if the BurntToast PowerShell Module had been detected.
         #  If we cannot find BurntToast, then we can not continue.
         if (![BurntToast]::DetectModule()) { return; }
 
 
+        # Make sure that the images are provided, otherwise - set them to null.
+        # - - - -
+        # Check the Project Logo Path
+        if (($null -ne $projectLogo) -and `                         # Project Logo was provided
+            (![CommonIO]::CheckPathExists($projectLogo, $true)))    # Path does not exist
+        { $projectLogo = $null; }
+
+
+        # Check the Project Banner Path
+        if (($null -ne $projectBanner) -and `                       # Project Banner was provided.
+            (![CommonIO]::CheckPathExists($projectBanner, $true)))  # Path does not exist
+        { $projectBanner = $null; }
+        # - - - -
+
+
 
         # Invoke the Burnt Toast Notification functionality.
-        New-BurntToastNotification  -AppLogo $null `
-                                    -HeroImage $null `
+        New-BurntToastNotification  -AppLogo $projectLogo `
+                                    -HeroImage $projectBanner `
                                     -Text $($GLOBAL:_PROGRAMNAME_), $message `
                                     -Silent;
     } # __ShowWindowsToastMessage()
