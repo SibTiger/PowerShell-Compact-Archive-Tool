@@ -527,7 +527,9 @@ class BurntToast
     static [void] ShowProgramMessage([String] $message)
     {
         # Show message
-        [BurntToast]::__ShowWindowsToastMessage($message, $null);
+        [BurntToast]::__ShowWindowsToastMessage($message, `
+                                                $null, `
+                                                $null);
     } # ShowProgramMessage()
 
 
