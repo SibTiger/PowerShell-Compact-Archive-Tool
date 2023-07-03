@@ -508,36 +508,6 @@ class BurntToast
     #endregion
 
 
-   <# Notify [Main Function]
-    # -------------------------------
-    # Documentation:
-    #  This function will allow the ability to provide a visual notifications to the end-user,
-    #   such that they are aware that an event that had occurred.
-    # -------------------------------
-    # Input:
-    #  [String] Message
-    #   The message that will be shown to the user.
-    #  [String] Project Art (Optional)
-    #   The absolute path of the image that will be displayed to the user.
-    #   If this variable is null, then no image will be displayed.
-    # -------------------------------
-    #>
-    static [void] Notify([String] $message,         ` # The message to be displayed
-                        [string] $projectArtPath)   ` # The Project Art to show, this can be nullable.
-    {
-        # In order to take advantage of this functionality, we first need to make sure that Burnt
-        #  Toast module is available.
-        if ([BurntToast]::__CheckForBurntToast() -ne $true)
-        {
-            # Because we cannot find the appropriate module, we are simply unable to use this
-            #  functionality.
-            return;
-        } # if : Cannot Find Visual Notification
-
-
-        # If we made it this far, we may utilize the Visual Notification functionality.
-        [BurntToast]::__DisplayWindowsToast($message, $projectArtPath);
-    } # Notify()
 
 
 
