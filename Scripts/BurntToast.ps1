@@ -91,6 +91,7 @@ class BurntToast
         } # if : BurntToast is Installed
 
 
+
         # When BurntToast was not detected
         # * * * * * * * * * * * * * * * * * * *
         # Debugging
