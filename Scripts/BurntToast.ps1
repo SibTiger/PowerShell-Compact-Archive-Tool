@@ -162,7 +162,7 @@ class BurntToast
             [string] $logMessage = "An instance of BurntToast was already found; installation aborted!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Request to install BurntToast had been aborted as an instance" + `
+            [string] $logAdditionalMSG = ("Request to install BurntToast had been aborted as an instance " + `
                                             "already exists within the PowerShell environment.")
 
             # Pass the information to the logging system
