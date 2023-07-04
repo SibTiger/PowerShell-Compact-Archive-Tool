@@ -465,6 +465,7 @@ class BurntToast
             # * * * * * * * * * * * * * * * * * * *
         } # Try : Uninstall BurntToast
 
+
         # General Error
         catch
         {
