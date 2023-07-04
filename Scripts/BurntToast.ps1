@@ -22,11 +22,13 @@
  # ------------------------------
  # ==============================
  # ==============================
- # This class provides the functionality to use the BurntToast visual
- #  notifications.  With using BurntToast, it provides the ability to
- #  use the Windows Toast visual notification mechanic, in which this
- #  program can provide a way to easily alert the user of certain events
- #  through the Windows notification system.
+ # This class will provide the necessary functionality in order to utilize
+ #  features from the BurntToast PowerShell module.  The BurntToast module
+ #  produces visual notifications to the user by means of a Windows Toast
+ #  notification mechanism through the Windows Action Center in the
+ #  Desktop Environment.  By using this notification system in Windows,
+ #  we can assure that the user will be able to see the alerts when
+ #  the Windows Notification System is available.
  #
  # BurntToast can be found in the following URL:
  #  https://github.com/Windos/BurntToast
