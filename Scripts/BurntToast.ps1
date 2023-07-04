@@ -419,7 +419,7 @@ class BurntToast
             [string] $logMessage = "Unable to uninstall BurntToast as there was no previous installation found!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("The request to uninstall the BurntToast PowerShell module had been aborted," + `
+            [string] $logAdditionalMSG = ("The request to uninstall the BurntToast PowerShell module had been aborted, " + `
                                             "there was no previous install of BurntToast found within the environment.");
 
             # Pass the information to the logging system
