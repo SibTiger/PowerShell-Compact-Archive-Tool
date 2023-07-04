@@ -121,7 +121,6 @@ class BurntToast
 
 
 
-
    <# Install BurntToast Module
     # -------------------------------
     # Documentation:
