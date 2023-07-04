@@ -317,6 +317,7 @@ class BurntToast
                             -Force `                # Suppress confirmations
                             -ErrorAction Stop;      # Stop when an error had been reached.
 
+
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
