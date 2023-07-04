@@ -425,7 +425,7 @@ class BurntToast
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
                                         $logAdditionalMSG, `            # Additional information
-                                        [LogMessageLevel]::Verbose);    # Message level
+                                        [LogMessageLevel]::Warning);    # Message level
 
             # Alert the user through a message box as well.
             [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Exclamation) | Out-Null;
