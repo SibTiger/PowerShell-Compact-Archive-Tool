@@ -387,8 +387,8 @@ class BurntToast
    <# Uninstall BurntToast Module
     # -------------------------------
     # Documentation:
-    #  This function will try to uninstall the BurntToast PowerShell module,
-    #   from the PowerShell environment.
+    #  This function will try to uninstall the BurntToast PowerShell module
+    #   from the user's PowerShell environment.
     # -------------------------------
     # Output:
     #  [bool] Exit code
