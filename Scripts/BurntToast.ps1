@@ -336,6 +336,7 @@ class BurntToast
             # * * * * * * * * * * * * * * * * * * *
         } # Try : Update BurntToast
 
+
         # General Error
         catch
         {
