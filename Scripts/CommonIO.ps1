@@ -4519,6 +4519,39 @@ class CommonIO
         return $false;
     } # AccessWebpage()
 
+
+
+
+   <# Check Hosts Internet Connection
+    # -------------------------------
+    # Documentation:
+    #  This function will check the hosts network connection to determine
+    #   if the user's system is connected to the internet (WAN).
+    #
+    #  To perform this operation, we will use the Windows Operating
+    #   System's functionality to determine the network adapters
+    #   state.  Further, we could just PING a site, but that could
+    #   be unreliable.  Servers have the ability to disable ICMP
+    #   response messages despite the server responding to HTTP\S,
+    #   thus causing a false positive.  Also, we do not want to
+    #   accidentally ICMP flood a server, thus banning the user
+    #   from that server address.
+    # -------------------------------
+    #  [bool] Exit code
+    #    $false = Not Connected to the Internet (WAN)
+    #    $true  = Connected to the Internet (WAN)
+    # -------------------------------
+    #>
+    static [bool] CheckInternetConnection()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # ----------------------------------------
+
+
+        
+    } # CheckInternetConnection()
+
     #endregion
 
 
