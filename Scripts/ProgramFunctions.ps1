@@ -33,6 +33,7 @@
  #   - Program Data:
  #      - %HomePath%\Documents\<PROGRAM_NAME>
  #      - %LOCALAPPDATA%\<PROGRAM_NAME>
+ #      - %LOCALAPPDATA%\<PROGRAM_NAME>\Images
  #      - %LOCALAPPDATA%\<PROGRAM_NAME>\Logs
  #      - %APPDATA%\<PROGRAM_NAME>
  #      - %APPDATA%\<PROGRAM_NAME>\Configs
@@ -86,6 +87,7 @@ function CreateDirectories()
             (                                                                                           [CommonIO]::MakeDirectory($GLOBAL:_USERDATA_ROOT_PATH_)                         -eq $true)  -and `      # The Program Root Directory
             (                                                                                           [CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_LOCAL_ROOT_PATH_)                -eq $true)  -and `      # The Program Data Root [Local]
             (                                                                                           [CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_)        -eq $true)  -and `      # The Program Data Logs [Local]
+            (                                                                                           [CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_LOCAL_IMAGES_PATH_)              -eq $true)  -and `      # The Program Data Images [Local]
             (                                                                                           [CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_ROAMING_ROOT_PATH_)              -eq $true)  -and `      # The Program Data Root [Roaming]
             (                                                                                           [CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_ROAMING_USERCONFIG_PATH_)        -eq $true)  -and `      # The Program Data Configs [Roaming]
             (                                                                                           [CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_)      -eq $true)  -and `      # The Installation Path for Projects [Roaming]
@@ -118,6 +120,7 @@ function CreateDirectories()
  #   - Program Data:
  #      - %HomePath%\Documents\<PROGRAM_NAME>
  #      - %LOCALAPPDATA%\<PROGRAM_NAME>
+ #      - %LOCALAPPDATA%\<PROGRAM_NAME>\Images
  #      - %LOCALAPPDATA%\<PROGRAM_NAME>\Logs
  #      - %APPDATA%\<PROGRAM_NAME>
  #      - %APPDATA%\<PROGRAM_NAME>\Configs
@@ -143,6 +146,7 @@ function CheckProgramDirectories()
     return ( # Program Specific Directories:
             (                                                                                           [CommonIO]::CheckPathExists($GLOBAL:_USERDATA_ROOT_PATH_, $true)                        -eq $true)  -and `      # The Program Root Directory
             (                                                                                           [CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_LOCAL_ROOT_PATH_, $true)               -eq $true)  -and `      # The Program Data Root [Local]
+            (                                                                                           [CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_LOCAL_IMAGES_PATH_, $true)             -eq $true)  -and `      # The Program Data Images [Local]
             (                                                                                           [CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_, $true)       -eq $true)  -and `      # The Program Data Logs [Local]
             (                                                                                           [CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_ROAMING_ROOT_PATH_, $true)             -eq $true)  -and `      # The Program Data Root [Roaming]
             (                                                                                           [CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_ROAMING_USERCONFIG_PATH_, $true)       -eq $true)  -and `      # The Program Data Configs [Roaming]
