@@ -33,7 +33,7 @@
  #   - Program Data:
  #      - %HomePath%\Documents\<PROGRAM_NAME>
  #      - %LOCALAPPDATA%\<PROGRAM_NAME>
- #      - %LOCALAPPDATA%\<PROGRAM_NAME>\Program
+ #      - %LOCALAPPDATA%\<PROGRAM_NAME>\Logs
  #      - %APPDATA%\<PROGRAM_NAME>
  #      - %APPDATA%\<PROGRAM_NAME>\Configs
  #      - %APPDATA%\<PROGRAM_NAME>\Projects
@@ -118,7 +118,7 @@ function CreateDirectories()
  #   - Program Data:
  #      - %HomePath%\Documents\<PROGRAM_NAME>
  #      - %LOCALAPPDATA%\<PROGRAM_NAME>
- #      - %LOCALAPPDATA%\<PROGRAM_NAME>\Program
+ #      - %LOCALAPPDATA%\<PROGRAM_NAME>\Logs
  #      - %APPDATA%\<PROGRAM_NAME>
  #      - %APPDATA%\<PROGRAM_NAME>\Configs
  #      - %APPDATA%\<PROGRAM_NAME>\Projects
