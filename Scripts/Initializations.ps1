@@ -367,7 +367,7 @@ function InitializationDirectoryPaths_Program()
     # The main program logfile directory
     Set-Variable `
         -Name "_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_" `
-        -Value "$($_PROGRAMDATA_LOCAL_ROOT_PATH_)\Program" `
+        -Value "$($_PROGRAMDATA_LOCAL_ROOT_PATH_)\Logs" `
         -Scope Global `
         -Option ReadOnly `
         -Visibility Public `
