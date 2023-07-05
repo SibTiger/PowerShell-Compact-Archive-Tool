@@ -375,6 +375,49 @@ function InitializationDirectoryPaths_Program()
         -Description "Contains the program's main logfile regarding every action and output.";
 
 
+    # Program-Data Program Art Image Path
+    # ---------------
+    # The directory that will contain the program's images that will be visible using Windows' Toast Notifications.
+    Set-Variable `
+        -Name "_PROGRAMDATA_LOCAL_IMAGES_PATH_" `
+        -Value "$($GLOBAL:_PROGRAMDATA_LOCAL_ROOT_PATH_)\Images" `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -Force `
+        -ErrorAction SilentlyContinue `
+        -Description "Holds the path for the program's art pieces, such as logo and banner images.";
+
+
+    # Program-Data Program Logo Image Path
+    # ---------------
+    # The program's logo image that will be shown within the Windows Toast Notifications
+    Set-Variable `
+        -Name "_PROGRAMDATA_LOCAL_IMAGES_LOGO_PATH_" `
+        -Value "$($GLOBAL:_PROGRAMDATA_LOCAL_IMAGES_PATH_)\Logo.png" `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -Force `
+        -ErrorAction SilentlyContinue `
+        -Description "Holds the path of the program's logo image that will be visible in Windows Toast Notifications.";
+
+
+    # Program-Data Program Banner Image Path
+    # ---------------
+    # The program's banner image (formally known as a Hero Image) that will be shown within the Windows Toast Notifications
+    Set-Variable `
+    -Name "_PROGRAMDATA_LOCAL_IMAGES_BANNER_PATH_" `
+        -Value "$($GLOBAL:_PROGRAMDATA_LOCAL_IMAGES_PATH_)\Banner.png" `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -Force `
+        -ErrorAction SilentlyContinue `
+        -Description "Holds the path of the program's banner image that will be visible in Windows Toast Notifications.";
+
+
+
     # ----
     # Program Data [Roaming AppData]
 
