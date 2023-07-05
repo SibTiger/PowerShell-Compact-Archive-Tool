@@ -197,6 +197,18 @@
         -Force `
         -ErrorAction SilentlyContinue;
 
+    # User Data (Project Logo Image)
+    Remove-Variable -Name "_PROGRAMDATA_ROAMING_PROJECT_ART_LOGO_PATH_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # User Data (Project Banner Image)
+    Remove-Variable -Name "_PROGRAMDATA_ROAMING_PROJECT_ART_BANNER_PATH_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
     # PowerShell's Window Title
     Remove-Variable -Name "_ENVIRONMENT_WINDOW_TITLE_ORIGINAL_" `
         -Scope Global `
