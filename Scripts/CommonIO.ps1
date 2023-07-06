@@ -4559,6 +4559,31 @@ class CommonIO
         $hostConnectionProfile = Get-NetConnectionProfile;
 
 
+        # If no connection profiles were found, then $NULL could be provided.
+        if ($null -eq $hostConnectionProfile) { return $false; }
+
+
+        # Determine if the user has multiple network adapters
+        if ($hostConnectionProfile.GetType().name -eq "Object[]")
+        {
+            # Scan each item to determine if an internet connection is available.
+            foreach ($item in $hostConnectionProfile)
+            {
+                # Check to see if IPv4 OR IPv6 contains the 'Internet' string value.
+                #   This will indicate that the host has an active internet connection.
+                if (($item.IPv4Connectivity -eq "Internet") -or `
+                    ($item.IPv6Connectivity -eq "Internet"))
+                    { return $true; }
+            } # Foreach : Scan all network adapters
+
+
+            # If we made it here, then the user does not have an active Internet
+            #   presently.
+            return $false;
+        } # if : Multiple Adapters Found
+
+
+
         # Assure that either IPv4 or IPv6 contains the 'Internet' string value.
         #  This value indicates that the host has an active internet connection.
         if (($hostConnectionProfile.IPv4Connectivity -eq "Internet") -or `
