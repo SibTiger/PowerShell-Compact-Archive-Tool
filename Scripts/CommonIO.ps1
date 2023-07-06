@@ -4559,8 +4559,8 @@ class CommonIO
         $hostConnectionProfile = Get-NetConnectionProfile;
 
 
-        # Atleast either IPv4 or IPv6 contains 'Internet' string value.
-        #  This value indicates that the host has an internet connection.
+        # Assure that either IPv4 or IPv6 contains the 'Internet' string value.
+        #  This value indicates that the host has an active internet connection.
         if (($hostConnectionProfile.IPv4Connectivity -eq "Internet") -or `
             ($hostConnectionProfile.IPv6Connectivity -eq "Internet"))
             { return $true; }
