@@ -4536,6 +4536,9 @@ class CommonIO
     #   thus causing a false positive.  Also, we do not want to
     #   accidentally ICMP flood a server, thus banning the user
     #   from that server address.
+    #
+    # Source:
+    #   https://stackoverflow.com/q/33283848/11314373
     # -------------------------------
     #  [bool] Exit code
     #    $false = Not Connected to the Internet (WAN)
