@@ -4559,7 +4559,7 @@ class CommonIO
         $hostConnectionProfile = Get-NetConnectionProfile;
 
 
-        # If no connection profiles were found, then $NULL could be provided.
+        # If no connection profiles were found, then $NULL will be provided.
         if ($null -eq $hostConnectionProfile) { return $false; }
 
 
