@@ -4549,10 +4549,25 @@ class CommonIO
     {
         # Declarations and Initializations
         # ----------------------------------------
+        # This will hold the host's connection profiles available within
+        #   the system's environment.
+        [System.Object] $hostConnectionProfile = [System.Object]::new();
         # ----------------------------------------
 
 
-        
+        # Obtain the host's connection profile.
+        $hostConnectionProfile = Get-NetConnectionProfile;
+
+
+        # Atleast either IPv4 or IPv6 contains 'Internet' string value.
+        #  This value indicates that the host has an internet connection.
+        if (($hostConnectionProfile.IPv4Connectivity -eq "Internet") -or `
+            ($hostConnectionProfile.IPv6Connectivity -eq "Internet"))
+            { return $true; }
+
+
+        # The host does not have internet access available at this time.
+        return $false;
     } # CheckInternetConnection()
 
     #endregion
