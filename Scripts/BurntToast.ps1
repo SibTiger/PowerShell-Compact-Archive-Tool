@@ -702,3 +702,35 @@ class BurntToast
 
     #endregion
 } # BurntToast
+
+
+
+
+<# BurntToast Configure Install [ENUM]
+ # -------------------------------
+ # This defines what operation should be taken to configure
+ #  the BurntToast instance within the host system.
+ # -------------------------------
+ #>
+enum BurntToastConfigureInstall
+{
+    Install     = 0;
+    Update      = 1;
+    Uninstall   = 3;
+} # BurntToastConfigureInstall
+
+
+
+
+<# BurntToast Show Graphic [ENUM]
+ # -------------------------------
+ # This defines what graphic is going to be displayed in the Windows
+ #  Toast notification when shown to the user, through the Windows
+ #  Action Center.
+ # -------------------------------
+ #>
+enum BurntToastShowGraphic
+{
+    Logo    = 0;
+    Banner  = 1;
+} # BurntToastShowGraphic
