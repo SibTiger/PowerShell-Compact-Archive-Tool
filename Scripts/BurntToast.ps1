@@ -179,6 +179,45 @@ class BurntToast
 
 
 
+        # Assure that the host has an active Internet Connection.
+        if (![CommonIO]::CheckInternetConnection())
+        {
+            # Because the user presently does not have internet access, we cannot install the module.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to begin procedure of installing BurntToast; Internet Connection is presently not available.";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($logMessage, `                # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Unable to download
+            return $false;
+        } # If : Host has No Internet Connection
+
+
+
         # Try to install the BurntToast PowerShell Module
         try
         {
