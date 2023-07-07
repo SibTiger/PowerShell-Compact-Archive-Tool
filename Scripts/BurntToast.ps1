@@ -646,18 +646,32 @@ class BurntToast
     # Input:
     #  [String] Message
     #   The message that will be shown to the user.
-    #  [Bool] Show Banner
-    #   Shows the project's Banner image.
-    #       NOTE: The Banner Image is called "Hero Image", formally.
+    #  [BurntToastShowGraphic] Graphic Option
+    #   Determines what image is going to shown to the user.
     # -------------------------------
     #>
-    static [void] ShowProjectMessage([string] $message, `       # Message to show to the user
-                                        [Bool] $showBanner)     # Show Banner Image
+    static [void] ShowProjectMessage([string] $message, `                   # Message to show to the user.
+                                    [BurntToastShowGraphic] $graphicOption) # Show specific image to the user.
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Program's Logo Image
+        [string] $imageLogo = $NULL;
+
+        # Program's Banner Image
+        [string] $imageBanner = $NULL;
+        # ----------------------------------------
+
+
+        # Determine what image will be shown to the user:
+        if ($graphicOption -eq [BurntToastShowGraphic]::Logo)   { $imageLogo    = $(GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_ART_LOGO_PATH_);   }
+        else                                                    { $imageBanner  = $(GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_ART_BANNER_PATH_); }
+
+
         # Show message
         [BurntToast]::__ShowWindowsToastMessage($message, `
-                                                $null, `
-                                                $null);
+                                                $imageLogo, `
+                                                $imageBanner);
     } # ShowProjectMessage()
 
     #endregion
