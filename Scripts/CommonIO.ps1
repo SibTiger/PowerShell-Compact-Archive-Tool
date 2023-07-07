@@ -4552,6 +4552,10 @@ class CommonIO
         # This will hold the host's connection profiles available within
         #   the system's environment.
         [System.Object] $hostConnectionProfile = [System.Object]::new();
+
+        # This will hold the final result, determining if the host has
+        #   an active internet connection.
+        [bool] $result = $false;
         # ----------------------------------------
 
 
@@ -4560,11 +4564,11 @@ class CommonIO
 
 
         # If no connection profiles were found, then $NULL will be provided.
-        if ($null -eq $hostConnectionProfile) { return $false; }
+        if ($null -eq $hostConnectionProfile) { $result = $false; }
 
 
         # Determine if the user has multiple network adapters
-        if ($hostConnectionProfile.GetType().name -eq "Object[]")
+        elseif ($hostConnectionProfile.GetType().name -eq "Object[]")
         {
             # Scan each item to determine if an internet connection is available.
             foreach ($item in $hostConnectionProfile)
@@ -4573,26 +4577,109 @@ class CommonIO
                 #   This will indicate that the host has an active internet connection.
                 if (($item.IPv4Connectivity -eq "Internet") -or `
                     ($item.IPv6Connectivity -eq "Internet"))
-                    { return $true; }
+                    { $result = $true; }
             } # Foreach : Scan all network adapters
 
 
             # If we made it here, then the user does not have an active Internet
             #   presently.
-            return $false;
+            $result = $false;
         } # if : Multiple Adapters Found
 
 
 
         # Assure that either IPv4 or IPv6 contains the 'Internet' string value.
         #  This value indicates that the host has an active internet connection.
-        if (($hostConnectionProfile.IPv4Connectivity -eq "Internet") -or `
-            ($hostConnectionProfile.IPv6Connectivity -eq "Internet"))
-            { return $true; }
+        elseif (($hostConnectionProfile.IPv4Connectivity -eq "Internet") -or `
+                ($hostConnectionProfile.IPv6Connectivity -eq "Internet"))
+        { $result = $true; }
 
 
         # The host does not have internet access available at this time.
-        return $false;
+        else { $result = $false; }
+
+
+        # If the user does not have an active internet connection, then log it.
+        if (!$result)
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Host system does not have an active Internet Connection.";
+
+            # Generate any additional information that might be useful
+            #   Because the Host Connection can vary in its output, we
+            #   will generate it depending on what information is stored.
+            [string] $logAdditionalMSG = $NULL;
+
+
+            # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+            # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+            # Generate the Log Additional Message.
+
+
+            # No host Connection Profiles Found
+            if ($null -eq $hostConnectionProfile)
+            { $logAdditionalMSG = "Windows did not find any Network Connection Profiles!"; }
+
+            # Multiple Host Connection Profiles Found
+            if ($hostConnectionProfile.GetTytpe() -eq "Object[]")
+            {
+                # Scan each profile obtained.
+                foreach ($item in $hostConnectionProfile)
+                {
+                    $logAdditionalMSG += (  "Name                     : $($hostConnectionProfile).Name`r`n"                         + `
+                                            "`tInstanceID               : $($hostConnectionProfile).InstanceID`r`n"                 + `
+                                            "`tInterfaceAlias           : $($hostConnectionProfile).InterfaceAlias`r`n"             + `
+                                            "`tInterfaceIndex           : $($hostConnectionProfile).InterfaceIndex`r`n"             + `
+                                            "`tNetworkCategory          : $($hostConnectionProfile).NetworkCategory`r`n"            + `
+                                            "`tDomainAuthenticationKind : $($hostConnectionProfile).DomainAuthenticationKind`r`n"   + `
+                                            "`tIPv4Connectivity         : $($hostConnectionProfile).IPv4Connectivity`r`n"           + `
+                                            "`tIPv6Connectivity         : $($hostConnectionProfile).IPv6Connectivity`r`n"           + `
+                                            "`tElementName              : $($hostConnectionProfile).ElementName`r`n"                + `
+                                            "`tPSComputerName           : $($hostConnectionProfile).PSComputerName`r`n"             + `
+                                            "`tDescription              : $($hostConnectionProfile).Description`r`n"                + `
+                                            "`tCaption                  : $($hostConnectionProfile).Caption`r`n"                    + `
+                                            "`r`n");
+                } # foreach : Scan Each Profile
+            } # if : Multiple Host Connection Profiles Found
+
+            # Single Host Connection Profile
+            else
+            {
+                $logAdditionalMSG = (   "Name                     : $($hostConnectionProfile).Name`r`n"                         + `
+                                        "`tInstanceID               : $($hostConnectionProfile).InstanceID`r`n"                 + `
+                                        "`tInterfaceAlias           : $($hostConnectionProfile).InterfaceAlias`r`n"             + `
+                                        "`tInterfaceIndex           : $($hostConnectionProfile).InterfaceIndex`r`n"             + `
+                                        "`tNetworkCategory          : $($hostConnectionProfile).NetworkCategory`r`n"            + `
+                                        "`tDomainAuthenticationKind : $($hostConnectionProfile).DomainAuthenticationKind`r`n"   + `
+                                        "`tIPv4Connectivity         : $($hostConnectionProfile).IPv4Connectivity`r`n"           + `
+                                        "`tIPv6Connectivity         : $($hostConnectionProfile).IPv6Connectivity`r`n"           + `
+                                        "`tElementName              : $($hostConnectionProfile).ElementName`r`n"                + `
+                                        "`tPSComputerName           : $($hostConnectionProfile).PSComputerName`r`n"             + `
+                                        "`tDescription              : $($hostConnectionProfile).Description`r`n"                + `
+                                        "`tCaption                  : $($hostConnectionProfile).Caption");
+            } # else : Single Host Connection Profile
+
+
+            # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+            # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # if : Host does not have Internet Connection
+
+
+
+        # Return the result
+        return $result;
     } # CheckInternetConnection()
 
     #endregion
