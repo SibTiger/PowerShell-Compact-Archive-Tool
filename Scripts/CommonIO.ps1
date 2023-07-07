@@ -4630,18 +4630,18 @@ class CommonIO
                 # Scan each profile obtained.
                 foreach ($item in $hostConnectionProfile)
                 {
-                    $logAdditionalMSG += (  "Name                     : $($hostConnectionProfile).Name`r`n"                         + `
-                                            "`tInstanceID               : $($hostConnectionProfile).InstanceID`r`n"                 + `
-                                            "`tInterfaceAlias           : $($hostConnectionProfile).InterfaceAlias`r`n"             + `
-                                            "`tInterfaceIndex           : $($hostConnectionProfile).InterfaceIndex`r`n"             + `
-                                            "`tNetworkCategory          : $($hostConnectionProfile).NetworkCategory`r`n"            + `
-                                            "`tDomainAuthenticationKind : $($hostConnectionProfile).DomainAuthenticationKind`r`n"   + `
-                                            "`tIPv4Connectivity         : $($hostConnectionProfile).IPv4Connectivity`r`n"           + `
-                                            "`tIPv6Connectivity         : $($hostConnectionProfile).IPv6Connectivity`r`n"           + `
-                                            "`tElementName              : $($hostConnectionProfile).ElementName`r`n"                + `
-                                            "`tPSComputerName           : $($hostConnectionProfile).PSComputerName`r`n"             + `
-                                            "`tDescription              : $($hostConnectionProfile).Description`r`n"                + `
-                                            "`tCaption                  : $($hostConnectionProfile).Caption`r`n"                    + `
+                    $logAdditionalMSG += (  "Name                     : $($hostConnectionProfile.Name)`r`n"                         + `
+                                            "`tInstanceID               : $($hostConnectionProfile.InstanceID)`r`n"                 + `
+                                            "`tInterfaceAlias           : $($hostConnectionProfile.InterfaceAlias)`r`n"             + `
+                                            "`tInterfaceIndex           : $($hostConnectionProfile.InterfaceIndex)`r`n"             + `
+                                            "`tNetworkCategory          : $($hostConnectionProfile.NetworkCategory)`r`n"            + `
+                                            "`tDomainAuthenticationKind : $($hostConnectionProfile.DomainAuthenticationKind)`r`n"   + `
+                                            "`tIPv4Connectivity         : $($hostConnectionProfile.IPv4Connectivity)`r`n"           + `
+                                            "`tIPv6Connectivity         : $($hostConnectionProfile.IPv6Connectivity)`r`n"           + `
+                                            "`tElementName              : $($hostConnectionProfile.ElementName)`r`n"                + `
+                                            "`tPSComputerName           : $($hostConnectionProfile.PSComputerName)`r`n"             + `
+                                            "`tDescription              : $($hostConnectionProfile.Description)`r`n"                + `
+                                            "`tCaption                  : $($hostConnectionProfile.Caption)`r`n"                    + `
                                             "`r`n");
                 } # foreach : Scan Each Profile
             } # if : Multiple Host Connection Profiles Found
@@ -4649,18 +4649,18 @@ class CommonIO
             # Single Host Connection Profile
             else
             {
-                $logAdditionalMSG = (   "Name                     : $($hostConnectionProfile).Name`r`n"                         + `
-                                        "`tInstanceID               : $($hostConnectionProfile).InstanceID`r`n"                 + `
-                                        "`tInterfaceAlias           : $($hostConnectionProfile).InterfaceAlias`r`n"             + `
-                                        "`tInterfaceIndex           : $($hostConnectionProfile).InterfaceIndex`r`n"             + `
-                                        "`tNetworkCategory          : $($hostConnectionProfile).NetworkCategory`r`n"            + `
-                                        "`tDomainAuthenticationKind : $($hostConnectionProfile).DomainAuthenticationKind`r`n"   + `
-                                        "`tIPv4Connectivity         : $($hostConnectionProfile).IPv4Connectivity`r`n"           + `
-                                        "`tIPv6Connectivity         : $($hostConnectionProfile).IPv6Connectivity`r`n"           + `
-                                        "`tElementName              : $($hostConnectionProfile).ElementName`r`n"                + `
-                                        "`tPSComputerName           : $($hostConnectionProfile).PSComputerName`r`n"             + `
-                                        "`tDescription              : $($hostConnectionProfile).Description`r`n"                + `
-                                        "`tCaption                  : $($hostConnectionProfile).Caption");
+                $logAdditionalMSG = (   "Name                     : $($hostConnectionProfile.Name)`r`n"                         + `
+                                        "`tInstanceID               : $($hostConnectionProfile.InstanceID)`r`n"                 + `
+                                        "`tInterfaceAlias           : $($hostConnectionProfile.InterfaceAlias)`r`n"             + `
+                                        "`tInterfaceIndex           : $($hostConnectionProfile.InterfaceIndex)`r`n"             + `
+                                        "`tNetworkCategory          : $($hostConnectionProfile.NetworkCategory)`r`n"            + `
+                                        "`tDomainAuthenticationKind : $($hostConnectionProfile.DomainAuthenticationKind)`r`n"   + `
+                                        "`tIPv4Connectivity         : $($hostConnectionProfile.IPv4Connectivity)`r`n"           + `
+                                        "`tIPv6Connectivity         : $($hostConnectionProfile.IPv6Connectivity)`r`n"           + `
+                                        "`tElementName              : $($hostConnectionProfile.ElementName)`r`n"                + `
+                                        "`tPSComputerName           : $($hostConnectionProfile.PSComputerName)`r`n"             + `
+                                        "`tDescription              : $($hostConnectionProfile.Description)`r`n"                + `
+                                        "`tCaption                  : $($hostConnectionProfile.Caption)");
             } # else : Single Host Connection Profile
 
 
