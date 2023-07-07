@@ -331,7 +331,8 @@
                                         [string] $quiet)        # Suppress Error Messages
     {
         # Check the website's availability status.
-        return (([WebsiteResources]::__CheckSiteAvailability_SiteProvided($site)            -eq $true) -and `   # Make sure that the string is not null\empty
+        return (([CommonIO]::CheckInternetConnection()                                      -eq $true) -and `   # Make sure that the host system has an active internet connection.
+                ([WebsiteResources]::__CheckSiteAvailability_SiteProvided($site)            -eq $true) -and `   # Make sure that the string is not null\empty
                 ([WebsiteResources]::__CheckSiteAvailability_SiteResponse($site, $quiet)    -eq $true));        # Make sure that the Web Host and site is reachable
     } # CheckSiteAvailability()
 
