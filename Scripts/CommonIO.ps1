@@ -4625,7 +4625,7 @@ class CommonIO
             { $logAdditionalMSG = "Windows did not find any Network Connection Profiles!"; }
 
             # Multiple Host Connection Profiles Found
-            if ($hostConnectionProfile.GetTytpe() -eq "Object[]")
+            if ($hostConnectionProfile.GetType() -eq "Object[]")
             {
                 # Scan each profile obtained.
                 foreach ($item in $hostConnectionProfile)
