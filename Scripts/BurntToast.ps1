@@ -616,7 +616,7 @@ class BurntToast
         # Declarations and Initializations
         # ----------------------------------------
         # Program's Logo Image
-        [string] $imageLogo = $NULL;
+        [string] $imageLogo = $GLOBAL:_PROGRAMDATA_LOCAL_IMAGES_LOGO_PATH_;
 
         # Program's Banner Image
         [string] $imageBanner = $NULL;
@@ -624,11 +624,9 @@ class BurntToast
 
 
         # Determine what image will be shown to the user:
-        if ($graphicOption -eq [BurntToastShowGraphic]::Logo)   { $imageLogo    = $(GLOBAL:_PROGRAMDATA_LOCAL_IMAGES_LOGO_PATH_);   }
-        else                                                    { $imageBanner  = $(GLOBAL:_PROGRAMDATA_LOCAL_IMAGES_BANNER_PATH_); }
+        if ($graphicOption -eq [BurntToastShowGraphic]::Banner) { $imageBanner  = $GLOBAL:_PROGRAMDATA_LOCAL_IMAGES_BANNER_PATH_; }
 
 
-        # Show message
         [BurntToast]::__ShowWindowsToastMessage($message, `
                                                 $imageLogo, `
                                                 $imageBanner);
