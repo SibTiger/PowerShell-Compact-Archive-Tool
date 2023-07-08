@@ -320,18 +320,19 @@ class BurntToast
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Name:                        $($results.Name)`r`n"                       + `
-                                        "`tRepository:                  $($results.Repository)`r`n"                 + `
-                                        "`tRepository Source Location:  $($results.RepositorySourceLocation)`r`n"   + `
-                                        "`tVersion:                     $($results.Version)`r`n"                    + `
-                                        "`tUpdated Date:                $($results.UpdatedDate)`r`n"                + `
-                                        "`tRelease Notes:               $($results.ReleaseNotes)`r`n"               + `
-                                        "`tModule:                      $($results.Type)`r`n"                       + `
-                                        "`tPublishedDate:               $($results.PublishedDate)`r`n"              + `
-                                        "`tProjectUri:                  $($results.ProjectUri)`r`n"                 + `
-                                        "`tDescription:                 $($results.Description)`r`n"                + `
                                         "`tAuthor:                      $($results.Author)`r`n"                     + `
                                         "`tCompanyName:                 $($results.CompanyName)`r`n"                + `
-                                        "`tCopyright:                   $($results.Copyright)`r`n");
+                                        "`tCopyright:                   $($results.Copyright)`r`n"                  + `
+                                        "`tProjectUri:                  $($results.ProjectUri)`r`n"                 + `
+                                        "`tDescription:                 $($results.Description)`r`n"                + `
+                                        "`tPublishedDate:               $($results.PublishedDate)`r`n"              + `
+                                        "`tUpdated Date:                $($results.UpdatedDate)`r`n"                + `
+                                        "`tVersion:                     $($results.Version)`r`n"                    + `
+                                        "`tRepository:                  $($results.Repository)`r`n"                 + `
+                                        "`tRepository Source Location:  $($results.RepositorySourceLocation)`r`n"   + `
+                                        "`tModule:                      $($results.Type)`r`n"                       + `
+                                        "`tRelease Notes:               $($results.ReleaseNotes)");
+
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
