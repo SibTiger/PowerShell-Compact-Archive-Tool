@@ -121,6 +121,97 @@ class BurntToast
 
 
 
+
+
+    #endregion
+
+
+
+
+    #region Front-end Functions
+
+   <# Show Program Message
+    # -------------------------------
+    # Documentation:
+    #  This function is designed to show event based messages generated
+    #   by the application.  This differs from the project based
+    #   messages, as the images will be centered around the program.
+    # -------------------------------
+    # Input:
+    #  [String] Message
+    #   The message that will be shown to the user.
+    #  [BurntToastShowGraphic] Graphic Option
+    #   Determines what image is going to shown to the user.
+    # -------------------------------
+    #>
+    static [void] ShowProgramMessage([String] $message, `                   # Message to show to the user.
+                                    [BurntToastShowGraphic] $graphicOption) # Show specific image to the user.
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Program's Logo Image
+        [string] $imageLogo = $GLOBAL:_PROGRAMDATA_LOCAL_IMAGES_LOGO_PATH_;
+
+        # Program's Banner Image
+        [string] $imageBanner = $NULL;
+        # ----------------------------------------
+
+
+        # Determine what image will be shown to the user:
+        if ($graphicOption -eq [BurntToastShowGraphic]::Banner) { $imageBanner  = $GLOBAL:_PROGRAMDATA_LOCAL_IMAGES_BANNER_PATH_; }
+
+
+        [BurntToast]::__ShowWindowsToastMessage($message, `
+                                                $imageLogo, `
+                                                $imageBanner);
+    } # ShowProgramMessage()
+
+
+
+
+   <# Show Project Message
+    # -------------------------------
+    # Documentation:
+    #  This function will provide the ability to show event based message
+    #   activities regarding a project.
+    # -------------------------------
+    # Input:
+    #  [String] Message
+    #   The message that will be shown to the user.
+    #  [BurntToastShowGraphic] Graphic Option
+    #   Determines what image is going to shown to the user.
+    # -------------------------------
+    #>
+    static [void] ShowProjectMessage([string] $message, `                   # Message to show to the user.
+                                    [BurntToastShowGraphic] $graphicOption) # Show specific image to the user.
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Program's Logo Image
+        [string] $imageLogo = $GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_ART_LOGO_PATH_;
+
+        # Program's Banner Image
+        [string] $imageBanner = $NULL;
+        # ----------------------------------------
+
+
+        # Determine what image will be shown to the user:
+        if ($graphicOption -eq [BurntToastShowGraphic]::Banner) { $imageBanner  = $GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_ART_BANNER_PATH_; }
+
+
+        # Show message
+        [BurntToast]::__ShowWindowsToastMessage($message, `
+                                                $imageLogo, `
+                                                $imageBanner);
+    } # ShowProjectMessage()
+
+    #endregion
+
+
+
+
+    #region Back-end Functions
+
    <# Install BurntToast Module
     # -------------------------------
     # Documentation:
@@ -139,7 +230,7 @@ class BurntToast
     #   $true   = BurntToast was successfully installed.
     # -------------------------------
     #>
-    static [bool] InstallModule()
+    static [bool] __InstallModule()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -289,7 +380,7 @@ class BurntToast
 
         # Finished
         return $operationStatus;
-    } # InstallModule()
+    } # __InstallModule()
 
 
 
@@ -306,7 +397,7 @@ class BurntToast
     #   $true   = BurntToast was successfully updated.
     # -------------------------------
     #>
-    static [Bool] UpdateModule()
+    static [Bool] __UpdateModule()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -457,7 +548,7 @@ class BurntToast
 
         # Finished
         return $operationStatus;
-    } # UpdateModule()
+    } # __UpdateModule()
 
 
 
@@ -474,7 +565,7 @@ class BurntToast
     #   $true   = BurntToast was successfully removed.
     # -------------------------------
     #>
-    static [bool] UninstallModule()
+    static [bool] __UninstallModule()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -587,96 +678,10 @@ class BurntToast
 
         # Finished
         return $operationStatus;
-    } # UninstallModule()
-
-    #endregion
+    } # __UninstallModule()
 
 
 
-
-    #region Front-end Functions
-
-   <# Show Program Message
-    # -------------------------------
-    # Documentation:
-    #  This function is designed to show event based messages generated
-    #   by the application.  This differs from the project based
-    #   messages, as the images will be centered around the program.
-    # -------------------------------
-    # Input:
-    #  [String] Message
-    #   The message that will be shown to the user.
-    #  [BurntToastShowGraphic] Graphic Option
-    #   Determines what image is going to shown to the user.
-    # -------------------------------
-    #>
-    static [void] ShowProgramMessage([String] $message, `                   # Message to show to the user.
-                                    [BurntToastShowGraphic] $graphicOption) # Show specific image to the user.
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Program's Logo Image
-        [string] $imageLogo = $GLOBAL:_PROGRAMDATA_LOCAL_IMAGES_LOGO_PATH_;
-
-        # Program's Banner Image
-        [string] $imageBanner = $NULL;
-        # ----------------------------------------
-
-
-        # Determine what image will be shown to the user:
-        if ($graphicOption -eq [BurntToastShowGraphic]::Banner) { $imageBanner  = $GLOBAL:_PROGRAMDATA_LOCAL_IMAGES_BANNER_PATH_; }
-
-
-        [BurntToast]::__ShowWindowsToastMessage($message, `
-                                                $imageLogo, `
-                                                $imageBanner);
-    } # ShowProgramMessage()
-
-
-
-
-   <# Show Project Message
-    # -------------------------------
-    # Documentation:
-    #  This function will provide the ability to show event based message
-    #   activities regarding a project.
-    # -------------------------------
-    # Input:
-    #  [String] Message
-    #   The message that will be shown to the user.
-    #  [BurntToastShowGraphic] Graphic Option
-    #   Determines what image is going to shown to the user.
-    # -------------------------------
-    #>
-    static [void] ShowProjectMessage([string] $message, `                   # Message to show to the user.
-                                    [BurntToastShowGraphic] $graphicOption) # Show specific image to the user.
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Program's Logo Image
-        [string] $imageLogo = $GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_ART_LOGO_PATH_;
-
-        # Program's Banner Image
-        [string] $imageBanner = $NULL;
-        # ----------------------------------------
-
-
-        # Determine what image will be shown to the user:
-        if ($graphicOption -eq [BurntToastShowGraphic]::Banner) { $imageBanner  = $GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_ART_BANNER_PATH_; }
-
-
-        # Show message
-        [BurntToast]::__ShowWindowsToastMessage($message, `
-                                                $imageLogo, `
-                                                $imageBanner);
-    } # ShowProjectMessage()
-
-    #endregion
-
-
-
-
-    #region Back-end Functions
 
    <# Show Windows Toast Message
     # -------------------------------
