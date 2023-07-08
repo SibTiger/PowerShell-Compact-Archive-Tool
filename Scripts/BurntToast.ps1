@@ -138,8 +138,9 @@ class BurntToast
     #>
     static [bool] ShowBurntToastInstall()
     {
-        return ([CommonIO]::CheckInternetConnection() -and `
-                (![BurntToast]::DetectModule()))
+        return ((![BurntToast]::DetectModule())                 -and `      # Check if the module is already installed
+                  [CommonIO]::CheckInternetConnection()         -and `      # Check Host Internet Connection Availability
+                  [BurntToast]::__CheckModuleExistsInRepository())          # Check if module still in the POSH Repository
     } # ShowBurntToastInstall()
 
     #endregion
@@ -230,6 +231,150 @@ class BurntToast
 
 
     #region Back-end Functions
+
+   <# Check Module Exists within POSH Gallery
+    # -------------------------------
+    # Documentation:
+    #  This function is designed to determine if the BurntToast PowerShell
+    #   Module exists within the PowerShell Repository.  With this
+    #   functionality alone, we can determine if we can potentially fetch
+    #   a new install or update directly from the PowerShell Repository.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #   $false  = BurntToast was not found in Repository.
+    #   $true   = BurntToast was found in Repository.
+    # -------------------------------
+    #>
+    static [bool] __CheckModuleExistsInRepository()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [bool] $operationStatus = $true;            # Provides the operation code of this function.
+        # ----------------------------------------
+
+
+
+        # Before we begin inspecting the PowerShell Repository, make sure
+        #   that the host system has an active internet connection.
+        if (![CommonIO]::CheckInternetConnection())
+        {
+            # Because the user presently does not have internet access,
+            #   we cannot check the online PowerShell Repository.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to check the online PowerShell Repository as the host does not have an active Internet Connection presently.";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($logMessage, `                # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Unable to inspect
+            return $false;
+        } # If : Host has No Internet Connection
+
+
+
+        # Try to obtain the results from the online PowerShell Repository
+        try
+        {
+            # Declarations and Initializations
+            # ----------------------------------------
+            [System.Object] $results = $NULL;     # Holds the results obtained from the repository.
+            # ----------------------------------------
+
+
+            # Obtain the results from the PowerShell Repository.
+            $results = Find-Module                  `
+                        -Name "BurntToast"          `
+                        -Repository "PSGallery"     `
+                        -ErrorAction Stop;
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Successfully found results from the PowerShell Module Repository!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Name: $($results.Name)`r`n" + `
+                                        "Repository: $($results.Repository)`r`n" + `
+                                        "Repository Source Location: $($results.RepositorySourceLocation)`r`n" + `
+                                        "Version: $($results.Version)`r`n" + `
+                                        "Updated Date: $($results.UpdatedDate)`r`n" + `
+                                        "Release Notes: $($results.ReleaseNotes)`r`n" + `
+                                        "Module: $($results.Type)`r`n" + `
+                                        "PublishedDate: $($results.PublishedDate)`r`n" + `
+                                        "ProjectUri: $($results.ProjectUri)`r`n" + `
+                                        "Description: $($results.Description)`r`n" + `
+                                        "Author: $($results.Author)`r`n" + `
+                                        "CompanyName: $($results.CompanyName)`r`n" + `
+                                        "Copyright: $($results.Copyright)`r`n");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # try : Obtain Results from 
+
+
+        # Error was caught
+        catch
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to check the online PowerShell Repository as the host does not have an active Internet Connection presently.";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Signify that we were not able to fetch the results.
+            $operationStatus = $false;
+        } # Catch : Caught an Error
+
+
+
+        # Finished.
+        return $operationStatus;
+    } # __CheckModuleExistsInRepository()
+
+
+
 
    <# Install BurntToast Module
     # -------------------------------
