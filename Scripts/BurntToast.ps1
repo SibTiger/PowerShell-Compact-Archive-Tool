@@ -319,19 +319,19 @@ class BurntToast
             [string] $logMessage = "Successfully found results from the PowerShell Module Repository!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Name: $($results.Name)`r`n" + `
-                                        "Repository: $($results.Repository)`r`n" + `
-                                        "Repository Source Location: $($results.RepositorySourceLocation)`r`n" + `
-                                        "Version: $($results.Version)`r`n" + `
-                                        "Updated Date: $($results.UpdatedDate)`r`n" + `
-                                        "Release Notes: $($results.ReleaseNotes)`r`n" + `
-                                        "Module: $($results.Type)`r`n" + `
-                                        "PublishedDate: $($results.PublishedDate)`r`n" + `
-                                        "ProjectUri: $($results.ProjectUri)`r`n" + `
-                                        "Description: $($results.Description)`r`n" + `
-                                        "Author: $($results.Author)`r`n" + `
-                                        "CompanyName: $($results.CompanyName)`r`n" + `
-                                        "Copyright: $($results.Copyright)`r`n");
+            [string] $logAdditionalMSG = ("Name:                        $($results.Name)`r`n"                       + `
+                                        "`tRepository:                  $($results.Repository)`r`n"                 + `
+                                        "`tRepository Source Location:  $($results.RepositorySourceLocation)`r`n"   + `
+                                        "`tVersion:                     $($results.Version)`r`n"                    + `
+                                        "`tUpdated Date:                $($results.UpdatedDate)`r`n"                + `
+                                        "`tRelease Notes:               $($results.ReleaseNotes)`r`n"               + `
+                                        "`tModule:                      $($results.Type)`r`n"                       + `
+                                        "`tPublishedDate:               $($results.PublishedDate)`r`n"              + `
+                                        "`tProjectUri:                  $($results.ProjectUri)`r`n"                 + `
+                                        "`tDescription:                 $($results.Description)`r`n"                + `
+                                        "`tAuthor:                      $($results.Author)`r`n"                     + `
+                                        "`tCompanyName:                 $($results.CompanyName)`r`n"                + `
+                                        "`tCopyright:                   $($results.Copyright)`r`n");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
