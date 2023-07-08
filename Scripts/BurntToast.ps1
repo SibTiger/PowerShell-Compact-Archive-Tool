@@ -118,11 +118,6 @@ class BurntToast
         return $false;
     } # DetectModule()
 
-
-
-
-
-
     #endregion
 
 
