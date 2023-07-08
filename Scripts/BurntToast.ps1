@@ -121,7 +121,7 @@ class BurntToast
 
 
 
-   <# Show BurntToast Install
+   <# Show BurntToast Install Option
     # -------------------------------
     # Documentation:
     #  This function will provide the ability to determine if we can show
@@ -136,12 +136,12 @@ class BurntToast
     #   $true   = Show Install Alert
     # -------------------------------
     #>
-    static [bool] ShowBurntToastInstall()
+    static [bool] ShowBurntToastInstallOption()
     {
         return ((![BurntToast]::DetectModule())                 -and `      # Check if the module is already installed
                   [CommonIO]::CheckInternetConnection()         -and `      # Check Host Internet Connection Availability
                   [BurntToast]::__CheckModuleExistsInRepository())          # Check if module still in the POSH Repository
-    } # ShowBurntToastInstall()
+    } # ShowBurntToastInstallOption()
 
     #endregion
 
