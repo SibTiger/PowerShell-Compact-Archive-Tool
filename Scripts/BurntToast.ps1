@@ -118,6 +118,30 @@ class BurntToast
         return $false;
     } # DetectModule()
 
+
+
+
+   <# Show BurntToast Install
+    # -------------------------------
+    # Documentation:
+    #  This function will provide the ability to determine if we can show
+    #   the BurntToast installation alert, depending on certain circumstances.
+    #   We will alert the user that it is possible to install the BurntToast
+    #   PowerShell Module if was not yet installed, and if the host system
+    #   has an active internet connection.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #   $false  = Do not show Install Alert
+    #   $true   = Show Install Alert
+    # -------------------------------
+    #>
+    static [bool] ShowBurntToastInstall()
+    {
+        return ([CommonIO]::CheckInternetConnection() -and `
+                (![BurntToast]::DetectModule()))
+    } # ShowBurntToastInstall()
+
     #endregion
 
 
