@@ -143,6 +143,210 @@ class BurntToast
                   [BurntToast]::__CheckModuleExistsInRepository())          # Check if module still in the POSH Repository
     } # ShowBurntToastInstallOption()
 
+
+
+
+   <# Check for BurntToast Updates
+    # -------------------------------
+    # Documentation:
+    #  This function will check if there exists any updates for the BurntToast
+    #   PowerShell module.  To do this, we will inspect what version is presently
+    #   installed and compare that with what is presently available with the
+    #   PowerShell Repository.  If an update exists, we will alert the calling
+    #   function.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #   $false  = No updates found.
+    #   $true   = Updates are available.
+    # -------------------------------
+    #>
+    static [bool] CheckBurntToastUpdates()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # We will use this to capture the version directory from the PowerShell Repository.
+        #   We know that the size is going to be at max - is three.
+        #   0 = Major
+        #   1 = Minor
+        #   2 = Revision
+        [int[]] $repositoryVersion = [int[]]::New(3);
+
+        # Used for capturing the current install information.
+        [int] $currentInstallInformation = $null;
+        # ----------------------------------------
+
+
+
+        # Before we check for updates, first make sure that the PowerShell Module had already been installed within the environment.
+        if (![BurntToast]::DetectModule())
+        {
+            Write-Host "Failed at 0"
+            # BurntToast was not found; abort the operation.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Cannot check for updates as the PowerShell Module was not found!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ""
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Finished
+            return $false;
+        } # if : BurntToast Not Detected
+
+
+
+        # Make sure that the user has an active internet connection.
+        if (![CommonIO]::CheckInternetConnection())
+        {
+            Write-Host "Failed at 1"
+            # Because the user presently does not have internet access,
+            #   we cannot check the online PowerShell Repository.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Cannot check for updates as the system is not presently connected to the Internet.";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # No internet connection
+            return $false;
+        } # If : Host has No Internet Connection
+
+
+
+        # Determine if the BurntToast PowerShell Module is still available within the PowerShell Repository.
+        if (![BurntToast]::__CheckModuleExistsInRepository())
+        {
+            Write-Host "Failed at 2"
+            # Because the BurntToast PowerShell Module is no longer available in the PowerShell Repository, 
+            #   we cannot determine if an update is available.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Cannot check for updates as the BurntToast PowerShell Module is no longer available in the PowerShell Repository!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # BurntToast not Available
+            return $false;
+        } # If : BurntToast Not Available in Repository
+
+
+
+        # Capture the PowerShell Module information directly from the PowerShell Repository.
+        try
+        {
+
+            # Declarations and Initializations
+            # ----------------------------------------
+            [System.Object] $results = $null;       # Only to capture information from the PowerShell Repository.
+            # ----------------------------------------
+
+
+            # Fetch the entire results directly from the PowerShell Repository.
+            $repositoryVersion = (Find-Module                  `
+                                    -Name "BurntToast"          `
+                                    -Repository "PSGallery"     `
+                                    -ErrorAction Stop).Version.Split('.').ToInt32;
+
+
+            # Capture the necessary information that we will need.
+            #$repositoryVersion = $results.Version.Split('.');
+        } # Try : Obtain Information from Repository
+
+
+        # Caught an Error
+        catch
+        {
+            Write-Host "Failed at 3"
+            # Unable to obtain the information from the PowerShell Repository.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to check for updates as we cannot retrieve information from the PowerShell Repository.";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Unable to continue
+            return $false;
+        } #  Catch : Caught an Error
+
+        # Capture information regarding the current install of the PowerShell Module.
+        $currentInstallInformation = ((Get-Module -ListAvailable -Name "BurntToast").Version);
+
+        # Determine if an Update is Available
+        if (($repositoryVersion[0] -lt $currentInstallInformation.Major + 3) -or `
+            ($repositoryVersion[1] -lt $currentInstallInformation.Minor + 3) -or `
+            ($repositoryVersion[2] -lt $currentInstallInformation.Build + 3))
+        {
+            Write-Host "Update Available!"
+        } # If : Update Available
+
+
+
+        Write-Host "Made it"
+
+
+
+        Write-Host "Current Installation: `r`n`tMajor - $([string]$currentInstallInformation.Major)`r`n`tMinor - $([string]$currentInstallInformation.Minor)`r`n`tRevision - $([string]$currentInstallInformation.Build)";
+        Write-Host "Repository Information: `r`n`tMajor - $([string]$repositoryVersion[0])`r`n`tMinor - $([string]$repositoryVersion[1])`r`n`tRevision - $([string]$repositoryVersion[2])";
+        PAUSE
+        return $true;
+    } # CheckBurntToastUpdates()
+
     #endregion
 
 
