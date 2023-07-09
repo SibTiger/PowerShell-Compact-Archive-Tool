@@ -165,15 +165,18 @@ class BurntToast
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # We will use this to capture the version directory from the PowerShell Repository.
+        # We will use this to capture the version of the BurntToast PowerShell Module
         #   We know that the size is going to be at max - is three.
         #   0 = Major
         #   1 = Minor
         #   2 = Revision
-        [int[]] $repositoryVersion = [int[]]::New(3);
+        [int32[]] $repositoryVersion = [int32[]]::New(3);   # PowerShell Gallery Repository
 
-        # Used for capturing the current install information.
-        [int] $currentInstallInformation = $null;
+        # Holds detailed version provided by the current install.
+        [System.Version] $installedVersion = $NULL;
+
+        # Holds the value that determines if there exists an update.
+        [bool] $updateAvailable = $false;
         # ----------------------------------------
 
 
@@ -181,7 +184,6 @@ class BurntToast
         # Before we check for updates, first make sure that the PowerShell Module had already been installed within the environment.
         if (![BurntToast]::DetectModule())
         {
-            Write-Host "Failed at 0"
             # BurntToast was not found; abort the operation.
 
 
@@ -212,7 +214,6 @@ class BurntToast
         # Make sure that the user has an active internet connection.
         if (![CommonIO]::CheckInternetConnection())
         {
-            Write-Host "Failed at 1"
             # Because the user presently does not have internet access,
             #   we cannot check the online PowerShell Repository.
 
@@ -244,7 +245,6 @@ class BurntToast
         # Determine if the BurntToast PowerShell Module is still available within the PowerShell Repository.
         if (![BurntToast]::__CheckModuleExistsInRepository())
         {
-            Write-Host "Failed at 2"
             # Because the BurntToast PowerShell Module is no longer available in the PowerShell Repository, 
             #   we cannot determine if an update is available.
 
@@ -272,33 +272,32 @@ class BurntToast
         } # If : BurntToast Not Available in Repository
 
 
-
         # Capture the PowerShell Module information directly from the PowerShell Repository.
         try
         {
-
             # Declarations and Initializations
             # ----------------------------------------
-            [System.Object] $results = $null;       # Only to capture information from the PowerShell Repository.
+            # This will hold the version information of the installed module.
+            [string[]] $versionString = [string[]]::new(3);
             # ----------------------------------------
 
 
             # Fetch the entire results directly from the PowerShell Repository.
-            $repositoryVersion = (Find-Module                  `
-                                    -Name "BurntToast"          `
-                                    -Repository "PSGallery"     `
-                                    -ErrorAction Stop).Version.Split('.').ToInt32;
+            $versionString = (Find-Module                   `
+                                -Name "BurntToast"          `
+                                -Repository "PSGallery"     `
+                                -ErrorAction Stop).Version.Split('.');
 
 
-            # Capture the necessary information that we will need.
-            #$repositoryVersion = $results.Version.Split('.');
+            # Store and convert the datatype such that we can perform comparisons later on.
+            for ([int] $i = 0; $i -lt 3; $i++)
+            { $repositoryVersion[$i] = $versionString[$i]; }
         } # Try : Obtain Information from Repository
 
 
         # Caught an Error
         catch
         {
-            Write-Host "Failed at 3"
             # Unable to obtain the information from the PowerShell Repository.
 
 
@@ -324,27 +323,24 @@ class BurntToast
             return $false;
         } #  Catch : Caught an Error
 
+
+
         # Capture information regarding the current install of the PowerShell Module.
-        $currentInstallInformation = ((Get-Module -ListAvailable -Name "BurntToast").Version);
+        $installedVersion = ((Get-Module -ListAvailable -Name "BurntToast").Version);
+
 
         # Determine if an Update is Available
-        if (($repositoryVersion[0] -lt $currentInstallInformation.Major + 3) -or `
-            ($repositoryVersion[1] -lt $currentInstallInformation.Minor + 3) -or `
-            ($repositoryVersion[2] -lt $currentInstallInformation.Build + 3))
+        if (($repositoryVersion[0] -lt $installedVersion.Major) -or `
+            ($repositoryVersion[1] -lt $installedVersion.Minor) -or `
+            ($repositoryVersion[2] -lt $installedVersion.Build))
         {
-            Write-Host "Update Available!"
+            # Raise the flag, denoting that an update is available
+            $updateAvailable = $true;
         } # If : Update Available
 
 
-
-        Write-Host "Made it"
-
-
-
-        Write-Host "Current Installation: `r`n`tMajor - $([string]$currentInstallInformation.Major)`r`n`tMinor - $([string]$currentInstallInformation.Minor)`r`n`tRevision - $([string]$currentInstallInformation.Build)";
-        Write-Host "Repository Information: `r`n`tMajor - $([string]$repositoryVersion[0])`r`n`tMinor - $([string]$repositoryVersion[1])`r`n`tRevision - $([string]$repositoryVersion[2])";
-        PAUSE
-        return $true;
+        # Return the final result.
+        return $updateAvailable;
     } # CheckBurntToastUpdates()
 
     #endregion
