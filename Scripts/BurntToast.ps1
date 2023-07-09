@@ -177,6 +177,9 @@ class BurntToast
 
         # Holds the value that determines if there exists an update.
         [bool] $updateAvailable = $false;
+
+        # Log Topic; used to describe if updates are available or not.
+        [string] $logTopic = $null;
         # ----------------------------------------
 
 
@@ -330,13 +333,43 @@ class BurntToast
 
 
         # Determine if an Update is Available
+        # Update is available
         if (($repositoryVersion[0] -lt $installedVersion.Major) -or `
             ($repositoryVersion[1] -lt $installedVersion.Minor) -or `
             ($repositoryVersion[2] -lt $installedVersion.Build))
         {
             # Raise the flag, denoting that an update is available
             $updateAvailable = $true;
+
+            # Change the log topic to denote that updates were available.
+            $logTopic = "Updates are available for BurntToast";
         } # If : Update Available
+
+        # No updates are available
+        else { $logTopic = "No updates are available for BurntToast."; }
+
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        [string] $logMessage = $logTopic;
+
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = ("Current Installation Build: " + `
+                                        "$($installedVersion.Major).$($installedVersion.Minor).$($installedVersion.Build)`r`n" + `
+                                        "`tPowerShell Repository Build Available: " + `
+                                        "$($repositoryVersion[0]).$($repositoryVersion[1]).$($repositoryVersion[2])");
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
+
 
 
         # Return the final result.
