@@ -383,6 +383,151 @@ class BurntToast
 
     #region Front-end Functions
 
+   <# BurntToast Configure Install
+    # -------------------------------
+    # Documentation:
+    #  This function will operate as a driver, in which will
+    #   allow the user to perform a configuration to the
+    #   current install of BurntToast, a PowerShell Module.
+    #
+    # This function requires an argument the dictates what
+    #   operation will be performed.
+    # -------------------------------
+    # Input:
+    #  [BurntToastConfigurationInstall] Request
+    #   Executes the desired request by the user.
+    #       Install   - Install Request
+    #       Update    - Update Request
+    #       Uninstall - Uninstall Request
+    # -------------------------------
+    # Output:
+    #  Operation Status Code
+    #   True  = Operation was successful.
+    #   False = Operation had failed.
+    # -------------------------------
+    #>
+    static [bool] Configure([BurntToastConfigureInstall] $request)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Operation Status Code; returns the functions overall exit code.
+        [bool] $exitCode = $false;
+        # ----------------------------------------
+
+
+
+        # Clear the terminal of all previous text; keep the space clean so that
+        #  it is easy for the user to read and follow along.
+        [CommonIO]::ClearBuffer();
+
+        # Draw Program Information Header
+        [CommonCUI]::DrawProgramTitleHeader();
+
+        # Show the user that they are at the Main Menu
+        [CommonCUI]::DrawSectionHeader("Configure BurntToast");
+
+
+
+        # Configuration Driver
+        switch($request)
+        {
+            # Install
+            ([BurntToastConfigureInstall]::Install)
+            {
+                # Alert the user that we are installing...
+                [CommonIO]::WriteToBuffer("Installing BurntToast. . .", `
+                                        [LogMessageLevel]::Standard, `
+                                        $false);
+
+
+                # Perform the desired action and provide feedback to the user.
+                if ([BurntToast]::__InstallModule())
+                {
+                    # Install Operation was successful
+                    [CommonIO]::WriteToBuffer("BurntToast was successfully installed!", `
+                                                [LogMessageLevel]::Standard, `
+                                                $false);
+
+                    # Update the exit code
+                    $exitCode = $true;
+                } # if : Install Successful
+
+
+                # Operation Failed
+                else
+                {
+                    # Install operation had failed.
+                    [CommonIO]::WriteToBuffer("BurntToast could not be installed!", `
+                                                [LogMessageLevel]::Error, `
+                                                $false);
+                } # else : Install Failed
+            } # Install BurntToast
+
+
+
+            # Update
+            ([BurntToastConfigureInstall]::Update)
+            {
+                # Perform the desired action and provide feedback to the user.
+                if([BurntToast]::__UpdateModule())
+                {
+                    # Update operation was successful
+                    [CommonIO]::WriteToBuffer("BurntToast was successfully updated!", `
+                                                [LogMessageLevel]::Standard, `
+                                                $false);
+
+                    # Update the exit code
+                    $exitCode = $true;
+                } # if : Update Successful
+
+
+                # Operation Failed
+                else
+                {
+                    # Update Operation had failed.
+                    [CommonIO]::WriteToBuffer("BurntToast could not be updated!", `
+                                                [LogMessageLevel]::Error, `
+                                                $false);
+                } # else : Update Failed
+            } # Update BurntToast
+
+
+
+            # Uninstall
+            ([BurntToastConfigureInstall]::Uninstall)
+            {
+                # Perform the desired action and provide feedback to the user.
+                if ([BurntToast]::__UninstallModule())
+                {
+                    # Uninstall operation was successful.
+                    [CommonIO]::WriteToBuffer("BurntToast was successfully uninstalled!", `
+                                                [LogMessageLevel]::Standard, `
+                                                $false);
+
+                    # Update the exit code
+                    $exitCode = $true;
+                } # if : Uninstall Successful
+
+
+                # Operation Failed
+                else
+                {
+                    # Uninstall Operation had failed.
+                    [CommonIO]::WriteToBuffer("BurntToast could not be uninstalled!", `
+                                                [LogMessageLevel]::Error, `
+                                                $false);
+                } # Uninstall Failed
+            } # Uninstall BurntToast
+        } # Switch : Configuration Driver
+
+
+        # Finished
+        return $exitCode;
+    } # Configure()
+
+
+
+
    <# Show Program Message
     # -------------------------------
     # Documentation:
