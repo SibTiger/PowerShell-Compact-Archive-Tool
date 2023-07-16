@@ -25,7 +25,7 @@
  # This class will provide the necessary functionality in order to utilize
  #  features from the BurntToast PowerShell module.  The BurntToast module
  #  produces visual notifications to the user by means of a Windows Toast
- #  notification mechanism through the Windows Action Center in the
+ #  notification mechanism through the Windows Action Center within the
  #  Desktop Environment.  By using this notification system in Windows,
  #  we can assure that the user will be able to see the alerts when
  #  the Windows Notification System is available.
@@ -45,10 +45,10 @@ class BurntToast
     # -------------------------------
     # Documentation:
     #  This function will try to detect if the host system has the BurtToast
-    #   module available within the PowerShell's current environment.
-    #   This will provide the ability to determine if BurntToast had been
-    #   installed already within the environment, or if BurntToast had yet
-    #   to be installed.
+    #   PowerShell module available within the PowerShell's current
+    #   environment.  This will provide the ability to determine if BurntToast
+    #   had been installed already within the environment, or if BurntToast
+    #   had yet to be installed.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -73,7 +73,7 @@ class BurntToast
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Found BurntToast PowerShell module!";
+            [string] $logMessage = "Found the BurntToast PowerShell module!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = "It is possible to use BurntToast Windows Visual Notification features!";
@@ -86,22 +86,22 @@ class BurntToast
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Return that we had successfully found the module.
+            # Successfully found the desired PowerShell module.
             return $true;
         } # if : BurntToast is Installed
 
 
 
-        # When BurntToast was not detected
+        # BurntToast was not detected
         # * * * * * * * * * * * * * * * * * * *
         # Debugging
         # --------------
 
         # Generate the initial message
-        [string] $logMessage = "Could not find BurntToast PowerShell module!";
+        [string] $logMessage = "Could not find the BurntToast PowerShell module!";
 
         # Generate any additional information that might be useful
-        [string] $logAdditionalMSG = ("It is not possible to use the BurnToast features!`r`n" + `
+        [string] $logAdditionalMSG = ("It is not possible to use the BurnToast PowerShell Module features!`r`n" + `
                                     "`t- Please consider downloading the latest version of BurntToast:`r`n" + `
                                     "`t`thttps://github.com/Windos/BurntToast`r`n" + `
                                     "`t- Or, alternatively, you may consider installing BurntToast from $($GLOBAL:_PROGRAMNAMESHORT_) Main Settings.");
