@@ -610,6 +610,70 @@ class BurntToast
 
     #region Back-end Functions
 
+   <# Fetch PowerShell Module Installed Meta-Data
+    # -------------------------------
+    # Documentation:
+    #   This function will provide the meta-data of the BurntToast
+    #   PowerShell module already installed in the host system and
+    #   active within the PowerShell environment.
+    #
+    # NOTE:
+    #   The output will be formatted as if it were to be used for
+    #   Additional Log Message.  Thus indention will be added.
+    # -------------------------------
+    # Output:
+    #  [String] Meta-Data
+    #       Meta Data information
+    #       $NULL = Error
+    #>
+    static hidden [string] __FetchPowerShellModuleInstalledMetaData()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [System.Object] $results    = $NULL;    # Holds the results obtained from the repository.
+        [string] $metaData          = $NULL;    # This will hold the meta data provided by the
+                                                #  PowerShell Module.
+        # ----------------------------------------
+
+
+        # Try to obtain the meta-data from the current install
+        try
+        {
+            # Obtain the results from the PowerShell Repository.
+            $results = Find-Module                  `
+                        -Name "BurntToast"          `
+                        -Repository "PSGallery"     `
+                        -ErrorAction Stop;
+
+
+            # Retrieve the Metadata
+            $metaData = ( "Name:                        $($results.Name)`r`n"                       + `
+                        "`tAuthor:                      $($results.Author)`r`n"                     + `
+                        "`tCompanyName:                 $($results.CompanyName)`r`n"                + `
+                        "`tCopyright:                   $($results.Copyright)`r`n"                  + `
+                        "`tProjectUri:                  $($results.ProjectUri)`r`n"                 + `
+                        "`tDescription:                 $($results.Description)`r`n"                + `
+                        "`tPublishedDate:               $($results.PublishedDate)`r`n"              + `
+                        "`tUpdated Date:                $($results.UpdatedDate)`r`n"                + `
+                        "`tVersion:                     $($results.Version)`r`n"                    + `
+                        "`tRepository:                  $($results.Repository)`r`n"                 + `
+                        "`tRepository Source Location:  $($results.RepositorySourceLocation)`r`n"   + `
+                        "`tModule:                      $($results.Type)`r`n"                       + `
+                        "`tRelease Notes:               $($results.ReleaseNotes)");
+        } # Try : Obtain Meta-Data
+
+        # Caught an error; do nothing
+        catch {;}
+
+
+
+        # Finished; provide the meta-data
+        return $metaData;
+    } #__FetchPowerShellModuleInstalledMetaData()
+
+
+
+
    <# Check Module Exists within POSH Gallery
     # -------------------------------
     # Documentation:
