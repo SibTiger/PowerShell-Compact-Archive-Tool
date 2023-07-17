@@ -610,21 +610,65 @@ class BurntToast
 
     #region Back-end Functions
 
-   <# Fetch PowerShell Module Installed Meta-Data
+   <# Fetch PowerShell Module Installed Metadata
     # -------------------------------
     # Documentation:
-    #   This function will provide the meta-data of the BurntToast
-    #   PowerShell module already installed in the host system and
-    #   active within the PowerShell environment.
-    #
-    # NOTE:
-    #   The output will be formatted as if it were to be used for
-    #   Additional Log Message.  Thus indention will be added.
+    #   This function will provide the metadata of the desired
+    #   PowerShell module that is already installed in the host
+    #   system and active within the PowerShell environment.
     # -------------------------------
     # Output:
-    #  [String] Meta-Data
-    #       Meta Data information
-    #       $NULL = Error
+    #  [String] Metadata
+    #       Metadata information of the desired PowerShell Module.
+    #       If an error was caught, then $NULL will be returned.
+    # -------------------------------
+    #>
+    static hidden [string] __FetchPowerShellModuleDataLocal()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [System.Object] $results    = $NULL;    # Holds the results obtained from the repository.
+        [string] $metaDataString    = $NULL;    # This will hold the metadata provided by the
+                                                #  PowerShell Module.
+        # ----------------------------------------
+
+
+        # Try to obtain the metadata from the current install
+        try
+        {
+            # Obtain the results from the PowerShell Repository.
+            $results = Get-Module                   `
+                        -ListAvailable              `
+                        -Name "BurntToast"          `
+                        -ErrorAction Stop;
+
+
+            # Retrieve the Metadata information from our local install.
+            $metaDataString =   (   "`tName:                       $($results.Name)`r`n"                           + `
+                                    "`tAuthor:                     $($results.Author)`r`n"                         + `
+                                    "`tCompany Name:               $($results.CompanyName)`r`n"                    + `
+                                    "`tCopyright:                  $($results.Copyright)`r`n"                      + `
+                                    "`tProjectUri:                 $($results.ProjectUri.AbsoluteUri)`r`n"         + `
+                                    "`tDescription:                $($results.Description)`r`n"                    + `
+                                    "`tVersion:                    $($results.Version.ToString())`r`n"             + `
+                                    "`tMinimum POSH Version Req.   $($results.PowerShellVersion.ToString())`r`n"   + `
+                                    "`tGUID:                       $($results.Guid)`r`n"                           + `
+                                    "`tRepository Source Location: $($results.RepositorySourceLocation)`r`n"       + `
+                                    "`tModule:                     $($results.ModuleType)`r`n"                     + `
+                                    "`tInstall Location:           $($results.ModuleBase)`r`n"                     + `
+                                    "`tLicense:                    $($results.LicenseUri.AbsoluteUri)`r`n"         + `
+                                    "`tHelp:                       $($results.HelpInfoUri.AbsoluteUri)`r`n"        + `
+                                    "`tRelease Notes:              $($results.ReleaseNotes)");
+        } # Try : Obtain Metadata
+
+        # Caught an error; do nothing
+        catch {;}
+
+
+
+        # Finished; provide the metadata
+        return $metaDataString;
+    } #__FetchPowerShellModuleDataLocal()
     #>
     static hidden [string] __FetchPowerShellModuleInstalledMetaData()
     {
