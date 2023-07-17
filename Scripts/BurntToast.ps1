@@ -706,18 +706,23 @@ class BurntToast
 
 
             # Retrieve the Metadata
-            $metaDataString =   (   "`tName:                        $($results.Name)`r`n"                       + `
-                                    "`tAuthor:                      $($results.Author)`r`n"                     + `
-                                    "`tCompanyName:                 $($results.CompanyName)`r`n"                + `
-                                    "`tCopyright:                   $($results.Copyright)`r`n"                  + `
-                                    "`tProjectUri:                  $($results.ProjectUri)`r`n"                 + `
-                                    "`tDescription:                 $($results.Description)`r`n"                + `
-                                    "`tPublishedDate:               $($results.PublishedDate)`r`n"              + `
-                                    "`tUpdated Date:                $($results.UpdatedDate)`r`n"                + `
-                                    "`tVersion:                     $($results.Version)`r`n"                    + `
-                                    "`tRepository:                  $($results.Repository)`r`n"                 + `
-                                    "`tRepository Source Location:  $($results.RepositorySourceLocation)`r`n"   + `
-                                    "`tModule:                      $($results.Type)`r`n"                       + `
+            $metaDataString =   (   "`tName:                        $($results.Name)`r`n"                                               + `
+                                    "`tAuthor:                      $($results.Author)`r`n"                                             + `
+                                    "`tCompanyName:                 $($results.CompanyName)`r`n"                                        + `
+                                    "`tCopyright:                   $($results.Copyright)`r`n"                                          + `
+                                    "`tProjectUri:                  $($results.ProjectUri.AbsoluteUri)`r`n"                             + `
+                                    "`tDescription:                 $($results.Description)`r`n"                                        + `
+                                    "`tPublishedDate:               $($results.PublishedDate.ToString())`r`n"                           + `
+                                    "`tInstalled Date:              $($results.InstalledDate)`r`n"                                      + `
+                                    "`tLast Updated:                $($results.LastUpdated)`r`n"                                        + `
+                                    "`tGUID:                        $($results.AdditionalMetadata.GUID)`r`n"                            + `
+                                    "`tUpdated Date:                $($results.UpdatedDate)`r`n"                                        + `
+                                    "`tMinimum POSH Version Req.    $($results.AdditionalMetadata.PowerShellVersion.ToString())`r`n"    + `
+                                    "`tLicense:                     $($results.LicenseUri.AbsoluteUri)`r`n"                             + `
+                                    "`tVersion:                     $($results.Version)`r`n"                                            + `
+                                    "`tRepository:                  $($results.Repository)`r`n"                                         + `
+                                    "`tRepository Source Location:  $($results.RepositorySourceLocation)`r`n"                           + `
+                                    "`tModule:                      $($results.Type)`r`n"                                               + `
                                     "`tRelease Notes:               $($results.ReleaseNotes)");
         } # Try : Obtain Metadata
 
