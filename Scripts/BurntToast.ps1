@@ -669,18 +669,33 @@ class BurntToast
         # Finished; provide the metadata
         return $metaDataString;
     } #__FetchPowerShellModuleDataLocal()
+
+
+
+
+   <# Fetch PowerShell Module Meta-Data from Repository
+    # -------------------------------
+    # Documentation:
+    #  This function will obtain the desired PowerShell module metadata
+    #   information directly from the online repository.
+    # -------------------------------
+    # Output:
+    #  [String] Metadata
+    #       Metadata information
+    #       If an error was caught, then $NULL will be returned.
+    # -------------------------------
     #>
-    static hidden [string] __FetchPowerShellModuleInstalledMetaData()
+    static hidden [string] __FetchPowerShellModuleMetaRemote()
     {
         # Declarations and Initializations
         # ----------------------------------------
         [System.Object] $results    = $NULL;    # Holds the results obtained from the repository.
-        [string] $metaData          = $NULL;    # This will hold the meta data provided by the
+        [string] $metaDataString    = $NULL;    # This will hold the metadata provided by the
                                                 #  PowerShell Module.
         # ----------------------------------------
 
 
-        # Try to obtain the meta-data from the current install
+        # Try to obtain the metadata from the current install
         try
         {
             # Obtain the results from the PowerShell Repository.
@@ -691,29 +706,29 @@ class BurntToast
 
 
             # Retrieve the Metadata
-            $metaData = ( "Name:                        $($results.Name)`r`n"                       + `
-                        "`tAuthor:                      $($results.Author)`r`n"                     + `
-                        "`tCompanyName:                 $($results.CompanyName)`r`n"                + `
-                        "`tCopyright:                   $($results.Copyright)`r`n"                  + `
-                        "`tProjectUri:                  $($results.ProjectUri)`r`n"                 + `
-                        "`tDescription:                 $($results.Description)`r`n"                + `
-                        "`tPublishedDate:               $($results.PublishedDate)`r`n"              + `
-                        "`tUpdated Date:                $($results.UpdatedDate)`r`n"                + `
-                        "`tVersion:                     $($results.Version)`r`n"                    + `
-                        "`tRepository:                  $($results.Repository)`r`n"                 + `
-                        "`tRepository Source Location:  $($results.RepositorySourceLocation)`r`n"   + `
-                        "`tModule:                      $($results.Type)`r`n"                       + `
-                        "`tRelease Notes:               $($results.ReleaseNotes)");
-        } # Try : Obtain Meta-Data
+            $metaDataString =   (   "`tName:                        $($results.Name)`r`n"                       + `
+                                    "`tAuthor:                      $($results.Author)`r`n"                     + `
+                                    "`tCompanyName:                 $($results.CompanyName)`r`n"                + `
+                                    "`tCopyright:                   $($results.Copyright)`r`n"                  + `
+                                    "`tProjectUri:                  $($results.ProjectUri)`r`n"                 + `
+                                    "`tDescription:                 $($results.Description)`r`n"                + `
+                                    "`tPublishedDate:               $($results.PublishedDate)`r`n"              + `
+                                    "`tUpdated Date:                $($results.UpdatedDate)`r`n"                + `
+                                    "`tVersion:                     $($results.Version)`r`n"                    + `
+                                    "`tRepository:                  $($results.Repository)`r`n"                 + `
+                                    "`tRepository Source Location:  $($results.RepositorySourceLocation)`r`n"   + `
+                                    "`tModule:                      $($results.Type)`r`n"                       + `
+                                    "`tRelease Notes:               $($results.ReleaseNotes)");
+        } # Try : Obtain Metadata
 
         # Caught an error; do nothing
         catch {;}
 
 
 
-        # Finished; provide the meta-data
-        return $metaData;
-    } #__FetchPowerShellModuleInstalledMetaData()
+        # Finished; provide the metadata
+        return $metaDataString;
+    } #__FetchPowerShellModuleMetaRemote()
 
 
 
