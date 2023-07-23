@@ -22,19 +22,16 @@
  # ------------------------------
  # ==============================
  # ==============================
- # This class is intended to allow the user to install specific components into
- #  either of the following paths or resources within the environment:
- #      - PowerShell Compact-Archive Tool
- #      - PowerShell Core
- #      - User Files
+ # This class provides the ability to manage PowerShell Compact-Archive Tool Projects.
+ #  Managing projects, such as:
+ #  - Installing projects
+ #  - Updating projects
+ #  - Deleting projects
  #
- # Because tools and resources changes over time, either due to new versions or
- #  perhaps new additions, it is crucial to allow the user to perform new updates
- #  or installs as time progresses onwards.
- #
- # DEPENDENCIES:
- #  .NET Core Framework v3 or later.
- #  PowerShell Core 7 or later
+ # Projects are an important asset to the PowerShell Compact-Archive Tool, as it provides
+ #  the user the ability to compile their game assets into an archive datafile and share
+ #  that archive file to online communities for others to play test or to release in
+ #  production.
  #
  # DEVELOPER NOTES:
  #  We will rely heavily on the CommonGUI and CommonIO in order to make this
@@ -49,23 +46,17 @@ class EmbedInstaller
    <# Embed Installer
     # -------------------------------
     # Documentation:
-    #   This function will provide a step-by-step algorithm such that the
-    #   user can easily perform new installation and updates into the desired
-    #   environment.  As such, this function will guide the user through
-    #   the installation procedure.
-    # -------------------------------
-    # Input:
-    #  [EmbedInstallerInstallationType] Installation Type
-    #   This value explicitly states the type of installation that will
-    #   be performed within the main program.
+    #  This function will act as our driver such that it will coordinate the
+    #   the management procedure from installation, updating, or removing a
+    #   desired project from the environment.
     # -------------------------------
     # Output:
     #  [bool] Exit Code
-    #     $false = Failed to install\update resource
-    #     $true  = Successfully installed\updated resource
+    #     $false = Operation had failed
+    #     $true  = Operation was successful
     # -------------------------------
     #>
-    static [bool] Main([EmbedInstallerInstallationType] $installationType)
+    static [bool] Main()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -76,6 +67,7 @@ class EmbedInstaller
         # This will contain a collection of files that had been provided by the user.
         #  The datatype within this Array List will be: EmbedInstallerFile, for simplicity sakes.
         [System.Collections.ArrayList] $temporaryDirectoryContents = [System.Collections.ArrayList]::new();
+
 
         # Operation Status; this provides the operation state back to the calling function.
         [Bool] $operationState = $false;
@@ -162,54 +154,13 @@ class EmbedInstaller
         } # if : Failed to Create Temp. Directory
 
 
-        # Did the user request to install\update Windows Notification?
-        if ($installationType -eq [EmbedInstallerInstallationType]::WindowsToastNotification)
-        {
-            # Check to make sure that the site is reachable before trying to access it.
-            if([WebsiteResources]::CheckSiteAvailability([NotificationVisual]::GetBurntToastDownloadURL(), $true))
-            {
-                # Open the URL using the preferred web browser.
-                if (![WebsiteResources]::AccessWebSite_General([NotificationVisual]::GetBurntToastDownloadURL(),    ` # Burnt Toast Download's URL
-                                                                "Burnt Toast Downloads"))                           ` # Page Title
-                {
-                    # Unable to access the website; possibly a host issue?
-
-
-                    # * * * * * * * * * * * * * * * * * * *
-                    # Debugging
-                    # --------------
-
-                    # Generate the initial message
-                    [string] $logMessage = ("Unable to access the download page for Burnt Toast!`r`n"   + `
-                                            "The user will have to access the website manually.");
-
-                    # Generate any additional information that might be useful
-                    [string] $logAdditionalMSG = "Site Requested: $([NotificationVisual]::GetBurntToastDownloadURL())";
-
-                    # Pass the information to the logging system
-                    [Logging]::LogProgramActivity($logMessage, `                # Initial message
-                                                $logAdditionalMSG, `            # Additional information
-                                                [LogMessageLevel]::Warning);    # Message level
-
-                    # Alert the user through a message box signifying that an issue had occurred.
-                    [CommonGUI]::MessageBox("Unable to automatically access $([NotificationVisual]::GetBurntToastDownloadURL())", `
-                                            [System.Windows.MessageBoxImage]::Exclamation) | Out-Null;
-
-
-                    # * * * * * * * * * * * * * * * * * * *
-                } # if : Unable to Access Website
-            } # if : Site is Reachable
-        } # if : Request to Install
-
-
         # Provide extra spacing to separate the Website Resources verbose information and the instructions
         #   that are soon to be provided.
         [Logging]::DisplayMessage("`r`n`r`n");
 
 
         # Provide the instructions
-        [EmbedInstaller]::__DrawMainInstructions($installationType, `
-                                                $temporaryDirectoryPath);
+        [EmbedInstaller]::__DrawMainInstructions($temporaryDirectoryPath);
 
 
         # Provide some whitespace padding
@@ -231,80 +182,52 @@ class EmbedInstaller
 
 
         # Determine if the user is wanting to cancel the operation
-        if ([EmbedInstaller]::__CancelOperation($temporaryDirectoryContents, `
-                                                $temporaryDirectoryPath))
-        {
-            # Abort the operation.
-            return $false;
-        } # if : User Requested Abort
+        #  If the user did not provide any files, then abort the operation.
+        if ([EmbedInstaller]::__CancelOperation($temporaryDirectoryContents, $temporaryDirectoryPath)) { return $false; }
 
 
         # Perform a validation check by assuring that all provided archive datafiles given are healthy.
         [EmbedInstaller]::__CheckArchiveFileIntegrity($temporaryDirectoryContents);
 
 
-        # Now that we made it this far, now we can perform the desired installation
-        switch ($installationType)
+        # Perform the Installation
+        $operationState = [EmbedInstallerProjects]::__InstallProjects($temporaryDirectoryContents);
+
+
+        # Alert the user of the installation status
+        if ($operationState) { [Logging]::DisplayMessage("Successfully installed all desired projects!`r`n"); }
+        else { [Logging]::DisplayMessage("One or more files could not be installed!`r`n"); }
+
+
+        # Provide a report of the files that had been installed or could not be installed.
+        [Logging]::DisplayMessage("`r`nInstallation Report of the Following Files:`r`n" + `
+                                    "= = = = = = = = = = = = = = = = = = = = = = = = = = = = = =`r`n" + `
+                                    "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n");
+
+
+        # Output the results to the user such that they know the what had been installed or could
+        #   not be installed.
+        foreach($item in $temporaryDirectoryContents)
         {
-            # Installation: Burnt Toast
-            ([EmbedInstallerInstallationType]::WindowsToastNotification)
-            {
-                # Perform the Installation
-                $operationState = [EmbedInstaller]::__EmbedInstallerBurntToast($temporaryDirectoryContents);
+            # Setup a string containing the results to the user.
+            [string] $fileResults = ("File Name: "          + $item.GetFileName()       + "`r`n" + `
+                                    "Verification Passed: " + $item.GetVerification()   + "`r`n" + `
+                                    "Installed: "           + $item.GetInstalled()      + "`r`n" + `
+                                    "Installed Path: "      + $item.GetFilePath()       + "`r`n" + `
+                                    "Overall Status: "      + $item.GetMessage()        + "`r`n");
 
 
-                # Finished
-                break;
-            } # Case : Burnt Toast
+            # Show the results to the user
+            [Logging]::DisplayMessage($fileResults);
 
 
-            # Installation: Project
-            ([EmbedInstallerInstallationType]::Project)
-            {
-                # Perform the Installation
-                $operationState = [EmbedInstallerProjects]::__InstallProjects($temporaryDirectoryContents);
+            # Provide a border to help keep the output nicer to read.
+            [Logging]::DisplayMessage("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n");
+        } # Foreach : Output Installation Results
 
 
-                # Alert the user of the installation status
-                if ($operationState) { [Logging]::DisplayMessage("Successfully installed all desired projects!`r`n"); }
-                else { [Logging]::DisplayMessage("One or more files could not be installed!`r`n"); }
-
-
-                # Provide a report of the files that had been installed or could not be installed.
-                [Logging]::DisplayMessage("`r`nInstallation Report of the Following Files:`r`n" + `
-                                            "= = = = = = = = = = = = = = = = = = = = = = = = = = = = = =`r`n" + `
-                                            "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n");
-
-
-                # Output the results to the user such that they know the what had been installed or could
-                #   not be installed.
-                foreach($item in $temporaryDirectoryContents)
-                {
-                    # Setup a string containing the results to the user.
-                    [string] $fileResults = ("File Name: "          + $item.GetFileName()       + "`r`n" + `
-                                            "Verification Passed: " + $item.GetVerification()   + "`r`n" + `
-                                            "Installed: "           + $item.GetInstalled()      + "`r`n" + `
-                                            "Installed Path: "      + $item.GetFilePath()       + "`r`n" + `
-                                            "Overall Status: "      + $item.GetMessage()        + "`r`n");
-
-
-                    # Show the results to the user
-                    [Logging]::DisplayMessage($fileResults);
-
-
-                    # Provide a border to help keep the output nicer to read.
-                    [Logging]::DisplayMessage("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n");
-                } # Foreach : Output Installation Results
-
-
-                # Provide some padding such that it is easier to read.
-                [Logging]::DisplayMessage("`r`n");
-
-
-                # Finished
-                break;
-            } # Case : Projects
-        } # switch : Installation Type
+        # Provide some padding such that it is easier to read.
+        [Logging]::DisplayMessage("`r`n");
 
 
         # Allow the user to view the results before continuing.
@@ -326,14 +249,11 @@ class EmbedInstaller
     #   will understand the procedure and what is expected from the user.
     # -------------------------------
     # Input:
-    #  [EmbedInstallerInstallationType] Install Type
-    #   This defines what content is expected to be installed within the environment.
     #  [string] Temporary Directory
     #   Provides the absolute path of the temporary directory.
     # -------------------------------
     #>
-    hidden static [void] __DrawMainInstructions([EmbedInstallerInstallationType] $installType, `    # Installation Contents
-                                                [string] $temporaryDirectory)                       # Path to Directory
+    hidden static [void] __DrawMainInstructions([string] $temporaryDirectory)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -353,52 +273,8 @@ class EmbedInstaller
 
 
 
-        # Determine what kind of message should be displayed.
-        switch ($installType)
-        {
-            # Modern Windows Toast Notification
-            ([EmbedInstallerInstallationType]::WindowsToastNotification)
-            {
-                # Set the string
-                $instructionString = (  " Instructions for Windows Burnt Toast`r`n"                                                                     + `
-                                        "-------------------------------------`r`n"                                                                     + `
-                                        "`r`n"                                                                                                          + `
-                                        " Github Repository:`r`n"                                                                                       + `
-                                        "`t`t$([NotificationVisual]::GetBurntToastWebsiteURL())`r`n"                                                    + `
-                                        " Download Latest Version:`r`n"                                                                                 + `
-                                        "`t`t$([NotificationVisual]::GetBurntToastDownloadURL())`r`n"                                                   + `
-                                        "`r`n"                                                                                                          + `
-                                        "`r`n"                                                                                                          + `
-                                        "You can easily install or update Burnt Toast onto your system using $($GLOBAL:_PROGRAMNAME_) Installer.`r`n"   + `
-                                        "`r`n"                                                                                                          + `
-                                        "Follow the instructions below:`r`n"                                                                            + `
-                                        "- - - - - - - - - - - - - - - -`r`n"                                                                           + `
-                                        "  1) Download the latest version of Windows Burnt Toast using the download link provided above.`r`n"           + `
-                                        "  2) Place the newly downloaded Zip file into the temporary folder named $($directoryName).`r`n"               + `
-                                        "  3) Close the temporary folder window to continue the install process.`r`n"                                   + `
-                                        "`r`n`r`n"                                                                                                      + `
-                                        "NOTE: To abort this operation, you may close the temporary directory while it is empty."                       + `
-                                        "`tBy doing this, it will cancel the operation."                                                                + `
-                                        "`r`n`r`n");
-
-
-                # Finished
-                break;
-            } # Modern Windows Toast Notifications
-
-
-
-            # PowerShell Compact-Archive Tool Project
-            ([EmbedInstallerInstallationType]::Project)
-            {
-                # Set the string
-                $instructionString = [EmbedInstallerProjects]::__DrawInstructions($directoryName);
-
-
-                # Finished
-                break;
-            } # Project
-        } # Switch : Determine Instruction String
+        # Set the string
+        $instructionString = [EmbedInstallerProjects]::__DrawInstructions($directoryName);
 
 
         # Display the message to the user
@@ -677,46 +553,4 @@ class EmbedInstaller
         # Alert the calling function to abort.
         return $true;
     } # __CancelOperation()
-
-
-
-
-   <# Embed Installer - Install Burnt Toast
-    # -------------------------------
-    # Documentation:
-    #  This function will try to install Burnt Toast onto the user's system.
-    #   By doing this, we will need to assure that the environment is ready
-    #   as well as possible updates to an already existing Burnt Toast
-    #   installation.
-    # -------------------------------
-    # Input:
-    #  [System.Collections.ArrayList] File Collection
-    #   This will hold *.ZIP files that had been placed within the temporary directory.
-    #   The Array List Objects are coming from Get-ChildItem CMDLet.
-    # -------------------------------
-    # Output:
-    #  Installation status
-    #   true    = Installation was successful.
-    #   false   = Installation had failed.
-    # -------------------------------
-    #>
-    hidden static [bool] __EmbedInstallerBurntToast([System.Collections.ArrayList] $temporaryDirectoryContents)
-    {
-        return $true;
-    } # __EmbedInstallerBurntToast()
 } # EmbedInstaller
-
-
-
-
-<# Embed Installer - Installation Type [ENUM]
- # -------------------------------
- # This specifies a list of pre-defined directories that
- #  are supported for the installation process.
- # -------------------------------
- #>
-enum EmbedInstallerInstallationType
-{
-    WindowsToastNotification        = 0;    # Windows 10's Toast Notification
-    Project                         = 1;    # Supported Projects
-} # EmbedInstallerInstallationType

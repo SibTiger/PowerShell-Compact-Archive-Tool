@@ -402,7 +402,7 @@ class MainMenu
                 ($_ -eq "I")}
                 {
                     # Open the Embed Installer
-                    [EmbedInstaller]::Main([EmbedInstallerInstallationType]::Project);
+                    [EmbedInstaller]::Main();
 
 
                     # Finished
