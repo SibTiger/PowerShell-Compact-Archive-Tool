@@ -154,8 +154,7 @@ class EmbedInstaller
         } # if : Failed to Create Temp. Directory
 
 
-        # Provide extra spacing to separate the Website Resources verbose information and the instructions
-        #   that are soon to be provided.
+        # Provide some whitespace padding.
         [Logging]::DisplayMessage("`r`n`r`n");
 
 
@@ -163,7 +162,7 @@ class EmbedInstaller
         [EmbedInstaller]::__DrawMainInstructions($temporaryDirectoryFullPath);
 
 
-        # Provide some whitespace padding
+        # Provide some whitespace padding.
         [Logging]::DisplayMessage("`r`n`r`n");
 
 
