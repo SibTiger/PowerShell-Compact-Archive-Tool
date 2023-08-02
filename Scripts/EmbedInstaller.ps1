@@ -29,9 +29,8 @@
  #  - Deleting projects
  #
  # Projects are an important asset to the PowerShell Compact-Archive Tool, as it provides
- #  the user the ability to compile their game assets into an archive datafile and share
- #  that archive file to online communities for others to play test or to release in
- #  production.
+ #  the user with the ability to compile their game assets into an archive datafile and
+ #  share that compiled build file to online communities or online file archive site.
  #
  # DEVELOPER NOTES:
  #  We will rely heavily on the CommonGUI and CommonIO in order to make this
