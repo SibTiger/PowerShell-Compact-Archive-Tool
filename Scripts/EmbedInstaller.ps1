@@ -60,7 +60,7 @@ class EmbedInstaller
         # Declarations and Initializations
         # ----------------------------------------
         # This will hold the Temporary Directory's absolute Path.
-        [string] $temporaryDirectoryPath = $NULL;
+        [string] $temporaryDirectoryFullPath = $NULL;
 
 
         # This will contain a collection of files that had been provided by the user.
@@ -123,7 +123,7 @@ class EmbedInstaller
 
         # Create a temporary directory
         if (![CommonIO]::MakeTempDirectory("$($GLOBAL:_PROGRAMNAMESHORT_)-InstallComponent", `
-                                            [ref] $temporaryDirectoryPath))
+                                            [ref] $temporaryDirectoryFullPath))
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -160,7 +160,7 @@ class EmbedInstaller
 
 
         # Provide the instructions
-        [EmbedInstaller]::__DrawMainInstructions($temporaryDirectoryPath);
+        [EmbedInstaller]::__DrawMainInstructions($temporaryDirectoryFullPath);
 
 
         # Provide some whitespace padding
@@ -169,7 +169,7 @@ class EmbedInstaller
 
         # Open the directory to the user such that they may drag and drop
         #   the contents into the temporary directory.
-        [EmbedInstaller]::__OpenDirectoryAndWaitForClose($temporaryDirectoryPath);
+        [EmbedInstaller]::__OpenDirectoryAndWaitForClose($temporaryDirectoryFullPath);
 
 
         # Provide some whitespace padding
@@ -177,13 +177,13 @@ class EmbedInstaller
 
 
         # Obtain a list of what files exists within the temporary directory.
-        [EmbedInstaller]::__GetListFileContents($temporaryDirectoryPath, `
+        [EmbedInstaller]::__GetListFileContents($temporaryDirectoryFullPath, `
                                                 $temporaryDirectoryContents);
 
 
         # Determine if the user is wanting to cancel the operation
         #  If the user did not provide any files, then abort the operation.
-        if ([EmbedInstaller]::__CancelOperation($temporaryDirectoryContents, $temporaryDirectoryPath)) { return $false; }
+        if ([EmbedInstaller]::__CancelOperation($temporaryDirectoryContents, $temporaryDirectoryFullPath)) { return $false; }
 
 
         # Perform a validation check by assuring that all provided archive datafiles given are healthy.
@@ -307,7 +307,7 @@ class EmbedInstaller
     #   Provides the absolute path of the temporary directory.
     # -------------------------------
     #>
-    hidden static [void] __OpenDirectoryAndWaitForClose([string] $temporaryDirectoryPath)
+    hidden static [void] __OpenDirectoryAndWaitForClose([string] $temporaryDirectoryFullPath)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -317,7 +317,7 @@ class EmbedInstaller
 
         # This is a just a temporary variable such that we can obtain the
         #   directory name, without the entire absolute path.
-        [System.IO.DirectoryInfo] $directoryInformation = $temporaryDirectoryPath;
+        [System.IO.DirectoryInfo] $directoryInformation = $temporaryDirectoryFullPath;
 
 
         # This will hold just the name of the temporary directory.
@@ -332,7 +332,7 @@ class EmbedInstaller
 
 
         # Open the directory to the user.
-        [CommonIO]::AccessDirectory($temporaryDirectoryPath, `  # Temporary Directory
+        [CommonIO]::AccessDirectory($temporaryDirectoryFullPath, `  # Temporary Directory
                                     $NULL);                     # Nothing to highlight
 
 
@@ -341,7 +341,7 @@ class EmbedInstaller
 
 
         # Now wait for the user to finish
-        [CommonIO]::WaitForFileExplorer($temporaryDirectoryPath);
+        [CommonIO]::WaitForFileExplorer($temporaryDirectoryFullPath);
     } # __OpenDirectoryAndWaitForClose()
 
 
@@ -466,7 +466,7 @@ class EmbedInstaller
     #   This will hold *.ZIP files that had been placed within the temporary directory.
     # -------------------------------
     #>
-    hidden static [void] __GetListFileContents([string] $temporaryDirectoryPath, `
+    hidden static [void] __GetListFileContents([string] $temporaryDirectoryFullPath, `
                                                 [System.Collections.ArrayList] $fileCollection)
     {
         # Declarations and Initializations
@@ -478,7 +478,7 @@ class EmbedInstaller
 
 
         # Obtain a list of contents that exists within the directory.
-        $fileItems = Get-ChildItem -LiteralPath $temporaryDirectoryPath `
+        $fileItems = Get-ChildItem -LiteralPath $temporaryDirectoryFullPath `
                                     -Filter "*.zip";
 
 
@@ -517,7 +517,7 @@ class EmbedInstaller
     # -------------------------------
     #>
     hidden static [bool] __CancelOperation([System.Collections.ArrayList] $fileList,
-                                            [string] $temporaryDirectoryPath)
+                                            [string] $temporaryDirectoryFullPath)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -535,7 +535,7 @@ class EmbedInstaller
 
         # User had requested to cancel the operation.
         # Delete the temporary directory.
-        [CommonIO]::DeleteDirectory($temporaryDirectoryPath);
+        [CommonIO]::DeleteDirectory($temporaryDirectoryFullPath);
 
 
         # Alert the user that the operation is terminating.
