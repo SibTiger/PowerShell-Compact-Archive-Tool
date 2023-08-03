@@ -273,7 +273,20 @@ class EmbedInstaller
 
 
         # Set the string
-        $instructionString = [EmbedInstallerProjects]::__DrawInstructions($directoryName);
+        $instructionString = (  " Instructions for $($GLOBAL:_PROGRAMNAME_) Projects`r`n"                                               + `
+                                "-------------------------------------`r`n"                                                             + `
+                                "`r`n"                                                                                                  + `
+                                "You can easily install or update your project(s) into $($GLOBAL:_PROGRAMNAME_).`r`n"                   + `
+                                "`r`n"                                                                                                  + `
+                                "Follow the instructions below:`r`n"                                                                    + `
+                                "- - - - - - - - - - - - - - - -`r`n"                                                                   + `
+                                "  1) Download the latest version(s) of the desired project(s) you wish to install.`r`n"                + `
+                                "  2) Place the newly downloaded Zip file(s) into the temporary folder named $($directoryName).`r`n"    + `
+                                "  3) Close the temporary folder window to continue the install process.`r`n"                           + `
+                                "`r`n`r`n"                                                                                              + `
+                                "NOTE: To abort this operation, you may close the temporary directory while it is empty."               + `
+                                "`tBy doing this, it will cancel the operation."                                                        + `
+                                "`r`n`r`n");
 
 
         # Display the message to the user

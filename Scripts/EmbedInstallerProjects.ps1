@@ -159,43 +159,4 @@
         # Finished!
         return $overallOperation;
     } # __InstallProjects()
-
-
-
-
-   <# Draw Instructions
-    # -------------------------------
-    # Documentation:
-    #  Provide the instructions to the user such that they are aware as
-    #   to what is happening within the Project Installation operation.
-    #   By doing this, they will understand what activities are occurring
-    #   as well as - what actions are required by the user.
-    # -------------------------------
-    # Input:
-    #  [string] Temporary Directory
-    #   Provides the absolute path of the temporary directory.
-    # -------------------------------
-    # Output:
-    #  [string] Instructions
-    #   Contains the instructions for the Project Installation.
-    # -------------------------------
-    #>
-    hidden static [string] __DrawInstructions([string] $temporaryDirectory)
-    {
-        # Return the instructions to the calling function.
-        return  (   " Instructions for $($GLOBAL:_PROGRAMNAME_) Projects`r`n"                                                       + `
-                    "-------------------------------------`r`n"                                                                     + `
-                    "`r`n"                                                                                                          + `
-                    "You can easily install or update your project(s) into $($GLOBAL:_PROGRAMNAME_).`r`n"                           + `
-                    "`r`n"                                                                                                          + `
-                    "Follow the instructions below:`r`n"                                                                            + `
-                    "- - - - - - - - - - - - - - - -`r`n"                                                                           + `
-                    "  1) Download the latest version(s) of the desired project(s) you wish to install.`r`n"                        + `
-                    "  2) Place the newly downloaded Zip file(s) into the temporary folder named $($temporaryDirectory).`r`n"       + `
-                    "  3) Close the temporary folder window to continue the install process.`r`n"                                   + `
-                    "`r`n`r`n"                                                                                                      + `
-                    "NOTE: To abort this operation, you may close the temporary directory while it is empty."                       + `
-                    "`tBy doing this, it will cancel the operation."                                                                + `
-                    "`r`n`r`n");
-    } # __DrawInstructions()
  } # EmbedInstallerProjects
