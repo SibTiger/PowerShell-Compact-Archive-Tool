@@ -278,6 +278,7 @@ class EmbedInstaller
                                 "`r`n"                                                                                                  + `
                                 "You can easily install or update your project(s) into $($GLOBAL:_PROGRAMNAME_).`r`n"                   + `
                                 "`r`n"                                                                                                  + `
+                                "`r`n"                                                                                                  + `
                                 "Follow the instructions below:`r`n"                                                                    + `
                                 "- - - - - - - - - - - - - - - -`r`n"                                                                   + `
                                 "  1) Download the latest version(s) of the desired project(s) you wish to install.`r`n"                + `
