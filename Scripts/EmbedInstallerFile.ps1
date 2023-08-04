@@ -56,6 +56,12 @@ class EmbedInstallerFile
     hidden [string] $__projectName;
 
 
+    # Revision
+    # ---------------
+    # The project's revision
+    hidden [UInt64] $__projectRevision;
+
+
     # GUID
     # ---------------
     # A project's unique signature that identifies itself out of other projects.
@@ -103,6 +109,10 @@ class EmbedInstallerFile
         $this.__projectName = $null;
 
 
+        # Revision
+        $this.__projectRevision = 0;
+
+
         # GUID
         $this.__guid = "00000000-0000-0000-0000-000000000000"
 
@@ -126,6 +136,7 @@ class EmbedInstallerFile
     EmbedInstallerFile( [string] $projectName, `    # Name of the project
                         [string] $fileName, `       # Name of the file
                         [string] $filePath, `       # File's full path
+                        [UInt64] $revision, `       # Project's Revision
                         [GUID] $guid)               # Project's GUID
     {
         # File Name
@@ -138,6 +149,10 @@ class EmbedInstallerFile
 
         # Project Name
         $this.__projectName = $projectName;
+
+
+        # Revision
+        $this.__projectRevision = $revision;
 
 
         # GUID
@@ -203,6 +218,21 @@ class EmbedInstallerFile
     # -------------------------------
     #>
     [string] GetProjectName() { return $this.__projectName; }
+
+
+
+
+   <# Get Project Revision
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the 'Project Revision' variable.
+    # -------------------------------
+    # Output:
+    #  [UInt64] Project Revision
+    #   The value of the 'Project Revision'.
+    # -------------------------------
+    #>
+    [UInt64] GetProjectRevision() { return $this.__projectRevision; }
 
 
 
@@ -362,6 +392,34 @@ class EmbedInstallerFile
         # Operation was successful
         return $true;
     } # SetProjectName()
+
+
+
+
+   <# Set Project Revision
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'Project Revision' variable.
+    # -------------------------------
+    # Input:
+    #  [UInt64] Project Revision
+    #   Sets the value of the 'Project Revision' variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetProjectRevision([UInt64] $newValue)
+    {
+        # Update the value as requested.
+        $this.__projectRevision = $newValue;
+
+
+        # Operation was successful
+        return $true;
+    } # SetProjectRevision()
 
 
 
