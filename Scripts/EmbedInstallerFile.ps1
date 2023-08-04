@@ -453,4 +453,5 @@ enum EmbedInstallerFileVerification
     NoInformation   = 0;    # Verification not yet performed.
     Passed          = 1;    # Verification passed; file is healthy.
     Failed          = 2;    # Verification failed; file is damaged.
+    Installed       = 3;    # Verification not needed; already installed item.
 } # EmbedInstallerFileVerification
