@@ -50,6 +50,12 @@ class EmbedInstallerFile
     hidden [string] $__filePath;
 
 
+    # Project Name
+    # ---------------
+    # The project's full or recognizable name
+    hidden [string] $__projectName;
+
+
     # GUID
     # ---------------
     # A project's unique signature that identifies itself out of other projects.
@@ -93,6 +99,10 @@ class EmbedInstallerFile
         $this.__filePath = $null;
 
 
+        # Project Name
+        $this.__projectName = $null;
+
+
         # GUID
         $this.__guid = "00000000-0000-0000-0000-000000000000"
 
@@ -113,8 +123,9 @@ class EmbedInstallerFile
 
 
     # Initiated Object
-    EmbedInstallerFile([string] $fileName, `    # Name of the file
-                        [string] $filePath)     # File's full path
+    EmbedInstallerFile( [string] $projectName, `    # Name of the project
+                        [string] $fileName, `       # Name of the file
+                        [string] $filePath, `       # File's full path
                         [GUID] $guid)               # Project's GUID
     {
         # File Name
@@ -123,6 +134,10 @@ class EmbedInstallerFile
 
         # File Path
         $this.__filePath = $filePath;
+
+
+        # Project Name
+        $this.__projectName = $projectName;
 
 
         # GUID
@@ -173,6 +188,21 @@ class EmbedInstallerFile
     # -------------------------------
     #>
     [string] GetFilePath() { return $this.__filePath; }
+
+
+
+
+   <# Get Project Name
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the 'Project Name' variable.
+    # -------------------------------
+    # Output:
+    #  [String] Project Name
+    #   The value of the 'Project Name'.
+    # -------------------------------
+    #>
+    [string] GetProjectName() { return $this.__projectName; }
 
 
 
@@ -300,6 +330,38 @@ class EmbedInstallerFile
         # Operation was successful
         return $true;
     } # SetFilePath()
+
+
+
+
+   <# Set Project Name
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'Project Name' variable.
+    # -------------------------------
+    # Input:
+    #  [String] Project Name
+    #   Sets the value of the 'Project Name' variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetProjectName([string] $newValue)
+    {
+        # Make sure that the value is not null; if null - do not update.
+        if ([CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
+
+
+        # Update the value as requested.
+        $this.__projectName = $newValue;
+
+
+        # Operation was successful
+        return $true;
+    } # SetProjectName()
 
 
 
