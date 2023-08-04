@@ -247,7 +247,6 @@ function MakeCompilerDriver()
                         "SettingsGit.ps1", `
                         "EmbedInstaller.ps1", `
                         "EmbedInstallerFile.ps1", `
-                        "EmbedInstallerProjects.ps1", `
                         "BurntToast.ps1", `
                         "MainMenu.ps1", `
                         "Builder.ps1", `
