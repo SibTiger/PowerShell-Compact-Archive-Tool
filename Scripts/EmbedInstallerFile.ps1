@@ -50,6 +50,12 @@ class EmbedInstallerFile
     hidden [string] $__filePath;
 
 
+    # GUID
+    # ---------------
+    # A project's unique signature that identifies itself out of other projects.
+    hidden [GUID] $__guid;
+
+
     # Verified
     # ---------------
     # Denotes if the file's archive datafile passed the verification test.
@@ -87,6 +93,10 @@ class EmbedInstallerFile
         $this.__filePath = $null;
 
 
+        # GUID
+        $this.__guid = "00000000-0000-0000-0000-000000000000"
+
+
         # Verification
         $this.__verification = [EmbedInstallerFileVerification]::NoInformation;
 
@@ -105,6 +115,7 @@ class EmbedInstallerFile
     # Initiated Object
     EmbedInstallerFile([string] $fileName, `    # Name of the file
                         [string] $filePath)     # File's full path
+                        [GUID] $guid)               # Project's GUID
     {
         # File Name
         $this.__fileName = $fileName;
@@ -112,6 +123,10 @@ class EmbedInstallerFile
 
         # File Path
         $this.__filePath = $filePath;
+
+
+        # GUID
+        $this.__guid = $guid;
 
 
         # Verification
@@ -158,6 +173,21 @@ class EmbedInstallerFile
     # -------------------------------
     #>
     [string] GetFilePath() { return $this.__filePath; }
+
+
+
+
+   <# Get GUID
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the 'GUID' variable.
+    # -------------------------------
+    # Output:
+    #  [GUID] GUID
+    #   The value of the 'GUID'.
+    # -------------------------------
+    #>
+    [GUID] GetGUID() { return $this.__guid; }
 
 
 
@@ -270,6 +300,34 @@ class EmbedInstallerFile
         # Operation was successful
         return $true;
     } # SetFilePath()
+
+
+
+
+   <# Set GUID
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'GUID' variable.
+    # -------------------------------
+    # Input:
+    #  [GUID] GUID
+    #   Sets the value of the 'File Path' variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetGUID([GUID] $newValue)
+    {
+        # Update the value as requested.
+        $this.__guid = $newValue;
+
+
+        # Operation was successful
+        return $true;
+    } # SetGUID()
 
 
 
