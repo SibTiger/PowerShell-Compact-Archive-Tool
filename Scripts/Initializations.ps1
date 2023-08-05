@@ -45,6 +45,9 @@ function Initializations()
 
     # Program environment
     InitializationEnvironment;
+
+    # Generalized Variables
+    __GeneralizedVariables;
 } # Initializations()
 
 
@@ -633,6 +636,28 @@ function InitializationEnvironment()
         -ErrorAction SilentlyContinue `
         -Description "Maintains the current title of the PowerShell's window title; because we will change it - this will allow us to revert the title back.";
 } # InitializationEnvironment()
+
+
+
+
+<# Initialization: Generalized Variables
+ # -------------------------------
+ # Documentation:
+ #  This function will initialize generalized variables that can be used within the program.
+ # -------------------------------
+ #>
+function __GeneralizedVariables()
+{
+    # Default GUID
+    Set-Variable `
+        -Name "_DEFAULT_BLANK_GUID_" `
+        -Value "00000000-0000-0000-0000-000000000000" `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -ErrorAction SilentlyContinue `
+        -Description "Provides a zero filled GUID that will act as a temporary default.";
+} # __GeneralizedVariables()
 
 
 

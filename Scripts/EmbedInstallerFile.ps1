@@ -114,7 +114,7 @@ class EmbedInstallerFile
 
 
         # GUID
-        $this.__guid = "00000000-0000-0000-0000-000000000000"
+        $this.__guid = $($GLOBAL:_DEFAULT_BLANK_GUID_);
 
 
         # Verification

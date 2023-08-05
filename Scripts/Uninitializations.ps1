@@ -232,4 +232,10 @@
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
+
+    # Default GUID
+    Remove-Variable -Name "_DEFAULT_BLANK_GUID_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
  } # Uninitializations()
