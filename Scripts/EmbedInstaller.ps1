@@ -689,4 +689,128 @@ class EmbedInstaller
         # Finished!
         return $overallOperation;
     } # __InstallProjects()
+
+
+
+
+    # Get Installed Projects
+    # -------------------------------
+    # Documentation:
+    #  This function is designed to obtain all of the projects that are installed within the PSCAT
+    #   environment.  To obtain what projects had been installed, this function will inspect
+    #   the meta file within the projects directory.  The meta file will provide essential information
+    #   regarding each installed project.
+    # -------------------------------
+    # Input:
+    #  [System.Collections.ArrayList] {EmbedInstallerFile} Installed Projects.
+    #   This will provide information as to what projects had been installed within the PSCAT environment.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit Code
+    #     $false = Operation had failed
+    #     $true  = Operation was successful
+    # -------------------------------
+    #>
+    [bool] GetInstalledProjects([System.Collections.ArrayList] $installedProjects)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Cache the File.IO information that will be obtained by using the Get-ChildItem CMDLet.
+        [System.Collections.ArrayList] $listOfMetaFiles = [System.Collections.ArrayList]::new();
+        # ----------------------------------------
+
+
+
+        # Make sure that the projects directory exists before trying to scan the directory.
+        #  If the directory was not found, then abort the operation.
+        if (![CommonIO]::CheckPathExists($($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_) , $true)) { return $false; }
+
+
+        # Obtain to obtain all of the existing meta files within the projects directory.
+        try
+        {
+            $listOfMetaFiles = Get-ChildItem `
+                                -LiteralPath $($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_) `
+                                -Filter "meta" `
+                                -Recurse `
+                                -Depth 1 `
+                                -ErrorAction Stop;
+        } # try : Obtain List of Meta Files
+
+        # Caught Error
+        catch
+        {
+            # Unable to obtain list of installed projects; abort the operation.
+            return $false;
+        } # catch : Error Reached
+
+
+
+        # Begin storing the project information into the Embed Installer File data structure,
+        #   such that we can process the data.
+        foreach ($item in $listOfMetaFiles)
+        {
+            # Declarations and Initializations
+            # ----------------------------------------
+            [EmbedInstallerFile] $newProjectEntry   = $null;                                # Entry to add into Array
+            [UInt64] $newProjectRevision            = 0;                                    # Cache project's revision
+            [string] $newProjectName                = $null;                                # Cache project's name
+            [GUID] $newProjectSignature             = $($GLOBAL:_DEFAULT_BLANK_GUID_);      # Cache project's GUID
+            # ----------------------------------------
+
+
+            # Obtain the information from the File.IO Operation
+            # -------------------------------------------------
+            # Directory Path
+            $newProjectEntry.SetFilePath($item.DirectoryName);
+
+            # File Name
+            $newProjectEntry.SetFileName($item.Name);
+
+            # Adjust the Verification
+            $newProjectEntry.SetVerification([EmbedInstallerFileVerification]::Installed);
+
+            # Mark as installed
+            $newProjectEntry.SetInstalled($true);
+
+            # Set the message\description
+            $newProjectEntry.SetMessage("Installed project loaded for evaluation purposes.");
+            # -------------------------------------------------
+
+
+
+            # Obtain the information from the Meta file.
+            if (!ReadMetaData($item.FullName,               ` # Where the meta file is located
+                                [ref] $newProjectRevision,  ` # Get Project's Revision
+                                [ref] $newProjectName,      ` # Get Project's Name
+                                [ref] $newProjectSignature))  # Get Project's GUID
+            {
+                # Something had failed; continue to the next
+                continue;
+            } # if : Failed to Read Meta File
+
+
+            # Store the information retrieved from the meta file
+            # --------------------------------------------------
+            # Project's current revision
+            $newProjectEntry.SetProjectRevision($newProjectRevision);
+            
+            # Project's name
+            $newProjectEntry.SetProjectName($newProjectName);
+
+            # Project's unique Signature
+            $newProjectEntry.SetGUID($newProjectSignature);
+            # --------------------------------------------------
+
+
+
+            # Finally, add the new entry into the main project list.
+            $installedProjects.Add($newProjectEntry);
+        } #foreach
+
+
+
+        # Finished
+        return $true;
+    } # GetInstalledProjects()
 } # EmbedInstaller
