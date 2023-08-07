@@ -238,4 +238,16 @@
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
+
+    # Project's Meta Filename
+    Remove-Variable -Name "_META_FILENAME_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Project's Meta Content Size
+    Remove-Variable -Name "_META_FILE_CONTENT_LINE_SIZE_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
  } # Uninitializations()

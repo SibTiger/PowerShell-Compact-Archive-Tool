@@ -46,6 +46,9 @@ function Initializations()
     # Program environment
     InitializationEnvironment;
 
+    # Embed Installer
+    __InitializationEmbedInstaller;
+
     # Generalized Variables
     __GeneralizedVariables;
 } # Initializations()
@@ -658,6 +661,39 @@ function __GeneralizedVariables()
         -ErrorAction SilentlyContinue `
         -Description "Provides a zero filled GUID that will act as a temporary default.";
 } # __GeneralizedVariables()
+
+
+
+
+<# Initialization: Embed Installer
+ # -------------------------------
+ # Documentation:
+ #  This function will initialize the variables that will be used within the Embed Installer functionality.
+ # -------------------------------
+ #>
+function __InitializationEmbedInstaller()
+{
+    # Project's Meta Filename
+    Set-Variable `
+        -Name "_META_FILENAME_" `
+        -Value "meta" `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -ErrorAction SilentlyContinue `
+        -Description "Provides the filename of the project's meta file."
+
+
+    # Project's Meta Content Size
+    Set-Variable `
+        -Name "_META_FILE_CONTENT_LINE_SIZE_" `
+        -Value 3 `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -ErrorAction SilentlyContinue `
+        -Description "States how lines of content are within the project's meta file."
+} # __InitializationEmbedInstaller()
 
 
 
