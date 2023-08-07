@@ -912,6 +912,7 @@ class EmbedInstaller
         # ---------------------------------------------------
 
 
+
         # Finished
         return $true;
     } # ReadMetaFile()
