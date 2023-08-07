@@ -813,4 +813,106 @@ class EmbedInstaller
         # Finished
         return $true;
     } # GetInstalledProjects()
+
+
+
+
+    # Read Meta Data File
+    # -------------------------------
+    # Documentation:
+    #  This function is designed to read the project's meta file and extract the known information from the
+    #   file.  By doing this, we also have to assure that the data structure is correct and provide that
+    #   information to the callee function.
+    # -------------------------------
+    # Input:
+    #  [string] Meta File Path
+    #   Holds the absolute location of the project's meta file.
+    #  [UInt64] (REFERENCE) $projectRevision
+    #   This reference will be assigned and hold the project's revision ID from the meta file.
+    #  [string] (REFERENCE) $projectName
+    #   This reference will be assigned and hold the project's name from the meta file.
+    #  [GUID] (REFERENCE) $projectSignature
+    #   This reference will be assigned and hold the project's signature (GUID) from the meta file.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit Code
+    #     $false = Operation had failed
+    #     $true  = Operation was successful
+    # -------------------------------
+    #>
+    [bool] ReadMetaFile([string] $metaFilePath, `       # Absolute path to the project's meta file
+                        [ref] $projectRevision, `       # The project's revision ID
+                        [ref] $projectName,     `       # The project's name
+                        [ref] $projectSignature)        # The project's signature
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This will hold the contents from the meta file, we can use this to manipulate and process the data
+        #   as necessary to retrieve the proper data.
+        [System.Collections.ArrayList] $metaContents = [System.Collections.ArrayList]::new();
+        # ----------------------------------------
+
+
+        # Make sure that the file exists
+        if (![CommonIO]::CheckPathExists($metaFilePath, $true))
+        {
+            # File does not exist; abort the operation.
+            return $false;
+        } # if : File does not exist
+
+
+        # Try to open the file and obtain the contents
+        try
+        {
+            $metaContents = Get-Content                                             `
+                                -Path $metaFilePath                                 `
+                                -TotalCount $GLOBAL:_META_FILE_CONTENT_LINE_SIZE_   `
+                                -ErrorAction Stop;
+        } # try : Retrieve the Contents from File
+
+        # Caught an error
+        catch
+        {
+            # Unable to open the meta file; abort the operation.
+            return $false;
+        } # catch : Caught Error
+
+
+        # Make sure that the contents from the Meta file are in the appropriate structure per line.
+        if (!   ($metaContents[0].Contains("Project_Name:")     -and `      # First Line Must Contain: Project_Name:
+                ($metaContents[1].Contains("Project_Revision:") -and `      # Second Line Must Contain: Project_Revision:
+                ($metaContents[2].Contains("Project_Signature:")))))        # Third Line Must Contain: Project_Signature:
+        {
+            # The structure of the contents are not correct; abort
+            return $false;
+        } # if : Meta Contents not Correct
+
+
+
+        # Obtain the information gathered from the Meta file
+        # ---------------------------------------------------
+        try
+        {
+            # Project's Name
+            $projectName.Value      = [string]  ($metaContents[0] -Replace "Project_Name:").Trim();
+
+            # Project's Revision
+            $projectRevision.Value  = [UInt64]  ($metaContents[1] -Replace "Project_Revision:").Trim();
+
+            # Project's Signature
+            $projectSignature.Value = [GUID]    ($metaContents[2] -Replace "Project_Signature:").Trim();
+        } # try : Assign Proper Values
+
+        # Caught Error
+        catch
+        {
+            # Improper Datatype Assignment Occurred.
+            return $false;
+        } # catch : Caught an Error
+        # ---------------------------------------------------
+
+
+        # Finished
+        return $true;
+    } # ReadMetaFile()
 } # EmbedInstaller
