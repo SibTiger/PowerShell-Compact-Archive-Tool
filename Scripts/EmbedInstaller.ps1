@@ -731,7 +731,7 @@ class EmbedInstaller
         {
             $listOfMetaFiles = Get-ChildItem `
                                 -LiteralPath $($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_) `
-                                -Filter "meta" `
+                                -Filter $GLOBAL:_META_FILENAME_ `
                                 -Recurse `
                                 -Depth 1 `
                                 -ErrorAction Stop;
