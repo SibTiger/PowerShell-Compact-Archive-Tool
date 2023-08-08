@@ -827,11 +827,11 @@ class EmbedInstaller
     # Input:
     #  [string] Meta File Path
     #   Holds the absolute location of the project's meta file.
-    #  [UInt64] (REFERENCE) $projectRevision
+    #  [UInt64] (REFERENCE) Project's Revision
     #   This reference will be assigned and hold the project's revision ID from the meta file.
-    #  [string] (REFERENCE) $projectName
+    #  [string] (REFERENCE) Project's Name
     #   This reference will be assigned and hold the project's name from the meta file.
-    #  [GUID] (REFERENCE) $projectSignature
+    #  [GUID] (REFERENCE) Project's Signature
     #   This reference will be assigned and hold the project's signature (GUID) from the meta file.
     # -------------------------------
     # Output:
