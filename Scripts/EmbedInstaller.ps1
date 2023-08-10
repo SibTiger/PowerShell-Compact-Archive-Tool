@@ -302,27 +302,27 @@ class EmbedInstaller
 
 
 
-   <# User Upload Projects
+   <# Get Projects from User
     # -------------------------------
     # Documentation:
-    #  This function is designed to provide guidance to the user - allowing them to upload new or updated
-    #   projects into the PSCAT environment.  This functionality is important, such that the program can
-    #   be able to support various projects possible for the user as time progresses.
+    #  This function is designed to provide the ability for the user to upload their desired projects into
+    #   PSCAT's environment.  To provide this functionality, this method will provide an environment for
+    #   the user while also guiding the user - step-by-step through the process.
     # -------------------------------
     # Input:
-    #  [System.Collections.ArrayList] Uploaded Projects
-    #   This will hold the *.ZIP files that had been provided by the user by using the temporary directory.
+    #  [System.Collections.ArrayList] (EmbedInstallerFile) Projects to Install
+    #   This will hold the *.ZIP files that are to be installed into PSCAT's Environment.
     # -------------------------------
     # Output:
-    #  Continue with Operation
-    #   true    = Continue Operation
-    #   false   = Abort Operation
+    #  Operation Status
+    #   $true    = Continue with Operation; install one or more projects
+    #   $false   = User Requested to Abort the Operation
     # -------------------------------
     #>
-    hidden [bool] __UserUploadProjects()
+    hidden [bool] __GetProjectsFromUser()
     {
 
-    } # __UserUploadProjects()
+    } # __GetProjectsFromUser()
 
 
 
