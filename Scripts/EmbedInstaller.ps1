@@ -87,38 +87,8 @@ class EmbedInstaller
         [CommonCUI]::DrawSectionHeader("$($Global:_PROGRAMNAME_) Installer");
 
 
-        # Make sure that the internal Archive Zip functionality is available.
-        if (![CommonFunctions]::IsAvailableZip())
-        {
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Generate the initial message
-            [string] $logMessage = ("Cannot continue with the EmbedInstaller as the dotNET Core Archive Zip is not available!`r`n"     + `
-                                    "In order for this installer to work properly, the dotNET Core Archive Zip functionality must be"   + `
-                                    " installed and available within the PowerShell Core's environment!`r`n"                            + `
-                                    "Operation will be aborted.");
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "$($NULL)";
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity($logMessage, `                # Initial message
-                                        $logAdditionalMSG, `            # Additional information
-                                        [LogMessageLevel]::Error);      # Message level
-
-            # Alert the user through a message box signifying that an issue had occurred.
-            [CommonGUI]::MessageBox($logMessage, `
-                                    [System.Windows.MessageBoxImage]::Hand) | Out-Null;
-
-
-            # * * * * * * * * * * * * * * * * * * *
-
-
-            # Send error signal
-            return $false;
-        } # if : Internal Zip is Not Available
+        # Check System Requirements
+        if (![EmbedInstaller]::__CheckSystemRequirements()) { return $false; }
 
 
         # Create a temporary directory
@@ -323,6 +293,61 @@ class EmbedInstaller
     {
 
     } # __GetProjectsFromUser()
+
+
+
+
+   <# Check Requirements
+    # -------------------------------
+    # Documentation:
+    #  This function is designed to check if the system meets all of the requirements in order for this
+    #   functionality to work correctly.
+    # -------------------------------
+    # Output:
+    #  Requirements Flag
+    #   $true    = Requirements had been met
+    #   $false   = Requirements are not met.
+    # -------------------------------
+    #>
+    hidden [bool] __CheckSystemRequirements()
+    {
+        # Make sure that the internal Archive Zip functionality is available.
+        if (![CommonFunctions]::IsAvailableZip())
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Cannot continue with the EmbedInstaller as the dotNET Core Archive Zip is not available!`r`n"     + `
+                                    "In order for this installer to work properly, the dotNET Core Archive Zip functionality must be"   + `
+                                    " installed and available within the PowerShell Core's environment!`r`n"                            + `
+                                    "Operation will be aborted.");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "$($NULL)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # Alert the user through a message box signifying that an issue had occurred.
+            [CommonGUI]::MessageBox($logMessage, `
+                                    [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Send error signal
+            return $false;
+        } # if : Internal Zip is Not Available
+
+
+        # If we made it here, than all of the requirements had been meet.
+        return $true;
+    } # __CheckSystemRequirements()
 
 
 
