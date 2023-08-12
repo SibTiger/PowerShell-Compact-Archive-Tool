@@ -91,54 +91,8 @@ class EmbedInstaller
         if (![EmbedInstaller]::__CheckSystemRequirements()) { return $false; }
 
 
-        # Create a temporary directory
-        if (![CommonIO]::MakeTempDirectory("$($GLOBAL:_PROGRAMNAMESHORT_)-InstallComponent", `
-                                            [ref] $temporaryDirectoryFullPath))
-        {
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Generate the initial message
-            [string] $logMessage = ("Cannot continue with the EmbedInstaller as a Temporary Directory could not be created!`r`n"    +
-                                    "The temporary directory is a requirement in such that the user can provide the desired files.");
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "$($NULL)";
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity($logMessage, `                # Initial message
-                                        $logAdditionalMSG, `            # Additional information
-                                        [LogMessageLevel]::Error);      # Message level
-
-            # Alert the user through a message box signifying that an issue had occurred.
-            [CommonGUI]::MessageBox($logMessage, `
-                                    [System.Windows.MessageBoxImage]::Hand) | Out-Null;
-
-
-            # * * * * * * * * * * * * * * * * * * *
-
-
-            # Send error signal
-            return $false;
-        } # if : Failed to Create Temp. Directory
-
-
-        # Provide some whitespace padding.
-        [Logging]::DisplayMessage("`r`n`r`n");
-
-
-        # Provide the instructions
-        [EmbedInstaller]::__DrawMainInstructions($temporaryDirectoryFullPath);
-
-
-        # Provide some whitespace padding.
-        [Logging]::DisplayMessage("`r`n`r`n");
-
-
-        # Open the directory to the user such that they may drag and drop
-        #   the contents into the temporary directory.
-        [EmbedInstaller]::__OpenDirectoryAndWaitForClose($temporaryDirectoryFullPath);
+        # Obtain the projects form the user.
+        if (![EmbedInstaller]::__GetProjectsFromUser()) { return $false; }
 
 
         # Provide some whitespace padding
@@ -291,7 +245,58 @@ class EmbedInstaller
     #>
     hidden [bool] __GetProjectsFromUser()
     {
+        # Create a temporary directory
+        if (![CommonIO]::MakeTempDirectory("$($GLOBAL:_PROGRAMNAMESHORT_)-InstallComponent", `
+                                            [ref] $temporaryDirectoryFullPath))
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
 
+            # Generate the initial message
+            [string] $logMessage = ("Cannot continue with the EmbedInstaller as a Temporary Directory could not be created!`r`n"    +
+                                    "The temporary directory is a requirement in such that the user can provide the desired files.");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "$($NULL)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # Alert the user through a message box signifying that an issue had occurred.
+            [CommonGUI]::MessageBox($logMessage, `
+                                    [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Send error signal
+            return $false;
+        } # if : Failed to Create Temp. Directory
+
+
+        # Provide some whitespace padding.
+        [Logging]::DisplayMessage("`r`n`r`n");
+
+
+        # Provide the instructions
+        [EmbedInstaller]::__DrawMainInstructions($temporaryDirectoryFullPath);
+
+
+        # Provide some whitespace padding.
+        [Logging]::DisplayMessage("`r`n`r`n");
+
+
+        # Open the directory to the user such that they may drag and drop
+        #   the contents into the temporary directory.
+        [EmbedInstaller]::__OpenDirectoryAndWaitForClose($temporaryDirectoryFullPath);
+
+
+        # If we made it this far, than we have all that we need.
+        return $true;
     } # __GetProjectsFromUser()
 
 
