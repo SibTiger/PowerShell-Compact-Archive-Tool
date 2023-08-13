@@ -175,6 +175,7 @@ class EmbedInstallerFile
 
 
 
+
     #region Getter Functions
 
    <# Get File Name
