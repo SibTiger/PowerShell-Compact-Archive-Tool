@@ -92,7 +92,7 @@ class EmbedInstaller
 
 
         # Obtain the projects form the user.
-        if (![EmbedInstaller]::__GetProjectsFromUser()) { return $false; }
+        if (![EmbedInstaller]::__GetProjectsFromUser([ref] $temporaryDirectoryFullPath)) { return $false; }
 
 
         # Provide some whitespace padding
@@ -234,8 +234,9 @@ class EmbedInstaller
     #   the user while also guiding the user - step-by-step through the process.
     # -------------------------------
     # Input:
-    #  [System.Collections.ArrayList] (EmbedInstallerFile) Projects to Install
-    #   This will hold the *.ZIP files that are to be installed into PSCAT's Environment.
+    #  [string] (REFERENCE) Temporary Directory
+    #   This contains all of the projects from the user that he\she wishes to install within the PSCAT
+    #       environment.
     # -------------------------------
     # Output:
     #  Operation Status
@@ -243,11 +244,11 @@ class EmbedInstaller
     #   $false   = User Requested to Abort the Operation
     # -------------------------------
     #>
-    hidden [bool] __GetProjectsFromUser()
+    hidden [bool] __GetProjectsFromUser([ref] $temporaryDirectory)
     {
         # Create a temporary directory
         if (![CommonIO]::MakeTempDirectory("$($GLOBAL:_PROGRAMNAMESHORT_)-InstallComponent", `
-                                            [ref] $temporaryDirectoryFullPath))
+                                            $temporaryDirectory))
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -283,7 +284,7 @@ class EmbedInstaller
 
 
         # Provide the instructions
-        [EmbedInstaller]::__DrawMainInstructions($temporaryDirectoryFullPath);
+        [EmbedInstaller]::__DrawMainInstructions($temporaryDirectory.Value);
 
 
         # Provide some whitespace padding.
@@ -292,7 +293,7 @@ class EmbedInstaller
 
         # Open the directory to the user such that they may drag and drop
         #   the contents into the temporary directory.
-        [EmbedInstaller]::__OpenDirectoryAndWaitForClose($temporaryDirectoryFullPath);
+        [EmbedInstaller]::__OpenDirectoryAndWaitForClose($temporaryDirectory.Value);
 
 
         # If we made it this far, than we have all that we need.
