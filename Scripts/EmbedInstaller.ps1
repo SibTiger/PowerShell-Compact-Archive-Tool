@@ -244,7 +244,7 @@ class EmbedInstaller
     #   $false   = User Requested to Abort the Operation
     # -------------------------------
     #>
-    hidden [bool] __GetProjectsFromUser([ref] $temporaryDirectory)
+    hidden static [bool] __GetProjectsFromUser([ref] $temporaryDirectory)
     {
         # Create a temporary directory
         if (![CommonIO]::MakeTempDirectory("$($GLOBAL:_PROGRAMNAMESHORT_)-InstallComponent", `
