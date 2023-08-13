@@ -171,6 +171,45 @@ class EmbedInstallerFile
         $this.__message = $null;
     } # Initiated Object
 
+
+
+
+    # Initiated Object - Legacy
+    EmbedInstallerFile( [string] $fileName, `   # Name of the file
+                        [string] $filePath)     # File's full path
+    {
+        # File Name
+        $this.__fileName = $fileName;
+
+
+        # File Path
+        $this.__filePath = $filePath;
+
+
+        # Project Name
+        $this.__projectName = $NULL;
+
+
+        # Revision
+        $this.__projectRevision = $NULL;
+
+
+        # GUID
+        $this.__guid = $($GLOBAL:_DEFAULT_BLANK_GUID_);
+
+
+        # Verification
+        $this.__verification = [EmbedInstallerFileVerification]::NoInformation;
+
+
+        # Installed
+        $this.__installed = $false;
+
+
+        # Message
+        $this.__message = $null;
+    } # Initiated Object
+
     #endregion
 
 
