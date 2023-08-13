@@ -61,11 +61,11 @@ Source: "Documents\ReadMe.txt";     \
 ; Icons and Shortcuts
 ; - - - - - - - - - -
 Source: "Installer\Product Assets\Desktop Icon\Desktop Icon.ico";                   \
-    DestDir: "{app}\icons\";                                                        \
+    DestDir: "{app}\Icons\";                                                        \
     Flags: confirmoverwrite touch;
 
 Source: "Installer\Product Assets\Graphic - Setup\Uninstall\Uninstall Icon.ico";    \
-    DestDir: "{app}\icons\";                                                        \
+    DestDir: "{app}\Icons\";                                                        \
     Flags: confirmoverwrite touch;
 
 
