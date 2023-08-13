@@ -303,7 +303,7 @@ class EmbedInstaller
 
 
 
-   <# Check Requirements
+   <# Check System Requirements
     # -------------------------------
     # Documentation:
     #  This function is designed to check if the system meets all of the requirements in order for this
