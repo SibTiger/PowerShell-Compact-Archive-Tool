@@ -315,7 +315,7 @@ class EmbedInstaller
     #   $false   = Requirements are not met.
     # -------------------------------
     #>
-    hidden [bool] __CheckSystemRequirements()
+    hidden static [bool] __CheckSystemRequirements()
     {
         # Make sure that the internal Archive Zip functionality is available.
         if (![CommonFunctions]::IsAvailableZip())
