@@ -18,19 +18,19 @@
 
 
 
-<# Embed Installer
+<# Project Manager
  # ------------------------------
  # ==============================
  # ==============================
- # This class provides the ability to manage PowerShell Compact-Archive Tool Projects.
- #  Managing projects, such as:
- #  - Installing projects
- #  - Updating projects
- #  - Deleting projects
+ # This class can provide the ability to manage PowerShell Compact-Archive Tool projects, such that projects
+ #  can be:
+ #  - Installed
+ #  - Updated
+ #  - Removed
  #
- # Projects are an important asset to the PowerShell Compact-Archive Tool, as it provides
- #  the user with the ability to compile their game assets into an archive datafile and
- #  share that compiled build file to online communities or online file archive site.
+ # Projects are an important asset to the PowerShell Compact-Archive Tool architecture, as it provides the
+ #  the user with the ability to compile their game assets into an archive datafile and then later share
+ #  that compiled build file to online communities or an online file archive site.
  #
  # DEVELOPER NOTES:
  #  We will rely heavily on the CommonGUI and CommonIO in order to make this
@@ -40,18 +40,21 @@
 
 
 
-class EmbedInstaller
+class ProjectManager
 {
-   <# Embed Installer
+   <# Project Manager
     # -------------------------------
     # Documentation:
-    #  This function will act as our driver such that it will coordinate the
-    #   the management procedure from installation, updating, or removing a
-    #   desired project from the environment.
+    #  This function will act as our driver for this class.  Within this function, we will determine as to
+    #   what action the user wishes to perform.  Such as needing to install a new project into PSCAT,
+    #   update an already existing installation of a project, or removing a project entirely from PSCAT.
+    #
+    #  NOTE:
+    #   This is the ideal entry way into this class.
     # -------------------------------
     # Output:
     #  [bool] Exit Code
-    #     $false = Operation had failed
+    #     $false = Operation had failed or canceled
     #     $true  = Operation was successful
     # -------------------------------
     #>
@@ -74,8 +77,8 @@ class EmbedInstaller
 
 
 
-        # Clear the terminal of all previous text; keep the space clean so that
-        #   it is easy for the user to read and follow along.
+        # Clear the terminal of all previous text; keep the space clean so that it is easy for the user to
+        #   read and follow along.
         [CommonIO]::ClearBuffer();
 
 
@@ -83,16 +86,16 @@ class EmbedInstaller
         [CommonCUI]::DrawProgramTitleHeader();
 
 
-        # Show the user that they are at the Embed Installer
-        [CommonCUI]::DrawSectionHeader("$($Global:_PROGRAMNAME_) Installer");
+        # Show the user that they are at the Project Manager
+        [CommonCUI]::DrawSectionHeader("Project Manager");
 
 
         # Check System Requirements
-        if (![EmbedInstaller]::__CheckSystemRequirements()) { return $false; }
+        if (![ProjectManager]::__CheckSystemRequirements()) { return $false; }
 
 
         # Obtain the projects form the user.
-        if (![EmbedInstaller]::__GetProjectsFromUser([ref] $temporaryDirectoryFullPath)) { return $false; }
+        if (![ProjectManager]::__GetProjectsFromUser([ref] $temporaryDirectoryFullPath)) { return $false; }
 
 
         # Provide some whitespace padding
@@ -100,21 +103,21 @@ class EmbedInstaller
 
 
         # Obtain a list of what files exists within the temporary directory.
-        [EmbedInstaller]::__GetListFileContents($temporaryDirectoryFullPath, `
+        [ProjectManager]::__GetListFileContents($temporaryDirectoryFullPath, `
                                                 $temporaryDirectoryContents);
 
 
         # Determine if the user is wanting to cancel the operation
         #  If the user did not provide any files, then abort the operation.
-        if ([EmbedInstaller]::__CancelOperation($temporaryDirectoryContents, $temporaryDirectoryFullPath)) { return $false; }
+        if ([ProjectManager]::__CancelOperation($temporaryDirectoryContents, $temporaryDirectoryFullPath)) { return $false; }
 
 
         # Perform a validation check by assuring that all provided archive datafiles given are healthy.
-        [EmbedInstaller]::__CheckArchiveFileIntegrity($temporaryDirectoryContents);
+        [ProjectManager]::__CheckArchiveFileIntegrity($temporaryDirectoryContents);
 
 
         # Perform the Installation
-        $operationState = [EmbedInstaller]::__InstallProjects($temporaryDirectoryContents);
+        $operationState = [ProjectManager]::__InstallProjects($temporaryDirectoryContents);
 
 
         # Alert the user of the installation status
@@ -167,9 +170,8 @@ class EmbedInstaller
    <# Draw Main Instructions
     # -------------------------------
     # Documentation:
-    #  Provide the instructions to the user such that they are aware as
-    #   to what is happening within this operation.  By doing this, they
-    #   will understand the procedure and what is expected from the user.
+    #  Provide the instructions to the user such that they are aware as to what is happening within this
+    #   operation.  By doing this, they will understand the procedure and what is expected from the user.
     # -------------------------------
     # Input:
     #  [string] Temporary Directory
@@ -180,13 +182,13 @@ class EmbedInstaller
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # This string will be used to create the instructions
-        #   that are specifically for the desired install item(s).
+        # This string will be used to create the instructions that are specifically for the desired
+        #   install item(s).
         [string] $instructionString = $NULL;
 
 
-        # This is a just a temporary variable such that we can obtain the
-        #   directory name, without the entire absolute path.
+        # This is a just a temporary variable such that we can obtain the directory name, without the
+        #   entire absolute path.
         [System.IO.DirectoryInfo] $directoryInformation = $temporaryDirectory;
 
 
@@ -255,7 +257,7 @@ class EmbedInstaller
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = ("Cannot continue with the EmbedInstaller as a Temporary Directory could not be created!`r`n"    +
+            [string] $logMessage = ("Cannot continue with the Project Manager as a Temporary Directory could not be created!`r`n"    +
                                     "The temporary directory is a requirement in such that the user can provide the desired files.");
 
             # Generate any additional information that might be useful
@@ -284,7 +286,7 @@ class EmbedInstaller
 
 
         # Provide the instructions
-        [EmbedInstaller]::__DrawMainInstructions($temporaryDirectory.Value);
+        [ProjectManager]::__DrawMainInstructions($temporaryDirectory.Value);
 
 
         # Provide some whitespace padding.
@@ -293,7 +295,7 @@ class EmbedInstaller
 
         # Open the directory to the user such that they may drag and drop
         #   the contents into the temporary directory.
-        [EmbedInstaller]::__OpenDirectoryAndWaitForClose($temporaryDirectory.Value);
+        [ProjectManager]::__OpenDirectoryAndWaitForClose($temporaryDirectory.Value);
 
 
         # If we made it this far, than we have all that we need.
@@ -325,7 +327,7 @@ class EmbedInstaller
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = ("Cannot continue with the EmbedInstaller as the dotNET Core Archive Zip is not available!`r`n"     + `
+            [string] $logMessage = ("Cannot continue with the Project Manager as the dotNET Core Archive Zip is not available!`r`n"     + `
                                     "In order for this installer to work properly, the dotNET Core Archive Zip functionality must be"   + `
                                     " installed and available within the PowerShell Core's environment!`r`n"                            + `
                                     "Operation will be aborted.");
@@ -422,7 +424,7 @@ class EmbedInstaller
     # Documentation:
     #  By calling this function, we will want to check all files provided
     #   within the Array List to assure the files are not corrupted.
-    #   This check is essential to the embedded installer's functionality,
+    #   This check is essential to the Project Manager's functionality,
     #   which will help prevent or reduce potential unforeseen consequences
     #   during the operations.
     #
@@ -972,4 +974,4 @@ class EmbedInstaller
         # Finished
         return $true;
     } # ReadMetaFile()
-} # EmbedInstaller
+} # ProjectManager
