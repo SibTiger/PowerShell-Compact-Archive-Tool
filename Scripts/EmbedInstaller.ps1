@@ -62,6 +62,10 @@ class ProjectManager
     {
         # Declarations and Initializations
         # ----------------------------------------
+        # List of Files to Install
+        [System.Collections.ArrayList] $listOfProjectsToInstall = [System.Collections.ArrayList]::New();
+
+
         # This will hold the Temporary Directory's absolute Path.
         [string] $temporaryDirectoryFullPath = $NULL;
 
@@ -95,7 +99,7 @@ class ProjectManager
 
 
         # Obtain the projects form the user.
-        if (![ProjectManager]::__GetProjectsFromUser([ref] $temporaryDirectoryFullPath)) { return $false; }
+        if (![ProjectManager]::__GetProjectsFromUser($listOfProjectsToInstall)) { return $false; }
 
 
         # Provide some whitespace padding
@@ -246,56 +250,32 @@ class ProjectManager
     #   $false   = User Requested to Abort the Operation
     # -------------------------------
     #>
-    hidden static [bool] __GetProjectsFromUser([ref] $temporaryDirectory)
+    hidden static [bool] __GetProjectsFromUser([System.Collections.ArrayList] $projectList)
     {
-        # Create a temporary directory
-        if (![CommonIO]::MakeTempDirectory("$($GLOBAL:_PROGRAMNAMESHORT_)-InstallComponent", `
-                                            $temporaryDirectory))
-        {
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Generate the initial message
-            [string] $logMessage = ("Cannot continue with the Project Manager as a Temporary Directory could not be created!`r`n"    +
-                                    "The temporary directory is a requirement in such that the user can provide the desired files.");
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "$($NULL)";
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity($logMessage, `                # Initial message
-                                        $logAdditionalMSG, `            # Additional information
-                                        [LogMessageLevel]::Error);      # Message level
-
-            # Alert the user through a message box signifying that an issue had occurred.
-            [CommonGUI]::MessageBox($logMessage, `
-                                    [System.Windows.MessageBoxImage]::Hand) | Out-Null;
-
-
-            # * * * * * * * * * * * * * * * * * * *
-
-
-            # Send error signal
-            return $false;
-        } # if : Failed to Create Temp. Directory
-
-
         # Provide some whitespace padding.
         [Logging]::DisplayMessage("`r`n`r`n");
 
 
         # Provide the instructions
-        [ProjectManager]::__DrawMainInstructions($temporaryDirectory.Value);
+        [ProjectManager]::__DrawMainInstructions($NULL);
 
 
         # Provide some whitespace padding.
         [Logging]::DisplayMessage("`r`n`r`n");
 
 
-        # Open the directory to the user such that they may drag and drop
-        #   the contents into the temporary directory.
-        [ProjectManager]::__OpenDirectoryAndWaitForClose($temporaryDirectory.Value);
+        # Allow the user to freely select one or more projects that they wish to install
+        #   into the PSCAT environment.
+        if (![CommonGUI]::BrowseFile("Select Project Files to Install", `   # Title
+                                    "*.ZIP",                            `   # Default Extension
+                                    "*.7Z",                             `   # Additional Extensions
+                                    $true,                              `   # Select Multiple Files
+                                    [BrowserInterfaceStyle]::Modern,    `   # Style
+                                    $projectList))                          # List of Files Selected by User.
+        {
+            # User did not select any files; user cancelled the operation.
+            return $false;
+        } # if : User Canceled
 
 
         # If we made it this far, than we have all that we need.
