@@ -182,22 +182,13 @@ class ProjectManager
     #   Provides the absolute path of the temporary directory.
     # -------------------------------
     #>
-    hidden static [void] __DrawMainInstructions([string] $temporaryDirectory)
+    hidden static [void] __DrawMainInstructions()
     {
         # Declarations and Initializations
         # ----------------------------------------
         # This string will be used to create the instructions that are specifically for the desired
         #   install item(s).
         [string] $instructionString = $NULL;
-
-
-        # This is a just a temporary variable such that we can obtain the directory name, without the
-        #   entire absolute path.
-        [System.IO.DirectoryInfo] $directoryInformation = $temporaryDirectory;
-
-
-        # This will hold just the name of the temporary directory.
-        [string] $directoryName = $directoryInformation.NameString;
         # ----------------------------------------
 
 
@@ -212,7 +203,7 @@ class ProjectManager
                                 "Follow the instructions below:`r`n"                                                                    + `
                                 "- - - - - - - - - - - - - - - -`r`n"                                                                   + `
                                 "  1) Download the latest version(s) of the desired project(s) you wish to install.`r`n"                + `
-                                "  2) Place the newly downloaded Zip file(s) into the temporary folder named $($directoryName).`r`n"    + `
+                                "  2) Place the newly downloaded Zip file(s) into the temporary folder named $($NULL).`r`n"             + `
                                 "  3) Close the temporary folder window to continue the install process.`r`n"                           + `
                                 "`r`n"                                                                                                  + `
                                 "`r`n"                                                                                                  + `
@@ -257,7 +248,7 @@ class ProjectManager
 
 
         # Provide the instructions
-        [ProjectManager]::__DrawMainInstructions($NULL);
+        [ProjectManager]::__DrawMainInstructions();
 
 
         # Provide some whitespace padding.
