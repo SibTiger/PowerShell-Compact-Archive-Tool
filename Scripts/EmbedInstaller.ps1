@@ -98,6 +98,18 @@ class ProjectManager
         if (![ProjectManager]::__CheckSystemRequirements()) { return $false; }
 
 
+        # Provide some whitespace padding.
+        [Logging]::DisplayMessage("`r`n`r`n");
+
+
+        # Provide the instructions
+        [ProjectManager]::__DrawMainInstructions();
+
+
+        # Provide some whitespace padding.
+        [Logging]::DisplayMessage("`r`n`r`n");
+
+
         # Obtain the projects form the user.
         if (![ProjectManager]::__GetProjectsFromUser($listOfProjectsToInstall)) { return $false; }
 
@@ -243,18 +255,6 @@ class ProjectManager
     #>
     hidden static [bool] __GetProjectsFromUser([System.Collections.ArrayList] $projectList)
     {
-        # Provide some whitespace padding.
-        [Logging]::DisplayMessage("`r`n`r`n");
-
-
-        # Provide the instructions
-        [ProjectManager]::__DrawMainInstructions();
-
-
-        # Provide some whitespace padding.
-        [Logging]::DisplayMessage("`r`n`r`n");
-
-
         # Allow the user to freely select one or more projects that they wish to install
         #   into the PSCAT environment.
         if (![CommonGUI]::BrowseFile("Select Project(s) to Install",                    `   # Title
