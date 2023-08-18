@@ -238,25 +238,22 @@ class ProjectManager
    <# Get Projects from User
     # -------------------------------
     # Documentation:
-    #  This function is designed to provide the ability for the user to upload their desired projects into
-    #   PSCAT's environment.  To provide this functionality, this method will provide an environment for
-    #   the user while also guiding the user - step-by-step through the process.
+    #  This function is designed to give the user the ability to specify what project archive files are to
+    #   be installed into PSCAT's environment.
     # -------------------------------
     # Input:
-    #  [string] (REFERENCE) Temporary Directory
-    #   This contains all of the projects from the user that he\she wishes to install within the PSCAT
-    #       environment.
+    #  [System.Collections.ArrayList] (EmbedInstallerFile) Project List
+    #   This will contain a list of project files that the user wishes to install into PSCAT.
     # -------------------------------
     # Output:
-    #  Operation Status
-    #   $true    = Continue with Operation; install one or more projects
-    #   $false   = User Requested to Abort the Operation
+    #  Where Files Selected
+    #   $true    = One or More files were selected.
+    #   $false   = User Cancelled
     # -------------------------------
     #>
     hidden static [bool] __GetProjectsFromUser([System.Collections.ArrayList] $projectList)
     {
-        # Allow the user to freely select one or more projects that they wish to install
-        #   into the PSCAT environment.
+        # Provide Windows' File Browser, giving the user the ability to freely select one or more project files
         if (![CommonGUI]::BrowseFile("Select Project(s) to Install",                    `   # Title
                                     "*.zip",                                            `   # Default File Extension
                                     "Zip file (*.zip)|*.zip|7-Zip file (*.7z)|*.7z",    `   # Filter File Extensions
@@ -264,12 +261,12 @@ class ProjectManager
                                     [BrowserInterfaceStyle]::Modern,                    `   # Style
                                     $projectList))                                          # List of Files Selected by User.
         {
-            # User did not select any files; user cancelled the operation.
+            # User canceled the operation.
             return $false;
         } # if : User Canceled
 
 
-        # If we made it this far, than we have all that we need.
+        # One or more files selected by user.
         return $true;
     } # __GetProjectsFromUser()
 
