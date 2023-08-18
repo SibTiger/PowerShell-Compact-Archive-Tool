@@ -118,11 +118,6 @@ class ProjectManager
         [Logging]::DisplayMessage("`r`n`r`n");
 
 
-        # Obtain a list of what files exists within the temporary directory.
-        [ProjectManager]::__GetListFileContents($temporaryDirectoryFullPath, `
-                                                $temporaryDirectoryContents);
-
-
         # Determine if the user is wanting to cancel the operation
         #  If the user did not provide any files, then abort the operation.
         if ([ProjectManager]::__CancelOperation($temporaryDirectoryContents, $temporaryDirectoryFullPath)) { return $false; }
@@ -482,57 +477,6 @@ class ProjectManager
                                         [LogMessageLevel]::Information);
         } # foreach : Verify Archive File(s)
     } # __CheckArchiveFileIntegrity()
-
-
-
-
-   <# Get List File Contents
-    # -------------------------------
-    # Documentation:
-    #  This function will inspect the provided directory for files that had been uploaded
-    #   by the user.  When there are files within the directory, it will be recorded as an
-    #   Embed Installer File object type.  By using the Embed Installer File, we can capture
-    #   what information is important for this entire operation as a whole.
-    #  Additionally, this function will only record *.ZIP files.  Any other types will be ignored.
-    #
-    #
-    # CAUTION:
-    #   This function will only capture Zip files, all others are ignored.
-    # -------------------------------
-    # Input:
-    #  [string] Temporary Directory
-    #   Provides the absolute path of the temporary directory.
-    #  [System.Collections.ArrayList] File Collection
-    #   This will hold *.ZIP files that had been placed within the temporary directory.
-    # -------------------------------
-    #>
-    hidden static [void] __GetListFileContents([string] $temporaryDirectoryFullPath, `
-                                                [System.Collections.ArrayList] $fileCollection)
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # We will use this variable to collect the output from the Get-ChildItem CMDLet.
-        [System.Object[]] $fileItems = [System.Object]::new();
-        # ----------------------------------------
-
-
-
-        # Obtain a list of contents that exists within the directory.
-        $fileItems = Get-ChildItem -LiteralPath $temporaryDirectoryFullPath `
-                                    -Filter "*.zip";
-
-
-
-        # Record all of the files found
-        foreach ($file in $fileItems)
-        {
-            # Create a new instance of the Embed Install File type.
-            [EmbedInstallerFile] $newFileEntry = [EmbedInstallerFile]::New($file.Name, $file.FullName);
-
-            # Add the file into the collection.
-            $fileCollection.Add($newFileEntry);
-        } # foreach : Record Files
-    } # __GetListFileContents()
 
 
 
