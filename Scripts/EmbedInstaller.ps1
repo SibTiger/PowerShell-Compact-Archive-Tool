@@ -257,9 +257,9 @@ class ProjectManager
 
         # Allow the user to freely select one or more projects that they wish to install
         #   into the PSCAT environment.
-                                    "*.zip",                                            `   # Default Extension
-                                    "Zip file (*.zip)|*.zip|7-Zip file (*.7z)|*.7z",    `   # Additional Extensions
         if (![CommonGUI]::BrowseFile("Select Project(s) to Install",                    `   # Title
+                                    "*.zip",                                            `   # Default File Extension
+                                    "Zip file (*.zip)|*.zip|7-Zip file (*.7z)|*.7z",    `   # Filter File Extensions
                                     $true,                                              `   # Select Multiple Files
                                     [BrowserInterfaceStyle]::Modern,                    `   # Style
                                     $projectList))                                          # List of Files Selected by User.
