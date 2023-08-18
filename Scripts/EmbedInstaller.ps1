@@ -232,7 +232,7 @@ class ProjectManager
     #   be installed into PSCAT's environment.
     # -------------------------------
     # Input:
-    #  [System.Collections.ArrayList] (EmbedInstallerFile) Project List
+    #  [System.Collections.ArrayList] (System.Object) Project List
     #   This will contain a list of project files that the user wishes to install into PSCAT.
     # -------------------------------
     # Output:
