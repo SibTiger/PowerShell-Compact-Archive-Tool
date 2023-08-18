@@ -241,7 +241,7 @@ class CommonGUI
     #  [string] Default Extension
     #   Provides the default, or preferred, file extension that calling function is requiring.
     #  [string] Filter Extension Options
-    #   Provides additional file extensions that are acceptable.
+    #   Provides a filter file extensions that are acceptable.
     #  [Bool] Select Multiple Files
     #   When true, the user can select one or more files.  False, however, the user can
     #   only pick just one file.
@@ -260,7 +260,7 @@ class CommonGUI
     #>
     static [bool] BrowseFile([string] $title,                       ` # Brief Description in Title Bar.
                             [string] $defaultExtension,             ` # Default File Extension.
-                            [string] $filterExtensionOptions,       ` # Additional File Extensions.
+                            [string] $filterExtensionOptions,       ` # Filter File Extensions.
                             [bool] $selectMultipleFiles,            ` # Select only one OR at least one file.
                             [BrowserInterfaceStyle] $style,         ` # Style of the Browser interface.
                             [System.Collections.ArrayList] $files)    # Selected files to be returned.
@@ -281,7 +281,7 @@ class CommonGUI
         $fileBrowser.CheckFileExists                = $true;                                            # Warn user if file non-existent.
         $fileBrowser.CheckPathExists                = $true;                                            # Warn user if path non-existent.
         $fileBrowser.DefaultExt                     = $defaultExtension;                                # Preferred File Extension
-        $fileBrowser.Filter                         = $filterExtensionOptions;                          # Additional File Extensions
+        $fileBrowser.Filter                         = $filterExtensionOptions;                          # Filter File Extensions
         $fileBrowser.DereferenceLinks               = $true;                                            # Dereference symbolic links
         $fileBrowser.Multiselect                    = $selectMultipleFiles;                             # Select only one file or multiple files.
         $fileBrowser.RestoreDirectory               = $true;                                            # Restore previous location upon new session
