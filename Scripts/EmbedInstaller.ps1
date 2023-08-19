@@ -380,19 +380,16 @@ class ProjectManager
    <# Check Archive File Integrity
     # -------------------------------
     # Documentation:
-    #  By calling this function, we will want to check all files provided
-    #   within the Array List to assure the files are not corrupted.
-    #   This check is essential to the Project Manager's functionality,
-    #   which will help prevent or reduce potential unforeseen consequences
-    #   during the operations.
+    #  This function will verify the integrity of the files that had been selected by the user to install.
+    #   In by doing so, if incase one or more files are corrupted - this function will mark those files as
+    #   damaged - using the EmbedInstallerFiler datatype attributes.
     #
-    # This function will merely update the Array List items, the further
-    #   algorithms will determine the best course of action.  As such,
-    #   we will not return a status regarding the findings.
+    #
+    #  NOTE: All entries within the Array List are to be in the EmbedInstallerFile.
     # -------------------------------
     # Input:
-    #  [System.Collections.ArrayList] {EmbedInstallerFile} File Collections
-    #   Provides a list of all files provided by the user.
+    #  [System.Collections.ArrayList] {EmbedInstallerFile} File Collection
+    #   Provides a list of files provided by the user to install.
     # -------------------------------
     #>
     hidden static [void] __CheckArchiveFileIntegrity([System.Collections.ArrayList] $fileCollection)
@@ -415,19 +412,18 @@ class ProjectManager
         [Logging]::DisplayMessage("Verifying file(s). . .`r`n");
 
 
-        # Inspect _ALL_ files and verify that the archive datafile is healthy.
+        # Inspect _ALL_ files and verify that the archive data file(s) are healthy.
         foreach ($item in $fileCollection)
         {
             # Declarations and Initializations
             # ----------------------------------------
-            # Create a string in which we can use to generate the operation and record the result.
-            #   This information will be logged within the program's logfile -- useful for debugging
-            #   if needed.
+            # Create a string in which we can use to generate the operation and record the result.  This
+            #   information will be logged within the program's logfile -- useful for debugging if needed.
             # We will initialize this variable by including the filename that is being inspected.
             [string] $logActivity = "Verified file named: $($item.GetFileName())";
 
-            # This will provide additional information that could be useful within the logfile,
-            #   related to the operation.
+            # This will provide additional information that could be useful within the logfile, related to
+            #   the operation.
             [string] $logAdditionalInformation = $null;
             # ----------------------------------------
 
@@ -464,6 +460,7 @@ class ProjectManager
                 # Clear the absolute path as we can no longer use this file.
                 $item.SetFilePathAsEmpty();
             } # else : Verification Failed
+
 
 
             # Record the information to the program's logfile.
