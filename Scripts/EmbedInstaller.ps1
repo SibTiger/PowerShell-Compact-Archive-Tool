@@ -443,7 +443,7 @@ class ProjectManager
 
 
         # Insert all of the items from the new file list to the given parameter.
-        $fileList.Add($newFileList.Clone());
+        foreach ($file in $newFileList) { $fileList.Add($file); }
     } # __MetamorphoseType()
 
 
