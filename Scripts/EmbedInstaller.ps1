@@ -76,11 +76,6 @@ class ProjectManager
         [System.Collections.ArrayList] $listOfProjectsToInstall = [System.Collections.ArrayList]::New();
 
 
-        # This will contain a collection of files that had been provided by the user.
-        #  The datatype within this Array List will be: EmbedInstallerFile, for simplicity sakes.
-        [System.Collections.ArrayList] $temporaryDirectoryContents = [System.Collections.ArrayList]::new();
-
-
         # Operation Status; this provides the operation state back to the calling function.
         [Bool] $operationState = $false;
         # ----------------------------------------
@@ -133,7 +128,7 @@ class ProjectManager
 
 
         # Perform the Installation
-        $operationState = [ProjectManager]::__InstallProjects($temporaryDirectoryContents);
+        $operationState = [ProjectManager]::__InstallProjects($listOfProjectsToInstall);
 
 
         # Alert the user of the installation status
@@ -149,7 +144,7 @@ class ProjectManager
 
         # Output the results to the user such that they know the what had been installed or could
         #   not be installed.
-        foreach($item in $temporaryDirectoryContents)
+        foreach($item in $listOfProjectsToInstall)
         {
             # Setup a string containing the results to the user.
             [string] $fileResults = ("File Name: "          + $item.GetFileName()       + "`r`n" + `
