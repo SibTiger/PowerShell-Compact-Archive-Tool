@@ -323,65 +323,6 @@ class ProjectManager
 
 
 
-   <# Open Temporary Directory
-    # -------------------------------
-    # Documentation:
-    #  With calling this function, it will open and display the temporary
-    #   directory to the user and wait for the window to be closed by the
-    #   user before proceeding onward with the operation.
-    #
-    #
-    # NOTE:
-    #  - This function requires that the temporary directory path must had
-    #       already been created and exists within the specified location.
-    #  - This function will HALT the program until the Temporary Folder
-    #       had been closed by the user.
-    # -------------------------------
-    # Input:
-    #  [string] Temporary Directory
-    #   Provides the absolute path of the temporary directory.
-    # -------------------------------
-    #>
-    hidden static [void] __OpenDirectoryAndWaitForClose([string] $temporaryDirectoryFullPath)
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # This will hold the instructions that will be presented to the user.
-        [string] $instructions = $null;
-
-
-        # This is a just a temporary variable such that we can obtain the
-        #   directory name, without the entire absolute path.
-        [System.IO.DirectoryInfo] $directoryInformation = $temporaryDirectoryFullPath;
-
-
-        # This will hold just the name of the temporary directory.
-        [string] $directoryName = $directoryInformation.NameString;
-        # ----------------------------------------
-
-
-
-        # Generate the instructions for this part of the process.
-        $instructions = ("Place the newly downloaded Zip file(s) into the temporary folder named $($directoryName).`r`n" + `
-                        "Once finished, close the temporary folder window named $($directoryName) to continue. . .");
-
-
-        # Open the directory to the user.
-        [CommonIO]::AccessDirectory($temporaryDirectoryFullPath, `  # Temporary Directory
-                                    $NULL);                     # Nothing to highlight
-
-
-        # Alert the user that the temporary directory window instance must be closed in order to continue.
-        [Logging]::DisplayMessage($instructions);
-
-
-        # Now wait for the user to finish
-        [CommonIO]::WaitForFileExplorer($temporaryDirectoryFullPath);
-    } # __OpenDirectoryAndWaitForClose()
-
-
-
-
    <# Metamorphose Datatypes
     # -------------------------------
     # Documentation:
