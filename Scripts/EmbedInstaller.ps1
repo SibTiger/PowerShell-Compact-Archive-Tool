@@ -66,10 +66,6 @@ class ProjectManager
         [System.Collections.ArrayList] $listOfProjectsToInstall = [System.Collections.ArrayList]::New();
 
 
-        # This will hold the Temporary Directory's absolute Path.
-        [string] $temporaryDirectoryFullPath = $NULL;
-
-
         # This will contain a collection of files that had been provided by the user.
         #  The datatype within this Array List will be: EmbedInstallerFile, for simplicity sakes.
         [System.Collections.ArrayList] $temporaryDirectoryContents = [System.Collections.ArrayList]::new();
