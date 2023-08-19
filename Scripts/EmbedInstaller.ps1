@@ -419,9 +419,14 @@ class ProjectManager
         # Begin the transformation
         foreach ($item in $fileList)
         {
+            # Using the IO.FileInfo datatype will help us to easily obtain the file name and full path
+            #   information.
+            [System.IO.FileInfo] $fileInfo = [System.IO.FileInfo]::New($item);
+
+
             # Gather information about the desired file
-            [string] $fileName = $item.Name;
-            [string] $filePath = $item.FullName;
+            [string] $fileName = $fileInfo.Name;
+            [string] $filePath = $fileInfo.FullName;
 
 
             # Store new information into the desired datatype structure.
