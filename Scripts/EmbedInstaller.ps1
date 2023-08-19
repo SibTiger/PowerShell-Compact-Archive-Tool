@@ -119,7 +119,7 @@ class ProjectManager
 
 
         # Perform a validation check by assuring that all provided archive datafiles given are healthy.
-        [ProjectManager]::__CheckArchiveFileIntegrity($temporaryDirectoryContents);
+        [ProjectManager]::__CheckArchiveFileIntegrity($listOfProjectsToInstall);
 
 
         # Perform the Installation
