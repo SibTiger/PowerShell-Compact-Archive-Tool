@@ -62,7 +62,17 @@ class ProjectManager
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # List of Files to Install
+        # This will contain the list of files that the user wishes to install within PSCAT.
+        #   NOTE: The base datatype is System.Object, BUT each element within the Array List will change
+        #           over time within this function.
+        #   DATATYPE AFTER Windows' File Browser:
+        #       |_ Root: System.Object
+        #           |_ [0]: System.Object
+        #           |_ [n]: System.Object
+        #   DATATYPE AFTER MetamorphoseType
+        #       |_ Root: System.Object
+        #           |_[0]: EmbedInstallerFile
+        #           |_[n]: EmbedInstallerFile
         [System.Collections.ArrayList] $listOfProjectsToInstall = [System.Collections.ArrayList]::New();
 
 
