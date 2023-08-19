@@ -114,6 +114,10 @@ class ProjectManager
         [Logging]::DisplayMessage("`r`n`r`n");
 
 
+        # Change the datatype of all entries from System.Object to EmbedInstallerFile
+        [ProjectManager]::__MetamorphoseType($listOfProjectsToInstall);
+
+
         # Perform a validation check by assuring that all provided archive datafiles given are healthy.
         [ProjectManager]::__CheckArchiveFileIntegrity($listOfProjectsToInstall);
 
@@ -369,6 +373,63 @@ class ProjectManager
         # Now wait for the user to finish
         [CommonIO]::WaitForFileExplorer($temporaryDirectoryFullPath);
     } # __OpenDirectoryAndWaitForClose()
+
+
+
+
+   <# Metamorphose Datatypes
+    # -------------------------------
+    # Documentation:
+    #  This function will transform the datatypes within the given Array List elements from System.Object
+    #   to EmbedInstallerFile types.
+    #
+    # NOTE: The Array List will be entirely altered to contain only elements with EmbedInstallerFile,
+    #           all previous instances of System.Object _WILL_ be expunged.
+    # -------------------------------
+    # Input:
+    #  [System.Collections.ArrayList] {System.Object} File List
+    #   Provides a list of files provided by the user to install.
+    # -------------------------------
+    #>
+    hidden static [void] __MetamorphoseType([System.Collections.ArrayList] $fileList)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This will contain the new file list that will replace the given list.
+        [System.Collections.ArrayList] $newFileList = [System.Collections.ArrayList]::New();
+        # ----------------------------------------
+
+
+
+        # If there is nothing within the provided list, then there is nothing to transform.
+        if ($fileList.Count -eq 0) { return; }
+
+
+
+        # Begin the transformation
+        foreach ($item in $fileList)
+        {
+            # Gather information about the desired file
+            [string] $fileName = $item.Name;
+            [string] $filePath = $item.FullName;
+
+
+            # Store new information into the desired datatype structure.
+            [EmbedInstallerFiler] $newFileEntry($fileName, $filePath);
+
+
+            # Save it into the new list for processing later.
+            $newFileList.Add($newFileEntry);
+        } # foreach : Transform
+
+
+        # Discard all entries from the provided file list.
+        $fileList.Clear();
+
+
+        # Insert all of the items from the new file list to the given parameter.
+        $fileList.Add($newFileList.Clone());
+    } # __MetamorphoseType()
 
 
 
