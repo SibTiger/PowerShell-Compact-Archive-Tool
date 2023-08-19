@@ -415,7 +415,7 @@ class ProjectManager
 
 
             # Store new information into the desired datatype structure.
-            [EmbedInstallerFiler] $newFileEntry($fileName, $filePath);
+            [EmbedInstallerFile] $newFileEntry = [EmbedInstallerFile]::New($fileName, $filePath);
 
 
             # Save it into the new list for processing later.
