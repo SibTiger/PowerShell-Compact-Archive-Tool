@@ -314,10 +314,11 @@ class ProjectManager
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = ("Cannot continue with the Project Manager as the dotNET Core Archive Zip is not available!`r`n"     + `
-                                    "In order for this installer to work properly, the dotNET Core Archive Zip functionality must be"   + `
-                                    " installed and available within the PowerShell Core's environment!`r`n"                            + `
-                                    "Operation will be aborted.");
+            [string] $logMessage = ( `
+                    "Cannot continue with the Project Manager as the dotNET Core Archive Zip is not available!`r`n"     + `
+                    "In order for this installer to work properly, the dotNET Core Archive Zip functionality must be"   + `
+                    " installed and available within the PowerShell Core's environment!`r`n"                            + `
+                    "Operation will be aborted.");
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = "$($NULL)";
