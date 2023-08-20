@@ -235,8 +235,55 @@ class ProjectManager
                                     $projectList))                                          # List of Files Selected by User.
         {
             # User canceled the operation.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("User had cancelled installing\updating $($GLOBAL:_PROGRAMNAMESHORT_) projects.");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "$($NULL)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
+
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Report that the user is cancelling the operation.
             return $false;
         } # if : User Canceled
+
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        [string] $logMessage = ("User had provided $($GLOBAL:_PROGRAMNAMESHORT_) projects that they wish to " + `
+                                "install\update within $($GLOBAL:_PROGRAMNAME_)");
+
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = "The following file(s) had been selected by the user:`r`n";
+
+        # Scan through each selection provided by the user and record them for logging purposes.
+        foreach ($item in $projectList) { $logAdditionalMSG += "`t`t >> $($item)`r`n"; }
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
+
+
+        # * * * * * * * * * * * * * * * * * * *
+
 
 
         # One or more files selected by user.
