@@ -76,7 +76,7 @@ class ProjectManager
         [System.Collections.ArrayList] $listOfProjectsToInstall = [System.Collections.ArrayList]::New();
 
 
-        # Operation Status; this provides the operation state back to the calling function.
+        # Operation Status; this will provide the overall operation state back to the calling function.
         [Bool] $operationState = $false;
         # ----------------------------------------
 
@@ -181,20 +181,14 @@ class ProjectManager
    <# Draw Main Instructions
     # -------------------------------
     # Documentation:
-    #  Provide the instructions to the user such that they are aware as to what is happening within this
-    #   operation.  By doing this, they will understand the procedure and what is expected from the user.
-    # -------------------------------
-    # Input:
-    #  [string] Temporary Directory
-    #   Provides the absolute path of the temporary directory.
+    #  Provide instructions to the user regarding the installation procedure.
     # -------------------------------
     #>
     hidden static [void] __DrawMainInstructions()
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # This string will be used to create the instructions that are specifically for the desired
-        #   install item(s).
+        # Provides instructions to the user
         [string] $instructionString = $NULL;
         # ----------------------------------------
 
@@ -233,8 +227,9 @@ class ProjectManager
    <# Get Projects from User
     # -------------------------------
     # Documentation:
-    #  This function is designed to give the user the ability to specify what project archive files are to
-    #   be installed into PSCAT's environment.
+    #  This function is designed to give the user the ability to specify what project files that they wish to
+    #   install.  To accomplish this, we will use Windows' File Browser - as it is natural to the user and
+    #   assures that the correct files are selected.
     # -------------------------------
     # Input:
     #  [System.Collections.ArrayList] (System.Object) Project List
@@ -271,8 +266,7 @@ class ProjectManager
    <# Check System Requirements
     # -------------------------------
     # Documentation:
-    #  This function is designed to check if the system meets all of the requirements in order for this
-    #   functionality to work correctly.
+    #  This function will assure that the host system meets the requirements in order for this procedure to work correctly.
     # -------------------------------
     # Output:
     #  Requirements Flag
@@ -335,6 +329,8 @@ class ProjectManager
     # Input:
     #  [System.Collections.ArrayList] {System.Object} File List
     #   Provides a list of files provided by the user to install.
+    #   NOTE: The elements coming into this function are: System.Object,
+    #           but coming out from this function will be: EmbedInstallerFile.
     # -------------------------------
     #>
     hidden static [void] __MetamorphoseType([System.Collections.ArrayList] $fileList)
