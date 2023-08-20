@@ -50,7 +50,7 @@ class ProjectManager
     #   update an already existing installation of a project, or removing a project entirely from PSCAT.
     #
     #  NOTE:
-    #   This is the ideal entry way into this class.
+    #   This is the entry point within this class.
     # -------------------------------
     # Output:
     #  [bool] Exit Code
@@ -189,11 +189,13 @@ class ProjectManager
         # Show the instructions to the user.
         [Logging]::DisplayMessage( `
             " Installing and Updating $($GLOBAL:_PROGRAMNAME_) Projects`r`n"                                        + `
-            "-----------------------------------------------------------`r`n"                                       + `
+            "-------------------------------------------------------------------------------------------`r`n"       + `
             "`r`n"                                                                                                  + `
             "`r`n"                                                                                                  + `
             "To install new projects into $($GLOBAL:_PROGRAMNAME_) or to update already existing, use the `r`n"     + `
             " Windows' File Browser to select the desired projects to install or update.`r`n"                       + `
+            " The $($GLOBAL:__PROGRAMNAMESHORT_) Project Manager will automatically try to install or update the"   + `
+            " projects for you.`r`n"                                                                                + `
             "`r`n"                                                                                                  + `
             "`r`n"                                                                                                  + `
             "NOTE: To abort this operation, you may select 'Cancel' in the File Browser.`r`n"                       + `
@@ -509,16 +511,13 @@ class ProjectManager
 
 
 
-    # Install Project(s)
+   <# Install Project(s)
     # -------------------------------
     # Documentation:
-    #  This function will try to install the desired project(s) onto the
-    #   user's system.  By doing this, we will need to assure that the
-    #   environment is ready as well as possible updates to an already
-    #   existing Burnt Toast installation.
+    #  This function will try to install the desired project(s) onto the user's system.
     # -------------------------------
     # Input:
-    #  [System.Collections.ArrayList] File Collection
+    #  [System.Collections.ArrayList] (EmbedInstallerFile) List of Projects
     #   This will hold *.ZIP files that had been placed within the temporary directory.
     # -------------------------------
     # Output:
@@ -631,7 +630,7 @@ class ProjectManager
 
 
 
-    # Get Installed Projects
+   <# Get Installed Projects
     # -------------------------------
     # Documentation:
     #  This function is designed to obtain all of the projects that are installed within the PSCAT
@@ -755,7 +754,7 @@ class ProjectManager
 
 
 
-    # Read Meta Data File
+   <# Read Meta Data File
     # -------------------------------
     # Documentation:
     #  This function is designed to read the project's meta file and extract the known information from the
