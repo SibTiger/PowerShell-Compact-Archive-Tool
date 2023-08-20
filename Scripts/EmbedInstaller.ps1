@@ -186,29 +186,18 @@ class ProjectManager
     #>
     hidden static [void] __DrawMainInstructions()
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Provides instructions to the user
-        [string] $instructionString = $NULL;
-        # ----------------------------------------
-
-
-
-        # Set the string
-        $instructionString = (  " Installing and Updating $($GLOBAL:_PROGRAMNAME_) Projects`r`n"                                        + `
-                                "-----------------------------------------------------------`r`n"                                       + `
-                                "`r`n"                                                                                                  + `
-                                "`r`n"                                                                                                  + `
-                                "To install new projects into $($GLOBAL:_PROGRAMNAME_) or to update already existing, use the `r`n"     + `
-                                " Windows' File Browser to select the desired projects to install or update.`r`n"                       + `
-                                "`r`n"                                                                                                  + `
-                                "`r`n"                                                                                                  + `
-                                "NOTE: To abort this operation, you may select 'Cancel' in the File Browser.`r`n"                       + `
-                                "`r`n`r`n");
-
-
-        # Display the message to the user
-        [Logging]::DisplayMessage($instructionString);
+        # Show the instructions to the user.
+        [Logging]::DisplayMessage( `
+            " Installing and Updating $($GLOBAL:_PROGRAMNAME_) Projects`r`n"                                        + `
+            "-----------------------------------------------------------`r`n"                                       + `
+            "`r`n"                                                                                                  + `
+            "`r`n"                                                                                                  + `
+            "To install new projects into $($GLOBAL:_PROGRAMNAME_) or to update already existing, use the `r`n"     + `
+            " Windows' File Browser to select the desired projects to install or update.`r`n"                       + `
+            "`r`n"                                                                                                  + `
+            "`r`n"                                                                                                  + `
+            "NOTE: To abort this operation, you may select 'Cancel' in the File Browser.`r`n"                       + `
+            "`r`n`r`n");
 
 
         # Wait for the user to press the Enter Key, acknowledging that they read the instructions.
