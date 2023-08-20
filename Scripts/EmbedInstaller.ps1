@@ -246,7 +246,7 @@ class ProjectManager
         # Provide Windows' File Browser, giving the user the ability to freely select one or more project files
         if (![CommonGUI]::BrowseFile("Select Project(s) to Install",                    `   # Title
                                     "*.zip",                                            `   # Default File Extension
-                                    "Zip file (*.zip)|*.zip|7-Zip file (*.7z)|*.7z",    `   # Filter File Extensions
+                                    "Zip file (*.zip)|*.zip",                           `   # Filter File Extensions
                                     $true,                                              `   # Select Multiple Files
                                     [BrowserInterfaceStyle]::Modern,                    `   # Style
                                     $projectList))                                          # List of Files Selected by User.
