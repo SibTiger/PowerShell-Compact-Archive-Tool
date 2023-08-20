@@ -195,21 +195,15 @@ class ProjectManager
 
 
         # Set the string
-        $instructionString = (  " Instructions for $($GLOBAL:_PROGRAMNAME_) Projects`r`n"                                               + `
-                                "-------------------------------------`r`n"                                                             + `
-                                "`r`n"                                                                                                  + `
-                                "You can easily install or update your project(s) into $($GLOBAL:_PROGRAMNAME_).`r`n"                   + `
+        $instructionString = (  " Installing and Updating $($GLOBAL:_PROGRAMNAME_) Projects`r`n"                                        + `
+                                "-----------------------------------------------------------`r`n"                                       + `
                                 "`r`n"                                                                                                  + `
                                 "`r`n"                                                                                                  + `
-                                "Follow the instructions below:`r`n"                                                                    + `
-                                "- - - - - - - - - - - - - - - -`r`n"                                                                   + `
-                                "  1) Download the latest version(s) of the desired project(s) you wish to install.`r`n"                + `
-                                "  2) Place the newly downloaded Zip file(s) into the temporary folder named $($NULL).`r`n"             + `
-                                "  3) Close the temporary folder window to continue the install process.`r`n"                           + `
+                                "To install new projects into $($GLOBAL:_PROGRAMNAME_) or to update already existing, use the `r`n"     + `
+                                " Windows' File Browser to select the desired projects to install or update.`r`n"                       + `
                                 "`r`n"                                                                                                  + `
                                 "`r`n"                                                                                                  + `
-                                " NOTE: To abort this operation, you may close the temporary directory while it is empty."              + `
-                                "`tBy doing this, it will cancel the operation."                                                        + `
+                                "NOTE: To abort this operation, you may select 'Cancel' in the File Browser.`r`n"                       + `
                                 "`r`n`r`n");
 
 
