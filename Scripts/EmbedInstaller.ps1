@@ -526,7 +526,7 @@ class ProjectManager
     #   false   = Installation had failed.
     # -------------------------------
     #>
-    hidden static [bool] __InstallProjects([System.Collections.ArrayList] $temporaryDirectoryContents)
+    hidden static [bool] __InstallProjects([System.Collections.ArrayList] $listOfProjects)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -548,7 +548,7 @@ class ProjectManager
 
 
         # Install each project provided.
-        foreach ($item in $temporaryDirectoryContents)
+        foreach ($item in $listOfProjects)
         {
             # If the archive datafile is corrupted - then skip to the next file.
             if ($item.GetVerification() -ne [EmbedInstallerFileVerification]::Passed)
