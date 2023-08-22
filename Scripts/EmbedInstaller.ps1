@@ -23,18 +23,18 @@
  # ==============================
  # ==============================
  # This class can provide the ability to manage PowerShell Compact-Archive Tool projects, such that projects
- #  can be:
+ #  can be either:
  #  - Installed
  #  - Updated
  #  - Removed
  #
  # Projects are an important asset to the PowerShell Compact-Archive Tool architecture, as it provides the
- #  the user with the ability to compile their game assets into an archive datafile and then later share
- #  that compiled build file to online communities or an online file archive site.
+ #  user with the ability to compile their game assets into a single archive datafile.  Afterwards, the
+ #  author or a developer within the team can then share that same compiled build to online communities,
+ #  community forums, or anywhere they wish within the internet or local storage-keeping.
  #
  # DEVELOPER NOTES:
- #  We will rely heavily on the CommonGUI and CommonIO in order to make this
- #  functionality easy for the user.
+ #  We will rely heavily on the CommonGUI and CommonIO in order to make this functionality easy for the user.
  #>
 
 
