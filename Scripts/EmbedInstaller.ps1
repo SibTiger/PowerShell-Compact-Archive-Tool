@@ -22,11 +22,11 @@
  # ------------------------------
  # ==============================
  # ==============================
- # This class can provide the ability to manage PowerShell Compact-Archive Tool projects, such that projects
- #  can be either:
- #  - Installed
- #  - Updated
- #  - Removed
+ # This class can provide the user with the ability to manage PowerShell Compact-Archive Tool projects.
+ #  Such management may involve the following:
+ #  - Installing Projects
+ #  - Updating Projects
+ #  - Removing Projects
  #
  # Projects are an important asset to the PowerShell Compact-Archive Tool architecture, as it provides the
  #  user with the ability to compile their game assets into a single archive datafile.  Afterwards, the
@@ -45,17 +45,12 @@ class ProjectManager
    <# Project Manager
     # -------------------------------
     # Documentation:
-    #  This function will act as our driver for this class.  Within this function, we will determine as to
-    #   what action the user wishes to perform.  Such as needing to install a new project into PSCAT,
-    #   update an already existing installation of a project, or removing a project entirely from PSCAT.
+    #  This function will act as our driver within this class.  In this function, the user will
+    #   specifically state what action should be performed; either installing/updating to or removing
+    #   projects from the PowerShell Compact-Archive Tool's environment.
     #
     #  NOTE:
     #   This is the entry point within this class.
-    # -------------------------------
-    # Output:
-    #  [bool] Exit Code
-    #     $false = Operation had failed or canceled
-    #     $true  = Operation was successful
     # -------------------------------
     #>
     static [bool] Main()
