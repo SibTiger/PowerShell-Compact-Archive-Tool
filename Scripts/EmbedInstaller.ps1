@@ -59,7 +59,7 @@ class ProjectManager
         # ----------------------------------------
         # This will contain the list of files that the user wishes to install within PSCAT.
         #   NOTE: The base datatype is System.Object, BUT each element within the Array List will change
-        #           over time within this function.
+        #           over time - making it easier to process.
         #   DATATYPE AFTER Windows' File Browser:
         #       |_ Root: System.Object
         #           |_ [0]: System.Object
@@ -213,7 +213,7 @@ class ProjectManager
     # -------------------------------
     # Input:
     #  [System.Collections.ArrayList] (System.Object) Project List
-    #   This will contain a list of project files that the user wishes to install into PSCAT.
+    #   This will contain a list of project files that the user wishes to install.
     # -------------------------------
     # Output:
     #  Where Files Selected
@@ -239,7 +239,7 @@ class ProjectManager
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = ("User had cancelled installing\updating $($GLOBAL:_PROGRAMNAMESHORT_) projects.");
+            [string] $logMessage = ("User had cancelled the operation; no files were selected.");
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = "$($NULL)";
@@ -264,8 +264,7 @@ class ProjectManager
         # --------------
 
         # Generate the initial message
-        [string] $logMessage = ("User had provided $($GLOBAL:_PROGRAMNAMESHORT_) projects that they wish to " + `
-                                "install\update within $($GLOBAL:_PROGRAMNAME_)");
+        [string] $logMessage = ("The user had provided one or more project files to install/update.");
 
         # Generate any additional information that might be useful
         [string] $logAdditionalMSG = "The following file(s) had been selected by the user:`r`n";
@@ -293,7 +292,8 @@ class ProjectManager
    <# Check System Requirements
     # -------------------------------
     # Documentation:
-    #  This function will assure that the host system meets the requirements in order for this procedure to work correctly.
+    #  This function will assure that the host system meets the requirements needed for this functionality
+    #   to operate successfully.
     # -------------------------------
     # Output:
     #  Requirements Flag
