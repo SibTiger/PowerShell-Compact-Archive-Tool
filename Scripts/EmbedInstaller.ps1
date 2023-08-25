@@ -208,28 +208,27 @@ class ProjectManager
     # -------------------------------
     # Documentation:
     #  This function is designed to give the user the ability to specify what project files that they wish to
-    #   install.  To accomplish this, we will use Windows' File Browser - as it is natural to the user and
-    #   assures that the correct files are selected.
+    #   install\update.
     # -------------------------------
     # Input:
-    #  [System.Collections.ArrayList] (System.Object) Project List
-    #   This will contain a list of project files that the user wishes to install.
+    #  [System.Collections.ArrayList] (System.Object) Project File List
+    #   This will contain a list of project files that the user wishes to install\update.
     # -------------------------------
     # Output:
     #  Where Files Selected
-    #   $true    = One or More files were selected.
+    #   $true    = One or More project files were selected.
     #   $false   = User Cancelled
     # -------------------------------
     #>
-    hidden static [bool] __GetProjectsFromUser([System.Collections.ArrayList] $projectList)
+    hidden static [bool] __GetProjectsFromUser([System.Collections.ArrayList] $projectFileList)
     {
         # Provide Windows' File Browser, giving the user the ability to freely select one or more project files
-        if (![CommonGUI]::BrowseFile("Select Project(s) to Install",                    `   # Title
+        if (![CommonGUI]::BrowseFile("Select Project(s) to Install or Update",          `   # Title
                                     "*.zip",                                            `   # Default File Extension
                                     "Zip file (*.zip)|*.zip",                           `   # Filter File Extensions
                                     $true,                                              `   # Select Multiple Files
                                     [BrowserInterfaceStyle]::Modern,                    `   # Style
-                                    $projectList))                                          # List of Files Selected by User.
+                                    $projectFileList))                                      # List of Files Selected by User.
         {
             # User canceled the operation.
 
@@ -239,7 +238,7 @@ class ProjectManager
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = ("User had cancelled the operation; no files were selected.");
+            [string] $logMessage = ("User had cancelled the operation; no project files were selected.");
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = "$($NULL)";
@@ -264,7 +263,7 @@ class ProjectManager
         # --------------
 
         # Generate the initial message
-        [string] $logMessage = ("The user had provided one or more project files to install/update.");
+        [string] $logMessage = ("The user had provided one or more project file(s) to install\update.");
 
         # Generate any additional information that might be useful
         [string] $logAdditionalMSG = "The following file(s) had been selected by the user:`r`n";
@@ -298,7 +297,7 @@ class ProjectManager
     # Output:
     #  Requirements Flag
     #   $true    = Requirements had been met
-    #   $false   = Requirements are not met.
+    #   $false   = Requirements had not been met
     # -------------------------------
     #>
     hidden static [bool] __CheckSystemRequirements()
