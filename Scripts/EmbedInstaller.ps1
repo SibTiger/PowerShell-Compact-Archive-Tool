@@ -661,10 +661,10 @@ class ProjectManager
 
 
             # Obtain the information from the Meta file.
-            if (!ReadMetaData($item.FullName,               ` # Where the meta file is located
-                                [ref] $newProjectRevision,  ` # Get Project's Revision
-                                [ref] $newProjectName,      ` # Get Project's Name
-                                [ref] $newProjectSignature))  # Get Project's GUID
+            if (![ProjectManager]::__ReadMetaFile($item.FullName,               ` # Where the meta file is located
+                                                [ref] $newProjectRevision,      ` # Get Project's Revision
+                                                [ref] $newProjectName,          ` # Get Project's Name
+                                                [ref] $newProjectSignature))      # Get Project's GUID
             {
                 # Something had failed; continue to the next
                 continue;
@@ -721,7 +721,7 @@ class ProjectManager
     #     $true  = Operation was successful
     # -------------------------------
     #>
-    [bool] ReadMetaFile([string] $metaFilePath, `       # Absolute path to the project's meta file
+    hidden static [bool] __ReadMetaFile([string] $metaFilePath, `       # Absolute path to the project's meta file
                         [ref] $projectRevision, `       # The project's revision ID
                         [ref] $projectName,     `       # The project's name
                         [ref] $projectSignature)        # The project's signature
@@ -796,5 +796,5 @@ class ProjectManager
 
         # Finished
         return $true;
-    } # ReadMetaFile()
+    } # __ReadMetaFile()
 } # ProjectManager
