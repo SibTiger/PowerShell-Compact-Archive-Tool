@@ -479,6 +479,10 @@ class ProjectManager
         [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
 
 
+        # Contains a list of projects that had already been installed previously.
+        [System.Collections.ArrayList] $listOfInstalledProjects = [System.Collections.ArrayList]::New();
+
+
         # Overall Status of the operation; we will return this value once the operation had been finished.
         #   By default, we will provide a true result - this will change if an error was caught.
         [Bool] $overallOperation = $true;
@@ -500,6 +504,8 @@ class ProjectManager
                 # Because this file could not be installed, flag this as a fault.
                 $overallOperation = $false;
 
+        # Obtain a list of what projects had already been installed.
+        if (![ProjectManager]::__GetInstalledProjects($listOfInstalledProjects)) { return $false; }
 
                 # Continue to the next file.
                 continue;
