@@ -495,23 +495,16 @@ class ProjectManager
 
 
 
-        # Install each project provided.
-        foreach ($item in $listOfProjects)
-        {
-            # If the archive datafile is corrupted - then skip to the next file.
-            if ($item.GetVerification() -ne [EmbedInstallerFileVerification]::Passed)
-            {
-                # Because this file could not be installed, flag this as a fault.
-                $overallOperation = $false;
-
         # Obtain a list of what projects had already been installed.
         if (![ProjectManager]::__GetInstalledProjects($listOfInstalledProjects)) { return $false; }
 
-                # Continue to the next file.
-                continue;
-            } # if : Archive is Damaged
 
 
+        # Install each project provided.
+        foreach ($item in $listOfProjects)
+        {
+            # Declarations and Initializations
+            # ----------------------------------------
             # This string will provide a brief description of the installation activities, this will
             #   be used for logging purposes.
             [string] $logActivity = $null;
@@ -525,6 +518,20 @@ class ProjectManager
 
             # Exit Status
             [bool] $exitCondition = $false;
+            # ----------------------------------------
+
+
+
+            # If the archive datafile is corrupted - then skip to the next file.
+            if ($item.GetVerification() -ne [EmbedInstallerFileVerification]::Passed)
+            {
+                # Because this file could not be installed, flag this as a fault.
+                $overallOperation = $false;
+
+
+                # Continue to the next file.
+                continue;
+            } # if : Archive is Damaged
 
 
             # Extract each project.
