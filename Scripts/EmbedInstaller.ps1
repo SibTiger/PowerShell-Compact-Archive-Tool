@@ -90,10 +90,6 @@ class ProjectManager
         [CommonCUI]::DrawSectionHeader("Project Manager");
 
 
-        # Check System Requirements
-        if (![ProjectManager]::__CheckSystemRequirements()) { return $false; }
-
-
         # Provide some whitespace padding.
         [Logging]::DisplayMessage("`r`n`r`n");
 
@@ -294,63 +290,6 @@ class ProjectManager
         # One or more files selected by user.
         return $true;
     } # __GetProjectsFromUser()
-
-
-
-
-   <# Check System Requirements
-    # -------------------------------
-    # Documentation:
-    #  This function will assure that the host system meets the requirements needed for this functionality
-    #   to operate successfully.
-    # -------------------------------
-    # Output:
-    #  Requirements Flag
-    #   $true    = Requirements had been met
-    #   $false   = Requirements had not been met
-    # -------------------------------
-    #>
-    hidden static [bool] __CheckSystemRequirements()
-    {
-        # Make sure that the internal Archive Zip functionality is available.
-        if (![CommonFunctions]::IsAvailableZip())
-        {
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Generate the initial message
-            [string] $logMessage = ( `
-                    "Cannot continue with the Project Manager as the dotNET Core Archive Zip is not available!`r`n"     + `
-                    "In order for this installer to work properly, the dotNET Core Archive Zip functionality must be"   + `
-                    " installed and available within the PowerShell Core's environment!`r`n"                            + `
-                    "Operation will be aborted.");
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "$($NULL)";
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity($logMessage, `                # Initial message
-                                        $logAdditionalMSG, `            # Additional information
-                                        [LogMessageLevel]::Error);      # Message level
-
-            # Alert the user through a message box signifying that an issue had occurred.
-            [CommonGUI]::MessageBox($logMessage, `
-                                    [System.Windows.MessageBoxImage]::Hand) | Out-Null;
-
-
-            # * * * * * * * * * * * * * * * * * * *
-
-
-            # Send error signal
-            return $false;
-        } # if : Internal Zip is Not Available
-
-
-
-        # If we made it here, than all of the requirements had been meet.
-        return $true;
-    } # __CheckSystemRequirements()
 
 
 
