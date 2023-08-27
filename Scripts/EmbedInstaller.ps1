@@ -222,13 +222,23 @@ class ProjectManager
     #>
     hidden static [bool] __GetProjectsFromUser([System.Collections.ArrayList] $projectFileList)
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the current instance of the user's Default Compressing object; this contains
+        #  the user's preferences as to how the Archive ZIP module will be utilized within this
+        #  application.
+        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        # ----------------------------------------
+
+
+
         # Provide Windows' File Browser, giving the user the ability to freely select one or more project files
-        if (![CommonGUI]::BrowseFile("Select Project(s) to Install or Update",          `   # Title
-                                    "*.zip",                                            `   # Default File Extension
-                                    "Zip file (*.zip)|*.zip",                           `   # Filter File Extensions
-                                    $true,                                              `   # Select Multiple Files
-                                    [BrowserInterfaceStyle]::Modern,                    `   # Style
-                                    $projectFileList))                                      # List of Files Selected by User.
+        if (![CommonGUI]::BrowseFile("Select Project(s) to Install or Update",                  `   # Title
+                                    $defaultCompress.GetFileBrowserPreferredFileExtension(),    `   # Default File Extension
+                                    $defaultCompress.GetFileBrowserAvailableFileExtensions(),   `   # Filter File Extensions
+                                    $true,                                                      `   # Select Multiple Files
+                                    [BrowserInterfaceStyle]::Modern,                            `   # Style
+                                    $projectFileList))                                              # List of Files Selected by User.
         {
             # User canceled the operation.
 
