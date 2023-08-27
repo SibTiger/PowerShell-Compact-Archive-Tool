@@ -646,7 +646,7 @@ class ProjectManager
         {
             # Declarations and Initializations
             # ----------------------------------------
-            [EmbedInstallerFile]    $newProjectEntry        = $null;                                # Entry to add into Array
+            [EmbedInstallerFile]    $newProjectEntry        = [EmbedInstallerFile]::New();          # Entry to add into Array
             [UInt64]                $newProjectRevision     = 0;                                    # Cache project's revision
             [string]                $newProjectName         = $null;                                # Cache project's name
             [GUID]                  $newProjectSignature    = $($GLOBAL:_DEFAULT_BLANK_GUID_);      # Cache project's GUID
