@@ -592,7 +592,7 @@ class ProjectManager
     #     $true  = Operation was successful
     # -------------------------------
     #>
-    [bool] GetInstalledProjects([System.Collections.ArrayList] $installedProjects)
+    hidden static [bool] __GetInstalledProjects([System.Collections.ArrayList] $installedProjects)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -693,7 +693,7 @@ class ProjectManager
 
         # Finished
         return $true;
-    } # GetInstalledProjects()
+    } # __GetInstalledProjects()
 
 
 
