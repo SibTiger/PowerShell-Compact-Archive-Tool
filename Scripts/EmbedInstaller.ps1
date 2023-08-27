@@ -269,7 +269,7 @@ class ProjectManager
         [string] $logAdditionalMSG = "The following file(s) had been selected by the user:`r`n";
 
         # Scan through each selection provided by the user and record them for logging purposes.
-        foreach ($item in $projectList) { $logAdditionalMSG += "`t`t >> $($item)`r`n"; }
+        foreach ($item in $projectFileList) { $logAdditionalMSG += "`t`t >> $($item)`r`n"; }
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity($logMessage, `                # Initial message
