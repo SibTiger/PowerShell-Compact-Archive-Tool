@@ -385,7 +385,7 @@ class ProjectManager
 
 
 
-        # If there's nothing provided, then there's nothing todo.
+        # If there's nothing provided, then there is nothing todo.
         if ($fileCollection.Count -eq 0) { return; }
 
 
@@ -417,7 +417,7 @@ class ProjectManager
                 $logActivity = $logActivity + "`r`n`t- Result: Passed!";
 
                 # Provide additional information
-                $logAdditionalInformation = "The file is healthy and can be installed into the environment.";
+                $logAdditionalInformation = "The file is healthy and can be installed.";
 
                 # Adjust the attributes of the desired file entry.
                 $item.SetVerification([EmbedInstallerFileVerification]::Passed);
@@ -430,7 +430,7 @@ class ProjectManager
                 $logActivity = $logActivity + "`r`n`t- Result: Failed!";
 
                 # Provide additional information
-                $logAdditionalInformation = "The file is damaged and cannot be installed due to corrupted data.";
+                $logAdditionalInformation = "The file is damaged and cannot be installed.";
 
                 # Adjust the attributes of the desired file entry.
                 $item.SetVerification([EmbedInstallerFileVerification]::Failed);
@@ -477,6 +477,7 @@ class ProjectManager
         #  the user's preferences as to how the Archive ZIP module will be utilized within this
         #  application.
         [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+
 
         # Overall Status of the operation; we will return this value once the operation had been finished.
         #   By default, we will provide a true result - this will change if an error was caught.
