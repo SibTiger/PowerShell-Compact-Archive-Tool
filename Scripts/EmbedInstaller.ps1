@@ -507,17 +507,33 @@ class ProjectManager
             # ----------------------------------------
             # This string will provide a brief description of the installation activities, this will
             #   be used for logging purposes.
-            [string] $logActivity = $null;
+            [string] $logActivity                                               = $null;
 
             # This will provide additional information that could be useful within the logfile,
             #   related to the operation.
-            [string] $logAdditionalInformation = $null;
+            [string] $logAdditionalInformation                                  = $null;
 
             # Extracted Directory Absolute Path.
-            [string] $outputDirectory = $NULL;
+            [string] $outputDirectory                                           = $NULL;
 
             # Exit Status
-            [bool] $exitCondition = $false;
+            [bool] $exitCondition                                               = $false;
+
+            # Determines if the target project is an update, a new install, or same\outdated version.
+            [ProjectManagerInstallOperationSwitch] $targetProjectInstallState   = [ProjectManagerInstallOperationSwitch]::NewInstall;
+
+            # This is the install instance that will be updated, if updates are available.
+            [EmbedInstallerFile] $previousInstall                               = [EmbedInstallerFile]::New();
+
+            # Temporary Directory that will contain the extracted files from the desired project to install.
+            #   We will use this as a means to determine if the project is a new install, an update, or an
+            #   older version.
+            [string] $temporaryProjectDirectory                                 = $NULL;
+
+            # This will hold the attributes for the project file we are about to install\update.
+            [UInt64] $temporaryProjectRevision                                  = 0;
+            [string] $temporaryProjectName                                      = $NULL;
+            [GUID] $temporaryProjectSignature                                   = $GLOBAL:_DEFAULT_BLANK_GUID_;
             # ----------------------------------------
 
 
@@ -534,10 +550,144 @@ class ProjectManager
             } # if : Archive is Damaged
 
 
-            # Extract each project.
+
+            # Create a new temporary directory, so the project can be extracted and then later inspected.
+            if (![CommonIO]::MakeTempDirectory("Install-Update Project", [ref] $temporaryProjectDirectory))
+            {
+                # Failed to create a temporary directory for the project, unable to continue.
+                $overallOperation = $false;
+
+
+                # Continue to the next file.
+                continue;
+            } # If : Failed to Create Temporary Project Directory
+
+
+
+            # Extract the desired project to the temporary directory.
             $exitCondition = $defaultCompress.ExtractArchive($item.GetFilePath(), `
-                                                            $($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_), `
+                                                            $($temporaryProjectDirectory), `
                                                             [ref] $outputDirectory);
+
+
+            # Obtain the meta data of the project that had been extracted to the temporary directory.
+            if (![ProjectManager]::__ReadMetaFile("$($outputDirectory)\$($GLOBAL:_META_FILENAME_)",     `
+                                                    [ref] $temporaryProjectRevision,                    `
+                                                    [ref] $temporaryProjectName,                        `
+                                                    [ref] $temporaryProjectSignature))
+            {
+                # Failed to read the meta data from the target project.
+                $overallOperation = $false;
+
+
+                # Continue to the next file.
+                continue;
+            } # if : Failed to Read Meta File
+
+
+
+            # Determine if the target project had already been installed.  If the project had already been
+            #   installed, than determine if an update will be necessary.
+            foreach ($installedProject in $listOfInstalledProjects)
+            {
+                # Determine if the Unique IDs match.
+                if ($installedProject.GetGUID() -eq $temporaryProjectSignature)
+                {
+                    # Check if updates are available.
+                    if ($installedProject.GetProjectRevision() -lt $temporaryProjectRevision)
+                    {
+                        # Signify that the target project is an updated version of what is already installed.
+                        $targetProjectInstallState = [ProjectManagerInstallOperationSwitch]::Update;
+
+                        # Obtain the original install information.
+                        $previousInstall = $installedProject;
+                    } # if : Check if Updates Available
+
+                    # Same or older version than what is presently installed.
+                    else
+                    {
+                        # Signify that the target project is either outdated or the same version that is
+                        #   already presently installed.
+                        $targetProjectInstallState = [ProjectManagerInstallOperationSwitch]::SameOrOlder;
+                    } # else : No updates necessary
+
+
+                    # Found the same project signatures, we can escape from this loop.
+                    break;
+                } # if : Project IDs match
+            } # foreach : Check for Updates
+
+
+PAUSE
+
+            # Determine the installation procedure
+            switch ($targetProjectInstallState)
+            {
+                # No Data
+                ([ProjectManagerInstallOperationSwitch]::NoData)
+                {
+                    Write-Host "HIT: No Data"
+                    # Not initialized properly; nothing to be done.
+                    break;
+                } # No Data
+
+
+                # - - - -
+
+
+                # New Install
+                ([ProjectManagerInstallOperationSwitch]::NewInstall)
+                {
+                    Write-Host "HIT: New Install"
+                    # Because it is a new install, merely relocate the extracted directory to the Project's
+                    #   destination.
+                    if (![CommonIO]::MoveDirectory($outputDirectory, $GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_))
+                    {
+                        # Failed to properly relocate the directory to the default Project's install location.
+                    } # if : Failed to Relocate Directory
+
+
+                    # Done.
+                    break;
+                } # New Install
+
+
+                # - - - -
+
+
+                # Update Available
+                ([ProjectManagerInstallOperationSwitch]::Update)
+                {
+                    Write-Host "HIT: Update"
+                    # Update is Available
+                    if (![CommonIO]::MoveFile($outputDirectory, $previousInstall, "*"))
+                    {
+                        # Files could not be relocated.
+                    } # if : Failed to Relocate Files
+
+
+                    # Done.
+                    break;
+                } # Update
+
+
+                # - - - -
+
+
+                # Same Version or Older Version
+                ([ProjectManagerInstallOperationSwitch]::SameOrOlder)
+                {
+                    Write-Host "HIT: Same Version"
+                    # The target project is either the same version or older; nothing to be done.
+                    break;
+                } # Same or Older Version
+            } # switch : Installation Procedure
+
+
+PAUSE
+            # Remove the temporary directory
+            [CommonIO]::DeleteDirectory($temporaryProjectDirectory) | Out-Null;
+
 
 
             # Determine the operation
@@ -811,3 +961,21 @@ class ProjectManager
         return $true;
     } # __ReadMetaFile()
 } # ProjectManager
+
+
+
+
+<# Project Manager - Install Operation Switch [ENUM]
+ # -------------------------------
+ # This enumerator will determine how the project will be installed.  The possible
+ #  values determines if the project is a new fresh install, update is required, or
+ #  if the project version is the same as what is already installed or older.
+ # -------------------------------
+ #>
+enum ProjectManagerInstallOperationSwitch
+{
+    NoData          = 0;    # No information was collected or determined yet.
+    NewInstall      = 1;    # New installation of the project.
+    Update          = 2;    # Updated version of the already installed project.
+    SameOrOlder     = 3;    # Same or older version than what is already installed.
+} # ProjectManagerInstallOperationSwitch
