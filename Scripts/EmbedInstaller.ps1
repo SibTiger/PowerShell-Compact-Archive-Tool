@@ -461,7 +461,8 @@ class ProjectManager
     # -------------------------------
     # Input:
     #  [System.Collections.ArrayList] (EmbedInstallerFile) List of Projects
-    #   This will hold *.ZIP files that had been placed within the temporary directory.
+    #   Provides a list of files that the user wishes to install within the program.
+    #     The list will contain the absolute path to the archive files to extract.
     # -------------------------------
     # Output:
     #  Installation status
