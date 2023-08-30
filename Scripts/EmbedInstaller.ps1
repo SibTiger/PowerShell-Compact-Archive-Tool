@@ -970,7 +970,7 @@ PAUSE
  # -------------------------------
  # This enumerator will determine how the project will be installed.  The possible
  #  values determines if the project is a new fresh install, update is required, or
- #  if the project version is the same as what is already installed or older.
+ #  if the project version is the same as to what is already installed or older.
  # -------------------------------
  #>
 enum ProjectManagerInstallOperationSwitch
