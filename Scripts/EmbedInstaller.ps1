@@ -661,7 +661,7 @@ PAUSE
                 {
                     Write-Host "HIT: Update"
                     # Update is Available
-                    if (![CommonIO]::MoveFile($outputDirectory, $previousInstall, "*"))
+                    if (![CommonIO]::CopyDirectory("$($outputDirectory)\*", $previousInstall.GetFilePath()))
                     {
                         # Files could not be relocated.
                     } # if : Failed to Relocate Files
