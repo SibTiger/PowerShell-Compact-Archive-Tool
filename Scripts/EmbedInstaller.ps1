@@ -203,8 +203,8 @@ class ProjectManager
    <# Get Projects from User
     # -------------------------------
     # Documentation:
-    #  This function is designed to give the user the ability to specify what project files that they wish to
-    #   install\update.
+    #  This function is designed to give the user the ability to specify what project file or files that they
+    #   wish to install\update.
     # -------------------------------
     # Input:
     #  [System.Collections.ArrayList] (System.Object) Project File List
