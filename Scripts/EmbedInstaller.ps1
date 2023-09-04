@@ -619,7 +619,6 @@ class ProjectManager
             } # foreach : Check for Updates
 
 
-PAUSE
 
             # Determine the installation procedure
             switch ($targetProjectInstallState)
@@ -627,7 +626,6 @@ PAUSE
                 # No Data
                 ([ProjectManagerInstallOperationSwitch]::NoData)
                 {
-                    Write-Host "HIT: No Data"
                     # Not initialized properly; nothing to be done.
                     break;
                 } # No Data
@@ -639,7 +637,6 @@ PAUSE
                 # New Install
                 ([ProjectManagerInstallOperationSwitch]::NewInstall)
                 {
-                    Write-Host "HIT: New Install"
                     # Because it is a new install, merely relocate the extracted directory to the Project's
                     #   destination.
                     if (![CommonIO]::MoveDirectory($outputDirectory, $GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_))
@@ -659,7 +656,6 @@ PAUSE
                 # Update Available
                 ([ProjectManagerInstallOperationSwitch]::Update)
                 {
-                    Write-Host "HIT: Update"
                     # Update is Available
                     if (![CommonIO]::CopyDirectory("$($outputDirectory)\*", $previousInstall.GetFilePath()))
                     {
@@ -678,14 +674,13 @@ PAUSE
                 # Same Version or Older Version
                 ([ProjectManagerInstallOperationSwitch]::SameOrOlder)
                 {
-                    Write-Host "HIT: Same Version"
                     # The target project is either the same version or older; nothing to be done.
                     break;
                 } # Same or Older Version
             } # switch : Installation Procedure
 
 
-PAUSE
+
             # Remove the temporary directory
             [CommonIO]::DeleteDirectory($temporaryProjectDirectory) | Out-Null;
 
