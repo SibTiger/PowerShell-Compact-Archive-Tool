@@ -211,7 +211,7 @@ class ProjectManager
     #   This will contain a list of project files that the user wishes to install\update.
     # -------------------------------
     # Output:
-    #  Where Files Selected
+    #  Did the user User Provide File(s)?
     #   $true    = One or More project files were selected.
     #   $false   = User Cancelled
     # -------------------------------
