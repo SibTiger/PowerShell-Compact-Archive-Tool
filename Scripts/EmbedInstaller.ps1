@@ -311,7 +311,7 @@ class ProjectManager
     #  [System.Collections.ArrayList] {System.Object} File List
     #   Provides a list of files provided by the user to install.
     #   NOTE: The elements coming into this function are: System.Object,
-    #           but coming out from this function will be: EmbedInstallerFile.
+    #           but coming out from this function as: EmbedInstallerFile.
     # -------------------------------
     #>
     hidden static [void] __MetamorphoseType([System.Collections.ArrayList] $fileList)
