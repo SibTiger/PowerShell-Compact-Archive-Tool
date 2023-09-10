@@ -301,11 +301,11 @@ class ProjectManager
    <# Metamorphose Datatypes
     # -------------------------------
     # Documentation:
-    #  This function will transform the datatypes within the given Array List elements from System.Object
-    #   to EmbedInstallerFile types.
+    #  This function will transform the datatypes within the given Array List of elements from a System.Object
+    #   to an EmbedInstallerFile data structure type.
     #
     # NOTE: The Array List will be entirely altered to contain only elements with EmbedInstallerFile,
-    #           all previous instances of System.Object _WILL_ be expunged.
+    #           all previous instances of System.Object _WILL_ be expunged from the Array List!
     # -------------------------------
     # Input:
     #  [System.Collections.ArrayList] {System.Object} File List
