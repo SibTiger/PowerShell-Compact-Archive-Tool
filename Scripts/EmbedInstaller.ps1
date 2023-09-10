@@ -885,9 +885,9 @@ class ProjectManager
     # -------------------------------
     #>
     hidden static [bool] __ReadMetaFile([string] $metaFilePath, `       # Absolute path to the project's meta file
-                        [ref] $projectRevision, `       # The project's revision ID
-                        [ref] $projectName,     `       # The project's name
-                        [ref] $projectSignature)        # The project's signature
+                                        [ref] $projectRevision, `       # The project's revision ID
+                                        [ref] $projectName,     `       # The project's name
+                                        [ref] $projectSignature)        # The project's signature
     {
         # Declarations and Initializations
         # ----------------------------------------
