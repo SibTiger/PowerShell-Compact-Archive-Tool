@@ -779,12 +779,109 @@ class ProjectManager
                                 -Recurse `
                                 -Depth 1 `
                                 -ErrorAction Stop;
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Searched for installed $($GLOBAL:_PROGRAMNAMESHORT_) Projects");
+
+            # Generate any additional information that might be useful
+            #   Just in case if we could not find any installed projects, than provide this default message
+            #   instead.
+            [string] $logAdditionalMSG = "$($NULL)";
+            
+            # Determine how the Additional Message will be generate
+            if ($listOfMetaFiles.Count -ge 1)
+            {
+                # There exists one or more projects that had been installed.
+                $logAdditionalMSG = "Found $($listOfMetaFiles.Count.ToString()) $($GLOBAL:_PROGRAMNAMESHORT_) Projects:`r`n";
+
+                # Append all of the project information into the debug string.
+                foreach($file in $listOfMetaFiles)
+                {
+                    $logAdditionalMSG +=   ("`t`tDirectory:`r`n"                        + `
+                                            "`t`t`t$($file.DirectoryName)`r`n"          + `
+                                            "`t`tFile Name:`r`n"                        + `
+                                            "`t`t`t$($file.Name)`r`n"                   + `
+                                            "`t`tFull Path:`r`n"                        + `
+                                            "`t`t`t$($file.FullName)")                  + `
+                } # foreach : Scan Each Project Found
+            } # If : One or More Projects found
+            
+            ("Project information provided may or may not be accurate:`r`n"    + `
+                                            "`t`tFile Path:`r`n"                                            + `
+                                            "`t`t`t$($newProjectEntry.GetFilePath())`r`n"                   + `
+                                            "`t`tFile Name:`r`n"                                            + `
+                                            "`t`t`t$($newProjectEntry.GetFileName())`r`n"                   + `
+                                            "`t`tMeta File:`r`n"                                            + `
+                                            "`t`t`t$($item.FullName)`r`n"                                   + `
+                                            "`t`tVerification State:`r`n"                                   + `
+                                            "`t`t`t$($newProjectEntry.GetVerification())`r`n"               + `
+                                            "`t`tInstalled Flag:`r`n"                                       + `
+                                            "`t`t`t$($newProjectEntry.GetInstalled())`r`n"                  + `
+                                            "`t`tEmbedded Message`r`n"                                      + `
+                                            "`t`t`t$($newProjectEntry.GetMessage())`r`n"                    + `
+                                            "`t`tProject Revision ID:`r`n"                                  + `
+                                            "`t`t`t$($newProjectRevision)`r`n"                              + `
+                                            "`t`tProject Name:`r`n"                                         + `
+                                            "`t`t`t$($newProjectName)`r`n"                                  + `
+                                            "`t`tUnique Signature:`r`n"                                     + `
+                                            "`t`t`t$($newProjectSignature)");
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
         } # try : Obtain List of Meta Files
 
         # Caught Error
         catch
         {
-            # Unable to obtain list of installed projects; abort the operation.
+            # Unable to obtain list of installed projects
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Prep a message to display to the user regarding this error; temporary variable
+            [string] $displayErrorMessage = ("Failed to obtain a list of installed $($GLOBAL:_PROGRAMNAMESHORT_) Projects!`r`n" + `
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
+
+            # Generate the initial message
+            [string] $logMessage = ("Failed to obtain a list of installed $($GLOBAL:_PROGRAMNAMESHORT_) Projects!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Installation Path for $($GLOBAL:_PROGRAMNAMESHORT_) Projects:`r`n"   + `
+                                            "`t`t$($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_)`r`n"        + `
+                                            "`tTarget File to Inspect:`r`n"                                     + `
+                                            "`t`t$($GLOBAL:_METAL_FILENAME_)`r`n"                               + `
+                                            "$([Logging]::GetExceptionInfo($_.Exception))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Abort the operation; cannot proceed forward.
             return $false;
         } # catch : Error Reached
 
@@ -829,6 +926,46 @@ class ProjectManager
                                                 [ref] $newProjectName,          ` # Get Project's Name
                                                 [ref] $newProjectSignature))      # Get Project's GUID
             {
+                # Could not evaluate the project's meta data information.
+
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = ("Failed to obtain a list of installed $($GLOBAL:_PROGRAMNAMESHORT_) Projects!");
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Project information provided may or may not be accurate:`r`n"    + `
+                                                "`t`tFile Path:`r`n"                                            + `
+                                                "`t`t`t$($newProjectEntry.GetFilePath())`r`n"                   + `
+                                                "`t`tFile Name:`r`n"                                            + `
+                                                "`t`t`t$($newProjectEntry.GetFileName())`r`n"                   + `
+                                                "`t`tMeta File:`r`n"                                            + `
+                                                "`t`t`t$($item.FullName)`r`n"                                   + `
+                                                "`t`tVerification State:`r`n"                                   + `
+                                                "`t`t`t$($newProjectEntry.GetVerification())`r`n"               + `
+                                                "`t`tInstalled Flag:`r`n"                                       + `
+                                                "`t`t`t$($newProjectEntry.GetInstalled())`r`n"                  + `
+                                                "`t`tEmbedded Message`r`n"                                      + `
+                                                "`t`t`t$($newProjectEntry.GetMessage())`r`n"                    + `
+                                                "`t`tProject Revision ID:`r`n"                                  + `
+                                                "`t`t`t$($newProjectRevision)`r`n"                              + `
+                                                "`t`tProject Name:`r`n"                                         + `
+                                                "`t`t`t$($newProjectName)`r`n"                                  + `
+                                                "`t`tUnique Signature:`r`n"                                     + `
+                                                "`t`t`t$($newProjectSignature)");
+
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
+                                            [LogMessageLevel]::Error);  # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
                 # Something had failed; continue to the next
                 continue;
             } # if : Failed to Read Meta File
@@ -850,6 +987,46 @@ class ProjectManager
 
             # Finally, add the new entry into the main project list.
             $installedProjects.Add($newProjectEntry);
+
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Successfully found $($GLOBAL:_PROGRAMNAMESHORT_) Project, $($newProjectEntry.GetProjectName())!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Project information that had been collected:`r`n"                + `
+                                            "`t`tFile Path:`r`n"                                            + `
+                                            "`t`t`t$($newProjectEntry.GetFilePath())`r`n"                   + `
+                                            "`t`tFile Name:`r`n"                                            + `
+                                            "`t`t`t$($newProjectEntry.GetFileName())`r`n"                   + `
+                                            "`t`tMeta File:`r`n"                                            + `
+                                            "`t`t`t$($item.FullName)`r`n"                                   + `
+                                            "`t`tVerification State:`r`n"                                   + `
+                                            "`t`t`t$($newProjectEntry.GetVerification())`r`n"               + `
+                                            "`t`tInstalled Flag:`r`n"                                       + `
+                                            "`t`t`t$($newProjectEntry.GetInstalled())`r`n"                  + `
+                                            "`t`tEmbedded Message`r`n"                                      + `
+                                            "`t`t`t$($newProjectEntry.GetMessage())`r`n"                    + `
+                                            "`t`tProject Revision ID:`r`n"                                  + `
+                                            "`t`t`t$($newProjectEntry.GetProjectRevision)`r`n"              + `
+                                            "`t`tProject Name:`r`n"                                         + `
+                                            "`t`t`t$($newProjectEntry.GetProjectName())`r`n"                + `
+                                            "`t`tUnique Signature:`r`n"                                     + `
+                                            "`t`t`t$($newProjectEntry.GetGUID())");
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
         } #foreach
 
 
