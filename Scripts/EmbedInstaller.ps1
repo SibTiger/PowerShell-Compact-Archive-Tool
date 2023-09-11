@@ -810,26 +810,6 @@ class ProjectManager
                                             "`t`t`t$($file.FullName)");
                 } # foreach : Scan Each Project Found
             } # If : One or More Projects found
-            
-            ("Project information provided may or may not be accurate:`r`n"    + `
-                                            "`t`tFile Path:`r`n"                                            + `
-                                            "`t`t`t$($newProjectEntry.GetFilePath())`r`n"                   + `
-                                            "`t`tFile Name:`r`n"                                            + `
-                                            "`t`t`t$($newProjectEntry.GetFileName())`r`n"                   + `
-                                            "`t`tMeta File:`r`n"                                            + `
-                                            "`t`t`t$($item.FullName)`r`n"                                   + `
-                                            "`t`tVerification State:`r`n"                                   + `
-                                            "`t`t`t$($newProjectEntry.GetVerification())`r`n"               + `
-                                            "`t`tInstalled Flag:`r`n"                                       + `
-                                            "`t`t`t$($newProjectEntry.GetInstalled())`r`n"                  + `
-                                            "`t`tEmbedded Message`r`n"                                      + `
-                                            "`t`t`t$($newProjectEntry.GetMessage())`r`n"                    + `
-                                            "`t`tProject Revision ID:`r`n"                                  + `
-                                            "`t`t`t$($newProjectRevision)`r`n"                              + `
-                                            "`t`tProject Name:`r`n"                                         + `
-                                            "`t`t`t$($newProjectName)`r`n"                                  + `
-                                            "`t`tUnique Signature:`r`n"                                     + `
-                                            "`t`t`t$($newProjectSignature)");
 
 
             # Pass the information to the logging system
