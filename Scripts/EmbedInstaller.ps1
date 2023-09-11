@@ -1057,7 +1057,30 @@ class ProjectManager
         # Make sure that the file exists
         if (![CommonIO]::CheckPathExists($metaFilePath, $true))
         {
-            # File does not exist; abort the operation.
+            # File does not exist
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Meta File does not exist or is not accessible!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = (  "Unable to open the Project's Meta File at the designated Path:`r`n" + `
+                                            "`t`t$($metaFilePath)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);    # Message level
+
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Abort the operation.
             return $false;
         } # if : File does not exist
 
@@ -1069,12 +1092,76 @@ class ProjectManager
                                 -Path $metaFilePath                                 `
                                 -TotalCount $GLOBAL:_META_FILE_CONTENT_LINE_SIZE_   `
                                 -ErrorAction Stop;
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Successfully opened and read the Meta File");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = (  "Meta File Path:`r`n"                                                           + `
+                                            "`t`t$($metaFilePath)`r`n"                                                      + `
+                                            "`r`n"                                                                          + `
+                                            "`t`tFile Contents`r`n"                                                         + `
+                                            "`t`t- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n"   + `
+                                            "`r`n");
+
+            # We will output all of the contents from the meta file into the Log Description
+            foreach ($line in $metaContents) { $logAdditionalMSG += "`t`t$($line)" }
+
+            # Just for readability and consistency sakes
+            $logAdditionalMSG += "`r`n`t`t- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
+
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
         } # try : Retrieve the Contents from File
 
         # Caught an error
         catch
         {
-            # Unable to open the meta file; abort the operation.
+            # Unable to open the meta file
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Prep a message to display to the user regarding this error; temporary variable
+            [string] $displayErrorMessage = ("Failed to open meta file!`r`n" + `
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
+
+            # Generate the initial message
+            [string] $logMessage = ("Failed to open meta file!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Meta File to Open:`r`n"                              + `
+                                            "`t`t$($metaFilePath)`r`n"                          + `
+                                            "$([Logging]::GetExceptionInfo($_.Exception))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Abort the operation.
             return $false;
         } # catch : Caught Error
 
@@ -1084,7 +1171,42 @@ class ProjectManager
                 ($metaContents[1].Contains("Project_Revision:") -and `      # Second Line Must Contain: Project_Revision:
                 ($metaContents[2].Contains("Project_Signature:")))))        # Third Line Must Contain: Project_Signature:
         {
-            # The structure of the contents are not correct; abort
+            # The structure of the contents are not correct
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Prep a message to display to the user regarding this error; temporary variable
+            [string] $displayErrorMessage = ("Content structure within the Meta File are not correct!");
+
+            # Generate the initial message
+            [string] $logMessage = $displayErrorMessage;
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Meta File to Open:`r`n"                              + `
+                                            "`t`t$($metaFilePath)`r`n"                          + `
+                                            "`tExpected the structure to be as follows:`r`n"    + `
+                                            "`t`tProject_Name`r`n"                              + `
+                                            "`t`tProject_Revision`r`n"                          + `
+                                            "`t`tProject_Signature`r`n");
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Unable to continue, abort operation
             return $false;
         } # if : Meta Contents not Correct
 
@@ -1107,7 +1229,37 @@ class ProjectManager
         # Caught Error
         catch
         {
-            # Improper Datatype Assignment Occurred.
+            # Improper Datatype Assignment had Occurred.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Prep a message to display to the user regarding this error; temporary variable
+            [string] $displayErrorMessage = ("Failed to Convert Data Structure from the Input Meta File!");
+
+            # Generate the initial message
+            [string] $logMessage = $displayErrorMessage;
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("$($NULL)");
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Unable to use the data from the Meta file
             return $false;
         } # catch : Caught an Error
         # ---------------------------------------------------
