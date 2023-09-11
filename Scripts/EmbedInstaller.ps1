@@ -185,7 +185,7 @@ class ProjectManager
             "`r`n"                                                                                                  + `
             "To install new projects into $($GLOBAL:_PROGRAMNAME_) or to update already existing, use the `r`n"     + `
             " Windows' File Browser to select the desired projects to install or update.`r`n"                       + `
-            " The $($GLOBAL:__PROGRAMNAMESHORT_) Project Manager will automatically try to install or update the"   + `
+            " The $($GLOBAL:_PROGRAMNAMESHORT_) Project Manager will automatically try to install or update the"    + `
             " projects for you.`r`n"                                                                                + `
             "`r`n"                                                                                                  + `
             "`r`n"                                                                                                  + `
