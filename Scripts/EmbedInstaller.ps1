@@ -564,12 +564,6 @@ class ProjectManager
                                                 "`t`t$($item.GetFileName())`r`n"                + `
                                                 "`tFile Path:`r`n"                              + `
                                                 "`t`t$($item.GetFilePath())`r`n"                + `
-                                                "`tProject Name:`r`n"                           + `
-                                                "`t`t$($item.GetProjectName())`r`n"             + `
-                                                "`tProject Revision:`r`n"                       + `
-                                                "`t`t$($item.GetProjectRevision())`r`n"         + `
-                                                "`tProject Signature:`r`n"                      + `
-                                                "`t`t$($item.GetGUID())`r`n"                    + `
                                                 "`tVerification`r`n"                            + `
                                                 "`t`t$($item.GetVerification())`r`n"            + `
                                                 "`tInstalled`r`n"                               + `
@@ -613,12 +607,6 @@ class ProjectManager
                                                 "`t`t$($item.GetFileName())`r`n"                + `
                                                 "`tFile Path:`r`n"                              + `
                                                 "`t`t$($item.GetFilePath())`r`n"                + `
-                                                "`tProject Name:`r`n"                           + `
-                                                "`t`t$($item.GetProjectName())`r`n"             + `
-                                                "`tProject Revision:`r`n"                       + `
-                                                "`t`t$($item.GetProjectRevision())`r`n"         + `
-                                                "`tProject Signature:`r`n"                      + `
-                                                "`t`t$($item.GetGUID())`r`n"                    + `
                                                 "`tVerification`r`n"                            + `
                                                 "`t`t$($item.GetVerification())`r`n"            + `
                                                 "`tInstalled`r`n"                               + `
