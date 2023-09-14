@@ -645,6 +645,44 @@ class ProjectManager
                 $overallOperation = $false;
 
 
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = ("Unable to install or update $($GLOBAL:_PROGRAMNAMESHORT_) Project as the Meta File information cannot be extracted properly!");
+
+                # Generate any additional information that might be useful
+
+                [string] $logAdditionalMSG = (  "Information may or may not be accurate:`r`n"   + `
+                                                "`tFile Name:`r`n"                              + `
+                                                "`t`t$($item.GetFileName())`r`n"                + `
+                                                "`tFile Path:`r`n"                              + `
+                                                "`t`t$($item.GetFilePath())`r`n"                + `
+                                                "`tProject Name:`r`n"                           + `
+                                                "`t`t$($temporaryProjectName)`r`n"              + `
+                                                "`tProject Revision:`r`n"                       + `
+                                                "`t`t$($temporaryProjectRevision)`r`n"          + `
+                                                "`tProject Signature:`r`n"                      + `
+                                                "`t`t$($temporaryProjectSignature)`r`n"         + `
+                                                "`tVerification`r`n"                            + `
+                                                "`t`t$($item.GetVerification())`r`n"            + `
+                                                "`tInstalled`r`n"                               + `
+                                                "`t`t$($item.GetInstalled())`r`n"               + `
+                                                "`tMessage`r`n"                                 + `
+                                                "`t`t$($item.GetMessage())`r`n");
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                            $logAdditionalMSG, `            # Additional information
+                                            [LogMessageLevel]::Warning);    # Message level
+
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
+
                 # Continue to the next file.
                 continue;
             } # if : Failed to Read Meta File
