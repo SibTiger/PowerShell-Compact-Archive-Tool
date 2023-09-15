@@ -704,6 +704,63 @@ class ProjectManager
 
                         # Obtain the original install information.
                         $previousInstall = $installedProject;
+
+
+                        # * * * * * * * * * * * * * * * * * * *
+                        # Debugging
+                        # --------------
+
+                        # Generate the initial message
+                        [string] $logMessage = ("Successfully found a previous install of $($item.GetProjectName()); this update will be applied.");
+
+                        # Generate any additional information that might be useful
+
+                        [string] $logAdditionalMSG = (  "Information Regarding the Updated Version:`r`n"    + `
+                                                        "`tFile Name:`r`n"                                  + `
+                                                        "`t`t$($item.GetFileName())`r`n"                    + `
+                                                        "`tFile Path:`r`n"                                  + `
+                                                        "`t`t$($item.GetFilePath())`r`n"                    + `
+                                                        "`tProject Name:`r`n"                               + `
+                                                        "`t`t$($item.GetProjectName())`r`n"                 + `
+                                                        "`tProject Revision:`r`n"                           + `
+                                                        "`t`t$($item.GetProjectRevision())`r`n"             + `
+                                                        "`tProject Signature:`r`n"                          + `
+                                                        "`t`t$($item.GetGUID())`r`n"                        + `
+                                                        "`tVerification`r`n"                                + `
+                                                        "`t`t$($item.GetVerification())`r`n"                + `
+                                                        "`tInstalled`r`n"                                   + `
+                                                        "`t`t$($item.GetInstalled())`r`n"                   + `
+                                                        "`tMessage`r`n"                                     + `
+                                                        "`t`t$($item.GetMessage())`r`n"                     + `
+                                                        "`r`n"                                              + `
+                                                        "`r`n"                                              + `
+                                                        "Information Regarding the Current Install:`r`n:"   + `
+                                                        "`tFile Name:`r`n"                                  + `
+                                                        "`t`t$($installedProject.GetFileName())`r`n"        + `
+                                                        "`tFile Path:`r`n"                                  + `
+                                                        "`t`t$($installedProject.GetFilePath())`r`n"        + `
+                                                        "`tProject Name:`r`n"                               + `
+                                                        "`t`t$($installedProject.GetProjectName())`r`n"     + `
+                                                        "`tProject Revision:`r`n"                           + `
+                                                        "`t`t$($installedProject.GetProjectRevision())`r`n" + `
+                                                        "`tProject Signature:`r`n"                          + `
+                                                        "`t`t$($installedProject.GetGUID())`r`n"            + `
+                                                        "`tVerification`r`n"                                + `
+                                                        "`t`t$($installedProject.GetVerification())`r`n"    + `
+                                                        "`tInstalled`r`n"                                   + `
+                                                        "`t`t$($installedProject.GetInstalled())`r`n"       + `
+                                                        "`tMessage`r`n"                                     + `
+                                                        "`t`t$($installedProject.GetMessage())");
+
+                        # Pass the information to the logging system
+                        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                                    $logAdditionalMSG, `            # Additional information
+                                                    [LogMessageLevel]::Verbose);    # Message level
+
+
+                        # * * * * * * * * * * * * * * * * * * *
+
+
                     } # if : Check if Updates Available
 
                     # Same or older version than what is presently installed.
