@@ -966,6 +966,43 @@ class ProjectManager
                     } # if : Failed to Relocate Directory
 
 
+                    # * * * * * * * * * * * * * * * * * * *
+                    # Debugging
+                    # --------------
+
+                    # Generate the initial message
+                    [string] $logMessage = ("Successfully installed The $($GLOBAL:_PROGRAMNAMESHORT_) Project, " + `
+                                            "$($item.GetProjectName())!");
+
+                    # Generate any additional information that might be useful
+
+                    [string] $logAdditionalMSG = (  "Information Regarding the New Install:`r`n"        + `
+                                                    "`tFile Name:`r`n"                                  + `
+                                                    "`t`t$($item.GetFileName())`r`n"                    + `
+                                                    "`tFile Path:`r`n"                                  + `
+                                                    "`t`t$($item.GetFilePath())`r`n"                    + `
+                                                    "`tProject Name:`r`n"                               + `
+                                                    "`t`t$($item.GetProjectName())`r`n"                 + `
+                                                    "`tProject Revision:`r`n"                           + `
+                                                    "`t`t$($item.GetProjectRevision())`r`n"             + `
+                                                    "`tProject Signature:`r`n"                          + `
+                                                    "`t`t$($item.GetGUID())`r`n"                        + `
+                                                    "`tVerification`r`n"                                + `
+                                                    "`t`t$($item.GetVerification())`r`n"                + `
+                                                    "`tInstalled`r`n"                                   + `
+                                                    "`t`t$($item.GetInstalled())`r`n"                   + `
+                                                    "`tMessage`r`n"                                     + `
+                                                    "`t`t$($item.GetMessage())");
+
+                    # Pass the information to the logging system
+                    [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                                $logAdditionalMSG, `            # Additional information
+                                                [LogMessageLevel]::Verbose);    # Message level
+
+
+                    # * * * * * * * * * * * * * * * * * * *
+
+
                     # Done.
                     break;
                 } # New Install
