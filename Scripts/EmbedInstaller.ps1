@@ -981,6 +981,66 @@ class ProjectManager
                     if (![CommonIO]::CopyDirectory("$($outputDirectory)\*", $previousInstall.GetFilePath()))
                     {
                         # Files could not be relocated.
+
+
+                        # * * * * * * * * * * * * * * * * * * *
+                        # Debugging
+                        # --------------
+
+                        # Generate the initial message
+                        [string] $logMessage = ("Failed to update The $($GLOBAL:_PROGRAMNAMESHORT_) Project, " + `
+                                                "$($item.GetProjectName()), as the contents could not be duplicated!");
+
+                        # Generate any additional information that might be useful
+
+                        [string] $logAdditionalMSG = (  "Information Regarding the Updated Version:`r`n"            + `
+                                                        "`tFile Name:`r`n"                                          + `
+                                                        "`t`t$($item.GetFileName())`r`n"                            + `
+                                                        "`tFile Path:`r`n"                                          + `
+                                                        "`t`t$($item.GetFilePath())`r`n"                            + `
+                                                        "`tProject Name:`r`n"                                       + `
+                                                        "`t`t$($item.GetProjectName())`r`n"                         + `
+                                                        "`tProject Revision:`r`n"                                   + `
+                                                        "`t`t$($item.GetProjectRevision())`r`n"                     + `
+                                                        "`tProject Signature:`r`n"                                  + `
+                                                        "`t`t$($item.GetGUID())`r`n"                                + `
+                                                        "`tVerification`r`n"                                        + `
+                                                        "`t`t$($item.GetVerification())`r`n"                        + `
+                                                        "`tInstalled`r`n"                                           + `
+                                                        "`t`t$($item.GetInstalled())`r`n"                           + `
+                                                        "`tMessage`r`n"                                             + `
+                                                        "`t`t$($item.GetMessage())`r`n"                             + `
+                                                        "`r`n"                                                      + `
+                                                        "`r`n"                                                      + `
+                                                        "Information Regarding the Current Install:`r`n:"           + `
+                                                        "`tFile Name:`r`n"                                          + `
+                                                        "`t`t$($installedProject.GetFileName())`r`n"                + `
+                                                        "`tFile Path:`r`n"                                          + `
+                                                        "`t`t$($installedProject.GetFilePath())`r`n"                + `
+                                                        "`tProject Name:`r`n"                                       + `
+                                                        "`t`t$($installedProject.GetProjectName())`r`n"             + `
+                                                        "`tProject Revision:`r`n"                                   + `
+                                                        "`t`t$($installedProject.GetProjectRevision())`r`n"         + `
+                                                        "`tProject Signature:`r`n"                                  + `
+                                                        "`t`t$($installedProject.GetGUID())`r`n"                    + `
+                                                        "`tVerification`r`n"                                        + `
+                                                        "`t`t$($installedProject.GetVerification())`r`n"            + `
+                                                        "`tInstalled`r`n"                                           + `
+                                                        "`t`t$($installedProject.GetInstalled())`r`n"               + `
+                                                        "`tMessage`r`n"                                             + `
+                                                        "`t`t$($installedProject.GetMessage())");
+
+                        # Pass the information to the logging system
+                        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                                    $logAdditionalMSG, `            # Additional information
+                                                    [LogMessageLevel]::Error);      # Message level
+
+
+                        # * * * * * * * * * * * * * * * * * * *
+
+
+                        # Proceed to the next build.
+                        break;
                     } # if : Failed to Relocate Files
 
 
