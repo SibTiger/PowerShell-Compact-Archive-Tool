@@ -900,7 +900,7 @@ class ProjectManager
                     # Pass the information to the logging system
                     [Logging]::LogProgramActivity($logMessage, `                # Initial message
                                                 $logAdditionalMSG, `            # Additional information
-                                                [LogMessageLevel]::Verbose);    # Message level
+                                                [LogMessageLevel]::Error);      # Message level
 
 
                     # * * * * * * * * * * * * * * * * * * *
