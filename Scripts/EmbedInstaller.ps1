@@ -922,6 +922,47 @@ class ProjectManager
                     if (![CommonIO]::MoveDirectory($outputDirectory, $GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_))
                     {
                         # Failed to properly relocate the directory to the default Project's install location.
+
+
+                        # * * * * * * * * * * * * * * * * * * *
+                        # Debugging
+                        # --------------
+
+                        # Generate the initial message
+                        [string] $logMessage = ("Failed to install The $($GLOBAL:_PROGRAMNAMESHORT_) Project, " + `
+                                                "$($item.GetProjectName()), as the contents could not be relocated!");
+
+                        # Generate any additional information that might be useful
+
+                        [string] $logAdditionalMSG = (  "Information Regarding the New Install:`r`n"        + `
+                                                        "`tFile Name:`r`n"                                  + `
+                                                        "`t`t$($item.GetFileName())`r`n"                    + `
+                                                        "`tFile Path:`r`n"                                  + `
+                                                        "`t`t$($item.GetFilePath())`r`n"                    + `
+                                                        "`tProject Name:`r`n"                               + `
+                                                        "`t`t$($item.GetProjectName())`r`n"                 + `
+                                                        "`tProject Revision:`r`n"                           + `
+                                                        "`t`t$($item.GetProjectRevision())`r`n"             + `
+                                                        "`tProject Signature:`r`n"                          + `
+                                                        "`t`t$($item.GetGUID())`r`n"                        + `
+                                                        "`tVerification`r`n"                                + `
+                                                        "`t`t$($item.GetVerification())`r`n"                + `
+                                                        "`tInstalled`r`n"                                   + `
+                                                        "`t`t$($item.GetInstalled())`r`n"                   + `
+                                                        "`tMessage`r`n"                                     + `
+                                                        "`t`t$($item.GetMessage())");
+
+                        # Pass the information to the logging system
+                        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                                    $logAdditionalMSG, `            # Additional information
+                                                    [LogMessageLevel]::Error);      # Message level
+
+
+                        # * * * * * * * * * * * * * * * * * * *
+
+
+                        # Proceed to the next build.
+                        break;
                     } # if : Failed to Relocate Directory
 
 
