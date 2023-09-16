@@ -842,7 +842,65 @@ class ProjectManager
                 # No Data
                 ([ProjectManagerInstallOperationSwitch]::NoData)
                 {
-                    # Not initialized properly; nothing to be done.
+                    # Not initialized properly.
+
+
+                    # * * * * * * * * * * * * * * * * * * *
+                    # Debugging
+                    # --------------
+
+                    # Generate the initial message
+                    [string] $logMessage = ("Unknown State; the provided build cannot be installed nor updated as no information is available.  This is a strange error....");
+
+                    # Generate any additional information that might be useful
+
+                    [string] $logAdditionalMSG = (  "Information may or may not be accurate - Item Selected:`r`n"       + `
+                                                    "`tFile Name:`r`n"                                                  + `
+                                                    "`t`t$($item.GetFileName())`r`n"                                    + `
+                                                    "`tFile Path:`r`n"                                                  + `
+                                                    "`t`t$($item.GetFilePath())`r`n"                                    + `
+                                                    "`tProject Name:`r`n"                                               + `
+                                                    "`t`t$($item.GetProjectName())`r`n"                                 + `
+                                                    "`tProject Revision:`r`n"                                           + `
+                                                    "`t`t$($item.GetProjectRevision())`r`n"                             + `
+                                                    "`tProject Signature:`r`n"                                          + `
+                                                    "`t`t$($item.GetGUID())`r`n"                                        + `
+                                                    "`tVerification`r`n"                                                + `
+                                                    "`t`t$($item.GetVerification())`r`n"                                + `
+                                                    "`tInstalled`r`n"                                                   + `
+                                                    "`t`t$($item.GetInstalled())`r`n"                                   + `
+                                                    "`tMessage`r`n"                                                     + `
+                                                    "`t`t$($item.GetMessage())`r`n"                                     + `
+                                                    "`r`n"                                                              + `
+                                                    "`r`n"                                                              + `
+                                                    "Information Regarding the Current Install:`r`n:"                   + `
+                                                    "`tFile Name:`r`n"                                                  + `
+                                                    "`t`t$($installedProject.GetFileName())`r`n"                        + `
+                                                    "`tFile Path:`r`n"                                                  + `
+                                                    "`t`t$($installedProject.GetFilePath())`r`n"                        + `
+                                                    "`tProject Name:`r`n"                                               + `
+                                                    "`t`t$($installedProject.GetProjectName())`r`n"                     + `
+                                                    "`tProject Revision:`r`n"                                           + `
+                                                    "`t`t$($installedProject.GetProjectRevision())`r`n"                 + `
+                                                    "`tProject Signature:`r`n"                                          + `
+                                                    "`t`t$($installedProject.GetGUID())`r`n"                            + `
+                                                    "`tVerification`r`n"                                                + `
+                                                    "`t`t$($installedProject.GetVerification())`r`n"                    + `
+                                                    "`tInstalled`r`n"                                                   + `
+                                                    "`t`t$($installedProject.GetInstalled())`r`n"                       + `
+                                                    "`tMessage`r`n"                                                     + `
+                                                    "`t`t$($installedProject.GetMessage())");
+
+                    # Pass the information to the logging system
+                    [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                                $logAdditionalMSG, `            # Additional information
+                                                [LogMessageLevel]::Verbose);    # Message level
+
+
+                    # * * * * * * * * * * * * * * * * * * *
+
+
+                    # Nothing can be done here.
                     break;
                 } # No Data
 
