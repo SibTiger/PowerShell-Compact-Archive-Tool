@@ -555,7 +555,8 @@ class ProjectManager
                 # --------------
 
                 # Generate the initial message
-                [string] $logMessage = ("Unable to install or update $($GLOBAL:_PROGRAMNAMESHORT_) Project due to the archive datafile being corrupted or damaged!");
+                [string] $logMessage = ("Unable to install or update $($GLOBAL:_PROGRAMNAMESHORT_) Project due " + `
+                                        "to the archive datafile being corrupted or damaged!");
 
                 # Generate any additional information that might be useful
 
@@ -598,7 +599,8 @@ class ProjectManager
                 # --------------
 
                 # Generate the initial message
-                [string] $logMessage = ("Unable to install or update $($GLOBAL:_PROGRAMNAMESHORT_) Project due to the failure of creating a cache directory!");
+                [string] $logMessage = ("Unable to install or update $($GLOBAL:_PROGRAMNAMESHORT_) Project due " + `
+                                        "to the failure of creating a cache directory!");
 
                 # Generate any additional information that might be useful
 
@@ -651,7 +653,8 @@ class ProjectManager
                 # --------------
 
                 # Generate the initial message
-                [string] $logMessage = ("Unable to install or update $($GLOBAL:_PROGRAMNAMESHORT_) Project as the Meta File information cannot be extracted properly!");
+                [string] $logMessage = ("Unable to install or update $($GLOBAL:_PROGRAMNAMESHORT_) Project as " + `
+                                        "the Meta File information cannot be extracted properly!");
 
                 # Generate any additional information that might be useful
 
@@ -711,7 +714,8 @@ class ProjectManager
                         # --------------
 
                         # Generate the initial message
-                        [string] $logMessage = ("Successfully found a previous install of $($item.GetProjectName()); this update will be applied.");
+                        [string] $logMessage = ("Successfully found a previous install of $($item.GetProjectName()); " + `
+                                                "this update will be applied.");
 
                         # Generate any additional information that might be useful
 
@@ -776,7 +780,8 @@ class ProjectManager
                         # --------------
 
                         # Generate the initial message
-                        [string] $logMessage = ("Successfully found a previous install of $($item.GetProjectName()); this update will not be applied as it is either the same version or older.");
+                        [string] $logMessage = ("Successfully found a previous install of $($item.GetProjectName()); " + `
+                                                "this update will not be applied as it is either the same version or older.");
 
                         # Generate any additional information that might be useful
 
@@ -850,7 +855,8 @@ class ProjectManager
                     # --------------
 
                     # Generate the initial message
-                    [string] $logMessage = ("Unknown State; the provided build cannot be installed nor updated as no information is available.  This is a strange error....");
+                    [string] $logMessage = ("Unknown State; the provided build cannot be installed nor updated " + 
+                                            "as no information is available.  This is a strange error....");
 
                     # Generate any additional information that might be useful
 
