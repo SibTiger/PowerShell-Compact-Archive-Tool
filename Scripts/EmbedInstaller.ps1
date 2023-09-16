@@ -954,7 +954,67 @@ class ProjectManager
                 # Same Version or Older Version
                 ([ProjectManagerInstallOperationSwitch]::SameOrOlder)
                 {
-                    # The target project is either the same version or older; nothing to be done.
+                    # The target project is either the same version or older;
+
+
+                    # * * * * * * * * * * * * * * * * * * *
+                    # Debugging
+                    # --------------
+
+                    # Generate the initial message
+                    [string] $logMessage = ("The $($GLOBAL:_PROGRAMNAMESHORT_) Project, $($item.GetProjectName()), will not "   + `
+                                            "be installed or updated as the version is exactly the same or is older as to "     + `
+                                            "what is currently installed.");
+
+                    # Generate any additional information that might be useful
+
+                    [string] $logAdditionalMSG = (  "Information Regarding the Selected Build:`r`n"             + `
+                                                    "`tFile Name:`r`n"                                          + `
+                                                    "`t`t$($item.GetFileName())`r`n"                            + `
+                                                    "`tFile Path:`r`n"                                          + `
+                                                    "`t`t$($item.GetFilePath())`r`n"                            + `
+                                                    "`tProject Name:`r`n"                                       + `
+                                                    "`t`t$($item.GetProjectName())`r`n"                         + `
+                                                    "`tProject Revision:`r`n"                                   + `
+                                                    "`t`t$($item.GetProjectRevision())`r`n"                     + `
+                                                    "`tProject Signature:`r`n"                                  + `
+                                                    "`t`t$($item.GetGUID())`r`n"                                + `
+                                                    "`tVerification`r`n"                                        + `
+                                                    "`t`t$($item.GetVerification())`r`n"                        + `
+                                                    "`tInstalled`r`n"                                           + `
+                                                    "`t`t$($item.GetInstalled())`r`n"                           + `
+                                                    "`tMessage`r`n"                                             + `
+                                                    "`t`t$($item.GetMessage())`r`n"                             + `
+                                                    "`r`n"                                                      + `
+                                                    "`r`n"                                                      + `
+                                                    "Information Regarding the Current Install:`r`n:"           + `
+                                                    "`tFile Name:`r`n"                                          + `
+                                                    "`t`t$($installedProject.GetFileName())`r`n"                + `
+                                                    "`tFile Path:`r`n"                                          + `
+                                                    "`t`t$($installedProject.GetFilePath())`r`n"                + `
+                                                    "`tProject Name:`r`n"                                       + `
+                                                    "`t`t$($installedProject.GetProjectName())`r`n"             + `
+                                                    "`tProject Revision:`r`n"                                   + `
+                                                    "`t`t$($installedProject.GetProjectRevision())`r`n"         + `
+                                                    "`tProject Signature:`r`n"                                  + `
+                                                    "`t`t$($installedProject.GetGUID())`r`n"                    + `
+                                                    "`tVerification`r`n"                                        + `
+                                                    "`t`t$($installedProject.GetVerification())`r`n"            + `
+                                                    "`tInstalled`r`n"                                           + `
+                                                    "`t`t$($installedProject.GetInstalled())`r`n"               + `
+                                                    "`tMessage`r`n"                                             + `
+                                                    "`t`t$($installedProject.GetMessage())");
+
+                    # Pass the information to the logging system
+                    [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                                $logAdditionalMSG, `            # Additional information
+                                                [LogMessageLevel]::Warning);    # Message level
+
+
+                    # * * * * * * * * * * * * * * * * * * *
+
+
+                    # Nothing can be done.
                     break;
                 } # Same or Older Version
             } # switch : Installation Procedure
