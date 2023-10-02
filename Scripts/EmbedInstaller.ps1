@@ -1345,7 +1345,7 @@ class ProjectManager
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
                                         $logAdditionalMSG, `        # Additional information
-                                        [LogMessageLevel]::Error);  # Message level
+                                        [LogMessageLevel]::Verbose);# Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # try : Obtain List of Meta Files
