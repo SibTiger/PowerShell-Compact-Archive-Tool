@@ -246,7 +246,7 @@ class GitControl
         $this.__generateReportFilePDF = $false;
 
         # Log Root Directory Path
-        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_)\Git";
+        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_)\Git";
 
         # Report Directory Path
         $this.__reportPath = "$($this.__rootLogPath)\reports";
