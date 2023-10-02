@@ -1641,7 +1641,7 @@ class ProjectManager
                                             "`r`n");
 
             # We will output all of the contents from the meta file into the Log Description
-            foreach ($line in $metaContents) { $logAdditionalMSG += "`t`t$($line)" }
+            foreach ($line in $metaContents) { $logAdditionalMSG += "`t`t$($line)`r`n"; }
 
             # Just for readability and consistency sakes
             $logAdditionalMSG += "`r`n`t`t- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
