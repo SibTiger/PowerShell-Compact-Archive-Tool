@@ -1337,7 +1337,8 @@ class ProjectManager
                                             "`t`tFile Name:`r`n"                        + `
                                             "`t`t`t$($file.Name)`r`n"                   + `
                                             "`t`tFull Path:`r`n"                        + `
-                                            "`t`t`t$($file.FullName)");
+                                            "`t`t`t$($file.FullName)`r`n"               + `
+                                            "`t - - - - - - - - - - - - - - - - - - - -");
                 } # foreach : Scan Each Project Found
             } # If : One or More Projects found
 
