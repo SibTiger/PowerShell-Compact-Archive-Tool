@@ -692,15 +692,22 @@ class ProjectManager
 
 
 
+            # Update the Meta Information into the project presently loaded.
+            $item.SetProjectRevision($temporaryProjectRevision);    # Project's Revision
+            $item.SetProjectName($temporaryProjectName);            # Project's Name
+            $item.SetGUID($temporaryProjectSignature);              # Project's Unique Signature
+
+
+
             # Determine if the target project had already been installed.  If the project had already been
             #   installed, than determine if an update will be necessary.
             foreach ($installedProject in $listOfInstalledProjects)
             {
                 # Determine if the Unique IDs match.
-                if ($installedProject.GetGUID() -eq $temporaryProjectSignature)
+                if ($installedProject.GetGUID() -eq $item.GetGUID())
                 {
                     # Check if updates are available.
-                    if ($installedProject.GetProjectRevision() -lt $temporaryProjectRevision)
+                    if ($installedProject.GetProjectRevision() -lt $item.GetProjectRevision())
                     {
                         # Signify that the target project is an updated version of what is already installed.
                         $targetProjectInstallState = [ProjectManagerInstallOperationSwitch]::Update;
