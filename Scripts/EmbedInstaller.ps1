@@ -1332,13 +1332,13 @@ class ProjectManager
                 # Append all of the project information into the debug string.
                 foreach($file in $listOfMetaFiles)
                 {
-                    $logAdditionalMSG +=   ("`t`tDirectory:`r`n"                        + `
-                                            "`t`t`t$($file.DirectoryName)`r`n"          + `
-                                            "`t`tFile Name:`r`n"                        + `
-                                            "`t`t`t$($file.Name)`r`n"                   + `
-                                            "`t`tFull Path:`r`n"                        + `
-                                            "`t`t`t$($file.FullName)`r`n"               + `
-                                            "`t - - - - - - - - - - - - - - - - - - - -");
+                    $logAdditionalMSG +=   ("`t`tDirectory:`r`n"                                + `
+                                            "`t`t`t$($file.DirectoryName)`r`n"                  + `
+                                            "`t`tFile Name:`r`n"                                + `
+                                            "`t`t`t$($file.Name)`r`n"                           + `
+                                            "`t`tFull Path:`r`n"                                + `
+                                            "`t`t`t$($file.FullName)`r`n"                       + `
+                                            "`t - - - - - - - - - - - - - - - - - - - -`r`n");
                 } # foreach : Scan Each Project Found
             } # If : One or More Projects found
 
