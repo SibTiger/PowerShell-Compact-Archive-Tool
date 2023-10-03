@@ -1523,7 +1523,7 @@ class ProjectManager
                                             "`t`tEmbedded Message`r`n"                                      + `
                                             "`t`t`t$($newProjectEntry.GetMessage())`r`n"                    + `
                                             "`t`tProject Revision ID:`r`n"                                  + `
-                                            "`t`t`t$($newProjectEntry.GetProjectRevision)`r`n"              + `
+                                            "`t`t`t$($newProjectEntry.GetProjectRevision())`r`n"            + `
                                             "`t`tProject Name:`r`n"                                         + `
                                             "`t`t`t$($newProjectEntry.GetProjectName())`r`n"                + `
                                             "`t`tUnique Signature:`r`n"                                     + `
