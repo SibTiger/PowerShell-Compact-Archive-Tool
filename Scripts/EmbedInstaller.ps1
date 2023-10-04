@@ -538,7 +538,7 @@ class ProjectManager
             # This will hold the attributes for the project file we are about to install\update.
             [UInt64] $temporaryProjectRevision                                  = 0;
             [string] $temporaryProjectName                                      = $NULL;
-            [GUID] $temporaryProjectSignature                                   = $GLOBAL:_DEFAULT_BLANK_GUID_;
+            [GUID]   $temporaryProjectSignature                                 = $GLOBAL:_DEFAULT_BLANK_GUID_;
             # ----------------------------------------
 
 
