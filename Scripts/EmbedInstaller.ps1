@@ -1251,7 +1251,7 @@ class ProjectManager
                 $item.SetFilePath($outputDirectory);
 
                 # Update the item's description to signify that the file had been installed.
-                $item.SetMessage("Successfully installed!");          
+                $item.SetMessage("Successfully installed!");
             } # else : Installation Successful
 
 
