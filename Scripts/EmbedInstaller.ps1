@@ -645,7 +645,7 @@ class ProjectManager
                                                     [ref] $temporaryProjectName,                        `
                                                     [ref] $temporaryProjectSignature))
             {
-                # Failed to read the meta data from the target project.
+                # Failed to read the meta data from the target project, cannot continue forward.
 
                 # Because this file could not be installed, flag this as a fault.
                 $overallOperation = $false;
