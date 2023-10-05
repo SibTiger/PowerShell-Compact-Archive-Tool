@@ -521,7 +521,7 @@ class ProjectManager
             # Extracted Directory Absolute Path.
             [string] $outputDirectory                                           = $NULL;
 
-            # Exit Status
+            # Exit Status per Operation\File
             [bool] $exitCondition                                               = $false;
 
             # Determines if the target project is an update, a new install, or same\outdated version.
