@@ -883,6 +883,9 @@ class ProjectManager
                 {
                     # Not initialized properly.
 
+                    # Update the item's description to signify that the project could not be installed.
+                    $item.SetMessage("An unknown state had been reached; unable to install.");
+
 
                     # * * * * * * * * * * * * * * * * * * *
                     # Debugging
@@ -956,6 +959,9 @@ class ProjectManager
                     {
                         # Failed to properly relocate the directory to the default Project's install location.
 
+                        # Update the item's description to signify that the project could not be installed.
+                        $item.SetMessage("A failure had been reached while installing contents; unable to install.");
+
 
                         # * * * * * * * * * * * * * * * * * * *
                         # Debugging
@@ -997,6 +1003,9 @@ class ProjectManager
                         break;
                     } # if : Failed to Relocate Directory
 
+
+                    # Update the item's description to signify that the project had been installed.
+                    $item.SetMessage("Successfully installed!");
 
                     # * * * * * * * * * * * * * * * * * * *
                     # Debugging
@@ -1049,6 +1058,9 @@ class ProjectManager
                     if (![CommonIO]::CopyDirectory("$($outputDirectory)\*", $previousInstall.GetFilePath()))
                     {
                         # Files could not be relocated.
+
+                        # Update the item's description to signify that the project could not be updated.
+                        $item.SetMessage("A failure had been reached while updating the files; unable to update.");
 
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -1110,6 +1122,9 @@ class ProjectManager
                         break;
                     } # if : Failed to Relocate Files
 
+
+                    # Update the item's description to signify that the project had been updated.
+                    $item.SetMessage("Successfully updated!");
 
                     # * * * * * * * * * * * * * * * * * * *
                     # Debugging
@@ -1178,6 +1193,9 @@ class ProjectManager
                 ([ProjectManagerInstallOperationSwitch]::SameOrOlder)
                 {
                     # The target project is either the same version or older;
+
+                    # Update the item's description to signify that the project had not been installed nor updated.
+                    $item.SetMessage("This version is the same or older than what is already installed; this version will not be installed.");
 
 
                     # * * * * * * * * * * * * * * * * * * *
