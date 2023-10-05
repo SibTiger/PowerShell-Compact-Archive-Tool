@@ -551,6 +551,15 @@ class ProjectManager
                 # Because this file could not be installed, flag this as a fault.
                 $overallOperation = $false;
 
+                # Update the item's description to signify that the project could not be installed.
+                $item.SetMessage("The Zip file structure is corrupted and unreadable; unable to install safely.");
+
+                # Mark the file as not installed.
+                $item.SetInstalled($false);
+
+                # Clear the Installation Path
+                $item.SetFilePathAsEmpty();
+
 
                 # * * * * * * * * * * * * * * * * * * *
                 # Debugging
@@ -595,6 +604,15 @@ class ProjectManager
 
                 # Because this file could not be installed, flag this as a fault.
                 $overallOperation = $false;
+
+                # Update the item's description to signify that the project could not be installed.
+                $item.SetMessage("Failed to create a temporary installation folder; unable to install.");
+
+                # Mark the file as not installed.
+                $item.SetInstalled($false);
+
+                # Clear the Installation Path
+                $item.SetFilePathAsEmpty();
 
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -650,6 +668,14 @@ class ProjectManager
                 # Because this file could not be installed, flag this as a fault.
                 $overallOperation = $false;
 
+                # Update the item's description to signify that the project could not be installed.
+                $item.SetMessage("Unable to read the meta file correctly; unable to install.");
+
+                # Mark the file as not installed.
+                $item.SetInstalled($false);
+
+                # Clear the Installation Path
+                $item.SetFilePathAsEmpty();
 
 
                 # * * * * * * * * * * * * * * * * * * *
