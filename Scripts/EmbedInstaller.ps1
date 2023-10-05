@@ -1378,7 +1378,7 @@ class ProjectManager
             #   Just in case if we could not find any installed projects, than provide this default message
             #   instead.
             [string] $logAdditionalMSG = "$($NULL)";
-            
+
             # Determine how the Additional Message will be generate
             if ($listOfMetaFiles.Count -ge 1)
             {
@@ -1542,7 +1542,7 @@ class ProjectManager
             # --------------------------------------------------
             # Project's current revision
             $newProjectEntry.SetProjectRevision($newProjectRevision);
-            
+
             # Project's name
             $newProjectEntry.SetProjectName($newProjectName);
 
