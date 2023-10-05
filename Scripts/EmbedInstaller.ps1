@@ -559,7 +559,6 @@ class ProjectManager
                                         "to the archive datafile being corrupted or damaged!");
 
                 # Generate any additional information that might be useful
-
                 [string] $logAdditionalMSG = (  "Information may or may not be accurate:`r`n"   + `
                                                 "`tFile Name:`r`n"                              + `
                                                 "`t`t$($item.GetFileName())`r`n"                + `
@@ -603,7 +602,6 @@ class ProjectManager
                                         "to the failure of creating a cache directory!");
 
                 # Generate any additional information that might be useful
-
                 [string] $logAdditionalMSG = (  "Information may or may not be accurate:`r`n"   + `
                                                 "`tFile Name:`r`n"                              + `
                                                 "`t`t$($item.GetFileName())`r`n"                + `
@@ -657,7 +655,6 @@ class ProjectManager
                                         "the Meta File information cannot be extracted properly!");
 
                 # Generate any additional information that might be useful
-
                 [string] $logAdditionalMSG = (  "Information may or may not be accurate:`r`n"   + `
                                                 "`tFile Name:`r`n"                              + `
                                                 "`t`t$($item.GetFileName())`r`n"                + `
@@ -725,7 +722,6 @@ class ProjectManager
                                                 "this update will be applied.");
 
                         # Generate any additional information that might be useful
-
                         [string] $logAdditionalMSG = (  "Information Regarding the Updated Version:`r`n"    + `
                                                         "`tFile Name:`r`n"                                  + `
                                                         "`t`t$($item.GetFileName())`r`n"                    + `
@@ -791,7 +787,6 @@ class ProjectManager
                                                 "this update will not be applied as it is either the same version or older.");
 
                         # Generate any additional information that might be useful
-
                         [string] $logAdditionalMSG = (  "Information Regarding the Selected Build:`r`n"     + `
                                                         "`tFile Name:`r`n"                                  + `
                                                         "`t`t$($item.GetFileName())`r`n"                    + `
@@ -939,7 +934,6 @@ class ProjectManager
                                                 "$($item.GetProjectName()), as the contents could not be relocated!");
 
                         # Generate any additional information that might be useful
-
                         [string] $logAdditionalMSG = (  "Information Regarding the New Install:`r`n"        + `
                                                         "`tFile Name:`r`n"                                  + `
                                                         "`t`t$($item.GetFileName())`r`n"                    + `
@@ -981,7 +975,6 @@ class ProjectManager
                                             "$($item.GetProjectName())!");
 
                     # Generate any additional information that might be useful
-
                     [string] $logAdditionalMSG = (  "Information Regarding the New Install:`r`n"        + `
                                                     "`tFile Name:`r`n"                                  + `
                                                     "`t`t$($item.GetFileName())`r`n"                    + `
@@ -1035,7 +1028,6 @@ class ProjectManager
                                                 "$($item.GetProjectName()), as the contents could not be duplicated!");
 
                         # Generate any additional information that might be useful
-
                         [string] $logAdditionalMSG = (  "Information Regarding the Updated Version:`r`n"            + `
                                                         "`tFile Name:`r`n"                                          + `
                                                         "`t`t$($item.GetFileName())`r`n"                            + `
@@ -1096,7 +1088,6 @@ class ProjectManager
                                             "$($item.GetProjectName())!");
 
                     # Generate any additional information that might be useful
-
                     [string] $logAdditionalMSG = (  "Information Regarding the New Installation Version:`r`n"   + `
                                                     "`tFile Name:`r`n"                                          + `
                                                     "`t`t$($item.GetFileName())`r`n"                            + `
@@ -1167,7 +1158,6 @@ class ProjectManager
                                             "what is currently installed.");
 
                     # Generate any additional information that might be useful
-
                     [string] $logAdditionalMSG = (  "Information Regarding the Selected Build:`r`n"             + `
                                                     "`tFile Name:`r`n"                                          + `
                                                     "`t`t$($item.GetFileName())`r`n"                            + `
