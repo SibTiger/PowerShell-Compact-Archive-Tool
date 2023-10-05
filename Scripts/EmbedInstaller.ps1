@@ -592,6 +592,8 @@ class ProjectManager
             if (![CommonIO]::MakeTempDirectory("Install-Update Project", [ref] $temporaryProjectDirectory))
             {
                 # Failed to create a temporary directory for the project, unable to continue.
+
+                # Because this file could not be installed, flag this as a fault.
                 $overallOperation = $false;
 
 
@@ -644,6 +646,8 @@ class ProjectManager
                                                     [ref] $temporaryProjectSignature))
             {
                 # Failed to read the meta data from the target project.
+
+                # Because this file could not be installed, flag this as a fault.
                 $overallOperation = $false;
 
 
