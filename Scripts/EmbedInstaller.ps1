@@ -546,6 +546,8 @@ class ProjectManager
             # If the archive datafile is corrupted - then skip to the next file.
             if ($item.GetVerification() -ne [EmbedInstallerFileVerification]::Passed)
             {
+                # File failed verification; unable to process any further.
+
                 # Because this file could not be installed, flag this as a fault.
                 $overallOperation = $false;
 
