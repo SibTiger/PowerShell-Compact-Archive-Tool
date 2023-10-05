@@ -866,7 +866,6 @@ class ProjectManager
                                             "as no information is available.  This is a strange error....");
 
                     # Generate any additional information that might be useful
-
                     [string] $logAdditionalMSG = (  "Information may or may not be accurate - Item Selected:`r`n"       + `
                                                     "`tFile Name:`r`n"                                                  + `
                                                     "`t`t$($item.GetFileName())`r`n"                                    + `
