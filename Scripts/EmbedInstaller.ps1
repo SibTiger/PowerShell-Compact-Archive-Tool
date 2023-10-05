@@ -1007,6 +1007,10 @@ class ProjectManager
                     # Update the item's description to signify that the project had been installed.
                     $item.SetMessage("Successfully installed!");
 
+                    # Adjust the Exit Condition to signify that the operation was successful.
+                    $exitCondition = $true;
+
+
                     # * * * * * * * * * * * * * * * * * * *
                     # Debugging
                     # --------------
@@ -1125,6 +1129,10 @@ class ProjectManager
 
                     # Update the item's description to signify that the project had been updated.
                     $item.SetMessage("Successfully updated!");
+
+                    # Adjust the Exit Condition to signify that the operation was successful.
+                    $exitCondition = $true;
+
 
                     # * * * * * * * * * * * * * * * * * * *
                     # Debugging
