@@ -1276,8 +1276,9 @@ class ProjectManager
                 # Clear the Installation Path
                 $item.SetFilePathAsEmpty();
 
-                # Update the item's description to denote that a failure occurred.
-                $item.SetMessage("Failed to install project file.");
+                # Update the item's description to denote that a failure occurred, only if the message had
+                #   not yet been updated already.
+                if (("$($NULL)" -eq $item.GetMessage())) { $item.SetMessage("Failed to install project file."); }
             } # if : Operation Failed
 
             # If the installation was successful.
@@ -1289,8 +1290,9 @@ class ProjectManager
                 # Store the extracted path
                 $item.SetFilePath($outputDirectory);
 
-                # Update the item's description to signify that the file had been installed.
-                $item.SetMessage("Successfully installed!");
+                # Update the item's description to signify that the file had been installed, only if the
+                #   message had not yet been updated already.
+                if ("$($NULL)" -eq $item.GetMessage()) { $item.SetMessage("Successfully installed!"); }
             } # else : Installation Successful
 
 
