@@ -892,7 +892,7 @@ class ProjectManager
                     # --------------
 
                     # Generate the initial message
-                    [string] $logMessage = ("Unknown State; the provided build cannot be installed nor updated " + 
+                    [string] $logMessage = ("Unknown State; the provided build cannot be installed nor updated " + `
                                             "as no information is available.  This is a strange error....");
 
                     # Generate any additional information that might be useful
