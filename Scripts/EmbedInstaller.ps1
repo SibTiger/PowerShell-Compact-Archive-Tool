@@ -580,7 +580,7 @@ class ProjectManager
                                                 "`tInstalled`r`n"                               + `
                                                 "`t`t$($item.GetInstalled())`r`n"               + `
                                                 "`tMessage`r`n"                                 + `
-                                                "`t`t$($item.GetMessage())`r`n");
+                                                "`t`t$($item.GetMessage())");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -634,7 +634,7 @@ class ProjectManager
                                                 "`tInstalled`r`n"                               + `
                                                 "`t`t$($item.GetInstalled())`r`n"               + `
                                                 "`tMessage`r`n"                                 + `
-                                                "`t`t$($item.GetMessage())`r`n");
+                                                "`t`t$($item.GetMessage())");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -703,7 +703,7 @@ class ProjectManager
                                                 "`tInstalled`r`n"                               + `
                                                 "`t`t$($item.GetInstalled())`r`n"               + `
                                                 "`tMessage`r`n"                                 + `
-                                                "`t`t$($item.GetMessage())`r`n");
+                                                "`t`t$($item.GetMessage())");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -1777,7 +1777,7 @@ class ProjectManager
                                             "`tExpected the structure to be as follows:`r`n"    + `
                                             "`t`tProject_Name`r`n"                              + `
                                             "`t`tProject_Revision`r`n"                          + `
-                                            "`t`tProject_Signature`r`n");
+                                            "`t`tProject_Signature");
 
 
             # Pass the information to the logging system
