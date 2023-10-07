@@ -522,7 +522,7 @@ class ProjectManager
             [string] $outputDirectory                                           = $NULL;
 
             # Exit Status per Operation\File
-            [bool] $exitCondition                                               = $false;
+            [ProjectManagerInstallationExitCondition] $exitCondition            = [ProjectManagerInstallationExitCondition]::Error;
 
             # Determines if the target project is an update, a new install, or same\outdated version.
             [ProjectManagerInstallOperationSwitch] $targetProjectInstallState   = [ProjectManagerInstallOperationSwitch]::NewInstall;
@@ -1061,7 +1061,7 @@ class ProjectManager
                     $item.SetMessage("Successfully installed!");
 
                     # Adjust the Exit Condition to signify that the operation was successful.
-                    $exitCondition = $true;
+                    $exitCondition = [ProjectManagerInstallationExitCondition]::Successful;
 
 
                     # * * * * * * * * * * * * * * * * * * *
@@ -1184,7 +1184,7 @@ class ProjectManager
                     $item.SetMessage("Successfully updated!");
 
                     # Adjust the Exit Condition to signify that the operation was successful.
-                    $exitCondition = $true;
+                    $exitCondition = [ProjectManagerInstallationExitCondition]::Successful;
 
 
                     # * * * * * * * * * * * * * * * * * * *
@@ -1258,6 +1258,9 @@ class ProjectManager
                     # Update the item's description to signify that the project had not been installed nor updated.
                     $item.SetMessage("This version is the same or older than what is already installed; this version will not be installed.");
 
+                    # Adjust the Exit Condition to signify that the operation could not be performed.
+                    $exitCondition = [ProjectManagerInstallationExitCondition]::SameOrOlder;
+
 
                     # * * * * * * * * * * * * * * * * * * *
                     # Debugging
@@ -1327,34 +1330,63 @@ class ProjectManager
 
 
 
-            # Determine the operation
-            #  If the installation had failed, than mark the Overall Operation as failed.
-            if (!$exitCondition)
+            # Determine the operation and adjust attributes as necessary
+            switch($exitCondition)
             {
-                # Mark that the entire operation had failed; this will not be reset back to true.
-                $overallOperation = $false;
+                # If the installation was successful
+                ([ProjectManagerInstallationExitCondition]::Successful)
+                {
+                    # Mark that the file had been installed.
+                    $item.SetInstalled($true);
 
-                # Clear the Installation Path
-                $item.SetFilePathAsEmpty();
+                    # Store the extracted path
+                    $item.SetFilePath($outputDirectory);
 
-                # Update the item's description to denote that a failure occurred, only if the message had
-                #   not yet been updated already.
-                if (("$($NULL)" -eq $item.GetMessage())) { $item.SetMessage("Failed to install project file."); }
-            } # if : Operation Failed
+                    # Update the item's description to signify that the file had been installed, only if the
+                    #   message had not yet been updated already.
+                    if ("$($NULL)" -eq $item.GetMessage()) { $item.SetMessage("Successfully installed!"); }
 
-            # If the installation was successful.
-            else
-            {
-                # Mark that the file had been installed.
-                $item.SetInstalled($true);
+                    # Finished
+                    break;
+                } # Successful
 
-                # Store the extracted path
-                $item.SetFilePath($outputDirectory);
 
-                # Update the item's description to signify that the file had been installed, only if the
-                #   message had not yet been updated already.
-                if ("$($NULL)" -eq $item.GetMessage()) { $item.SetMessage("Successfully installed!"); }
-            } # else : Installation Successful
+                # If the installation had failed, than mark the Overall Operation as failed.
+                ([ProjectManagerInstallationExitCondition]::Error)
+                {
+                    # Mark that the entire operation had failed; this will not be reset back to true.
+                    $overallOperation = $false;
+
+                    # Clear the Installation Path
+                    $item.SetFilePathAsEmpty();
+
+                    # Update the item's description to denote that a failure occurred, only if the message had
+                    #   not yet been updated already.
+                    if (("$($NULL)" -eq $item.GetMessage())) { $item.SetMessage("Failed to install project file."); }
+
+                    # Finished
+                    break;
+                } # Error
+
+
+                # If the installation was refused due to Same Version OR current install is newer
+                ([ProjectManagerInstallationExitCondition]::SameOrOlder)
+                {
+                    # Mark that the file had not been installed
+                    $item.SetInstalled($false);
+
+                    # Clear the Installation Path
+                    $item.SetFilePathAsEmpty();
+
+                    # Update the item's description to denote that the installation was refused, but only if the
+                    #   message had not yet been updated already.
+                    if (("$($NULL)" -eq $item.GetMessage())) { $item.SetMessage("Unable to install as the version is either the same or older compared to what is currently installed."); }
+
+                    # Finished
+                    break;
+                } # Same or Older
+            } # Switch : Evaluate Installation Status
+
 
 
             # Generate the logged messages
@@ -1928,3 +1960,21 @@ enum ProjectManagerInstallOperationSwitch
     Update          = 2;    # Updated version of the already installed project.
     SameOrOlder     = 3;    # Same or older version than what is already installed.
 } # ProjectManagerInstallOperationSwitch
+
+
+
+
+<# Project Manager - Installation Exit Condition [ENUM]
+ # -------------------------------
+ # This enumerator will determine the installation status of the individual project.
+ #  After a project had been installed, failed to be installed, or refused due to
+ #  versioning, we can be able to denote that through this enum-type - and determine
+ #  what actions are to be taken later on.
+ # -------------------------------
+ #>
+enum ProjectManagerInstallationExitCondition
+{
+    Successful      = 0;    # Installation was successful
+    Error           = 1;    # Installation had failed
+    SameOrOlder     = 2;    # Same or older version that what is presently installed.
+} # ProjectManagerInstallationExitCondition
