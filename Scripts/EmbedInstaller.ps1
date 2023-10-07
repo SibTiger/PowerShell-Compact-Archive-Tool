@@ -652,9 +652,62 @@ class ProjectManager
 
 
             # Extract the desired project to the temporary directory.
-            $exitCondition = $defaultCompress.ExtractArchive($item.GetFilePath(), `
-                                                            $($temporaryProjectDirectory), `
-                                                            [ref] $outputDirectory);
+            if (!$defaultCompress.ExtractArchive($item.GetFilePath(),           `
+                                                $($temporaryProjectDirectory),  `
+                                                [ref] $outputDirectory))
+            {
+                # Failed to properly extract the project's contents into a temporary directory.
+
+                # Because this file could not be installed, flag this as a fault.
+                $overallOperation = $false;
+
+                # Update the item's description to signify that the project could not be installed.
+                $item.SetMessage("Unable to extract the file to a temporary folder; unable to install.");
+
+                # Mark the file as not installed.
+                $item.SetInstalled($false);
+
+                # Clear the Installation Path
+                $item.SetFilePathAsEmpty();
+
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = ("Unable to install or update $($GLOBAL:_PROGRAMNAMESHORT_) Project as " + `
+                                        "the archive file could not be extracted to the temporary folder.");
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = (  "Temporary Directory to Extract onto:`r`n"      + `
+                                                "`t`t$($temporaryProjectDirectory)`r`n"         + `
+                                                "`r`n"                                          + `
+                                                "`tInformation regarding the project:`r`n"      + `
+                                                "`tFile Name:`r`n"                              + `
+                                                "`t`t$($item.GetFileName())`r`n"                + `
+                                                "`tFile Path:`r`n"                              + `
+                                                "`t`t$($item.GetFilePath())`r`n"                + `
+                                                "`tVerification`r`n"                            + `
+                                                "`t`t$($item.GetVerification())`r`n"            + `
+                                                "`tInstalled`r`n"                               + `
+                                                "`t`t$($item.GetInstalled())`r`n"               + `
+                                                "`tMessage`r`n"                                 + `
+                                                "`t`t$($item.GetMessage())");
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                            $logAdditionalMSG, `            # Additional information
+                                            [LogMessageLevel]::Warning);    # Message level
+
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
+                # Continue to the next file.
+                continue;
+            } # If : Failed to Extract Project
+
 
 
             # Obtain the meta data of the project that had been extracted to the temporary directory.
