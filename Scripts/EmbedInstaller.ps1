@@ -171,6 +171,21 @@ class ProjectManager
                 # Finished
                 break;
             } # Same or Older
+
+
+            # A fatal error had been reached
+            ([ProjectManagerInstallationExitCondition]::Fatal)
+            {
+                # Display Message
+                [Logging]::DisplayMessage("A fatal error had occurred, the operation had been aborted!");
+                [Logging]::DisplayMessage("Please refer to the the $($GLOBAL:_PROGRAMNAMESHORT_) program's logfile.");
+
+                # Mark as the installation had failed
+                $exitStatus = $false;
+
+                # Finished
+                break;
+            } # Fatal
         } # Switch : Overall Operation Status
 
 
@@ -1587,7 +1602,7 @@ class ProjectManager
 
 
             # Abort the operation; cannot proceed forward.
-            return $false;
+            return [ProjectManagerInstallationExitCondition]::Fatal;
         } # catch : Error Reached
 
 
@@ -2030,4 +2045,5 @@ enum ProjectManagerInstallationExitCondition
     Successful      = 0;    # Installation was successful
     Error           = 1;    # Installation had failed
     SameOrOlder     = 2;    # Same or older version that what is presently installed.
+    Fatal           = 99;   # A fatal error had caused the entire operation to be aborted.
 } # ProjectManagerInstallationExitCondition
