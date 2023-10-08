@@ -71,8 +71,12 @@ class ProjectManager
         [System.Collections.ArrayList] $listOfProjectsToInstall = [System.Collections.ArrayList]::New();
 
 
-        # Operation Status; this will provide the overall operation state back to the calling function.
-        [Bool] $operationState = $false;
+        # Operation Status; this will provide the overall operation state.
+        [ProjectManagerInstallationExitCondition] $operationState = [ProjectManagerInstallationExitCondition]::Error;
+
+
+        # Operation Status that will be returned to the calling function.
+        [bool] $exitStatus = $false;
         # ----------------------------------------
 
 
@@ -123,8 +127,51 @@ class ProjectManager
 
 
         # Alert the user of the installation status
-        if ($operationState) { [Logging]::DisplayMessage("Successfully installed all desired projects!`r`n"); }
-        else { [Logging]::DisplayMessage("One or more files could not be installed!`r`n"); }
+        switch ($operationState)
+        {
+            # Overall Operation was Successful
+            ([ProjectManagerInstallationExitCondition]::Successful)
+            {
+                # Display Message
+                [Logging]::DisplayMessage("Successfully installed all desired projects!");
+
+                # Mark as the installation was successful
+                $exitStatus = $true;
+
+                # Finished
+                break;
+            } # Successful
+
+
+            # Overall Operation had Encountered one or more Errors
+            ([ProjectManagerInstallationExitCondition]::Error)
+            {
+                # Display Message
+                [Logging]::DisplayMessage("One or more files could not be installed!");
+                [Logging]::DisplayMessage("Please look at the report for details.");
+
+                # Mark as the installation as an error
+                $exitStatus = $false;
+
+                # Finished
+                break;
+            } # Error
+
+
+            # Overall Operation was Generally Successful; but encountered builds that could not be installed
+            ([ProjectManagerInstallationExitCondition]::SameOrOlder)
+            {
+                # Display Message
+                [Logging]::DisplayMessage("Successfully installed most of the desired project!");
+                [Logging]::DisplayMessage("Please look at the report for details.");
+
+                # Mark as the installation was successful, despite some installation were refused.
+                $exitStatus = $true;
+
+                # Finished
+                break;
+            } # Same or Older
+        } # Switch : Overall Operation Status
 
 
         # Provide a report of the files that had been installed or could not be installed.
@@ -163,7 +210,7 @@ class ProjectManager
 
 
         # Finished
-        return $operationState;
+        return $exitStatus;
     } # Main()
 
 
@@ -470,11 +517,12 @@ class ProjectManager
     # -------------------------------
     # Output:
     #  Installation status
-    #   true    = Installation was successful.
-    #   false   = Installation had failed.
+    #   Successful      = Overall Installation was Successful
+    #   Error           = Overall Installation had reached one or a few errors
+    #   Same Or Older   = Overall Installation had issues
     # -------------------------------
     #>
-    hidden static [bool] __InstallProjects([System.Collections.ArrayList] $listOfProjects)
+    hidden static [ProjectManagerInstallationExitCondition] __InstallProjects([System.Collections.ArrayList] $listOfProjects)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -490,7 +538,7 @@ class ProjectManager
 
         # Overall Status of the operation; we will return this value once the operation had been finished.
         #   By default, we will provide a true result - this will change if an error was caught.
-        [Bool] $overallOperation = $true;
+        [ProjectManagerInstallationExitCondition] $overallOperation = [ProjectManagerInstallationExitCondition]::Successful;
         # ----------------------------------------
 
 
@@ -549,7 +597,7 @@ class ProjectManager
                 # File failed verification; unable to process any further.
 
                 # Because this file could not be installed, flag this as a fault.
-                $overallOperation = $false;
+                $overallOperation = [ProjectManagerInstallationExitCondition]::Error;
 
                 # Update the item's description to signify that the project could not be installed.
                 $item.SetMessage("The Zip file structure is corrupted and unreadable; unable to install safely.");
@@ -603,7 +651,7 @@ class ProjectManager
                 # Failed to create a temporary directory for the project, unable to continue.
 
                 # Because this file could not be installed, flag this as a fault.
-                $overallOperation = $false;
+                $overallOperation = [ProjectManagerInstallationExitCondition]::Error;
 
                 # Update the item's description to signify that the project could not be installed.
                 $item.SetMessage("Failed to create a temporary installation folder; unable to install.");
@@ -659,7 +707,7 @@ class ProjectManager
                 # Failed to properly extract the project's contents into a temporary directory.
 
                 # Because this file could not be installed, flag this as a fault.
-                $overallOperation = $false;
+                $overallOperation = [ProjectManagerInstallationExitCondition]::Error;
 
                 # Update the item's description to signify that the project could not be installed.
                 $item.SetMessage("Unable to extract the file to a temporary folder; unable to install.");
@@ -719,7 +767,7 @@ class ProjectManager
                 # Failed to read the meta data from the target project, cannot continue forward.
 
                 # Because this file could not be installed, flag this as a fault.
-                $overallOperation = $false;
+                $overallOperation = [ProjectManagerInstallationExitCondition]::Error;
 
                 # Update the item's description to signify that the project could not be installed.
                 $item.SetMessage("Unable to read the meta file correctly; unable to install.");
@@ -1355,7 +1403,7 @@ class ProjectManager
                 ([ProjectManagerInstallationExitCondition]::Error)
                 {
                     # Mark that the entire operation had failed; this will not be reset back to true.
-                    $overallOperation = $false;
+                    $overallOperation = [ProjectManagerInstallationExitCondition]::Error;
 
                     # Clear the Installation Path
                     $item.SetFilePathAsEmpty();
@@ -1372,6 +1420,11 @@ class ProjectManager
                 # If the installation was refused due to Same Version OR current install is newer
                 ([ProjectManagerInstallationExitCondition]::SameOrOlder)
                 {
+                    # Update the status signifying that an update could not be performed; however, errors have
+                    #   a higher precedence over this case.
+                    if ($overallOperation -eq [ProjectManagerInstallationExitCondition]::Successful)
+                    { $overallOperation = [ProjectManagerInstallationExitCondition]::SameOrOlder; }
+
                     # Mark that the file had not been installed
                     $item.SetInstalled($false);
 
