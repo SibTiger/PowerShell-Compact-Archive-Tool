@@ -1512,12 +1512,27 @@ class ProjectManager
         # Obtain to obtain all of the existing meta files within the projects directory.
         try
         {
-            $listOfMetaFiles = Get-ChildItem `
+            # NOTE:
+            #  I prefer to use strict-data types, but Get-ChildTem can provide either a single instance or an ArrayList
+            #   type.  I will use this variable to determine the data type and push it through this program's ArrayList,
+            #   thus keeping the consistency within this code base.
+            $dynamicVariable = Get-ChildItem `
                                 -LiteralPath $($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_) `
                                 -Filter $GLOBAL:_META_FILENAME_ `
                                 -Recurse `
                                 -Depth 1 `
                                 -ErrorAction Stop;
+
+
+            # Determine if the Get-ChildItem CMDLet provided us with a single instance of the System.IO.FileInfo type
+            #   or an ArrayList containing multiple instances of the System.IO.FileInfo.
+            # Single Instance
+            if ($dynamicVariable.GetType().Name -eq "FileInfo")
+            { $listOfMetaFiles.Add($dynamicVariable); }
+            
+            # Array List of Instances
+            else
+            { foreach($instance in $dynamicVariable) { $listOfMetaFiles.Add($instance); }}
 
 
             # * * * * * * * * * * * * * * * * * * *
