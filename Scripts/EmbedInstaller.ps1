@@ -954,7 +954,7 @@ class ProjectManager
                                                         "`t`t$($item.GetMessage())`r`n"                     + `
                                                         "`r`n"                                              + `
                                                         "`r`n"                                              + `
-                                                        "Information Regarding the Current Install:`r`n:"   + `
+                                                        "Information Regarding the Current Install:`r`n"    + `
                                                         "`tFile Name:`r`n"                                  + `
                                                         "`t`t$($installedProject.GetFileName())`r`n"        + `
                                                         "`tFile Path:`r`n"                                  + `
@@ -1031,7 +1031,7 @@ class ProjectManager
                                                     "`t`t$($item.GetMessage())`r`n"                                     + `
                                                     "`r`n"                                                              + `
                                                     "`r`n"                                                              + `
-                                                    "Information Regarding the Current Install:`r`n:"                   + `
+                                                    "Information Regarding the Current Install:`r`n"                    + `
                                                     "`tFile Name:`r`n"                                                  + `
                                                     "`t`t$($installedProject.GetFileName())`r`n"                        + `
                                                     "`tFile Path:`r`n"                                                  + `
@@ -1211,7 +1211,7 @@ class ProjectManager
                                                         "`t`t$($item.GetMessage())`r`n"                             + `
                                                         "`r`n"                                                      + `
                                                         "`r`n"                                                      + `
-                                                        "Information Regarding the Current Install:`r`n:"           + `
+                                                        "Information Regarding the Current Install:`r`n"            + `
                                                         "`tFile Name:`r`n"                                          + `
                                                         "`t`t$($installedProject.GetFileName())`r`n"                + `
                                                         "`tFile Path:`r`n"                                          + `
@@ -1354,7 +1354,7 @@ class ProjectManager
                                                     "`t`t$($item.GetMessage())`r`n"                             + `
                                                     "`r`n"                                                      + `
                                                     "`r`n"                                                      + `
-                                                    "Information Regarding the Current Install:`r`n:"           + `
+                                                    "Information Regarding the Current Install:`r`n"            + `
                                                     "`tFile Name:`r`n"                                          + `
                                                     "`t`t$($installedProject.GetFileName())`r`n"                + `
                                                     "`tFile Path:`r`n"                                          + `
