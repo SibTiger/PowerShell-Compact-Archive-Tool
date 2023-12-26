@@ -37,20 +37,18 @@ class ProjectManagerInstallation
    <# Project Manager
     # -------------------------------
     # Documentation:
-    #  This function will act as our driver within this class.  In this function, the user will
-    #   specifically state what action should be performed; either installing/updating to or removing
-    #   projects from the PowerShell Compact-Archive Tool's environment.
+    #   This function will drive the installation and\or update of projects into the program's environment.
     #
     #  NOTE:
-    #   This is the entry point within this class.
+    #   This function should only be called by the Project Manager.
     # -------------------------------
     #>
     hidden static [bool] __Main()
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # This will contain the list of files that the user wishes to install within PSCAT.
-        #   NOTE: The base datatype is System.Object, BUT each element within the Array List will change
+        # This will contain a list of files that the user wishes to install\update within PSCAT.
+        #   NOTE: The base datatype is System.Object, _BUT_ each element within the Array List will change
         #           over time - making it easier to process.
         #   DATATYPE AFTER Windows' File Browser:
         #       |_ Root: System.Object
