@@ -515,11 +515,11 @@ class ProjectManagerInstallation
         foreach($item in $listOfProjects)
         {
             # Setup a string containing the results to the user.
-            [string] $fileResults = ("File Name: "          + $item.GetFileName()       + "`r`n" + `
-                                    "Verification Passed: " + $item.GetVerification()   + "`r`n" + `
-                                    "Installed: "           + $item.GetInstalled()      + "`r`n" + `
-                                    "Installed Path: "      + $item.GetFilePath()       + "`r`n" + `
-                                    "Overall Status: "      + $item.GetMessage()        + "`r`n");
+            [string] $fileResults = ("File Name:           " + $item.GetFileName()      + "`r`n" + `
+                                     "Verification Passed: " + $item.GetVerification()  + "`r`n" + `
+                                     "Installed:           " + $item.GetInstalled()     + "`r`n" + `
+                                     "Installed Path:      " + $item.GetFilePath()      + "`r`n" + `
+                                     "Overall Status:      " + $item.GetMessage()       + "`r`n");
 
 
             # Show the results to the user
