@@ -125,7 +125,7 @@ class ProjectManagerInstallation
 
         # Finished
         return $exitStatus;
-    } # Main()
+    } # __Main()
 
 
 
