@@ -493,8 +493,9 @@ class ProjectManagerInstallation
    <# Show Project Installation Report
     # -------------------------------
     # Documentation:
-    #  This function will show an installation report of all of the projects selected by the user.
-    #   The report will show what had been installed, what could not be installed along with a reason.
+    #  This function will show an installation report of all of the projects that had been selected by the
+    #   user.  The report will show what had been installed or what could not be installed along with a
+    #   reason of the failure.
     # -------------------------------
     # Input:
     #  [System.Collections.ArrayList] List of Projects
@@ -509,8 +510,8 @@ class ProjectManagerInstallation
                                     "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n");
 
 
-        # Output the results to the user such that they know the what had been installed or could
-        #   not be installed.
+        # Output the results to the user such that they know what had been installed or could not be
+        #  installed.
         foreach($item in $listOfProjects)
         {
             # Setup a string containing the results to the user.
