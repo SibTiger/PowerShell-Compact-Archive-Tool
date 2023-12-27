@@ -457,7 +457,7 @@ class ProjectManagerInstallation
                 $logActivity = $logActivity + "`r`n`t- Result: Passed!";
 
                 # Provide additional information
-                $logAdditionalInformation = "The file is healthy and can be installed.";
+                $logAdditionalInformation = "This file is healthy and can be installed.";
 
                 # Adjust the attributes of the desired file entry.
                 $item.SetVerification([EmbedInstallerFileVerification]::Passed);
@@ -470,13 +470,13 @@ class ProjectManagerInstallation
                 $logActivity = $logActivity + "`r`n`t- Result: Failed!";
 
                 # Provide additional information
-                $logAdditionalInformation = "The file is damaged and cannot be installed.";
+                $logAdditionalInformation = "This file is damaged and cannot be installed.";
 
                 # Adjust the attributes of the desired file entry.
                 $item.SetVerification([EmbedInstallerFileVerification]::Failed);
 
                 # Provide the reason for why the file will not be installed.
-                $item.SetMessage("The file is determined to be corrupted and cannot be installed.");
+                $item.SetMessage("This file had been determined to be corrupted, and therefore, cannot be installed.");
 
                 # Clear the absolute path as we can no longer use this file.
                 $item.SetFilePathAsEmpty();
