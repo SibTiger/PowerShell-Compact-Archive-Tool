@@ -207,7 +207,8 @@ class ProjectManagerInstallation
    <# Draw Main Instructions
     # -------------------------------
     # Documentation:
-    #  Provide instructions to the user regarding the installation procedure.
+    #  Provide the instructions to the user regarding the process of installing and\or updating projects
+    #   into the program's environment.
     # -------------------------------
     #>
     hidden static [void] __DrawMainInstructions()
@@ -219,12 +220,12 @@ class ProjectManagerInstallation
             "`r`n"                                                                                                  + `
             "`r`n"                                                                                                  + `
             "To install new projects into $($GLOBAL:_PROGRAMNAME_) or to update already existing, use the `r`n"     + `
-            " Windows' File Browser to select the desired projects to install or update.`r`n"                       + `
+            " Windows' File Browser to select the desired projects that you want installed.`r`n"                    + `
             " The $($GLOBAL:_PROGRAMNAMESHORT_) Project Manager will automatically try to install or update the"    + `
             " projects for you.`r`n"                                                                                + `
             "`r`n"                                                                                                  + `
             "`r`n"                                                                                                  + `
-            "NOTE: To abort this operation, you may select 'Cancel' in the File Browser.`r`n"                       + `
+            "NOTE: To abort this operation, you may select 'Cancel' in the Windows' File Browser.`r`n"              + `
             "`r`n`r`n");
 
 
@@ -239,7 +240,7 @@ class ProjectManagerInstallation
     # -------------------------------
     # Documentation:
     #  This function is designed to give the user the ability to specify what project file or files that they
-    #   wish to install\update.
+    #   wish to install\update into the program's environment.
     # -------------------------------
     # Input:
     #  [System.Collections.ArrayList] (System.Object) Project File List
@@ -400,12 +401,12 @@ class ProjectManagerInstallation
    <# Check Archive File Integrity
     # -------------------------------
     # Documentation:
-    #  This function will verify the integrity of the files that had been selected by the user to install.
+    #  This function will verify the integrity of the files that had been selected by the user.
     #   In by doing so, if incase one or more files are corrupted - this function will mark those files as
     #   damaged - using the EmbedInstallerFiler datatype attributes.
     #
     #
-    #  NOTE: All entries within the Array List are to be in the EmbedInstallerFile.
+    #  NOTE: All entries within the Array List must be in the EmbedInstallerFile data type.
     # -------------------------------
     # Input:
     #  [System.Collections.ArrayList] {EmbedInstallerFile} File Collection
