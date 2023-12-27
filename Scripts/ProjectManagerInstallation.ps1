@@ -61,6 +61,10 @@ class ProjectManagerInstallation
         [System.Collections.ArrayList] $listOfProjectsToInstall = [System.Collections.ArrayList]::New();
 
 
+        # Operation Status; this will provide the overall operation state.
+        [ProjectManagerInstallationExitCondition] $operationState = [ProjectManagerInstallationExitCondition]::Error;
+
+
         # Operation Status that will be returned to the calling function.
         [bool] $exitStatus = $false;
         # ----------------------------------------
@@ -91,8 +95,12 @@ class ProjectManagerInstallation
         [ProjectManagerInstallation]::__CheckArchiveFileIntegrity($listOfProjectsToInstall);
 
 
+        # Perform the Installation
+        $operationState = [ProjectManagerInstallation]::__InstallProjects($listOfProjectsToInstall);
+
+
         # Alert the user of the installation status
-        switch ([ProjectManagerInstallation]::__InstallProjects($listOfProjectsToInstall))
+        switch ($operationState)
         {
             # Overall Operation was Successful
             ([ProjectManagerInstallationExitCondition]::Successful)
