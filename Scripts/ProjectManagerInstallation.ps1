@@ -99,7 +99,7 @@ class ProjectManagerInstallation
         $operationState = [ProjectManagerInstallation]::__InstallProjects($listOfProjectsToInstall);
 
 
-        # Show the overall installation status
+        # Show the overall installation status to the user
         [ProjectManagerInstallation]::__DisplayInstallationOperationStatus($operationState)
 
 
@@ -538,7 +538,7 @@ class ProjectManagerInstallation
     # -------------------------------
     # Documentation:
     #  Determine the overall state of the Install Projects function.  This will define if the entire
-    #   installation\update procedure was either successful or had failed.
+    #   installation\update procedure had been successful or had failed.
     # -------------------------------
     # Input:
     #  [ProjectManagerInstallationExitCondition] Result of Installation
