@@ -104,7 +104,7 @@ class ProjectManagerInstallation
 
 
         # Determine if the Installation function had reached an error.
-        $exitStatus = [ProjectManagerInstallation]::__InstallProjectsErrorState($operationState);
+        $exitStatus = [ProjectManagerInstallation]::__InstallProjectsOverallState($operationState);
 
 
         # Provide some padding such that it is easier to read.
