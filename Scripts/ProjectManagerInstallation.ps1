@@ -99,94 +99,20 @@ class ProjectManagerInstallation
         $operationState = [ProjectManagerInstallation]::__InstallProjects($listOfProjectsToInstall);
 
 
-        # Alert the user of the installation status
-        switch ($operationState)
-        {
-            # Overall Operation was Successful
-            ([ProjectManagerInstallationExitCondition]::Successful)
-            {
-                # Display Message
-                [Logging]::DisplayMessage("Successfully installed all desired projects!");
-
-                # Mark as the installation was successful
-                $exitStatus = $true;
-
-                # Finished
-                break;
-            } # Successful
+        # Show the overall installation status
+        [ProjectManagerInstallation]::__DisplayInstallationOperationStatus($operationState)
 
 
-            # Overall Operation had Encountered one or more Errors
-            ([ProjectManagerInstallationExitCondition]::Error)
-            {
-                # Display Message
-                [Logging]::DisplayMessage("One or more files could not be installed!");
-                [Logging]::DisplayMessage("Please look at the report for details.");
-
-                # Mark as the installation as an error
-                $exitStatus = $false;
-
-                # Finished
-                break;
-            } # Error
+        # Determine if the Installation function had reached an error.
+        $exitStatus = [ProjectManagerInstallation]::__InstallProjectsErrorState($operationState);
 
 
-            # Overall Operation was Generally Successful; but encountered builds that could not be installed
-            ([ProjectManagerInstallationExitCondition]::SameOrOlder)
-            {
-                # Display Message
-                [Logging]::DisplayMessage("Successfully installed most of the desired project!");
-                [Logging]::DisplayMessage("Please look at the report for details.");
-
-                # Mark as the installation was successful, despite some installation were refused.
-                $exitStatus = $true;
-
-                # Finished
-                break;
-            } # Same or Older
+        # Provide some padding such that it is easier to read.
+        [Logging]::DisplayMessage("`r`n");
 
 
-            # A fatal error had been reached
-            ([ProjectManagerInstallationExitCondition]::Fatal)
-            {
-                # Display Message
-                [Logging]::DisplayMessage("A fatal error had occurred, the operation had been aborted!");
-                [Logging]::DisplayMessage("Please refer to the the $($GLOBAL:_PROGRAMNAMESHORT_) program's logfile.");
-
-                # Mark as the installation had failed
-                $exitStatus = $false;
-
-                # Finished
-                break;
-            } # Fatal
-        } # Switch : Overall Operation Status
-
-
-        # Provide a report of the files that had been installed or could not be installed.
-        [Logging]::DisplayMessage("`r`nInstallation Report of the Following Files:`r`n" + `
-                                    "= = = = = = = = = = = = = = = = = = = = = = = = = = = = = =`r`n" + `
-                                    "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n");
-
-
-        # Output the results to the user such that they know the what had been installed or could
-        #   not be installed.
-        foreach($item in $listOfProjectsToInstall)
-        {
-            # Setup a string containing the results to the user.
-            [string] $fileResults = ("File Name: "          + $item.GetFileName()       + "`r`n" + `
-                                    "Verification Passed: " + $item.GetVerification()   + "`r`n" + `
-                                    "Installed: "           + $item.GetInstalled()      + "`r`n" + `
-                                    "Installed Path: "      + $item.GetFilePath()       + "`r`n" + `
-                                    "Overall Status: "      + $item.GetMessage()        + "`r`n");
-
-
-            # Show the results to the user
-            [Logging]::DisplayMessage($fileResults);
-
-
-            # Provide a border to help keep the output nicer to read.
-            [Logging]::DisplayMessage("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n");
-        } # Foreach : Output Installation Results
+        # Show the project installation report to the user
+        [ProjectManagerInstallation]::__DisplayProjectInstallationReport($listOfProjectsToInstall);
 
 
         # Provide some padding such that it is easier to read.
@@ -490,6 +416,163 @@ class ProjectManagerInstallation
                                         [LogMessageLevel]::Information);
         } # foreach : Verify Archive File(s)
     } # __CheckArchiveFileIntegrity()
+
+
+
+
+   <# Display Installation Overall Operation Status
+    # -------------------------------
+    # Documentation:
+    #  Displays a message regarding the overall installation status to the user.
+    # -------------------------------
+    # Input:
+    #  [ProjectManagerInstallationExitCondition] Result of Installation
+    #   Provides the overall operation of the Installation process.
+    # -------------------------------
+    #>
+    hidden static [void] __DisplayInstallationOperationStatus([ProjectManagerInstallationExitCondition] $result)
+    {
+        switch ($result)
+        {
+            # Overall Operation was Successful
+            ([ProjectManagerInstallationExitCondition]::Successful)
+            {
+                # Display Message
+                [Logging]::DisplayMessage("Successfully installed all desired projects!");
+                [Logging]::DisplayMessage("Please look at the report for details.");
+
+
+                # Finished
+                return;
+            } # Successful
+
+
+            # Overall Operation had Encountered one or more Errors
+            ([ProjectManagerInstallationExitCondition]::Error)
+            {
+                # Display Message
+                [Logging]::DisplayMessage("One or more files could not be installed!");
+                [Logging]::DisplayMessage("Please look at the report for details.");
+
+
+                # Finished
+                return;
+            } # Error
+
+
+            # Overall Operation was Generally Successful; but encountered builds that could not be installed
+            ([ProjectManagerInstallationExitCondition]::SameOrOlder)
+            {
+                # Display Message
+                [Logging]::DisplayMessage("Successfully installed most of the desired project!");
+                [Logging]::DisplayMessage("Please look at the report for details.");
+
+
+                # Finished
+                return;
+            } # Same or Older
+
+
+            # A fatal error had been reached
+            ([ProjectManagerInstallationExitCondition]::Fatal)
+            {
+                # Display Message
+                [Logging]::DisplayMessage("A fatal error had occurred, the operation had been aborted!");
+                [Logging]::DisplayMessage("Please refer to the the $($GLOBAL:_PROGRAMNAMESHORT_) program's logfile.");
+
+
+                # Finished
+                return;
+            } # Fatal
+        } # Switch : Overall Operation Status
+    } # __DisplayInstallationOperationStatus()
+
+
+
+
+   <# Show Project Installation Report
+    # -------------------------------
+    # Documentation:
+    #  This function will show an installation report of all of the projects selected by the user.
+    #   The report will show what had been installed, what could not be installed along with a reason.
+    # -------------------------------
+    # Input:
+    #  [System.Collections.ArrayList] List of Projects
+    #   List of projects that had been provided by the user to install\update.
+    # -------------------------------
+    #>
+    hidden static [void] __DisplayProjectInstallationReport([System.Collections.ArrayList] $listOfProjects)
+    {
+        # Provide a report of the files that had been installed or could not be installed.
+        [Logging]::DisplayMessage("Installation Report of the Following Files:`r`n"                     + `
+                                    "= = = = = = = = = = = = = = = = = = = = = = = = = = = = = =`r`n"   + `
+                                    "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n");
+
+
+        # Output the results to the user such that they know the what had been installed or could
+        #   not be installed.
+        foreach($item in $listOfProjects)
+        {
+            # Setup a string containing the results to the user.
+            [string] $fileResults = ("File Name: "          + $item.GetFileName()       + "`r`n" + `
+                                    "Verification Passed: " + $item.GetVerification()   + "`r`n" + `
+                                    "Installed: "           + $item.GetInstalled()      + "`r`n" + `
+                                    "Installed Path: "      + $item.GetFilePath()       + "`r`n" + `
+                                    "Overall Status: "      + $item.GetMessage()        + "`r`n");
+
+
+            # Show the results to the user
+            [Logging]::DisplayMessage($fileResults);
+
+
+            # Provide a border to help keep the output nicer to read.
+            [Logging]::DisplayMessage("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n");
+        } # Foreach : Output Installation Results
+    } # __DisplayProjectInstallationReport()
+
+
+
+
+   <# Determine Installation Overall State
+    # -------------------------------
+    # Documentation:
+    #  Determine the overall state of the Install Projects function.  This will define if the entire
+    #   installation\update procedure was either successful or had failed.
+    # -------------------------------
+    # Input:
+    #  [ProjectManagerInstallationExitCondition] Result of Installation
+    #   Provides the overall operation of the Installation process.
+    # -------------------------------
+    # Output:
+    #  Overall Operation State
+    #   true  = Overall installation was successful.
+    #   false = Overall installation had failed.
+    # -------------------------------
+    #>
+    hidden static [bool] __InstallProjectsOverallState([ProjectManagerInstallationExitCondition] $result)
+    {
+        switch ($result)
+        {
+            # Overall Operation was Successful
+            ([ProjectManagerInstallationExitCondition]::Successful)     { return $true;  }
+
+
+            # Overall Operation had Encountered one or more Errors
+            ([ProjectManagerInstallationExitCondition]::Error)          { return $false; }
+
+
+            # Overall Operation was Generally Successful; but encountered builds that could not be installed
+            ([ProjectManagerInstallationExitCondition]::SameOrOlder)    { return $true;  }
+
+
+            # A fatal error had been reached
+            ([ProjectManagerInstallationExitCondition]::Fatal)          { return $false; }
+        } # Switch : Overall Operation Status
+
+
+        # If we made it here - than the condition is unknown, which will be treated as an error.
+        return $false;
+    } # __InstallProjectsOverallState()
 
 
 
