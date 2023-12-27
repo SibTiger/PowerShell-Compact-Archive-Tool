@@ -420,10 +420,10 @@ class ProjectManagerInstallation
 
 
 
-   <# Display Installation Overall Operation Status
+   <# Display Installation Overall Status
     # -------------------------------
     # Documentation:
-    #  Displays a message regarding the overall installation status to the user.
+    #  Show a message to the user of the overall installation procedure status.
     # -------------------------------
     # Input:
     #  [ProjectManagerInstallationExitCondition] Result of Installation
