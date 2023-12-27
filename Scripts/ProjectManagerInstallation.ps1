@@ -433,7 +433,7 @@ class ProjectManagerInstallation
         [Logging]::DisplayMessage("Verifying file(s). . .`r`n");
 
 
-        # Inspect _ALL_ files and verify that the archive data file(s) are healthy.
+        # Verify that _ALL_ of the archive data file(s) are healthy.
         foreach ($item in $fileCollection)
         {
             # Declarations and Initializations
