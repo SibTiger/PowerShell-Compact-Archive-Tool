@@ -694,6 +694,50 @@ function __InitializationProjectManager()
         -ErrorAction SilentlyContinue `
 } # __InitializationEmbedInstaller()
         -Description "States how lines of content are within the project's meta file.";
+
+
+    # Required meta string data (Natural Numbers)
+    Set-Variable `
+        -Name "_META_REQUIRED_NUMBER_OF_STRINGS_" `
+        -Value 3 `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -ErrorAction SilentlyContinue `
+        -Description "The required number of strings that must be obtained from the Meta file.";
+
+
+    # Meta string for 'Project Name' found within the project's meta file.
+    Set-Variable `
+        -Name "_META_STRING_PROJECT_NAME_" `
+        -Value "Project_Name" `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -ErrorAction SilentlyContinue `
+        -Description "A string within the project's meta file that contains the Project's Name.";
+
+
+    # Meta string for 'Project Revision' found within the project's meta file.
+    Set-Variable `
+        -Name "_META_STRING_PROJECT_REVISION_" `
+        -Value "Project_Revision" `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -ErrorAction SilentlyContinue `
+        -Description "A string within the project's meta file that contains the Project's Revision.";
+
+
+    # Meta string for 'Project Signature' found within the project's meta file.
+    Set-Variable `
+        -Name "_META_STRING_PROJECT_SIGNATURE_" `
+        -Value "Project_Signature" `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -ErrorAction SilentlyContinue `
+        -Description "A string within the project's meta file that contains the Project's Signature.";
 } # __InitializationProjectManager()
 
 
