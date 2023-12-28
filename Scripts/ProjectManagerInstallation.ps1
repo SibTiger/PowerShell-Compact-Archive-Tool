@@ -548,10 +548,6 @@ class ProjectManagerInstallation
     #  This function will show an installation report of all of the projects that had been selected by the
     #   user.  The report will show what had been installed or what could not be installed along with a
     #   reason of the failure.
-    #
-    # TODO:
-    #   Sanitize the output such that it is friendly to the user, BUT keeping the same output for logging purposes.
-    #   !!!!!!!!!!!!!!!!!
     # -------------------------------
     # Input:
     #  [System.Collections.ArrayList] List of Projects
@@ -570,34 +566,19 @@ class ProjectManagerInstallation
         #  installed.
         foreach($item in $listOfProjects)
         {
-            # Declarations and Initializations
-            # ----------------------------------------
-            # Holds the Project's path OR shows that no path is available.
-            [string] $projectPath = $null;
-            # ----------------------------------------
+            # Setup a string containing the results for the logging.
+            [string] $fileResultsLogging = ( `
+                                "File Name:           " + $item.GetFileName()      + "`r`n" + `
+                                "Verification Passed: " + $item.GetVerification()  + "`r`n" + `
+                                "Installed:           " + $item.GetInstalled()     + "`r`n" + `
+                                "Installed Path:      " + $item.GetFilePath()      + "`r`n" + `
+                                "Overall Status:      " + $item.GetMessage()       + "`r`n");
 
-
-            # Determine if the file path is empty; an empty string indicates that the project had not been
-            #   installed.
-            if ($null -eq $item.GetFilePath() -or `     # If the string is null
-                "$($NULL)" -eq $item.GetFilePath())     # If the string is empty
-            {
-                # Project was not installed within the program's environment.
-                $projectPath    = " - NOT INSTALLED -";
-            } # if : Project not Installed
-            else
-            {
-                # Project was installed
-                $projectPath    = $item.GetFilePath();
-            } # else : Project was Installed
-
-
-            # Setup a string containing the results to the user.
-            [string] $fileResults = ("File Name:           " + $item.GetFileName()      + "`r`n" + `
-                                     "Verification Passed: " + $item.GetVerification()  + "`r`n" + `
-                                     "Installed:           " + $item.GetInstalled()     + "`r`n" + `
-                                     "Installed Path:      " + $projectPath             + "`r`n" + `
-                                     "Overall Status:      " + $item.GetMessage()       + "`r`n");
+            # Setup a string containing the results for the logging.
+            [string] $fileResults = ( `
+                                "File Name:           " + $item.GetFileName()      + "`r`n" + `
+                                "Installed:           " + $item.GetInstalled()     + "`r`n" + `
+                                "Overall Status:      " + $item.GetMessage()       + "`r`n");
 
 
             # Show the results to the user
@@ -606,6 +587,26 @@ class ProjectManagerInstallation
 
             # Provide a border to help keep the output nicer to read.
             [Logging]::DisplayMessage("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n");
+
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Project Installation Report for $($item.GetFileName):");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = $fileResultsLogging;
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
+
+
+            # * * * * * * * * * * * * * * * * * * *
         } # Foreach : Output Installation Results
     } # __DisplayProjectInstallationReport()
 
