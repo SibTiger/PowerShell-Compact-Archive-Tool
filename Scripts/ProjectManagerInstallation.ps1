@@ -305,7 +305,7 @@ class ProjectManagerInstallation
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
                                         $logAdditionalMSG, `            # Additional information
-                                        [LogMessageLevel]::Warning);    # Message level
+                                        [LogMessageLevel]::Error);      # Message level
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -396,7 +396,7 @@ class ProjectManagerInstallation
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
                                         $logAdditionalMSG, `            # Additional information
-                                        [LogMessageLevel]::Warning);    # Message level
+                                        [LogMessageLevel]::Error);      # Message level
 
 
             # * * * * * * * * * * * * * * * * * * *
