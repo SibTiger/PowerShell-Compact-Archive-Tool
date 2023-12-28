@@ -568,11 +568,11 @@ class ProjectManagerInstallation
         {
             # Setup a string containing the results for the logging.
             [string] $fileResultsLogging = ( `
-                                "File Name:           " + $item.GetFileName()      + "`r`n" + `
-                                "Verification Passed: " + $item.GetVerification()  + "`r`n" + `
-                                "Installed:           " + $item.GetInstalled()     + "`r`n" + `
-                                "Installed Path:      " + $item.GetFilePath()      + "`r`n" + `
-                                "Overall Status:      " + $item.GetMessage()       + "`r`n");
+                                "File Name:           " + $item.GetFileName()      + "`r`n`t" + `
+                                "Verification Passed: " + $item.GetVerification()  + "`r`n`t" + `
+                                "Installed:           " + $item.GetInstalled()     + "`r`n`t" + `
+                                "Installed Path:      " + $item.GetFilePath()      + "`r`n`t" + `
+                                "Overall Status:      " + $item.GetMessage()       + "`r`n`t");
 
             # Setup a string containing the results for the logging.
             [string] $fileResults = ( `
