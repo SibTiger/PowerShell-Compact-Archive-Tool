@@ -429,7 +429,6 @@
         {
             $metaContents = Get-Content                                             `
                                 -Path $metaFilePath                                 `
-                                -TotalCount $GLOBAL:_META_FILE_CONTENT_LINE_SIZE_   `
                                 -ErrorAction Stop;
 
 
