@@ -692,7 +692,6 @@ function __InitializationProjectManager()
         -Option ReadOnly `
         -Visibility Public `
         -ErrorAction SilentlyContinue `
-} # __InitializationEmbedInstaller()
         -Description "States how lines of content are within the project's meta file.";
 
 
