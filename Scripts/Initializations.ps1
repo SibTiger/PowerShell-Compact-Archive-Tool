@@ -681,7 +681,7 @@ function __InitializationProjectManager()
         -Option ReadOnly `
         -Visibility Public `
         -ErrorAction SilentlyContinue `
-        -Description "Provides the filename of the project's meta file."
+        -Description "Provides the filename of the project's meta file.";
 
 
     # Project's Meta Content Size
@@ -692,8 +692,8 @@ function __InitializationProjectManager()
         -Option ReadOnly `
         -Visibility Public `
         -ErrorAction SilentlyContinue `
-        -Description "States how lines of content are within the project's meta file."
 } # __InitializationEmbedInstaller()
+        -Description "States how lines of content are within the project's meta file.";
 } # __InitializationProjectManager()
 
 
