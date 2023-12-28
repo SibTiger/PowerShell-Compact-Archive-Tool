@@ -287,7 +287,33 @@ class ProjectManagerInstallation
 
 
         # If there is nothing within the provided list, then there is nothing to transform.
-        if ($fileList.Count -eq 0) { return; }
+        if ($fileList.Count -eq 0)
+        {
+            # There exists no files within the File List, nothing to metamorphose.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Unable to perform metamorphism as there exists no files within the File List!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "$($NULL)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
+
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Abruptly terminate from this function
+            return;
+        } # if : File List is Empty
 
 
 
@@ -352,7 +378,33 @@ class ProjectManagerInstallation
 
 
         # If there's nothing provided, then there is nothing todo.
-        if ($fileCollection.Count -eq 0) { return; }
+        if ($fileCollection.Count -eq 0)
+        {   # There exists no files within the File Collection, nothing to validate.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Unable to perform validation as there exists no files within the" + `
+                                    " File Collection List!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "$($NULL)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
+
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Abruptly terminate from this function
+            return;
+        } # if : File Collection List is Empty
 
 
         # Alert the user that we are inspecting the provided files.
@@ -648,7 +700,34 @@ class ProjectManagerInstallation
 
 
         # Obtain a list of what projects had already been installed.
-        if (![ProjectManagerCommon]::__GetInstalledProjects($listOfInstalledProjects)) { return $false; }
+        if (![ProjectManagerCommon]::__GetInstalledProjects($listOfInstalledProjects))
+        {   # Because we are not able to obtain what projects already installed within the host environment,
+            #   we will need to abort the entire operation.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Unable to install projects as it was not possible to fetch current " + `
+                                    "installed projects within the environment!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "$($NULL)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Unable to continue; abort from this function.
+            return $false;
+        } # if : Failed to Obtain Current Installed Projects
 
 
 
