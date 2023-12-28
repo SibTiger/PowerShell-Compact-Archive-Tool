@@ -46,8 +46,8 @@ function Initializations()
     # Program environment
     InitializationEnvironment;
 
-    # Embed Installer
-    __InitializationEmbedInstaller;
+    # Project Manager Manager
+    __InitializationProjectManager;
 
     # Generalized Variables
     __GeneralizedVariables;
@@ -665,13 +665,13 @@ function __GeneralizedVariables()
 
 
 
-<# Initialization: Embed Installer
+<# Initialization: Project Manager
  # -------------------------------
  # Documentation:
- #  This function will initialize the variables that will be used within the Embed Installer functionality.
+ #  This function will initialize the variables that will be used within the Project Manager functionality.
  # -------------------------------
  #>
-function __InitializationEmbedInstaller()
+function __InitializationProjectManager()
 {
     # Project's Meta Filename
     Set-Variable `
@@ -694,6 +694,7 @@ function __InitializationEmbedInstaller()
         -ErrorAction SilentlyContinue `
         -Description "States how lines of content are within the project's meta file."
 } # __InitializationEmbedInstaller()
+} # __InitializationProjectManager()
 
 
 

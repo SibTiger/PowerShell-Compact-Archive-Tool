@@ -387,6 +387,9 @@
         # This will hold the contents from the meta file, we can use this to manipulate and process the data
         #   as necessary to retrieve the proper data.
         [System.Collections.ArrayList] $metaContents = [System.Collections.ArrayList]::new();
+
+        # Hash Table that will hold our obtained meta data strings.
+        $metaStrings = @{};
         # ----------------------------------------
 
 
@@ -502,49 +505,80 @@
         } # catch : Caught Error
 
 
-        # Make sure that the contents from the Meta file are in the appropriate structure per line.
-        if (!   ($metaContents[0].Contains("Project_Name:")     -and `      # First Line Must Contain: Project_Name:
-                ($metaContents[1].Contains("Project_Revision:") -and `      # Second Line Must Contain: Project_Revision:
-                ($metaContents[2].Contains("Project_Signature:")))))        # Third Line Must Contain: Project_Signature:
+
+        # Iterate through the array and pick out the necessary meta data.
+        # Scan through the array and obtain the necessary data
+        foreach ($item in $metaContents)
         {
-            # The structure of the contents are not correct
+            # Project Name
+            if($item.Contains($GLOBAL:_META_STRING_PROJECT_NAME_))
+            { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_NAME_, $item); }
+
+            # Project Revision
+            elseif ($item.Contains($GLOBAL:_META_STRING_PROJECT_REVISION_))
+            { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_REVISION_, $item); }
+
+            # Project Signature
+            elseif ($item.Contains($GLOBAL:_META_STRING_PROJECT_SIGNATURE_))
+            { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_SIGNATURE_, $item); }
+        } # foreach: Find Necessary Strings
+
+
+        # Make sure that we have enough information from the project's meta file.
+        if ($metaStrings.Count -ne $GLOBAL:_META_REQUIRED_NUMBER_OF_STRINGS_)
+        {
+            # Declarations and Initializations
+            # ----------------------------------------
+            # This will show the line number in which a string appears within the meta file.
+            [UInt64] $metaLineNumber                        = 0;
+
+
+            # Only used to show all of the meta contents in a formatted view.
+            [System.Collections.ArrayList] $cacheStringList = [System.Collections.ArrayList]::new();
+            # ----------------------------------------
+
+
+
+            # Generate and format the string
+            foreach ($stringLine in $metaContents)
+            {
+                # Increment the Line Number
+                $metaLineNumber++;
+
+                # Build String
+                $cacheStringList.Add("`t`t$($metaLineNumber.ToString()) | $($stringLine)`r`n");
+            } # foreach: Iterate and Generate a Formatted String
+
 
 
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
-            # Prep a message to display to the user regarding this error; temporary variable
-            [string] $displayErrorMessage = ("Content structure within the Meta File are not correct!");
-
             # Generate the initial message
-            [string] $logMessage = $displayErrorMessage;
+            [string] $logMessage = ("Unable to obtain significant information from the project's meta file!");
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Meta File to Open:`r`n"                              + `
-                                            "`t`t$($metaFilePath)`r`n"                          + `
-                                            "`tExpected the structure to be as follows:`r`n"    + `
-                                            "`t`tProject_Name`r`n"                              + `
-                                            "`t`tProject_Revision`r`n"                          + `
-                                            "`t`tProject_Signature");
-
+            [string] $logAdditionalMSG =    "Got $(($metaStrings.Count).ToString()) out of $(($GLOBAL:_META_REQUIRED_NUMBER_OF_STRINGS_).ToString()) Useful strings from the Meta file!`r`n" + `
+                                            "`tExpected to find the following information in meta file:`r`n" + `
+                                            "`t`t - $($GLOBAL:_META_STRING_PROJECT_NAME_)`r`n" + `
+                                            "`t`t - $($GLOBAL:_META_STRING_PROJECT_REVISION_)`r`n" + `
+                                            "`t`t - $($GLOBAL:_META_STRING_PROJECT_SIGNATURE_)`r`n" + `
+                                            "`tInstead, the following was found within the meta file:`r`n" + `
+                                            "$($cacheStringList)";
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                        $logAdditionalMSG, `        # Additional information
-                                        [LogMessageLevel]::Error);  # Message level
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
 
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
-                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Unable to continue, abort operation
+            # Unable to continue forward, abort
             return $false;
-        } # if : Meta Contents not Correct
+        } # if : Not Enough Information from Meta File
 
 
 
@@ -553,13 +587,13 @@
         try
         {
             # Project's Name
-            $projectName.Value      = [string]  ($metaContents[0] -Replace "Project_Name:").Trim();
+            $projectName.Value      = [string]  ($metaStrings[$GLOBAL:_META_STRING_PROJECT_NAME_] -Replace "$($GLOBAL:_META_STRING_PROJECT_NAME_):").Trim();
 
             # Project's Revision
-            $projectRevision.Value  = [UInt64]  ($metaContents[1] -Replace "Project_Revision:").Trim();
+            $projectRevision.Value  = [UInt64]  ($metaContents[$GLOBAL:_META_STRING_PROJECT_REVISION_] -Replace "$($GLOBAL:_META_STRING_PROJECT_REVISION_):").Trim();
 
             # Project's Signature
-            $projectSignature.Value = [GUID]    ($metaContents[2] -Replace "Project_Signature:").Trim();
+            $projectSignature.Value = [GUID]    ($metaContents[$GLOBAL:_META_STRING_PROJECT_SIGNATURE_] -Replace "$($GLOBAL:_META_STRING_PROJECT_SIGNATURE_):").Trim();
         } # try : Assign Proper Values
 
         # Caught Error
@@ -579,7 +613,7 @@
             [string] $logMessage = $displayErrorMessage;
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("$($NULL)");
+            [string] $logAdditionalMSG = "";
 
 
             # Pass the information to the logging system
