@@ -590,10 +590,10 @@
             $projectName.Value      = [string]  ($metaStrings[$GLOBAL:_META_STRING_PROJECT_NAME_] -Replace "$($GLOBAL:_META_STRING_PROJECT_NAME_):").Trim();
 
             # Project's Revision
-            $projectRevision.Value  = [UInt64]  ($metaContents[$GLOBAL:_META_STRING_PROJECT_REVISION_] -Replace "$($GLOBAL:_META_STRING_PROJECT_REVISION_):").Trim();
+            $projectRevision.Value  = [UInt64]  ($metaStrings[$GLOBAL:_META_STRING_PROJECT_REVISION_] -Replace "$($GLOBAL:_META_STRING_PROJECT_REVISION_):").Trim();
 
             # Project's Signature
-            $projectSignature.Value = [GUID]    ($metaContents[$GLOBAL:_META_STRING_PROJECT_SIGNATURE_] -Replace "$($GLOBAL:_META_STRING_PROJECT_SIGNATURE_):").Trim();
+            $projectSignature.Value = [GUID]    ($metaStrings[$GLOBAL:_META_STRING_PROJECT_SIGNATURE_] -Replace "$($GLOBAL:_META_STRING_PROJECT_SIGNATURE_):").Trim();
         } # try : Assign Proper Values
 
         # Caught Error
