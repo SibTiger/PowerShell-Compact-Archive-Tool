@@ -496,6 +496,10 @@ class ProjectManagerInstallation
     #  This function will show an installation report of all of the projects that had been selected by the
     #   user.  The report will show what had been installed or what could not be installed along with a
     #   reason of the failure.
+    #
+    # TODO:
+    #   Sanitize the output such that it is friendly to the user, BUT keeping the same output for logging purposes.
+    #   !!!!!!!!!!!!!!!!!
     # -------------------------------
     # Input:
     #  [System.Collections.ArrayList] List of Projects
