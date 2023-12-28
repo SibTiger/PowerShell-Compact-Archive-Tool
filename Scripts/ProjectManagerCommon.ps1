@@ -601,8 +601,30 @@
 
         # Caught Error
         catch
-        {
-            # Improper Datatype Assignment had Occurred.
+        {   # Improper Datatype Assignment had Occurred.
+
+            # Declarations and Initializations
+            # ----------------------------------------
+            # This will show the line number in which a string appears within the meta file.
+            [UInt64] $metaLineNumber                        = 0;
+
+
+            # Only used to show all of the meta contents in a formatted view.
+            [System.Collections.ArrayList] $cacheStringList = [System.Collections.ArrayList]::new();
+            # ----------------------------------------
+
+
+
+            # Generate and format the string
+            foreach ($stringLine in $metaContents)
+            {
+                # Increment the Line Number
+                $metaLineNumber++;
+
+                # Build String
+                $cacheStringList.Add("`t`t$($metaLineNumber.ToString()) | $($stringLine)`r`n");
+            } # foreach: Iterate and Generate a Formatted String
+
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -616,7 +638,15 @@
             [string] $logMessage = $displayErrorMessage;
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "";
+            [string] $logAdditionalMSG =    "Obtained the following values from the project's meta file:`r`n"                           + `
+                                            "`t`t- Project Name      =`t$($metaStrings[$GLOBAL:_META_STRING_PROJECT_NAME_])`r`n"        + `
+                                            "`t`t`tTried to cast as String`r`n"                                                         + `
+                                            "`t`t- Project Revision  =`t$($metaStrings[$GLOBAL:_META_STRING_PROJECT_REVISION_])`r`n"    + `
+                                            "`t`t`tTried to cast as UInt64`r`n"                                                         + `
+                                            "`t`t- Project Signature =`t$($metaStrings[$GLOBAL:_META_STRING_PROJECT_SIGNATURE_])`r`n"   + `
+                                            "`t`t`tTried to cast as GUID`r`n"                                                           + `
+                                            "`tMeta File Contents:`r`n"                                                                 + `
+                                            "$($cacheStringList)"                                                                       ;
 
 
             # Pass the information to the logging system
