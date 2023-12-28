@@ -624,10 +624,6 @@
                                         $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
-                                        [LogMessageLevel]::Error);  # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
