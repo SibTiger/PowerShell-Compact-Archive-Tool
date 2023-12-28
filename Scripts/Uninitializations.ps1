@@ -250,4 +250,34 @@
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
+
+    # Project's Meta File Required String Data
+    Remove-Variable -Name "_META_REQUIRED_NUMBER_OF_STRINGS_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Meta Value Delimiter
+    Remove-Variable -Name "_META_VALUE_DELIMITER_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Meta string for 'Project Name' within Meta File
+    Remove-Variable -Name "_META_STRING_PROJECT_NAME_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Meta string for 'Project Revision' within Meta File
+    Remove-Variable -Name "_META_STRING_PROJECT_REVISION_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Meta string for 'Project Signature' within Meta File
+    Remove-Variable -Name "_META_STRING_PROJECT_SIGNATURE_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
  } # Uninitializations()
