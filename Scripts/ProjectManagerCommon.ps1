@@ -63,7 +63,31 @@
 
         # Make sure that the projects directory exists before trying to scan the directory.
         #  If the directory was not found, then abort the operation.
-        if (![CommonIO]::CheckPathExists($($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_) , $true)) { return $false; }
+        if (![CommonIO]::CheckPathExists($($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_) , $true))
+        {   # Unable to find the installation path for the Projects.
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Failed to obtain a list of installed projects as the directory could not be found!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "Tried to inspect the Project's Installation Path:`r`n"        + `
+                                            "`t`t($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+
+            # * * * * * * * * * * * * * * * * * * *
+
+            # Unable to continue; abruptly abort from this function
+            return $false;
+        } # if : Failed to Find Project's Installation Path
 
 
         # Obtain to obtain all of the existing meta files within the projects directory.
