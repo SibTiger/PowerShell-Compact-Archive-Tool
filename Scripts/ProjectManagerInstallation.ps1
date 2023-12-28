@@ -595,7 +595,7 @@ class ProjectManagerInstallation
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = ("Project Installation Report for $($item.GetFileName):");
+            [string] $logMessage = ("Project Installation Report for $($item.GetFileName()):");
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = $fileResultsLogging;
