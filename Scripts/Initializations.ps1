@@ -706,6 +706,17 @@ function __InitializationProjectManager()
         -Description "The required number of strings that must be obtained from the Meta file.";
 
 
+    # Meta Value Delimiter
+    Set-Variable `
+        -Name "_META_VALUE_DELIMITER_" `
+        -Value "=" `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -ErrorAction SilentlyContinue `
+        -Description "This defines the delimiter that marks the value of a variable within the meta file.";
+
+
     # Meta string for 'Project Name' found within the project's meta file.
     Set-Variable `
         -Name "_META_STRING_PROJECT_NAME_" `
