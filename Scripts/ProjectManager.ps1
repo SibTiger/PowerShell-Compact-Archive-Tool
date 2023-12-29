@@ -52,6 +52,15 @@ class ProjectManager
     #  NOTE:
     #   This is the entry point within this class.
     # -------------------------------
+    # Input:
+    #   [ProjectManagerOperationRequest] User Request
+    #       Specifies what action should be performed within the Project Manager.
+    # -------------------------------
+    # Output:
+    #   [bool] Operation Status
+    #    true  = Operation was successful.
+    #    false = Operation had failed.
+    # -------------------------------
     #>
     static [bool] Main([ProjectManagerOperationRequest] $request)
     {
