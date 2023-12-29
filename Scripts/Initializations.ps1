@@ -684,17 +684,6 @@ function __InitializationProjectManager()
         -Description "Provides the filename of the project's meta file.";
 
 
-    # Project's Meta Content Size
-    Set-Variable `
-        -Name "_META_FILE_CONTENT_LINE_SIZE_" `
-        -Value 3 `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "States how lines of content are within the project's meta file.";
-
-
     # Required meta string data (Natural Numbers)
     Set-Variable `
         -Name "_META_REQUIRED_NUMBER_OF_STRINGS_" `

@@ -245,12 +245,6 @@
         -Force `
         -ErrorAction SilentlyContinue;
 
-    # Project's Meta Content Size
-    Remove-Variable -Name "_META_FILE_CONTENT_LINE_SIZE_" `
-        -Scope Global `
-        -Force `
-        -ErrorAction SilentlyContinue;
-
     # Project's Meta File Required String Data
     Remove-Variable -Name "_META_REQUIRED_NUMBER_OF_STRINGS_" `
         -Scope Global `
