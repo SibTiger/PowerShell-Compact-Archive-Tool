@@ -513,6 +513,9 @@ class CommonCUI
         # Program's Homepage
         [Logging]::DisplayMessage("Homepage:`r`n`t$($Global:_PROGRAMSITEHOMEPAGE_)");
 
+        # Program's Source Code Repository
+        [Logging]::DisplayMessage("Source Code:`r`n`t$($Global:_PROGRAMSITESOURCEREPOSITORY_)");
+
         # Program's Release Page
         [Logging]::DisplayMessage("Downloads:`r`n`t$($Global:_PROGRAMSITEDOWNLOADS_)");
 
