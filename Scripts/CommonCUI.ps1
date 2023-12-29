@@ -521,6 +521,9 @@ class CommonCUI
 
         # Program's Wiki Page
         [Logging]::DisplayMessage("Documentation:`r`n`t$($Global:_PROGRAMSITEWIKI_)");
+
+        # Install Path
+        [Logging]::DisplayMessage("Installation Path:`r`n`t$($Global:_SCRIPTPATH_)");
     } # DrawProgramAbout()
 
 
