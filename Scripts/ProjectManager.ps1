@@ -90,6 +90,10 @@ class ProjectManager
             # Load Project
             ([ProjectManagerOperationRequest]::Load)
             { return $false; }
+
+            # Show Menu
+            ([ProjectManagerOperationRequest]::ShowMenu)
+            { return $false; }
         } # switch : Operation Request
 
 
@@ -114,4 +118,6 @@ class ProjectManager
      Uninstall          = 1;    # Delete installed projects.
      List               = 2;    # Provide a list of what projects are installed.
      Load               = 3;    # Load a project into the environment.
+     ShowMenu           = 4;    # Allow the user to specify what action they want;
+                                #   involves using the Project Manager Menu
  } # ProjectManagerOperationRequest
