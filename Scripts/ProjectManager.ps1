@@ -264,7 +264,7 @@ class ProjectManager
 
 
         # Load a Project
-        [CommonCUI]::DrawMenuItem('Load', `
+        [CommonCUI]::DrawMenuItem('L', `
                                 "Load Project", `
                                 "Load a Project into $($GLOBAL:_PROGRAMNAMESHORT_) environment.", `
                                 $NULL, `
