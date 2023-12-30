@@ -34,7 +34,7 @@
 
 class ProjectManagerInstallation
 {
-   <# Project Manager
+   <# Project Manager Installer - Main Entry
     # -------------------------------
     # Documentation:
     #   This function will drive the installation and\or update of projects into the program's environment.
