@@ -137,6 +137,58 @@ class ProjectManager
         # Show the message to the user.
         [Logging]::DisplayMessage($strAbout);
     } # __About()
+
+
+
+ 
+   <# Project Manager - Show Main Menu
+    # -------------------------------
+    # Documentation:
+    #  This function will show the Project Manager's Main Menu and what options are available to the user.
+    # -------------------------------
+    #>
+    hidden static [void] __DrawMainMenu()
+    {
+        # Install Projects
+        [CommonCUI]::DrawMenuItem('I', `
+                                "Install Project(s)", `
+                                "Install or Update new Projects into $($GLOBAL:_PROGRAMNAMESHORT_).", `
+                                $NULL, `
+                                $true);
+
+
+        # Uninstall Projects
+        [CommonCUI]::DrawMenuItem('U', `
+                                "Uninstall Project(s)", `
+                                "Uninstall Projects from $($GLOBAL:_PROGRAMNAMESHORT_).", `
+                                $NULL, `
+                                $true);
+
+
+        # Show Projects
+        [CommonCUI]::DrawMenuItem('S', `
+                                "Show Projects", `
+                                "List all Projects that had been installed into $($GLOBAL:_PROGRAMNAMESHORT_).", `
+                                $NULL, `
+                                $true);
+                                
+
+
+        # Load a Project
+        [CommonCUI]::DrawMenuItem('Load', `
+                                "Load Project", `
+                                "Load a Project into $($GLOBAL:_PROGRAMNAMESHORT_) environment.", `
+                                $NULL, `
+                                $true);
+
+
+        # Exit from Project Manager
+        [CommonCUI]::DrawMenuItem('X', `
+                                "Exit", `
+                                "Return to the previous menu.", `
+                                $NULL, `
+                                $true);
+    } # __DrawMainMenu()
 } # ProjectManager
 
 
