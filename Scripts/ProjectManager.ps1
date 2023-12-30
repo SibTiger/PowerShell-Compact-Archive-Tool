@@ -164,6 +164,9 @@ class ProjectManager
             # Show Project Manager's About section
             [ProjectManager]::__About();
 
+
+            # Provide some extra padding
+            [Logging]::DisplayMessage("`r`n`r`n");
             # Display the instructions
             [CommonCUI]::DrawMenuInstructions();
 
