@@ -103,6 +103,10 @@ class ProjectManager
             # Show Menu
             ([ProjectManagerOperationRequest]::ShowMenu)
             { return [ProjectManager]::__MainMenu(); }
+
+            # Exit
+            ([ProjectManagerOperationRequest]::Stop)
+            { return $true; }
         } # switch : Operation Request
 
 
@@ -343,6 +347,14 @@ class ProjectManager
                 ($_ -eq "Load Project")     -or `
                 ($_ -eq "Load a Project"))}
                 { return [ProjectManagerOperationRequest]::Load; }
+
+
+            # Exit
+            {(  ($_ -eq "X")        -or `
+                ($_ -eq "Exit")     -or `
+                ($_ -eq "Q")        -or `
+                ($_ -eq "Quit"))}
+                { return [ProjectManagerOperationRequest]::Stop; }
         } # Switch : Determine Action in Project Manager
 
 
@@ -362,10 +374,11 @@ class ProjectManager
  #>
  enum ProjectManagerOperationRequest
  {
-     InstallOrUpdate    = 0;    # Install new or Update currently installed projects.
-     Uninstall          = 1;    # Delete installed projects.
-     List               = 2;    # Provide a list of what projects are installed.
-     Load               = 3;    # Load a project into the environment.
-     ShowMenu           = 4;    # Allow the user to specify what action they want;
+    InstallOrUpdate     = 0;    # Install new or Update currently installed projects.
+    Uninstall           = 1;    # Delete installed projects.
+    List                = 2;    # Provide a list of what projects are installed.
+    Load                = 3;    # Load a project into the environment.
+    ShowMenu            = 4;    # Allow the user to specify what action they want;
                                 #   involves using the Project Manager Menu
+    Stop                = 255;  # User Requested to exit from Project Manager
  } # ProjectManagerOperationRequest
