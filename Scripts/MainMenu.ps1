@@ -402,7 +402,7 @@ class MainMenu
                 ($_ -eq "I")}
                 {
                     # Open the Embed Installer
-                    [ProjectManager]::Main([ProjectManagerOperationRequest]::InstallOrUpdate);
+                    [ProjectManager]::Main([ProjectManagerOperationRequest]::ShowMenu);
 
 
                     # Finished
