@@ -155,11 +155,14 @@ class ProjectManager
             #  it is easy for the user to read and follow along.
             [CommonIO]::ClearBuffer();
 
+
             # Draw Program Information Header
             [CommonCUI]::DrawProgramTitleHeader();
 
+
             # Show the user that they are at the Main Menu
             [CommonCUI]::DrawSectionHeader("Project Manager - Main Menu");
+
 
             # Show Project Manager's About section
             [ProjectManager]::__About();
@@ -167,20 +170,27 @@ class ProjectManager
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n`r`n");
+
+
             # Display the instructions
             [CommonCUI]::DrawMenuInstructions();
+
 
             # Draw the Project Manager's Main Menu list to the user
             [ProjectManager]::__DrawMainMenu();
  
+
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
+
 
             # Capture the user's feedback
             $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
+
             # Determine the user's request
             $userRequest = [ProjectManager]::__EvaluateExecuteUserRequest($userInput);
+
 
             # Request was valid?
             if ($userRequest -ne [ProjectManagerOperationRequest]::ShowMenu)
@@ -192,6 +202,7 @@ class ProjectManager
             # Otherwise, request was not valid -- restart the menu
             # Alert the user that they had provided an incorrect option.
             [NotificationAudible]::Notify([NotificationAudibleEventType]::IncorrectOption);
+
 
             # Provide an error message to the user that the option they chose is not available.
             [CommonCUI]::DrawIncorrectMenuOption();
