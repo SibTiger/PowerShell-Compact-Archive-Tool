@@ -120,8 +120,13 @@ class ProjectManager
     #  When called, this will act as a driver for the Project Manager's Main Menu.  Thus, guiding the user
     #   to perform their desired actions as requested within the Project Manager..
     # -------------------------------
+    # Output:
+    #   [bool] Operation Status
+    #    true  = Operation was successful.
+    #    false = Operation had failed.
+    # -------------------------------
     #>
-    hidden static [void] __MainMenu()
+    hidden static [bool] __MainMenu()
     {
         # Declarations and Initializations
         # ----------------------------------------
