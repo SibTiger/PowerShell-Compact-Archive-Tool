@@ -80,7 +80,22 @@ class ProjectManagerInstallation
 
 
         # Obtain the projects form the user.
-        if (![ProjectManagerInstallation]::__GetProjectsFromUser($listOfProjectsToInstall)) { return $false; }
+        if (![ProjectManagerInstallation]::__GetProjectsFromUser($listOfProjectsToInstall))
+        {
+            # Alert the user that they had aborted the operation.
+            [Logging]::DisplayMessage("User had aborted the installation operation!`r`nReturning back to previous menu...");
+
+
+            # Provide some whitespace padding
+            [Logging]::DisplayMessage("`r`n`r`n");
+
+
+            # Allow the user to see the feedback before returning back to the previous menu.
+            [CommonIO]::FetchEnterKey();
+
+            # Go back to the previous menu
+            return $false;
+        } # if : User Cancelled
 
 
         # Provide some whitespace padding
