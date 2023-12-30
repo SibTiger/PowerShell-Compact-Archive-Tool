@@ -102,7 +102,7 @@ class ProjectManager
 
             # Show Menu
             ([ProjectManagerOperationRequest]::ShowMenu)
-            { return $false; }
+            { return [ProjectManager]::__MainMenu(); }
         } # switch : Operation Request
 
 
@@ -110,6 +110,86 @@ class ProjectManager
         # If we made it this far, something went horribly wrong.
         return $false;
     } # Main()
+
+
+
+
+   <# Project Manager - Main Menu
+    # -------------------------------
+    # Documentation:
+    #  When called, this will act as a driver for the Project Manager's Main Menu.  Thus, guiding the user
+    #   to perform their desired actions as requested within the Project Manager..
+    # -------------------------------
+    #>
+    hidden static [void] __MainMenu()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This variable will hold the user's input as they navigate within the main menu.
+        [string] $userInput = $null;
+
+        # This variable will determine if the user is to remain within the current menu loop.
+        #  If the user were to exit from the menu, this variable's state will be set as false.
+        #  Thus, with a false value - they may leave the menu.
+        [bool] $menuLoop = $true;
+
+        # Determines what action - requested by the user - will be executed.
+        [ProjectManagerOperationRequest] $userRequest = [ProjectManagerOperationRequest]::ShowMenu;
+        # ----------------------------------------
+
+
+        # Open the Project Manager's Main Menu
+        #  Keep the user at the Project Manager's Main Menu until they request to leave.
+        do
+        {
+            # Clear the terminal of all previous text; keep the space clean so that
+            #  it is easy for the user to read and follow along.
+            [CommonIO]::ClearBuffer();
+
+            # Draw Program Information Header
+            [CommonCUI]::DrawProgramTitleHeader();
+
+            # Show the user that they are at the Main Menu
+            [CommonCUI]::DrawSectionHeader("Project Manager - Main Menu");
+
+            # Show Project Manager's About section
+            [ProjectManager]::__About();
+
+            # Display the instructions
+            [CommonCUI]::DrawMenuInstructions();
+
+            # Draw the Project Manager's Main Menu list to the user
+            [ProjectManager]::__DrawMainMenu();
+ 
+            # Provide some extra padding
+            [Logging]::DisplayMessage("`r`n");
+
+            # Capture the user's feedback
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
+
+            # Determine the user's request
+            $userRequest = [ProjectManager]::__EvaluateExecuteUserRequest($userInput);
+
+            # Request was valid?
+            if ($userRequest -ne [ProjectManagerOperationRequest]::ShowMenu)
+            { # Leave from the loop
+                break;
+            } # if : Request was Valid
+
+
+            # Otherwise, request was not valid -- restart the menu
+            # Alert the user that they had provided an incorrect option.
+            [NotificationAudible]::Notify([NotificationAudibleEventType]::IncorrectOption);
+
+            # Provide an error message to the user that the option they chose is not available.
+            [CommonCUI]::DrawIncorrectMenuOption();
+        } while ($menuLoop);
+
+
+        # When we make it here, we have a valid request to execute.
+        #  Re-call the Project Manager's Main function and execute the desired action.
+        return [ProjectManager]::Main($userRequest);
+    } # __MainMenu()
 
 
 
