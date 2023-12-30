@@ -64,6 +64,86 @@ class ProjectManager
     #>
     static [bool] Main([ProjectManagerOperationRequest] $request)
     {
+        # Determine what operation is to be performed
+        switch ($request)
+        {
+            # Install or Update Projects
+            ([ProjectManagerOperationRequest]::InstallOrUpdate)
+            {
+                # Setup the Terminal Buffer
+                [ProjectManager]::__SetupEnvironment();
+
+                # Execute the operation
+                return [ProjectManagerInstallation]::__Main();
+            } # Install or Update Projects
+
+
+            # Uninstall Projects
+            ([ProjectManagerOperationRequest]::Uninstall)
+            {
+                # Setup the Terminal Buffer
+                [ProjectManager]::__SetupEnvironment();
+
+                # Execute the operation
+                return $false;
+            } # Uninstall Projects
+
+
+            # List Projects
+            ([ProjectManagerOperationRequest]::List)
+            {
+                # Setup the Terminal Buffer
+                [ProjectManager]::__SetupEnvironment();
+
+                # Execute the operation
+                return $false;
+            } # List Projects
+
+
+            # Load Project
+            ([ProjectManagerOperationRequest]::Load)
+            {
+                # Setup the Terminal Buffer
+                [ProjectManager]::__SetupEnvironment();
+
+                # Execute the operation
+                return $false;
+            } # Load Project
+
+
+            # Show Menu
+            ([ProjectManagerOperationRequest]::ShowMenu)
+            {
+                # Execute the operation
+                return [ProjectManager]::__MainMenu();
+            } # Show Menu
+
+
+            # Exit
+            ([ProjectManagerOperationRequest]::Stop)
+            { return $true; }
+        } # switch : Operation Request
+
+
+
+        # If we made it this far, something went horribly wrong.
+        return $false;
+    } # Main()
+
+
+
+
+   <# Project Manager - Setup Terminal Environment
+    # -------------------------------
+    # Documentation:
+    #  Separated the normal routine of setting up the terminal buffer for the Project Manager,
+    #   as some sub-functions re-draws their own after invoking the desired execution in the Menu.
+    #   In this phenomenon, one would see two draws at the near same time - which would look strange.
+    #   To eliminate this occurrence, we will limit what sub-function gets to use these instructions.
+    # -------------------------------
+    #>
+    hidden static [void] __SetupEnvironment()
+    {
         # Clear the terminal of all previous text; keep the space clean so that it is easy for the user to
         #   read and follow along.
         [CommonIO]::ClearBuffer();
@@ -79,41 +159,7 @@ class ProjectManager
 
         # Provide some whitespace padding.
         [Logging]::DisplayMessage("`r`n`r`n");
-
-
-        # Determine what operation is to be performed
-        switch ($request)
-        {
-            # Install or Update Projects
-            ([ProjectManagerOperationRequest]::InstallOrUpdate)
-            { return [ProjectManagerInstallation]::__Main(); }
-
-            # Uninstall Projects
-            ([ProjectManagerOperationRequest]::Uninstall)
-            { return $false; }
-
-            # List Projects
-            ([ProjectManagerOperationRequest]::List)
-            { return $false; }
-
-            # Load Project
-            ([ProjectManagerOperationRequest]::Load)
-            { return $false; }
-
-            # Show Menu
-            ([ProjectManagerOperationRequest]::ShowMenu)
-            { return [ProjectManager]::__MainMenu(); }
-
-            # Exit
-            ([ProjectManagerOperationRequest]::Stop)
-            { return $true; }
-        } # switch : Operation Request
-
-
-
-        # If we made it this far, something went horribly wrong.
-        return $false;
-    } # Main()
+    } # __SetupEnvironment()
 
 
 
