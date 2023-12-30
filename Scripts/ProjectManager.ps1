@@ -269,6 +269,81 @@ class ProjectManager
                                 $NULL, `
                                 $true);
     } # __DrawMainMenu()
+
+
+
+
+   <# Project Manager - User Action
+    # -------------------------------
+    # Documentation:
+    #  This function will evaluate and execute the user's desired request in respect to the Menu options
+    #   provided.
+    # -------------------------------
+    # Input:
+    #  [string] User's Request
+    #   This contains the user's response to execute a specific action.
+    # -------------------------------
+    # Output:
+    #  [ProjectManagerOperationRequest] Operation to Execute
+    #   Translated action in which the user wants to execute.
+    # -------------------------------
+    #>
+    hidden static [ProjectManagerOperationRequest] __EvaluateExecuteUserRequest([string] $userRequest)
+    {
+        # Determine the action to execute
+        switch ($userRequest)
+        {
+            # Install Project
+            {(  ($_ -eq "I")                -or `
+                ($_ -eq "Install")          -or `
+                ($_ -eq "Installs")         -or `
+                ($_ -eq "Install Project")  -or `
+                ($_ -eq "Install Projects") -or `
+                ($_ -eq "Update")           -or `
+                ($_ -eq "Updates")          -or `
+                ($_ -eq "Update Project")   -or `
+                ($_ -eq "Update Projects"))}
+                { return [ProjectManagerOperationRequest]::InstallOrUpdate; }
+
+
+            # Uninstall Project
+            {(  ($_ -eq "U")                    -or `
+                ($_ -eq "Uninstall")            -or `
+                ($_ -eq "Uninstall Project")    -or `
+                ($_ -eq "Uninstall Projects")   -or `
+                ($_ -eq "Uninstallation")       -or `
+                ($_ -eq "Delete")               -or `
+                ($_ -eq "Delete Project")       -or `
+                ($_ -eq "Delete Projects")      -or `
+                ($_ -eq "Remove")               -or `
+                ($_ -eq "Remove Project")       -or `
+                ($_ -eq "Remove Projects"))}
+                { return [ProjectManagerOperationRequest]::Uninstall; }
+
+
+            # Show Installed Projects
+            {(  ($_ -eq "S")                        -or `
+                ($_ -eq "List")                     -or `
+                ($_ -eq "List Projects")            -or `
+                ($_ -eq "List Installed Projects")  -or `
+                ($_ -eq "Show")                     -or `
+                ($_ -eq "Show Projects")            -or `
+                ($_ -eq "Show Installed Projects"))}
+                { return [ProjectManagerOperationRequest]::List; }
+
+
+            # Load a Project
+            {(  ($_ -eq "L")                -or `
+                ($_ -eq "Load")             -or `
+                ($_ -eq "Load Project")     -or `
+                ($_ -eq "Load a Project"))}
+                { return [ProjectManagerOperationRequest]::Load; }
+        } # Switch : Determine Action in Project Manager
+
+
+        # If we made it this far, the user choose an incorrect option.
+        return [ProjectManagerOperationRequest]::ShowMenu;
+    } # __EvaluateExecuteUserRequest()
 } # ProjectManager
 
 
