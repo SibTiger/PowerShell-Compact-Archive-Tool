@@ -271,25 +271,15 @@ class ProjectManager
     # -------------------------------
     #>
     hidden static [void] __About()
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # This variable will contain information about the Project Manager.
-        [string] $strAbout = $NULL;
-        # ----------------------------------------
-
-
-        # Generate the About string
-        $strAbout = "$($GLOBAL:_PROGRAMNAMESHORT_) Projects provides information regarding a game project, and also offers the developers`r`n"    + `
-                    " with the ability to compile their game's assets into one single data file, such as a PK3 file.`r`n"   + `
-                    " This entire ecosystem is designed to provide the users, of this tool, to expeditiously compile`r`n"   + `
-                    " the game project.  After a build had been created, wither it is a test build or a release`r`n"        + `
-                    " build, the user is then free to upload their compiled build onto the Internet for others to`r`n"      + `
-                    " download or to keep a local copy.";
-
-
-        # Show the message to the user.
-        [Logging]::DisplayMessage($strAbout);
+    {   # Show the message to the user.
+        [Logging]::DisplayMessage( `
+            "$($GLOBAL:_PROGRAMNAMESHORT_) Projects provides information regarding a game project, and also "       + `
+                "offers the developers`r`n"                                                                         + `
+            " with the ability to compile their game's assets into one single data file, such as a PK3 file.`r`n"   + `
+            " This entire ecosystem is designed to provide the users, of this tool, to expeditiously compile`r`n"   + `
+            " the game project.  After a build had been created, wither it is a test build or a release`r`n"        + `
+            " build, the user is then free to upload their compiled build onto the Internet for others to`r`n"      + `
+            " download or to keep a local copy.");
     } # __About()
 
 
