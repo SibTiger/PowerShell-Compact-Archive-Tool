@@ -224,16 +224,22 @@ class CommonGUI
 
 
 
-   <# Browse for Files
+   <# Browse for Files - Overload Function
     # -------------------------------
     # Documentation:
-    #   This function will allow the user to select a particular or a handful of files with
+    #  This overload function will call the BrowseFile(), but will always assume that the File Browser
+    #   in Windows should always start at the User's Home Directory [%UserProfile%].  All other arguments
+    #   remain the same.
+    #
+    #  The purpose of this overload function existing, is merely for all other methods that relied solely on
+    #   needing to use the Initial Directory at the user's Home directory.  Keep in mind, in PowerShell,
+    #   Default values in arguments are not yet a thing.  When that functionality is possible, then this
+    #   overloaded function is not necessary.
+    #
+    #  This function will allow the user to select a particular or a handful of files with
     #   the respected file-extensions.  By using this functionality, the user will be able
     #   to expeditiously navigate to the desired file or files with ease - instead of having
     #   to spend extra time digging for a specific file's URI.
-    #
-    # Resources:
-    #   - https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.openfiledialog
     # -------------------------------
     # Input:
     #  [string] Title
@@ -265,6 +271,62 @@ class CommonGUI
                             [BrowserInterfaceStyle] $style,         ` # Style of the Browser interface.
                             [System.Collections.ArrayList] $files)    # Selected files to be returned.
     {
+        return [CommonGUI]::BrowseFile( $title,                     `
+                                        $defaultExtension,          `
+                                        $filterExtensionOptions,    `
+                                        $selectMultipleFiles,       `
+                                        $style,                     `
+                                        $files,                     `
+                                        $env:USERPROFILE);
+    } # BrowseFile()
+
+
+
+
+   <# Browse for Files
+    # -------------------------------
+    # Documentation:
+    #   This function will allow the user to select a particular or a handful of files with
+    #   the respected file-extensions.  By using this functionality, the user will be able
+    #   to expeditiously navigate to the desired file or files with ease - instead of having
+    #   to spend extra time digging for a specific file's URI.
+    #
+    # Resources:
+    #   - https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.openfiledialog
+    # -------------------------------
+    # Input:
+    #  [string] Title
+    #   This will display a very brief description onto the Title bar of the Dialog window.
+    #  [string] Default Extension
+    #   Provides the default, or preferred, file extension that calling function is requiring.
+    #  [string] Filter Extension Options
+    #   Provides a filter file extensions that are acceptable.
+    #  [Bool] Select Multiple Files
+    #   When true, the user can select one or more files.  False, however, the user can
+    #   only pick just one file.
+    #  [Browser Interface Style] Style
+    #   This provides the ability to determine which browser interface is to be drawn to the
+    #   user.
+    #  [System.Collections.ArrayList] Files
+    #   This provides the list of files that had been selected by the user.  This is returned
+    #   to the calling function for further evaluation.
+    #  [string] Initial Directory
+    #   This provides the starting location for the File Browser.
+    # ------------------------------
+    # Output:
+    #  [bool] File(s) Selected
+    #   $true   = The user had selected at least one file
+    #   $false  = The user had cancelled the operation, no file had been selected.
+    # -------------------------------
+    #>
+    static [bool] BrowseFile([string] $title,                       `   # Brief Description in Title Bar.
+                            [string] $defaultExtension,             `   # Default File Extension.
+                            [string] $filterExtensionOptions,       `   # Filter File Extensions.
+                            [bool] $selectMultipleFiles,            `   # Select only one OR at least one file.
+                            [BrowserInterfaceStyle] $style,         `   # Style of the Browser interface.
+                            [System.Collections.ArrayList] $files,  `   # Selected files to be returned.
+                            [string] $initialDirectory)                 # Starting Directory for the File Browser.
+    {
         # Declarations and Initializations
         # -------------------------------------
         # This will store the the File Browser Dialog object
@@ -289,7 +351,7 @@ class CommonGUI
         $fileBrowser.Title                          = $title;                                           # Brief description in Title bar
         $fileBrowser.ValidateNames                  = $true;                                            # Assure file name is legal
         $fileBrowser.SupportMultiDottedExtensions   = $false;                                           # Disallow multiple file extensions (MyText.txt.zip)
-        $fileBrowser.InitialDirectory               = $env:USERPROFILE;                                 # Start the user at their Home directory.
+        $fileBrowser.InitialDirectory               = $initialDirectory;                                # Open the File Browser at the Desired Directory
 
 
 
