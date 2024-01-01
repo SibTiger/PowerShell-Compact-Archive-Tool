@@ -204,8 +204,14 @@ class ProjectManagerUninstall
             [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
+
+
+            # Operation had failed.
+            return $false;
         } # If : Failure to Delete Directory 
         
+
+
         # Finished
 
 
