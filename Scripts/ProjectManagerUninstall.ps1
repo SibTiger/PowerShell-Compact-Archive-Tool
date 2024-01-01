@@ -54,7 +54,7 @@ class ProjectManagerUninstall
         [ProjectMetaData] $projectInformation = [ProjectMetaData]::New();
 
         # This variable will be used as a confirmation string
-        [string] $confirmString = "Are you sure you want to delete ";
+        [string] $confirmString = "Are you sure you want to delete this project?`r`n";
         # ----------------------------------------
 
 
@@ -128,11 +128,10 @@ class ProjectManagerUninstall
 
 
         # Complete the Confirmation string with the project meta data that was obtained.
-        $confirmString += ( "`r`n"                                                                  + `
-                            "Project Name:      $($projectInformation.GetProjectName())`r`n"        + `
-                            "Project Revision:  $($projectInformation.GetProjectRevision())`r`n"    + `
-                            "Project Signature: $($projectInformation.GetGUID())`r`n"   + `
-                            "Project Path:      $($projectToUninstall)");
+        $confirmString += ( "Name:      $($projectInformation.GetProjectName())`r`n"        + `
+                            "Revision:  $($projectInformation.GetProjectRevision())`r`n"    + `
+                            "Signature: $($projectInformation.GetGUID())`r`n"               + `
+                            "Path:      $($projectToUninstall)");
 
 
         # Confirm that the user wants to remove the project
