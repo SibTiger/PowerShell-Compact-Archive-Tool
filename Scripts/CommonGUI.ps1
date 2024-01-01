@@ -241,14 +241,14 @@ class CommonGUI
 
         # Setup the properties for the Folder Browser Dialog
         #   General Settings
-        $directoryBrowser.AutoUpgradeEnabled    = `                                                 # Choose between modern or classical browser.
+        $directoryBrowser.AutoUpgradeEnabled        = `                                     # Choose between modern or classical browser.
                             ($style -eq [BrowserInterfaceStyle]::Modern) ? $true : $false;
-        $directoryBrowser.UseDescriptionForTitle= $false;                                           # Place the description at the title bar?
+        $directoryBrowser.UseDescriptionForTitle    = $false;                               # Place the description at the title bar?
 
         #   Browser Settings
-        $directoryBrowser.Description           = $instructions;                                    # Show the instructions\description to the user
-        $directoryBrowser.ShowNewFolderButton   = $showNewFolderButton;                             # Allow the user to create a new directory?
-        $directoryBrowser.InitialDirectory      = $initialDirectory;                                # Open the Directory Browser at the Desired Directory
+        $directoryBrowser.Description               = $instructions;                        # Show the instructions\description to the user
+        $directoryBrowser.ShowNewFolderButton       = $showNewFolderButton;                 # Allow the user to create a new directory?
+        $directoryBrowser.InitialDirectory          = $initialDirectory;                    # Open the Directory Browser at the Desired Directory
 
 
 
