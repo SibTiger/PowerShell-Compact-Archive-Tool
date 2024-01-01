@@ -303,8 +303,8 @@ class ProjectManager
 
         # Uninstall Projects
         [CommonCUI]::DrawMenuItem('U', `
-                                "Uninstall Project(s)", `
-                                "Uninstall Projects from $($GLOBAL:_PROGRAMNAMESHORT_).", `
+                                "Uninstall a Project", `
+                                "Uninstall a Project from $($GLOBAL:_PROGRAMNAMESHORT_).", `
                                 $NULL, `
                                 $true);
 
