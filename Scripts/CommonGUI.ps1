@@ -264,6 +264,7 @@ class CommonGUI
         # Provide the path that the user had chose.
         $result.Value = $directoryBrowser.SelectedPath;
 
+
         # Let the calling function know that the user provided a path.
         return $true;
     } # BrowseDirectory()
