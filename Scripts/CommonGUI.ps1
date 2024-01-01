@@ -192,50 +192,6 @@ class CommonGUI
 
 
 
-   <# Browse for Directory - Overload Function
-    # -------------------------------
-    # Documentation:
-    #  This overload function will call the BrowseDirectory(), but will always assume that the Directory
-    #   Browser in Windows should always start at the User's Home Directory [%UserProfile%].  All other
-    #   arguments remain the same.
-    #
-    #  The purpose of this overload function existing, is merely for all other methods that relied solely on
-    #   needing to use the Initial Directory at the user's Home Directory.  Keep in mind, in PowerShell,
-    #   Default values in arguments are not yet a thing.  When that functionality is possible, then this
-    #   overloaded function is not necessary.
-    #
-    #  This function will allow the user to select a directory using the Folder Browser dialog window.  By
-    #   using this functionality, the user will be able to expeditiously navigate to the desired directory
-    #   with ease - instead of having to spend extra time digging for a specific folder within the host's
-    #   filesystem.
-    # -------------------------------
-    # Input:
-    #  [string] Instructions
-    #   Provide a brief description as to what the user needs to find within the local host.
-    #  [BrowserInterfaceStyle] Style
-    #   This provides the ability to determine which browser interface is to be drawn to the user.
-    #  [string] (REFERENCE) Results
-    #   If a directory were to be selected, then we will return the value within this variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Path Selected
-    #   $true   = The user had selected a directory and the result had been stored.
-    #   $false  = The user had cancelled the operation, no directory had been selected.
-    # -------------------------------
-    #>
-    static [bool] BrowseDirectory([string] $instructions,           ` # Show description to the user; reminder
-                                [BrowserInterfaceStyle] $style,     ` # Style of the Browser interface
-                                [ref] $result)                      ` # Selected directory to be returned.
-    {
-        return [CommonGUI]::BrowseDirectory($instructions,      `
-                                            $style,             `
-                                            $env:USERPROFILE,   `
-                                            $result);
-    } # BrowseDirectory()
-
-
-
-
    <# Browse for Directory
     # -------------------------------
     # Documentation:
