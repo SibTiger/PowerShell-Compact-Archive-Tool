@@ -391,7 +391,7 @@ class MainMenu
             } # Access ZDoom project's Repository
 
 
-            # Project Installer \ Embed Installer
+            # Project Installer
             #  NOTE: Allow the user's request when they type: 'Installer', 'Install', 'Project Installer',
             #       'Install Project' as well as 'I'
             {($_ -eq "Installer") -or `
@@ -401,7 +401,7 @@ class MainMenu
                 ($_ -eq "Install Project") -or `
                 ($_ -eq "I")}
                 {
-                    # Open the Embed Installer
+                    # Open the Project Installer through the Project Manager
                     [ProjectManager]::Main([ProjectManagerOperationRequest]::ShowMenu);
 
 

@@ -248,7 +248,7 @@ function MakeCompilerDriver()
                         "ProjectManager.ps1", `
                         "ProjectManagerInstallation.ps1", `
                         "ProjectManagerCommon.ps1", `
-                        "EmbedInstallerFile.ps1", `
+                        "ProjectMetaData.ps1", `
                         "BurntToast.ps1", `
                         "MainMenu.ps1", `
                         "Builder.ps1", `

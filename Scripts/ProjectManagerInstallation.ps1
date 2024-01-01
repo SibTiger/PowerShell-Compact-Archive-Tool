@@ -56,8 +56,8 @@ class ProjectManagerInstallation
         #           |_ [n]: System.Object
         #   DATATYPE AFTER MetamorphoseType
         #       |_ Root: System.Object
-        #           |_[0]: EmbedInstallerFile
-        #           |_[n]: EmbedInstallerFile
+        #           |_[0]: ProjectMetaData
+        #           |_[n]: ProjectMetaData
         [System.Collections.ArrayList] $listOfProjectsToInstall = [System.Collections.ArrayList]::New();
 
 
@@ -102,7 +102,7 @@ class ProjectManagerInstallation
         [Logging]::DisplayMessage("`r`n`r`n");
 
 
-        # Change the datatype of all entries from System.Object to EmbedInstallerFile
+        # Change the datatype of all entries from System.Object to ProjectMetaData
         [ProjectManagerInstallation]::__MetamorphoseType($listOfProjectsToInstall);
 
 
@@ -279,16 +279,16 @@ class ProjectManagerInstallation
     # -------------------------------
     # Documentation:
     #  This function will transform the datatypes within the given Array List of elements from a System.Object
-    #   to an EmbedInstallerFile data structure type.
+    #   to an ProjectMetaData data structure type.
     #
-    # NOTE: The Array List will be entirely altered to contain only elements with EmbedInstallerFile,
+    # NOTE: The Array List will be entirely altered to contain only elements with ProjectMetaData,
     #           all previous instances of System.Object _WILL_ be expunged from the Array List!
     # -------------------------------
     # Input:
     #  [System.Collections.ArrayList] {System.Object} File List
     #   Provides a list of files provided by the user to install.
     #   NOTE: The elements coming into this function are: System.Object,
-    #           but coming out from this function as: EmbedInstallerFile.
+    #           but coming out from this function as: ProjectMetaData.
     # -------------------------------
     #>
     hidden static [void] __MetamorphoseType([System.Collections.ArrayList] $fileList)
@@ -346,7 +346,7 @@ class ProjectManagerInstallation
 
 
             # Store new information into the desired datatype structure.
-            [EmbedInstallerFile] $newFileEntry = [EmbedInstallerFile]::New($fileName, $filePath);
+            [ProjectMetaData] $newFileEntry = [ProjectMetaData]::New($fileName, $filePath);
 
 
             # Save it into the new list for processing later.
@@ -370,13 +370,13 @@ class ProjectManagerInstallation
     # Documentation:
     #  This function will verify the integrity of the files that had been selected by the user.
     #   In by doing so, if incase one or more files are corrupted - this function will mark those files as
-    #   damaged - using the EmbedInstallerFiler datatype attributes.
+    #   damaged - using the ProjectMetaData datatype attributes.
     #
     #
-    #  NOTE: All entries within the Array List must be in the EmbedInstallerFile data type.
+    #  NOTE: All entries within the Array List must be in the ProjectMetaData data type.
     # -------------------------------
     # Input:
-    #  [System.Collections.ArrayList] {EmbedInstallerFile} File Collection
+    #  [System.Collections.ArrayList] {ProjectMetaData} File Collection
     #   Provides a list of files provided by the user to install.
     # -------------------------------
     #>
@@ -453,7 +453,7 @@ class ProjectManagerInstallation
                 $logAdditionalInformation = "This file is healthy and can be installed.";
 
                 # Adjust the attributes of the desired file entry.
-                $item.SetVerification([EmbedInstallerFileVerification]::Passed);
+                $item.SetVerification([ProjectMetaDataFileVerification]::Passed);
             } # if : Verification Passed
 
             # Verification had Failed
@@ -466,7 +466,7 @@ class ProjectManagerInstallation
                 $logAdditionalInformation = "This file is damaged and cannot be installed.";
 
                 # Adjust the attributes of the desired file entry.
-                $item.SetVerification([EmbedInstallerFileVerification]::Failed);
+                $item.SetVerification([ProjectMetaDataFileVerification]::Failed);
 
                 # Provide the reason for why the file will not be installed.
                 $item.SetMessage("This file had been determined to be corrupted, and therefore, cannot be installed.");
@@ -678,7 +678,7 @@ class ProjectManagerInstallation
     #  This function will try to install the desired project(s) onto the user's system.
     # -------------------------------
     # Input:
-    #  [System.Collections.ArrayList] (EmbedInstallerFile) List of Projects
+    #  [System.Collections.ArrayList] (ProjectMetaData) List of Projects
     #   Provides a list of files that the user wishes to install within the program.
     #     The list will contain the absolute path to the archive files to extract.
     # -------------------------------
@@ -770,7 +770,7 @@ class ProjectManagerInstallation
             [ProjectManagerInstallOperationSwitch] $targetProjectInstallState   = [ProjectManagerInstallOperationSwitch]::NewInstall;
 
             # This is the install instance that will be updated, if updates are available.
-            [EmbedInstallerFile] $previousInstall                               = [EmbedInstallerFile]::New();
+            [ProjectMetaData] $previousInstall                                  = [ProjectMetaData]::New();
 
             # Temporary Directory that will contain the extracted files from the desired project to install.
             #   We will use this as a means to determine if the project is a new install, an update, or an
@@ -786,7 +786,7 @@ class ProjectManagerInstallation
 
 
             # If the archive datafile is corrupted - then skip to the next file.
-            if ($item.GetVerification() -ne [EmbedInstallerFileVerification]::Passed)
+            if ($item.GetVerification() -ne [ProjectMetaDataFileVerification]::Passed)
             {
                 # File failed verification; unable to process any further.
 

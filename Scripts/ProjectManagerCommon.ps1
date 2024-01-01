@@ -41,7 +41,7 @@
     #   installed project.
     # -------------------------------
     # Input:
-    #  [System.Collections.ArrayList] {EmbedInstallerFile} Installed Projects.
+    #  [System.Collections.ArrayList] {ProjectMetaData} Installed Projects.
     #   This will provide information as to what projects had been installed within the program's environment.
     #   This variable should be empty when provided, this function will populate it.
     # -------------------------------
@@ -203,13 +203,13 @@
 
 
 
-        # Begin storing the project information into the Embed Installer File data structure,
+        # Begin storing the project information into the Project's Meta Data structure,
         #   such that we can process the data.
         foreach ($item in $listOfMetaFiles)
         {
             # Declarations and Initializations
             # ----------------------------------------
-            [EmbedInstallerFile]    $newProjectEntry        = [EmbedInstallerFile]::New();          # Entry to add into Array
+            [ProjectMetaData]    $newProjectEntry        = [ProjectMetaData]::New();                # Entry to add into Array
             [UInt64]                $newProjectRevision     = 0;                                    # Cache project's revision
             [string]                $newProjectName         = $null;                                # Cache project's name
             [GUID]                  $newProjectSignature    = $($GLOBAL:_DEFAULT_BLANK_GUID_);      # Cache project's GUID
@@ -225,7 +225,7 @@
             $newProjectEntry.SetFileName($item.Name);
 
             # Adjust the Verification
-            $newProjectEntry.SetVerification([EmbedInstallerFileVerification]::Installed);
+            $newProjectEntry.SetVerification([ProjectMetaDataFileVerification]::Installed);
 
             # Mark as installed
             $newProjectEntry.SetInstalled($true);
@@ -264,7 +264,7 @@
                                                 "`t`t`t$($newProjectEntry.GetVerification())`r`n"               + `
                                                 "`t`tInstalled Flag:`r`n"                                       + `
                                                 "`t`t`t$($newProjectEntry.GetInstalled())`r`n"                  + `
-                                                "`t`tEmbedded Message`r`n"                                      + `
+                                                "`t`tInternal Message`r`n"                                      + `
                                                 "`t`t`t$($newProjectEntry.GetMessage())`r`n"                    + `
                                                 "`t`tProject Revision ID:`r`n"                                  + `
                                                 "`t`t`t$($newProjectRevision)`r`n"                              + `
@@ -325,7 +325,7 @@
                                             "`t`t`t$($newProjectEntry.GetVerification())`r`n"               + `
                                             "`t`tInstalled Flag:`r`n"                                       + `
                                             "`t`t`t$($newProjectEntry.GetInstalled())`r`n"                  + `
-                                            "`t`tEmbedded Message`r`n"                                      + `
+                                            "`t`tInternal Message`r`n"                                      + `
                                             "`t`t`t$($newProjectEntry.GetMessage())`r`n"                    + `
                                             "`t`tProject Revision ID:`r`n"                                  + `
                                             "`t`t`t$($newProjectEntry.GetProjectRevision())`r`n"            + `
