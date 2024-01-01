@@ -211,11 +211,12 @@ class ProjectManagerUninstall
         } # If : Failure to Delete Directory 
         
 
-
+        # Assurance test; make sure the directory had been destroyed.
         # Finished
 
 
-        return $false;
+        # Operation was successful
+        return $true;
     } # __Main()
 
 
