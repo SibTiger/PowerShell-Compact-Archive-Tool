@@ -208,6 +208,8 @@ class CommonGUI
     #   Provide a brief description as to what the user needs to find within the local host.
     #  [BrowserInterfaceStyle] Style
     #   This provides the ability to determine which browser interface is to be drawn to the user.
+    #  [Boolean] Show New Folder Button
+    #   When this is true, the 'New Folder' button will be visible in the Browser window.
     #  [string] Initial Directory
     #   This provides the starting location for the Directory Browser.
     #  [string] (REFERENCE) Results
@@ -219,10 +221,11 @@ class CommonGUI
     #   $false  = The user had cancelled the operation, no directory had been selected.
     # -------------------------------
     #>
-    static [bool] BrowseDirectory([string] $instructions,           ` # Show description to the user; reminder
-                                [BrowserInterfaceStyle] $style,     ` # Style of the Browser interface
-                                [string] $initialDirectory,         ` # Starting Directory for the Directory Browser
-                                [ref] $result)                      ` # Selected directory to be returned.
+    static [bool] BrowseDirectory([string] $instructions,           `   # Show description to the user; reminder
+                                [BrowserInterfaceStyle] $style,     `   # Style of the Browser interface
+                                [bool] $showNewFolderButton,        `   # Show the New Folder Button in the Browser
+                                [string] $initialDirectory,         `   # Starting Directory for the Directory Browser
+                                [ref] $result)                          # Selected directory to be returned.
     {
         # Declarations and Initializations
         # -------------------------------------
@@ -241,10 +244,9 @@ class CommonGUI
                             ($style -eq [BrowserInterfaceStyle]::Modern) ? $true : $false;
         $directoryBrowser.UseDescriptionForTitle= $false;                                           # Place the description at the title bar?
 
-        #   Classical Folder Browser Settings
-        $directoryBrowser.RootFolder            = [System.Environment+SpecialFolder]::MyComputer;   # Allow the user full access to the system.
-        $directoryBrowser.ShowNewFolderButton   = $true;                                            # Allow the user to create a new directory.
-        #   Modern Folder Browser Settings
+        #   Browser Settings
+        $directoryBrowser.Description           = $instructions;                                    # Show the instructions\description to the user
+        $directoryBrowser.ShowNewFolderButton   = $showNewFolderButton;                             # Allow the user to create a new directory?
         $directoryBrowser.InitialDirectory      = $initialDirectory;                                # Open the Directory Browser at the Desired Directory
 
 
