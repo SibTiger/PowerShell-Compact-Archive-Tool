@@ -182,11 +182,11 @@ class CommonGUI
                                 [BrowserInterfaceStyle] $style,     `   # Style of the Browser interface
                                 [ref] $result)                          # Selected directory to be returned.
     {
-        return [CommonGUI]::BrowseDirectory($instructions,          `
-                                            $style,                 `
-                                            $true,                  `
-                                            $env:USERPROFILE,       `
-                                            $result);
+        return [CommonGUI]::BrowseDirectory($instructions,          `   # Show the description to the user
+                                            $style,                 `   # Style of the Browser interface
+                                            $true,                  `   # Show 'New Folder' button
+                                            $env:USERPROFILE,       `   # Start at the User's Home directory
+                                            $result);                   # Return the result
     } # BrowseDirectory()
 
 
