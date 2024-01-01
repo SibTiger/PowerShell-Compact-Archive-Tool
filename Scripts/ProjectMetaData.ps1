@@ -18,20 +18,20 @@
 
 
 
-<# Embed Installer - Files
+<# Project Meta Data
  # ------------------------------
  # ==============================
  # ==============================
- # This class will hold information regarding the files that had been provided by the user to install using
- #  the Embed Installer functionality.  The information generated will signify what is the file, had it been
- #  verified, was it installed, and any additional diagnostic messages - if needed.
+ # This class contains information regarding the PSCAT Project Meta files.  Within the Meta files, it can
+ #  contain useful information regarding the Project, along with additional data used internally within the
+ #  program itself.
  #>
 
 
 
 
 
-class EmbedInstallerFile
+class ProjectMetaData
 {
     # Member Variables :: Properties
     # =================================================
@@ -71,7 +71,7 @@ class EmbedInstallerFile
     # Verified
     # ---------------
     # Denotes if the file's archive datafile passed the verification test.
-    hidden [EmbedInstallerFileVerification] $__verification;
+    hidden [ProjectMetaDataFileVerification] $__verification;
 
 
     # Installed
@@ -95,7 +95,7 @@ class EmbedInstallerFile
     #region Constructor Functions
 
     # Default Constructor
-    EmbedInstallerFile()
+    ProjectMetaData()
     {
         # File Name
         $this.__fileName = $null;
@@ -118,7 +118,7 @@ class EmbedInstallerFile
 
 
         # Verification
-        $this.__verification = [EmbedInstallerFileVerification]::NoInformation;
+        $this.__verification = [ProjectMetaDataFileVerification]::NoInformation;
 
 
         # Installed
@@ -133,7 +133,7 @@ class EmbedInstallerFile
 
 
     # Initiated Object
-    EmbedInstallerFile( [string] $projectName, `    # Name of the project
+    ProjectMetaData (   [string] $projectName, `    # Name of the project
                         [string] $fileName, `       # Name of the file
                         [string] $filePath, `       # File's full path
                         [UInt64] $revision, `       # Project's Revision
@@ -160,7 +160,7 @@ class EmbedInstallerFile
 
 
         # Verification
-        $this.__verification = [EmbedInstallerFileVerification]::NoInformation;
+        $this.__verification = [ProjectMetaDataFileVerification]::NoInformation;
 
 
         # Installed
@@ -175,7 +175,7 @@ class EmbedInstallerFile
 
 
     # Initiated Object - Legacy
-    EmbedInstallerFile( [string] $fileName, `   # Name of the file
+    ProjectMetaData (   [string] $fileName, `   # Name of the file
                         [string] $filePath)     # File's full path
     {
         # File Name
@@ -199,7 +199,7 @@ class EmbedInstallerFile
 
 
         # Verification
-        $this.__verification = [EmbedInstallerFileVerification]::NoInformation;
+        $this.__verification = [ProjectMetaDataFileVerification]::NoInformation;
 
 
         # Installed
@@ -298,11 +298,11 @@ class EmbedInstallerFile
     #  Returns the value of the 'Verification' variable.
     # -------------------------------
     # Output:
-    #  [EmbedInstallerFileVerification] Verification
+    #  [ProjectMetaDataFileVerification] Verification
     #   The value of the 'Verification'.
     # -------------------------------
     #>
-    [EmbedInstallerFileVerification] GetVerification() { return $this.__verification; }
+    [ProjectMetaDataFileVerification] GetVerification() { return $this.__verification; }
 
 
 
@@ -509,7 +509,7 @@ class EmbedInstallerFile
     #  Sets a new value for the 'Verification' variable.
     # -------------------------------
     # Input:
-    #  [EmbedInstallerFileVerification] Verification
+    #  [ProjectMetaDataFileVerification] Verification
     #   Sets the value of the 'Verification' variable.
     # -------------------------------
     # Output:
@@ -518,9 +518,9 @@ class EmbedInstallerFile
     #   false = Failure; could not set a new value.
     # -------------------------------
     #>
-    [bool] SetVerification([EmbedInstallerFileVerification] $newValue)
+    [bool] SetVerification([ProjectMetaDataFileVerification] $newValue)
     {
-        # Because the value must fit within the 'EmbedInstallerFileVerification'
+        # Because the value must fit within the 'ProjectMetaDataFileVerification'
         #   datatype, there really is no point in checking if the new requested
         #   value is 'legal'.  Thus, we are going to trust the value and
         #   automatically return success.
@@ -595,12 +595,12 @@ class EmbedInstallerFile
     } # SetMessage()
 
     #endregion
-} # EmbedInstallerFile
+} # ProjectMetaData
 
 
 
 
-<# Embed Installer File Verification [ENUM]
+<# Project Meta Data File Verification [ENUM]
  # -------------------------------
  # Associated with the types of possible verification states, that provides
  #  more meaning to the programmer and - the user viewing the information.
@@ -608,10 +608,10 @@ class EmbedInstallerFile
  #  sure that the file can be properly verified - and healthy.
  # -------------------------------
  #>
-enum EmbedInstallerFileVerification
+enum ProjectMetaDataFileVerification
 {
     NoInformation   = 0;    # Verification not yet performed.
     Passed          = 1;    # Verification passed; file is healthy.
     Failed          = 2;    # Verification failed; file is damaged.
     Installed       = 3;    # Verification not needed; already installed item.
-} # EmbedInstallerFileVerification
+} # ProjectMetaDataFileVerification
