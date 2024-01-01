@@ -85,7 +85,7 @@ class ProjectManager
                 [ProjectManager]::__SetupEnvironment();
 
                 # Execute the operation
-                return $false;
+                return [ProjectManagerUninstall]::__Main();
             } # Uninstall Projects
 
 
