@@ -176,6 +176,35 @@ class ProjectManagerUninstall
 
 
         # Delete the project as requested
+        if(![CommonIO]::DeleteDirectory($projectToUninstall))
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Unable to thrash the desired directory!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Project Target Path:`r`n"        + `
+                                            "`t$($projectInformation)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                    # Initial message
+                                        $logAdditionalMSG, `                # Additional information
+                                        [LogMessageLevel]::Error);          # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($logMessage, `                # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # If : Failure to Delete Directory 
         
         # Finished
 
