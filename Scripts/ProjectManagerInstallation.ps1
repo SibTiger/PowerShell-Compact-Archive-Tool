@@ -776,11 +776,6 @@ class ProjectManagerInstallation
             #   We will use this as a means to determine if the project is a new install, an update, or an
             #   older version.
             [string] $temporaryProjectDirectory                                 = $NULL;
-
-            # This will hold the attributes for the project file we are about to install\update.
-            [UInt64] $temporaryProjectRevision                                  = 0;
-            [string] $temporaryProjectName                                      = $NULL;
-            [GUID]   $temporaryProjectSignature                                 = $GLOBAL:_DEFAULT_BLANK_GUID_;
             # ----------------------------------------
 
 
@@ -954,9 +949,7 @@ class ProjectManagerInstallation
 
             # Obtain the meta data of the project that had been extracted to the temporary directory.
             if (![ProjectManagerCommon]::__ReadMetaFile("$($outputDirectory)\$($GLOBAL:_META_FILENAME_)",   `
-                                                        [ref] $temporaryProjectRevision,                    `
-                                                        [ref] $temporaryProjectName,                        `
-                                                        [ref] $temporaryProjectSignature))
+                                                        [ref] $item))
             {
                 # Failed to read the meta data from the target project, cannot continue forward.
 
@@ -988,11 +981,11 @@ class ProjectManagerInstallation
                                                 "`tFile Path:`r`n"                              + `
                                                 "`t`t$($item.GetFilePath())`r`n"                + `
                                                 "`tProject Name:`r`n"                           + `
-                                                "`t`t$($temporaryProjectName)`r`n"              + `
+                                                "`t`t$($item.GetProjectName())`r`n"             + `
                                                 "`tProject Revision:`r`n"                       + `
-                                                "`t`t$($temporaryProjectRevision)`r`n"          + `
+                                                "`t`t$($item.GetProjectRevision())`r`n"         + `
                                                 "`tProject Signature:`r`n"                      + `
-                                                "`t`t$($temporaryProjectSignature)`r`n"         + `
+                                                "`t`t$($item.GetGUID())`r`n"                    + `
                                                 "`tVerification`r`n"                            + `
                                                 "`t`t$($item.GetVerification())`r`n"            + `
                                                 "`tInstalled`r`n"                               + `
@@ -1013,13 +1006,6 @@ class ProjectManagerInstallation
                 # Continue to the next file.
                 continue;
             } # if : Failed to Read Meta File
-
-
-
-            # Update the Meta Information into the project presently loaded.
-            $item.SetProjectRevision($temporaryProjectRevision);    # Project's Revision
-            $item.SetProjectName($temporaryProjectName);            # Project's Name
-            $item.SetGUID($temporaryProjectSignature);              # Project's Unique Signature
 
 
 

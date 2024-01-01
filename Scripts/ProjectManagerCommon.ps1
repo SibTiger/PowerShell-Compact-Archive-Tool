@@ -209,7 +209,7 @@
         {
             # Declarations and Initializations
             # ----------------------------------------
-            [ProjectMetaData]    $newProjectEntry        = [ProjectMetaData]::New();                # Entry to add into Array
+            [ProjectMetaData]       $newProjectEntry        = [ProjectMetaData]::New();             # Entry to add into Array
             [UInt64]                $newProjectRevision     = 0;                                    # Cache project's revision
             [string]                $newProjectName         = $null;                                # Cache project's name
             [GUID]                  $newProjectSignature    = $($GLOBAL:_DEFAULT_BLANK_GUID_);      # Cache project's GUID
@@ -237,10 +237,8 @@
 
 
             # Obtain the information from the Meta file.
-            if (![ProjectManagerCommon]::__ReadMetaFile($item.FullName,                 ` # Where the meta file is located
-                                                        [ref] $newProjectRevision,      ` # Get Project's Revision
-                                                        [ref] $newProjectName,          ` # Get Project's Name
-                                                        [ref] $newProjectSignature))      # Get Project's GUID
+            if (![ProjectManagerCommon]::__ReadMetaFile($item.FullName,                 `   # Where the meta file is located
+                                                        [ref] $newProjectEntry))            # Obtain information from the Project's Meta Data
             {
                 # Could not evaluate the project's meta data information.
 
@@ -267,11 +265,11 @@
                                                 "`t`tInternal Message`r`n"                                      + `
                                                 "`t`t`t$($newProjectEntry.GetMessage())`r`n"                    + `
                                                 "`t`tProject Revision ID:`r`n"                                  + `
-                                                "`t`t`t$($newProjectRevision)`r`n"                              + `
+                                                "`t`t`t$($newProjectEntry.GetProjectRevision())`r`n"            + `
                                                 "`t`tProject Name:`r`n"                                         + `
-                                                "`t`t`t$($newProjectName)`r`n"                                  + `
+                                                "`t`t`t$($newProjectEntry.GetProjectName())`r`n"                + `
                                                 "`t`tUnique Signature:`r`n"                                     + `
-                                                "`t`t`t$($newProjectSignature)");
+                                                "`t`t`t$($newProjectEntry.GetGUID())");
 
 
                 # Pass the information to the logging system
@@ -285,19 +283,6 @@
                 # Something had failed; continue to the next
                 continue;
             } # if : Failed to Read Meta File
-
-
-            # Store the information retrieved from the meta file
-            # --------------------------------------------------
-            # Project's current revision
-            $newProjectEntry.SetProjectRevision($newProjectRevision);
-
-            # Project's name
-            $newProjectEntry.SetProjectName($newProjectName);
-
-            # Project's unique Signature
-            $newProjectEntry.SetGUID($newProjectSignature);
-            # --------------------------------------------------
 
 
 
@@ -364,12 +349,8 @@
     # Input:
     #  [string] Meta File Path
     #   Holds the absolute location of the project's meta file.
-    #  [UInt64] (REFERENCE) Project's Revision
-    #   This reference will be assigned and hold the project's revision ID from the meta file.
-    #  [string] (REFERENCE) Project's Name
-    #   This reference will be assigned and hold the project's name from the meta file.
-    #  [GUID] (REFERENCE) Project's Signature
-    #   This reference will be assigned and hold the project's signature (GUID) from the meta file.
+    #  [ProjectMetaData] (REFERENCE) Project's Meta Data
+    #   This reference will contain the contents within the Project's Meta Data file.
     # -------------------------------
     # Output:
     #  [bool] Exit Code
@@ -378,9 +359,7 @@
     # -------------------------------
     #>
     hidden static [bool] __ReadMetaFile([string] $metaFilePath, `       # Absolute path to the project's meta file
-                                        [ref] $projectRevision, `       # The project's revision ID
-                                        [ref] $projectName,     `       # The project's name
-                                        [ref] $projectSignature)        # The project's signature
+                                        [ref] $projectMetaData)         # The project's meta data
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -390,6 +369,11 @@
 
         # Hash Table that will hold our obtained meta data strings.
         $metaStrings = @{};
+
+        # Temporary Meta Data Information
+        [string]    $tempProjectName        = $NULL;
+        [UInt64]    $tempProjectRevision    = 0;
+        [GUID]      $tempProjectGUID        = $GLOBAL:_DEFAULT_BLANK_GUID_;
         # ----------------------------------------
 
 
@@ -427,8 +411,8 @@
         # Try to open the file and obtain the contents
         try
         {
-            $metaContents = Get-Content                                             `
-                                -Path $metaFilePath                                 `
+            $metaContents = Get-Content                     `
+                                -Path $metaFilePath         `
                                 -ErrorAction Stop;
 
 
@@ -586,15 +570,15 @@
         try
         {
             # Project's Name
-            $projectName.Value      = [string]  ($metaStrings[$GLOBAL:_META_STRING_PROJECT_NAME_]       `
+            $tempProjectName        = [string]  ($metaStrings[$GLOBAL:_META_STRING_PROJECT_NAME_]       `
                                             -Replace "$($GLOBAL:_META_STRING_PROJECT_NAME_)$($GLOBAL:_META_VALUE_DELIMITER_)").Trim();
 
             # Project's Revision
-            $projectRevision.Value  = [UInt64]  ($metaStrings[$GLOBAL:_META_STRING_PROJECT_REVISION_]   `
+            $tempProjectRevision    = [UInt64]  ($metaStrings[$GLOBAL:_META_STRING_PROJECT_REVISION_]   `
                                             -Replace "$($GLOBAL:_META_STRING_PROJECT_REVISION_)$($GLOBAL:_META_VALUE_DELIMITER_)").Trim();
 
             # Project's Signature
-            $projectSignature.Value = [GUID]    ($metaStrings[$GLOBAL:_META_STRING_PROJECT_SIGNATURE_]  `
+            $tempProjectGUID        = [GUID]    ($metaStrings[$GLOBAL:_META_STRING_PROJECT_SIGNATURE_]  `
                                             -Replace "$($GLOBAL:_META_STRING_PROJECT_SIGNATURE_)$($GLOBAL:_META_VALUE_DELIMITER_)").Trim();
         } # try : Assign Proper Values
 
@@ -661,6 +645,13 @@
             return $false;
         } # catch : Caught an Error
         # ---------------------------------------------------
+
+
+
+        # Apply the data into the project meta data structure
+        $projectMetaData.Value.SetProjectName($tempProjectName);
+        $projectMetaData.Value.SetProjectRevision($tempProjectRevision);
+        $projectMetaData.Value.SetGUID($tempProjectGUID);
 
 
 
