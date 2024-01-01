@@ -156,7 +156,7 @@ class ProjectManagerUninstall
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                    # Initial message
                                         $logAdditionalMSG, `                # Additional information
-                                        [LogMessageLevel]::Exclamation);    # Message level
+                                        [LogMessageLevel]::Warning);        # Message level
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
