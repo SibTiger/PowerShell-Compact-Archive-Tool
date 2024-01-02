@@ -151,8 +151,14 @@ class ProjectManagerUninstall
             [string] $logMessage = ("Uninstallation had been cancelled by the user!");
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Project Target Path:`r`n"        + `
-                                            "`t$($projectInformation)");
+            [string] $logAdditionalMSG = (  "Project Target Path:`r`n"                      + `
+                                            "`t`t$($projectInformation)`r`n"                + `
+                                            "`tProject Name:"                               + `
+                                            "`t`t$($projectInformation.GetProjectName)"     + `
+                                            "`tProject Revision ID:"                        + `
+                                            "`t`t$($projectInformation.GetProjectRevision)" + `
+                                            "`tProject Signature:"                          + `
+                                            "`t`t$($projectInformation.GetGUID)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                    # Initial message
