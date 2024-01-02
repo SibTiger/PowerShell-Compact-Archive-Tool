@@ -267,6 +267,17 @@ class ProjectManagerUninstall
         } # If : Directory was not Removed
 
 
+        # If we made it this far, then the operation was successful!
+        [Logging]::DisplayMessage("Successfully uninstalled the desired $($GLOBAL:_PROGRAMNAMESHORT_) Project!`r`n" + `
+                                    "`tProject Name:`r`n"                               + `
+                                    "`t`t$($projectInformation.GetProjectName)"         + `
+                                    "`tProject Revision ID:"                            + `
+                                    "`t`t$($projectInformation.GetProjectRevision)"     + `
+                                    "`tProject Signature:"                              + `
+                                    "`t`t$($projectInformation.GetGUID)"                + `
+                                    "Project Target Path:`r`n"                          + `
+                                    "`t`t$($projectInformation)");
+
         # Operation was successful
         return $true;
     } # __Main()
