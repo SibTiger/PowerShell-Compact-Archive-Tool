@@ -278,6 +278,42 @@ class ProjectManagerUninstall
                                     "Project Target Path:`r`n"                          + `
                                     "`t`t$($projectInformation)");
 
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        [string] $logMessage = ("Successfully uninstalled $($projectInformation.GetProjectName)!");
+
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = (  "Project Target Path:`r`n"                          + `
+                                        "`t`t$($projectInformation)`r`n"                    + `
+                                        "`tProject Name:"                                   + `
+                                        "`t`t$($projectInformation.GetProjectName)"         + `
+                                        "`tProject Revision ID:"                            + `
+                                        "`t`t$($projectInformation.GetProjectRevision)"     + `
+                                        "`tProject Signature:"                              + `
+                                        "`t`t$($projectInformation.GetGUID)");
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
+
+        # Display a message to the user that something went horribly wrong
+        #  and log that same message for referencing purpose.
+        [Logging]::DisplayMessage($logMessage, `                    # Message to display
+                                    [LogMessageLevel]::Verbose);    # Message level
+
+        # Alert the user through a message box as well that an event had occurred;
+        #   the message will be brief as the full details remain within the terminal.
+        [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Information) | Out-Null;
+
+        # * * * * * * * * * * * * * * * * * * *
+
+
         # Operation was successful
         return $true;
     } # __Main()
