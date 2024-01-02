@@ -225,7 +225,46 @@ class ProjectManagerUninstall
         
 
         # Assurance test; make sure the directory had been destroyed.
-        # Finished
+        if (![CommonIO]::CheckPathExists($projectInformation, $true))
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Unable to successfully uninstall the desired project!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = (  "Target was supposed to be removed, but still exists.`r`n"  + `
+                                            "`tProject Target Path:`r`n"                                + `
+                                            "`t`t$($projectInformation)`r`n"                            + `
+                                            "`tProject Name:"                                           + `
+                                            "`t`t$($projectInformation.GetProjectName)"                 + `
+                                            "`tProject Revision ID:"                                    + `
+                                            "`t`t$($projectInformation.GetProjectRevision)"             + `
+                                            "`tProject Signature:"                                      + `
+                                            "`t`t$($projectInformation.GetGUID)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                    # Initial message
+                                        $logAdditionalMSG, `                # Additional information
+                                        [LogMessageLevel]::Error);          # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($logMessage, `                # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Operation had failed
+            return $false;
+        } # If : Directory was not Removed
 
 
         # Operation was successful
