@@ -190,7 +190,7 @@ class ProjectManagerUninstall
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = ("Unable to thrash the desired directory!");
+            [string] $logMessage = ("Unable to successfully uninstall $($projectInformation.GetProjectName)!");
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = (  "Project Target Path:`r`n"                      + `
