@@ -335,7 +335,7 @@ class ProjectManagerUninstall
             "-------------------------------------------------------------------------------------------`r`n"       + `
             "`r`n"                                                                                                  + `
             "`r`n"                                                                                                  + `
-            "To uninstall projects that had been installed into the $($GLOBAL:_PROGRAMNAME_), use the `r`n"         + `
+            "To uninstall a project that had been installed into the $($GLOBAL:_PROGRAMNAME_), use the `r`n"         + `
             " Windows' Folder Browser to select the desired project that you want to remove.`r`n"                   + `
             " Only one project at a time can be removed.`r`n"                                                       + `
             "`r`n"                                                                                                  + `
