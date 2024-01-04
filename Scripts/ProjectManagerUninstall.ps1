@@ -151,13 +151,13 @@ class ProjectManagerUninstall
             [string] $logMessage = ("Uninstallation had been cancelled by the user!");
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = (  "Project Target Path:`r`n"                          + `
-                                            "`t`t$($projectToUninstall)`r`n"                    + `
-                                            "`tProject Name:"                                   + `
-                                            "`t`t$($projectInformation.GetProjectName())"       + `
-                                            "`tProject Revision ID:"                            + `
-                                            "`t`t$($projectInformation.GetProjectRevision())"   + `
-                                            "`tProject Signature:"                              + `
+            [string] $logAdditionalMSG = (  "Project Target Path:`r`n"                              + `
+                                            "`t`t$($projectToUninstall)`r`n"                        + `
+                                            "`tProject Name:`r`n"                                   + `
+                                            "`t`t$($projectInformation.GetProjectName())`r`n"       + `
+                                            "`tProject Revision ID:`r`n"                            + `
+                                            "`t`t$($projectInformation.GetProjectRevision())`r`n"   + `
+                                            "`tProject Signature:`r`n"                              + `
                                             "`t`t$($projectInformation.GetGUID())");
 
             # Pass the information to the logging system
@@ -193,13 +193,13 @@ class ProjectManagerUninstall
             [string] $logMessage = ("Unable to successfully uninstall $($projectInformation.GetProjectName())!");
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = (  "Project Target Path:`r`n"                          + `
-                                            "`t`t$($projectToUninstall)`r`n"                    + `
-                                            "`tProject Name:"                                   + `
-                                            "`t`t$($projectInformation.GetProjectName())"       + `
-                                            "`tProject Revision ID:"                            + `
-                                            "`t`t$($projectInformation.GetProjectRevision())"   + `
-                                            "`tProject Signature:"                              + `
+            [string] $logAdditionalMSG = (  "Project Target Path:`r`n"                              + `
+                                            "`t`t$($projectToUninstall)`r`n"                        + `
+                                            "`tProject Name:`r`n"                                   + `
+                                            "`t`t$($projectInformation.GetProjectName())`r`n"       + `
+                                            "`tProject Revision ID:`r`n"                            + `
+                                            "`t`t$($projectInformation.GetProjectRevision())`r`n"   + `
+                                            "`tProject Signature:`r`n"                              + `
                                             "`t`t$($projectInformation.GetGUID())");
 
             # Pass the information to the logging system
@@ -238,11 +238,11 @@ class ProjectManagerUninstall
             [string] $logAdditionalMSG = (  "Target was supposed to be removed, but still exists.`r`n"  + `
                                             "`tProject Target Path:`r`n"                                + `
                                             "`t`t$($projectToUninstall)`r`n"                            + `
-                                            "`tProject Name:"                                           + `
-                                            "`t`t$($projectInformation.GetProjectName())"               + `
-                                            "`tProject Revision ID:"                                    + `
-                                            "`t`t$($projectInformation.GetProjectRevision())"           + `
-                                            "`tProject Signature:"                                      + `
+                                            "`tProject Name:`r`n"                                       + `
+                                            "`t`t$($projectInformation.GetProjectName())`r`n"           + `
+                                            "`tProject Revision ID:`r`n"                                + `
+                                            "`t`t$($projectInformation.GetProjectRevision())`r`n"       + `
+                                            "`tProject Signature:`r`n"                                  + `
                                             "`t`t$($projectInformation.GetGUID())");
 
             # Pass the information to the logging system
@@ -270,11 +270,11 @@ class ProjectManagerUninstall
         # If we made it this far, then the operation was successful!
         [Logging]::DisplayMessage(  "Successfully uninstalled $($projectInformation.GetProjectName())!`r`n" + `
                                     "`tProject Name:`r`n"                                                   + `
-                                    "`t`t$($projectInformation.GetProjectName())"                           + `
-                                    "`tProject Revision ID:"                                                + `
-                                    "`t`t$($projectInformation.GetProjectRevision())"                       + `
-                                    "`tProject Signature:"                                                  + `
-                                    "`t`t$($projectInformation.GetGUID())"                                  + `
+                                    "`t`t$($projectInformation.GetProjectName())`r`n"                       + `
+                                    "`tProject Revision ID:`r`n"                                            + `
+                                    "`t`t$($projectInformation.GetProjectRevision())`r`n"                   + `
+                                    "`tProject Signature:`r`n"                                              + `
+                                    "`t`t$($projectInformation.GetGUID())`r`n"                              + `
                                     "Project Target Path:`r`n"                                              + `
                                     "`t`t$($projectToUninstall)");
 
@@ -288,13 +288,13 @@ class ProjectManagerUninstall
         [string] $logMessage = ("$($projectInformation.GetProjectName()) had been uninstalled successfully!");
 
         # Generate any additional information that might be useful
-        [string] $logAdditionalMSG = (  "Project Target Path:`r`n"                          + `
-                                        "`t`t$($projectToUninstall)`r`n"                    + `
-                                        "`tProject Name:"                                   + `
-                                        "`t`t$($projectInformation.GetProjectName())"       + `
-                                        "`tProject Revision ID:"                            + `
-                                        "`t`t$($projectInformation.GetProjectRevision())"   + `
-                                        "`tProject Signature:"                              + `
+        [string] $logAdditionalMSG = (  "Project Target Path:`r`n"                              + `
+                                        "`t`t$($projectToUninstall)`r`n"                        + `
+                                        "`tProject Name:`r`n"                                   + `
+                                        "`t`t$($projectInformation.GetProjectName())`r`n"       + `
+                                        "`tProject Revision ID:`r`n"                            + `
+                                        "`t`t$($projectInformation.GetProjectRevision())`r`n"   + `
+                                        "`tProject Signature:`r`n"                              + `
                                         "`t`t$($projectInformation.GetGUID())");
 
         # Pass the information to the logging system
