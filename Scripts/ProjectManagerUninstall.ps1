@@ -225,7 +225,7 @@ class ProjectManagerUninstall
         
 
         # Assurance test; make sure the directory had been destroyed.
-        if ([CommonIO]::CheckPathExists($projectInformation, $true))
+        if ([CommonIO]::CheckPathExists($projectToUninstall, $true))
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
