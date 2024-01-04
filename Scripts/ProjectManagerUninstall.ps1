@@ -275,7 +275,7 @@ class ProjectManagerUninstall
                                     "`t`t$($projectInformation.GetProjectRevision())`r`n"                   + `
                                     "`tProject Signature:`r`n"                                              + `
                                     "`t`t$($projectInformation.GetGUID())`r`n"                              + `
-                                    "Project Target Path:`r`n"                                              + `
+                                    "`tProject Target Path:`r`n"                                            + `
                                     "`t`t$($projectToUninstall)");
 
 
