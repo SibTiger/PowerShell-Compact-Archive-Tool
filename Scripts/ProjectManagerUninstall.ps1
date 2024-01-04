@@ -152,7 +152,7 @@ class ProjectManagerUninstall
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = (  "Project Target Path:`r`n"                      + `
-                                            "`t`t$($projectInformation)`r`n"                + `
+                                            "`t`t$($projectToUninstall)`r`n"                + `
                                             "`tProject Name:"                               + `
                                             "`t`t$($projectInformation.GetProjectName)"     + `
                                             "`tProject Revision ID:"                        + `
@@ -194,7 +194,7 @@ class ProjectManagerUninstall
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = (  "Project Target Path:`r`n"                      + `
-                                            "`t`t$($projectInformation)`r`n"                + `
+                                            "`t`t$($projectToUninstall)`r`n"                + `
                                             "`tProject Name:"                               + `
                                             "`t`t$($projectInformation.GetProjectName)"     + `
                                             "`tProject Revision ID:"                        + `
@@ -237,7 +237,7 @@ class ProjectManagerUninstall
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = (  "Target was supposed to be removed, but still exists.`r`n"  + `
                                             "`tProject Target Path:`r`n"                                + `
-                                            "`t`t$($projectInformation)`r`n"                            + `
+                                            "`t`t$($projectToUninstall)`r`n"                            + `
                                             "`tProject Name:"                                           + `
                                             "`t`t$($projectInformation.GetProjectName)"                 + `
                                             "`tProject Revision ID:"                                    + `
@@ -276,7 +276,7 @@ class ProjectManagerUninstall
                                     "`tProject Signature:"                              + `
                                     "`t`t$($projectInformation.GetGUID)"                + `
                                     "Project Target Path:`r`n"                          + `
-                                    "`t`t$($projectInformation)");
+                                    "`t`t$($projectToUninstall)");
 
 
 
@@ -289,7 +289,7 @@ class ProjectManagerUninstall
 
         # Generate any additional information that might be useful
         [string] $logAdditionalMSG = (  "Project Target Path:`r`n"                          + `
-                                        "`t`t$($projectInformation)`r`n"                    + `
+                                        "`t`t$($projectToUninstall)`r`n"                    + `
                                         "`tProject Name:"                                   + `
                                         "`t`t$($projectInformation.GetProjectName)"         + `
                                         "`tProject Revision ID:"                            + `
