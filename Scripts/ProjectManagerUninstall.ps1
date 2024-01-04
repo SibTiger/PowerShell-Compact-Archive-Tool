@@ -232,7 +232,7 @@ class ProjectManagerUninstall
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = ("Unable to successfully uninstall the desired project!");
+            [string] $logMessage = ("Unable to successfully uninstall $($projectInformation.GetProjectName)!");
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = (  "Target was supposed to be removed, but still exists.`r`n"  + `
@@ -268,7 +268,7 @@ class ProjectManagerUninstall
 
 
         # If we made it this far, then the operation was successful!
-        [Logging]::DisplayMessage("Successfully uninstalled the desired $($GLOBAL:_PROGRAMNAMESHORT_) Project!`r`n" + `
+        [Logging]::DisplayMessage("Successfully uninstalled $($projectInformation.GetProjectName)!`r`n" + `
                                     "`tProject Name:`r`n"                               + `
                                     "`t`t$($projectInformation.GetProjectName)"         + `
                                     "`tProject Revision ID:"                            + `
@@ -285,7 +285,7 @@ class ProjectManagerUninstall
         # --------------
 
         # Generate the initial message
-        [string] $logMessage = ("Successfully uninstalled $($projectInformation.GetProjectName)!");
+        [string] $logMessage = ("$($projectInformation.GetProjectName) had been uninstalled successfully!");
 
         # Generate any additional information that might be useful
         [string] $logAdditionalMSG = (  "Project Target Path:`r`n"                          + `
