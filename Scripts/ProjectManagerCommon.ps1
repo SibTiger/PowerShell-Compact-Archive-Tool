@@ -107,7 +107,30 @@
 
             # Determine if the Get-ChildItem CMDLet did not provide us with any instances, thus the path was empty.
             if ($NULL -eq $dynamicVariable)
-            { return $true; }
+            {
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = ("Unable to find any installed projects!");
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Installation Path for $($GLOBAL:_PROGRAMNAMESHORT_) Projects:`r`n"   + `
+                                                "`t`t$($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_)");
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                            $logAdditionalMSG, `            # Additional information
+                                            [LogMessageLevel]::Warning);    # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
+                # Finished; there's nothing we can do.
+                return $true;
+            } # If : No Installed Projects Found
+
 
             # Determine if the Get-ChildItem CMDLet provided us with a single instance of the System.IO.FileInfo type
             #   or an ArrayList containing multiple instances of the System.IO.FileInfo.
