@@ -105,10 +105,14 @@
                                 -ErrorAction Stop;
 
 
+            # Determine if the Get-ChildItem CMDLet did not provide us with any instances, thus the path was empty.
+            if ($NULL -eq $dynamicVariable)
+            { return $true; }
+
             # Determine if the Get-ChildItem CMDLet provided us with a single instance of the System.IO.FileInfo type
             #   or an ArrayList containing multiple instances of the System.IO.FileInfo.
             # Single Instance
-            if ($dynamicVariable.GetType().Name -eq "FileInfo")
+            elseif ($dynamicVariable.GetType().Name -eq "FileInfo")
             { $listOfMetaFiles.Add($dynamicVariable); }
             
             # Array List of Instances
