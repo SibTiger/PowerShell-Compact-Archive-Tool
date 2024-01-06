@@ -96,7 +96,7 @@ class ProjectManager
                 [ProjectManager]::__SetupEnvironment();
 
                 # Execute the operation
-                return $false;
+                return [ProjectManagerShowProjects]::__Main();
             } # List Projects
 
 
