@@ -44,6 +44,14 @@ class ProjectManagerShowProjects
     #>
     hidden static [bool] __Main()
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This variable will contain a list of projects that had been installed within the environment. 
+        [System.Collections.ArrayList] $listOfProjectsInstalled = [System.Collections.ArrayList]::New();
+        # ----------------------------------------
+
+
+
         # Show the instructions to the user
         [ProjectManagerShowProjects]::__DrawMainInstructions();
 
@@ -51,7 +59,47 @@ class ProjectManagerShowProjects
         # Provide some whitespace padding.
         [Logging]::DisplayMessage("`r`n`r`n");
 
-        return $false;
+
+        # Obtain a list of installed projects
+        if ((![ProjectManagerCommon]::__GetInstalledProjects($listOfProjectsInstalled)) -or `   # Failure occurred
+            ($NULL -eq $listOfProjectsInstalled)                                        -or `   # No installs found
+            ($listOfProjectsInstalled.Count -eq 0))                                             # No installs found
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+            # Generate the initial message
+            [string] $logMessage = ("Unable to find any installed $($GLOBAL:_PROGRAMNAMESHORT_) Projects.`r`n" + `
+                                    "You may need to install new projects into $($GLOBAL:_PROGRAMNAME_).");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Installation Path for $($GLOBAL:_PROGRAMNAMESHORT_) Projects:`r`n"   + `
+                                            "`t`t$($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
+
+            # Display a message to the user that there was no projects found and log that same message for
+            #  referencing purpose.
+            [Logging]::DisplayMessage($logMessage, `                    # Message to display
+                                        [LogMessageLevel]::Warning);    # Message level
+
+            # Alert the user through a message box as well that an event had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Warning) | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Finished; nothing more we can do.
+            return $false;
+        } # if : Unable to Obtain List of Installed Projects
+
+
+        # Finished
+        return $true;
     } # __Main()
 
 
