@@ -98,6 +98,10 @@ class ProjectManagerShowProjects
         } # if : Unable to Obtain List of Installed Projects
 
 
+        # Show the user the list of installed projects
+        [ProjectManagerShowProjects]::__ShowListOfProjects($listOfProjectsInstalled);
+
+
         # Finished
         return $true;
     } # __Main()
@@ -141,5 +145,44 @@ class ProjectManagerShowProjects
 
 
 
+   <# Show List of Projects
+    # -------------------------------
+    # Documentation:
+    #  When called, this function will show a list of installed projects to the user in a formatted list.
+    # -------------------------------
+    # Input: 
+    #  [System.Collections.ArrayList] {ProjectMetaData} Installed Projects.
+    #   This will provide information as to what projects had been installed within the program's environment.
+    # -------------------------------
+    #>
+    hidden static [void] __ShowListOfProjects([System.Collections.ArrayList] $listOfProjects)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This variable will be used for counting each project that was added to the array list.
+        [UInt64] $itemCount = 1;
+        # ----------------------------------------
 
+
+        # Iterate through each installed projects
+        foreach($item in $listOfProjects)
+        {
+            # Build the string
+            [string] $projectInformation = ("$($itemCount). $($item.GetFileName())`r`n"             + `
+                                            "   Project Name: $($item.GetProjectName())`r`n"        + `
+                                            "   Revision:     $($item.GetProjectRevision())`r`n");
+
+
+            # Show the message to the user.
+            [Logging]::DisplayMessage($projectInformation);
+
+
+            # Increment the Counter
+            $itemCount++;
+        } # foreach : Show Each Project
+
+
+        # Allow the user to read the output
+        [CommonIO]::FetchEnterKey();
+    } # __ShowListOfProjects()
 } # ProjectManagerShowProjects
