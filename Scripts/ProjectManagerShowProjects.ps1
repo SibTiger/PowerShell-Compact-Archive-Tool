@@ -168,7 +168,7 @@ class ProjectManagerShowProjects
         foreach($item in $listOfProjects)
         {
             # Build the string
-            [string] $projectInformation = ("$($itemCount). $($item.GetFileName())`r`n"             + `
+            [string] $projectInformation = ("$($itemCount.ToString()). $($item.GetFileName())`r`n"  + `
                                             "   Project Name: $($item.GetProjectName())`r`n"        + `
                                             "   Revision:     $($item.GetProjectRevision())`r`n");
 
