@@ -175,6 +175,8 @@ class ProjectManagerShowProjects
                                             "`t`tFile Name:     $($project.GetFileName())`r`n"                      + `
                                             "`t`tProject Name:  $($project.GetProjectName())`r`n"                   + `
                                             "`t`tRevision:      $($project.GetProjectRevision().ToString())`r`n"    + `
+                                            "`t`tSignature:     $($project.GetGUID())`r`n"                          + `
+                                            "`t`tPath:          $($project.GetFilePath())`r`n"                      + `
                                             "`r`n`r`n");
         } # foreach : Iterate all Projects
 
