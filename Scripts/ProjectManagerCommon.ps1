@@ -283,6 +283,8 @@
                 [string] $logAdditionalMSG = ("Project information provided may or may not be accurate:`r`n"    + `
                                                 "`t`tFile Path:`r`n"                                            + `
                                                 "`t`t`t$($newProjectEntry.GetFilePath())`r`n"                   + `
+                                                "`t`tDirectory Base Name:`r`n"                                  + `
+                                                "`t`t`t$($item.Directory.BaseName)`r`n"                         + `
                                                 "`t`tFile Name:`r`n"                                            + `
                                                 "`t`t`t$($newProjectEntry.GetFileName())`r`n"                   + `
                                                 "`t`tMeta File:`r`n"                                            + `
@@ -331,6 +333,8 @@
             [string] $logAdditionalMSG = ("Project information that had been collected:`r`n"                + `
                                             "`t`tFile Path:`r`n"                                            + `
                                             "`t`t`t$($newProjectEntry.GetFilePath())`r`n"                   + `
+                                            "`t`tDirectory Base Name:`r`n"                                  + `
+                                            "`t`t`t$($item.Directory.BaseName)`r`n"                         + `
                                             "`t`tFile Name:`r`n"                                            + `
                                             "`t`t`t$($newProjectEntry.GetFileName())`r`n"                   + `
                                             "`t`tMeta File:`r`n"                                            + `
