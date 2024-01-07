@@ -38,16 +38,22 @@ class ProjectMetaData
     # =================================================
 
 
-    # File Name
+    # Meta File Name
     # ---------------
-    # Provides the name of the individual file.
-    hidden [string] $__fileName;
+    # Provides the name of the individual meta file.
+    hidden [string] $__metaFileName;
 
 
-    # File Path
+    # Meta File Path
     # ---------------
-    # Contains the absolute path of the file.
-    hidden [string] $__filePath;
+    # Contains the absolute path of the meta file.
+    hidden [string] $__metaFilePath;
+
+
+    # Directory Name
+    # ---------------
+    # Provides the directory name in which the Meta file resides
+    hidden [string] $__directoryName;
 
 
     # Project Name
@@ -97,16 +103,20 @@ class ProjectMetaData
     # Default Constructor
     ProjectMetaData()
     {
-        # File Name
-        $this.__fileName = $null;
+        # Meta File Name
+        $this.__metaFileName = $null;
 
 
-        # File Path
-        $this.__filePath = $null;
+        # Meta File Path
+        $this.__metaFilePath = $null;
 
 
         # Project Name
         $this.__projectName = $null;
+
+
+        # Directory Name
+        $this.__directoryName = $null;
 
 
         # Revision
@@ -134,17 +144,22 @@ class ProjectMetaData
 
     # Initiated Object
     ProjectMetaData (   [string] $projectName, `    # Name of the project
-                        [string] $fileName, `       # Name of the file
-                        [string] $filePath, `       # File's full path
+                        [string] $metaFileName, `   # Name of the meta file
+                        [string] $directoryName, `  # Name of the parent directory
+                        [string] $metaFilePath, `   # File's full path
                         [UInt64] $revision, `       # Project's Revision
                         [GUID] $guid)               # Project's GUID
     {
-        # File Name
-        $this.__fileName = $fileName;
+        # Meta File Name
+        $this.__metaFileName = $metaFileName;
 
 
-        # File Path
-        $this.__filePath = $filePath;
+        # Meta File Path
+        $this.__metaFilePath = $metaFilePath;
+
+
+        # Directory Name
+        $this.__directoryName = $directoryName;
 
 
         # Project Name
@@ -175,15 +190,19 @@ class ProjectMetaData
 
 
     # Initiated Object - Legacy
-    ProjectMetaData (   [string] $fileName, `   # Name of the file
-                        [string] $filePath)     # File's full path
+    ProjectMetaData (   [string] $metaFileName, `   # Name of the meta file
+                        [string] $metaFilePath)     # Meta File's full path
     {
-        # File Name
-        $this.__fileName = $fileName;
+        # Meta File Name
+        $this.__metaFileName = $metaFileName;
 
 
-        # File Path
-        $this.__filePath = $filePath;
+        # Meta File Path
+        $this.__metaFilePath = $metaFilePath;
+
+
+        # Directory Name
+        $this.__directoryName = $null;
 
 
         # Project Name
@@ -217,32 +236,47 @@ class ProjectMetaData
 
     #region Getter Functions
 
-   <# Get File Name
+   <# Get Meta File Name
     # -------------------------------
     # Documentation:
-    #  Returns the value of the 'File Name' variable.
+    #  Returns the value of the 'Meta File Name' variable.
     # -------------------------------
     # Output:
-    #  [String] File Name
-    #   The value of the 'File Name'.
+    #  [String] Meta File Name
+    #   The value of the 'Meta File Name'.
     # -------------------------------
     #>
-    [string] GetFileName() { return $this.__fileName; }
+    [string] GetMetaFileName() { return $this.__metaFileName; }
 
 
 
 
-   <# Get File Path
+   <# Get Meta File Path
     # -------------------------------
     # Documentation:
-    #  Returns the value of the 'File Path' variable.
+    #  Returns the value of the 'Meta File Path' variable.
     # -------------------------------
     # Output:
-    #  [String] File Path
-    #   The value of the 'File Path'.
+    #  [String] Meta File Path
+    #   The value of the 'Meta File Path'.
     # -------------------------------
     #>
-    [string] GetFilePath() { return $this.__filePath; }
+    [string] GetMetaFilePath() { return $this.__metaFilePath; }
+
+
+
+
+   <# Get Directory Name
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the 'Directory Name' variable.
+    # -------------------------------
+    # Output:
+    #  [String] Directory Name
+    #   The value of the 'Directory Name'.
+    # -------------------------------
+    #>
+    [string] GetDirectoryName() { return $this.__directoryName; }
 
 
 
@@ -340,14 +374,14 @@ class ProjectMetaData
 
     #region Setter Functions
 
-   <# Set File Name
+   <# Set Meta File Name
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the 'File Name' variable.
+    #  Sets a new value for the 'Meta File Name' variable.
     # -------------------------------
     # Input:
-    #  [String] File Name
-    #   Sets the value of the 'File Name' variable.
+    #  [String] Meta File Name
+    #   Sets the value of the 'Meta File Name' variable.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -355,31 +389,31 @@ class ProjectMetaData
     #   false = Failure; could not set a new value.
     # -------------------------------
     #>
-    [bool] SetFileName([string] $newValue)
+    [bool] SetMetaFileName([string] $newValue)
     {
         # Make sure that the value is not null; if null - do not update.
         if ([CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
 
 
         # Update the value as requested.
-        $this.__fileName = $newValue;
+        $this.__metaFileName = $newValue;
 
 
         # Operation was successful
         return $true;
-    } # SetFileName()
+    } # SetMetaFileName()
 
 
 
 
-   <# Set File Path
+   <# Set Meta File Path
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the 'File Path' variable.
+    #  Sets a new value for the 'Meta File Path' variable.
     # -------------------------------
     # Input:
-    #  [String] File Path
-    #   Sets the value of the 'File Path' variable.
+    #  [String] Meta File Path
+    #   Sets the value of the 'Meta File Path' variable.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -387,19 +421,51 @@ class ProjectMetaData
     #   false = Failure; could not set a new value.
     # -------------------------------
     #>
-    [bool] SetFilePath([string] $newValue)
+    [bool] SetMetaFilePath([string] $newValue)
     {
         # Make sure that the value is not null; if null - do not update.
         if ([CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
 
 
         # Update the value as requested.
-        $this.__filePath = $newValue;
+        $this.__metaFilePath = $newValue;
 
 
         # Operation was successful
         return $true;
-    } # SetFilePath()
+    } # SetMetaFilePath()
+
+
+
+
+   <# Set Directory Name
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'Directory Name' variable.
+    # -------------------------------
+    # Input:
+    #  [String] Directory Name
+    #   Sets the value of the 'Directory Name' variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetDirectoryName([string] $newValue)
+    {
+        # Make sure that the value is not null; if null - do not update.
+        if ([CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
+
+
+        # Update the value as requested.
+        $this.__directoryName = $newValue;
+
+
+        # Operation was successful
+        return $true;
+    } # SetDirectoryName()
 
 
 

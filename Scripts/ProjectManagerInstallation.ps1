@@ -434,7 +434,7 @@ class ProjectManagerInstallation
             # Create a string in which we can use to generate the operation and record the result.  This
             #   information will be logged within the program's logfile -- useful for debugging if needed.
             # We will initialize this variable by including the filename that is being inspected.
-            [string] $logActivity = "Verified file named: $($item.GetFileName())";
+            [string] $logActivity = "Verified file named: $($item.GetMetaFileName())";
 
             # This will provide additional information that could be useful within the logfile, related to
             #   the operation.
@@ -444,7 +444,7 @@ class ProjectManagerInstallation
 
 
             # Determine verification status
-            if ($defaultCompress.VerifyArchive($item.GetFilePath()))
+            if ($defaultCompress.VerifyArchive($item.GetMetaFilePath()))
             {
                 # Save the result provided by the verification process.
                 $logActivity = $logActivity + "`r`n`t- Result: Passed!";
@@ -583,15 +583,15 @@ class ProjectManagerInstallation
         {
             # Setup a string containing the results for the logging.
             [string] $fileResultsLogging = ( `
-                                "File Name:           " + $item.GetFileName()      + "`r`n`t" + `
+                                "Meta File Name:      " + $item.GetMetaFileName()  + "`r`n`t" + `
                                 "Verification Passed: " + $item.GetVerification()  + "`r`n`t" + `
                                 "Installed:           " + $item.GetInstalled()     + "`r`n`t" + `
-                                "Installed Path:      " + $item.GetFilePath()      + "`r`n`t" + `
+                                "Installed Path:      " + $item.GetMetaFilePath()  + "`r`n`t" + `
                                 "Overall Status:      " + $item.GetMessage()       + "`r`n`t");
 
             # Setup a string containing the results for the logging.
             [string] $fileResults = ( `
-                                "File Name:           " + $item.GetFileName()      + "`r`n" + `
+                                "Meta File Name:      " + $item.GetMetaFileName()  + "`r`n" + `
                                 "Installed:           " + $item.GetInstalled()     + "`r`n" + `
                                 "Overall Status:      " + $item.GetMessage()       + "`r`n");
 
@@ -610,7 +610,7 @@ class ProjectManagerInstallation
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = ("Project Installation Report for $($item.GetFileName()):");
+            [string] $logMessage = ("Project Installation Report for $($item.GetMetaFileName()):");
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = $fileResultsLogging;
@@ -808,10 +808,10 @@ class ProjectManagerInstallation
 
                 # Generate any additional information that might be useful
                 [string] $logAdditionalMSG = (  "Information may or may not be accurate:`r`n"   + `
-                                                "`tFile Name:`r`n"                              + `
-                                                "`t`t$($item.GetFileName())`r`n"                + `
-                                                "`tFile Path:`r`n"                              + `
-                                                "`t`t$($item.GetFilePath())`r`n"                + `
+                                                "`tMeta File Name:`r`n"                         + `
+                                                "`t`t$($item.GetMetaFileName())`r`n"            + `
+                                                "`tMeta File Path:`r`n"                         + `
+                                                "`t`t$($item.GetMetaFilePath())`r`n"            + `
                                                 "`tVerification`r`n"                            + `
                                                 "`t`t$($item.GetVerification())`r`n"            + `
                                                 "`tInstalled`r`n"                               + `
@@ -862,10 +862,10 @@ class ProjectManagerInstallation
 
                 # Generate any additional information that might be useful
                 [string] $logAdditionalMSG = (  "Information may or may not be accurate:`r`n"   + `
-                                                "`tFile Name:`r`n"                              + `
-                                                "`t`t$($item.GetFileName())`r`n"                + `
-                                                "`tFile Path:`r`n"                              + `
-                                                "`t`t$($item.GetFilePath())`r`n"                + `
+                                                "`tMeta File Name:`r`n"                         + `
+                                                "`t`t$($item.GetMetaFileName())`r`n"            + `
+                                                "`tMeta File Path:`r`n"                         + `
+                                                "`t`t$($item.GetMetaFilePath())`r`n"            + `
                                                 "`tVerification`r`n"                            + `
                                                 "`t`t$($item.GetVerification())`r`n"            + `
                                                 "`tInstalled`r`n"                               + `
@@ -889,7 +889,7 @@ class ProjectManagerInstallation
 
 
             # Extract the desired project to the temporary directory.
-            if (!$defaultCompress.ExtractArchive($item.GetFilePath(),           `
+            if (!$defaultCompress.ExtractArchive($item.GetMetaFilePath(),       `
                                                 $($temporaryProjectDirectory),  `
                                                 [ref] $outputDirectory))
             {
@@ -921,10 +921,10 @@ class ProjectManagerInstallation
                                                 "`t`t$($temporaryProjectDirectory)`r`n"         + `
                                                 "`r`n"                                          + `
                                                 "`tInformation regarding the project:`r`n"      + `
-                                                "`tFile Name:`r`n"                              + `
-                                                "`t`t$($item.GetFileName())`r`n"                + `
-                                                "`tFile Path:`r`n"                              + `
-                                                "`t`t$($item.GetFilePath())`r`n"                + `
+                                                "`tMeta File Name:`r`n"                         + `
+                                                "`t`t$($item.GetMetaFileName())`r`n"            + `
+                                                "`tMeta File Path:`r`n"                         + `
+                                                "`t`t$($item.GetMetaFilePath())`r`n"            + `
                                                 "`tVerification`r`n"                            + `
                                                 "`t`t$($item.GetVerification())`r`n"            + `
                                                 "`tInstalled`r`n"                               + `
@@ -976,10 +976,10 @@ class ProjectManagerInstallation
 
                 # Generate any additional information that might be useful
                 [string] $logAdditionalMSG = (  "Information may or may not be accurate:`r`n"   + `
-                                                "`tFile Name:`r`n"                              + `
-                                                "`t`t$($item.GetFileName())`r`n"                + `
-                                                "`tFile Path:`r`n"                              + `
-                                                "`t`t$($item.GetFilePath())`r`n"                + `
+                                                "`tMeta File Name:`r`n"                         + `
+                                                "`t`t$($item.GetMetaFileName())`r`n"            + `
+                                                "`tMeta File Path:`r`n"                         + `
+                                                "`t`t$($item.GetMetaFilePath())`r`n"            + `
                                                 "`tProject Name:`r`n"                           + `
                                                 "`t`t$($item.GetProjectName())`r`n"             + `
                                                 "`tProject Revision:`r`n"                       + `
@@ -1037,10 +1037,10 @@ class ProjectManagerInstallation
 
                         # Generate any additional information that might be useful
                         [string] $logAdditionalMSG = (  "Information Regarding the Updated Version:`r`n"    + `
-                                                        "`tFile Name:`r`n"                                  + `
-                                                        "`t`t$($item.GetFileName())`r`n"                    + `
-                                                        "`tFile Path:`r`n"                                  + `
-                                                        "`t`t$($item.GetFilePath())`r`n"                    + `
+                                                        "`tMeta File Name:`r`n"                             + `
+                                                        "`t`t$($item.GetMetaFileName())`r`n"                + `
+                                                        "`tMeta File Path:`r`n"                             + `
+                                                        "`t`t$($item.GetMetaFilePath())`r`n"                + `
                                                         "`tProject Name:`r`n"                               + `
                                                         "`t`t$($item.GetProjectName())`r`n"                 + `
                                                         "`tProject Revision:`r`n"                           + `
@@ -1056,10 +1056,10 @@ class ProjectManagerInstallation
                                                         "`r`n"                                              + `
                                                         "`r`n"                                              + `
                                                         "Information Regarding the Current Install:`r`n"    + `
-                                                        "`tFile Name:`r`n"                                  + `
-                                                        "`t`t$($installedProject.GetFileName())`r`n"        + `
-                                                        "`tFile Path:`r`n"                                  + `
-                                                        "`t`t$($installedProject.GetFilePath())`r`n"        + `
+                                                        "`tMeta File Name:`r`n"                             + `
+                                                        "`t`t$($installedProject.GetMetaFileName())`r`n"    + `
+                                                        "`tMeta File Path:`r`n"                             + `
+                                                        "`t`t$($installedProject.GetMetaFilePath())`r`n"    + `
                                                         "`tProject Name:`r`n"                               + `
                                                         "`t`t$($installedProject.GetProjectName())`r`n"     + `
                                                         "`tProject Revision:`r`n"                           + `
@@ -1102,10 +1102,10 @@ class ProjectManagerInstallation
 
                         # Generate any additional information that might be useful
                         [string] $logAdditionalMSG = (  "Information Regarding the Selected Build:`r`n"     + `
-                                                        "`tFile Name:`r`n"                                  + `
-                                                        "`t`t$($item.GetFileName())`r`n"                    + `
-                                                        "`tFile Path:`r`n"                                  + `
-                                                        "`t`t$($item.GetFilePath())`r`n"                    + `
+                                                        "`tMeta File Name:`r`n"                             + `
+                                                        "`t`t$($item.GetMetaFileName())`r`n"                + `
+                                                        "`tMeta File Path:`r`n"                             + `
+                                                        "`t`t$($item.GetMetaFilePath())`r`n"                + `
                                                         "`tProject Name:`r`n"                               + `
                                                         "`t`t$($item.GetProjectName())`r`n"                 + `
                                                         "`tProject Revision:`r`n"                           + `
@@ -1121,10 +1121,10 @@ class ProjectManagerInstallation
                                                         "`r`n"                                              + `
                                                         "`r`n"                                              + `
                                                         "Information Regarding the Current Install:`r`n"    + `
-                                                        "`tFile Name:`r`n"                                  + `
-                                                        "`t`t$($installedProject.GetFileName())`r`n"        + `
-                                                        "`tFile Path:`r`n"                                  + `
-                                                        "`t`t$($installedProject.GetFilePath())`r`n"        + `
+                                                        "`tMeta File Name:`r`n"                             + `
+                                                        "`t`t$($installedProject.GetMetaFileName())`r`n"    + `
+                                                        "`tMeta File Path:`r`n"                             + `
+                                                        "`t`t$($installedProject.GetMetaFilePath())`r`n"    + `
                                                         "`tProject Name:`r`n"                               + `
                                                         "`t`t$($installedProject.GetProjectName())`r`n"     + `
                                                         "`tProject Revision:`r`n"                           + `
@@ -1179,10 +1179,10 @@ class ProjectManagerInstallation
 
                     # Generate any additional information that might be useful
                     [string] $logAdditionalMSG = (  "Information may or may not be accurate - Item Selected:`r`n"       + `
-                                                    "`tFile Name:`r`n"                                                  + `
-                                                    "`t`t$($item.GetFileName())`r`n"                                    + `
-                                                    "`tFile Path:`r`n"                                                  + `
-                                                    "`t`t$($item.GetFilePath())`r`n"                                    + `
+                                                    "`tMeta File Name:`r`n"                                             + `
+                                                    "`t`t$($item.GetMetaFileName())`r`n"                                + `
+                                                    "`tMeta File Path:`r`n"                                             + `
+                                                    "`t`t$($item.GetMetaFilePath())`r`n"                                + `
                                                     "`tProject Name:`r`n"                                               + `
                                                     "`t`t$($item.GetProjectName())`r`n"                                 + `
                                                     "`tProject Revision:`r`n"                                           + `
@@ -1198,10 +1198,10 @@ class ProjectManagerInstallation
                                                     "`r`n"                                                              + `
                                                     "`r`n"                                                              + `
                                                     "Information Regarding the Current Install:`r`n"                    + `
-                                                    "`tFile Name:`r`n"                                                  + `
-                                                    "`t`t$($installedProject.GetFileName())`r`n"                        + `
-                                                    "`tFile Path:`r`n"                                                  + `
-                                                    "`t`t$($installedProject.GetFilePath())`r`n"                        + `
+                                                    "`tMeta File Name:`r`n"                                             + `
+                                                    "`t`t$($installedProject.GetMetaFileName())`r`n"                    + `
+                                                    "`tMeta File Path:`r`n"                                             + `
+                                                    "`t`t$($installedProject.GetMetaFilePath())`r`n"                    + `
                                                     "`tProject Name:`r`n"                                               + `
                                                     "`t`t$($installedProject.GetProjectName())`r`n"                     + `
                                                     "`tProject Revision:`r`n"                                           + `
@@ -1255,10 +1255,10 @@ class ProjectManagerInstallation
 
                         # Generate any additional information that might be useful
                         [string] $logAdditionalMSG = (  "Information Regarding the New Install:`r`n"        + `
-                                                        "`tFile Name:`r`n"                                  + `
-                                                        "`t`t$($item.GetFileName())`r`n"                    + `
-                                                        "`tFile Path:`r`n"                                  + `
-                                                        "`t`t$($item.GetFilePath())`r`n"                    + `
+                                                        "`tMeta File Name:`r`n"                             + `
+                                                        "`t`t$($item.GetMetaFileName())`r`n"                + `
+                                                        "`tMeta File Path:`r`n"                             + `
+                                                        "`t`t$($item.GetMetaFilePath())`r`n"                + `
                                                         "`tProject Name:`r`n"                               + `
                                                         "`t`t$($item.GetProjectName())`r`n"                 + `
                                                         "`tProject Revision:`r`n"                           + `
@@ -1303,10 +1303,10 @@ class ProjectManagerInstallation
 
                     # Generate any additional information that might be useful
                     [string] $logAdditionalMSG = (  "Information Regarding the New Install:`r`n"        + `
-                                                    "`tFile Name:`r`n"                                  + `
-                                                    "`t`t$($item.GetFileName())`r`n"                    + `
-                                                    "`tFile Path:`r`n"                                  + `
-                                                    "`t`t$($item.GetFilePath())`r`n"                    + `
+                                                    "`tMeta File Name:`r`n"                             + `
+                                                    "`t`t$($item.GetMetaFileName())`r`n"                + `
+                                                    "`tMeta File Path:`r`n"                             + `
+                                                    "`t`t$($item.GetMetaFilePath())`r`n"                + `
                                                     "`tProject Name:`r`n"                               + `
                                                     "`t`t$($item.GetProjectName())`r`n"                 + `
                                                     "`tProject Revision:`r`n"                           + `
@@ -1341,7 +1341,7 @@ class ProjectManagerInstallation
                 ([ProjectManagerInstallOperationSwitch]::Update)
                 {
                     # Update is Available
-                    if (![CommonIO]::CopyDirectory("$($outputDirectory)\*", $previousInstall.GetFilePath()))
+                    if (![CommonIO]::CopyDirectory("$($outputDirectory)\*", $previousInstall.GetMetaFilePath()))
                     {
                         # Files could not be relocated.
 
@@ -1359,10 +1359,10 @@ class ProjectManagerInstallation
 
                         # Generate any additional information that might be useful
                         [string] $logAdditionalMSG = (  "Information Regarding the Updated Version:`r`n"            + `
-                                                        "`tFile Name:`r`n"                                          + `
-                                                        "`t`t$($item.GetFileName())`r`n"                            + `
-                                                        "`tFile Path:`r`n"                                          + `
-                                                        "`t`t$($item.GetFilePath())`r`n"                            + `
+                                                        "`tMeta File Name:`r`n"                                     + `
+                                                        "`t`t$($item.GetMetaFileName())`r`n"                        + `
+                                                        "`tMeta File Path:`r`n"                                     + `
+                                                        "`t`t$($item.GetMetaFilePath())`r`n"                        + `
                                                         "`tProject Name:`r`n"                                       + `
                                                         "`t`t$($item.GetProjectName())`r`n"                         + `
                                                         "`tProject Revision:`r`n"                                   + `
@@ -1378,10 +1378,10 @@ class ProjectManagerInstallation
                                                         "`r`n"                                                      + `
                                                         "`r`n"                                                      + `
                                                         "`tInformation Regarding the Current Install:`r`n"          + `
-                                                        "`tFile Name:`r`n"                                          + `
-                                                        "`t`t$($installedProject.GetFileName())`r`n"                + `
-                                                        "`tFile Path:`r`n"                                          + `
-                                                        "`t`t$($installedProject.GetFilePath())`r`n"                + `
+                                                        "`tMeta File Name:`r`n"                                     + `
+                                                        "`t`t$($installedProject.GetMetaFileName())`r`n"            + `
+                                                        "`tMeta File Path:`r`n"                                     + `
+                                                        "`t`t$($installedProject.GetMetaFilePath())`r`n"            + `
                                                         "`tProject Name:`r`n"                                       + `
                                                         "`t`t$($installedProject.GetProjectName())`r`n"             + `
                                                         "`tProject Revision:`r`n"                                   + `
@@ -1426,10 +1426,10 @@ class ProjectManagerInstallation
 
                     # Generate any additional information that might be useful
                     [string] $logAdditionalMSG = (  "Information Regarding the New Installation Version:`r`n"   + `
-                                                    "`tFile Name:`r`n"                                          + `
-                                                    "`t`t$($item.GetFileName())`r`n"                            + `
-                                                    "`tFile Path:`r`n"                                          + `
-                                                    "`t`t$($item.GetFilePath())`r`n"                            + `
+                                                    "`tMeta File Name:`r`n"                                     + `
+                                                    "`t`t$($item.GetMetaFileName())`r`n"                        + `
+                                                    "`tMeta File Path:`r`n"                                     + `
+                                                    "`t`t$($item.GetMetaFilePath())`r`n"                        + `
                                                     "`tProject Name:`r`n"                                       + `
                                                     "`t`t$($item.GetProjectName())`r`n"                         + `
                                                     "`tProject Revision:`r`n"                                   + `
@@ -1445,10 +1445,10 @@ class ProjectManagerInstallation
                                                     "`r`n"                                                      + `
                                                     "`r`n"                                                      + `
                                                     "`tInformation Regarding the Previous Installation:`r`n:"   + `
-                                                    "`tFile Name:`r`n"                                          + `
-                                                    "`t`t$($installedProject.GetFileName())`r`n"                + `
-                                                    "`tFile Path:`r`n"                                          + `
-                                                    "`t`t$($installedProject.GetFilePath())`r`n"                + `
+                                                    "`tMetaFile Name:`r`n"                                      + `
+                                                    "`t`t$($installedProject.GetMetaFileName())`r`n"            + `
+                                                    "`tMeta File Path:`r`n"                                     + `
+                                                    "`t`t$($installedProject.GetMetaFilePath())`r`n"            + `
                                                     "`tProject Name:`r`n"                                       + `
                                                     "`t`t$($installedProject.GetProjectName())`r`n"             + `
                                                     "`tProject Revision:`r`n"                                   + `
@@ -1502,10 +1502,10 @@ class ProjectManagerInstallation
 
                     # Generate any additional information that might be useful
                     [string] $logAdditionalMSG = (  "Information Regarding the Selected Build:`r`n"             + `
-                                                    "`tFile Name:`r`n"                                          + `
-                                                    "`t`t$($item.GetFileName())`r`n"                            + `
-                                                    "`tFile Path:`r`n"                                          + `
-                                                    "`t`t$($item.GetFilePath())`r`n"                            + `
+                                                    "`tMeta File Name:`r`n"                                     + `
+                                                    "`t`t$($item.GetMetaFileName())`r`n"                        + `
+                                                    "`tMeta File Path:`r`n"                                     + `
+                                                    "`t`t$($item.GetMetaFilePath())`r`n"                        + `
                                                     "`tProject Name:`r`n"                                       + `
                                                     "`t`t$($item.GetProjectName())`r`n"                         + `
                                                     "`tProject Revision:`r`n"                                   + `
@@ -1521,10 +1521,10 @@ class ProjectManagerInstallation
                                                     "`r`n"                                                      + `
                                                     "`r`n"                                                      + `
                                                     "`tInformation Regarding the Current Install:`r`n"          + `
-                                                    "`tFile Name:`r`n"                                          + `
-                                                    "`t`t$($installedProject.GetFileName())`r`n"                + `
-                                                    "`tFile Path:`r`n"                                          + `
-                                                    "`t`t$($installedProject.GetFilePath())`r`n"                + `
+                                                    "`tMeta File Name:`r`n"                                     + `
+                                                    "`t`t$($installedProject.GetMetaFileName())`r`n"            + `
+                                                    "`tMeta File Path:`r`n"                                     + `
+                                                    "`t`t$($installedProject.GetMetaFilePath())`r`n"            + `
                                                     "`tProject Name:`r`n"                                       + `
                                                     "`t`t$($installedProject.GetProjectName())`r`n"             + `
                                                     "`tProject Revision:`r`n"                                   + `
@@ -1626,7 +1626,7 @@ class ProjectManagerInstallation
 
 
             # Generate the logged messages
-            $logActivity = "Installation Results for: $($item.GetFileName())";
+            $logActivity = "Installation Results for: $($item.GetMetaFileName())";
             $logAdditionalInformation = "Status: $($item.GetMessage())`r`n`tInstalled: $($exitCondition)`r`n`tInstalled Path: $($outputDirectory)";
 
 

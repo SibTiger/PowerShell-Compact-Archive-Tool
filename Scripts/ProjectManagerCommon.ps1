@@ -250,8 +250,11 @@
             # Directory Path
             $newProjectEntry.SetFilePath($item.DirectoryName);
 
-            # File Name
+            # Meta File Name
             $newProjectEntry.SetFileName($item.Name);
+
+            # Project Directory Name
+            $newProjectEntry.SetDirectoryName($Item.Directory.BaseName);
 
             # Adjust the Verification
             $newProjectEntry.SetVerification([ProjectMetaDataFileVerification]::Installed);
@@ -281,12 +284,12 @@
 
                 # Generate any additional information that might be useful
                 [string] $logAdditionalMSG = ("Project information provided may or may not be accurate:`r`n"    + `
-                                                "`t`tFile Path:`r`n"                                            + `
-                                                "`t`t`t$($newProjectEntry.GetFilePath())`r`n"                   + `
+                                                "`t`tMeta File Path:`r`n"                                       + `
+                                                "`t`t`t$($newProjectEntry.GetMetaFilePath())`r`n"               + `
                                                 "`t`tDirectory Base Name:`r`n"                                  + `
-                                                "`t`t`t$($item.Directory.BaseName)`r`n"                         + `
-                                                "`t`tFile Name:`r`n"                                            + `
-                                                "`t`t`t$($newProjectEntry.GetFileName())`r`n"                   + `
+                                                "`t`t`t$($newProjectEntry.GetDirectoryName())`r`n"              + `
+                                                "`t`tMeta File Name:`r`n"                                       + `
+                                                "`t`t`t$($newProjectEntry.GetMetaFileName())`r`n"               + `
                                                 "`t`tMeta File:`r`n"                                            + `
                                                 "`t`t`t$($item.FullName)`r`n"                                   + `
                                                 "`t`tVerification State:`r`n"                                   + `
@@ -331,12 +334,12 @@
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Project information that had been collected:`r`n"                + `
-                                            "`t`tFile Path:`r`n"                                            + `
-                                            "`t`t`t$($newProjectEntry.GetFilePath())`r`n"                   + `
+                                            "`t`tMeta File Path:`r`n"                                       + `
+                                            "`t`t`t$($newProjectEntry.GetMetaFilePath())`r`n"               + `
                                             "`t`tDirectory Base Name:`r`n"                                  + `
-                                            "`t`t`t$($item.Directory.BaseName)`r`n"                         + `
-                                            "`t`tFile Name:`r`n"                                            + `
-                                            "`t`t`t$($newProjectEntry.GetFileName())`r`n"                   + `
+                                            "`t`t`t$($newProjectEntry.GetDirectoryName())`r`n"              + `
+                                            "`t`tMeta File Name:`r`n"                                       + `
+                                            "`t`t`t$($newProjectEntry.GetMetaFileName())`r`n"               + `
                                             "`t`tMeta File:`r`n"                                            + `
                                             "`t`t`t$($item.FullName)`r`n"                                   + `
                                             "`t`tVerification State:`r`n"                                   + `
