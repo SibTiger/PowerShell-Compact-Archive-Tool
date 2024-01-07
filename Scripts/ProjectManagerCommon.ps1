@@ -247,11 +247,11 @@
 
             # Obtain the information from the File.IO Operation
             # -------------------------------------------------
-            # Directory Path
-            $newProjectEntry.SetFilePath($item.DirectoryName);
+            # Meta File Path
+            $newProjectEntry.SetMetaFilePath($item.DirectoryName);
 
             # Meta File Name
-            $newProjectEntry.SetFileName($item.Name);
+            $newProjectEntry.SetMetaFileName($item.Name);
 
             # Project Directory Name
             $newProjectEntry.SetDirectoryName($Item.Directory.BaseName);

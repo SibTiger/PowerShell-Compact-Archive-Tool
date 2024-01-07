@@ -558,13 +558,13 @@ class ProjectMetaData
 
 
 
-   <# Set Empty File Path
+   <# Set Empty Meta File Path
     # -------------------------------
     # Documentation:
-    #  Sets an empty value within the 'File Path' variable.
+    #  Sets an empty value within the 'Meta File Path' variable.
     # -------------------------------
     #>
-    [void] SetFilePathAsEmpty() { $this.__filePath = $NULL; }
+    [void] SetMetaFilePathAsEmpty() { $this.__metaFilePath = $NULL; }
 
 
 

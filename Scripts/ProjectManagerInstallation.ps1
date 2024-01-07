@@ -472,7 +472,7 @@ class ProjectManagerInstallation
                 $item.SetMessage("This file had been determined to be corrupted, and therefore, cannot be installed.");
 
                 # Clear the absolute path as we can no longer use this file.
-                $item.SetFilePathAsEmpty();
+                $item.SetMetaFilePathAsEmpty();
             } # else : Verification Failed
 
 
@@ -795,7 +795,7 @@ class ProjectManagerInstallation
                 $item.SetInstalled($false);
 
                 # Clear the Installation Path
-                $item.SetFilePathAsEmpty();
+                $item.SetMetaFilePathAsEmpty();
 
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -849,7 +849,7 @@ class ProjectManagerInstallation
                 $item.SetInstalled($false);
 
                 # Clear the Installation Path
-                $item.SetFilePathAsEmpty();
+                $item.SetMetaFilePathAsEmpty();
 
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -905,7 +905,7 @@ class ProjectManagerInstallation
                 $item.SetInstalled($false);
 
                 # Clear the Installation Path
-                $item.SetFilePathAsEmpty();
+                $item.SetMetaFilePathAsEmpty();
 
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -963,7 +963,7 @@ class ProjectManagerInstallation
                 $item.SetInstalled($false);
 
                 # Clear the Installation Path
-                $item.SetFilePathAsEmpty();
+                $item.SetMetaFilePathAsEmpty();
 
 
                 # * * * * * * * * * * * * * * * * * * *
@@ -1571,7 +1571,7 @@ class ProjectManagerInstallation
                     $item.SetInstalled($true);
 
                     # Store the extracted path
-                    $item.SetFilePath($outputDirectory);
+                    $item.SetMetaFilePath($outputDirectory);
 
                     # Update the item's description to signify that the file had been installed, only if the
                     #   message had not yet been updated already.
@@ -1589,7 +1589,7 @@ class ProjectManagerInstallation
                     $overallOperation = [ProjectManagerInstallationExitCondition]::Error;
 
                     # Clear the Installation Path
-                    $item.SetFilePathAsEmpty();
+                    $item.SetMetaFilePathAsEmpty();
 
                     # Update the item's description to denote that a failure occurred, only if the message had
                     #   not yet been updated already.
@@ -1612,7 +1612,7 @@ class ProjectManagerInstallation
                     $item.SetInstalled($false);
 
                     # Clear the Installation Path
-                    $item.SetFilePathAsEmpty();
+                    $item.SetMetaFilePathAsEmpty();
 
                     # Update the item's description to denote that the installation was refused, but only if the
                     #   message had not yet been updated already.
