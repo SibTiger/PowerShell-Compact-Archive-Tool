@@ -166,6 +166,8 @@
                 {
                     $logAdditionalMSG +=   ("`t`tDirectory:`r`n"                                + `
                                             "`t`t`t$($file.DirectoryName)`r`n"                  + `
+                                            "`t`tDirectory Base Name:`r`n"                      + `
+                                            "`t`t`t$($file.Directory.BaseName)`r`n"             + `
                                             "`t`tFile Name:`r`n"                                + `
                                             "`t`t`t$($file.Name)`r`n"                           + `
                                             "`t`tFull Path:`r`n"                                + `
