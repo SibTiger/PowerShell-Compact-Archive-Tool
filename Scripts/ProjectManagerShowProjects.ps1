@@ -148,7 +148,7 @@ class ProjectManagerShowProjects
    <# Show List of Projects
     # -------------------------------
     # Documentation:
-    #  When called, this function will show a list of installed projects to the user in a formatted list.
+    #  When called, this function will show a list of installed projects to the user in a POSH table.
     # -------------------------------
     # Input: 
     #  [System.Collections.ArrayList] {ProjectMetaData} Installed Projects.
@@ -159,27 +159,69 @@ class ProjectManagerShowProjects
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # This variable will be used for counting each project that was added to the array list.
-        [UInt64] $itemCount = 1;
+        # Create an empty array that will soon hold project information that will be presented to the user.
+        $projectTableView = @();
+
+        # Logging Output of the project information
+        [string] $projectLoggingInformation = $NULL;
+
+        # Keep count of how many projects are installed
+        [UInt64] $countInstalls = 0;
         # ----------------------------------------
 
-
-        # Iterate through each installed projects
-        foreach($item in $listOfProjects)
+        # Iterate through each installed project and populate the rows for the table.
+        foreach ($project in $listOfProjects)
         {
-            # Build the string
-            [string] $projectInformation = ("$($itemCount.ToString()). $($item.GetFileName())`r`n"  + `
-                                            "   Project Name: $($item.GetProjectName())`r`n"        + `
-                                            "   Revision:     $($item.GetProjectRevision())`r`n");
-
-
-            # Show the message to the user.
-            [Logging]::DisplayMessage($projectInformation);
-
-
             # Increment the Counter
-            $itemCount++;
-        } # foreach : Show Each Project
+            $countInstalls++;
+
+
+            # Build the table row
+            $row            = "" | Select-Object Item, FileName, Project, Revision;
+            $row.Item       = $countInstalls;
+            $row.FileName   = $project.GetFileName();
+            $row.Project    = $project.GetProjectName();
+            $row.Revision   = $project.GetProjectRevision();
+
+            # Append row to the table array
+            $projectTableView += $row;
+
+            # Build the Logging information
+            $projectLoggingInformation += ( "`t`tItem:          $($countInstalls.ToString())`r`n"                   + `
+                                            "`t`tFile Name:     $($project.GetFileName())`r`n"                      + `
+                                            "`t`tProject Name:  $($project.GetProjectName())`r`n"                   + `
+                                            "`t`tRevision:      $($project.GetProjectRevision().ToString())`r`n"    + `
+                                            "`r`n`r`n");
+        } # foreach : Iterate all Projects
+
+
+        # Show the table to the user
+        Format-Table                        `
+            -InputObject $projectTableView  `
+            -AutoSize                       `
+            -Wrap                           `
+                | Out-Host;
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        [string] $logMessage = ("Providing user with list of installed projects using a table.");
+
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = ("Installation Path for $($GLOBAL:_PROGRAMNAMESHORT_) Projects:`r`n"   + `
+                                        "`t`t$($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_)`r`n"        + `
+                                        "`tInstalled Projects List:`r`n"                                    + `
+                                        "$($projectLoggingInformation)");
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
 
 
         # Allow the user to read the output
