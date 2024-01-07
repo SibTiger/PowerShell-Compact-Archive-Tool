@@ -123,23 +123,12 @@ class ProjectManagerShowProjects
             "-------------------------------------------------------------------------------------------`r`n"       + `
             "`r`n"                                                                                                  + `
             "`r`n"                                                                                                  + `
-            "You will be able to see all of the $($GLOBAL:_PROGRAMNAMESHORT_) Projects that had been installed.`r`n"+ `
-            "`r`n"                                                                                                  + `
-            " The information regarding the projects will be shown in this format:`r`n"                             + `
-            " ----------------------------------`r`n"                                                               + `
-            "  - Folder Name`r`n"                                                                                   + `
-            "    - Project Name`r`n"                                                                                + `
-            "    - Project Revision`r`n"                                                                            + `
-            " ----------------------------------`r`n"                                                               + `
+            "The table will show what $($GLOBAL:_PROGRAMNAMESHORT_) Projects had been installed.`r`n"               + `
             "`r`n"                                                                                                  + `
             "`r`n"                                                                                                  + `
             " $($GLOBAL:_PROGRAMNAMESHORT_) Project Installation Path can be found at this location:`r`n"           + `
             "   $($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_)`r`n"                                             + `
             "`r`n`r`n");
-
-
-        # Wait for the user to press the Enter Key, acknowledging that they read the instructions.
-        [CommonIO]::FetchEnterKey();
     } # __DrawMainInstructions()
 
 
