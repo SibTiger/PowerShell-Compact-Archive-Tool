@@ -38,6 +38,9 @@ class ProjectMetaData
     # =================================================
 
 
+    #region Meta Properties
+    # These variables are specifically for the Meta file
+
     # Meta File Name
     # ---------------
     # Provides the name of the individual meta file.
@@ -50,47 +53,84 @@ class ProjectMetaData
     hidden [string] $__metaFilePath;
 
 
-    # Directory Name
+    # Meta GUID
     # ---------------
-    # Provides the directory name in which the Meta file resides
-    hidden [string] $__directoryName;
+    # A unique signature that uniquely identifies a project.
+    #   This value is defined within the project's meta file.
+    hidden [GUID] $__metaGUID;
 
+    #endregion
+
+
+
+    #region Project Information Properties
 
     # Project Name
     # ---------------
     # The project's full or recognizable name
     hidden [string] $__projectName;
 
+    # Project Code Name
+    # ---------------
+    # The code name of the overall project or version of the project.
+    hidden [string] $__projectCodeName;
 
     # Revision
     # ---------------
     # The project's revision
     hidden [UInt64] $__projectRevision;
 
-
-    # GUID
+    # Output File Name
     # ---------------
-    # A project's unique signature that identifies itself out of other projects.
-    hidden [GUID] $__guid;
+    # The project's output file name after being compiled into an archive data file.
+    hidden [string] $__projectOutputFileName;
 
+    # Website URL
+    # ---------------
+    # The website link to the project's homepage or where the user can find the project.
+    hidden [string] $__projectURLWebsite;
+
+    # Wiki URL
+    # ---------------
+    # The website link to the project's Wiki page or where the user can find documentation related to the
+    #   project.
+    hidden [string] $__projectURLWiki;
+
+    # Source Code URL
+    # ---------------
+    # The website link to the project's source code or where the user can obtain\view the project's source
+    #   materials.
+    hidden [string] $__projectURLSourceCode;
+
+    #endregion
+
+
+
+    #region Program Specific Variables
+
+    # Directory Name
+    # ---------------
+    # Provides the directory name in which the Meta file resides
+    hidden [string] $__programDirectoryName;
 
     # Verified
     # ---------------
     # Denotes if the file's archive datafile passed the verification test.
-    hidden [ProjectMetaDataFileVerification] $__verification;
+    hidden [ProjectMetaDataFileVerification] $__programVerification;
 
 
     # Installed
     # ---------------
     # Signifies if the file had been properly installed or could not be installed.
-    hidden [bool] $__installed;
+    hidden [bool] $__programInstalled;
 
 
     # Message
     # ---------------
     # This will hold a verbose message regarding the operation for this file.
-    hidden [string] $__message;
+    hidden [string] $__programMessage;
 
+    #endregion
 
 
     # Member Functions :: Methods
@@ -124,7 +164,7 @@ class ProjectMetaData
 
 
         # GUID
-        $this.__guid = $($GLOBAL:_DEFAULT_BLANK_GUID_);
+        $this.__metaGUID = $($GLOBAL:_DEFAULT_BLANK_GUID_);
 
 
         # Verification
@@ -171,7 +211,7 @@ class ProjectMetaData
 
 
         # GUID
-        $this.__guid = $guid;
+        $this.__metaGUID = $guid;
 
 
         # Verification
@@ -214,7 +254,7 @@ class ProjectMetaData
 
 
         # GUID
-        $this.__guid = $($GLOBAL:_DEFAULT_BLANK_GUID_);
+        $this.__metaGUID = $($GLOBAL:_DEFAULT_BLANK_GUID_);
 
 
         # Verification
@@ -321,7 +361,7 @@ class ProjectMetaData
     #   The value of the 'GUID'.
     # -------------------------------
     #>
-    [GUID] GetGUID() { return $this.__guid; }
+    [GUID] GetGUID() { return $this.__metaGUID; }
 
 
 
@@ -548,7 +588,7 @@ class ProjectMetaData
     [bool] SetGUID([GUID] $newValue)
     {
         # Update the value as requested.
-        $this.__guid = $newValue;
+        $this.__metaGUID = $newValue;
 
 
         # Operation was successful
