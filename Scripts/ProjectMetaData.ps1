@@ -39,7 +39,8 @@ class ProjectMetaData
 
 
     #region Meta Properties
-    # These variables are specifically for the Meta file
+    # - - - - - - - - - - - - -
+    # - - - - - - - - - - - - -
 
     # Meta File Name
     # ---------------
@@ -63,38 +64,47 @@ class ProjectMetaData
 
 
 
+
     #region Project Information Properties
+    # - - - - - - - - - - - - -
+    # - - - - - - - - - - - - -
 
     # Project Name
     # ---------------
     # The project's full or recognizable name
     hidden [string] $__projectName;
 
+
     # Project Code Name
     # ---------------
     # The code name of the overall project or version of the project.
     hidden [string] $__projectCodeName;
+
 
     # Revision
     # ---------------
     # The project's revision
     hidden [UInt64] $__projectRevision;
 
+
     # Output File Name
     # ---------------
     # The project's output file name after being compiled into an archive data file.
     hidden [string] $__projectOutputFileName;
+
 
     # Website URL
     # ---------------
     # The website link to the project's homepage or where the user can find the project.
     hidden [string] $__projectURLWebsite;
 
+
     # Wiki URL
     # ---------------
     # The website link to the project's Wiki page or where the user can find documentation related to the
     #   project.
     hidden [string] $__projectURLWiki;
+
 
     # Source Code URL
     # ---------------
@@ -106,12 +116,16 @@ class ProjectMetaData
 
 
 
+
     #region Program Specific Variables
+    # - - - - - - - - - - - - -
+    # - - - - - - - - - - - - -
 
     # Directory Name
     # ---------------
     # Provides the directory name in which the Meta file resides
     hidden [string] $__programDirectoryName;
+
 
     # Verified
     # ---------------
@@ -133,6 +147,8 @@ class ProjectMetaData
     #endregion
 
 
+
+
     # Member Functions :: Methods
     # =================================================
     # =================================================
@@ -143,87 +159,158 @@ class ProjectMetaData
     # Default Constructor
     ProjectMetaData()
     {
+        # Meta Properties
+        # - - - - - - - - - - - - -
+
         # Meta File Name
-        $this.__metaFileName = $null;
+        $this.__metaFileName    = $null;
 
 
         # Meta File Path
-        $this.__metaFilePath = $null;
+        $this.__metaFilePath    = $null;
 
+
+        # Meta GUID
+        $this.__metaGUID        = $($GLOBAL:_DEFAULT_BLANK_GUID_);
+
+
+
+
+        # Project Information Properties
+        # - - - - - - - - - - - - -
 
         # Project Name
-        $this.__projectName = $null;
+        $this.__projectName             = $null;
 
+
+        # Project Code Name
+        $this.__projectCodeName         = $null;
+
+
+        # Project Revision
+        $this.__projectRevision         = 0;
+
+
+        # Output File Name
+        $this.__projectOutputFileName   = $null;
+
+
+        # Website URL
+        $this.__projectURLWebsite       = $null;
+
+
+        # Wiki URL
+        $this.__projectURLWiki          = $null;
+
+
+        # Source Code URL
+        $this.__projectURLSourceCode    = $null;
+
+
+
+
+        # Program Specific Variables
+        # - - - - - - - - - - - - -
 
         # Directory Name
-        $this.__directoryName = $null;
-
-
-        # Revision
-        $this.__projectRevision = 0;
-
-
-        # GUID
-        $this.__metaGUID = $($GLOBAL:_DEFAULT_BLANK_GUID_);
+        $this.__programDirectoryName    = $null;
 
 
         # Verification
-        $this.__verification = [ProjectMetaDataFileVerification]::NoInformation;
+        $this.__programVerification     = [ProjectMetaDataFileVerification]::NoInformation;
 
 
         # Installed
-        $this.__installed = $false;
+        $this.__programInstalled        = $false;
 
 
         # Message
-        $this.__message = $null;
+        $this.__programMessage          = $null;
     } # Default Constructor
 
 
 
 
     # Initiated Object
-    ProjectMetaData (   [string] $projectName, `    # Name of the project
-                        [string] $metaFileName, `   # Name of the meta file
-                        [string] $directoryName, `  # Name of the parent directory
-                        [string] $metaFilePath, `   # File's full path
-                        [UInt64] $revision, `       # Project's Revision
-                        [GUID] $guid)               # Project's GUID
+    ProjectMetaData (   [string]    $projectName,           `   # Name of the project
+                        [string]    $metaFileName,          `   # Name of the meta file
+                        [string]    $directoryName,         `   # Name of the parent directory
+                        [string]    $metaFilePath,          `   # File's full path
+                        [UInt64]    $revision,              `   # Project's Revision
+                        [GUID]      $guid,                  `   # Project's GUID
+                        [string]    $projectCodeName,       `   # Project's Code Name
+                        [string]    $projectOutputFileName, `   # Output Filename
+                        [string]    $urlWebsite,            `   # Website link
+                        [string]    $urlWiki,               `   # Wiki Link
+                        [string]    $urlSourceCode)             # Source Code Link
     {
+        # Meta Properties
+        # - - - - - - - - - - - - -
+
         # Meta File Name
-        $this.__metaFileName = $metaFileName;
+        $this.__metaFileName    = $metaFileName;
 
 
         # Meta File Path
-        $this.__metaFilePath = $metaFilePath;
+        $this.__metaFilePath    = $metaFilePath;
 
 
-        # Directory Name
-        $this.__directoryName = $directoryName;
+        # Meta GUID
+        $this.__metaGUID        = $guid;
 
+
+
+
+        # Project Information Properties
+        # - - - - - - - - - - - - -
 
         # Project Name
-        $this.__projectName = $projectName;
+        $this.__projectName             = $projectName;
 
 
-        # Revision
-        $this.__projectRevision = $revision;
+        # Project Code Name
+        $this.__projectCodeName         = $projectCodeName;
 
 
-        # GUID
-        $this.__metaGUID = $guid;
+        # Project Revision
+        $this.__projectRevision         = $revision;
+
+
+        # Output File Name
+        $this.__projectOutputFileName   = $projectOutputFileName;
+
+
+        # Website URL
+        $this.__projectURLWebsite       = $urlWebsite;
+
+
+        # Wiki URL
+        $this.__projectURLWiki          = $urlWiki;
+
+
+        # Source Code URL
+        $this.__projectURLSourceCode    = $urlSourceCode;
+
+
+
+
+        # Program Specific Variables
+        # - - - - - - - - - - - - -
+
+        # Directory Name
+        $this.__programDirectoryName    = $directoryName;
 
 
         # Verification
-        $this.__verification = [ProjectMetaDataFileVerification]::NoInformation;
+        $this.__programVerification     = [ProjectMetaDataFileVerification]::NoInformation;
 
 
         # Installed
-        $this.__installed = $false;
+        $this.__programInstalled        = $false;
 
 
         # Message
-        $this.__message = $null;
+        $this.__programMessage          = $null;
     } # Initiated Object
 
 
@@ -233,40 +320,73 @@ class ProjectMetaData
     ProjectMetaData (   [string] $metaFileName, `   # Name of the meta file
                         [string] $metaFilePath)     # Meta File's full path
     {
+        # Meta Properties
+        # - - - - - - - - - - - - -
+
         # Meta File Name
-        $this.__metaFileName = $metaFileName;
+        $this.__metaFileName    = $metaFileName;
 
 
         # Meta File Path
-        $this.__metaFilePath = $metaFilePath;
+        $this.__metaFilePath    = $metaFilePath;
 
 
-        # Directory Name
-        $this.__directoryName = $null;
+        # Meta GUID
+        $this.__metaGUID        = $($GLOBAL:_DEFAULT_BLANK_GUID_);
 
+
+
+
+        # Project Information Properties
+        # - - - - - - - - - - - - -
 
         # Project Name
-        $this.__projectName = $NULL;
+        $this.__projectName             = $null;
 
 
-        # Revision
-        $this.__projectRevision = $NULL;
+        # Project Code Name
+        $this.__projectCodeName         = $null;
 
 
-        # GUID
-        $this.__metaGUID = $($GLOBAL:_DEFAULT_BLANK_GUID_);
+        # Project Revision
+        $this.__projectRevision         = 0;
+
+
+        # Output File Name
+        $this.__projectOutputFileName   = $null;
+
+
+        # Website URL
+        $this.__projectURLWebsite       = $null;
+
+
+        # Wiki URL
+        $this.__projectURLWiki          = $null;
+
+
+        # Source Code URL
+        $this.__projectURLSourceCode    = $null;
+
+
+
+
+        # Program Specific Variables
+        # - - - - - - - - - - - - -
+
+        # Directory Name
+        $this.__programDirectoryName    = $null;
 
 
         # Verification
-        $this.__verification = [ProjectMetaDataFileVerification]::NoInformation;
+        $this.__programVerification     = [ProjectMetaDataFileVerification]::NoInformation;
 
 
         # Installed
-        $this.__installed = $false;
+        $this.__programInstalled        = $false;
 
 
         # Message
-        $this.__message = $null;
+        $this.__programMessage          = $null;
     } # Initiated Object
 
     #endregion
