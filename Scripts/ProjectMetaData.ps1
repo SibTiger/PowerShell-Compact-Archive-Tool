@@ -415,17 +415,17 @@ class ProjectMetaData
 
 
 
-   <# Get Directory Name
+   <# Get Meta GUID
     # -------------------------------
     # Documentation:
-    #  Returns the value of the 'Directory Name' variable.
+    #  Returns the value of the 'Meta GUID' variable.
     # -------------------------------
     # Output:
-    #  [String] Directory Name
-    #   The value of the 'Directory Name'.
+    #  [GUID] Meta GUID
+    #   The value of the 'Meta GUID'.
     # -------------------------------
     #>
-    [string] GetDirectoryName() { return $this.__directoryName; }
+    [GUID] GetMetaGUID() { return $this.__metaGUID; }
 
 
 
@@ -445,6 +445,21 @@ class ProjectMetaData
 
 
 
+   <# Get Project Code Name
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the 'Project Code Name' variable.
+    # -------------------------------
+    # Output:
+    #  [String] Project Code Name
+    #   The value of the 'Project Code Name'.
+    # -------------------------------
+    #>
+    [string] GetProjectCodeName() { return $this.__projectCodeName; }
+
+
+
+
    <# Get Project Revision
     # -------------------------------
     # Documentation:
@@ -460,62 +475,122 @@ class ProjectMetaData
 
 
 
-   <# Get GUID
+   <# Get Project Output File Name
     # -------------------------------
     # Documentation:
-    #  Returns the value of the 'GUID' variable.
+    #  Returns the value of the 'Project Output File Name' variable.
     # -------------------------------
     # Output:
-    #  [GUID] GUID
-    #   The value of the 'GUID'.
+    #  [String] Project Output File Name
+    #   The value of the 'Project Output File Name'.
     # -------------------------------
     #>
-    [GUID] GetGUID() { return $this.__metaGUID; }
+    [string] GetProjectOutputFileName() { return $this.__projectOutputFileName; }
 
 
 
 
-   <# Get Verification
+   <# Get Project Website URL
     # -------------------------------
     # Documentation:
-    #  Returns the value of the 'Verification' variable.
+    #  Returns the value of the 'Project Website URL' variable.
     # -------------------------------
     # Output:
-    #  [ProjectMetaDataFileVerification] Verification
-    #   The value of the 'Verification'.
+    #  [String] Project Website URL
+    #   The value of the 'Project Website URL'.
     # -------------------------------
     #>
-    [ProjectMetaDataFileVerification] GetVerification() { return $this.__verification; }
+    [string] GetProjectURLWebsite() { return $this.__projectURLWebsite; }
 
 
 
 
-   <# Get Installed
+   <# Get Project Wiki URL
     # -------------------------------
     # Documentation:
-    #  Returns the value of the 'Installed' variable.
+    #  Returns the value of the 'Project Wiki URL' variable.
     # -------------------------------
     # Output:
-    #  [bool] Installed
-    #   The value of the 'Installed'.
+    #  [String] Project Wiki URL
+    #   The value of the 'Project Wiki URL'.
     # -------------------------------
     #>
-    [bool] GetInstalled() { return $this.__installed; }
+    [string] GetProjectURLWiki() { return $this.__projectURLWiki; }
 
 
 
 
-   <# Get Message
+   <# Get Project Source Code URL
     # -------------------------------
     # Documentation:
-    #  Returns the value of the 'Message' variable.
+    #  Returns the value of the 'Project Source Code URL' variable.
     # -------------------------------
     # Output:
-    #  [string] Message
-    #   The value of the 'Message'.
+    #  [String] Project Source Code URL
+    #   The value of the 'Project Source Code URL'.
     # -------------------------------
     #>
-    [string] GetMessage() { return $this.__message; }
+    [string] GetProjectURLSourceCode() { return $this.__projectURLSourceCode; }
+
+
+
+
+   <# Get Program Directory Name
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the 'Program Directory Name' variable.
+    # -------------------------------
+    # Output:
+    #  [String] Program Directory Name
+    #   The value of the 'Program Directory Name'.
+    # -------------------------------
+    #>
+    [string] GetProgramDirectoryName() { return $this.__programDirectoryName; }
+
+
+
+
+   <# Get Program Verification
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the 'Program Verification' variable.
+    # -------------------------------
+    # Output:
+    #  [ProjectMetaDataFileVerification] Program Verification
+    #   The value of the 'Program Verification'.
+    # -------------------------------
+    #>
+    [ProjectMetaDataFileVerification] GetProgramVerification() { return $this.__programVerification; }
+
+
+
+
+   <# Get Program Installed
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the 'Program Installed' variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Program Installed
+    #   The value of the 'Program Installed'.
+    # -------------------------------
+    #>
+    [bool] GetProgramInstalled() { return $this.__programInstalled; }
+
+
+
+
+   <# Get Program Message
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the 'Program Message' variable.
+    # -------------------------------
+    # Output:
+    #  [string] Program Message
+    #   The value of the 'Program Message'.
+    # -------------------------------
+    #>
+    [string] GetProgramMessage() { return $this.__programMessage; }
 
     #endregion
 
