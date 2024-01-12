@@ -232,31 +232,21 @@ class ProjectMetaData
 
 
     # Initiated Object
-    ProjectMetaData (   [string]    $projectName,           `   # Name of the project
-                        [string]    $metaFileName,          `   # Name of the meta file
-                        [string]    $directoryName,         `   # Name of the parent directory
-                        [string]    $metaFilePath,          `   # File's full path
-                        [UInt64]    $revision,              `   # Project's Revision
-                        [GUID]      $guid,                  `   # Project's GUID
-                        [string]    $projectCodeName,       `   # Project's Code Name
-                        [string]    $projectOutputFileName, `   # Output Filename
-                        [string]    $urlWebsite,            `   # Website link
-                        [string]    $urlWiki,               `   # Wiki Link
-                        [string]    $urlSourceCode)             # Source Code Link
+    ProjectMetaData ([ProjectMetaDataArguments] $inputArguments)
     {
         # Meta Properties
         # - - - - - - - - - - - - -
 
         # Meta File Name
-        $this.__metaFileName    = $metaFileName;
+        $this.__metaFileName            = $inputArguments.metaFileName;
 
 
         # Meta File Path
-        $this.__metaFilePath    = $metaFilePath;
+        $this.__metaFilePath            = $inputArguments.metaFilePath;
 
 
         # Meta GUID
-        $this.__metaGUID        = $guid;
+        $this.__metaGUID                = $inputArguments.metaGUID;
 
 
 
@@ -265,31 +255,31 @@ class ProjectMetaData
         # - - - - - - - - - - - - -
 
         # Project Name
-        $this.__projectName             = $projectName;
+        $this.__projectName             = $inputArguments.projectName;
 
 
         # Project Code Name
-        $this.__projectCodeName         = $projectCodeName;
+        $this.__projectCodeName         = $inputArguments.projectCodeName;
 
 
         # Project Revision
-        $this.__projectRevision         = $revision;
+        $this.__projectRevision         = $inputArguments.projectRevision;
 
 
         # Output File Name
-        $this.__projectOutputFileName   = $projectOutputFileName;
+        $this.__projectOutputFileName   = $inputArguments.projectOutputFileName;
 
 
         # Website URL
-        $this.__projectURLWebsite       = $urlWebsite;
+        $this.__projectURLWebsite       = $inputArguments.projectURLWebsite;
 
 
         # Wiki URL
-        $this.__projectURLWiki          = $urlWiki;
+        $this.__projectURLWiki          = $inputArguments.projectURLWiki;
 
 
         # Source Code URL
-        $this.__projectURLSourceCode    = $urlSourceCode;
+        $this.__projectURLSourceCode    = $inputArguments.projectURLSourceCode;
 
 
 
@@ -298,7 +288,7 @@ class ProjectMetaData
         # - - - - - - - - - - - - -
 
         # Directory Name
-        $this.__programDirectoryName    = $directoryName;
+        $this.__programDirectoryName    = $inputArguments.programDirectoryName;
 
 
         # Verification
@@ -822,6 +812,35 @@ class ProjectMetaData
 
     #endregion
 } # ProjectMetaData
+
+
+
+
+<# Project Meta Data - Input Arguments
+ # ------------------------------
+ # ==============================
+ # ==============================
+ # This class is only intended to provide input arguments that will be used for a
+ #  class constructor for the Project Meta Data object.
+ #>
+
+
+
+
+class ProjectMetaDataArguments
+{
+    [string]    $metaFileName           ;   # Name of the meta file
+    [string]    $metaFilePath           ;   # File's full path
+    [GUID]      $metaGUID               ;   # Project's GUID
+    [string]    $projectName            ;   # Name of the project
+    [string]    $projectCodeName        ;   # Project's Code Name
+    [UInt64]    $projectRevision        ;   # Project's Revision
+    [string]    $projectOutputFileName  ;   # Output Filename
+    [string]    $projectURLWebsite      ;   # Website link
+    [string]    $projectURLWiki         ;   # Wiki Link
+    [string]    $projectURLSourceCode   ;   # Source Code Link
+    [string]    $programDirectoryName   ;   # Name of the parent directory
+} # ProjectMetaDataArguments
 
 
 
