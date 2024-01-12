@@ -30,7 +30,6 @@
 
 
 
-
 class ProjectMetaData
 {
     # Member Variables :: Properties
