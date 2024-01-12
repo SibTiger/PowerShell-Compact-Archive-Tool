@@ -609,7 +609,7 @@ class ProjectMetaData
     # -------------------------------
     # Output:
     #  [bool] Status
-    #   true = Success; value has been changed.
+    #   true  = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
     #>
@@ -641,7 +641,7 @@ class ProjectMetaData
     # -------------------------------
     # Output:
     #  [bool] Status
-    #   true = Success; value has been changed.
+    #   true  = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
     #>
@@ -662,34 +662,30 @@ class ProjectMetaData
 
 
 
-   <# Set Directory Name
+   <# Set Meta GUID
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the 'Directory Name' variable.
+    #  Sets a new value for the 'Meta GUID' variable.
     # -------------------------------
     # Input:
-    #  [String] Directory Name
-    #   Sets the value of the 'Directory Name' variable.
+    #  [GUID] Meta GUID
+    #   Sets the value of the 'Meta GUID' variable.
     # -------------------------------
     # Output:
     #  [bool] Status
-    #   true = Success; value has been changed.
+    #   true  = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
     #>
-    [bool] SetDirectoryName([string] $newValue)
+    [bool] SetMetaGUID([GUID] $newValue)
     {
-        # Make sure that the value is not null; if null - do not update.
-        if ([CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
-
-
         # Update the value as requested.
-        $this.__directoryName = $newValue;
+        $this.__metaGUID = $newValue;
 
 
         # Operation was successful
         return $true;
-    } # SetDirectoryName()
+    } # SetMetaGUID()
 
 
 
@@ -705,7 +701,7 @@ class ProjectMetaData
     # -------------------------------
     # Output:
     #  [bool] Status
-    #   true = Success; value has been changed.
+    #   true  = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
     #>
@@ -726,6 +722,38 @@ class ProjectMetaData
 
 
 
+   <# Set Project Code Name
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'Project Code Name' variable.
+    # -------------------------------
+    # Input:
+    #  [String] Project Code Name
+    #   Sets the value of the 'Project Code Name' variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true  = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetProjectCodeName([string] $newValue)
+    {
+        # Make sure that the value is not null; if null - do not update.
+        if ([CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
+
+
+        # Update the value as requested.
+        $this.__projectCodeName = $newValue;
+
+
+        # Operation was successful
+        return $true;
+    } # SetProjectCodeName()
+
+
+
+
    <# Set Project Revision
     # -------------------------------
     # Documentation:
@@ -737,7 +765,7 @@ class ProjectMetaData
     # -------------------------------
     # Output:
     #  [bool] Status
-    #   true = Success; value has been changed.
+    #   true  = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
     #>
@@ -754,30 +782,256 @@ class ProjectMetaData
 
 
 
-   <# Set GUID
+   <# Set Project Output File Name
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the 'GUID' variable.
+    #  Sets a new value for the 'Project Output File Name' variable.
     # -------------------------------
     # Input:
-    #  [GUID] GUID
-    #   Sets the value of the 'File Path' variable.
+    #  [String] Project Output File Name
+    #   Sets the value of the 'Project Output File Name' variable.
     # -------------------------------
     # Output:
     #  [bool] Status
-    #   true = Success; value has been changed.
+    #   true  = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
     #>
-    [bool] SetGUID([GUID] $newValue)
+    [bool] SetProjectOutputFileName([string] $newValue)
     {
+        # Make sure that the value is not null; if null - do not update.
+        if ([CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
+
+
         # Update the value as requested.
-        $this.__metaGUID = $newValue;
+        $this.__projectOutputFileName = $newValue;
 
 
         # Operation was successful
         return $true;
-    } # SetGUID()
+    } # SetProjectOutputFileName()
+
+
+
+
+   <# Set Project Website URL
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'Project Website URL' variable.
+    # -------------------------------
+    # Input:
+    #  [String] Project Website URL
+    #   Sets the value of the 'Project Website URL' variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true  = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetProjectURLWebsite([string] $newValue)
+    {
+        # Make sure that the value is not null; if null - do not update.
+        if ([CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
+
+
+        # Update the value as requested.
+        $this.__projectURLWebsite = $newValue;
+
+
+        # Operation was successful
+        return $true;
+    } # SetProjectURLWebsite()
+
+
+
+
+   <# Set Project Wiki URL
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'Project Wiki URL' variable.
+    # -------------------------------
+    # Input:
+    #  [String] Project Wiki URL
+    #   Sets the value of the 'Project Wiki URL' variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true  = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetProjectURLWiki([string] $newValue)
+    {
+        # Make sure that the value is not null; if null - do not update.
+        if ([CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
+
+
+        # Update the value as requested.
+        $this.__projectURLWiki = $newValue;
+
+
+        # Operation was successful
+        return $true;
+    } # SetProjectURLWiki()
+
+
+
+
+   <# Set Project Source Code URL
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'Project Source Code URL' variable.
+    # -------------------------------
+    # Input:
+    #  [String] Project Source Code URL
+    #   Sets the value of the 'Project Source Code URL' variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true  = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetProjectURLSourceCode([string] $newValue)
+    {
+        # Make sure that the value is not null; if null - do not update.
+        if ([CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
+
+
+        # Update the value as requested.
+        $this.__projectURLSourceCode = $newValue;
+
+
+        # Operation was successful
+        return $true;
+    } # SetProjectURLSourceCode()
+
+
+
+
+   <# Set Program Directory Name
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'Program Directory Name' variable.
+    # -------------------------------
+    # Input:
+    #  [String] Program Directory Name
+    #   Sets the value of the 'Program Directory Name' variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true  = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetProgramDirectoryName([string] $newValue)
+    {
+        # Make sure that the value is not null; if null - do not update.
+        if ([CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
+
+
+        # Update the value as requested.
+        $this.__programDirectoryName = $newValue;
+
+
+        # Operation was successful
+        return $true;
+    } # SetProgramDirectoryName()
+
+
+
+
+   <# Set Program Verification
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'Program Verification' variable.
+    # -------------------------------
+    # Input:
+    #  [ProjectMetaDataFileVerification] Program Verification
+    #   Sets the value of the 'Program Verification' variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true  = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetProgramVerification([ProjectMetaDataFileVerification] $newValue)
+    {
+        # Because the value must fit within the 'ProjectMetaDataFileVerification'
+        #   datatype, there really is no point in checking if the new requested
+        #   value is 'legal'.  Thus, we are going to trust the value and
+        #   automatically return success.
+        $this.__programVerification = $newValue;
+
+
+        # Operation was successful
+        return $true;
+    } # SetProgramVerification()
+
+
+
+
+   <# Set Program Installed
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'Program Installed' variable.
+    # -------------------------------
+    # Input:
+    #  [Bool] Program Installed
+    #   Sets the value of the 'Program Installed' variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true  = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetProgramInstalled([bool] $newValue)
+    {
+        # Because the value must fit within the 'boolean' datatype, there
+        #   really is no point in checking if the new requested value is
+        #   'legal'.  Thus, we are going to trust the value and
+        #   automatically return success.
+        $this.__programInstalled = $newValue;
+
+
+        # Operation was successful
+        return $true;
+    } # SetProgramInstalled()
+
+
+
+
+   <# Set Program Message
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'Program Message' variable.
+    # -------------------------------
+    # Input:
+    #  [String] Program Message
+    #   Sets the value of the 'Program Message' variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true  = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetProgramMessage([string] $newValue)
+    {
+        # Make sure that the value is not null; if null - do not update.
+        if ([CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
+
+
+        # Update the value as requested.
+        $this.__programMessage = $newValue;
+
+
+        # Operation was successful
+        return $true;
+    } # SetProgramMessage()
 
 
 
@@ -789,100 +1043,6 @@ class ProjectMetaData
     # -------------------------------
     #>
     [void] SetMetaFilePathAsEmpty() { $this.__metaFilePath = $NULL; }
-
-
-
-
-   <# Set Verification
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Verification' variable.
-    # -------------------------------
-    # Input:
-    #  [ProjectMetaDataFileVerification] Verification
-    #   Sets the value of the 'Verification' variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetVerification([ProjectMetaDataFileVerification] $newValue)
-    {
-        # Because the value must fit within the 'ProjectMetaDataFileVerification'
-        #   datatype, there really is no point in checking if the new requested
-        #   value is 'legal'.  Thus, we are going to trust the value and
-        #   automatically return success.
-        $this.__verification = $newValue;
-
-
-        # Operation was successful
-        return $true;
-    } # SetVerification()
-
-
-
-
-   <# Set Installed
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Installed' variable.
-    # -------------------------------
-    # Input:
-    #  [Bool] Installed
-    #   Sets the value of the 'Installed' variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetInstalled([bool] $newValue)
-    {
-        # Because the value must fit within the 'boolean' datatype, there
-        #   really is no point in checking if the new requested value is
-        #   'legal'.  Thus, we are going to trust the value and
-        #   automatically return success.
-        $this.__installed = $newValue;
-
-
-        # Operation was successful
-        return $true;
-    } # SetInstalled()
-
-
-
-
-   <# Set Message
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Message' variable.
-    # -------------------------------
-    # Input:
-    #  [String] Message
-    #   Sets the value of the 'Message' variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetMessage([string] $newValue)
-    {
-        # Make sure that the value is not null; if null - do not update.
-        if ([CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
-
-
-        # Update the value as requested.
-        $this.__message = $newValue;
-
-
-        # Operation was successful
-        return $true;
-    } # SetMessage()
 
     #endregion
 } # ProjectMetaData
