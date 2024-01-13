@@ -687,7 +687,7 @@ function __InitializationProjectManager()
     # Required meta string data (Natural Numbers)
     Set-Variable `
         -Name "_META_REQUIRED_NUMBER_OF_STRINGS_" `
-        -Value 3 `
+        -Value 8 `
         -Scope Global `
         -Option ReadOnly `
         -Visibility Public `
@@ -717,6 +717,17 @@ function __InitializationProjectManager()
         -Description "A string within the project's meta file that contains the Project's Name.";
 
 
+    # Meta string for 'Project Code Name' found within the project's meta file.
+    Set-Variable `
+        -Name "_META_STRING_PROJECT_CODE_NAME_" `
+        -Value "Project_CodeName" `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -ErrorAction SilentlyContinue `
+        -Description "A string within the project's meta file that contains the Project's Code Name.";
+
+
     # Meta string for 'Project Revision' found within the project's meta file.
     Set-Variable `
         -Name "_META_STRING_PROJECT_REVISION_" `
@@ -726,6 +737,50 @@ function __InitializationProjectManager()
         -Visibility Public `
         -ErrorAction SilentlyContinue `
         -Description "A string within the project's meta file that contains the Project's Revision.";
+
+
+    # Meta string for 'Project Output File Name' found within the project's meta file.
+    Set-Variable `
+        -Name "_META_STRING_PROJECT_OUTPUT_FILENAME_" `
+        -Value "Project_OutputFileName" `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -ErrorAction SilentlyContinue `
+        -Description "A string within the project's meta file that contains the Project's Output File Name.";
+
+
+    # Meta string for 'Project Website URL' found within the project's meta file.
+    Set-Variable `
+        -Name "_META_STRING_PROJECT_URL_WEBSITE_" `
+        -Value "Project_WebsiteURL" `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -ErrorAction SilentlyContinue `
+        -Description "A string within the project's meta file that contains the Project's Website URL.";
+
+
+    # Meta string for 'Project Wiki URL' found within the project's meta file.
+    Set-Variable `
+        -Name "_META_STRING_PROJECT_URL_WIKI_" `
+        -Value "Project_WikiURL" `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -ErrorAction SilentlyContinue `
+        -Description "A string within the project's meta file that contains the Project's Wiki URL.";
+
+
+    # Meta string for 'Project Source Code URL' found within the project's meta file.
+    Set-Variable `
+        -Name "_META_STRING_PROJECT_URL_SOURCE_CODE_" `
+        -Value "Project_SourceCodeURL" `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -ErrorAction SilentlyContinue `
+        -Description "A string within the project's meta file that contains the Project's Source Code URL.";
 
 
     # Meta string for 'Project Signature' found within the project's meta file.
