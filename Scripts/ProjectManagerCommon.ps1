@@ -750,15 +750,14 @@
 
 
         # Try to apply the data into the project meta data structure
-        if ($false -eq `
-            ((  !$projectMetaData.Value.SetProjectName              ($tempProjectName))             -or `
-             (  !$projectMetaData.Value.SetProjectCodeName          ($tempProjectCodeName))         -or `
-             (  !$projectMetaData.Value.SetProjectRevision          ($tempProjectRevision))         -or `
-             (  !$projectMetaData.Value.SetProjectOutputFileName    ($tempProjectOutputFileName))   -or `
-             (  !$projectMetaData.Value.SetProjectURLWebsite        ($tempProjectURLWebsite))       -or `
-             (  !$projectMetaData.Value.SetProjectURLWiki           ($tempProjectURLWiki))          -or `
-             (  !$projectMetaData.Value.SetProjectURLSourceCode     ($tempProjectURLSourceCode))    -or `
-             (  !$projectMetaData.Value.SetMetaGUID                 ($tempProjectGUID))))
+        if (($projectMetaData.Value.SetProjectName($tempProjectName)                        -eq $false) -or `
+            ($projectMetaData.Value.SetProjectCodeName($tempProjectCodeName)                -eq $false) -or `
+            ($projectMetaData.Value.SetProjectRevision($tempProjectRevision)                -eq $false) -or `
+            ($projectMetaData.Value.SetProjectOutputFileName($tempProjectOutputFileName)    -eq $false) -or `
+            ($projectMetaData.Value.SetProjectURLWebsite($tempProjectURLWebsite)            -eq $false) -or `
+            ($projectMetaData.Value.SetProjectURLWiki($tempProjectURLWiki)                  -eq $false) -or `
+            ($projectMetaData.Value.SetProjectURLSourceCode($tempProjectURLSourceCode)      -eq $false) -or `
+            ($projectMetaData.Value.SetMetaGUID($tempProjectGUID)                           -eq $false)) 
         {   # Log this information and record what had failed.
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
