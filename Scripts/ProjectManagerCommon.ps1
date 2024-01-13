@@ -407,9 +407,14 @@
         $metaStrings = @{};
 
         # Temporary Meta Data Information
-        [string]    $tempProjectName        = $NULL;
-        [UInt64]    $tempProjectRevision    = 0;
-        [GUID]      $tempProjectGUID        = $GLOBAL:_DEFAULT_BLANK_GUID_;
+        [string]    $tempProjectName            = $NULL;
+        [string]    $tempProjectCodeName        = $NULL;
+        [UInt64]    $tempProjectRevision        = 0;
+        [string]    $tempProjectOutputFileName  = $null;
+        [string]    $tempProjectURLWebsite      = $null;
+        [string]    $tempProjectURLWiki         = $null;
+        [string]    $tempProjectURLSourceCode   = $null;
+        [GUID]      $tempProjectGUID            = $GLOBAL:_DEFAULT_BLANK_GUID_;
         # ----------------------------------------
 
 
@@ -533,9 +538,34 @@
             if($item.Contains($GLOBAL:_META_STRING_PROJECT_NAME_))
             { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_NAME_, $item); }
 
+            # Project Codename
+            if($item.Contains($GLOBAL:_META_STRING_PROJECT_CODE_NAME_))
+            { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_CODE_NAME_, $item); }
+
             # Project Revision
             elseif ($item.Contains($GLOBAL:_META_STRING_PROJECT_REVISION_))
             { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_REVISION_, $item); }
+
+
+            # Project Output Filename
+            elseif ($item.Contains($GLOBAL:_META_STRING_PROJECT_OUTPUT_FILENAME_))
+            { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_OUTPUT_FILENAME_, $item); }
+
+
+            # Project URL Website
+            elseif ($item.Contains($GLOBAL:_META_STRING_PROJECT_URL_WEBSITE_))
+            { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_URL_WEBSITE_, $item); }
+
+
+            # Project URL Wiki
+            elseif ($item.Contains($GLOBAL:_META_STRING_PROJECT_URL_WIKI_))
+            { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_URL_WIKI_, $item); }
+
+
+            # Project URL Source Code
+            elseif ($item.Contains($GLOBAL:_META_STRING_PROJECT_URL_SOURCE_CODE_))
+            { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_URL_SOURCE_CODE_, $item); }
+
 
             # Project Signature
             elseif ($item.Contains($GLOBAL:_META_STRING_PROJECT_SIGNATURE_))
@@ -579,11 +609,16 @@
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG =    "Got $(($metaStrings.Count).ToString()) out of $(($GLOBAL:_META_REQUIRED_NUMBER_OF_STRINGS_).ToString()) Useful strings from the Meta file!`r`n" + `
-                                            "`tExpected to find the following information in meta file:`r`n" + `
-                                            "`t`t - $($GLOBAL:_META_STRING_PROJECT_NAME_)`r`n" + `
-                                            "`t`t - $($GLOBAL:_META_STRING_PROJECT_REVISION_)`r`n" + `
-                                            "`t`t - $($GLOBAL:_META_STRING_PROJECT_SIGNATURE_)`r`n" + `
-                                            "`tInstead, the following was found within the meta file:`r`n" + `
+                                            "`tExpected to find the following information in meta file:`r`n"    + `
+                                            "`t`t - $($GLOBAL:_META_STRING_PROJECT_NAME_)`r`n"                  + `
+                                            "`t`t - $($GLOBAL:_META_STRING_PROJECT_CODE_NAME_)`r`n"             + `
+                                            "`t`t - $($GLOBAL:_META_STRING_PROJECT_REVISION_)`r`n"              + `
+                                            "`t`t - $($GLOBAL:_META_STRING_PROJECT_OUTPUT_FILENAME_)`r`n"       + `
+                                            "`t`t - $($GLOBAL:_META_STRING_PROJECT_URL_WEBSITE_)`r`n"           + `
+                                            "`t`t - $($GLOBAL:_META_STRING_PROJECT_URL_WIKI_)`r`n"              + `
+                                            "`t`t - $($GLOBAL:_META_STRING_PROJECT_URL_SOURCE_CODE_)`r`n"       + `
+                                            "`t`t - $($GLOBAL:_META_STRING_PROJECT_SIGNATURE_)`r`n"             + `
+                                            "`tInstead, the following was found within the meta file:`r`n"      + `
                                             "$($cacheStringList)";
 
             # Pass the information to the logging system
@@ -606,15 +641,35 @@
         try
         {
             # Project's Name
-            $tempProjectName        = [string]  ($metaStrings[$GLOBAL:_META_STRING_PROJECT_NAME_]       `
+            $tempProjectName            = [string]  ($metaStrings[$GLOBAL:_META_STRING_PROJECT_NAME_]               `
                                             -Replace "$($GLOBAL:_META_STRING_PROJECT_NAME_)$($GLOBAL:_META_VALUE_DELIMITER_)").Trim();
 
+            # Project's Code Name
+            $tempProjectCodeName        = [string]  ($metaStrings[$GLOBAL:_META_STRING_PROJECT_CODE_NAME_]          `
+                                            -Replace "$($GLOBAL:_META_STRING_PROJECT_CODE_NAME_)$($GLOBAL:_META_VALUE_DELIMITER_)").Trim();
+
             # Project's Revision
-            $tempProjectRevision    = [UInt64]  ($metaStrings[$GLOBAL:_META_STRING_PROJECT_REVISION_]   `
+            $tempProjectRevision        = [UInt64]  ($metaStrings[$GLOBAL:_META_STRING_PROJECT_REVISION_]           `
                                             -Replace "$($GLOBAL:_META_STRING_PROJECT_REVISION_)$($GLOBAL:_META_VALUE_DELIMITER_)").Trim();
 
+            # Project's Output File Name
+            $tempProjectOutputFileName  = [string]  ($metaStrings[$GLOBAL:_META_STRING_PROJECT_OUTPUT_FILENAME_]    `
+                                            -Replace "$($GLOBAL:_META_STRING_PROJECT_OUTPUT_FILENAME_)$($GLOBAL:_META_VALUE_DELIMITER_)").Trim();
+
+            # Project's Website URL
+            $tempProjectURLWebsite      = [string]  ($metaStrings[$GLOBAL:_META_STRING_PROJECT_URL_WEBSITE_]        `
+                                            -Replace "$($GLOBAL:_META_STRING_PROJECT_URL_WEBSITE_)$($GLOBAL:_META_VALUE_DELIMITER_)").Trim();
+
+            # Project's Wiki URL
+            $tempProjectURLWiki         = [string]  ($metaStrings[$GLOBAL:_META_STRING_PROJECT_URL_WIKI_]           `
+                                            -Replace "$($GLOBAL:_META_STRING_PROJECT_URL_WIKI_)$($GLOBAL:_META_VALUE_DELIMITER_)").Trim();
+
+            # Project's Source Code URL
+            $tempProjectURLSourceCode   = [string]  ($metaStrings[$GLOBAL:_META_STRING_PROJECT_URL_SOURCE_CODE_]    `
+                                            -Replace "$($GLOBAL:_META_STRING_PROJECT_URL_SOURCE_CODE_)$($GLOBAL:_META_VALUE_DELIMITER_)").Trim();
+
             # Project's Signature
-            $tempProjectGUID        = [GUID]    ($metaStrings[$GLOBAL:_META_STRING_PROJECT_SIGNATURE_]  `
+            $tempProjectGUID            = [GUID]    ($metaStrings[$GLOBAL:_META_STRING_PROJECT_SIGNATURE_]          `
                                             -Replace "$($GLOBAL:_META_STRING_PROJECT_SIGNATURE_)$($GLOBAL:_META_VALUE_DELIMITER_)").Trim();
         } # try : Assign Proper Values
 
@@ -657,15 +712,25 @@
             [string] $logMessage = $displayErrorMessage;
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG =    "Obtained the following values from the project's meta file:`r`n"                           + `
-                                            "`t`t- Project Name      =`t$($metaStrings[$GLOBAL:_META_STRING_PROJECT_NAME_])`r`n"        + `
-                                            "`t`t`tTried to cast as String`r`n"                                                         + `
-                                            "`t`t- Project Revision  =`t$($metaStrings[$GLOBAL:_META_STRING_PROJECT_REVISION_])`r`n"    + `
-                                            "`t`t`tTried to cast as UInt64`r`n"                                                         + `
-                                            "`t`t- Project Signature =`t$($metaStrings[$GLOBAL:_META_STRING_PROJECT_SIGNATURE_])`r`n"   + `
-                                            "`t`t`tTried to cast as GUID`r`n"                                                           + `
-                                            "`tMeta File Contents:`r`n"                                                                 + `
-                                            "$($cacheStringList)"                                                                       ;
+            [string] $logAdditionalMSG =    "Obtained the following values from the project's meta file:`r`n"                                       + `
+                                            "`t`t- Project Name             =`t$($metaStrings[$GLOBAL:_META_STRING_PROJECT_NAME_])`r`n"             + `
+                                            "`t`t`tTried to cast as String`r`n"                                                                     + `
+                                            "`t`t- Project Code Name        =`t$($metaStrings[$GLOBAL:_META_STRING_PROJECT_CODE_NAME_])`r`n"        + `
+                                            "`t`t`tTried to cast as String`r`n"                                                                     + `
+                                            "`t`t- Project Revision         =`t$($metaStrings[$GLOBAL:_META_STRING_PROJECT_REVISION_])`r`n"         + `
+                                            "`t`t`tTried to cast as UInt64`r`n"                                                                     + `
+                                            "`t`t- Project Output Path      =`t$($metaStrings[$GLOBAL:_META_STRING_PROJECT_OUTPUT_FILENAME_])`r`n"  + `
+                                            "`t`t`tTried to cast as String`r`n"                                                                     + `
+                                            "`t`t- Project Website URL      =`t$($metaStrings[$GLOBAL:_META_STRING_PROJECT_URL_WEBSITE_])`r`n"      + `
+                                            "`t`t`tTried to cast as String`r`n"                                                                     + `
+                                            "`t`t- Project Wiki URL         =`t$($metaStrings[$GLOBAL:_META_STRING_PROJECT_URL_WIKI_])`r`n"         + `
+                                            "`t`t`tTried to cast as String`r`n"                                                                     + `
+                                            "`t`t- Project Source Code URL  =`t$($metaStrings[$GLOBAL:_META_STRING_PROJECT_URL_SOURCE_CODE_])`r`n"  + `
+                                            "`t`t`tTried to cast as String`r`n"                                                                     + `
+                                            "`t`t- Project Signature        =`t$($metaStrings[$GLOBAL:_META_STRING_PROJECT_SIGNATURE_])`r`n"        + `
+                                            "`t`t`tTried to cast as GUID`r`n"                                                                       + `
+                                            "`tMeta File Contents:`r`n"                                                                             + `
+                                            "$($cacheStringList)"                                                                                   ;
 
 
             # Pass the information to the logging system
@@ -684,14 +749,76 @@
 
 
 
-        # Apply the data into the project meta data structure
-        $projectMetaData.Value.SetProjectName($tempProjectName);
-        $projectMetaData.Value.SetProjectRevision($tempProjectRevision);
-        $projectMetaData.Value.SetGUID($tempProjectGUID);
+        # Try to apply the data into the project meta data structure
+        if ($false -eq `
+            ((  !$projectMetaData.Value.SetProjectName              ($tempProjectName))             -or `
+             (  !$projectMetaData.Value.SetProjectCodeName          ($tempProjectCodeName))         -or `
+             (  !$projectMetaData.Value.SetProjectRevision          ($tempProjectRevision))         -or `
+             (  !$projectMetaData.Value.SetProjectOutputFileName    ($tempProjectOutputFileName))   -or `
+             (  !$projectMetaData.Value.SetProjectURLWebsite        ($tempProjectURLWebsite))       -or `
+             (  !$projectMetaData.Value.SetProjectURLWiki           ($tempProjectURLWiki))          -or `
+             (  !$projectMetaData.Value.SetProjectURLSourceCode     ($tempProjectURLSourceCode))    -or `
+             (  !$projectMetaData.Value.SetMetaGUID                 ($tempProjectGUID))))
+        {   # Log this information and record what had failed.
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage        = ("One or more values could not be set within the Project's Meta Data Structure!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG  = ("Meta Properties and Value Results:`r`n"                                                             + `
+                                            "`tProperty:    $($GLOBAL:_META_STRING_PROJECT_NAME_)`r`n"                                          + `
+                                            "`t`t- Value:   $($tempProjectName)`r`n"                                                            + `
+                                            "`t`t- Type:    $($tempProjectName.GetType().Name)`r`n"                                             + `
+                                            "`t`t- Result:  $($projectMetaData.Value.SetProjectName($tempProjectName))`r`n"                     + `
+                                            "`tProperty:    $($GLOBAL:_META_STRING_PROJECT_CODE_NAME_)`r`n"                                     + `
+                                            "`t`t- Value:   $($tempProjectCodeName)`r`n"                                                        + `
+                                            "`t`t- Type:    $($tempProjectCodeName.GetType().Name)`r`n"                                         + `
+                                            "`t`t- Result:  $($projectMetaData.Value.SetProjectCodeName($tempProjectCodeName))`r`n"             + `
+                                            "`tProperty:    $($GLOBAL:_META_STRING_PROJECT_REVISION_)`r`n"                                      + `
+                                            "`t`t- Value:   $($tempProjectRevision)`r`n"                                                        + `
+                                            "`t`t- Type:    $($tempProjectRevision.GetType().Name)`r`n"                                         + `
+                                            "`t`t- Result:  $($projectMetaData.Value.SetProjectRevision($tempProjectRevision))`r`n"             + `
+                                            "`tProperty:    $($GLOBAL:_META_STRING_PROJECT_OUTPUT_FILENAME_)`r`n"                               + `
+                                            "`t`t- Value:   $($tempProjectOutputFileName)`r`n"                                                  + `
+                                            "`t`t- Type:    $($tempProjectOutputFileName.GetType().Name)`r`n"                                   + `
+                                            "`t`t- Result:  $($projectMetaData.Value.SetProjectOutputFileName($tempProjectOutputFileName))`r`n" + `
+                                            "`tProperty:    $($GLOBAL:_META_STRING_PROJECT_URL_WEBSITE_)`r`n"                                   + `
+                                            "`t`t- Value:   $($tempProjectURLWebsite)`r`n"                                                      + `
+                                            "`t`t- Type:    $($tempProjectURLWebsite.GetType().Name)`r`n"                                       + `
+                                            "`t`t- Result:  $($projectMetaData.Value.SetProjectURLWebsite($tempProjectURLWebsite))`r`n"         + `
+                                            "`tProperty:    $($GLOBAL:_META_STRING_PROJECT_URL_WIKI_)`r`n"                                      + `
+                                            "`t`t- Value:   $($tempProjectURLWiki)`r`n"                                                         + `
+                                            "`t`t- Type:    $($tempProjectURLWiki.GetType().Name)`r`n"                                          + `
+                                            "`t`t- Result:  $($projectMetaData.Value.SetProjectURLWiki($tempProjectURLWiki))`r`n"               + `
+                                            "`tProperty:    $($GLOBAL:_META_STRING_PROJECT_URL_SOURCE_CODE_)`r`n"                               + `
+                                            "`t`t- Value:   $($tempProjectURLSourceCode)`r`n"                                                   + `
+                                            "`t`t- Type:    $($tempProjectURLSourceCode.GetType().Name)`r`n"                                    + `
+                                            "`t`t- Result:  $($projectMetaData.Value.SetProjectURLSourceCode($tempProjectURLSourceCode))`r`n"   + `
+                                            "`tProperty:    $($GLOBAL:_META_STRING_PROJECT_SIGNATURE_)`r`n"                                     + `
+                                            "`t`t- Value:   $($tempProjectGUID)`r`n"                                                            + `
+                                            "`t`t- Type:    $($tempProjectGUID.GetType().Name)`r`n"                                             + `
+                                            "`t`t- Result:  $($projectMetaData.Value.SetMetaGUID($tempProjectGUID))`r`n"                        );
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Failure to set the values, unable to continue.
+            return $false;
+        } # if : Failure to Set
 
 
 
-        # Finished
+        # Operation was successful
         return $true;
     } # __ReadMetaFile()
 } # ProjectManagerCommon
