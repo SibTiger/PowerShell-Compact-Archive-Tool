@@ -712,7 +712,7 @@
             [string] $logMessage = $displayErrorMessage;
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG =    "Obtained the following values from the project's meta file:`r`n"                                       + `
+            [string] $logAdditionalMSG =   ("Obtained the following values from the project's meta file:`r`n"                                       + `
                                             "`t`t- Project Name             =`t$($metaStrings[$GLOBAL:_META_STRING_PROJECT_NAME_])`r`n"             + `
                                             "`t`t`tTried to cast as String`r`n"                                                                     + `
                                             "`t`t- Project Code Name        =`t$($metaStrings[$GLOBAL:_META_STRING_PROJECT_CODE_NAME_])`r`n"        + `
@@ -730,7 +730,7 @@
                                             "`t`t- Project Signature        =`t$($metaStrings[$GLOBAL:_META_STRING_PROJECT_SIGNATURE_])`r`n"        + `
                                             "`t`t`tTried to cast as GUID`r`n"                                                                       + `
                                             "`tMeta File Contents:`r`n"                                                                             + `
-                                            "$($cacheStringList)"                                                                                   ;
+                                            "$($cacheStringList)")                                                                                  ;
 
 
             # Pass the information to the logging system
