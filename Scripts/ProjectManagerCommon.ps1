@@ -745,7 +745,6 @@
             # Unable to use the data from the Meta file
             return $false;
         } # catch : Caught an Error
-        # ---------------------------------------------------
 
 
 
