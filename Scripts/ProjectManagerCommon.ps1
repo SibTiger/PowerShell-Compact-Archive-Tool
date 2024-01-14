@@ -626,7 +626,7 @@
             [string] $logMessage = ("Unable to obtain significant information from the project's meta file!");
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG =    "Got $(($metaStrings.Count).ToString()) out of $(($GLOBAL:_META_REQUIRED_NUMBER_OF_STRINGS_).ToString()) Useful strings from the Meta file!`r`n" + `
+            [string] $logAdditionalMSG =   ("Got $(($metaStrings.Count).ToString()) out of $(($GLOBAL:_META_REQUIRED_NUMBER_OF_STRINGS_).ToString()) Useful strings from the Meta file!`r`n" + `
                                             "`tExpected to find the following information in meta file:`r`n"    + `
                                             "`t`t - $($GLOBAL:_META_STRING_PROJECT_NAME_)`r`n"                  + `
                                             "`t`t - $($GLOBAL:_META_STRING_PROJECT_CODE_NAME_)`r`n"             + `
@@ -637,7 +637,7 @@
                                             "`t`t - $($GLOBAL:_META_STRING_PROJECT_URL_SOURCE_CODE_)`r`n"       + `
                                             "`t`t - $($GLOBAL:_META_STRING_PROJECT_SIGNATURE_)`r`n"             + `
                                             "`tInstead, the following was found within the meta file:`r`n"      + `
-                                            "$($cacheStringList)";
+                                            "$($cacheStringList)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
