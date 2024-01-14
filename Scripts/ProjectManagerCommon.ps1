@@ -238,10 +238,8 @@
         {
             # Declarations and Initializations
             # ----------------------------------------
-            [ProjectMetaData]       $newProjectEntry        = [ProjectMetaData]::New();             # Entry to add into Array
-            [UInt64]                $newProjectRevision     = 0;                                    # Cache project's revision
-            [string]                $newProjectName         = $null;                                # Cache project's name
-            [GUID]                  $newProjectSignature    = $($GLOBAL:_DEFAULT_BLANK_GUID_);      # Cache project's GUID
+            # Entry that will be added into the Project's array
+            [ProjectMetaData] $newProjectEntry = [ProjectMetaData]::New();
             # ----------------------------------------
 
 
