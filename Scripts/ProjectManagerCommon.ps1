@@ -550,7 +550,6 @@
 
 
         # Iterate through the array and pick out the necessary meta data.
-        # Scan through the array and obtain the necessary data
         foreach ($item in $metaContents)
         {
             # Project Name
