@@ -549,45 +549,45 @@
 
 
 
-        # Iterate through the array and pick out the necessary meta data.
-        foreach ($item in $metaContents)
+        # Iterate through the lines (from the Meta file) and pick out the necessary meta data.
+        foreach ($line in $metaContents)
         {
             # Project Name
-            if($item.Contains($GLOBAL:_META_STRING_PROJECT_NAME_))
-            { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_NAME_, $item); }
+            if($line.Contains($GLOBAL:_META_STRING_PROJECT_NAME_))
+            { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_NAME_, $line); }
 
             # Project Codename
-            if($item.Contains($GLOBAL:_META_STRING_PROJECT_CODE_NAME_))
-            { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_CODE_NAME_, $item); }
+            if($line.Contains($GLOBAL:_META_STRING_PROJECT_CODE_NAME_))
+            { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_CODE_NAME_, $line); }
 
             # Project Revision
-            elseif ($item.Contains($GLOBAL:_META_STRING_PROJECT_REVISION_))
-            { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_REVISION_, $item); }
+            elseif ($line.Contains($GLOBAL:_META_STRING_PROJECT_REVISION_))
+            { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_REVISION_, $line); }
 
 
             # Project Output Filename
-            elseif ($item.Contains($GLOBAL:_META_STRING_PROJECT_OUTPUT_FILENAME_))
-            { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_OUTPUT_FILENAME_, $item); }
+            elseif ($line.Contains($GLOBAL:_META_STRING_PROJECT_OUTPUT_FILENAME_))
+            { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_OUTPUT_FILENAME_, $line); }
 
 
             # Project URL Website
-            elseif ($item.Contains($GLOBAL:_META_STRING_PROJECT_URL_WEBSITE_))
-            { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_URL_WEBSITE_, $item); }
+            elseif ($line.Contains($GLOBAL:_META_STRING_PROJECT_URL_WEBSITE_))
+            { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_URL_WEBSITE_, $line); }
 
 
             # Project URL Wiki
-            elseif ($item.Contains($GLOBAL:_META_STRING_PROJECT_URL_WIKI_))
-            { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_URL_WIKI_, $item); }
+            elseif ($line.Contains($GLOBAL:_META_STRING_PROJECT_URL_WIKI_))
+            { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_URL_WIKI_, $line); }
 
 
             # Project URL Source Code
-            elseif ($item.Contains($GLOBAL:_META_STRING_PROJECT_URL_SOURCE_CODE_))
-            { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_URL_SOURCE_CODE_, $item); }
+            elseif ($line.Contains($GLOBAL:_META_STRING_PROJECT_URL_SOURCE_CODE_))
+            { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_URL_SOURCE_CODE_, $line); }
 
 
             # Project Signature
-            elseif ($item.Contains($GLOBAL:_META_STRING_PROJECT_SIGNATURE_))
-            { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_SIGNATURE_, $item); }
+            elseif ($line.Contains($GLOBAL:_META_STRING_PROJECT_SIGNATURE_))
+            { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_SIGNATURE_, $line); }
         } # foreach: Find Necessary Strings
 
 
