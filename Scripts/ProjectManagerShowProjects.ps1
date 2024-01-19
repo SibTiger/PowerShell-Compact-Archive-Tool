@@ -163,7 +163,7 @@ class ProjectManagerShowProjects
             # Build the table row
             $row                = "" | Select-Object Item, DirectoryName, Project, Revision;
             $row.Item           = $countInstalls;
-            $row.DirectoryName  = $project.GetDirectoryName();
+            $row.DirectoryName  = $project.GetProgramDirectoryName();
             $row.Project        = $project.GetProjectName();
             $row.Revision       = $project.GetProjectRevision();
 
@@ -171,13 +171,15 @@ class ProjectManagerShowProjects
             $projectTableView += $row;
 
             # Build the Logging information
-            $projectLoggingInformation += ( "`t`tItem:              $($countInstalls.ToString())`r`n"                   + `
-                                            "`t`tMeta File Name:    $($project.GetMetaFileName())`r`n"                  + `
-                                            "`t`tDirectory Name:    $($project.GetDirectoryName())`r`n"                 + `
+            $projectLoggingInformation += ( "`tItem:                $($countInstalls.ToString())`r`n"                   + `
                                             "`t`tProject Name:      $($project.GetProjectName())`r`n"                   + `
+                                            "`t`tProject Code Name: $($project.GetProjectCodeName())`r`n"               + `
                                             "`t`tRevision:          $($project.GetProjectRevision().ToString())`r`n"    + `
-                                            "`t`tSignature:         $($project.GetGUID())`r`n"                          + `
-                                            "`t`tMeta Path:         $($project.GetMetaFilePath())`r`n"                  + `
+                                            "`t`tOutput Filename:   $($project.GetProjectOutputFileName())`r`n"         + `
+                                            "`t`tProject Website:   $($project.GetProjectURLWebsite())`r`n"             + `
+                                            "`t`tProject Wiki:      $($project.GetProjectURLWiki())`r`n"                + `
+                                            "`t`tProject Source:    $($project.GetProjectURLSourceCode())`r`n"          + `
+                                            "`t`tSignature:         $($project.GetMetaGUID())`r`n"                      + `
                                             "`r`n`r`n");
         } # foreach : Iterate all Projects
 
