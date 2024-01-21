@@ -152,14 +152,9 @@ class ProjectManagerUninstall
             [string] $logMessage = ("Uninstallation had been cancelled by the user!");
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = (  "Project Target Path:`r`n"                              + `
-                                            "`t`t$($projectToUninstall)`r`n"                        + `
-                                            "`tProject Name:`r`n"                                   + `
-                                            "`t`t$($projectInformation.GetProjectName())`r`n"       + `
-                                            "`tProject Revision ID:`r`n"                            + `
-                                            "`t`t$($projectInformation.GetProjectRevision())`r`n"   + `
-                                            "`tProject Signature:`r`n"                              + `
-                                            "`t`t$($projectInformation.GetGUID())");
+            [string] $logAdditionalMSG = (  "Project Target Path:`r`n"                                  + `
+                                            "`t`t$($projectToUninstall)`r`n"                            + `
+                                            "$([ProjectManagerCommon]::OutputMetaProjectInformation())");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                    # Initial message
@@ -194,14 +189,11 @@ class ProjectManagerUninstall
             [string] $logMessage = ("Unable to successfully uninstall $($projectInformation.GetProjectName())!");
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = (  "Project Target Path:`r`n"                              + `
-                                            "`t`t$($projectToUninstall)`r`n"                        + `
-                                            "`tProject Name:`r`n"                                   + `
-                                            "`t`t$($projectInformation.GetProjectName())`r`n"       + `
-                                            "`tProject Revision ID:`r`n"                            + `
-                                            "`t`t$($projectInformation.GetProjectRevision())`r`n"   + `
-                                            "`tProject Signature:`r`n"                              + `
-                                            "`t`t$($projectInformation.GetGUID())");
+            [string] $logAdditionalMSG = ( `
+                                "Project Target Path:`r`n"                                  + `
+                                "`t`t$($projectToUninstall)`r`n"                            + `
+                                "$([ProjectManagerCommon]::OutputMetaProjectInformation())" );
+
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                    # Initial message
@@ -236,15 +228,12 @@ class ProjectManagerUninstall
             [string] $logMessage = ("Unable to successfully uninstall $($projectInformation.GetProjectName())!");
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = (  "Target was supposed to be removed, but still exists.`r`n"  + `
-                                            "`tProject Target Path:`r`n"                                + `
-                                            "`t`t$($projectToUninstall)`r`n"                            + `
-                                            "`tProject Name:`r`n"                                       + `
-                                            "`t`t$($projectInformation.GetProjectName())`r`n"           + `
-                                            "`tProject Revision ID:`r`n"                                + `
-                                            "`t`t$($projectInformation.GetProjectRevision())`r`n"       + `
-                                            "`tProject Signature:`r`n"                                  + `
-                                            "`t`t$($projectInformation.GetGUID())");
+            [string] $logAdditionalMSG = ( `
+                                "Target was supposed to be removed, but still exists.`r`n"  + `
+                                "`tProject Target Path:`r`n"                                + `
+                                "`t`t$($projectToUninstall)`r`n"                            + `
+                                "$([ProjectManagerCommon]::OutputMetaProjectInformation())" );
+
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -291,14 +280,11 @@ class ProjectManagerUninstall
         [string] $logMessage = ("$($projectInformation.GetProjectName()) had been uninstalled successfully!");
 
         # Generate any additional information that might be useful
-        [string] $logAdditionalMSG = (  "Project Target Path:`r`n"                              + `
-                                        "`t`t$($projectToUninstall)`r`n"                        + `
-                                        "`tProject Name:`r`n"                                   + `
-                                        "`t`t$($projectInformation.GetProjectName())`r`n"       + `
-                                        "`tProject Revision ID:`r`n"                            + `
-                                        "`t`t$($projectInformation.GetProjectRevision())`r`n"   + `
-                                        "`tProject Signature:`r`n"                              + `
-                                        "`t`t$($projectInformation.GetGUID())");
+        [string] $logAdditionalMSG = ( `
+                                    "Project Target Path:`r`n"                                  + `
+                                    "`t`t$($projectToUninstall)`r`n"                            + `
+                                    "$([ProjectManagerCommon]::OutputMetaProjectInformation())" );
+
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity($logMessage, `                # Initial message
