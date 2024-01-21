@@ -131,7 +131,7 @@ class ProjectManagerUninstall
         # Complete the Confirmation string with the project meta data that was obtained.
         $confirmString += ( "Name:      $($projectInformation.GetProjectName())`r`n"        + `
                             "Revision:  $($projectInformation.GetProjectRevision())`r`n"    + `
-                            "Signature: $($projectInformation.GetGUID())`r`n"               + `
+                            "Signature: $($projectInformation.GetMetaGUID())`r`n"           + `
                             "Path:      $($projectToUninstall)");
 
 
