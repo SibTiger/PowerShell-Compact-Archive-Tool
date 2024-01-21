@@ -453,7 +453,7 @@ class ProjectManagerInstallation
                 $logAdditionalInformation = "This file is healthy and can be installed.";
 
                 # Adjust the attributes of the desired file entry.
-                $item.SetVerification([ProjectMetaDataFileVerification]::Passed);
+                $item.GetProgramVerification([ProjectMetaDataFileVerification]::Passed);
             } # if : Verification Passed
 
             # Verification had Failed
@@ -466,10 +466,10 @@ class ProjectManagerInstallation
                 $logAdditionalInformation = "This file is damaged and cannot be installed.";
 
                 # Adjust the attributes of the desired file entry.
-                $item.SetVerification([ProjectMetaDataFileVerification]::Failed);
+                $item.GetProgramVerification([ProjectMetaDataFileVerification]::Failed);
 
                 # Provide the reason for why the file will not be installed.
-                $item.SetMessage("This file had been determined to be corrupted, and therefore, cannot be installed.");
+                $item.SetProgramMessage("This file had been determined to be corrupted, and therefore, cannot be installed.");
 
                 # Clear the absolute path as we can no longer use this file.
                 $item.SetMetaFilePathAsEmpty();
@@ -789,10 +789,10 @@ class ProjectManagerInstallation
                 $overallOperation = [ProjectManagerInstallationExitCondition]::Error;
 
                 # Update the item's description to signify that the project could not be installed.
-                $item.SetMessage("The Zip file structure is corrupted and unreadable; unable to install safely.");
+                $item.SetProgramMessage("The Zip file structure is corrupted and unreadable; unable to install safely.");
 
                 # Mark the file as not installed.
-                $item.SetInstalled($false);
+                $item.SetProgramInstalled($false);
 
                 # Clear the Installation Path
                 $item.SetMetaFilePathAsEmpty();
@@ -835,10 +835,10 @@ class ProjectManagerInstallation
                 $overallOperation = [ProjectManagerInstallationExitCondition]::Error;
 
                 # Update the item's description to signify that the project could not be installed.
-                $item.SetMessage("Failed to create a temporary installation folder; unable to install.");
+                $item.SetProgramMessage("Failed to create a temporary installation folder; unable to install.");
 
                 # Mark the file as not installed.
-                $item.SetInstalled($false);
+                $item.SetProgramInstalled($false);
 
                 # Clear the Installation Path
                 $item.SetMetaFilePathAsEmpty();
@@ -882,10 +882,10 @@ class ProjectManagerInstallation
                 $overallOperation = [ProjectManagerInstallationExitCondition]::Error;
 
                 # Update the item's description to signify that the project could not be installed.
-                $item.SetMessage("Unable to extract the file to a temporary folder; unable to install.");
+                $item.SetProgramMessage("Unable to extract the file to a temporary folder; unable to install.");
 
                 # Mark the file as not installed.
-                $item.SetInstalled($false);
+                $item.SetProgramInstalled($false);
 
                 # Clear the Installation Path
                 $item.SetMetaFilePathAsEmpty();
@@ -931,10 +931,10 @@ class ProjectManagerInstallation
                 $overallOperation = [ProjectManagerInstallationExitCondition]::Error;
 
                 # Update the item's description to signify that the project could not be installed.
-                $item.SetMessage("Unable to read the meta file correctly; unable to install.");
+                $item.SetProgramMessage("Unable to read the meta file correctly; unable to install.");
 
                 # Mark the file as not installed.
-                $item.SetInstalled($false);
+                $item.SetProgramInstalled($false);
 
                 # Clear the Installation Path
                 $item.SetMetaFilePathAsEmpty();
@@ -1067,7 +1067,7 @@ class ProjectManagerInstallation
                     # Not initialized properly.
 
                     # Update the item's description to signify that the project could not be installed.
-                    $item.SetMessage("An unknown state had been reached; unable to install.");
+                    $item.SetProgramMessage("An unknown state had been reached; unable to install.");
 
 
                     # * * * * * * * * * * * * * * * * * * *
@@ -1114,7 +1114,7 @@ class ProjectManagerInstallation
                         # Failed to properly relocate the directory to the default Project's install location.
 
                         # Update the item's description to signify that the project could not be installed.
-                        $item.SetMessage("A failure had been reached while installing contents; unable to install.");
+                        $item.SetProgramMessage("A failure had been reached while installing contents; unable to install.");
 
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -1145,7 +1145,7 @@ class ProjectManagerInstallation
 
 
                     # Update the item's description to signify that the project had been installed.
-                    $item.SetMessage("Successfully installed!");
+                    $item.SetProgramMessage("Successfully installed!");
 
                     # Adjust the Exit Condition to signify that the operation was successful.
                     $exitCondition = [ProjectManagerInstallationExitCondition]::Successful;
@@ -1190,7 +1190,7 @@ class ProjectManagerInstallation
                         # Files could not be relocated.
 
                         # Update the item's description to signify that the project could not be updated.
-                        $item.SetMessage("A failure had been reached while updating the files; unable to update.");
+                        $item.SetProgramMessage("A failure had been reached while updating the files; unable to update.");
 
 
                         # * * * * * * * * * * * * * * * * * * *
@@ -1225,7 +1225,7 @@ class ProjectManagerInstallation
 
 
                     # Update the item's description to signify that the project had been updated.
-                    $item.SetMessage("Successfully updated!");
+                    $item.SetProgramMessage("Successfully updated!");
 
                     # Adjust the Exit Condition to signify that the operation was successful.
                     $exitCondition = [ProjectManagerInstallationExitCondition]::Successful;
@@ -1270,7 +1270,7 @@ class ProjectManagerInstallation
                     # The target project is either the same version or older;
 
                     # Update the item's description to signify that the project had not been installed nor updated.
-                    $item.SetMessage("This version is the same or older than what is already installed; this version will not be installed.");
+                    $item.SetProgramMessage("This version is the same or older than what is already installed; this version will not be installed.");
 
                     # Adjust the Exit Condition to signify that the operation could not be performed.
                     $exitCondition = [ProjectManagerInstallationExitCondition]::SameOrOlder;
@@ -1324,14 +1324,14 @@ class ProjectManagerInstallation
                 ([ProjectManagerInstallationExitCondition]::Successful)
                 {
                     # Mark that the file had been installed.
-                    $item.SetInstalled($true);
+                    $item.SetProgramInstalled($true);
 
                     # Store the extracted path
                     $item.SetMetaFilePath($outputDirectory);
 
                     # Update the item's description to signify that the file had been installed, only if the
                     #   message had not yet been updated already.
-                    if ("$($NULL)" -eq $item.GetProgramMessage()) { $item.SetMessage("Successfully installed!"); }
+                    if ("$($NULL)" -eq $item.GetProgramMessage()) { $item.SetProgramMessage("Successfully installed!"); }
 
                     # Finished
                     break;
@@ -1349,7 +1349,7 @@ class ProjectManagerInstallation
 
                     # Update the item's description to denote that a failure occurred, only if the message had
                     #   not yet been updated already.
-                    if (("$($NULL)" -eq $item.GetProgramMessage())) { $item.SetMessage("Failed to install project file."); }
+                    if (("$($NULL)" -eq $item.GetProgramMessage())) { $item.SetProgramMessage("Failed to install project file."); }
 
                     # Finished
                     break;
@@ -1365,14 +1365,14 @@ class ProjectManagerInstallation
                     { $overallOperation = [ProjectManagerInstallationExitCondition]::SameOrOlder; }
 
                     # Mark that the file had not been installed
-                    $item.SetInstalled($false);
+                    $item.SetProgramInstalled($false);
 
                     # Clear the Installation Path
                     $item.SetMetaFilePathAsEmpty();
 
                     # Update the item's description to denote that the installation was refused, but only if the
                     #   message had not yet been updated already.
-                    if (("$($NULL)" -eq $item.GetProgramMessage())) { $item.SetMessage("Unable to install as the version is either the same or older compared to what is currently installed."); }
+                    if (("$($NULL)" -eq $item.GetProgramMessage())) { $item.SetProgramMessage("Unable to install as the version is either the same or older compared to what is currently installed."); }
 
                     # Finished
                     break;
