@@ -583,17 +583,17 @@ class ProjectManagerInstallation
         {
             # Setup a string containing the results for the logging.
             [string] $fileResultsLogging = ( `
-                                "Meta File Name:      " + $item.GetMetaFileName()  + "`r`n`t" + `
-                                "Verification Passed: " + $item.GetVerification()  + "`r`n`t" + `
-                                "Installed:           " + $item.GetInstalled()     + "`r`n`t" + `
-                                "Installed Path:      " + $item.GetMetaFilePath()  + "`r`n`t" + `
-                                "Overall Status:      " + $item.GetMessage()       + "`r`n`t");
+                                "Meta File Name:      " + $item.GetMetaFileName()           + "`r`n`t" + `
+                                "Verification Passed: " + $item.GetProgramVerification()    + "`r`n`t" + `
+                                "Installed:           " + $item.GetProgramInstalled()       + "`r`n`t" + `
+                                "Installed Path:      " + $item.GetMetaFilePath()           + "`r`n`t" + `
+                                "Overall Status:      " + $item.GetProgramMessage()         + "`r`n`t");
 
             # Setup a string containing the results for the logging.
             [string] $fileResults = ( `
-                                "Meta File Name:      " + $item.GetMetaFileName()  + "`r`n" + `
-                                "Installed:           " + $item.GetInstalled()     + "`r`n" + `
-                                "Overall Status:      " + $item.GetMessage()       + "`r`n");
+                                "Meta File Name:      " + $item.GetMetaFileName()           + "`r`n" + `
+                                "Installed:           " + $item.GetProgramInstalled()       + "`r`n" + `
+                                "Overall Status:      " + $item.GetProgramMessage()         + "`r`n");
 
 
             # Show the results to the user
