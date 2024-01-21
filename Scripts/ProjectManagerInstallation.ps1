@@ -453,7 +453,7 @@ class ProjectManagerInstallation
                 $logAdditionalInformation = "This file is healthy and can be installed.";
 
                 # Adjust the attributes of the desired file entry.
-                $item.GetProgramVerification([ProjectMetaDataFileVerification]::Passed);
+                $item.SetProgramVerification([ProjectMetaDataFileVerification]::Passed);
             } # if : Verification Passed
 
             # Verification had Failed
@@ -466,7 +466,7 @@ class ProjectManagerInstallation
                 $logAdditionalInformation = "This file is damaged and cannot be installed.";
 
                 # Adjust the attributes of the desired file entry.
-                $item.GetProgramVerification([ProjectMetaDataFileVerification]::Failed);
+                $item.SetProgramVerification([ProjectMetaDataFileVerification]::Failed);
 
                 # Provide the reason for why the file will not be installed.
                 $item.SetProgramMessage("This file had been determined to be corrupted, and therefore, cannot be installed.");
