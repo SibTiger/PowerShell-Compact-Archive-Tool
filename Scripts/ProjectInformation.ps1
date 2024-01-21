@@ -396,8 +396,8 @@ class ProjectInformation
             # Website was not provided.
             return $false;
         } # if : No Website Provided
-        
-        
+
+
         # If we made it here, then the Website URL had been provided.
         return $true;
     } # DetermineAssignedWebsite()

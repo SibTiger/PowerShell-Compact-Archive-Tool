@@ -224,7 +224,7 @@ class ProjectManager
 
             # Draw the Project Manager's Main Menu list to the user
             [ProjectManager]::__DrawMainMenu();
- 
+
 
             # Provide some extra padding
             [Logging]::DisplayMessage("`r`n");
@@ -284,7 +284,7 @@ class ProjectManager
 
 
 
- 
+
    <# Project Manager - Show Main Menu
     # -------------------------------
     # Documentation:
@@ -315,7 +315,6 @@ class ProjectManager
                                 "List all Projects that had been installed into $($GLOBAL:_PROGRAMNAMESHORT_).", `
                                 $NULL, `
                                 $true);
-                                
 
 
         # Load a Project

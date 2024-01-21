@@ -615,7 +615,7 @@ class MainMenu
         if (($projectInformation.GetProjectLoaded()) -and `
             ((![CommonFunctions]::IsStringEmpty($projectInformation.GetURLSource()) -and `
              ([WebsiteResources]::CheckSiteAvailability($projectInformation.GetURLSource(), $true)))))
-        { 
+        {
             $showMenuProjectSourceCode.Value = $true;
         } # if : Project's Source Code - Visible
 

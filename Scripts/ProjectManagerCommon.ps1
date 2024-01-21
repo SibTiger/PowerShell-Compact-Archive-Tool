@@ -137,7 +137,7 @@
             # Single Instance
             elseif ($dynamicVariable.GetType().Name -eq "FileInfo")
             { $listOfMetaFiles.Add($dynamicVariable); }
-            
+
             # Array List of Instances
             else
             { foreach($instance in $dynamicVariable) { $listOfMetaFiles.Add($instance); }}
@@ -716,7 +716,7 @@
             ($projectMetaData.Value.SetProjectURLWebsite($tempProjectURLWebsite)            -eq $false) -or `
             ($projectMetaData.Value.SetProjectURLWiki($tempProjectURLWiki)                  -eq $false) -or `
             ($projectMetaData.Value.SetProjectURLSourceCode($tempProjectURLSourceCode)      -eq $false) -or `
-            ($projectMetaData.Value.SetMetaGUID($tempProjectGUID)                           -eq $false)) 
+            ($projectMetaData.Value.SetMetaGUID($tempProjectGUID)                           -eq $false))
         {   # Log this information and record what had failed.
             # * * * * * * * * * * * * * * * * * * *
             # Debugging

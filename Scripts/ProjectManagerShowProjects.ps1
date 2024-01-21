@@ -46,7 +46,7 @@ class ProjectManagerShowProjects
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # This variable will contain a list of projects that had been installed within the environment. 
+        # This variable will contain a list of projects that had been installed within the environment.
         [System.Collections.ArrayList] $listOfProjectsInstalled = [System.Collections.ArrayList]::New();
         # ----------------------------------------
 
@@ -134,7 +134,7 @@ class ProjectManagerShowProjects
     # Documentation:
     #  When called, this function will show a list of installed projects to the user in a POSH table.
     # -------------------------------
-    # Input: 
+    # Input:
     #  [System.Collections.ArrayList] {ProjectMetaData} Installed Projects.
     #   This will provide information as to what projects had been installed within the program's environment.
     # -------------------------------

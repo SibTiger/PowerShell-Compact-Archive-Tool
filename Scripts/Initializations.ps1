@@ -481,8 +481,8 @@ function InitializationDirectoryPaths_Program()
  {
      # ----
      # User Data
- 
- 
+
+
      # User-Data Project Parent Project Directory Path
      # ---------------
      # The project's parent directory where the user's data will be stored.
@@ -495,8 +495,8 @@ function InitializationDirectoryPaths_Program()
          -Force `
          -ErrorAction SilentlyContinue `
          -Description "Provides the project's directory to help separate from other potential projects.";
- 
- 
+
+
      # Output Parent Directory Path
      # ---------------
      # The root directory that the builds reside.
@@ -509,8 +509,8 @@ function InitializationDirectoryPaths_Program()
          -Force `
          -ErrorAction SilentlyContinue `
          -Description "Holds the parent path in which all complied builds will be stored.";
- 
- 
+
+
      # Output Release Directory Path
      # ---------------
      # The directory that holds the 'Release' builds.
@@ -523,8 +523,8 @@ function InitializationDirectoryPaths_Program()
          -Force `
          -ErrorAction SilentlyContinue `
          -Description "Holds the path for all released compiled builds that will be stored.";
- 
- 
+
+
      # Output Development Directory Path
      # ---------------
      # The directory that holds the 'Development' builds.
@@ -537,12 +537,12 @@ function InitializationDirectoryPaths_Program()
          -Force `
          -ErrorAction SilentlyContinue `
          -Description "Holds the path for all developmental compiled builds that will be stored.";
- 
- 
+
+
      # ----
      # Program Data [Local AppData]
- 
- 
+
+
      # Program-Data Project Parent Directory Path
      # ---------------
      # The project parent directory where program-data will be stored.
@@ -555,8 +555,8 @@ function InitializationDirectoryPaths_Program()
          -Force `
          -ErrorAction SilentlyContinue `
          -Description "This will contain the path as to where all related data of a loaded project will be stored.";
- 
- 
+
+
      # Log Directory for Projects Path
      # ---------------
      # The directory that will contain the log-files regarding activity that occurs while a project is loaded, such as operations.
@@ -569,12 +569,12 @@ function InitializationDirectoryPaths_Program()
          -Force `
          -ErrorAction SilentlyContinue `
          -Description "This will hold the logfiles regarding each operation taken place within the loaded project.";
- 
- 
+
+
      # ----
      # Program Data [Roaming AppData]
- 
- 
+
+
      # Project Art Directory Path
      # ---------------
      # The directory that will contain the project's images that will be visible using Windows' Toast Notifications.

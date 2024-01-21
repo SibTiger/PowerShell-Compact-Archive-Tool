@@ -248,7 +248,7 @@ class BurntToast
         # Determine if the BurntToast PowerShell Module is still available within the PowerShell Repository.
         if (![BurntToast]::__CheckModuleExistsInRepository())
         {
-            # Because the BurntToast PowerShell Module is no longer available in the PowerShell Repository, 
+            # Because the BurntToast PowerShell Module is no longer available in the PowerShell Repository,
             #   we cannot determine if an update is available.
 
 

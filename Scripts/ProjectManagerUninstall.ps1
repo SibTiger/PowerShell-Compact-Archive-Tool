@@ -215,8 +215,8 @@ class ProjectManagerUninstall
 
             # Operation had failed.
             return $false;
-        } # If : Failure to Delete Directory 
-        
+        } # If : Failure to Delete Directory
+
 
         # Assurance test; make sure the directory had been destroyed.
         if ([CommonIO]::CheckPathExists($projectToUninstall, $true))
