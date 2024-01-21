@@ -1014,7 +1014,7 @@ class ProjectManagerInstallation
             foreach ($installedProject in $listOfInstalledProjects)
             {
                 # Determine if the Unique IDs match.
-                if ($installedProject.GetGUID() -eq $item.GetGUID())
+                if ($installedProject.GetMetaGUID() -eq $item.GetMetaGUID())
                 {   # Found an existing install of the project.
 
                     # Check if updates are available.
@@ -1575,7 +1575,7 @@ class ProjectManagerInstallation
 
                     # Update the item's description to signify that the file had been installed, only if the
                     #   message had not yet been updated already.
-                    if ("$($NULL)" -eq $item.GetMessage()) { $item.SetMessage("Successfully installed!"); }
+                    if ("$($NULL)" -eq $item.GetProgramMessage()) { $item.SetMessage("Successfully installed!"); }
 
                     # Finished
                     break;
@@ -1593,7 +1593,7 @@ class ProjectManagerInstallation
 
                     # Update the item's description to denote that a failure occurred, only if the message had
                     #   not yet been updated already.
-                    if (("$($NULL)" -eq $item.GetMessage())) { $item.SetMessage("Failed to install project file."); }
+                    if (("$($NULL)" -eq $item.GetProgramMessage())) { $item.SetMessage("Failed to install project file."); }
 
                     # Finished
                     break;
@@ -1616,7 +1616,7 @@ class ProjectManagerInstallation
 
                     # Update the item's description to denote that the installation was refused, but only if the
                     #   message had not yet been updated already.
-                    if (("$($NULL)" -eq $item.GetMessage())) { $item.SetMessage("Unable to install as the version is either the same or older compared to what is currently installed."); }
+                    if (("$($NULL)" -eq $item.GetProgramMessage())) { $item.SetMessage("Unable to install as the version is either the same or older compared to what is currently installed."); }
 
                     # Finished
                     break;
@@ -1627,7 +1627,7 @@ class ProjectManagerInstallation
 
             # Generate the logged messages
             $logActivity = "Installation Results for: $($item.GetMetaFileName())";
-            $logAdditionalInformation = "Status: $($item.GetMessage())`r`n`tInstalled: $($exitCondition)`r`n`tInstalled Path: $($outputDirectory)";
+            $logAdditionalInformation = "Status: $($item.GetProgramMessage())`r`n`tInstalled: $($exitCondition)`r`n`tInstalled Path: $($outputDirectory)";
 
 
             # Record the information to the program's logfile.
