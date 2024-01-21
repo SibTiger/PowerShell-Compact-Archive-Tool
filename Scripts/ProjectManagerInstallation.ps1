@@ -781,7 +781,7 @@ class ProjectManagerInstallation
 
 
             # If the archive datafile is corrupted - then skip to the next file.
-            if ($item.GetVerification() -ne [ProjectMetaDataFileVerification]::Passed)
+            if ($item.GetProgramVerification() -ne [ProjectMetaDataFileVerification]::Passed)
             {
                 # File failed verification; unable to process any further.
 
