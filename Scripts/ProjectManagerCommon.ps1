@@ -282,36 +282,7 @@
 
                 # Generate any additional information that might be useful
                 [string] $logAdditionalMSG = ("Project information provided may or may not be accurate:`r`n"    + `
-                                                "`t`tDirectory Base Name:`r`n"                                  + `
-                                                "`t`t`t$($newProjectEntry.GetProgramDirectoryName())`r`n"       + `
-                                                "`t`tMeta File Path:`r`n"                                       + `
-                                                "`t`t`t$($newProjectEntry.GetMetaFilePath())`r`n"               + `
-                                                "`t`tMeta File Name:`r`n"                                       + `
-                                                "`t`t`t$($newProjectEntry.GetMetaFileName())`r`n"               + `
-                                                "`t`tMeta File:`r`n"                                            + `
-                                                "`t`t`t$($item.FullName)`r`n"                                   + `
-                                                "`t`tInstalled Flag:`r`n"                                       + `
-                                                "`t`t`t$($newProjectEntry.GetProgramInstalled())`r`n"           + `
-                                                "`t`tVerification State:`r`n"                                   + `
-                                                "`t`t`t$($newProjectEntry.GetProgramVerification())`r`n"        + `
-                                                "`t`tInternal Message:`r`n"                                     + `
-                                                "`t`t`t$($newProjectEntry.GetProgramMessage())`r`n"             + `
-                                                "`t`tProject Output Compiled Filename:`r`n"                     + `
-                                                "`t`t`t$($newProjectEntry.GetProjectOutputFileName())`r`n"      + `
-                                                "`t`tProject Revision ID:`r`n"                                  + `
-                                                "`t`t`t$($newProjectEntry.GetProjectRevision())`r`n"            + `
-                                                "`t`tProject Name:`r`n"                                         + `
-                                                "`t`t`t$($newProjectEntry.GetProjectName())`r`n"                + `
-                                                "`t`tProject Code Name:`r`n"                                    + `
-                                                "`t`t`t$($newProjectEntry.GetProjectCodeName())`r`n"            + `
-                                                "`t`tProject Website URL:`r`n"                                  + `
-                                                "`t`t`t$($newProjectEntry.GetProjectURLWebsite())`r`n"          + `
-                                                "`t`tProject Wiki URL:`r`n"                                     + `
-                                                "`t`t`t$($newProjectEntry.GetProjectURLWiki())`r`n"             + `
-                                                "`t`tProject Source Code URL:`r`n"                              + `
-                                                "`t`t`t$($newProjectEntry.GetProjectURLSourceCode())`r`n"       + `
-                                                "`t`tUnique Signature:`r`n"                                     + `
-                                                "`t`t`t$($newProjectEntry.GetMetaGUID())");
+                                                [ProjectManagerCommon]::OutputMetaProjectInformation($newProjectEntry));
 
 
                 # Pass the information to the logging system
@@ -342,36 +313,7 @@
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Project information that had been collected:`r`n"                + `
-                                            "`t`tDirectory Base Name:`r`n"                                  + `
-                                            "`t`t`t$($newProjectEntry.GetProgramDirectoryName())`r`n"       + `
-                                            "`t`tMeta File Path:`r`n"                                       + `
-                                            "`t`t`t$($newProjectEntry.GetMetaFilePath())`r`n"               + `
-                                            "`t`tMeta File Name:`r`n"                                       + `
-                                            "`t`t`t$($newProjectEntry.GetMetaFileName())`r`n"               + `
-                                            "`t`tMeta File:`r`n"                                            + `
-                                            "`t`t`t$($item.FullName)`r`n"                                   + `
-                                            "`t`tInstalled Flag:`r`n"                                       + `
-                                            "`t`t`t$($newProjectEntry.GetProgramInstalled())`r`n"           + `
-                                            "`t`tVerification State:`r`n"                                   + `
-                                            "`t`t`t$($newProjectEntry.GetProgramVerification())`r`n"        + `
-                                            "`t`tInternal Message:`r`n"                                     + `
-                                            "`t`t`t$($newProjectEntry.GetProgramMessage())`r`n"             + `
-                                            "`t`tProject Output Compiled Filename:`r`n"                     + `
-                                            "`t`t`t$($newProjectEntry.GetProjectOutputFileName())`r`n"      + `
-                                            "`t`tProject Revision ID:`r`n"                                  + `
-                                            "`t`t`t$($newProjectEntry.GetProjectRevision())`r`n"            + `
-                                            "`t`tProject Name:`r`n"                                         + `
-                                            "`t`t`t$($newProjectEntry.GetProjectName())`r`n"                + `
-                                            "`t`tProject Code Name:`r`n"                                    + `
-                                            "`t`t`t$($newProjectEntry.GetProjectCodeName())`r`n"            + `
-                                            "`t`tProject Website URL:`r`n"                                  + `
-                                            "`t`t`t$($newProjectEntry.GetProjectURLWebsite())`r`n"          + `
-                                            "`t`tProject Wiki URL:`r`n"                                     + `
-                                            "`t`t`t$($newProjectEntry.GetProjectURLWiki())`r`n"             + `
-                                            "`t`tProject Source Code URL:`r`n"                              + `
-                                            "`t`t`t$($newProjectEntry.GetProjectURLSourceCode())`r`n"       + `
-                                            "`t`tUnique Signature:`r`n"                                     + `
-                                            "`t`t`t$($newProjectEntry.GetMetaGUID())");
+                                            [ProjectManagerCommon]::OutputMetaProjectInformation($newProjectEntry));
 
 
 
