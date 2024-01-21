@@ -846,7 +846,7 @@ class BurntToast
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
-        } # try : Obtain Results from 
+        } # try : Obtain Results from PowerShell Online Repository
 
 
         # Error was caught
