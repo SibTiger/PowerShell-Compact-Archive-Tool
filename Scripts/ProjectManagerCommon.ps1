@@ -837,4 +837,68 @@
         # Operation was successful
         return $true;
     } # __ReadMetaFile()
+
+
+
+
+   <# Output Meta Project Information
+    # -------------------------------
+    # Documentation:
+    #  This function is designed to generate a string that contains the project's meta data information, and
+    #   then return that string such that it can used for presenting to the user or to log the contents to
+    #   the logfile.
+    # -------------------------------
+    # Input:
+    #  [ProjectMetaData] Project Information
+    #   Contains the project's meta data information.
+    # -------------------------------
+    # Output:
+    #  [string] Project Information in String Form
+    #       Contains the project information that will be presented in a string form.
+    # -------------------------------
+    #>
+    static [string] OutputMetaProjectInformation([ProjectMetaData] $projectInformation)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Project Information within a string format.
+        [string] $projectInformationString = $NULL;
+        # ----------------------------------------
+
+
+        # Craft the string
+        $projectInformationString = ( `
+                            "`tMeta File Name:`r`n"                                                 + `
+                            "`t`t"  +   $projectInformation.GetMetaFileName()           +   "`r`n"  + `
+                            "`tMeta File Path:`r`n"                                                 + `
+                            "`t`t"  +   $projectInformation.GetMetaFilePath()           +   "`r`n"  + `
+                            "`tProject Signature:`r`n"                                              + `
+                            "`t`t"  +   $projectInformation.GetMetaGUID()               +   "`r`n"  + `
+                            "`tProject Name:`r`n"                                                   + `
+                            "`t`t"  +   $projectInformation.GetProjectName()            +   "`r`n"  + `
+                            "`tProject Code Name:`r`n"                                              + `
+                            "`t`t"  +   $projectInformation.GetProjectCodeName()        +   "`r`n"  + `
+                            "`tProject Revision:`r`n"                                               + `
+                            "`t`t"  +   $projectInformation.GetProjectRevision()        +   "`r`n"  + `
+                            "`tOutput File Name:`r`n"                                               + `
+                            "`t`t"  +   $projectInformation.GetProjectOutputFileName()  +   "`r`n"  + `
+                            "`tWebsite URL:`r`n"                                                    + `
+                            "`t`t"  +   $projectInformation.GetProjectURLWebsite()      +   "`r`n"  + `
+                            "`tWiki URL:`r`n"                                                       + `
+                            "`t`t"  +   $projectInformation.GetProjectURLWiki()         +   "`r`n"  + `
+                            "`tSource Code URL:`r`n"                                                + `
+                            "`t`t"  +   $projectInformation.GetProjectURLSourceCode()   +   "`r`n"  + `
+                            "`tProject Directory Name:`r`n"                                         + `
+                            "`t`t"  +   $projectInformation.GetProgramDirectoryName()   +   "`r`n"  + `
+                            "`tArchive Integrity Verification:`r`n"                                 + `
+                            "`t`t"  +   $projectInformation.GetProgramVerification()    +   "`r`n"  + `
+                            "`tProject Installed:`r`n"                                              + `
+                            "`t`t"  +   $projectInformation.GetProgramInstalled()       +   "`r`n"  + `
+                            "`tStatus Message:`r`n"                                                 + `
+                            "`t`t"  +   $projectInformation.GetProgramMessage()         +   "`r`n"  );
+
+
+        # Return the string containing the Project Information.
+        return $projectInformationString;
+    } # OutputMetaProjectInformation()
 } # ProjectManagerCommon
