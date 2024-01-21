@@ -18,7 +18,7 @@
 
 
 
-<# Project Manager - Uninstall Project(s)
+<# Project Manager - Uninstall Project
  # ------------------------------
  # ==============================
  # ==============================
@@ -28,7 +28,7 @@
  #  discarding a buggy project version in exchange for cleaner version.
  #
  # DEVELOPER NOTES:
- #  We will rely heavily on the CommonGUI and CommonIO in order to make this functionality easy for the user.
+ #  We will rely heavily on the CommonGUI and CommonIO in order to make this functionality easier for the user.
  #>
 
 
