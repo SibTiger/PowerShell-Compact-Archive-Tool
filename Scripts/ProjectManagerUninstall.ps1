@@ -152,9 +152,10 @@ class ProjectManagerUninstall
             [string] $logMessage = ("Uninstallation had been cancelled by the user!");
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = (  "Project Target Path:`r`n"                                  + `
-                                            "`t`t$($projectToUninstall)`r`n"                            + `
-                                            "$([ProjectManagerCommon]::OutputMetaProjectInformation())");
+            [string] $logAdditionalMSG = (  `
+                            "Project Target Path:`r`n"                                                  + `
+                            "`t`t$($projectToUninstall)`r`n"                                            + `
+                            [ProjectManagerCommon]::OutputMetaProjectInformation($projectInformation)   );
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                    # Initial message
@@ -190,9 +191,9 @@ class ProjectManagerUninstall
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ( `
-                                "Project Target Path:`r`n"                                  + `
-                                "`t`t$($projectToUninstall)`r`n"                            + `
-                                "$([ProjectManagerCommon]::OutputMetaProjectInformation())" );
+                            "Project Target Path:`r`n"                                                  + `
+                            "`t`t$($projectToUninstall)`r`n"                                            + `
+                            [ProjectManagerCommon]::OutputMetaProjectInformation($projectInformation)   );
 
 
             # Pass the information to the logging system
@@ -229,10 +230,10 @@ class ProjectManagerUninstall
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ( `
-                                "Target was supposed to be removed, but still exists.`r`n"  + `
-                                "`tProject Target Path:`r`n"                                + `
-                                "`t`t$($projectToUninstall)`r`n"                            + `
-                                "$([ProjectManagerCommon]::OutputMetaProjectInformation())" );
+                            "Target was supposed to be removed, but still exists.`r`n"                  + `
+                            "`tProject Target Path:`r`n"                                                + `
+                            "`t`t$($projectToUninstall)`r`n"                                            + `
+                            [ProjectManagerCommon]::OutputMetaProjectInformation($projectInformation)   );
 
 
             # Pass the information to the logging system
@@ -281,9 +282,9 @@ class ProjectManagerUninstall
 
         # Generate any additional information that might be useful
         [string] $logAdditionalMSG = ( `
-                                    "Project Target Path:`r`n"                                  + `
-                                    "`t`t$($projectToUninstall)`r`n"                            + `
-                                    "$([ProjectManagerCommon]::OutputMetaProjectInformation())" );
+                        "Project Target Path:`r`n"                                                  + `
+                        "`t`t$($projectToUninstall)`r`n"                                            + `
+                        [ProjectManagerCommon]::OutputMetaProjectInformation($projectInformation)   );
 
 
         # Pass the information to the logging system
