@@ -272,6 +272,8 @@ class ProjectManagerUninstall
         [Logging]::DisplayMessage(  "Successfully uninstalled $($projectInformation.GetProjectName())!`r`n" + `
                                     "`tProject Name:`r`n"                                                   + `
                                     "`t`t$($projectInformation.GetProjectName())`r`n"                       + `
+                                    "`tProject Code Name:`r`n"                                              + `
+                                    "`t`t$($projectInformation.GetProjectCodeName())`r`n"                   + `
                                     "`tProject Revision ID:`r`n"                                            + `
                                     "`t`t$($projectInformation.GetProjectRevision())`r`n"                   + `
                                     "`tProject Signature:`r`n"                                              + `
