@@ -739,10 +739,6 @@ class ProjectMetaData
     #>
     [bool] SetProjectCodeName([string] $newValue)
     {
-        # Make sure that the value is not null; if null - do not update.
-        if ([CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
-
-
         # Update the value as requested.
         $this.__projectCodeName = $newValue;
 
@@ -831,10 +827,6 @@ class ProjectMetaData
     #>
     [bool] SetProjectURLWebsite([string] $newValue)
     {
-        # Make sure that the value is not null; if null - do not update.
-        if ([CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
-
-
         # Update the value as requested.
         $this.__projectURLWebsite = $newValue;
 
@@ -863,10 +855,6 @@ class ProjectMetaData
     #>
     [bool] SetProjectURLWiki([string] $newValue)
     {
-        # Make sure that the value is not null; if null - do not update.
-        if ([CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
-
-
         # Update the value as requested.
         $this.__projectURLWiki = $newValue;
 
@@ -895,10 +883,6 @@ class ProjectMetaData
     #>
     [bool] SetProjectURLSourceCode([string] $newValue)
     {
-        # Make sure that the value is not null; if null - do not update.
-        if ([CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
-
-
         # Update the value as requested.
         $this.__projectURLSourceCode = $newValue;
 
