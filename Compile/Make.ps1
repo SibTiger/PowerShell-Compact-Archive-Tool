@@ -247,6 +247,7 @@ function MakeCompilerDriver()
                         "SettingsGit.ps1", `
                         "ProjectManager.ps1", `
                         "ProjectManagerInstallation.ps1", `
+                        "ProjectManagerLoadProject.ps1", `
                         "ProjectManagerCommon.ps1", `
                         "ProjectManagerUninstall.ps1", `
                         "ProjectManagerShowProjects.ps1", `
