@@ -843,4 +843,93 @@
         # Return the string containing the Project Information.
         return $projectInformationString;
     } # OutputMetaProjectInformation()
+
+
+
+
+   <# Draw Table Project Information
+    # -------------------------------
+    # Documentation:
+    #  This function will show a list of projects that had been installed into the PowerShell Compact-Archive
+    #   Tool's environment to the user.
+    # -------------------------------
+    # Input:
+    #  [System.Collections.ArrayList] {ProjectMetaData} List of Installed Projects
+    #   This will provide information as to what projects had been installed within the program's environment.
+    # -------------------------------
+    #>
+    static [void] DrawTableProjectInformation([System.Collections.ArrayList] $listOfProjects)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Create an empty array that will soon hold project information that will be presented to the user.
+        $projectTableView = @();
+
+        # Logging Output of the project information
+        [string] $projectLoggingInformation = $NULL;
+
+        # Keep count of how many projects are installed
+        [UInt64] $countInstalls = 0;
+        # ----------------------------------------
+
+        # Iterate through each installed project and populate the rows for the table.
+        foreach ($project in $listOfProjects)
+        {
+            # Increment the Counter
+            $countInstalls++;
+
+            # Build the table columns
+            $row                = "" | Select-Object Item, Project, CodeName, Revision;
+
+            # Build the table row
+            $row.Item           = $countInstalls;
+            $row.Project        = $project.GetProjectName();
+            $row.CodeName       = $project.GetProjectCodeName();
+            $row.Revision       = $project.GetProjectRevision();
+
+            # Append row to the table array
+            $projectTableView += $row;
+
+            # Build the Logging information
+            $projectLoggingInformation += ( "`tItem:                $($countInstalls.ToString())`r`n"                   + `
+                                            "`t`tProject Name:      $($project.GetProjectName())`r`n"                   + `
+                                            "`t`tProject Code Name: $($project.GetProjectCodeName())`r`n"               + `
+                                            "`t`tRevision:          $($project.GetProjectRevision().ToString())`r`n"    + `
+                                            "`t`tOutput Filename:   $($project.GetProjectOutputFileName())`r`n"         + `
+                                            "`t`tProject Website:   $($project.GetProjectURLWebsite())`r`n"             + `
+                                            "`t`tProject Wiki:      $($project.GetProjectURLWiki())`r`n"                + `
+                                            "`t`tProject Source:    $($project.GetProjectURLSourceCode())`r`n"          + `
+                                            "`t`tSignature:         $($project.GetMetaGUID())`r`n"                      + `
+                                            "`r`n`r`n");
+        } # foreach : Iterate all Projects
+
+
+        # Show the table to the user
+        Format-Table                        `
+            -InputObject $projectTableView  `
+            -AutoSize                       `
+            -Wrap                           `
+                | Out-Host;
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        [string] $logMessage = ("Providing user with list of installed projects using a table.");
+
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = ("Installation Path for $($GLOBAL:_PROGRAMNAMESHORT_) Projects:`r`n"   + `
+                                        "`t`t$($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_)`r`n"        + `
+                                        "`tInstalled Projects List:`r`n"                                    + `
+                                        "$($projectLoggingInformation)");
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
+    } # DrawTableProjectInformation()
 } # ProjectManagerCommon
