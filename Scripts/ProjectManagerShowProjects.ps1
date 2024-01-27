@@ -99,7 +99,11 @@ class ProjectManagerShowProjects
 
 
         # Show the user the list of installed projects
-        [ProjectManagerShowProjects]::__ShowListOfProjects($listOfProjectsInstalled);
+        [ProjectManagerCommon]::DrawTableProjectInformation($listOfProjectsInstalled);
+
+
+        # Allow the user to read the output
+        [CommonIO]::FetchEnterKey();
 
 
         # Finished
