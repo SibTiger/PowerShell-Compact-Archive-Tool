@@ -161,10 +161,10 @@ class ProjectManagerShowProjects
 
 
             # Build the table row
-            $row                = "" | Select-Object Item, DirectoryName, Project, Revision;
+            $row                = "" | Select-Object Item, Project, CodeName, Revision;
             $row.Item           = $countInstalls;
-            $row.DirectoryName  = $project.GetProgramDirectoryName();
             $row.Project        = $project.GetProjectName();
+            $row.CodeName       = $project.GetProjectCodeName();
             $row.Revision       = $project.GetProjectRevision();
 
             # Append row to the table array
