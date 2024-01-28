@@ -378,7 +378,7 @@ class ProjectInformation
 
 
 
-   <# Deteine Assignmen: Website
+   <# Determine Assigned: Website
     # -------------------------------
     # Documentation:
     #  This determines if the 'Website URL' variable had been populated
