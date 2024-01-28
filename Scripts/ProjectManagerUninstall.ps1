@@ -132,7 +132,7 @@ class ProjectManagerUninstall
             $menuLoop = [ProjectManagerUninstall]::__EvaluateExecuteUserRequest($userInput,                 `
                                                                                 $listOfProjectsInstalled);
         } while($menuLoop);
-    } # __Main()
+    } # Main()
 
 
 
