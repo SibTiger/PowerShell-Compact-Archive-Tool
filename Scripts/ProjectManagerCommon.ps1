@@ -30,8 +30,28 @@
 
 
 
- class ProjectManagerCommon
- {
+class ProjectManagerCommon
+{
+   <# Draw Main Instructions - SelectFromTable
+    # -------------------------------
+    # Documentation:
+    #  Provide the instructions to the user regarding how to select a PSCAT Project from the table.
+    #   Allow for other options to be visible as well.
+    # -------------------------------
+    #>
+    hidden static [void] __DrawMenuInstructionsForTable()
+    {
+        # Alert the user of the Item Column is used to select the desired project.
+        [Logging]::DisplayMessage("To select a $($GLOBAL:_PROGRAMNAMESHORT_) Project, use the Item Number.");
+
+        # Show the standard instructions
+        [CommonCUI]::DrawMenuInstructions();
+    } # __DrawMenuInstructionsForTable()
+
+
+
+
+
    <# Get Installed Projects
     # -------------------------------
     # Documentation:
