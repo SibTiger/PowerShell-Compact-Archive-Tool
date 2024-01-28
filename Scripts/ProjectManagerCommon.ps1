@@ -876,7 +876,7 @@ class ProjectManagerCommon
         # Declarations and Initializations
         # ----------------------------------------
         # Create an empty array that will soon hold project information that will be presented to the user.
-        $projectTableView = @();
+        [System.Object[]] $projectTableView = @();
 
         # Logging Output of the project information
         [string] $projectLoggingInformation = $NULL;
