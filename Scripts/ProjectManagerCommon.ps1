@@ -22,9 +22,9 @@
  # ------------------------------
  # ==============================
  # ==============================
- # This class only contains common functions that will be used for the Project Manager functionality.  These
- #  functions are only intended to be used for the Project Manager, as these methods are designed to be
- #  shared for various parent algorithms.
+ # This class only contains common functions that will be utilized within the Project Manager functionalities.
+ #  Within this class, contains common algorithms and methods that can be used freely within the Project
+ #  Manager classes.
  #>
 
 
@@ -35,13 +35,13 @@ class ProjectManagerCommon
    <# Draw Main Instructions - SelectFromTable
     # -------------------------------
     # Documentation:
-    #  Provide the instructions to the user regarding how to select a PSCAT Project from the table.
-    #   Allow for other options to be visible as well.
+    #  Provide instructions to the user regarding how to select a project from the given table.  Also allow
+    #     for other options to be visible as well.
     # -------------------------------
     #>
     hidden static [void] __DrawMenuInstructionsForTable()
     {
-        # Alert the user of the Item Column is used to select the desired project.
+        # Alert the user of the Item Column, the Item Number is used to select the desired project.
         [Logging]::DisplayMessage("To select a $($GLOBAL:_PROGRAMNAMESHORT_) Project, use the Item Number.");
 
         # Show the standard instructions
@@ -192,15 +192,15 @@ class ProjectManagerCommon
                                             "`t`t`t$($file.Name)`r`n"                           + `
                                             "`t`tFull Path:`r`n"                                + `
                                             "`t`t`t$($file.FullName)`r`n"                       + `
-                                            "`t - - - - - - - - - - - - - - - - - - - -`r`n");
+                                            "`t - - - - - - - - - - - - - - - - - - - -`r`n"    );
                 } # foreach : Scan Each Project Found
             } # If : One or More Projects found
 
 
             # Pass the information to the logging system
-            [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                        $logAdditionalMSG, `        # Additional information
-                                        [LogMessageLevel]::Verbose);# Message level
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
         } # try : Obtain List of Meta Files
@@ -318,10 +318,8 @@ class ProjectManagerCommon
             } # if : Failed to Read Meta File
 
 
-
             # Finally, add the new entry into the main project list.
             $installedProjects.Add($newProjectEntry);
-
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -332,9 +330,8 @@ class ProjectManagerCommon
             [string] $logMessage = ("Successfully found $($GLOBAL:_PROGRAMNAMESHORT_) Project, $($newProjectEntry.GetProjectName())!");
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Project information that had been collected:`r`n"                + `
+            [string] $logAdditionalMSG = ("Project information that had been collected:`r`n"                        + `
                                             [ProjectManagerCommon]::OutputMetaProjectInformation($newProjectEntry));
-
 
 
             # Pass the information to the logging system
@@ -343,8 +340,6 @@ class ProjectManagerCommon
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
-
-
         } #foreach
 
 
@@ -466,8 +461,6 @@ class ProjectManagerCommon
 
 
             # * * * * * * * * * * * * * * * * * * *
-
-
         } # try : Retrieve the Contents from File
 
         # Caught an error
@@ -560,7 +553,6 @@ class ProjectManagerCommon
             # ----------------------------------------
             # This will show the line number in which a string appears within the meta file.
             [UInt64] $metaLineNumber                        = 0;
-
 
             # Only used to show all of the meta contents in a formatted view.
             [System.Collections.ArrayList] $cacheStringList = [System.Collections.ArrayList]::new();
@@ -662,7 +654,6 @@ class ProjectManagerCommon
             # This will show the line number in which a string appears within the meta file.
             [UInt64] $metaLineNumber                        = 0;
 
-
             # Only used to show all of the meta contents in a formatted view.
             [System.Collections.ArrayList] $cacheStringList = [System.Collections.ArrayList]::new();
             # ----------------------------------------
@@ -738,6 +729,8 @@ class ProjectManagerCommon
             ($projectMetaData.Value.SetProjectURLSourceCode($tempProjectURLSourceCode)      -eq $false) -or `
             ($projectMetaData.Value.SetMetaGUID($tempProjectGUID)                           -eq $false))
         {   # Log this information and record what had failed.
+
+
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
