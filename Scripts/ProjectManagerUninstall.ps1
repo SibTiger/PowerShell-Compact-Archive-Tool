@@ -40,7 +40,7 @@ class ProjectManagerUninstall
     #   safely removed from the program's environment.
     # -------------------------------
     #>
-    hidden static [void] __Main()
+    static [void] Main()
     {
         # Declarations and Initializations
         # ----------------------------------------
