@@ -431,12 +431,7 @@ class ProjectManagerUninstall
                                     "`tProject Code Name:`r`n"                                              + `
                                     "`t`t$($projectToRemove.GetProjectCodeName())`r`n"                      + `
                                     "`tProject Revision ID:`r`n"                                            + `
-                                    "`t`t$($projectToRemove.GetProjectRevision())`r`n"                      + `
-                                    "`tProject Signature:`r`n"                                              + `
-                                    "`t`t$($projectToRemove.GetMetaGUID())`r`n"                             + `
-                                    "`tProject Target Path:`r`n"                                            + `
-                                    "`t`t$($projectToRemove.GetMetaFilePath())"                             );
-
+                                    "`t`t$($projectToRemove.GetProjectRevision())"                          );
 
 
         # * * * * * * * * * * * * * * * * * * *
@@ -502,9 +497,7 @@ class ProjectManagerUninstall
                             "---------------------------------------------`r`n"             + `
                             "Name:      $($projectToRemove.GetProjectName())`r`n"           + `
                             "Codenamed: $($projectToRemove.GetProjectCodeName())`r`n"       + `
-                            "Revision:  $($projectToRemove.GetProjectRevision())`r`n"       + `
-                            "Signature: $($projectToRemove.GetMetaGUID())`r`n"              + `
-                            "Path:      $($projectToRemove.GetMetaFilePath())"              );
+                            "Revision:  $($projectToRemove.GetProjectRevision())"           );
 
 
         # Confirm that the user wants to remove the project
