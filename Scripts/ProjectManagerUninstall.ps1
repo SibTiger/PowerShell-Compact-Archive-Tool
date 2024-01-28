@@ -23,7 +23,7 @@
  # ==============================
  # ==============================
  # This class will provide the ability for the user to uninstall PowerShell Compact-Archive Tool projects.
- #  Removing Projects will come necessary when needing to delete data this is no longer necessary, or
+ #  Removing Projects will come necessary when needing to delete data that is no longer necessary, or
  #  if wanting to discard an outdated version for a newer version.  Or, hopefully never coming to this,
  #  discarding a buggy project version in exchange for cleaner version.
  #>
@@ -37,7 +37,7 @@ class ProjectManagerUninstall
     # -------------------------------
     # Documentation:
     #   This function will drive the uninstallation procedure such that the desired PSCAT Projects are
-    #   safely removed from the environment.
+    #   safely removed from the program's environment.
     # -------------------------------
     #>
     hidden static [void] __Main()
@@ -51,8 +51,7 @@ class ProjectManagerUninstall
         [string] $userInput = $NULL;
 
         # This variable will determine if the user is to remain within the current menu loop.  If the
-        #   user were to exit from the menu, this variable's state will be set as false.  Thus, with
-        #   a value - they may leave from the menu.
+        #   user were to exit from the menu, this variable's state will be set as false.
         [bool] $menuLoop = $true;
         # ----------------------------------------
 
@@ -74,7 +73,7 @@ class ProjectManagerUninstall
             [CommonCUI]::DrawProgramTitleHeader();
 
 
-            # Show the user that they are are at the Uninstall Project Menu
+            # Show the user that they are at the Uninstall Project Menu
             [CommonCUI]::DrawSectionHeader("Uninstall $($GLOBAL:_PROGRAMNAMESHORT_) Projects");
 
 
@@ -141,12 +140,12 @@ class ProjectManagerUninstall
    <# Project Manager Uninstaller - Show User List of Installed Projects
     # -------------------------------
     # Documentation:
-    #  This project is designed to show the user what projects are presently installed within PSCAT's
+    #  This function is designed to show the user what projects are presently installed within PSCAT's
     #   current environment.
     # -------------------------------
     # Input:
     #  [System.Collections.ArrayList] List of Projects that are Installed
-    #   This intended to be returned to the calling function such that the user can properly select the
+    #   This is intended to be returned to the calling function such that the user can properly select the
     #   desired project to remove.
     # -------------------------------
     # Output:
@@ -195,10 +194,8 @@ class ProjectManagerUninstall
         } # if : No Installed Projects Found
 
 
-
         # Show the list of installed projects to the user
         [ProjectManagerCommon]::DrawTableProjectInformation($listOfProjectsInstalled);
-
 
 
         # Finished
@@ -211,12 +208,14 @@ class ProjectManagerUninstall
    <# Project Manager Uninstaller - Extra Menu Items
     # -------------------------------
     # Documentation:
-    #  Show extra menu items to the user that are available within the Project Manager Uninstallation
+    #  Present extra menu items that are available within the menu.
     # -------------------------------
     #>
     hidden static [void] __ShowUserExtraMenuItems()
     {
+        # Other Options Section
         [Logging]::DisplayMessage("Other Options:");
+
 
         # Return back to the previous menu
         [CommonCUI]::DrawMenuItem('X', `
@@ -236,8 +235,8 @@ class ProjectManagerUninstall
     #   Project Manager Uninstaller's menu options given.
     # -------------------------------
     # [string] User's Request
-    #  User's request to uninstall a specific PSCAT Project OR to run
-    #   a specific operation that is available within the menu.
+    #  User's request to uninstall a specific PSCAT Project OR to run a specific operation that
+    #   is available within the menu.
     # [System.Collections.ArrayList] List of Projects Installed
     #  A list of projects that are installed within PowerShell Compact-Archive Tool's environment.
     # -------------------------------
@@ -253,10 +252,10 @@ class ProjectManagerUninstall
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Did the user wish to return to the previous menu?
+        # Determines if the user wants to stay within the menu.
         [bool] $stayInMenu = $true;
 
-        # Bad Input was Given
+        # Determines if the input provided by the user was incorrect.
         [bool] $badInput = $false;
         # ----------------------------------------
 
@@ -270,18 +269,17 @@ class ProjectManagerUninstall
 
 
             # Determine if the user's request is within the range of the Projects that are installed.
+            #   In this check, we want to determine if the number is outside the bounds of the list.
             if (($userRequestNumber -gt $listOfProjectsInstalled.Count) -or `   # Number exceeds the list
                 ($userRequestNumber -eq 0))                                     # Number is equal to zero
-            {
-                # User selected a number that is outside of the boundary.
-                $badInput = $true;
-            } # if : User Selected Outside List Range
+            { $badInput = $true; }
+
 
             # Delete the desired project
             else
             {
-                # Because the table shows each row within the table as 'natural' numbers, we will need to
-                #   convert back to whole numbers.
+                # Because the table shows each row as 'natural' numbers, we will need to convert the numbers
+                #   to the whole numbers format.
                 $userRequestNumber--;
 
                 # Uninstall the project as requested
@@ -290,7 +288,7 @@ class ProjectManagerUninstall
         } # Try : User Provided Numerical Value
 
 
-        # The user had provided non-numerical value.
+        # The user had provided a non-numerical value.
         catch
         {
             # Evaluate the user's non-numerical value
@@ -314,7 +312,6 @@ class ProjectManagerUninstall
         } # catch : User Provided Non-Numerical Value
 
 
-
         # Was Bad Input given?
         if ($badInput)
         {
@@ -328,7 +325,6 @@ class ProjectManagerUninstall
         } # if : User Provided Incorrect Input
 
 
-
         # Finished
         return $stayInMenu;
     } # __EvaluateExecuteUserRequest()
@@ -339,7 +335,8 @@ class ProjectManagerUninstall
    <# Project Manager Uninstaller - Uninstall Project Driver
     # -------------------------------
     # Documentation:
-    #  This function will try to remove the desired project from PSCAT's environment as requested by the user.
+    #  This function will try to remove the desired project from the PSCAT's environment as requested by
+    #   the user.
     # -------------------------------
     # [ProjectMetaData] Project to Remove
     #   The PowerShell Compact-Archive Tool Project that will be removed from the program's environment.
@@ -373,8 +370,8 @@ class ProjectManagerUninstall
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage($logMessage, `                # Message to display
-                                        [LogMessageLevel]::Warning);# Message level
+            [Logging]::DisplayMessage($logMessage, `                        # Message to display
+                                        [LogMessageLevel]::Warning);        # Message level
 
             # Alert the user through a message box as well that an issue had occurred;
             #   the message will be brief as the full details remain within the terminal.
@@ -386,7 +383,6 @@ class ProjectManagerUninstall
             # Abort the operation.
             return;
         } # if : User Canceled Operation
-
 
 
         # Delete the project as requested
@@ -413,8 +409,8 @@ class ProjectManagerUninstall
 
             # Display a message to the user that something went horribly wrong
             #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage($logMessage, `                # Message to display
-                                        [LogMessageLevel]::Error);  # Message level
+            [Logging]::DisplayMessage($logMessage, `                        # Message to display
+                                        [LogMessageLevel]::Error);          # Message level
 
             # Alert the user through a message box as well that an issue had occurred;
             #   the message will be brief as the full details remain within the terminal.
@@ -480,16 +476,16 @@ class ProjectManagerUninstall
    <# Project Manager Uninstaller - Confirm to Uninstall
     # -------------------------------
     # Documentation:
-    #  Prompt the user with a confirmation; in which the user will need to explicitly state that they want
-    #   to delete the PowerShell Compact-Archive Tool Project from the environment.
+    #  Prompt the user with a confirmation, in which the user will need to explicitly state that they want
+    #   to delete the requested PowerShell Compact-Archive Tool Project from the environment.
     # -------------------------------
     # [ProjectMetaData] Project to Remove
     #   The PowerShell Compact-Archive Tool Project that will be removed from the program's environment.
     # -------------------------------
     # Output:
     #  [bool] Confirmation Result
-    #   $true  = User wishes to continue with uninstallation.
-    #   $false = User wants to cancel the operation.
+    #   $true  = User wishes to continue with the uninstallation.
+    #   $false = User wants to cancel the uninstallation.
     # -------------------------------
     #>
     hidden static [bool] __UninstallProjectConfirm([ProjectMetaData] $projectToRemove)
