@@ -424,6 +424,10 @@ class ProjectManagerUninstall
         } # If : Failure to Delete Directory
 
 
+        # Provide some whitespace padding.
+        [Logging]::DisplayMessage("`r`n`r`n");
+
+
         # If we made it this far, then the operation was successful!
         [Logging]::DisplayMessage(  "Successfully uninstalled $($projectToRemove.GetProjectName())!`r`n"    + `
                                     "`tProject Name:`r`n"                                                   + `
@@ -432,6 +436,10 @@ class ProjectManagerUninstall
                                     "`t`t$($projectToRemove.GetProjectCodeName())`r`n"                      + `
                                     "`tProject Revision ID:`r`n"                                            + `
                                     "`t`t$($projectToRemove.GetProjectRevision())"                          );
+
+
+        # Provide some whitespace padding.
+        [Logging]::DisplayMessage("`r`n");
 
 
         # * * * * * * * * * * * * * * * * * * *
