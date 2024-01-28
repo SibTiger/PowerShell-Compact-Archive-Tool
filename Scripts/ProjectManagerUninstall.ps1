@@ -26,9 +26,6 @@
  #  Removing Projects will come necessary when needing to delete data this is no longer necessary, or
  #  if wanting to discard an outdated version for a newer version.  Or, hopefully never coming to this,
  #  discarding a buggy project version in exchange for cleaner version.
- #
- # DEVELOPER NOTES:
- #  We will rely heavily on the CommonGUI and CommonIO in order to make this functionality easier for the user.
  #>
 
 
@@ -43,119 +40,331 @@ class ProjectManagerUninstall
     #   safely removed from the environment.
     # -------------------------------
     #>
-    hidden static [bool] __Main()
+    hidden static [void] __Main()
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # This will contain what project (absolute path) to be uninstalled.
-        [string] $projectToUninstall = $NULL;
+        # This variable will contain a list of projects that had been installed within the environment.
+        [System.Collections.ArrayList] $listOfProjectsInstalled = [System.Collections.ArrayList]::New();
 
-        # Project's information within the meta data
-        [ProjectMetaData] $projectInformation = [ProjectMetaData]::New();
+        # This variable will hold the user's input as they navigate within the menu.
+        [string] $userInput = $NULL;
 
-        # This variable will be used as a confirmation string
-        [string] $confirmString = "Are you sure you want to delete this project?`r`n";
+        # This variable will determine if the user is to remain within the current menu loop.  If the
+        #   user were to exit from the menu, this variable's state will be set as false.  Thus, with
+        #   a value - they may leave from the menu.
+        [bool] $menuLoop = $true;
         # ----------------------------------------
 
 
 
-        # Provide the instructions
-        [ProjectManagerUninstall]::__DrawMainInstructions();
-
-
-        # Provide some whitespace padding.
-        [Logging]::DisplayMessage("`r`n`r`n");
-
-
-        # Obtain the projects that the user wises to uninstall.
-        if (![ProjectManagerUninstall]::__GetProjectToDelete([ref]$projectToUninstall))
+        # Present the Project Uninstallation Menu to the user
+        do
         {
-            # Alert the user that they had aborted the operation.
-            [Logging]::DisplayMessage("User had aborted the uninstallation operation!`r`nReturning back to previous menu...");
+            # Clear the list of projects
+            $listOfProjectsInstalled.Clear();
 
 
-            # Provide some whitespace padding
+            # Clear the terminal of all previous text; keep the space clean so that it is easier
+            #   for the user to read the information presented.
+            [CommonIO]::ClearBuffer();
+
+
+            # Draw Program Information Header
+            [CommonCUI]::DrawProgramTitleHeader();
+
+
+            # Show the user that they are are at the Uninstall Project Menu
+            [CommonCUI]::DrawSectionHeader("Uninstall $($GLOBAL:_PROGRAMNAMESHORT_) Projects");
+
+
+            # Provide the instructions
+            [ProjectManagerCommon]::__DrawMenuInstructionsForTable();
+
+
+            # Show the list of projects to the user; we will also obtain the list of projects, the user
+            #   will use this list to select what to uninstall.
+            if (![ProjectManagerUninstall]::__ShowUserListOfInstalledProjects($listOfProjectsInstalled))
+            {
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+                # Generate the initial message
+                [string] $logMessage = ("Unable to uninstall any $($GLOBAL:_PROGRAMNAMESHORT_) Projects!");
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = $NULL;
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity(  $logMessage, `                  # Initial message
+                                                $logAdditionalMSG, `            # Additional information
+                                                [LogMessageLevel]::Warning);    # Message level
+
+                # Display a message to the user that there was no projects found and log that same message for
+                #  referencing purpose.
+                [Logging]::DisplayMessage($logMessage, `                    # Message to display
+                                            [LogMessageLevel]::Warning);    # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
+                # Abort the uninstallation procedure.
+                return;
+            } # if : No Projects Available
+
+
+            # Provide some whitespace padding.
+            [Logging]::DisplayMessage("`r`n");
+
+
+            # Show the user the extra menu items.
+            [ProjectManagerUninstall]::__ShowUserExtraMenuItems();
+
+
+            # Provide some whitespace padding.
             [Logging]::DisplayMessage("`r`n`r`n");
 
 
-            # Allow the user to see the feedback before returning back to the previous menu.
-            [CommonIO]::FetchEnterKey();
+            # Get the user's Feedback
+            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
 
 
-            # Go back to the previous menu
-            return $false;
-        } # if : User Cancelled
+            # Execute the user's request
+            $menuLoop = [ProjectManagerUninstall]::__EvaluateExecuteUserRequest($userInput,                 `
+                                                                                $listOfProjectsInstalled);
+        } while($menuLoop);
+    } # __Main()
 
 
-        # Provide some whitespace padding
-        [Logging]::DisplayMessage("`r`n`r`n");
 
 
-        # Obtain the name of the project via the Meta
-        if (![ProjectManagerCommon]::__ReadMetaFile($projectToUninstall + "\" + $GLOBAL:_META_FILENAME_,    `
-                                                    [ref]$projectInformation))
+   <# Project Manager Uninstaller - Show User List of Installed Projects
+    # -------------------------------
+    # Documentation:
+    #  This project is designed to show the user what projects are presently installed within PSCAT's
+    #   current environment.
+    # -------------------------------
+    # Input:
+    #  [System.Collections.ArrayList] List of Projects that are Installed
+    #   This intended to be returned to the calling function such that the user can properly select the
+    #   desired project to remove.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit Code
+    #     $false = Operation had failed
+    #     $true  = Operation was successful
+    # -------------------------------
+    #>
+    hidden static [bool] __ShowUserListOfInstalledProjects([System.Collections.ArrayList] $listOfProjectsInstalled)
+    {
+        # Obtain a list of installed projects
+        if ((![ProjectManagerCommon]::__GetInstalledProjects($listOfProjectsInstalled)) -or `   # Failure occurred
+            ($NULL -eq $listOfProjectsInstalled)                                        -or `   # No installs found
+            ($listOfProjectsInstalled.Count -eq 0))                                             # No installs found
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
-
             # Generate the initial message
-            [string] $logMessage = ("Unable to delete the desired project as the Project's Meta File could not be accessed!");
+            [string] $logMessage = ("Unable to find any installed $($GLOBAL:_PROGRAMNAMESHORT_) Projects!`r`n" + `
+                                    "You may need to install new projects into $($GLOBAL:_PROGRAMNAME_).");
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Project Target Path:`r`n"        + `
-                                            "`t$($projectToUninstall)");
+            [string] $logAdditionalMSG = ("Installation Path for $($GLOBAL:_PROGRAMNAMESHORT_) Projects:`r`n"   + `
+                                            "`t`t$($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
                                         $logAdditionalMSG, `            # Additional information
-                                        [LogMessageLevel]::Error);      # Message level
+                                        [LogMessageLevel]::Warning);    # Message level
 
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage($logMessage, `                # Message to display
-                                        [LogMessageLevel]::Error);  # Message level
+            # Display a message to the user that there was no projects found and log that same message for
+            #  referencing purpose.
+            [Logging]::DisplayMessage($logMessage, `                    # Message to display
+                                        [LogMessageLevel]::Warning);    # Message level
 
-            # Alert the user through a message box as well that an issue had occurred;
+            # Alert the user through a message box as well that an event had occurred;
             #   the message will be brief as the full details remain within the terminal.
-            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Warning) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Go back to the previous menu
+            # Finished; nothing more we can do.
             return $false;
-        } # if : Unable to Fetch Meta File
+        } # if : No Installed Projects Found
 
 
-        # Complete the Confirmation string with the project meta data that was obtained.
-        $confirmString += ( "Name:      $($projectInformation.GetProjectName())`r`n"        + `
-                            "Codenamed: $($projectInformation.GetProjectCodeName())`r`n"    + `
-                            "Revision:  $($projectInformation.GetProjectRevision())`r`n"    + `
-                            "Signature: $($projectInformation.GetMetaGUID())`r`n"           + `
-                            "Path:      $($projectToUninstall)");
+
+        # Show the list of installed projects to the user
+        [ProjectManagerCommon]::DrawTableProjectInformation($listOfProjectsInstalled);
 
 
-        # Confirm that the user wants to remove the project
-        if([CommonGUI]::MessageBox($confirmString,                              `
-                                [System.Windows.MessageBoxImage]::Question,     `
-                                [System.Windows.MessageBoxButton]::OKCancel,    `
-                                [System.Windows.MessageBoxResult]::Cancel)      `
-                                    -eq                                         `
-                                [System.Windows.MessageBoxResult]::Cancel)
+
+        # Finished
+        return $true;
+    } # __ShowUserListOfInstalledProjects()
+
+
+
+
+   <# Project Manager Uninstaller - Extra Menu Items
+    # -------------------------------
+    # Documentation:
+    #  Show extra menu items to the user that are available within the Project Manager Uninstallation
+    # -------------------------------
+    #>
+    hidden static [void] __ShowUserExtraMenuItems()
+    {
+        [Logging]::DisplayMessage("Other Options:");
+
+        # Return back to the previous menu
+        [CommonCUI]::DrawMenuItem('X', `
+                                "Go back to previous menu", `
+                                $NULL, `
+                                $NULL, `
+                                $false);
+    } # __ShowUserExtraMenuItems()
+
+
+
+
+   <# Project Manager Uninstaller - Evaluate and Execute User's Request
+    # -------------------------------
+    # Documentation:
+    #  This function will evaluate and execute the user's desired request in respect to the
+    #   Project Manager Uninstaller's menu options given.
+    # -------------------------------
+    # [string] User's Request
+    #  User's request to uninstall a specific PSCAT Project OR to run
+    #   a specific operation that is available within the menu.
+    # [System.Collections.ArrayList] List of Projects Installed
+    #  A list of projects that are installed within PowerShell Compact-Archive Tool's environment.
+    # -------------------------------
+    # Output:
+    #  [bool] User Stays at Menu
+    #   This defines if the user is to remain at the Menu screen.
+    #   $true  = User is to remain at the Menu.
+    #   $false = User requested to leave the Menu.
+    # -------------------------------
+    #>
+    hidden static [bool] __EvaluateExecuteUserRequest([string] $userRequest,                                  ` # User's Request to Execute
+                                                    [System.Collections.ArrayList] $listOfProjectsInstalled)    # List of Projects that are Installed
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Did the user wish to return to the previous menu?
+        [bool] $stayInMenu = $true;
+
+        # Bad Input was Given
+        [bool] $badInput = $false;
+        # ----------------------------------------
+
+
+
+        # If the user provided a numerical value, we will need to cast it from a string data type.
+        try
         {
+            # Try to cast the user's input as a numerical value - if possible.
+            [UInt64] $userRequestNumber = [Convert]::ToUInt64($userRequest);
+
+
+            # Determine if the user's request is within the range of the Projects that are installed.
+            if (($userRequestNumber -gt $listOfProjectsInstalled.Count) -or `   # Number exceeds the list
+                ($userRequestNumber -eq 0))                                     # Number is equal to zero
+            {
+                # User selected a number that is outside of the boundary.
+                $badInput = $true;
+            } # if : User Selected Outside List Range
+
+            # Delete the desired project
+            else
+            {
+                # Because the table shows each row within the table as 'natural' numbers, we will need to
+                #   convert back to whole numbers.
+                $userRequestNumber--;
+
+                # Uninstall the project as requested
+                [ProjectManagerUninstall]::__UninstallProject($listOfProjectsInstalled[$userRequestNumber]);
+            } # else : Uninstall the Project
+        } # Try : User Provided Numerical Value
+
+
+        # The user had provided non-numerical value.
+        catch
+        {
+            # Evaluate the user's non-numerical value
+            switch ($userRequest)
+            {
+                # Exit
+                #  NOTE: Allow the user's request when they type: 'Exit', 'Quit', 'Abort', 'Cancel',
+                #   'Return', as well as 'X'.
+                {   ($userRequest -eq "X")      -or `
+                    ($userRequest -eq "Exit")   -or `
+                    ($userRequest -eq "Quit")   -or `
+                    ($userRequest -eq "Abort")  -or `
+                    ($userRequest -eq "Return") -or `
+                    ($userRequest -eq "Cancel")}
+                { $stayInMenu = $false; }
+
+                # Unknown Value
+                default
+                { $badInput = $true; }
+            } # Switch : Evaluate Non-Numerical Value
+        } # catch : User Provided Non-Numerical Value
+
+
+
+        # Was Bad Input given?
+        if ($badInput)
+        {
+            # Alert the user that they had provided an incorrect option.
+            [NotificationAudible]::Notify([NotificationAudibleEventType]::IncorrectOption);
+
+
+            # Provide an error message to the user that the option they chose is
+            #  not available.
+            [CommonCUI]::DrawIncorrectMenuOption();
+        } # if : User Provided Incorrect Input
+
+
+
+        # Finished
+        return $stayInMenu;
+    } # __EvaluateExecuteUserRequest()
+
+
+
+
+   <# Project Manager Uninstaller - Uninstall Project Driver
+    # -------------------------------
+    # Documentation:
+    #  This function will try to remove the desired project from PSCAT's environment as requested by the user.
+    # -------------------------------
+    # [ProjectMetaData] Project to Remove
+    #   The PowerShell Compact-Archive Tool Project that will be removed from the program's environment.
+    # -------------------------------
+    #>
+    hidden static [void] __UninstallProject([ProjectMetaData] $projectToRemove)
+    {
+        # Confirm with the user if they /really/ wish to delete the project.
+        if (![ProjectManagerUninstall]::__UninstallProjectConfirm($projectToRemove))
+        {
+            # User had canceled the operation
+
+
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = ("Uninstallation had been cancelled by the user!");
+            [string] $logMessage = ("Uninstallation had been canceled by the user.");
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = (  `
                             "Project Target Path:`r`n"                                                  + `
-                            "`t`t$($projectToUninstall)`r`n"                                            + `
-                            [ProjectManagerCommon]::OutputMetaProjectInformation($projectInformation)   );
+                            "`t`t$($projectToRemove.GetMetaFilePath())`r`n"                             + `
+                            [ProjectManagerCommon]::OutputMetaProjectInformation($projectToRemove)      );
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                    # Initial message
@@ -174,26 +383,27 @@ class ProjectManagerUninstall
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Go back to the previous menu
-            return $false;
-        } # If : User Canceled the Operation
+            # Abort the operation.
+            return;
+        } # if : User Canceled Operation
+
 
 
         # Delete the project as requested
-        if(![CommonIO]::DeleteDirectory($projectToUninstall))
+        if(![CommonIO]::DeleteDirectory($projectToRemove.GetMetaFilePath()))
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = ("Unable to successfully uninstall $($projectInformation.GetProjectName())!");
+            [string] $logMessage = ("Unable to successfully uninstall $($projectToRemove.GetProjectName())!");
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ( `
                             "Project Target Path:`r`n"                                                  + `
-                            "`t`t$($projectToUninstall)`r`n"                                            + `
-                            [ProjectManagerCommon]::OutputMetaProjectInformation($projectInformation)   );
+                            "`t`t$($projectToRemove.GetMetaFilePath())`r`n"                             + `
+                            [ProjectManagerCommon]::OutputMetaProjectInformation($projectToRemove)      );
 
 
             # Pass the information to the logging system
@@ -214,62 +424,22 @@ class ProjectManagerUninstall
 
 
             # Operation had failed.
-            return $false;
+            return;
         } # If : Failure to Delete Directory
 
 
-        # Assurance test; make sure the directory had been destroyed.
-        if ([CommonIO]::CheckPathExists($projectToUninstall, $true))
-        {
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Generate the initial message
-            [string] $logMessage = ("Unable to successfully uninstall $($projectInformation.GetProjectName())!");
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ( `
-                            "Target was supposed to be removed, but still exists.`r`n"                  + `
-                            "`tProject Target Path:`r`n"                                                + `
-                            "`t`t$($projectToUninstall)`r`n"                                            + `
-                            [ProjectManagerCommon]::OutputMetaProjectInformation($projectInformation)   );
-
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity($logMessage, `                # Initial message
-                                        $logAdditionalMSG, `            # Additional information
-                                        [LogMessageLevel]::Error);      # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage($logMessage, `                # Message to display
-                                        [LogMessageLevel]::Error);  # Message level
-
-            # Alert the user through a message box as well that an issue had occurred;
-            #   the message will be brief as the full details remain within the terminal.
-            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
-
-            # * * * * * * * * * * * * * * * * * * *
-
-
-            # Operation had failed
-            return $false;
-        } # If : Directory was not Removed
-
-
         # If we made it this far, then the operation was successful!
-        [Logging]::DisplayMessage(  "Successfully uninstalled $($projectInformation.GetProjectName())!`r`n" + `
+        [Logging]::DisplayMessage(  "Successfully uninstalled $($projectToRemove.GetProjectName())!`r`n"    + `
                                     "`tProject Name:`r`n"                                                   + `
-                                    "`t`t$($projectInformation.GetProjectName())`r`n"                       + `
+                                    "`t`t$($projectToRemove.GetProjectName())`r`n"                          + `
                                     "`tProject Code Name:`r`n"                                              + `
-                                    "`t`t$($projectInformation.GetProjectCodeName())`r`n"                   + `
+                                    "`t`t$($projectToRemove.GetProjectCodeName())`r`n"                      + `
                                     "`tProject Revision ID:`r`n"                                            + `
-                                    "`t`t$($projectInformation.GetProjectRevision())`r`n"                   + `
+                                    "`t`t$($projectToRemove.GetProjectRevision())`r`n"                      + `
                                     "`tProject Signature:`r`n"                                              + `
-                                    "`t`t$($projectInformation.GetMetaGUID())`r`n"                          + `
+                                    "`t`t$($projectToRemove.GetMetaGUID())`r`n"                             + `
                                     "`tProject Target Path:`r`n"                                            + `
-                                    "`t`t$($projectToUninstall)");
+                                    "`t`t$($projectToRemove.GetMetaFilePath())"                             );
 
 
 
@@ -278,13 +448,13 @@ class ProjectManagerUninstall
         # --------------
 
         # Generate the initial message
-        [string] $logMessage = ("$($projectInformation.GetProjectName()) had been uninstalled successfully!");
+        [string] $logMessage = ("$($projectToRemove.GetProjectName()) had been uninstalled successfully!");
 
         # Generate any additional information that might be useful
         [string] $logAdditionalMSG = ( `
-                        "Project Target Path:`r`n"                                                  + `
-                        "`t`t$($projectToUninstall)`r`n"                                            + `
-                        [ProjectManagerCommon]::OutputMetaProjectInformation($projectInformation)   );
+                        "Project Target Path:`r`n"                                              + `
+                        "`t`t$($projectToRemove.GetMetaFilePath())`r`n"                         + `
+                        [ProjectManagerCommon]::OutputMetaProjectInformation($projectToRemove)  );
 
 
         # Pass the information to the logging system
@@ -302,133 +472,51 @@ class ProjectManagerUninstall
         [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Information) | Out-Null;
 
         # * * * * * * * * * * * * * * * * * * *
-
-
-        # Operation was successful
-        return $true;
-    } # __Main()
+    } # __UninstallProject()
 
 
 
 
-   <# Draw Main Instructions
+   <# Project Manager Uninstaller - Confirm to Uninstall
     # -------------------------------
     # Documentation:
-    #  Provide the instructions to the user regarding the process of uninstalling projects from the program's
-    #   environment.
+    #  Prompt the user with a confirmation; in which the user will need to explicitly state that they want
+    #   to delete the PowerShell Compact-Archive Tool Project from the environment.
     # -------------------------------
-    #>
-    hidden static [void] __DrawMainInstructions()
-    {   # Show the instructions to the user.
-        [Logging]::DisplayMessage( `
-            " Uninstalling $($GLOBAL:_PROGRAMNAME_) Projects`r`n"                                                   + `
-            "-------------------------------------------------------------------------------------------`r`n"       + `
-            "`r`n"                                                                                                  + `
-            "`r`n"                                                                                                  + `
-            "To uninstall a project that had been installed into the $($GLOBAL:_PROGRAMNAME_), use the `r`n"         + `
-            " Windows' Folder Browser to select the desired project that you want to remove.`r`n"                   + `
-            " Only one project at a time can be removed.`r`n"                                                       + `
-            "`r`n"                                                                                                  + `
-            "`r`n"                                                                                                  + `
-            "NOTE:`r`n"                                                                                             + `
-            "`tTo abort this operation, you may select 'Cancel' in the Windows' Folder Browser.`r`n"                + `
-            "`r`n`r`n");
-
-
-        # Wait for the user to press the Enter Key, acknowledging that they read the instructions.
-        [CommonIO]::FetchEnterKey();
-    } # __DrawMainInstructions()
-
-
-
-
-   <# Get a Project to Delete
-    # -------------------------------
-    # Documentation:
-    #  This function is designed to give the user with the ability to specify what project that they wish to
-    #   uninstall form the program's environment.
-    #
-    # NOTE: Because of how the Windows' Directory Browser works, only one directory at a time can be selected
-    #           at a time.  Thus, the user cannot perform multiple directory selections.
-    # -------------------------------
-    # Input:
-    #  [string] (REFERENCE) Project to Uninstall
-    #   This will contain what PSCAT Project that the user wishes to uninstall.
+    # [ProjectMetaData] Project to Remove
+    #   The PowerShell Compact-Archive Tool Project that will be removed from the program's environment.
     # -------------------------------
     # Output:
-    #  Did the user User Provide a PSCAT Project?
-    #   $true    = User Selected a Project
-    #   $false   = User Cancelled
+    #  [bool] Confirmation Result
+    #   $true  = User wishes to continue with uninstallation.
+    #   $false = User wants to cancel the operation.
     # -------------------------------
     #>
-    hidden static [bool] __GetProjectToDelete([ref] $projectToUninstall)
+    hidden static [bool] __UninstallProjectConfirm([ProjectMetaData] $projectToRemove)
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Browse File Title String
-        [string] $windowsDirectoryBrowserInstructions = "Select a $($GLOBAL:_PROGRAMNAMESHORT_) Project to Uninstall.";
+        # This variable will be used as a confirmation string
+        [string] $confirmString = $NULL;
         # ----------------------------------------
 
 
-
-        # Provide the Windows File Browser, giving the user with the ability to freely select one or more projects
-        #   to remove.
-        if (![CommonGUI]::BrowseDirectory($windowsDirectoryBrowserInstructions, `
-                                            [BrowserInterfaceStyle]::Modern, `
-                                            $false, `
-                                            $GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_, `
-                                            $projectToUninstall))
-        {
-            # User canceled the operation.
+        # Build the confirmation string
+        $confirmString = (  "Are you sure you want to delete this project?`r`n"             + `
+                            "---------------------------------------------`r`n"             + `
+                            "Name:      $($projectToRemove.GetProjectName())`r`n"           + `
+                            "Codenamed: $($projectToRemove.GetProjectCodeName())`r`n"       + `
+                            "Revision:  $($projectToRemove.GetProjectRevision())`r`n"       + `
+                            "Signature: $($projectToRemove.GetMetaGUID())`r`n"              + `
+                            "Path:      $($projectToRemove.GetMetaFilePath())"              );
 
 
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Generate the initial message
-            [string] $logMessage = ("User had cancelled the operation; no project files were selected.");
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "$($NULL)";
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity($logMessage, `                # Initial message
-                                        $logAdditionalMSG, `            # Additional information
-                                        [LogMessageLevel]::Verbose);    # Message level
-
-
-            # * * * * * * * * * * * * * * * * * * *
-
-
-            # Report that the user is cancelling the operation.
-            return $false;
-        } # If : User Canceled
-
-
-
-        # * * * * * * * * * * * * * * * * * * *
-        # Debugging
-        # --------------
-
-        # Generate the initial message
-        [string] $logMessage = ("The user had selected a $($GLOBAL:_PROGRAMNAMESHORT_) Project to uninstall.");
-
-        # Generate any additional information that might be useful
-        [string] $logAdditionalMSG = ("The following $($GLOBAL:_PROGRAMNAMESHORT_) Project had been selected:`r`n" + `
-                                        "`t$($projectToUninstall.Value)");
-
-        # Pass the information to the logging system
-        [Logging]::LogProgramActivity($logMessage, `                # Initial message
-                                    $logAdditionalMSG, `            # Additional information
-                                    [LogMessageLevel]::Verbose);    # Message level
-
-
-        # * * * * * * * * * * * * * * * * * * *
-
-
-
-        # One or more files selected by user.
-        return $true;
-    } # __GetProjectToDelete()
+        # Confirm that the user wants to remove the project
+        return ([CommonGUI]::MessageBox($confirmString,                                 `
+                                        [System.Windows.MessageBoxImage]::Question,     `
+                                        [System.Windows.MessageBoxButton]::OKCancel,    `
+                                        [System.Windows.MessageBoxResult]::Cancel)      `
+                                            -eq                                         `
+                                        [System.Windows.MessageBoxResult]::OK)          ;
+    } # __UninstallProjectConfirm()
 } # ProjectManagerUninstall
