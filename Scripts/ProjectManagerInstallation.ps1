@@ -40,7 +40,7 @@ class ProjectManagerInstallation
     #   desired projects are safely installed\updated for the user.
     # -------------------------------
     #>
-    hidden static [bool] __Main()
+    static [void] Main()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -93,7 +93,7 @@ class ProjectManagerInstallation
             [CommonIO]::FetchEnterKey();
 
             # Go back to the previous menu
-            return $false;
+            return;
         } # if : User Cancelled
 
 
