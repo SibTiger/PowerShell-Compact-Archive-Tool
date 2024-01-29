@@ -241,17 +241,17 @@ class ProjectManagerInstallation
    <# Get Projects from User
     # -------------------------------
     # Documentation:
-    #  This function is designed to give the user the ability to specify what project file or files that they
-    #   wish to install\update into the program's environment.
+    #  This function is designed to give the user the ability to specify what project file(s) that they
+    #   wish to install and\or update into the program's environment.
     # -------------------------------
     # Input:
     #  [System.Collections.ArrayList] (System.Object) Project File List
     #   This will contain a list of project files that the user wishes to install\update.
     # -------------------------------
     # Output:
-    #  Did the user User Provide File(s)?
-    #   $true    = One or More project files were selected.
-    #   $false   = User Cancelled
+    #  Did the user provide any file(s)?
+    #   $true    = One or More project files had been selected.
+    #   $false   = User Canceled.
     # -------------------------------
     #>
     hidden static [bool] __GetProjectsFromUser([System.Collections.ArrayList] $projectFileList)
