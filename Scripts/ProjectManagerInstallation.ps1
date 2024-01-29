@@ -81,6 +81,10 @@ class ProjectManagerInstallation
         [ProjectManagerInstallation]::__DrawMainInstructions();
 
 
+        # Show what Projects are already installed within the program
+        [ProjectManagerInstallation]::__ShowCurrentInstalledProjects();
+
+
         # Provide some whitespace padding.
         [Logging]::DisplayMessage("`r`n`r`n");
 
@@ -171,6 +175,58 @@ class ProjectManagerInstallation
             "`r`n"                                                                                                          + `
             "`r`n"                                                                                                          );
     } # __DrawMainInstructions()
+
+
+
+
+   <# Show Current Installed Projects
+    # -------------------------------
+    # Documentation:
+    #  When called, this will show what projects had already been installed within the program's environment,
+    #   in which the user can quickly survey what is already installed and what may need require updates.
+    # -------------------------------
+    #>
+    hidden static [void] __ShowCurrentInstalledProjects()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This variable will contain a list of projects that had been installed within the environment.
+        [System.Collections.ArrayList] $listOfProjectsInstalled = [System.Collections.ArrayList]::New();
+        # ----------------------------------------
+
+
+        # Obtain a list of installed projects
+        if ((![ProjectManagerCommon]::__GetInstalledProjects($listOfProjectsInstalled)) -or `   # Failure occurred
+            ($NULL -eq $listOfProjectsInstalled)                                        -or `   # No installs found
+            ($listOfProjectsInstalled.Count -eq 0))                                             # No installs found
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+            # Generate the initial message
+            [string] $logMessage = ("Unable to find any installed $($GLOBAL:_PROGRAMNAMESHORT_) Projects!`r`n" + `
+                                    "No projects will be shown to the user.");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Installation Path for $($GLOBAL:_PROGRAMNAMESHORT_) Projects:`r`n"   + `
+                                            "`t`t$($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Finished; nothing more we can do.
+            return;
+        } # if : No Installed Projects Found
+
+
+        # Show the list of installed projects to the user
+        [ProjectManagerCommon]::DrawTableProjectInformation($listOfProjectsInstalled);
+    } # __ShowCurrentInstalledProjects()
 
 
 
