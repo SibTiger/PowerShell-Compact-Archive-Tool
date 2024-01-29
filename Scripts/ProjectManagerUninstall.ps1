@@ -81,6 +81,10 @@ class ProjectManagerUninstall
             [ProjectManagerCommon]::__DrawMenuInstructionsForTable();
 
 
+            # Provide some whitespace padding
+            [Logging]::DisplayMessage("`r`n");
+
+
             # Show the list of projects to the user; we will also obtain the list of projects, the user
             #   will use this list to select what to uninstall.
             if (![ProjectManagerUninstall]::__ShowUserListOfInstalledProjects($listOfProjectsInstalled))
