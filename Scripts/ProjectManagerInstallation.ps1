@@ -693,12 +693,11 @@ class ProjectManagerInstallation
    <# Install Project(s)
     # -------------------------------
     # Documentation:
-    #  This function will try to install the desired project(s) onto the user's system.
+    #  This function will try to install and\or update the desired project(s) onto the program's environment.
     # -------------------------------
     # Input:
     #  [System.Collections.ArrayList] (ProjectMetaData) List of Projects
     #   Provides a list of files that the user wishes to install within the program.
-    #     The list will contain the absolute path to the archive files to extract.
     # -------------------------------
     # Output:
     #  Installation status
@@ -722,7 +721,7 @@ class ProjectManagerInstallation
 
 
         # Overall Status of the operation; we will return this value once the operation had been finished.
-        #   By default, we will provide a true result - this will change if an error was caught.
+        #   By default, we will provide a 'Successful' result - this will change if an error was caught.
         [ProjectManagerInstallationExitCondition] $overallOperation = [ProjectManagerInstallationExitCondition]::Successful;
         # ----------------------------------------
 
