@@ -152,22 +152,14 @@ class ProjectManagerInstallation
     {
         # Show the instructions to the user.
         [Logging]::DisplayMessage( `
-            " Installing and Updating $($GLOBAL:_PROGRAMNAME_) Projects`r`n"                                        + `
-            "-------------------------------------------------------------------------------------------`r`n"       + `
-            "`r`n"                                                                                                  + `
-            "`r`n"                                                                                                  + `
-            "To install new projects into $($GLOBAL:_PROGRAMNAME_) or to update already existing, use the `r`n"     + `
-            " Windows' File Browser to select the desired projects that you want installed.`r`n"                    + `
-            " The $($GLOBAL:_PROGRAMNAMESHORT_) Project Manager will automatically try to install or update the"    + `
-            " projects for you.`r`n"                                                                                + `
-            "`r`n"                                                                                                  + `
-            "`r`n"                                                                                                  + `
-            "NOTE: To abort this operation, you may select 'Cancel' in the Windows' File Browser.`r`n"              + `
-            "`r`n`r`n");
-
-
-        # Wait for the user to press the Enter Key, acknowledging that they read the instructions.
-        [CommonIO]::FetchEnterKey();
+            " To install new projects or to update an older installed project into $($GLOBAL:_PROGRAMNAME_),`r`n"           + `
+            " you will use the Windows Directory Browser to select the desired $($GLOBAL:_PROGRAMNAMESHORT_) Projects`r`n"  + `
+            " that will be installed into $($GLOBAL:_PROGRAMNAME_).  Using the Directory Browser, You may select`r`n"       + `
+            " more than one $($GLOBAL:_PROGRAMNAMESHORT_) Project file at a time.`r`n"                                      + `
+            "`r`n"                                                                                                          + `
+            " You may cancel the operation by selecting 'Cancel' from the Directory Browser.`r`n"                           + `
+            "`r`n"                                                                                                          + `
+            "`r`n"                                                                                                          );
     } # __DrawMainInstructions()
 
 
