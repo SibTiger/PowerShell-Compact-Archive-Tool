@@ -59,14 +59,11 @@ class ProjectManagerInstallation
         #           |_[n]: ProjectMetaData
         [System.Collections.ArrayList] $listOfProjectsToInstall = [System.Collections.ArrayList]::New();
 
-
         # Operation Status; this will provide the overall operation state.
         [ProjectManagerInstallationExitCondition] $operationState = [ProjectManagerInstallationExitCondition]::Error;
-
-
-        # Operation Status that will be returned to the calling function.
-        [bool] $exitStatus = $false;
         # ----------------------------------------
+
+
 
 
 
@@ -118,7 +115,7 @@ class ProjectManagerInstallation
 
 
         # Determine if the Installation function had reached an error.
-        $exitStatus = [ProjectManagerInstallation]::__InstallProjectsOverallState($operationState);
+        [ProjectManagerInstallation]::__InstallProjectsOverallState($operationState);
 
 
         # Provide some padding such that it is easier to read.
@@ -138,7 +135,7 @@ class ProjectManagerInstallation
 
 
         # Finished
-        return $exitStatus;
+        return;
     } # __Main()
 
 
