@@ -109,6 +109,7 @@ class ProjectManagerInstallation
             # Allow the user to see the feedback before returning back to the previous menu.
             [CommonIO]::FetchEnterKey();
 
+
             # Go back to the previous menu
             return;
         } # if : User Cancelled
