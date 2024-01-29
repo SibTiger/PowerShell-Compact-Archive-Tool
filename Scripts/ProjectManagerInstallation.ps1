@@ -132,7 +132,7 @@ class ProjectManagerInstallation
 
 
         # Show the overall installation status to the user
-        [ProjectManagerInstallation]::__DisplayInstallationOperationStatus($operationState)
+        [ProjectManagerInstallation]::__DisplayInstallationOperationStatus($operationState);
 
 
         # Provide some padding such that it is easier to read.
