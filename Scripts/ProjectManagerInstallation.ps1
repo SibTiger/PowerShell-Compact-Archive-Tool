@@ -135,10 +135,6 @@ class ProjectManagerInstallation
         [ProjectManagerInstallation]::__DisplayInstallationOperationStatus($operationState)
 
 
-        # Determine if the Installation function had reached an error.
-        [ProjectManagerInstallation]::__InstallProjectsOverallState($operationState);
-
-
         # Provide some padding such that it is easier to read.
         [Logging]::DisplayMessage("`r`n");
 
@@ -689,41 +685,7 @@ class ProjectManagerInstallation
 
 
 
-   <# Determine Installation Overall State
-    # -------------------------------
-    # Documentation:
-    #  Determine the overall state of the Install Projects function.  This will define if the entire
-    #   installation\update procedure had been successful or had failed.
-    # -------------------------------
-    # Input:
-    #  [ProjectManagerInstallationExitCondition] Result of Installation
-    #   Provides the overall operation of the Installation process.
-    # -------------------------------
-    #>
-    hidden static [void] __InstallProjectsOverallState([ProjectManagerInstallationExitCondition] $result)
-    {
-        switch ($result)
-        {
-            # Overall Operation was Successful
-            ([ProjectManagerInstallationExitCondition]::Successful)     { return $true;  }
 
-
-            # Overall Operation had Encountered one or more Errors
-            ([ProjectManagerInstallationExitCondition]::Error)          { return $false; }
-
-
-            # Overall Operation was Generally Successful; but encountered builds that could not be installed
-            ([ProjectManagerInstallationExitCondition]::SameOrOlder)    { return $true;  }
-
-
-            # A fatal error had been reached
-            ([ProjectManagerInstallationExitCondition]::Fatal)          { return $false; }
-        } # Switch : Overall Operation Status
-
-
-        # If we made it here - than the condition is unknown, which will be treated as an error.
-        return $false;
-    } # __InstallProjectsOverallState()
 
 
 
