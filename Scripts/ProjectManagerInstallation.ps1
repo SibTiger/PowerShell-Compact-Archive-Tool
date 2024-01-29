@@ -626,13 +626,8 @@ class ProjectManagerInstallation
     #  [ProjectManagerInstallationExitCondition] Result of Installation
     #   Provides the overall operation of the Installation process.
     # -------------------------------
-    # Output:
-    #  Overall Operation State
-    #   true  = Overall installation was successful.
-    #   false = Overall installation had failed.
-    # -------------------------------
     #>
-    hidden static [bool] __InstallProjectsOverallState([ProjectManagerInstallationExitCondition] $result)
+    hidden static [void] __InstallProjectsOverallState([ProjectManagerInstallationExitCondition] $result)
     {
         switch ($result)
         {
