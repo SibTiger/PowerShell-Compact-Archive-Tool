@@ -74,7 +74,7 @@ class ProjectManager
                 [ProjectManager]::__SetupEnvironment();
 
                 # Execute the operation
-                return [ProjectManagerInstallation]::__Main();
+                return [ProjectManagerInstallation]::Main();
             } # Install or Update Projects
 
 
