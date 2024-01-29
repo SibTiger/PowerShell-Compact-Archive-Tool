@@ -22,11 +22,10 @@
  # ------------------------------
  # ==============================
  # ==============================
- # This class is designed to guide the user into installing new or updating current installed PowerShell
- #  Compact-Archive Tool projects.
- #
- # DEVELOPER NOTES:
- #  We will rely heavily on the CommonGUI and CommonIO in order to make this functionality easy for the user.
+ # This class will help guide the user into installing and\or updating PowerShell Compact-Archive Tool
+ #  projects into the environment.  This functionality will allow the user to ultimately utilize this
+ #  program to compile their desired mods into a package, in which they can then distribute builds or
+ #  keep locally for testing.
  #>
 
 
