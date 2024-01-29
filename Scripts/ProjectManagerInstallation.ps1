@@ -174,9 +174,9 @@ class ProjectManagerInstallation
         # Show the instructions to the user.
         [Logging]::DisplayMessage( `
             " To install new projects or to update an older installed project into $($GLOBAL:_PROGRAMNAME_),`r`n"           + `
-            " you will use the Windows Directory Browser to select the desired $($GLOBAL:_PROGRAMNAMESHORT_) Projects`r`n"  + `
-            " that will be installed into $($GLOBAL:_PROGRAMNAME_).  Using the Directory Browser, You may select`r`n"       + `
-            " more than one $($GLOBAL:_PROGRAMNAMESHORT_) Project file at a time.`r`n"                                      + `
+            "  you will use the Windows Directory Browser to select the desired $($GLOBAL:_PROGRAMNAMESHORT_) Projects`r`n" + `
+            "  that will be installed into $($GLOBAL:_PROGRAMNAME_).  Using the Directory Browser, You may select`r`n"      + `
+            "  more than one $($GLOBAL:_PROGRAMNAMESHORT_) Project file at a time.`r`n"                                     + `
             "`r`n"                                                                                                          + `
             " You may cancel the operation by selecting 'Cancel' from the Directory Browser.`r`n"                           + `
             "`r`n"                                                                                                          + `
