@@ -887,6 +887,16 @@ class ProjectManagerCommon
 
 
 
+        # If the list is empty, do not continue further within this function.
+        if (($listOfProjects.Count  -eq 0)      -or `
+            ($listOfProjects        -eq $NULL))
+            { return; }
+
+
+        # Provide a caption for the table
+        [Logging]::DisplayMessage("List of Installed $($GLOBAL:_PROGRAMNAMESHORT_) Projects:");
+
+
         # Iterate through each installed project and populate the rows for the table.
         foreach ($project in $listOfProjects)
         {
