@@ -93,7 +93,9 @@ class ProjectManagerInstallation
         if (![ProjectManagerInstallation]::__GetProjectsFromUser($listOfProjectsToInstall))
         {
             # Alert the user that they had aborted the operation.
-            [Logging]::DisplayMessage("User had aborted the installation operation!`r`nReturning back to previous menu...");
+            [Logging]::DisplayMessage(  "User had aborted the installation operation!`r`n"  + `
+                                        "Returning back to previous menu..."                , `
+                                        [LogMessageLevel]::Attention);
 
 
             # Provide some whitespace padding
