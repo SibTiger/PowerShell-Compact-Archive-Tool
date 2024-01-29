@@ -52,10 +52,12 @@ class ProjectManagerInstallation
         #   DATATYPE AFTER Windows' File Browser:
         #       |_ Root: System.Object
         #           |_ [0]: System.Object
+        #           |_ [1]: System.Object
         #           |_ [n]: System.Object
         #   DATATYPE AFTER MetamorphoseType
         #       |_ Root: System.Object
         #           |_[0]: ProjectMetaData
+        #           |_[1]: ProjectMetaData
         #           |_[n]: ProjectMetaData
         [System.Collections.ArrayList] $listOfProjectsToInstall = [System.Collections.ArrayList]::New();
 
