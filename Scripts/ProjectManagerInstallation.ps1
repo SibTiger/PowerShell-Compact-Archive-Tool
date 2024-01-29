@@ -36,10 +36,8 @@ class ProjectManagerInstallation
    <# Project Manager Installer - Main Entry
     # -------------------------------
     # Documentation:
-    #   This function will drive the installation and\or update of projects into the program's environment.
-    #
-    #  NOTE:
-    #   This function should only be called by the Project Manager.
+    #  This function will guide the user through the installation\update producer, such that the
+    #   desired projects are safely installed\updated for the user.
     # -------------------------------
     #>
     hidden static [bool] __Main()
