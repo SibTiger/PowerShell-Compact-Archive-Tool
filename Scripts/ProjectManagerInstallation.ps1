@@ -89,6 +89,10 @@ class ProjectManagerInstallation
         [Logging]::DisplayMessage("`r`n`r`n");
 
 
+        # Provide some whitespace padding
+        [Logging]::DisplayMessage("`r`n`r`n");
+
+
         # Obtain the projects form the user.
         if (![ProjectManagerInstallation]::__GetProjectsFromUser($listOfProjectsToInstall))
         {
@@ -108,10 +112,6 @@ class ProjectManagerInstallation
             # Go back to the previous menu
             return;
         } # if : User Cancelled
-
-
-        # Provide some whitespace padding
-        [Logging]::DisplayMessage("`r`n`r`n");
 
 
         # Change the datatype of all entries from System.Object to ProjectMetaData
