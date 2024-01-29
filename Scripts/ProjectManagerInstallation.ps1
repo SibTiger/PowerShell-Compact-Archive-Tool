@@ -347,16 +347,16 @@ class ProjectManagerInstallation
     # -------------------------------
     # Input:
     #  [System.Collections.ArrayList] {System.Object} File List
-    #   Provides a list of files provided by the user to install.
-    #   NOTE: The elements coming into this function are: System.Object,
-    #           but coming out from this function as: ProjectMetaData.
+    #   Contains a list of files that the user wishes to install\update; will then be altered from
+    #       System.Object to ProjectMetaData.  This Array's contents _WILL_ be altered for the
+    #       calling functions to consume.
     # -------------------------------
     #>
     hidden static [void] __MetamorphoseType([System.Collections.ArrayList] $fileList)
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # This will contain the new file list that will replace the given list.
+        # This will contain the new file list that will replace the given list provided by the user.
         [System.Collections.ArrayList] $newFileList = [System.Collections.ArrayList]::New();
         # ----------------------------------------
 
