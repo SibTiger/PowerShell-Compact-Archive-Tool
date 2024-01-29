@@ -190,7 +190,7 @@ class ProjectManagerInstallation
     # -------------------------------
     # Documentation:
     #  When called, this will show what projects had already been installed within the program's environment,
-    #   in which the user can quickly survey what is already installed and what may need require updates.
+    #   in which the user can quickly survey what is already installed and what may need updates.
     # -------------------------------
     #>
     hidden static [void] __ShowCurrentInstalledProjects()
