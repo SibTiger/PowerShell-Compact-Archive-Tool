@@ -759,7 +759,7 @@ class ProjectManagerInstallation
 
 
             # Unable to continue; abort from this function.
-            return $false;
+            return [ProjectManagerInstallationExitCondition]::Error;
         } # if : Failed to Obtain Current Installed Projects
 
 
