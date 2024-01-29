@@ -89,6 +89,10 @@ class ProjectManagerInstallation
         [Logging]::DisplayMessage("`r`n`r`n");
 
 
+        # Allow the user to view the information on the screen before continuing
+        [CommonIO]::FetchEnterKey();
+
+
         # Provide some whitespace padding
         [Logging]::DisplayMessage("`r`n`r`n");
 
