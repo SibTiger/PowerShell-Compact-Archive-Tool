@@ -60,7 +60,7 @@ class ProjectManagerShowProjects
 
         # Obtain a list of installed projects
         if ((![ProjectManagerCommon]::__GetInstalledProjects($listOfProjectsInstalled)) -or `   # Failure occurred
-            ($NULL -eq $listOfProjectsInstalled)                                        -or `   # No installs found
+            ($NULL                          -eq $listOfProjectsInstalled)               -or `   # No installs found
             ($listOfProjectsInstalled.Count -eq 0))                                             # No installs found
         {
             # * * * * * * * * * * * * * * * * * * *
