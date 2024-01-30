@@ -100,6 +100,10 @@ class ProjectManagerShowProjects
         [ProjectManagerCommon]::DrawTableProjectInformation($listOfProjectsInstalled);
 
 
+        # Provide some whitespace padding.
+        [Logging]::DisplayMessage("`r`n`r`n");
+
+
         # Allow the user to read the output
         [CommonIO]::FetchEnterKey();
 
