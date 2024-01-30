@@ -121,10 +121,7 @@ class ProjectManagerShowProjects
     {
         # Show the instructions to the user.
         [Logging]::DisplayMessage( `
-            " Viewing Installed $($GLOBAL:_PROGRAMNAME_) Projects`r`n"                                              + `
-            "-------------------------------------------------------------------------------------------`r`n"       + `
-            "`r`n"                                                                                                  + `
-            "`r`n"                                                                                                  + `
-            "The table will show what $($GLOBAL:_PROGRAMNAMESHORT_) Projects had been installed.`r`n");
+            " Shown below is a list of $($GLOBAL:_PROGRAMNAMESHORT_) Projects that had been installed"      + `
+            " into $($GLOBAL:_PROGRAMNAME_)."                                                               );
     } # __DrawMainInstructions()
 } # ProjectManagerShowProjects
