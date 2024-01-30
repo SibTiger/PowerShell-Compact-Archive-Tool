@@ -36,10 +36,8 @@ class ProjectManagerShowProjects
    <# Project Manager Show Installation - Main Entry
     # -------------------------------
     # Documentation:
-    #   This function guide the process of showing the installed projects to the user.
-    #
-    #  NOTE:
-    #   This function should only be called by the Project Manager.
+    #  This function will provide the user with the ability to view what projects are presently installed
+    #   within the program's environment.
     # -------------------------------
     #>
     static [void] Main()
