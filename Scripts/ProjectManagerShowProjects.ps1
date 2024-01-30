@@ -22,10 +22,10 @@
  # ------------------------------
  # ==============================
  # ==============================
- # This class will allow the user to view all of the installed PowerShell Compact-Archive Tool projects
- #  within the program's environment.  This can be useful such that the user knows what packages had been
- #  installed.  Further, the user can use the information as a way to determine if a project should be
- #  removed, updated, or if there's a lack of a desired project - thus a potential installation.
+ # This class will allow the user to view all of the PSCAT projects that had already been installed within
+ #  the PowerShell Compact-Archive Tool's environment.  With this ability, the user will be able to view
+ #  what projects are installed along with its version.  Providing the user with this information, the user
+ #  will be able to determine if the project needs to be removed or to update.
  #>
 
 
