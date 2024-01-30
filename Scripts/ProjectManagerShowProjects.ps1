@@ -50,6 +50,19 @@ class ProjectManagerShowProjects
 
 
 
+        # Clear the terminal of all previous text; keep the space clean so that it is easier
+        #   for the user to read the information presented.
+        [CommonIO]::ClearBuffer();
+
+
+        # Draw Program Information Header
+        [CommonCUI]::DrawProgramTitleHeader();
+
+
+        # Show the user that they are at the Install Projects section.
+        [CommonCUI]::DrawSectionHeader("Installed $($GLOBAL:_PROGRAMNAMESHORT_) Projects");
+
+
         # Show the instructions to the user
         [ProjectManagerShowProjects]::__DrawMainInstructions();
 
