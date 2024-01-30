@@ -96,7 +96,7 @@ class ProjectManager
                 [ProjectManager]::__SetupEnvironment();
 
                 # Execute the operation
-                return [ProjectManagerShowProjects]::__Main();
+                return [ProjectManagerShowProjects]::Main();
             } # List Projects
 
 

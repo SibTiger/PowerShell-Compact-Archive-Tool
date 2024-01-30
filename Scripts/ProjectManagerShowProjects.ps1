@@ -42,7 +42,7 @@ class ProjectManagerShowProjects
     #   This function should only be called by the Project Manager.
     # -------------------------------
     #>
-    hidden static [bool] __Main()
+    static [void] Main()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -94,7 +94,7 @@ class ProjectManagerShowProjects
 
 
             # Finished; nothing more we can do.
-            return $false;
+            return;
         } # if : Unable to Obtain List of Installed Projects
 
 
@@ -107,8 +107,8 @@ class ProjectManagerShowProjects
 
 
         # Finished
-        return $true;
-    } # __Main()
+        return;
+    } # Main()
 
 
 
