@@ -67,7 +67,7 @@ class ProjectManagerShowProjects
             # Debugging
             # --------------
             # Generate the initial message
-            [string] $logMessage = ("Unable to find any installed $($GLOBAL:_PROGRAMNAMESHORT_) Projects.`r`n" + `
+            [string] $logMessage = ("Unable to find any installed $($GLOBAL:_PROGRAMNAMESHORT_) Projects!`r`n" + `
                                     "You may need to install new projects into $($GLOBAL:_PROGRAMNAME_).");
 
             # Generate any additional information that might be useful
