@@ -421,6 +421,54 @@ class CommonGUI
         # Let the calling function know that the user provided atleast one file.
         return $true;
     } # BrowseFile()
+
+
+
+
+   <# Get File Extension Filter
+    # -------------------------------
+    # Documentation:
+    #  When called, this function will provide the file extension filters that will
+    #  be necessary for the Windows GUI, OpenFileDialog(), function.
+    # -------------------------------
+    # Input:
+    #  [FileExtensionList] File Extension Request
+    #   The desired file extension to filter
+    #  [string] {REFERENCE} File Extension Filter String
+    #   The file extension filter string for the OpenFileDialog() function.
+    #  [string] {REFERENCE} Preferred File Extension Filter String
+    #   The preferred file extension filter string for the OpenFileDialog() function.
+    # -------------------------------
+    #>
+    static [void] GetFileExtensionFilter(   [FileExtensionList] $fileExtensionRequest,  `   # Requested File Extension
+                                            [ref] $fileExtensionFilterString,           `   # File Extension Filter String
+                                            [ref] $preferredFileExtensionFilterString)      # Preferred File Extension Filter String
+    {
+        # Determine the file extension filter
+        switch ($fileExtensionRequest)
+        {
+            # File Extension: All
+            {[FileExtensionList]::All}
+            {
+                $fileExtensionFilterString.Value            = "All Files (*.*)|*.*";
+                $preferredFileExtensionFilterString.Value   = "*.*";
+            } # # File Extension: All
+
+            # File Extension: Zip
+            {[FileExtensionList]::Zip}
+            {
+                $fileExtensionFilterString.Value            = "Zip Files (*.zip)|*.zip";
+                $preferredFileExtensionFilterString.Value   = "*.zip";
+            } # File Extension: All
+
+            # File Extension: PSCATProj
+            {[FileExtensionList]::PSCATProj}
+            {
+                $fileExtensionFilterString.Value            = "$($GLOBAL:_PROGRAMNAMESHORT_) Project Files (*.pscatproj)|*.pscatproj";
+                $preferredFileExtensionFilterString.Value   = "*.pscatproj";
+            } # # File Extension: PSCATProj
+        } # switch : Determine File Ext. Filter
+    } # GetFileExtensionFilter()
 } # CommonGUI
 
 
@@ -442,3 +490,19 @@ enum BrowserInterfaceStyle
     Classic    = 0;    # The ol' browser
     Modern     = 1;    # The modern browser
 } # BrowserInterfaceStyle
+
+
+
+
+<# File Extension List [ENUM]
+ # -------------------------------
+ # A list of known file extensions that can be used for the Windows GUI function,
+ #  OpenFileDialog(), to determine what files should be in the user's focus.
+ # -------------------------------
+ #>
+enum FileExtensionList
+{
+    All         ;   # All File Types
+    Zip         ;   # Zip Archive File
+    PSCATProj   ;   # PSCAT Project File
+} # FileExtensionList
