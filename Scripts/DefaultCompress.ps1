@@ -143,20 +143,6 @@ class DefaultCompress
     Hidden [bool] $__generateReportFilePDF;
 
 
-    # File Browser - Available Extensions
-    # ---------------
-    # Provides what file extensions are supported within this module, and are shown
-    #  within the Windows' File Browser.
-    Hidden [string] $__fileBrowserAvailableFileExtensions = "Zip file (*.zip)|*.zip";
-
-
-    # File Browser - Preferred Extension
-    # ---------------
-    # Provides the preferred file extension within this module, and is shown within
-    #  the Windows' File Browser.
-    Hidden [string] $__fileBrowserPreferredFileExtension = "*.zip";
-
-
     # Log Root
     # ---------------
     # The main parent directory's absolute path that will hold this object's
@@ -321,36 +307,6 @@ class DefaultCompress
     # -------------------------------
     #>
     [bool] GetGenerateReportFilePDF() { return $this.__generateReportFilePDF; }
-
-
-
-
-   <# Get File Browser - Available File Extensions
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'File Browser - Available File Extensions' variable.
-    # -------------------------------
-    # Output:
-    #  [string] File Browser - Available File Extensions
-    #   The value of the 'File Browser - Available File Extensions'.
-    # -------------------------------
-    #>
-    [string] GetFileBrowserAvailableFileExtensions() { return $this.__fileBrowserAvailableFileExtensions; }
-
-
-
-
-   <# Get File Browser - Preferred File Extension
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'File Browser - Preferred File Extension' variable.
-    # -------------------------------
-    # Output:
-    #  [string] File Browser - Preferred File Extension
-    #   The value of the 'File Browser - Preferred File Extension'.
-    # -------------------------------
-    #>
-    [string] GetFileBrowserPreferredFileExtension() { return $this.__fileBrowserPreferredFileExtension; }
 
 
 
