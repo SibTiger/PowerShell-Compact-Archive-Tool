@@ -259,20 +259,30 @@ class ProjectManagerInstallation
         #  application.
         [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
 
-
         # Browse File Title String
         [string] $windowsGUIBrowseFileTitleStr = "Select one or more $($GLOBAL:_PROGRAMNAMESHORT_) Project(s) to Install or Update";
+
+        # File Extension Filters
+        [string] $fileExtensionFilterStr            = $NULL;
+        [string] $fileExtensionFilterPreferredStr   = $NULL;
         # ----------------------------------------
 
 
 
+        # Obtain the File Extension Filters
+        [CommonGUI]::GetFileExtensionFilter([FileExtensionList]::PSCATProj `
+                                            [ref] $fileExtensionFilterStr, `
+                                            [ref] $fileExtensionFilterPreferredStr);
+
+
+
         # Provide Windows' File Browser, giving the user the ability to freely select one or more project files
-        if (![CommonGUI]::BrowseFile($windowsGUIBrowseFileTitleStr,                                 `   # Title
-                                    $defaultCompress.GetFileBrowserPreferredFileExtension(),        `   # Default File Extension
-                                    $defaultCompress.GetFileBrowserAvailableFileExtensions(),       `   # Filter File Extensions
-                                    $true,                                                          `   # Select Multiple Files
-                                    [BrowserInterfaceStyle]::Modern,                                `   # Style
-                                    $projectFileList))                                                  # List of Files Selected by User.
+        if (![CommonGUI]::BrowseFile($windowsGUIBrowseFileTitleStr,         `   # Title
+                                    $fileExtensionFilterPreferredStr,       `   # Default File Extension
+                                    $fileExtensionFilterStr,                `   # Filter File Extensions
+                                    $true,                                  `   # Select Multiple Files
+                                    [BrowserInterfaceStyle]::Modern,        `   # Style
+                                    $projectFileList))                          # List of Files Selected by User.
         {
             # User canceled the operation.
 
