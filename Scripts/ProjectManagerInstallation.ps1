@@ -270,8 +270,8 @@ class ProjectManagerInstallation
 
 
         # Obtain the File Extension Filters
-        [CommonGUI]::GetFileExtensionFilter([FileExtensionList]::PSCATProj `
-                                            [ref] $fileExtensionFilterStr, `
+        [CommonGUI]::GetFileExtensionFilter([FileExtensionList]::PSCATProj, `
+                                            [ref] $fileExtensionFilterStr,  `
                                             [ref] $fileExtensionFilterPreferredStr);
 
 
