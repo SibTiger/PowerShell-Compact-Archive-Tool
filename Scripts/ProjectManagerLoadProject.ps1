@@ -412,4 +412,48 @@ class ProjectManagerLoadProject
         $projectInformation.SetProjectLoaded($true);
         $projectInformation.SetProjectPath("C:\");    # INCOMPLETE
     } # __LoadProject()
+
+
+
+
+   <# Project Manager Load Project - Confirm to Load
+    # -------------------------------
+    # Documentation:
+    #  Prompt the user with a confirmation, in which the user will need to explicitly state that they want
+    #   to load the requested PowerShell Compact-Archive Tool Project into the program's environment.
+    # -------------------------------
+    # [ProjectMetaData] Project to Load
+    #   The PowerShell Compact-Archive Tool Project that will be loaded into the program's environment.
+    # -------------------------------
+    # Output:
+    #  [bool] Confirmation Result
+    #   $true  = User wishes to continue with the loading procedure.
+    #   $false = User wants to cancel the loading procedure.
+    # -------------------------------
+    #>
+    hidden static [bool] __LoadProjectConfirm([ProjectMetaData] $projectToLoad)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This variable will be used as a confirmation string
+        [string] $confirmString = $NULL;
+        # ----------------------------------------
+
+
+        # Build the confirmation string
+        $confirmString = (  "Are you sure you want to load this project?`r`n"               + `
+                            "---------------------------------------------`r`n"             + `
+                            "Name:      $($projectToLoad.GetProjectName())`r`n"             + `
+                            "Codenamed: $($projectToLoad.GetProjectCodeName())`r`n"         + `
+                            "Revision:  $($projectToLoad.GetProjectRevision())"             );
+
+
+        # Confirm that the user wants to remove the project
+        return ([CommonGUI]::MessageBox($confirmString,                                 `
+                                        [System.Windows.MessageBoxImage]::Question,     `
+                                        [System.Windows.MessageBoxButton]::OKCancel,    `
+                                        [System.Windows.MessageBoxResult]::Cancel)      `
+                                            -eq                                         `
+                                        [System.Windows.MessageBoxResult]::OK)          ;
+    } # __LoadProjectConfirm()
 } # ProjectManagerLoadProject
