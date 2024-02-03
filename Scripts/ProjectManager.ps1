@@ -107,7 +107,7 @@ class ProjectManager
                 [ProjectManager]::__SetupEnvironment();
 
                 # Execute the operation
-                return $false;
+                return [ProjectManagerLoadProject]::Main();
             } # Load Project
 
 
