@@ -43,6 +43,12 @@ class ProjectManagerLoadProject
     {
         # Declarations and Initializations
         # ----------------------------------------
+        # Retrieve the current instance of the Project Information object
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+
+        # Project Information String; if and only if a PSCAT Project is loaded.
+        [string] $projectInformationStr = $NULL;
+
         # This variable will contain a list of projects that had been installed within the environment.
         [System.Collections.ArrayList] $listOfProjectsInstalled = [System.Collections.ArrayList]::New();
 
@@ -76,12 +82,35 @@ class ProjectManagerLoadProject
             [CommonCUI]::DrawSectionHeader("Load a $($GLOBAL:_PROGRAMNAMESHORT_) Project");
 
 
+            # Provide some whitespace padding
+            [Logging]::DisplayMessage("`r`n");
+
+
+            # Show what project is presently loaded into the program's environment.
+            if ($projectInformation.Show([ProjectInformationShowDetail]::Basic, [ref] $projectInformationStr))
+            {
+                [Logging]::DisplayMessage(  `
+                            "Current $($GLOBAL:_PROGRAMNAMESHORT_) Project Loaded`r`n"  + `
+                            "----------------------------------------------------`r`n"  + `
+                            $projectInformationStr                                      + `
+                            "----------------------------------------------------`r`n"  );
+            } # if : Show Project Information
+
+            # No project is loaded into the environment yet.
+            else
+            { [Logging]::DisplayMessage("No $($GLOBAL:_PROGRAMNAMESHORT_) Project Loaded`r`n"); }
+
+
+            # Provide some whitespace padding
+            [Logging]::DisplayMessage("`r`n");
+
+
             # Provide the instructions
             [ProjectManagerCommon]::__DrawMenuInstructionsForTable();
 
 
             # Provide some whitespace padding
-            [Logging]::DisplayMessage("`r`n");
+            [Logging]::DisplayMessage("`r`n`r`n");
 
 
             # Show the list of projects to the user; we will also obtain the list of projects, the user
