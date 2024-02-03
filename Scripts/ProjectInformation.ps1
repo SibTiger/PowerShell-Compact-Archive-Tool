@@ -700,4 +700,29 @@ class ProjectInformation
         # Failure; Path did not exist.
         return $false;
     } # SetProjectPath()
+
+    #endregion
+
+
+
+
+   <# Clear Project Information
+    # -------------------------------
+    # Documentation:
+    #  This function will clear all information provided for the project, and the 'Project Loaded'
+    #   attribute will marked as $false.
+    # -------------------------------
+    #>
+    [void] Clear()
+    {
+        $this.__projectName     = $null;    # Project Name
+        $this.__codeName        = $null;    # Code Name
+        $this.__compilerVersion = $null;    # Compile Version
+        $this.__fileName        = $null;    # File Name
+        $this.__urlWebsite      = $null;    # Website URL
+        $this.__urlWiki         = $null;    # Wiki URL
+        $this.__urlSource       = $null;    # Source Repository URL
+        $this.__projectPath     = $null;    # Project Path
+        $this.__projectLoaded   = $false;   # Project Loaded
+    } # Clear()
 } # ProjectInformation
