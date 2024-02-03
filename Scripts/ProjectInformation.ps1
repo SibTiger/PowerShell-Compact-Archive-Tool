@@ -725,4 +725,96 @@ class ProjectInformation
         $this.__projectPath     = $null;    # Project Path
         $this.__projectLoaded   = $false;   # Project Loaded
     } # Clear()
+
+
+
+
+   <# Show Project Information
+    # -------------------------------
+    # Documentation:
+    #  This function will show the current information regarding the project that is presently loaded within
+    #   this object's instance.
+    # -------------------------------
+    # Input:
+    #  [ProjectInformationShowDetail] Information Detail
+    #   Specifies how much information will be provided to the calling function.
+    #  [string] {REFERENCE} Project Information
+    #   When this function return's true, this string will contain all available information regarding the
+    #   project that is presently loaded within this object's instance.
+    # -------------------------------
+    # Output:
+    #  [bool] Project Loaded
+    #     $false = Project is not loaded.
+    #     $true  = Project is loaded.
+    # -------------------------------
+    #>
+    [bool] Show([ProjectInformationShowDetail] $informationDetail,  `   # How much detail to give
+                [ref] $projectInformationStr)                           # Project Information String
+    {
+        # Is a project presently loaded?
+        if ($this.__projectLoaded -eq $false)
+        { return $false; }
+
+
+        # Project is loaded, craft the string:
+        if (($informationDetail -eq [ProjectInformationShowDetail]::Full) -or `
+            ($informationDetail -eq [ProjectInformationShowDetail]::Basic))
+        {
+            # Project Name
+            if (($NULL -ne $this.__projectName) -and ($this.__projectName -ne ""))
+            { $projectInformationStr.Value = "Project Name: " + $this.__projectName + "`r`n"; }
+
+            # Code Name
+            if (($NULL -ne $this.__codeName) -and ($this.__codeName -ne ""))
+            { $projectInformationStr.Value += "Code Name: " + $this.__codeName + "`r`n"; }
+
+            # Compiler Version
+            if (($NULL -ne $this.__compilerVersion) -and ($this.__compilerVersion -ne ""))
+            { $projectInformationStr.Value += "Compiler Version: " + $this.__compilerVersion + "`r`n"; }
+        } # Basic Detail Information
+
+
+        if ($informationDetail -eq [ProjectInformationShowDetail]::Full)
+        {
+            # File Name
+            if (($NULL -ne $this.__fileName) -and ($this.__fileName -ne ""))
+            { $projectInformationStr.Value += "Output File Name: " + $this.__fileName + "`r`n"; }
+
+            # Website URL
+            if (($NULL -ne $this.__urlWebsite) -and ($this.__urlWebsite -ne ""))
+            { $projectInformationStr.Value += "Website Link: " + $this.__urlWebsite + "`r`n"; }
+
+            # Wiki URL
+            if (($NULL -ne $this.__urlWiki) -and ($this.__urlWiki -ne ""))
+            { $projectInformationStr.Value += "Wiki Link: " + $this.__urlWiki + "`r`n"; }
+
+            # Source URL
+            if (($NULL -ne $this.__urlSource) -and ($this.__urlSource -ne ""))
+            { $projectInformationStr.Value += "Source Code Link: " + $this.__urlSource + "`r`n"; }
+
+            # Project Path
+            if (($NULL -ne $this.__projectPath) -and ($this.__projectPath -ne ""))
+            { $projectInformationStr.Value += "Local Working Copy Path: " + $this.__projectPath + "`r`n"; }
+        } # Full Detail Information
+
+
+        # Finished
+        return $true;
+    } # Show()
 } # ProjectInformation
+
+
+
+
+<# Project Information Show Detail [ENUM]
+ # -------------------------------
+ # Amount of detail Shown in Project Information
+ # Provides how much detail will be provided when wanting to obtain information regarding the project that
+ #  is presently loaded within the program's environment.
+ # -------------------------------
+ #>
+ enum ProjectInformationShowDetail
+ {
+     Basic;
+     Full;
+ } # ProjectInformationShowDetail
