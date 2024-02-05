@@ -18,18 +18,18 @@
 
 
 
-<# Project Manager
+<# Blueprint Manager
  # ------------------------------
  # ==============================
  # ==============================
- # This class can provide the user with the ability to manage PowerShell Compact-Archive Tool projects.
+ # This class can provide the user with the ability to manage PowerShell Compact-Archive Tool blueprints.
  #  Such management may involve the following:
- #  - Installing Projects
- #  - Updating Projects
- #  - Removing Projects
+ #  - Installing Blueprints
+ #  - Updating Blueprints
+ #  - Removing Blueprints
  #
- # Projects are an important asset to the PowerShell Compact-Archive Tool architecture, as it provides the
- #  user with the ability to compile their game assets into a single archive datafile.  Afterwards, the
+ # Blueprints are an important asset to the PowerShell Compact-Archive Tool architecture.  Blueprints provides the
+ #  user with the ability to compile their project's game assets into a single archive datafile.  Afterwards, the
  #  author or a developer within the team can then share that same compiled build to online communities,
  #  community forums, or anywhere they wish within the internet or local storage-keeping.
  #
@@ -40,7 +40,7 @@
 
 
 
-class ProjectManager
+class BlueprintManager
 {
    <# Project Manager
     # -------------------------------
@@ -351,7 +351,7 @@ class ProjectManager
         # If we made it this far, the user choose an incorrect option.
         return [ProjectManagerOperationRequest]::ShowMenu;
     } # __EvaluateExecuteUserRequest()
-} # ProjectManager
+} # BlueprintManager
 
 
 
