@@ -100,16 +100,16 @@ class BlueprintManager
 
 
 
-   <# Project Manager - Main Menu
+   <# Blueprint Manager - Main Menu
     # -------------------------------
     # Documentation:
-    #  When called, this will act as a driver for the Project Manager's Main Menu.  Thus, guiding the user
-    #   to perform their desired actions as requested within the Project Manager..
+    #  When called, this will act as a driver for the Blueprint Manager's Main Menu.  Thus, guiding the user
+    #   to perform their desired actions as requested within the Blueprint Manager.
     # -------------------------------
     # Output:
     #   [bool] Operation Status
-    #    true  = Operation was successful.
-    #    false = Operation had failed.
+    #    $true  = Operation was successful.
+    #    $false = Operation had failed.
     # -------------------------------
     #>
     hidden static [bool] __MainMenu()
@@ -125,12 +125,12 @@ class BlueprintManager
         [bool] $menuLoop = $true;
 
         # Determines what action - requested by the user - will be executed.
-        [ProjectManagerOperationRequest] $userRequest = [ProjectManagerOperationRequest]::ShowMenu;
+        [BlueprintManagerOperationRequest] $userRequest = [BlueprintManagerOperationRequest]::ShowMenu;
         # ----------------------------------------
 
 
-        # Open the Project Manager's Main Menu
-        #  Keep the user at the Project Manager's Main Menu until they request to leave.
+        # Open the Blueprint Manager's Main Menu
+        #  Keep the user at the Blueprint Manager's Main Menu until they request to leave.
         do
         {
             # Clear the terminal of all previous text; keep the space clean so that
@@ -142,12 +142,12 @@ class BlueprintManager
             [CommonCUI]::DrawProgramTitleHeader();
 
 
-            # Show the user that they are at the Main Menu
-            [CommonCUI]::DrawSectionHeader("Project Manager - Main Menu");
+            # Show the user that they are at the Blueprint Main Menu
+            [CommonCUI]::DrawSectionHeader("Blueprint Manager - Main Menu");
 
 
-            # Show Project Manager's About section
-            [ProjectManager]::__About();
+            # Show Blueprint Manager's About section
+            [BlueprintManager]::__About();
 
 
             # Provide some extra padding
@@ -158,8 +158,8 @@ class BlueprintManager
             [CommonCUI]::DrawMenuInstructions();
 
 
-            # Draw the Project Manager's Main Menu list to the user
-            [ProjectManager]::__DrawMainMenu();
+            # Draw the Blueprint Manager's Main Menu list to the user
+            [BlueprintManager]::__DrawMainMenu();
 
 
             # Provide some extra padding
@@ -171,11 +171,11 @@ class BlueprintManager
 
 
             # Determine the user's request
-            $userRequest = [ProjectManager]::__EvaluateExecuteUserRequest($userInput);
+            $userRequest = [BlueprintManager]::__EvaluateExecuteUserRequest($userInput);
 
 
             # Request was valid?
-            if ($userRequest -ne [ProjectManagerOperationRequest]::ShowMenu)
+            if ($userRequest -ne [BlueprintManagerOperationRequest]::ShowMenu)
             { # Leave from the loop
                 break;
             } # if : Request was Valid
@@ -192,8 +192,8 @@ class BlueprintManager
 
 
         # When we make it here, we have a valid request to execute.
-        #  Re-call the Project Manager's Main function and execute the desired action.
-        return [ProjectManager]::Main($userRequest);
+        #  Re-call the Blueprint Manager's Main function and execute the desired action.
+        return [BlueprintManager]::Main($userRequest);
     } # __MainMenu()
 
 
