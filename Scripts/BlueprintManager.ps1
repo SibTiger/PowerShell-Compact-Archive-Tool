@@ -42,53 +42,53 @@
 
 class BlueprintManager
 {
-   <# Blueprint Manager
+   <# Project Manager
     # -------------------------------
     # Documentation:
     #  This function will act as our driver within this class.  In this function, the user will
-    #   specifically state what action will be performed; either installing, updating, or removing a
-    #   blueprint from the PowerShell Compact-Archive Tool's environment.
+    #   specifically state what action should be performed; either installing/updating to or removing
+    #   projects from the PowerShell Compact-Archive Tool's environment.
     #
     #  NOTE:
     #   This is the entry point within this class.
     # -------------------------------
     # Input:
-    #   [BlueprintManagerOperationRequest] User Request
-    #       Specifies what action will be performed within the Blueprint Manager.
+    #   [ProjectManagerOperationRequest] User Request
+    #       Specifies what action should be performed within the Project Manager.
     # -------------------------------
     # Output:
     #   [bool] Operation Status
-    #    $true  = Operation was successful.
-    #    $false = Operation had failed.
+    #    true  = Operation was successful.
+    #    false = Operation had failed.
     # -------------------------------
     #>
-    static [bool] Main([BlueprintManagerOperationRequest] $request)
+    static [bool] Main([ProjectManagerOperationRequest] $request)
     {
         # Determine what operation is to be performed
         switch ($request)
         {
-            # Install or Update Blueprints
-            ([BlueprintManagerOperationRequest]::InstallOrUpdate) { return [BlueprintManagerInstallation]::Main(); }
+            # Install or Update Projects
+            ([ProjectManagerOperationRequest]::InstallOrUpdate) { return [ProjectManagerInstallation]::Main(); }
 
 
-            # Uninstall Blueprints
-            ([BlueprintManagerOperationRequest]::Uninstall) { return [BlueprintManagerUninstall]::Main(); }
+            # Uninstall Projects
+            ([ProjectManagerOperationRequest]::Uninstall) { return [ProjectManagerUninstall]::Main(); }
 
 
-            # List Blueprints
-            ([BlueprintManagerOperationRequest]::List) { return [BlueprintManagerShowBlueprints]::Main(); }
+            # List Projects
+            ([ProjectManagerOperationRequest]::List) { return [ProjectManagerShowProjects]::Main(); }
 
 
-            # Load Blueprint
-            ([BlueprintManagerOperationRequest]::Load) { return [BlueprintManagerLoadBlueprint]::Main(); }
+            # Load Project
+            ([ProjectManagerOperationRequest]::Load) { return [ProjectManagerLoadProject]::Main(); }
 
 
             # Show Menu
-            ([BlueprintManagerOperationRequest]::ShowMenu) { return [BlueprintManager]::__MainMenu(); }
+            ([ProjectManagerOperationRequest]::ShowMenu) { return [ProjectManager]::__MainMenu(); }
 
 
             # Exit
-            ([BlueprintManagerOperationRequest]::Stop) { return $true; }
+            ([ProjectManagerOperationRequest]::Stop) { return $true; }
         } # switch : Operation Request
 
 
@@ -356,13 +356,13 @@ class BlueprintManager
 
 
 
-<# Blueprint Manager - Operation Request
+<# Project Manager - Operation Request
  # -------------------------------
  # This enumerator will dictate what operation will be performed within the Project Manager.
  #  This will drive how the Project Manager will operate and interact with the user.
  # -------------------------------
  #>
- enum BlueprintManagerOperationRequest
+ enum ProjectManagerOperationRequest
  {
     InstallOrUpdate     = 0;    # Install new or Update currently installed projects.
     Uninstall           = 1;    # Delete installed projects.
@@ -371,4 +371,4 @@ class BlueprintManager
     ShowMenu            = 4;    # Allow the user to specify what action they want;
                                 #   involves using the Project Manager Menu
     Stop                = 255;  # User Requested to exit from Project Manager
- } # BlueprintManagerOperationRequest
+ } # ProjectManagerOperationRequest
