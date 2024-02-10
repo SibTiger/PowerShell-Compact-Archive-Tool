@@ -95,7 +95,7 @@ class ProjectManagerCommon
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Tried to inspect the Project's Installation Path:`r`n"       + `
-                                            "`t`t($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_)");
+                                            "`t`t$($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
