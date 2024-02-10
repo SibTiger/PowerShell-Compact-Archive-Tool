@@ -118,7 +118,7 @@ class ProjectManagerCommon
             #   type.  I will use this variable to determine the data type and push it through this program's ArrayList,
             #   thus keeping the consistency within this code base.
             $dynamicVariable = Get-ChildItem `
-                                -LiteralPath $($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_) `
+                                -LiteralPath $GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_ `
                                 -Filter $GLOBAL:_META_FILENAME_ `
                                 -Recurse `
                                 -Depth 1 `
