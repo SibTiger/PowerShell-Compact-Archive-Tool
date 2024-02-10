@@ -83,7 +83,7 @@ class ProjectManagerCommon
 
         # Make sure that the projects directory exists before trying to scan the directory.
         #  If the directory was not found, then abort the operation.
-        if (![CommonIO]::CheckPathExists($($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_) , $true))
+        if (![CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_ , $true))
         {   # Unable to find the installation path for the Projects.
 
             # * * * * * * * * * * * * * * * * * * *
