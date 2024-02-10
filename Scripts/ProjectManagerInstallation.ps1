@@ -23,8 +23,8 @@
  # ==============================
  # ==============================
  # This class will help guide the user into installing and\or updating PowerShell Compact-Archive Tool
- #  projects into the environment.  This functionality will allow the user to ultimately utilize this
- #  program to compile their desired mods into a package, in which they can then distribute builds or
+ #  projects into the program's environment.  This functionality will allow the user to ultimately utilize
+ #  this program to compile their desired mods into a package, in which they can then distribute builds or
  #  keep locally for testing.
  #>
 
@@ -36,8 +36,8 @@ class ProjectManagerInstallation
    <# Project Manager Installer - Main Entry
     # -------------------------------
     # Documentation:
-    #  This function will guide the user through the installation\update producer, such that the
-    #   desired projects are safely installed\updated for the user.
+    #  This function will guide the user through the installation\update producer, such that the desired
+    #   projects are safely installed\updated for the user.
     # -------------------------------
     #>
     static [void] Main()
@@ -64,8 +64,8 @@ class ProjectManagerInstallation
         # ----------------------------------------
 
 
-        # Clear the terminal of all previous text; keep the space clean so that it is easier
-        #   for the user to read the information presented.
+        # Clear the terminal of all previous text; keep the space clean so that it is easier for the user to
+        #   read the information presented.
         [CommonIO]::ClearBuffer();
 
 
@@ -245,7 +245,7 @@ class ProjectManagerInstallation
     #   This will contain a list of project files that the user wishes to install\update.
     # -------------------------------
     # Output:
-    #  Did the user provide any file(s)?
+    #  [bool] Did the user provide any file(s)?
     #   $true    = One or More project files had been selected.
     #   $false   = User Canceled.
     # -------------------------------
@@ -543,7 +543,6 @@ class ProjectManagerInstallation
             } # else : Verification Failed
 
 
-
             # Record the information to the program's logfile.
             [Logging]::LogProgramActivity($logActivity, `
                                         $logAdditionalInformation, `
@@ -691,11 +690,6 @@ class ProjectManagerInstallation
             # * * * * * * * * * * * * * * * * * * *
         } # Foreach : Output Installation Results
     } # __DisplayProjectInstallationReport()
-
-
-
-
-
 
 
 
