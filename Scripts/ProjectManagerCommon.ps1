@@ -23,7 +23,7 @@
  # ==============================
  # ==============================
  # This class only contains common functions that will be utilized within the Project Manager functionalities.
- #  Within this class, contains common algorithms and methods that can be used freely within the Project
+ #  Within this class contains common algorithms and methods that can be used freely within the Project
  #  Manager classes.
  #>
 
@@ -47,7 +47,6 @@ class ProjectManagerCommon
         # Show the standard instructions
         [CommonCUI]::DrawMenuInstructions();
     } # __DrawMenuInstructionsForTable()
-
 
 
 
@@ -304,7 +303,6 @@ class ProjectManagerCommon
                 [string] $logAdditionalMSG = ("Project information provided may or may not be accurate:`r`n"    + `
                                                 [ProjectManagerCommon]::OutputMetaProjectInformation($newProjectEntry));
 
-
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity($logMessage, `            # Initial message
                                             $logAdditionalMSG, `        # Additional information
@@ -333,14 +331,13 @@ class ProjectManagerCommon
             [string] $logAdditionalMSG = ("Project information that had been collected:`r`n"                        + `
                                             [ProjectManagerCommon]::OutputMetaProjectInformation($newProjectEntry));
 
-
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
                                         $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
-        } #foreach
+        } # foreach
 
 
 
@@ -414,7 +411,7 @@ class ProjectManagerCommon
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
                                         $logAdditionalMSG, `            # Additional information
-                                        [LogMessageLevel]::Error);    # Message level
+                                        [LogMessageLevel]::Error);      # Message level
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -438,7 +435,7 @@ class ProjectManagerCommon
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = ("Successfully opened and read the Meta File");
+            [string] $logMessage = ("Successfully opened and read the Meta File!");
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = (  "Meta File Path:`r`n"                                                           + `
@@ -511,9 +508,11 @@ class ProjectManagerCommon
             if($line.Contains($GLOBAL:_META_STRING_PROJECT_NAME_))
             { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_NAME_, $line); }
 
+
             # Project Codename
             if($line.Contains($GLOBAL:_META_STRING_PROJECT_CODE_NAME_))
             { $metaStrings.Add($GLOBAL:_META_STRING_PROJECT_CODE_NAME_, $line); }
+
 
             # Project Revision
             elseif ($line.Contains($GLOBAL:_META_STRING_PROJECT_REVISION_))
@@ -590,6 +589,7 @@ class ProjectManagerCommon
                                             "`t`t - $($GLOBAL:_META_STRING_PROJECT_URL_WIKI_)`r`n"              + `
                                             "`t`t - $($GLOBAL:_META_STRING_PROJECT_URL_SOURCE_CODE_)`r`n"       + `
                                             "`t`t - $($GLOBAL:_META_STRING_PROJECT_SIGNATURE_)`r`n"             + `
+                                            "`r`n"                                                              + `
                                             "`tInstead, the following was found within the meta file:`r`n"      + `
                                             "$($cacheStringList)");
 
@@ -700,9 +700,9 @@ class ProjectManagerCommon
                                             "`t`t`tTried to cast as String`r`n"                                                                     + `
                                             "`t`t- Project Signature        =`t$($metaStrings[$GLOBAL:_META_STRING_PROJECT_SIGNATURE_])`r`n"        + `
                                             "`t`t`tTried to cast as GUID`r`n"                                                                       + `
+                                            "`r`n"                                                                                                  + `
                                             "`tMeta File Contents:`r`n"                                                                             + `
                                             "$($cacheStringList)")                                                                                  ;
-
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -772,7 +772,6 @@ class ProjectManagerCommon
                                             "`t`t- Value:   $($tempProjectGUID)`r`n"                                                            + `
                                             "`t`t- Type:    $($tempProjectGUID.GetType().Name)`r`n"                                             + `
                                             "`t`t- Result:  $($projectMetaData.Value.SetMetaGUID($tempProjectGUID))`r`n"                        );
-
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
