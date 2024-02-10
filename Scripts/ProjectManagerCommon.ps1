@@ -226,7 +226,7 @@ class ProjectManagerCommon
             [string] $logAdditionalMSG = ("Installation Path for $($GLOBAL:_PROGRAMNAMESHORT_) Projects:`r`n"   + `
                                             "`t`t$($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_)`r`n"        + `
                                             "`tTarget File to Inspect:`r`n"                                     + `
-                                            "`t`t$($GLOBAL:_METAL_FILENAME_)`r`n"                               + `
+                                            "`t`t$($GLOBAL:_META_FILENAME_)`r`n"                                + `
                                             "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
