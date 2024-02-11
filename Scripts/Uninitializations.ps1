@@ -239,6 +239,12 @@
         -Force `
         -ErrorAction SilentlyContinue;
 
+    # Project User Configuration Filename
+    Remove-Variable -Name "_PROJECT_USER_CONFIG_FILENAME_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
     # Project's Meta Filename
     Remove-Variable -Name "_META_FILENAME_" `
         -Scope Global `

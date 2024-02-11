@@ -673,6 +673,17 @@ function __GeneralizedVariables()
  #>
 function __InitializationProjectManager()
 {
+    # Project User Configuration Filename
+    Set-Variable `
+        -Name "_PROJECT_USER_CONFIG_FILENAME_" `
+        -Value "userconfig" `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -ErrorAction SilentlyContinue `
+        -Description "Provides the filename of the user's Project User Configuration file.";
+
+
     # Project's Meta Filename
     Set-Variable `
         -Name "_META_FILENAME_" `
