@@ -598,7 +598,7 @@ class ProjectMetaData
 
     #region Setter Functions
 
-   <# Set Meta File Name
+   <# Set Meta File Name [Required]
     # -------------------------------
     # Documentation:
     #  Sets a new value for the 'Meta File Name' variable.
@@ -630,7 +630,7 @@ class ProjectMetaData
 
 
 
-   <# Set Meta File Path
+   <# Set Meta File Path [Required]
     # -------------------------------
     # Documentation:
     #  Sets a new value for the 'Meta File Path' variable.
@@ -662,7 +662,7 @@ class ProjectMetaData
 
 
 
-   <# Set Meta GUID
+   <# Set Meta GUID [Required]
     # -------------------------------
     # Documentation:
     #  Sets a new value for the 'Meta GUID' variable.
@@ -690,7 +690,7 @@ class ProjectMetaData
 
 
 
-   <# Set Project Name
+   <# Set Project Name [Required]
     # -------------------------------
     # Documentation:
     #  Sets a new value for the 'Project Name' variable.
@@ -722,7 +722,7 @@ class ProjectMetaData
 
 
 
-   <# Set Project Code Name
+   <# Set Project Code Name [Optional]
     # -------------------------------
     # Documentation:
     #  Sets a new value for the 'Project Code Name' variable.
@@ -750,7 +750,7 @@ class ProjectMetaData
 
 
 
-   <# Set Project Revision
+   <# Set Project Revision [Required]
     # -------------------------------
     # Documentation:
     #  Sets a new value for the 'Project Revision' variable.
@@ -778,7 +778,7 @@ class ProjectMetaData
 
 
 
-   <# Set Project Output File Name
+   <# Set Project Output File Name [Required]
     # -------------------------------
     # Documentation:
     #  Sets a new value for the 'Project Output File Name' variable.
@@ -810,7 +810,7 @@ class ProjectMetaData
 
 
 
-   <# Set Project Website URL
+   <# Set Project Website URL [Optional]
     # -------------------------------
     # Documentation:
     #  Sets a new value for the 'Project Website URL' variable.
@@ -838,7 +838,7 @@ class ProjectMetaData
 
 
 
-   <# Set Project Wiki URL
+   <# Set Project Wiki URL [Optional]
     # -------------------------------
     # Documentation:
     #  Sets a new value for the 'Project Wiki URL' variable.
@@ -866,7 +866,7 @@ class ProjectMetaData
 
 
 
-   <# Set Project Source Code URL
+   <# Set Project Source Code URL [Optional]
     # -------------------------------
     # Documentation:
     #  Sets a new value for the 'Project Source Code URL' variable.
@@ -894,7 +894,7 @@ class ProjectMetaData
 
 
 
-   <# Set Program Directory Name
+   <# Set Program Directory Name [Required]
     # -------------------------------
     # Documentation:
     #  Sets a new value for the 'Program Directory Name' variable.
@@ -926,7 +926,7 @@ class ProjectMetaData
 
 
 
-   <# Set Program Verification
+   <# Set Program Verification [Required]
     # -------------------------------
     # Documentation:
     #  Sets a new value for the 'Program Verification' variable.
@@ -957,7 +957,7 @@ class ProjectMetaData
 
 
 
-   <# Set Program Installed
+   <# Set Program Installed [Required]
     # -------------------------------
     # Documentation:
     #  Sets a new value for the 'Program Installed' variable.
@@ -988,7 +988,7 @@ class ProjectMetaData
 
 
 
-   <# Set Program Message
+   <# Set Program Message [Required]
     # -------------------------------
     # Documentation:
     #  Sets a new value for the 'Program Message' variable.
