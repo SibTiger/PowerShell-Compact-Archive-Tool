@@ -22,8 +22,9 @@
  # ------------------------------
  # ==============================
  # ==============================
- # This class is designed to allow the user to load or save their User Configuration file that contains
- #  information regarding a specific PowerShell Compact-Archive Tool Project.
+ # This class contains information regarding the PowerShell Compact-Archive Tool Project User Configuration.
+ #  Within the User Configuration file, it will contain preferences that are specifically for a project that
+ #  is currently installed within PSCAT's environment.
  #>
 
 
