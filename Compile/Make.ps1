@@ -254,6 +254,7 @@ function MakeCompilerDriver()
                         "ProjectMetaData.ps1", `
                         "ProjectUserConfig.ps1", `
                         "ProjectUserConfigLoadSave.ps1", `
+                        "ProjectUserConfigSettings.ps1", `
                         "BurntToast.ps1", `
                         "MainMenu.ps1", `
                         "Builder.ps1", `
