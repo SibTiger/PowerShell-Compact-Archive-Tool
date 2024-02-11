@@ -64,7 +64,7 @@ class ProjectUserConfiguration
     # Initiated Object
     ProjectUserConfiguration([string] $gameProjectSourcePath)
     {
-        # Game's Proejct Source FIles Absolute Path
+        # Game's Project Source Files Absolute Path
         $this.__gameProjectSourcePath = $gameProjectSourcePath;
     } # Initiated Object
 
