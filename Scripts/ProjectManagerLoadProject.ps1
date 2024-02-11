@@ -430,15 +430,18 @@ class ProjectManagerLoadProject
 
         # Load the desired project:
         # - Mandatory Fields
-        # - Optional Fields
         $projectInformation.SetProjectName($projectToLoad.GetProjectName());
-        $projectInformation.SetCodeName($projectToLoad.GetProjectCodeName());
         $projectInformation.SetCompilerVersion($projectToLoad.GetProjectRevision());
         $projectInformation.SetFileName($projectToLoad.GetProjectOutputFileName());
+        $projectInformation.SetProjectLoaded($true);
+
+        # - Optional Fields
+        $projectInformation.SetCodeName($projectToLoad.GetProjectCodeName());
         $projectInformation.SetURLWebsite($projectToLoad.GetProjectURLWebsite());
         $projectInformation.SetURLWiki($projectToLoad.GetProjectURLWiki());
         $projectInformation.SetURLSource($projectToLoad.GetProjectURLSourceCode());
-        $projectInformation.SetProjectLoaded($true);
+        
+        # - User Config
         $projectInformation.SetProjectPath("C:\");    # INCOMPLETE
     } # __LoadProject()
 
