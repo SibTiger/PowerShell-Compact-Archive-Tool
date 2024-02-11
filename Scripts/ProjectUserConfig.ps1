@@ -32,4 +32,113 @@
 
 class ProjectUserConfiguration
 {
+    # Member Variables :: Properties
+    # =================================================
+    # =================================================
+
+    # Project Source Path
+    # ---------------
+    # Contains the absolute path to the game's project source files, that will be compiled.
+    hidden [string] $__gameProjectSourcePath;
+
+
+
+
+    # Member Functions :: Methods
+    # =================================================
+    # =================================================
+
+
+    #region Constructor Functions
+
+    # Default Constructor
+    ProjectUserConfiguration()
+    {
+        # Game's Project Source Files Absolute Path
+        $this.__gameProjectSourcePath = NULL;
+    } # Default Constructor
+
+
+
+
+    # Initiated Object
+    ProjectUserConfiguration([string] $gameProjectSourcePath)
+    {
+        # Game's Proejct Source FIles Absolute Path
+        $this.__gameProjectSourcePath = $gameProjectSourcePath;
+    } # Initiated Object
+
+    #endregion
+
+
+
+
+    #region Getter Functions
+
+   <# Get Game Project Source Path
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the 'Game Project Source Path' variable.
+    # -------------------------------
+    # Output:
+    #  [string] Game Project Source Path
+    #   The value of the 'Game Project Source Path'.
+    # -------------------------------
+    #>
+    [string] GetGameProjectSourcePath() { return $this.__gameProjectSourcePath; }
+
+    #endregion
+
+
+
+
+    #region Setter Functions
+
+   <# Set Game Project Source Path
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'Game Project Source Path' variable.
+    # -------------------------------
+    # Input:
+    #  [String] Game Project Source Path
+    #   Sets the value of the 'Game Project Source Path' variable.
+    # -------------------------------
+    # Output:
+    #  [bool] status
+    #   $true   = Success; value had been changed.
+    #   $false  = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetGameProjectSourcePath([string] $newValue)
+    {
+        # Make sure that the new value satisfies these following requirements:
+        if ([CommonFunctions]::IsStringEmpty($newValue)     -and `  # Make sure that the value is not empty
+            [CommonIO]::CheckPathExists($newValue, $true))          # Make sure that the path exists
+        { return $false; }
+
+
+        # Update the value as requested
+        $this.__gameProjectSourcePath = $newValue;
+
+
+        # Operation was successful
+        return $true;
+    } # SetGameProjectSourcePath()
+
+    # endregion
+
+
+
+
+    #region Member Functions
+
+   <# Set Empty Game Project Source Path
+    # -------------------------------
+    # Documentation:
+    #  Sets an empty value within the 'Game Project Source Path' variable.
+    # -------------------------------
+    #>
+    [void] SetGameProjectSourcePathAsEmpty() { $this.__gameProjectSourcePath = $NULL; }
+
+    #endregion
 } # ProjectUserConfiguration
