@@ -116,7 +116,8 @@ class ProjectUserConfigurationLoadSave
 
         # Create the User Configuration file
         #TODO: Need to create a file, function needs to be created in CommonIO
-        #       MakeFile(PATH, WHAT)
+        # https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/new-item?view=powershell-7.4#example-1-create-a-file-in-the-current-directory
+        #       MakeFile(FILENAME, PATH, VALUE)
     } # Create()
 
 
