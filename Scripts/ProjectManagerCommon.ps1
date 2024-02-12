@@ -709,6 +709,9 @@ class ProjectManagerCommon
                                         $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($displayErrorMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
 
