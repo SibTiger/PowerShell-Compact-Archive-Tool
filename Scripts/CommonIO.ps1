@@ -2456,6 +2456,160 @@ class CommonIO
 
 
 
+   <# Make a New Text File
+    # -------------------------------
+    # Documentation:
+    #  This function will create a new text file with the provided absolute path, filename, and what
+    #   contents will be inserted into the readable textfile.
+    # -------------------------------
+    # Input:
+    #  [string] filename
+    #   The name of the textfile.
+    #  [string] Absolute Path
+    #   The absolute path of where the textfile will be created within the filesystem.
+    #  [string] Contents
+    #   The contents that will be inserted into the readable textfile.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #    $false = Failed to create the text file.
+    #    $true  = Successfully created the text file.
+    # -------------------------------
+    #>
+    static [bool] MakeTextFile( [string] $filename,     ` # Filename
+                                [string] $path,         ` # Absolute Path
+                                [string] $contents)     ` # Readable text to insert
+    {
+        # Check to see if the file already exists, if it already exists then we may not proceed.
+        if ([CommonIO]::CheckPathExists("$($path)\$($filename)", $true))
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to create text file as it already exists!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = (  "Filename:`r`n"             + `
+                                            "`t`t" + $filename + "`r`n" + `
+                                            "`tPath:`r`n"               + `
+                                            "`t`t" + $path + "`r`n"     + `
+                                            "`rContents:`r`n"           + `
+                                            "`t`t" + $contents + "`r`n" );
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # if : File already exists
+
+
+
+        # Try to create the textfile
+        try
+        {
+            # This variable will store the File information of the textfile.
+            [System.IO.FileInfo] $debugInformation = $null;
+
+            # Try to create the textfile; if failure reached - stop.
+            $debugInformation = New-Item    -Path $path `
+                                            -Name $filename `
+                                            -ItemType "file" `
+                                            -Value $contents `
+                                            -ErrorAction Stop;
+
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Get any information that is useful regarding the New-Item operation
+                [string] $debugInformationFile  = ( "`t`tName:`t`t$($debugInformation.Name.ToString())`r`n"             + `
+                                                    "`t`tPath:`t`t$($debugInformation.FullName.ToString())`r`n"         + `
+                                                    "`t`tTime:`t`t$($debugInformation.CreationTime.ToString())`r`n"     + `
+                                                    "`t`tAttributes:`t$($debugInformation.Attributes.ToString())`r`n"   + `
+                                                    "`t`tExists:`t`t$($debugInformation.Exists.ToString())`r`n"         + `
+                                                    "`t`tBytes:`t`t$($debugInformation.Length.ToString())"              );
+
+                # Generate the initial message
+                [string] $logMessage = "Successfully created the textfile!";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = (  "Filename:`r`n"                 + `
+                                                "`t`t" + $filename  + "`r`n"    + `
+                                                "`tPath:`r`n"                   + `
+                                                "`t`t" + $path      + "`r`n"    + `
+                                                "`rContents:`r`n"               + `
+                                                "`t`t" + $contents  + "`r`n"    + `
+                                                "`tFile Information:`r`n"       + `
+                                                $debugInformationFile           );
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                            $logAdditionalMSG, `            # Additional information
+                                            [LogMessageLevel]::Verbose);    # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
+                # Finished successfully
+                return $true;
+        } # try : Create textfile
+
+        catch
+        {
+            # Failed to create the textfile
+
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Prep a message to display to the user for this error; temporary variable
+                [string] $displayErrorMessage = ("Failed to create the textfile!`r`n" + `
+                                                "$([Logging]::GetExceptionInfoShort($_.Exception))");
+
+                # Generate the initial message
+                [string] $logMessage = "Failed to create the textfile by request!";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = (  "Filename:`r`n"                                 + `
+                                                "`t`t" + $filename  + "`r`n"                    + `
+                                                "`tPath:`r`n"                                   + `
+                                                "`t`t" + $path      + "`r`n"                    + `
+                                                "`rContents:`r`n"                               + `
+                                                "`t`t" + $contents  + "`r`n"                    + `
+                                                "`tFile Information:`r`n"                       + `
+                                                "$([Logging]::GetExceptionInfo($_.Exception))"  );
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
+                                            [LogMessageLevel]::Error);  # Message level
+
+                # Display a message to the user that something went horribly wrong
+                #  and log that same message for referencing purpose.
+                [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                            [LogMessageLevel]::Error);  # Message level
+
+                # Alert the user through a message box as well that an issue had occurred;
+                #   the message will be brief as the full details remain within the terminal.
+                [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
+                # * * * * * * * * * * * * * * * * * * *
+        } # Catch : Failed to Create Textfile
+
+
+        # Making it at this point, would mean that a failure had been reached.
+        return $false;
+    } # MakeTextFile()
+
+
+
+
    <# Check Path Exists
     # -------------------------------
     # Documentation:
