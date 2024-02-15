@@ -115,9 +115,59 @@ class ProjectUserConfigurationLoadSave
 
 
         # Create the User Configuration file
-        #TODO: Need to create a file, function needs to be created in CommonIO
-        # https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/new-item?view=powershell-7.4#example-1-create-a-file-in-the-current-directory
-        #       MakeFile(FILENAME, PATH, VALUE)
+        if (![CommonIO]::MakeTextFile($GLOBAL:_PROJECT_USER_CONFIG_FILENAME_,       `
+                                        $GLOBAL:_PROGRAMDATA_LOCAL_PROJECT_PATH_,   `
+                                        $userConfigContentsString))
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the Message Box string that will be presented to the user
+            [string] $displayErrorMessage = ("Unable to create the user configuration file for the project, $($GLOBAL:_PROGRAMNAMESHORT_)!");
+
+            # Generate the initial message
+            [string] $logMessage = $displayErrorMessage;
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("User Configuration Properties:"                                      + "`r`n" + `
+                                        "`t`tFilename:          " + $GLOBAL:_PROJECT_USER_CONFIG_FILENAME_      + "`r`n" + `
+                                        "`t`tPath:              " + $GLOBAL:_PROGRAMDATA_LOCAL_PROJECT_PATH_    + "`r`n" + `
+                                        "`t`tContents:"                                                         + "`r`n" + `
+                                        "`t----------------------------------------------"                      + "`r`n" + `
+                                        $userConfigContentsString                                               + "`r`n" + `
+                                        "`t----------------------------------------------"                      + "`r`n" + `
+                                        "`t$($GLOBAL:_PROGRAMNAMESHORT_) Project:"                              + "`r`n" + `
+                                        "`t`tName:              " + $metaData.GetProjectName()                  + "`r`n" + `
+                                        "`t`tCodename:          " + $metaData.GetProjectCodeName()              + "`r`n" + `
+                                        "`t`tRevision:          " + $metaData.GetProjectRevision()              + "`r`n" + `
+                                        "`t`tOutput Filename:   " + $metaData.GetProjectOutputFileName()        + "`r`n" + `
+                                        "`t`tWebsite URL:       " + $metaData.GetProjectURLWebsite()            + "`r`n" + `
+                                        "`t`tWiki URL:          " + $metaData.GetProjectURLWiki()               + "`r`n" + `
+                                        "`t`tSource URL:        " + $metaData.GetProjectURLSourceCode()         + "`r`n" + `
+                                        "`t`tSignature:         " + $metaData.GetMetaGUID()                     );
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity(  $logMessage, `              # Initial message
+                                            $logAdditionalMSG, `        # Additional information
+                                            [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that there was no projects found and log that same message for
+            #  referencing purpose.
+            [Logging]::DisplayMessage($logMessage, `                    # Message to display
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($displayErrorMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # if : Failed to Create Userconfig file
+
+
+
+        # Operation was successful
+        return $true;
     } # Create()
 
 
