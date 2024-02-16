@@ -133,7 +133,7 @@ class ProjectUserConfigurationLoadSave
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("User Configuration Properties:"                                      + "`r`n" + `
                                         "`t`tFilename:          " + $GLOBAL:_PROJECT_USER_CONFIG_FILENAME_      + "`r`n" + `
-                                        "`t`tPath:              " + $GLOBAL:_PROGRAMDATA_LOCAL_PROJECT_PATH_    + "`r`n" + `
+                                        "`t`tPath:              " + $metaData.GetMetaFilePath()                 + "`r`n" + `
                                         "`t`tContents:"                                                         + "`r`n" + `
                                         "`t----------------------------------------------"                      + "`r`n" + `
                                         $userConfigContentsString                                               + "`r`n" + `
