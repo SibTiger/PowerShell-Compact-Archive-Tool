@@ -195,6 +195,39 @@ class ProjectUserConfigurationLoadSave
 
 
 
-    # Load Project User COnfiguration
+
+   <# Load Project User Configuration
+    # -------------------------------
+    # Documentation:
+    #  This function will try to load the User Configuration file that is stored within the desired PSCAT
+    #   Project installation directory.
+    # -------------------------------
+    # Input:
+    #  [ProjectUserConfiguration] {REFERENCE} User Configuration
+    #   The User Configuration that will contain the user's preferences for the desired PSCAT Project.
+    #  [ProjectMetaData] Project's Meta Data
+    #   The desired PSCAT Project's Meta Data that contains populated information.
+    # -------------------------------
+    # Output:
+    #  [bool] Operation Status
+    #   $true   = Successfully accessed and obtained User Configuration data.
+    #   $false  = Failed to access or obtain any values within the User Configuration data.
+    # -------------------------------
+    #>
+    static [bool] Load ([ref] $userConfig,                      ` # User Configuration to populate
+                        [ProjectMetaData] $projectMetaData)       # Project Meta Data
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # ----------------------------------------
+
+
+
+
+    } # Load()
+
+
+
+
     # Update Project User Configuration
 } # ProjectUserConfigurationLoadSave
