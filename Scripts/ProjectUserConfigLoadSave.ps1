@@ -31,25 +31,25 @@
 
 class ProjectUserConfigurationLoadSave
 {
-   <# Create Project User Configuration
+   <# Save Project User Configuration
     # -------------------------------
     # Documentation:
-    #  This function will create a Project User Configuration file within the PowerShell Compact-Archive-
+    #  This function will save a Project User Configuration file within the PowerShell Compact-Archive-
     #   Tool's Project's directory.
     # -------------------------------
     # Input:
     #  [ProjectUserConfiguration] User Configuration
     #   The User Configuration contents that will be inserted into the User Config file.
     #  [ProjectMetaData] Project's Meta Data
-    #   Desired Project's Meta Data information in which the User Config file will be created.
+    #   Desired Project's Meta Data information in which the User Config file will be saved.
     # -------------------------------
     # Output:
-    #  $true    = Successfully created the User Config file.
-    #  $false   = Failed to create the User Config file.
+    #  $true    = Successfully saved the User Config file.
+    #  $false   = Failed to save the User Config file.
     # -------------------------------
     #>
-    static [bool] Create([ProjectUserConfiguration] $userConfig, `      # User Config. Contents
-                            [ProjectMetaData] $metaData)                # Project to Create User Config.
+    static [bool] Save ([ProjectUserConfiguration] $userConfig, `       # User Config. Contents
+                            [ProjectMetaData] $metaData)                # Project to Save User Config.
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -62,7 +62,7 @@ class ProjectUserConfigurationLoadSave
         # Make sure that the PSCAT Project Directory exists before continuing forward.
         if (![CommonIO]::CheckPathExists($metaData.GetMetaFilePath(), $true))
         {
-            # Project Directory does not exist, cannot create User Config. file.
+            # Project Directory does not exist, cannot save User Config. file.
 
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -75,7 +75,7 @@ class ProjectUserConfigurationLoadSave
                                             $metaData.GetMetaFilePath());
 
             # Generate the initial message
-            [string] $logMessage = "$($GLOBAL:_PROGRAMNAMESHORT_) Project directory does not exist, cannot create User Config file!"
+            [string] $logMessage = "$($GLOBAL:_PROGRAMNAMESHORT_) Project directory does not exist, cannot save User Config file!"
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("$($GLOBAL:_PROGRAMNAMESHORT_) Project to Inspect:"               + "`r`n" + `
@@ -106,16 +106,16 @@ class ProjectUserConfigurationLoadSave
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Cannot create User Config file.
+            # Cannot save User Config file.
             return $false;
         } # if : PSCAT Proj. Dir. does not Exist
 
 
         # Craft the string of all of the properties contained within the Project User Configuration object.
-        $userConfigContentsString = [ProjectUserConfigurationLoadSave]::CreateUserConfigurationString($userConfig);
+        $userConfigContentsString = [ProjectUserConfigurationLoadSave]::SaveUserConfigurationString($userConfig);
 
 
-        # Create the User Configuration file
+        # Save the User Configuration file
         if (![CommonIO]::MakeTextFile($GLOBAL:_PROJECT_USER_CONFIG_FILENAME_,   `
                                         $metaData.GetMetaFilePath(),            `
                                         $userConfigContentsString))
@@ -125,7 +125,7 @@ class ProjectUserConfigurationLoadSave
             # --------------
 
             # Generate the Message Box string that will be presented to the user
-            [string] $displayErrorMessage = ("Unable to create the user configuration file for the project, $($GLOBAL:_PROGRAMNAMESHORT_)!");
+            [string] $displayErrorMessage = ("Unable to save the user configuration file for the project, $($GLOBAL:_PROGRAMNAMESHORT_)!");
 
             # Generate the initial message
             [string] $logMessage = $displayErrorMessage;
@@ -163,18 +163,18 @@ class ProjectUserConfigurationLoadSave
             [CommonGUI]::MessageBox($displayErrorMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
-        } # if : Failed to Create Userconfig file
+        } # if : Failed to Save Userconfig file
 
 
 
         # Operation was successful
         return $true;
-    } # Create()
+    } # Save()
 
 
 
 
-   <# Create User Configuration String
+   <# Save User Configuration String
     # -------------------------------
     # Documentation:
     #  This function will generate the output that will be inserted into the User Configuration file.
@@ -188,10 +188,10 @@ class ProjectUserConfigurationLoadSave
     #   The User Configuration Preferences as a complete string that can be written to a file.
     # -------------------------------
     #>
-    static hidden [string] CreateUserConfigurationString([ProjectUserConfiguration] $userConfig)
+    static hidden [string] SaveUserConfigurationString([ProjectUserConfiguration] $userConfig)
     {
         return ("GameProjectSourcePath = " + $userConfig.GetGameProjectSourcePath() + "`r`n");
-    } # CreateUserConfigurationString()
+    } # SaveUserConfigurationString()
 
 
 
