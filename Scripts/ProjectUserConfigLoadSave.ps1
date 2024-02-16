@@ -78,7 +78,7 @@ class ProjectUserConfigurationLoadSave
             [string] $logMessage = "$($GLOBAL:_PROGRAMNAMESHORT_) Project directory does not exist, cannot create User Config file!"
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("$($GLOBAL:_PROGRAMNAMESHORT_) Project to Inspect:`r`n"   + `
+            [string] $logAdditionalMSG = ("$($GLOBAL:_PROGRAMNAMESHORT_) Project to Inspect:"               + "`r`n" + `
                                         "`tName:                " + $metaData.GetProjectName()              + "`r`n" + `
                                         "`tCodename:            " + $metaData.GetProjectCodeName()          + "`r`n" + `
                                         "`tRevision:            " + $metaData.GetProjectRevision()          + "`r`n" + `
@@ -189,7 +189,7 @@ class ProjectUserConfigurationLoadSave
     #>
     static hidden [string] CreateUserConfigurationString([ProjectUserConfiguration] $userConfig)
     {
-        return ("GameProjectSourcePath = " +  $userConfig.GetGameProjectSourcePath() + "`r`n");
+        return ("GameProjectSourcePath = " + $userConfig.GetGameProjectSourcePath() + "`r`n");
     } # CreateUserConfigurationString()
 
 
