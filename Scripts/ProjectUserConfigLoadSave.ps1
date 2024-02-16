@@ -115,8 +115,8 @@ class ProjectUserConfigurationLoadSave
 
 
         # Create the User Configuration file
-        if (![CommonIO]::MakeTextFile($GLOBAL:_PROJECT_USER_CONFIG_FILENAME_,       `
-                                        $GLOBAL:_PROGRAMDATA_LOCAL_PROJECT_PATH_,   `
+        if (![CommonIO]::MakeTextFile($GLOBAL:_PROJECT_USER_CONFIG_FILENAME_,   `
+                                        $metaData.GetMetaFilePath(),            `
                                         $userConfigContentsString))
         {
             # * * * * * * * * * * * * * * * * * * *
