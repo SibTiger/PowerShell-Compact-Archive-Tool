@@ -86,7 +86,8 @@ class ProjectUserConfigurationLoadSave
                                         "`tWebsite URL:         " + $metaData.GetProjectURLWebsite()        + "`r`n" + `
                                         "`tWiki URL:            " + $metaData.GetProjectURLWiki()           + "`r`n" + `
                                         "`tSource URL:          " + $metaData.GetProjectURLSourceCode()     + "`r`n" + `
-                                        "`tSignature:           " + $metaData.GetMetaGUID()                 );
+                                        "`tSignature:           " + $metaData.GetMetaGUID()                 + "`r`n" + `
+                                        "`tMeta Path:           " + $metaData.GetMetaFilePath()             );
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity(  $logMessage, `              # Initial message
