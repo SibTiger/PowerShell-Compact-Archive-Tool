@@ -2597,10 +2597,11 @@ class CommonIO
 
                 # Alert the user through a message box as well that an issue had occurred;
                 #   the message will be brief as the full details remain within the terminal.
-                [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+                [CommonGUI]::MessageBox($displayErrorMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
                 # * * * * * * * * * * * * * * * * * * *
         } # Catch : Failed to Create Textfile
+
 
 
         # Making it at this point, would mean that a failure had been reached.
