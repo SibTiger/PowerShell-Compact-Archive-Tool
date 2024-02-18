@@ -192,7 +192,7 @@ class ProjectUserConfigurationLoadSave
     #>
     static hidden [string] SaveUserConfigurationString([ProjectUserConfiguration] $userConfig)
     {
-        return ("GameProjectSourcePath = " + $userConfig.GetGameProjectSourcePath() + "`r`n");
+        return ($GLOBAL:_USERCONFIG_STRING_SOURCE_PATH_ + " " + $GLOBAL:_META_VALUE_DELIMITER_ + " " + $userConfig.GetGameProjectSourcePath() + "`r`n");
     } # SaveUserConfigurationString()
 
     #endregion
