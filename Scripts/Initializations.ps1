@@ -684,6 +684,17 @@ function __InitializationProjectManager()
         -Description "Provides the filename of the user's Project User Configuration file.";
 
 
+    # User Configuration Game Project Source Path
+    Set-Variable `
+        -Name "_USERCONFIG_STRING_SOURCE_PATH_" `
+        -Value "GameProjectSourcePath" `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -ErrorAction SilentlyContinue `
+        -Description "A string within the User Configuration file that contains a path to the Source directory.";
+
+
     # Project's Meta Filename
     Set-Variable `
         -Name "_META_FILENAME_" `

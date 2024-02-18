@@ -245,6 +245,12 @@
         -Force `
         -ErrorAction SilentlyContinue;
 
+    # User Configuration string for the "Game Project Source Path" found within the User Configuration file.
+    Remove-Variable -Name "_USERCONFIG_STRING_SOURCE_PATH_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
     # Project's Meta Filename
     Remove-Variable -Name "_META_FILENAME_" `
         -Scope Global `
