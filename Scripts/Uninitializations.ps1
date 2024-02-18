@@ -245,6 +245,12 @@
         -Force `
         -ErrorAction SilentlyContinue;
 
+    # User Configuration File Required String Data
+    Remove-Variable -Name "_USER_CONFIG_REQUIRED_NUMBER_OF_STRINGS_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
     # User Configuration string for the "Game Project Source Path" found within the User Configuration file.
     Remove-Variable -Name "_USERCONFIG_STRING_SOURCE_PATH_" `
         -Scope Global `
