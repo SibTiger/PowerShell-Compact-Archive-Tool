@@ -118,7 +118,7 @@ class ProjectUserConfigurationLoadSave
 
 
         # Save the User Configuration file
-        if (![CommonIO]::MakeTextFile($GLOBAL:_PROJECT_USER_CONFIG_FILENAME_,   `
+        if (![CommonIO]::MakeTextFile($GLOBAL:_PROJECT_USERCONFIG_FILENAME_,   `
                                         $metaData.GetMetaFilePath(),            `
                                         $userConfigContentsString))
         {
@@ -134,7 +134,7 @@ class ProjectUserConfigurationLoadSave
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("User Configuration Properties:"                                      + "`r`n" + `
-                                        "`t`tFilename:          " + $GLOBAL:_PROJECT_USER_CONFIG_FILENAME_      + "`r`n" + `
+                                        "`t`tFilename:          " + $GLOBAL:_PROJECT_USERCONFIG_FILENAME_       + "`r`n" + `
                                         "`t`tPath:              " + $metaData.GetMetaFilePath()                 + "`r`n" + `
                                         "`t`tContents:"                                                         + "`r`n" + `
                                         "`t----------------------------------------------"                      + "`r`n" + `
@@ -191,7 +191,7 @@ class ProjectUserConfigurationLoadSave
     # -------------------------------
     #>
     static hidden [string] SaveUserConfigurationString([ProjectUserConfiguration] $userConfig)
-    { return ("$($GLOBAL:_USERCONFIG_STRING_SOURCE_PATH_) $($GLOBAL:_META_VALUE_DELIMITER_) $($userConfig.GetGameProjectSourcePath())`r`n"); }
+    { return ("$($GLOBAL:_PROJECT_USERCONFIG_STRING_SOURCE_PATH_) $($GLOBAL:_PROJECT_USERCONFIG_VALUE_DELIMITER_) $($userConfig.GetGameProjectSourcePath())`r`n"); }
 
     #endregion
 
@@ -234,7 +234,7 @@ class ProjectUserConfigurationLoadSave
         [string]    $tempGameProjectSourcePath  = $NULL;
 
         # User Configuration File Path
-        [string]    $userConfigurationPath      = $projectMetaData.GetMetaFilePath() + "\" + $GLOBAL:_PROJECT_USER_CONFIG_FILENAME_;
+        [string]    $userConfigurationPath      = $projectMetaData.GetMetaFilePath() + "\" + $GLOBAL:_PROJECT_USERCONFIG_FILENAME_;
         # ----------------------------------------
 
 
@@ -360,14 +360,14 @@ class ProjectUserConfigurationLoadSave
         foreach($line in $userConfigContents)
         {
             # Game Project Source Path
-            if ($line.Contains($GLOBAL:_USERCONFIG_STRING_SOURCE_PATH_))
-            { $userConfigHash.Add($GLOBAL:_USERCONFIG_STRING_SOURCE_PATH_, $line); }
+            if ($line.Contains($GLOBAL:_PROJECT_USERCONFIG_STRING_SOURCE_PATH_))
+            { $userConfigHash.Add($GLOBAL:_PROJECT_USERCONFIG_STRING_SOURCE_PATH_, $line); }
         } # foreach : Find Necessary Strings
 
 
 
         # Make sure that we have enough information from the project User Configuration file.
-        if (userConfigHash.Count -ne $GLOBAL:_USER_CONFIG_REQUIRED_NUMBER_OF_STRINGS_)
+        if (userConfigHash.Count -ne $GLOBAL:_PROJECT_USERCONFIG_REQUIRED_NUMBER_OF_STRINGS_)
         {
             # Declarations and Initializations
             # ----------------------------------------
@@ -400,13 +400,13 @@ class ProjectUserConfigurationLoadSave
             [string] $logMessage = ("Unable to obtain significant information from the project's User Configuration file!");
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = (  "Got $(($userConfigHash.Count).ToString()) out of "                             + `
-                                                "$(($GLOBAL:_USER_CONFIG_REQUIRED_NUMBER_OF_STRINGS_).ToString()) Useful "  + `
-                                                "strings from the User Configuration file!`r`n"                             + `
-                                            "`tExpected to find the following information in User Configuration file:`r`n"  + `
-                                            "`t`t - $($GLOBAL:_USERCONFIG_STRING_SOURCE_PATH_)`r`n"                         + `
-                                            "`r`n"                                                                          + `
-                                            "`tInstead, the following was found within the User Config. file:`r`n"          + `
+            [string] $logAdditionalMSG = (  "Got $(($userConfigHash.Count).ToString()) out of "                                     + `
+                                                "$(($GLOBAL:_PROJECT_USERCONFIG_REQUIRED_NUMBER_OF_STRINGS_).ToString()) Useful "   + `
+                                                "strings from the User Configuration file!`r`n"                                     + `
+                                            "`tExpected to find the following information in User Configuration file:`r`n"          + `
+                                            "`t`t - $($GLOBAL:_PROJECT_USERCONFIG_STRING_SOURCE_PATH_)`r`n"                         + `
+                                            "`r`n"                                                                                  + `
+                                            "`tInstead, the following was found within the User Config. file:`r`n"                  + `
                                             $cacheStringList);
 
             # Pass the information to the logging system
@@ -429,8 +429,8 @@ class ProjectUserConfigurationLoadSave
         try
         {
             # Game Project Source Path
-            tempGameProjectSourcePath   = [string] (userConfigHash[$GLOBAL:_USERCONFIG_STRING_SOURCE_PATH_]     `
-                                                        -Replace "$($GLOBAL:_USERCONFIG_STRING_SOURCE_PATH_)$($GLOBAL:_META_VALUE_DELIMITER_)").Trim();
+            tempGameProjectSourcePath   = [string] (userConfigHash[$GLOBAL:_PROJECT_USERCONFIG_STRING_SOURCE_PATH_]     `
+                                                        -Replace "$($GLOBAL:_PROJECT_USERCONFIG_STRING_SOURCE_PATH_)$($GLOBAL:_PROJECT_USERCONFIG_VALUE_DELIMITER_)").Trim();
         } # Try : Assign Proper Values
 
 
@@ -473,12 +473,12 @@ class ProjectUserConfigurationLoadSave
             [string] $logMessage = $displayErrorMessage;
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG =   ("Obtained the following values from the project's Configuration File file:`r`n"                         + `
-                                            "`t`t- Game Project Source Path =`t$($userConfigHash[$GLOBAL:_USERCONFIG_STRING_SOURCE_PATH_])`r`n"     + `
-                                            "`t`t`tTried to cast as String`r`n"                                                                     + `
-                                            "`r`n"                                                                                                  + `
-                                            "`tUser Configuration File Contents:`r`n"                                                               + `
-                                            "$($cacheStringList)")                                                                                  ;
+            [string] $logAdditionalMSG =   ("Obtained the following values from the project's Configuration File file:`r`n"                             + `
+                                            "`t`t- Game Project Source Path =`t$($userConfigHash[$GLOBAL:_PROJECT_USERCONFIG_STRING_SOURCE_PATH_])`r`n" + `
+                                            "`t`t`tTried to cast as String`r`n"                                                                         + `
+                                            "`r`n"                                                                                                      + `
+                                            "`tUser Configuration File Contents:`r`n"                                                                   + `
+                                            "$($cacheStringList)")                                                                                      ;
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -513,7 +513,7 @@ class ProjectUserConfigurationLoadSave
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG  = ("User Configuration Properties and Value Results:`r`n"                                               + `
-                                            "`tProperty:    $($GLOBAL:_USERCONFIG_STRING_SOURCE_PATH_)`r`n"                                     + `
+                                            "`tProperty:    $($GLOBAL:_PROJECT_USERCONFIG_STRING_SOURCE_PATH_)`r`n"                             + `
                                             "`t`t- Value:   $($tempGameProjectSourcePath)`r`n"                                                  + `
                                             "`t`t- Type:    $($tempGameProjectSourcePath.GetType().Name)`r`n"                                   + `
                                             "`t`t- Result:  $($userConfig.Value.SetGameProjectSourcePath($tempGameProjectSourcePath))"          );
