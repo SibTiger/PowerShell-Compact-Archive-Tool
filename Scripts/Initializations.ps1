@@ -678,7 +678,7 @@ function __InitializationProjectUserConfiguration()
 {
     # Project User Configuration Filename
     Set-Variable `
-        -Name "_PROJECT_USER_CONFIG_FILENAME_" `
+        -Name "_PROJECT_USERCONFIG_FILENAME_" `
         -Value "userconfig" `
         -Scope Global `
         -Option ReadOnly `
@@ -689,7 +689,7 @@ function __InitializationProjectUserConfiguration()
 
     # Required User Config. string data (Natural Numbers)
     Set-Variable `
-        -Name "_USER_CONFIG_REQUIRED_NUMBER_OF_STRINGS_" `
+        -Name "_PROJECT_USERCONFIG_REQUIRED_NUMBER_OF_STRINGS_" `
         -Value 1 `
         -Scope Global `
         -Option ReadOnly `
@@ -698,9 +698,20 @@ function __InitializationProjectUserConfiguration()
         -Description "The required number of strings that must be obtained from the User Config. file.";
 
 
+    # User Configuration Value Delimiter
+    Set-Variable `
+        -Name "_PROJECT_USERCONFIG_VALUE_DELIMITER_" `
+        -Value "=" `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -ErrorAction SilentlyContinue `
+        -Description "This defines the delimiter that marks the value of a variable within the User Config. file.";
+
+
     # User Configuration Game Project Source Path
     Set-Variable `
-        -Name "_USERCONFIG_STRING_SOURCE_PATH_" `
+        -Name "_PROJECT_USERCONFIG_STRING_SOURCE_PATH_" `
         -Value "GameProjectSourcePath" `
         -Scope Global `
         -Option ReadOnly `
