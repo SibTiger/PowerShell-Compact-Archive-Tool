@@ -223,11 +223,318 @@ class ProjectUserConfigurationLoadSave
     {
         # Declarations and Initializations
         # ----------------------------------------
+        # This will hold the contents from the User Config file, we can use this to manipulate the process the data
+        #   as necessary to retrieve the proper data.
+        [System.Collections.ArrayList] $userConfigContents = [System.Collections.ArrayList]::new();
+
+        # A hash table that will hold the obtained user config content strings.
+        $userConfigHash = @{};
+
+        # Temporary User Configuration Information
+        [string]    $tempGameProjectSourcePath  = $NULL;
+
+        # User Configuration File Path
+        [string]    $userConfigurationPath      = $projectMetaData.GetMetaFilePath() + "\" + $GLOBAL:_PROJECT_USER_CONFIG_FILENAME_;
         # ----------------------------------------
 
 
+        # Make sure that the User Configuration file exists.
+        if (![CommonIO]::CheckPathExists($userConfigurationPath, $true))
+        {
+            # File could not be found
 
 
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("The User Configuration file does not exist or is not accessible!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = (  "User Configuration File Path:`r`n"             + `
+                                            "`t`t$($userConfigurationPath)`r`n"             + `
+                                            "`tProject Name:`r`n"                           + `
+                                            "`t`t$($projectMetaData.GetProjectName())`r`n"  + `
+                                            "`tProject Installation Path:`r`n"              + `
+                                            "`t`t$($projectMetaData.GetMetaFilePath())"     );
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Abort the operation
+            return $false;
+        } # if : User Config. Not Found
+
+
+        # Try to open the file and obtain the contents
+        try
+        {
+            $userConfigContents = Get-Content                       `
+                                    -Path $userConfigurationPath    `
+                                    -ErrorAction Stop               ;
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Successfully opened and read the User Configuration File!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = (  "User Configuration File Path:`r`n"                                             + `
+                                            "`t`t$($userConfigurationPath)`r`n"                                             + `
+                                            "`r`n"                                                                          + `
+                                            "`t`tFile Contents`r`n"                                                         + `
+                                            "`t`t- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n"   + `
+                                            "`r`n");
+
+            # Output all of the contents from the User Configuration file into the Log Description
+            foreach ($line in $userConfigContents) { $logAdditionalMSG += "`t`t$($line)`r`n"; }
+
+            # Just for readability and consistency sakes
+            $logAdditionalMSG += "`r`n`t`t- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
+
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # try : Retrieve the content from User Config file
+
+        # Caught an error
+        catch
+        {
+            # Unable to open\read the User Configuration file
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Prep a message to display to the user regarding this error; temporary variable
+            [string] $displayErrorMessage = ("Failed to open or read the User Configuration file!`r`n" + `
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
+
+            # Generate the initial message
+            [string] $logMessage = ("Failed to open or read the User Configuration file!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = (  "User Configuration File to Open:`r`n"              + `
+                                            "`t`t$($userConfigurationPath)`r`n"                 + `
+                                            "`tProject Name:`r`n"                               + `
+                                            "`t`t$($projectMetaData.GetProjectName())`r`n"      + `
+                                            "`tProject Installation Path:`r`n"                  + `
+                                            "`t`t$($projectMetaData.GetMetaFilePath())"         + `
+                                            "$([Logging]::GetExceptionInfo($_.Exception))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Abort the operation.
+            return $false;
+        } # catch : Caught Error
+
+
+
+        # Parse through the lines (from the User Configuration file) and pick out the necessary data we need.
+        foreach($line in $userConfigContents)
+        {
+            # Game Project Source Path
+            if ($line.Contains($GLOBAL:_USERCONFIG_STRING_SOURCE_PATH_))
+            { $userConfigHash.Add($GLOBAL:_USERCONFIG_STRING_SOURCE_PATH_, $line); }
+        } # foreach : Find Necessary Strings
+
+
+
+        # Make sure that we have enough information from the project User Configuration file.
+        if (userConfigHash.Count -ne $GLOBAL:_USER_CONFIG_REQUIRED_NUMBER_OF_STRINGS_)
+        {
+            # Declarations and Initializations
+            # ----------------------------------------
+            # This will show the line number in which a string appears within the User Config. file.
+            [UInt64] $lineNumber                            = 0;
+
+            # Only used to show all of the User Config. contents in a formatted view.
+            [System.Collections.ArrayList] $cacheStringList = [System.Collections.ArrayList]::new();
+            # ----------------------------------------
+
+
+
+            # Generate and format the string
+            foreach ($stringLine in $userConfigContents)
+            {
+                # Increment the Line Number
+                $lineNumber++;
+
+                # Build String
+                $cacheStringList.Add("`t`t$($lineNumber.ToString()) | $($stringLine)`r`n");
+            } # foreach: Iterate and Generate a Formatted String
+
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Unable to obtain significant information from the project's User Configuration file!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = (  "Got $(($userConfigHash.Count).ToString()) out of "                             + `
+                                                "$(($GLOBAL:_USER_CONFIG_REQUIRED_NUMBER_OF_STRINGS_).ToString()) Useful "  + `
+                                                "strings from the User Configuration file!`r`n"                             + `
+                                            "`tExpected to find the following information in User Configuration file:`r`n"  + `
+                                            "`t`t - $($GLOBAL:_USERCONFIG_STRING_SOURCE_PATH_)`r`n"                         + `
+                                            "`r`n"                                                                          + `
+                                            "`tInstead, the following was found within the User Config. file:`r`n"          + `
+                                            $cacheStringList);
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Unable to continue forward, abort
+            return $false;
+        } # if : Not Enough Information from project User Configuration
+
+
+
+        # Obtain the information gathered from the User Configuration file
+        # -----------------------------------------------------------------
+        try
+        {
+            # Game Project Source Path
+            tempGameProjectSourcePath   = [string] (userConfigHash[$GLOBAL:_USERCONFIG_STRING_SOURCE_PATH_]     `
+                                                        -Replace "$($GLOBAL:_USERCONFIG_STRING_SOURCE_PATH_)$($GLOBAL:_META_VALUE_DELIMITER_)").Trim();
+        } # Try : Assign Proper Values
+
+
+        # Caught Error
+        catch
+        {
+            # Improper Datatype Assignment had occurred.
+
+            # Declarations and Initializations
+            # ----------------------------------------
+            # This will show the line number in which a string appears within the User Config. file.
+            [UInt64] $lineNumber                            = 0;
+
+            # Only used to show all of the User Config. contents in a formatted view.
+            [System.Collections.ArrayList] $cacheStringList = [System.Collections.ArrayList]::new();
+            # ----------------------------------------
+
+
+
+            # Generate and format the string
+            foreach ($stringLine in $userConfigContents)
+            {
+                # Increment the Line Number
+                $lineNumber++;
+
+                # Build String
+                $cacheStringList.Add("`t`t$($lineNumber.ToString()) | $($stringLine)`r`n");
+            } # foreach: Iterate and Generate a Formatted String
+
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Prep a message to display to the user regarding this error; temporary variable
+            [string] $displayErrorMessage = ("Failed to Convert Data Structure from the Input User Configuration File!");
+
+            # Generate the initial message
+            [string] $logMessage = $displayErrorMessage;
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG =   ("Obtained the following values from the project's Configuration File file:`r`n"                         + `
+                                            "`t`t- Game Project Source Path =`t$($userConfigHash[$GLOBAL:_USERCONFIG_STRING_SOURCE_PATH_])`r`n"     + `
+                                            "`t`t`tTried to cast as String`r`n"                                                                     + `
+                                            "`r`n"                                                                                                  + `
+                                            "`tUser Configuration File Contents:`r`n"                                                               + `
+                                            "$($cacheStringList)")                                                                                  ;
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($displayErrorMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Unable to use the data from the User Configuration file
+            return $false;
+        } # Catch : Caught an Error
+
+
+
+        # Try to apply the data into the User Configuration data structure.
+        if (($userConfig.Value.SetGameProjectSourcePath($tempGameProjectSourcePath)     -eq $false))
+        {
+            # Log this information and record what had failed.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage        = ("One or more values could not be set within the Project's User Configuration Structure!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG  = ("User Configuration Properties and Value Results:`r`n"                                               + `
+                                            "`tProperty:    $($GLOBAL:_USERCONFIG_STRING_SOURCE_PATH_)`r`n"                                     + `
+                                            "`t`t- Value:   $($tempGameProjectSourcePath)`r`n"                                                  + `
+                                            "`t`t- Type:    $($tempGameProjectSourcePath.GetType().Name)`r`n"                                   + `
+                                            "`t`t- Result:  $($userConfig.Value.SetGameProjectSourcePath($tempGameProjectSourcePath))"          );
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Failure to set the values, unable to continue.
+            return $false;
+        } # if : Failure to Set
+
+
+
+        # Made it thus far, the operation was successful
+        return $true;
     } # Load()
 
     #endregion
