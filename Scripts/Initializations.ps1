@@ -49,6 +49,9 @@ function Initializations()
     # Project Manager Manager
     __InitializationProjectManager;
 
+    # Project User Configuration
+    __InitializationProjectUserConfiguration;
+
     # Generalized Variables
     __GeneralizedVariables;
 } # Initializations()
@@ -665,13 +668,13 @@ function __GeneralizedVariables()
 
 
 
-<# Initialization: Project Manager
+<# Initialization: Project User Configuration
  # -------------------------------
  # Documentation:
- #  This function will initialize the variables that will be used within the Project Manager functionality.
+ #  This function will initialize the variables that will be used within the Project User Configuration Functionality.
  # -------------------------------
  #>
-function __InitializationProjectManager()
+function __InitializationProjectUserConfiguration()
 {
     # Project User Configuration Filename
     Set-Variable `
@@ -704,8 +707,19 @@ function __InitializationProjectManager()
         -Visibility Public `
         -ErrorAction SilentlyContinue `
         -Description "A string within the User Configuration file that contains a path to the Source directory.";
+} # __InitializationProjectUserConfiguration()
 
 
+
+
+<# Initialization: Project Manager
+ # -------------------------------
+ # Documentation:
+ #  This function will initialize the variables that will be used within the Project Manager functionality.
+ # -------------------------------
+ #>
+function __InitializationProjectManager()
+{
     # Project's Meta Filename
     Set-Variable `
         -Name "_META_FILENAME_" `
