@@ -2496,7 +2496,7 @@ class CommonIO
                                             "`tPath:`r`n"               + `
                                             "`t`t" + $path + "`r`n"     + `
                                             "`tContents:`r`n"           + `
-                                            "`t`t" + $contents + "`r`n" );
+                                            "`t`t" + $contents          );
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
