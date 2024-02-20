@@ -240,19 +240,25 @@
         -ErrorAction SilentlyContinue;
 
     # Project User Configuration Filename
-    Remove-Variable -Name "_PROJECT_USER_CONFIG_FILENAME_" `
+    Remove-Variable -Name "_PROJECT_USERCONFIG_FILENAME_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
 
     # User Configuration File Required String Data
-    Remove-Variable -Name "_USER_CONFIG_REQUIRED_NUMBER_OF_STRINGS_" `
+    Remove-Variable -Name "_PROJECT_USERCONFIG_REQUIRED_NUMBER_OF_STRINGS_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # User Configuration File Delimiter Value
+    Remove-Variable -Name "_PROJECT_USERCONFIG_VALUE_DELIMITER_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
 
     # User Configuration string for the "Game Project Source Path" found within the User Configuration file.
-    Remove-Variable -Name "_USERCONFIG_STRING_SOURCE_PATH_" `
+    Remove-Variable -Name "_PROJECT_USERCONFIG_STRING_SOURCE_PATH_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
