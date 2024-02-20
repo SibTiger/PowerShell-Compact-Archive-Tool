@@ -165,6 +165,10 @@ class ProjectUserConfigurationLoadSave
             [CommonGUI]::MessageBox($displayErrorMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
+
+
+            # Operation had failed
+            return $false;
         } # if : Failed to Save Userconfig file
 
 
