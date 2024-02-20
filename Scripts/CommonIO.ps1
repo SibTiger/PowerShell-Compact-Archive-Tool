@@ -2504,6 +2504,9 @@ class CommonIO
                                         [LogMessageLevel]::Error);      # Message level
 
             # * * * * * * * * * * * * * * * * * * *
+
+            # Operation aborted
+            return $false;
         } # if : File already exists
 
 
