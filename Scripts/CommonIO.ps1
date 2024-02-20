@@ -2469,6 +2469,8 @@ class CommonIO
     #   The absolute path of where the textfile will be created within the filesystem.
     #  [string] Contents
     #   The contents that will be inserted into the readable textfile.
+    #  [bool] Overwrite
+    #   When true, this will allow the file to be overwritten if the file already exists.
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -2476,12 +2478,14 @@ class CommonIO
     #    $true  = Successfully created the text file.
     # -------------------------------
     #>
-    static [bool] MakeTextFile( [string] $filename,     ` # Filename
-                                [string] $path,         ` # Absolute Path
-                                [string] $contents)     ` # Readable text to insert
+    static [bool] MakeTextFile( [string]    $filename,      ` # Filename
+                                [string]    $path,          ` # Absolute Path
+                                [string]    $contents,      ` # Readable text to insert
+                                [bool]      $overwrite)       # Overwrite Switch 
     {
         # Check to see if the file already exists, if it already exists then we may not proceed.
-        if ([CommonIO]::CheckPathExists("$($path)\$($filename)", $true))
+        if (($overwrite -eq $false)         -and `
+            ([CommonIO]::CheckPathExists("$($path)\$($filename)", $false)))
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -2522,6 +2526,7 @@ class CommonIO
                                             -Name $filename `
                                             -ItemType "file" `
                                             -Value $contents `
+                                            -Force `
                                             -ErrorAction Stop;
 
 
