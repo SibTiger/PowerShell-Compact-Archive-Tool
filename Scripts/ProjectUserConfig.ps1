@@ -55,7 +55,7 @@ class ProjectUserConfiguration
     ProjectUserConfiguration()
     {
         # Game's Project Source Files Absolute Path
-        $this.__gameProjectSourcePath = NULL;
+        $this.__gameProjectSourcePath = $NULL;
     } # Default Constructor
 
 
