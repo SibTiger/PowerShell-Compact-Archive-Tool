@@ -2495,7 +2495,7 @@ class CommonIO
                                             "`t`t" + $filename + "`r`n" + `
                                             "`tPath:`r`n"               + `
                                             "`t`t" + $path + "`r`n"     + `
-                                            "`rContents:`r`n"           + `
+                                            "`tContents:`r`n"           + `
                                             "`t`t" + $contents + "`r`n" );
 
             # Pass the information to the logging system
@@ -2580,7 +2580,7 @@ class CommonIO
                                                 "`t`t" + $filename  + "`r`n"                    + `
                                                 "`tPath:`r`n"                                   + `
                                                 "`t`t" + $path      + "`r`n"                    + `
-                                                "`rContents:`r`n"                               + `
+                                                "`tContents:`r`n"                               + `
                                                 "`t`t" + $contents  + "`r`n"                    + `
                                                 "`tFile Information:`r`n"                       + `
                                                 "$([Logging]::GetExceptionInfo($_.Exception))"  );
