@@ -2619,6 +2619,167 @@ class CommonIO
 
 
 
+   <# Read Text File
+    # -------------------------------
+    # Documentation:
+    #  This function will try to obtain all of the strings from the desired textfile, using the absolute path
+    #   to the textfile from the user, and return the content read as an ArrayList of Strings.  If the file
+    #   cannot be accessed or read, then this function will raise the error signal - while nothing will be
+    #   applied to the ArrayList.
+    # -------------------------------
+    # Input:
+    #  [string] Path to Text File
+    #   Absolute path to the desired text file that will be opened and read.
+    #  [System.Collections.ArrayList] File Contents
+    #   Will contain the contents of the text file, if the textfile could be opened.  The contents will be
+    #   available if this function returns true.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit Code
+    #   $True   = Operation was successful.
+    #   $False  = Operation had failed.
+    # -------------------------------
+    #>
+    static [bool] ReadTextFile( [string] $pathToTextfile,                       ` # Absolute Path to the textfile
+                                [System.Collections.ArrayList] $fileContents)     # File Contents
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # ----------------------------------------
+
+
+
+        # Make sure that the file exists
+        if (![CommonIO]::CheckPathExists($pathToTextfile, $true))
+        {
+            # File did not exist; unable to continue.
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Unable to read the text file as it was not found with the path provided!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = (  "Textfile Path:`r`n"        + `
+                                            "`t`t" + $pathToTextFile );
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Unable to continue as the file does not exist.
+            return $false;
+        } # if : Path does not Exist
+
+
+
+        # Fetch content from textfile
+        try
+        {
+            # Clear any data that exists within the provided Array List, as we will provided data later on.
+            $fileContents.Clear();
+
+            # Try to fetch all of the contents from the desired textfile.
+            [System.Object] $fileContentDynamicType = Get-Content               `
+                                                        -Path $pathToTextFile   `
+                                                        -ErrorAction Stop;
+
+
+            # In order to append the data into the arraylist, we will need to examine what output was provided
+            #   from Get-Content.  The CMDLet can return one of the two data types:
+            #   - String    = Only one string exists within the file.
+            #   - ArrayList = Two or more strings exists within the file.
+            if ($fileContentDynamicType.GetType().Name -eq "ArrayList")
+            { foreach ($line in $fileContentDynamicType) { $fileContents.Add($line); } }
+
+            # Only a single string was collected
+            else { $fileContents.Add($fileContentDynamicType); }
+
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Successfully opened and read the textfile!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = (  "Textfile Path:`r`n"                                                        + `
+                                            "`t`t$($pathToTextfile)`r`n"                                                + `
+                                            "`r`n"                                                                      + `
+                                            "`tFile Contents`r`n"                                                       + `
+                                            "`t- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n" + `
+                                            "`r`n");
+
+            # Output all of the contents from the User Configuration file into the Log Description
+            foreach ($line in $fileContents) { $logAdditionalMSG += "`t`t$($line)`r`n"; }
+
+            # Just for readability and consistency sakes
+            $logAdditionalMSG += "`r`n`t- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # try : Retrieve the content from Textfile
+
+        # Caught an error
+        catch
+        {
+            # Unable to Open\Read the desired file
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Prep a message to display to the user regarding this error; temporary variable
+            [string] $displayErrorMessage = ("Failed to open or read the textfile!`r`n" + `
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
+
+            # Generate the initial message
+            [string] $logMessage = ("Failed to open or read the textfile!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = (  "Textfile Path:`r`n"            + `
+                                            "`t`t$($pathToTextFile)`r`n"    + `
+                                            "$([Logging]::GetExceptionInfo($_.Exception))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Abort the operation
+            return $false;
+        } # Catch : Caught an Error
+
+
+
+        # Finished successfully
+        return $true;
+    } # ReadTextFile()
+
+
+
+
    <# Check Path Exists
     # -------------------------------
     # Documentation:
