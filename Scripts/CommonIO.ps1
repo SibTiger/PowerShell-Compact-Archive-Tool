@@ -2643,12 +2643,6 @@ class CommonIO
     static [bool] ReadTextFile( [string] $pathToTextfile,                       ` # Absolute Path to the textfile
                                 [System.Collections.ArrayList] $fileContents)     # File Contents
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # ----------------------------------------
-
-
-
         # Make sure that the file exists
         if (![CommonIO]::CheckPathExists($pathToTextfile, $true))
         {
