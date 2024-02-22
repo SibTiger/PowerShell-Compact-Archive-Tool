@@ -279,45 +279,7 @@ class ProjectUserConfigurationLoadSave
 
 
         # Try to open the file and obtain the contents
-        try
-        {
-            $userConfigContents = Get-Content                       `
-                                    -Path $userConfigurationPath    `
-                                    -ErrorAction Stop               ;
-
-
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Generate the initial message
-            [string] $logMessage = ("Successfully opened and read the User Configuration File!");
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = (  "User Configuration File Path:`r`n"                                             + `
-                                            "`t`t$($userConfigurationPath)`r`n"                                             + `
-                                            "`r`n"                                                                          + `
-                                            "`t`tFile Contents`r`n"                                                         + `
-                                            "`t`t- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n"   + `
-                                            "`r`n");
-
-            # Output all of the contents from the User Configuration file into the Log Description
-            foreach ($line in $userConfigContents) { $logAdditionalMSG += "`t`t$($line)`r`n"; }
-
-            # Just for readability and consistency sakes
-            $logAdditionalMSG += "`r`n`t`t- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity($logMessage, `                # Initial message
-                                        $logAdditionalMSG, `            # Additional information
-                                        [LogMessageLevel]::Verbose);    # Message level
-
-
-            # * * * * * * * * * * * * * * * * * * *
-        } # try : Retrieve the content from User Config file
-
-        # Caught an error
-        catch
+        if (![CommonIO]::ReadTextFile($userConfigurationPath, $userConfigContents))
         {
             # Unable to open\read the User Configuration file
 
@@ -327,11 +289,10 @@ class ProjectUserConfigurationLoadSave
             # --------------
 
             # Prep a message to display to the user regarding this error; temporary variable
-            [string] $displayErrorMessage = ("Failed to open or read the User Configuration file!`r`n" + `
-                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
+            [string] $displayErrorMessage = "Unable to load " + $projectMetaData.GetProjectName() + " User Configuration!";
 
             # Generate the initial message
-            [string] $logMessage = ("Failed to open or read the User Configuration file!");
+            [string] $logMessage = $displayErrorMessage;
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = (  "User Configuration File to Open:`r`n"              + `
@@ -339,8 +300,7 @@ class ProjectUserConfigurationLoadSave
                                             "`tProject Name:`r`n"                               + `
                                             "`t`t$($projectMetaData.GetProjectName())`r`n"      + `
                                             "`tProject Installation Path:`r`n"                  + `
-                                            "`t`t$($projectMetaData.GetMetaFilePath())"         + `
-                                            "$([Logging]::GetExceptionInfo($_.Exception))");
+                                            "`t`t$($projectMetaData.GetMetaFilePath())"         );
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
