@@ -423,64 +423,22 @@ class ProjectManagerCommon
 
 
         # Try to open the file and obtain the contents
-        try
+        if (![CommonIO]::ReadTextFile($metaFilePath, $metaContents))
         {
-            $metaContents = Get-Content                     `
-                                -Path $metaFilePath         `
-                                -ErrorAction Stop;
-
-
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Generate the initial message
-            [string] $logMessage = ("Successfully opened and read the Meta File!");
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = (  "Meta File Path:`r`n"                                                           + `
-                                            "`t`t$($metaFilePath)`r`n"                                                      + `
-                                            "`r`n"                                                                          + `
-                                            "`t`tFile Contents`r`n"                                                         + `
-                                            "`t`t- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n"   + `
-                                            "`r`n");
-
-            # We will output all of the contents from the meta file into the Log Description
-            foreach ($line in $metaContents) { $logAdditionalMSG += "`t`t$($line)`r`n"; }
-
-            # Just for readability and consistency sakes
-            $logAdditionalMSG += "`r`n`t`t- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity($logMessage, `                # Initial message
-                                        $logAdditionalMSG, `            # Additional information
-                                        [LogMessageLevel]::Verbose);    # Message level
-
-
-            # * * * * * * * * * * * * * * * * * * *
-        } # try : Retrieve the Contents from File
-
-        # Caught an error
-        catch
-        {
-            # Unable to open the meta file
-
-
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
             # Prep a message to display to the user regarding this error; temporary variable
-            [string] $displayErrorMessage = ("Failed to open meta file!`r`n" + `
-                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
+            [string] $displayErrorMessage = ("Unable to load the Meta data file!`r`n"               + `
+                                            $GLOBAL:_PROGRAMNAMESHORT_ + "Project cannot be loaded!");
 
             # Generate the initial message
-            [string] $logMessage = ("Failed to open meta file!");
+            [string] $logMessage = $displayErrorMessage;
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Meta File to Open:`r`n"                              + `
-                                            "`t`t$($metaFilePath)`r`n"                          + `
-                                            "$([Logging]::GetExceptionInfo($_.Exception))");
+            [string] $logAdditionalMSG = ("Meta File to Open:`r`n"          + `
+                                            "`t`t$($metaFilePath)`r`n");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -497,8 +455,7 @@ class ProjectManagerCommon
 
             # Abort the operation.
             return $false;
-        } # catch : Caught Error
-
+        } # if : Cannot Open Meta File
 
 
         # Iterate through the lines (from the Meta file) and pick out the necessary meta data.
