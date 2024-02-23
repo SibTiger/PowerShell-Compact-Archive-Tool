@@ -317,7 +317,7 @@ class ProjectUserConfigurationLoadSave
 
             # Abort the operation.
             return $false;
-        } # catch : Caught Error
+        } # if : Cannot Open Project User Config.
 
 
 
