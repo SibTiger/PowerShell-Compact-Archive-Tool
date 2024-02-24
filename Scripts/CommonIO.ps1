@@ -2680,9 +2680,9 @@ class CommonIO
             $fileContents.Clear();
 
             # Try to fetch all of the contents from the desired textfile.
-            [System.Object] $fileContentDynamicType = Get-Content               `
-                                                        -Path $pathToTextFile   `
-                                                        -ErrorAction Stop;
+            [System.Object] $fileContentDynamicType = [System.Collections.ArrayList] (Get-Content               `
+                                                                                        -Path $pathToTextFile   `
+                                                                                        -ErrorAction Stop);
 
 
             # In order to append the data into the arraylist, we will need to examine what output was provided
