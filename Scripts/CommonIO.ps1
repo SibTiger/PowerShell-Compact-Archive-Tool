@@ -2680,16 +2680,16 @@ class CommonIO
             $fileContents.Clear();
 
             # Try to fetch all of the contents from the desired textfile.
-            [System.Object] $fileContentDynamicType = [System.Collections.ArrayList] (Get-Content               `
-                                                                                        -Path $pathToTextFile   `
-                                                                                        -ErrorAction Stop);
+            [System.Object] $fileContentDynamicType = Get-Content               `
+                                                        -Path $pathToTextFile   `
+                                                        -ErrorAction Stop;
 
 
             # In order to append the data into the arraylist, we will need to examine what output was provided
             #   from Get-Content.  The CMDLet can return one of the two data types:
             #   - String    = Only one string exists within the file.
-            #   - ArrayList = Two or more strings exists within the file.
-            if ($fileContentDynamicType.GetType().Name -eq "ArrayList")
+            #   - Object[]  = Two or more strings exists within the file.
+            if ($fileContentDynamicType.GetType().Name -eq "Object[]")
             { foreach ($line in $fileContentDynamicType) { $fileContents.Add($line); } }
 
             # Only a single string was collected
