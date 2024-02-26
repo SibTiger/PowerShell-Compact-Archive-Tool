@@ -394,7 +394,7 @@ class ProjectUserConfigurationLoadSave
         try
         {
             # Game Project Source Path
-            tempGameProjectSourcePath   = [string] (userConfigHash[$GLOBAL:_PROJECT_USERCONFIG_STRING_SOURCE_PATH_]     `
+            $tempGameProjectSourcePath   = [string] ($userConfigHash[$GLOBAL:_PROJECT_USERCONFIG_STRING_SOURCE_PATH_]     `
                                                         -Replace "$($GLOBAL:_PROJECT_USERCONFIG_STRING_SOURCE_PATH_)$($GLOBAL:_PROJECT_USERCONFIG_VALUE_DELIMITER_)").Trim();
         } # Try : Assign Proper Values
 
