@@ -332,7 +332,7 @@ class ProjectUserConfigurationLoadSave
 
 
         # Make sure that we have enough information from the project User Configuration file.
-        if (userConfigHash.Count -ne $GLOBAL:_PROJECT_USERCONFIG_REQUIRED_NUMBER_OF_STRINGS_)
+        if ($userConfigHash.Count -ne $GLOBAL:_PROJECT_USERCONFIG_REQUIRED_NUMBER_OF_STRINGS_)
         {
             # Declarations and Initializations
             # ----------------------------------------
