@@ -287,11 +287,41 @@
         -Force `
         -ErrorAction SilentlyContinue;
 
+    # Meta string for 'Project Code Name' within Meta File
+    Remove-Variable -Name "_META_STRING_PROJECT_CODE_NAME_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
     # Meta string for 'Project Revision' within Meta File
     Remove-Variable -Name "_META_STRING_PROJECT_REVISION_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
+
+    # Meta string for 'Project Output File Name' within Meta File
+    Remove-Variable -Name "_META_STRING_PROJECT_OUTPUT_FILENAME_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Meta string for 'Project Website URL' within Meta File
+    Remove-Variable -Name "_META_STRING_PROJECT_URL_WEBSITE_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Meta string for 'Project Wiki URL' within Meta File
+    Remove-Variable -Name "_META_STRING_PROJECT_URL_WIKI_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Meta string for 'Project Source Code URL' within Meta File
+    Remove-Variable -Name "_META_STRING_PROJECT_URL_SOURCE_CODE_" `
+    -Scope Global `
+    -Force `
+    -ErrorAction SilentlyContinue;
 
     # Meta string for 'Project Signature' within Meta File
     Remove-Variable -Name "_META_STRING_PROJECT_SIGNATURE_" `
