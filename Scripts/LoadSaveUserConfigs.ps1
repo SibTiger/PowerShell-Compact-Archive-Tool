@@ -38,8 +38,8 @@
 
 
 
- class LoadSaveUserConfiguration
- {
+class LoadSaveUserConfiguration
+{
     # Object Singleton Instance
     # =================================================
     # =================================================
@@ -525,7 +525,7 @@
             # Because the directory does not exist, try to create it.
             if ($this.__CreateDirectories() -eq $false)
             {
-                # Because we could not create the directory, we can not save the user's configuration.
+            # Because we could not create the directory, we can not save the user's configuration.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1746,4 +1746,4 @@
     } # SaveUserConfiguration()
 
     #endregion
- } # LoadSaveUserConfiguration
+} # LoadSaveUserConfiguration
