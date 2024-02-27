@@ -33,8 +33,8 @@
  #   environment will remain available long after the program had been terminated.
  # -------------------------------
  #>
- function Uninitializations()
- {
+function Uninitializations()
+{
     # Program Name
     Remove-Variable -Name "_PROGRAMNAME_" `
         -Scope Global `
@@ -319,13 +319,13 @@
 
     # Meta string for 'Project Source Code URL' within Meta File
     Remove-Variable -Name "_META_STRING_PROJECT_URL_SOURCE_CODE_" `
-    -Scope Global `
-    -Force `
-    -ErrorAction SilentlyContinue;
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
 
     # Meta string for 'Project Signature' within Meta File
     Remove-Variable -Name "_META_STRING_PROJECT_SIGNATURE_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
- } # Uninitializations()
+} # Uninitializations()
