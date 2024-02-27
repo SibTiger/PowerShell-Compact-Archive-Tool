@@ -362,8 +362,8 @@ class ProjectManager
  #  This will drive how the Project Manager will operate and interact with the user.
  # -------------------------------
  #>
- enum ProjectManagerOperationRequest
- {
+enum ProjectManagerOperationRequest
+{
     InstallOrUpdate     = 0;    # Install new or Update currently installed projects.
     Uninstall           = 1;    # Delete installed projects.
     List                = 2;    # Provide a list of what projects are installed.
@@ -371,4 +371,4 @@ class ProjectManager
     ShowMenu            = 4;    # Allow the user to specify what action they want;
                                 #   involves using the Project Manager Menu
     Stop                = 255;  # User Requested to exit from Project Manager
- } # ProjectManagerOperationRequest
+} # ProjectManagerOperationRequest
