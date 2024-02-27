@@ -2904,13 +2904,13 @@ class Builder
  #  used within the Builder.
  # -------------------------------
  #>
- enum FormattedListBuilder
- {
-     Parent         = 0; # Main Operation
-     Child          = 1; # Sub-Operation
-     InProgress     = 2; # Current Action
-     Successful     = 3; # Operation was successful
-     Warning        = 4; # A Warning had been raised
-     Failure        = 5; # Operation had reached a failure
-     NoSymbol       = 6; # No Symbol provided
- } # FormattedListBuilder
+enum FormattedListBuilder
+{
+    Parent         = 0; # Main Operation
+    Child          = 1; # Sub-Operation
+    InProgress     = 2; # Current Action
+    Successful     = 3; # Operation was successful
+    Warning        = 4; # A Warning had been raised
+    Failure        = 5; # Operation had reached a failure
+    NoSymbol       = 6; # No Symbol provided
+} # FormattedListBuilder
