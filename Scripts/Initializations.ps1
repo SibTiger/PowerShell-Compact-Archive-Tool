@@ -480,116 +480,116 @@ function InitializationDirectoryPaths_Program()
  #   for loaded projects within the host system.
  # -------------------------------
  #>
- function InitializationDirectoryPaths_Project()
- {
-     # ----
-     # User Data
+function InitializationDirectoryPaths_Project()
+{
+    # ----
+    # User Data
 
 
-     # User-Data Project Parent Project Directory Path
-     # ---------------
-     # The project's parent directory where the user's data will be stored.
-     Set-Variable `
-         -Name "_USERDATA_PROJECT_PATH_" `
-         -Value "$($GLOBAL:_USERDATA_ROOT_PATH_)\$([ProjectInformation]::projectName)" `
-         -Scope Global `
-         -Option ReadOnly `
-         -Visibility Public `
-         -Force `
-         -ErrorAction SilentlyContinue `
-         -Description "Provides the project's directory to help separate from other potential projects.";
+    # User-Data Project Parent Project Directory Path
+    # ---------------
+    # The project's parent directory where the user's data will be stored.
+    Set-Variable `
+        -Name "_USERDATA_PROJECT_PATH_" `
+        -Value "$($GLOBAL:_USERDATA_ROOT_PATH_)\$([ProjectInformation]::projectName)" `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -Force `
+        -ErrorAction SilentlyContinue `
+        -Description "Provides the project's directory to help separate from other potential projects.";
 
 
-     # Output Parent Directory Path
-     # ---------------
-     # The root directory that the builds reside.
-     Set-Variable `
-         -Name "_USERDATA_PROJECT_BUILDS_PATH_" `
-         -Value "$($GLOBAL:_USERDATA_PROJECT_PATH_)\Builds" `
-         -Scope Global `
-         -Option ReadOnly `
-         -Visibility Public `
-         -Force `
-         -ErrorAction SilentlyContinue `
-         -Description "Holds the parent path in which all complied builds will be stored.";
+    # Output Parent Directory Path
+    # ---------------
+    # The root directory that the builds reside.
+    Set-Variable `
+        -Name "_USERDATA_PROJECT_BUILDS_PATH_" `
+        -Value "$($GLOBAL:_USERDATA_PROJECT_PATH_)\Builds" `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -Force `
+        -ErrorAction SilentlyContinue `
+        -Description "Holds the parent path in which all complied builds will be stored.";
 
 
-     # Output Release Directory Path
-     # ---------------
-     # The directory that holds the 'Release' builds.
-     Set-Variable `
-         -Name "_USERDATA_PROJECT_BUILDS_RELEASE_PATH_" `
-         -Value "$($GLOBAL:_USERDATA_PROJECT_BUILDS_PATH_)\Release" `
-         -Scope Global `
-         -Option ReadOnly `
-         -Visibility Public `
-         -Force `
-         -ErrorAction SilentlyContinue `
-         -Description "Holds the path for all released compiled builds that will be stored.";
+    # Output Release Directory Path
+    # ---------------
+    # The directory that holds the 'Release' builds.
+    Set-Variable `
+        -Name "_USERDATA_PROJECT_BUILDS_RELEASE_PATH_" `
+        -Value "$($GLOBAL:_USERDATA_PROJECT_BUILDS_PATH_)\Release" `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -Force `
+        -ErrorAction SilentlyContinue `
+        -Description "Holds the path for all released compiled builds that will be stored.";
 
 
-     # Output Development Directory Path
-     # ---------------
-     # The directory that holds the 'Development' builds.
-     Set-Variable `
-         -Name "_USERDATA_PROJECT_BUILDS_DEVELOPMENT_PATH_" `
-         -Value "$($GLOBAL:_USERDATA_PROJECT_BUILDS_PATH_)\Development" `
-         -Scope Global `
-         -Option ReadOnly `
-         -Visibility Public `
-         -Force `
-         -ErrorAction SilentlyContinue `
-         -Description "Holds the path for all developmental compiled builds that will be stored.";
+    # Output Development Directory Path
+    # ---------------
+    # The directory that holds the 'Development' builds.
+    Set-Variable `
+        -Name "_USERDATA_PROJECT_BUILDS_DEVELOPMENT_PATH_" `
+        -Value "$($GLOBAL:_USERDATA_PROJECT_BUILDS_PATH_)\Development" `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -Force `
+        -ErrorAction SilentlyContinue `
+        -Description "Holds the path for all developmental compiled builds that will be stored.";
 
 
-     # ----
-     # Program Data [Local AppData]
+    # ----
+    # Program Data [Local AppData]
 
 
-     # Program-Data Project Parent Directory Path
-     # ---------------
-     # The project parent directory where program-data will be stored.
-     Set-Variable `
-         -Name "_PROGRAMDATA_LOCAL_PROJECT_PATH_" `
-         -Value "$($GLOBAL:_PROGRAMDATA_LOCAL_ROOT_PATH_)\$([ProjectInformation]::projectName)" `
-         -Scope Global `
-         -Option ReadOnly `
-         -Visibility Public `
-         -Force `
-         -ErrorAction SilentlyContinue `
-         -Description "This will contain the path as to where all related data of a loaded project will be stored.";
+    # Program-Data Project Parent Directory Path
+    # ---------------
+    # The project parent directory where program-data will be stored.
+    Set-Variable `
+        -Name "_PROGRAMDATA_LOCAL_PROJECT_PATH_" `
+        -Value "$($GLOBAL:_PROGRAMDATA_LOCAL_ROOT_PATH_)\$([ProjectInformation]::projectName)" `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -Force `
+        -ErrorAction SilentlyContinue `
+        -Description "This will contain the path as to where all related data of a loaded project will be stored.";
 
 
-     # Log Directory for Projects Path
-     # ---------------
-     # The directory that will contain the log-files regarding activity that occurs while a project is loaded, such as operations.
-     Set-Variable `
-         -Name "_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_" `
-         -Value "$($GLOBAL:_PROGRAMDATA_LOCAL_PROJECT_PATH_)\Logs" `
-         -Scope Global `
-         -Option ReadOnly `
-         -Visibility Public `
-         -Force `
-         -ErrorAction SilentlyContinue `
-         -Description "This will hold the logfiles regarding each operation taken place within the loaded project.";
+    # Log Directory for Projects Path
+    # ---------------
+    # The directory that will contain the log-files regarding activity that occurs while a project is loaded, such as operations.
+    Set-Variable `
+        -Name "_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_" `
+        -Value "$($GLOBAL:_PROGRAMDATA_LOCAL_PROJECT_PATH_)\Logs" `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -Force `
+        -ErrorAction SilentlyContinue `
+        -Description "This will hold the logfiles regarding each operation taken place within the loaded project.";
 
 
-     # ----
-     # Program Data [Roaming AppData]
+    # ----
+    # Program Data [Roaming AppData]
 
 
-     # Project Art Directory Path
-     # ---------------
-     # The directory that will contain the project's images that will be visible using Windows' Toast Notifications.
-     Set-Variable `
-         -Name "_PROGRAMDATA_ROAMING_PROJECT_ART_PATH_" `
-         -Value "$($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_)\$([ProjectInformation]::projectName)\Art" `
-         -Scope Global `
-         -Option ReadOnly `
-         -Visibility Public `
-         -Force `
-         -ErrorAction SilentlyContinue `
-         -Description "Holds the path for the project's art pieces, such as logo and banner images.";
+    # Project Art Directory Path
+    # ---------------
+    # The directory that will contain the project's images that will be visible using Windows' Toast Notifications.
+    Set-Variable `
+        -Name "_PROGRAMDATA_ROAMING_PROJECT_ART_PATH_" `
+        -Value "$($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_)\$([ProjectInformation]::projectName)\Art" `
+        -Scope Global `
+        -Option ReadOnly `
+        -Visibility Public `
+        -Force `
+        -ErrorAction SilentlyContinue `
+        -Description "Holds the path for the project's art pieces, such as logo and banner images.";
 
 
     # Project Logo Art
@@ -618,7 +618,7 @@ function InitializationDirectoryPaths_Program()
         -Force `
         -ErrorAction SilentlyContinue `
         -Description "Holds the path of the project's banner image that will be visible in Windows Toast Notifications.";
- } # InitializationDirectoryPaths_Project()
+} # InitializationDirectoryPaths_Project()
 
 
 
