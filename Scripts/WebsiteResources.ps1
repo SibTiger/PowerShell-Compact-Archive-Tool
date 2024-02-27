@@ -43,8 +43,8 @@
 
 
 
- class WebsiteResources
- {
+class WebsiteResources
+{
     #region Access Web Sites
 
 
@@ -707,4 +707,4 @@
     } # __CheckSiteAvailability_SiteResponse()
 
     # endregion
- } # WebsiteResources
+} # WebsiteResources
