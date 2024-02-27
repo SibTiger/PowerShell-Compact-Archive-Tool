@@ -813,8 +813,8 @@ class ProjectInformation
  #  is presently loaded within the program's environment.
  # -------------------------------
  #>
- enum ProjectInformationShowDetail
- {
-     Basic;
-     Full;
- } # ProjectInformationShowDetail
+enum ProjectInformationShowDetail
+{
+    Basic;
+    Full;
+} # ProjectInformationShowDetail
