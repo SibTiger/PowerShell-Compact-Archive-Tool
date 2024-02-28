@@ -245,6 +245,7 @@ function MakeCompilerDriver()
                         "Settings7Zip.ps1", `
                         "SettingsZip.ps1", `
                         "SettingsGit.ps1", `
+                        "SettingsProjectUserConfig.ps1", `
                         "ProjectManager.ps1", `
                         "ProjectManagerInstallation.ps1", `
                         "ProjectManagerLoadProject.ps1", `
