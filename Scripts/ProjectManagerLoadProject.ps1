@@ -440,7 +440,7 @@ class ProjectManagerLoadProject
         $projectInformation.SetURLWebsite($projectToLoad.GetProjectURLWebsite());
         $projectInformation.SetURLWiki($projectToLoad.GetProjectURLWiki());
         $projectInformation.SetURLSource($projectToLoad.GetProjectURLSourceCode());
-        
+
         # - User Config
         $projectInformation.SetProjectPath("C:\");    # INCOMPLETE
     } # __LoadProject()
