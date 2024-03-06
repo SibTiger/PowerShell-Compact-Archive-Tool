@@ -379,6 +379,12 @@ class ProjectManagerLoadProject
         # ----------------------------------------
         # Retrieve the current instance of the Project Information object
         [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+
+        # Create a new instance of the Project User Configuration object
+        [ProjectUserConfiguration] $projectUserConfig = [ProjectUserConfiguration]::New();
+
+        # Flag that denotes if the Project User Configuration had been successfully loaded
+        [bool] $projectUserConfigLoaded = $true;
         # ----------------------------------------
 
 
@@ -424,6 +430,46 @@ class ProjectManagerLoadProject
         } # if : User Canceled Operation
 
 
+
+        # Obtain the Project User Configuration preferences
+        if (![ProjectUserConfigurationLoadSave]::Load([ref] $projectUserConfig, $projectToLoad))
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Unable to retrieve information regarding the Project User Configuration file.");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = (  `
+                            "Project Target Path:`r`n"                                              + `
+                            "`t`t$($projectToLoad.GetMetaFilePath())`r`n"                           + `
+                            [ProjectManagerCommon]::OutputMetaProjectInformation($projectToLoad)    );
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                    # Initial message
+                                        $logAdditionalMSG, `                # Additional information
+                                        [LogMessageLevel]::Warning);        # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($logMessage, `                        # Message to display
+                                        [LogMessageLevel]::Warning);        # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Exclamation) | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Set the Proj. User Config as false; noting that the User Config. could not be loaded for whatever reason.
+            $projectUserConfigLoaded = $false;
+        } # if : Failed to Get Project User Configuration
+
+
+
         # Reset the Project Info.
         $projectInformation.Clear();
 
@@ -442,7 +488,8 @@ class ProjectManagerLoadProject
         $projectInformation.SetURLSource($projectToLoad.GetProjectURLSourceCode());
 
         # - User Config
-        $projectInformation.SetProjectPath("C:\");    # INCOMPLETE
+        if ($projectUserConfigLoaded)
+        { $projectInformation.SetProjectPath($projectUserConfig.GetGameProjectSourcePath()); }
     } # __LoadProject()
 
 
