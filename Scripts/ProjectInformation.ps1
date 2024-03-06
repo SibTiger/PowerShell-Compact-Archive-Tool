@@ -686,7 +686,7 @@ class ProjectInformation
     [bool] SetProjectPath([string] $newVal)
     {
         # Inspect to see if the path
-        if (Test-Path $newVal.Trim())
+        if ([CommonIO]::CheckPathExists($newVal, $true))
         {
             # Path exists; use it as requested.
             $this.__projectPath = $newVal;
