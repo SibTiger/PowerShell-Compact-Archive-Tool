@@ -50,6 +50,9 @@ class SettingsProjectUserConfiguration
         #  If the user were to exit from the menu, this variable's state will be set as false.
         #  Thus, with a false value - they may leave the menu.
         [bool] $menuLoop = $true;
+
+        # Grab the current instance of the Project Info.
+        [ProjectInformation] $projectInfo = [ProjectInformation]::GetInstance();
         # ----------------------------------------
 
 
