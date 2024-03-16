@@ -676,7 +676,7 @@ class SettingsGit
                  ($_ -eq "disable")))
             }
             {
-                # The user had selected to dis4able Git-SCM functionality.
+                # The user had selected to disable Git-SCM functionality.
                 $userPreferences.SetVersionControlTool([UserPreferencesVersionControlTool]::GitSCM);
 
                 # Update the user's configuration with the latest changes.
