@@ -169,6 +169,22 @@ class ProjectInformation
     #   by the user during load.
     Hidden [string] $__projectPath = "";
 
+
+    # Project's Installation Path
+    # ---------------
+    # This will provide the absolute location of the PSCAT project's installation path.  This
+    #   will be used as a way to update additional configuration files as needed.
+    Hidden [string] $__projectInstallationPath = "";
+
+
+    # Project's Meta File Name
+    # ---------------
+    # Specifies the exact filename of the current loaded project's Metadata file.  This will be
+    #   used as a way to update additional configuration files as needed, in which we can
+    #   expeditiously load the project's meta file.
+    Hidden [string] $__projectMetaFileName = "";
+
+
     #endregion
 
 
@@ -185,31 +201,37 @@ class ProjectInformation
     ProjectInformation()
     {
         # Project Name
-        $this.__projectName     = $null;
+        $this.__projectName             = $null;
 
         # Code Name
-        $this.__codeName        = $null;
+        $this.__codeName                = $null;
 
         # Compile Version
-        $this.__compilerVersion = $null;
+        $this.__compilerVersion         = $null;
 
         # File Name
-        $this.__fileName        = $null;
+        $this.__fileName                = $null;
 
         # Website URL
-        $this.__urlWebsite      = $null;
+        $this.__urlWebsite              = $null;
 
         # Wiki URL
-        $this.__urlWiki         = $null;
+        $this.__urlWiki                 = $null;
 
         # Source Repository URL
-        $this.__urlSource       = $null;
+        $this.__urlSource               = $null;
 
         # Project Loaded
-        $this.__projectLoaded   = $false;
+        $this.__projectLoaded           = $false;
 
         # Project Path
-        $this.__projectPath     = $null;
+        $this.__projectPath             = $null;
+
+        # Project Installation Path
+        $this.__projectInstallationPath = $null;
+
+        # Project Meta Filename
+        $this.__projectMetaFileName     = $null;
     } # Default Constructor
 
 
@@ -223,34 +245,42 @@ class ProjectInformation
                         [string] $urlWebsite,       `   # Project's Website Link
                         [string] $urlWiki,          `   # Project's Wiki Link
                         [string] $urlSource,        `   # Project's Source Line
-                        [string] $projectPath)          # Project's Source files; local filesystem path.
+                        [string] $projectPath,      `   # Project's Source files; local filesystem path.
+                        [string] $installPath,      `   # Project's Install Path
+                        [string] $metaFileName)         # Project's Meta filename
     {
         # Project Name
-        $this.__projectName     = $projectName;
+        $this.__projectName             = $projectName;
 
         # Code Name
-        $this.__codeName        = $codeName;
+        $this.__codeName                = $codeName;
 
         # Compile Version
-        $this.__compilerVersion = $compilerVersion;
+        $this.__compilerVersion         = $compilerVersion;
 
         # File Name
-        $this.__fileName        = $fileName;
+        $this.__fileName                = $fileName;
 
         # Website URL
-        $this.__urlWebsite      = $urlWebsite;
+        $this.__urlWebsite              = $urlWebsite;
 
         # Wiki URL
-        $this.__urlWiki         = $urlWiki;
+        $this.__urlWiki                 = $urlWiki;
 
         # Source Repository URL
-        $this.__urlSource       = $urlSource;
+        $this.__urlSource               = $urlSource;
 
         # Project Loaded
-        $this.__projectLoaded   = $true;
+        $this.__projectLoaded           = $true;
 
         # Project Path
-        $this.__projectPath     = $projectPath;
+        $this.__projectPath             = $projectPath;
+
+        # Project Installation Path
+        $this.__projectInstallationPath = $installPath;
+
+        # Project Meta Filename
+        $this.__projectMetaFileName     = $metaFileName;
     } # Project Information Constructor
 
 
@@ -416,6 +446,36 @@ class ProjectInformation
     # -------------------------------
     #>
     [String] GetProjectPath() { return $this.__projectPath; }
+
+
+
+
+   <# Get Project Installation Path
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the 'Project Installation Path' variable.
+    # -------------------------------
+    # Output:
+    #  [String] Project Installation Path
+    #   The value of the 'Project Installation Path'.
+    # -------------------------------
+    #>
+    [String] GetProjectInstallationPath() { return $this.__projectInstallationPath; }
+
+
+
+
+   <# Get Project Meta Filename
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the 'Project Meta Filename' variable.
+    # -------------------------------
+    # Output:
+    #  [String] Project Meta Filename
+    #   The value of the 'Project Meta Filename'.
+    # -------------------------------
+    #>
+    [String] GetProjectMetaFileName() { return $this.__projectMetaFileName; }
 
     #endregion
 
@@ -701,6 +761,78 @@ class ProjectInformation
         return $false;
     } # SetProjectPath()
 
+
+
+
+   <# Set Project Installation Path
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'Project Installation Path' variable.
+    # -------------------------------
+    # Input:
+    #  [string] Project Installation Path
+    #   Defines the Project Installation Path variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetProjectInstallationPath([string] $newVal)
+    {
+        # Inspect to see if the path exists
+        if ([CommonIO]::CheckPathExists($newVal, $true))
+        {
+            # Path exists; use it as requested.
+            $this.__projectInstallationPath = $newVal;
+
+
+            # Finished successfully
+            return $true;
+        } # if : Path Exists
+
+
+        # Failure; Path did not exist.
+        return $false;
+    } # SetProjectInstallationPath()
+
+
+
+
+   <# Set Project Meta Filename
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the 'Project Meta Filename' variable.
+    # -------------------------------
+    # Input:
+    #  [string] Project Meta Filename
+    #   Defines the Project Meta Filename variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetProjectMetaFileName([string] $newVal)
+    {
+        # Inspect to see if the path exists
+        if ([CommonIO]::CheckPathExists($newVal, $true))
+        {
+            # Path exists; use it as requested.
+            $this.__projectMetaFileName = $newVal;
+
+
+            # Finished successfully
+            return $true;
+        } # if : Path Exists
+
+
+        # Failure; Path did not exist.
+        return $false;
+    } # SetProjectMetaFileName()
+
     #endregion
 
 
@@ -715,15 +847,17 @@ class ProjectInformation
     #>
     [void] Clear()
     {
-        $this.__projectName     = $null;    # Project Name
-        $this.__codeName        = $null;    # Code Name
-        $this.__compilerVersion = $null;    # Compile Version
-        $this.__fileName        = $null;    # File Name
-        $this.__urlWebsite      = $null;    # Website URL
-        $this.__urlWiki         = $null;    # Wiki URL
-        $this.__urlSource       = $null;    # Source Repository URL
-        $this.__projectPath     = $null;    # Project Path
-        $this.__projectLoaded   = $false;   # Project Loaded
+        $this.__projectName             = $null;    # Project Name
+        $this.__codeName                = $null;    # Code Name
+        $this.__compilerVersion         = $null;    # Compile Version
+        $this.__fileName                = $null;    # File Name
+        $this.__urlWebsite              = $null;    # Website URL
+        $this.__urlWiki                 = $null;    # Wiki URL
+        $this.__urlSource               = $null;    # Source Repository URL
+        $this.__projectPath             = $null;    # Project Path
+        $this.__projectLoaded           = $false;   # Project Loaded
+        $this.__projectInstallationPath = $null;    # Project Installation Path
+        $this.__projectMetaFileName     = $null;    # Project Meta Filename
     } # Clear()
 
 
@@ -795,6 +929,14 @@ class ProjectInformation
             # Project Path
             if (($NULL -ne $this.__projectPath) -and ($this.__projectPath -ne ""))
             { $projectInformationStr.Value += "Local Working Copy Path: " + $this.__projectPath + "`r`n"; }
+
+            # Project Installation Path
+            if (($NULL -ne $this.__projectInstallationPath) -and ($this.__projectInstallationPath -ne ""))
+            { $projectInformationStr.Value += "Installation Path: " + $this.__projectInstallationPath + "`r`n"; }
+
+            # Project Meta Filename
+            if (($NULL -ne $this.__projectMetaFileName) -and ($this.__projectMetaFileName -ne ""))
+            { $projectInformationStr.Value += "Meta Filename: " + $this.__projectMetaFileName + "`r`n"; }
         } # Full Detail Information
 
 

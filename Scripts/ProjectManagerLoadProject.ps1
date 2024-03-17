@@ -480,6 +480,8 @@ class ProjectManagerLoadProject
         $projectInformation.SetCompilerVersion($projectToLoad.GetProjectRevision());
         $projectInformation.SetFileName($projectToLoad.GetProjectOutputFileName());
         $projectInformation.SetProjectLoaded($true);
+        $projectInformation.SetProjectInstallationPath($projectToLoad.GetMetaFilePath());
+        $projectInformation.SetProjectMetaFileName($projectToLoad.GetMetaFileName());
 
         # - Optional Fields
         $projectInformation.SetCodeName($projectToLoad.GetProjectCodeName());
