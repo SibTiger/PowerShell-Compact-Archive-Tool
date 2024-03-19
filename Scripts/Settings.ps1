@@ -109,6 +109,10 @@ class Settings
     {
         # Declarations and Initializations
         # ----------------------------------------
+        # Obtain the current project information
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+
+
         # These variables will determine what menus are to be hidden from the user,
         #  as the options are possibly not available or not ready for the user to
         #  configure.
@@ -151,6 +155,17 @@ class Settings
                                 "Configure the Git's functionality and preferences.", `
                                 $NULL, `
                                 $true);
+
+
+        # Project User Configuration
+        if ($projectInformation.GetProjectLoaded())
+        {
+            [CommonCUI]::DrawMenuItem('P', `
+                                    "$($projectInformation.GetProjectName()) Configuration", `
+                                    "Perform configuration changes for the $($projectInformation.GetProjectName()) $($GLOBAL:_PROGRAMNAMESHORT_) Project.", `
+                                    $NULL, `
+                                    $true);
+        } # if : Show when Project is Loaded
 
 
         # Update Application
@@ -218,6 +233,10 @@ class Settings
     {
         # Declarations and Initializations
         # ----------------------------------------
+        # Obtain the current instance of the Project Information
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+
+
         # These variables will determine what menus are to be hidden from the user,
         #  as the options are possibly not available or not ready for the user to
         #  configure.
@@ -287,6 +306,25 @@ class Settings
                 # Finished
                 break;
             } # Configure Git Preferences
+
+
+
+            # Project User Configuration
+            {   ($projectInformation.GetProjectLoaded) -and `
+                (($_ -eq "P") -or `
+                 ($_ -eq "Configure PSCAT Project") -or `
+                 ($_ -eq "Configure Project") -or `
+                 ($_ -eq "Configure $($projectInformation.GetProjectName())") -or `
+                 ($_ -eq "Configure $($projectInformation.GetCodeName())"))
+            }
+            {
+                # Open the PSCAT Project User Configuration menu
+                [SettingsProjectUserConfiguration]::Main();
+
+
+                # Finished
+                break;
+            } # Configure PSCAT Project Preferences
 
 
 
