@@ -114,7 +114,7 @@ class ProjectUserConfigurationLoadSave
 
 
         # Craft the string of all of the properties contained within the Project User Configuration object.
-        $userConfigContentsString = [ProjectUserConfigurationLoadSave]::SaveUserConfigurationString($userConfig);
+        $userConfigContentsString = [ProjectUserConfigurationLoadSave]::__SaveUserConfigurationString($userConfig);
 
 
         # Save the User Configuration file
@@ -195,7 +195,7 @@ class ProjectUserConfigurationLoadSave
     #   The User Configuration Preferences as a complete string that can be written to a file.
     # -------------------------------
     #>
-    static hidden [string] SaveUserConfigurationString([ProjectUserConfiguration] $userConfig)
+    static hidden [string] __SaveUserConfigurationString([ProjectUserConfiguration] $userConfig)
     { return ("$($GLOBAL:_PROJECT_USERCONFIG_STRING_SOURCE_PATH_) $($GLOBAL:_PROJECT_USERCONFIG_VALUE_DELIMITER_) $($userConfig.GetGameProjectSourcePath())`r`n"); }
 
     #endregion
