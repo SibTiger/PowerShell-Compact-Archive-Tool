@@ -116,14 +116,16 @@ class Settings
         # These variables will determine what menus are to be hidden from the user,
         #  as the options are possibly not available or not ready for the user to
         #  configure.
-        [bool] $showMenuZip = $true;    # Zip Menu
+        [bool] $showMenuZip             = $false;   # Zip Menu
+        [bool] $showProjectUserConfig   = $false;   # Project User Configuration
         # ----------------------------------------
 
 
 
 
         # Determine what menus are to be displayed to the user.
-        [Settings]::__DrawMenuDetermineHiddenMenus([ref] $showMenuZip);
+        [Settings]::__DrawMenuDetermineHiddenMenus([ref] $showMenuZip,
+                                                    [ref] $showProjectUserConfig);
 
 
 
@@ -158,7 +160,7 @@ class Settings
 
 
         # Project User Configuration
-        if ($projectInformation.GetProjectLoaded())
+        if ($showProjectUserConfig)
         {
             [CommonCUI]::DrawMenuItem('P', `
                                     "$($projectInformation.GetProjectName()) Configuration", `
@@ -240,14 +242,16 @@ class Settings
         # These variables will determine what menus are to be hidden from the user,
         #  as the options are possibly not available or not ready for the user to
         #  configure.
-        [bool] $showMenuZip = $true;    # Zip Menu
+        [bool] $showMenuZip             = $false;   # Zip Menu
+        [bool] $showProjectUserConfig   = $false;   # Project User Configuration
         # ----------------------------------------
 
 
 
 
         # Determine what menus are to be displayed to the user.
-        [Settings]::__DrawMenuDetermineHiddenMenus([ref] $showMenuZip);
+        [Settings]::__DrawMenuDetermineHiddenMenus([ref] $showMenuZip,
+                                                    [ref] $showProjectUserConfig);
 
 
 
@@ -310,7 +314,7 @@ class Settings
 
 
             # Project User Configuration
-            {   ($projectInformation.GetProjectLoaded) -and `
+            {   ($showProjectUserConfig) -and `
                 (($_ -eq "P") -or `
                  ($_ -eq "Configure PSCAT Project") -or `
                  ($_ -eq "Configure Project") -or `
@@ -474,10 +478,21 @@ class Settings
     # Input:
     #  [bool] (REFERENCE) Zip Menu
     #   Provides the Zip Menu
+    #  [bool] (REFERENCE) Project User Config.
+    #   Provides the Project User Configuration Menu
     # -------------------------------
     #>
-    hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuZip)
+    hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuZip,
+                                                        [ref] $showProjectUserConfig)
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Obtain the current instance of the Project Information
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+        # ----------------------------------------
+
+
+
         # Show Zip Menu
         #  Show the Zip Menu if the following conditions are true:
         #   - Found Zip Module
@@ -491,5 +506,20 @@ class Settings
         {
             $showMenuZip.Value = $false;
         } # Else: Zip Menu is Hidden
+
+
+        # Show Project User Configuration Menu
+        #  Show the Project User Config. Menu if the following conditions are true:
+        #   - /Any/ Project is Loaded
+        if ($projectInformation.GetProjectLoaded())
+        {
+            $showProjectUserConfig.Value = $true;
+        } # If: Proj. User Config. Menu is Visible
+
+        # Project User Config. Menu is Hidden
+        else
+        {
+            $showProjectUserConfig.Value = $false;
+        } # Else: Proj. User Config. Menu is Hidden
     } # __DrawMenuDetermineHiddenMenus()
 } # Settings
