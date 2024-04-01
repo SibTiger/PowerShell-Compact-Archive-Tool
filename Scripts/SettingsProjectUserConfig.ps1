@@ -168,8 +168,10 @@ class SettingsProjectUserConfiguration
         switch ($userRequest)
         {
             # Local Working Copy Assets Path
-            {(($_ -eq "Path") -or `
-              ($_ -eq "Path"))}
+            {(($_ -eq "P") -or `
+              ($_ -eq "Path") -or `
+              ($_ -eq "Update Path"))
+            }
             {
                 # The user had selected to browse for the local working copy of the project's source\assets.
                 # <<<<<<<<<<<<<<<  DEAD END  >>>>>>>>>>>>>>>>>>>
