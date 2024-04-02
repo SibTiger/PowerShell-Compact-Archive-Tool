@@ -174,7 +174,7 @@ class SettingsProjectUserConfiguration
             }
             {
                 # The user had selected to browse for the local working copy of the project's source\assets.
-                # <<<<<<<<<<<<<<<  DEAD END  >>>>>>>>>>>>>>>>>>>
+                [ProjectUserConfigurationSettings]::UpdateProjectSourcePath();
 
 
                 # Finished
