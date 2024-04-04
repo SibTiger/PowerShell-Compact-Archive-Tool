@@ -943,7 +943,7 @@ class ProjectManagerInstallation
 
 
             # Obtain the meta data of the project that had been extracted to the temporary directory.
-            if (![ProjectManagerCommon]::__ReadMetaFile("$($outputDirectory)\$($GLOBAL:_META_FILENAME_)",   `
+            if (![ProjectManagerCommon]::ReadMetaFile("$($outputDirectory)\$($GLOBAL:_META_FILENAME_)", `
                                                         [ref] $item))
             {
                 # Failed to read the meta data from the target project, cannot continue forward.

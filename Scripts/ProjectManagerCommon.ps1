@@ -286,8 +286,8 @@ class ProjectManagerCommon
 
 
             # Obtain the information from the Meta file.
-            if (![ProjectManagerCommon]::__ReadMetaFile($item.FullName,                 `   # Where the meta file is located
-                                                        [ref] $newProjectEntry))            # Obtain information from the Project's Meta Data
+            if (![ProjectManagerCommon]::ReadMetaFile($item.FullName, `                 # Where the meta file is located
+                                                        [ref] $newProjectEntry))        # Obtain information from the Project's Meta Data
             {
                 # Could not evaluate the project's meta data information.
 
@@ -367,8 +367,8 @@ class ProjectManagerCommon
     #     $true  = Operation was successful
     # -------------------------------
     #>
-    hidden static [bool] __ReadMetaFile([string] $metaFilePath, `       # Absolute path to the project's meta file
-                                        [ref] $projectMetaData)         # The project's meta data
+    static [bool] ReadMetaFile([string] $metaFilePath, `        # Absolute path to the project's meta file
+                                [ref] $projectMetaData)         # The project's meta data
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -750,7 +750,7 @@ class ProjectManagerCommon
 
         # Operation was successful
         return $true;
-    } # __ReadMetaFile()
+    } # ReadMetaFile()
 
 
 
