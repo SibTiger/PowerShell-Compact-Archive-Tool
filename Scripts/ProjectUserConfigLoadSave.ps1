@@ -42,22 +42,69 @@ class ProjectUserConfigurationLoadSave
     # Input:
     #  [ProjectUserConfiguration] User Configuration
     #   The User Configuration contents that will be inserted into the User Config file.
-    #  [ProjectMetaData] Project's Meta Data
-    #   Desired Project's Meta Data information in which the User Config file will be saved.
     # -------------------------------
     # Output:
     #  $true    = Successfully saved the User Config file.
     #  $false   = Failed to save the User Config file.
     # -------------------------------
     #>
-    static [bool] Save ([ProjectUserConfiguration] $userConfig, `       # User Config. Contents
-                            [ProjectMetaData] $metaData)                # Project to Save User Config.
+    static [bool] Save ([ProjectUserConfiguration] $userConfig)
     {
         # Declarations and Initializations
         # ----------------------------------------
         # This will contain the contents of the User Config. object into a string.
         [string] $userConfigContentsString = $NULL;
+
+        # Retrieve the current instance of the Project Information object
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+
+        # Create a new instance of the Project Meta Data object; required in order to save with new data.
+        [ProjectMetaData] $metaData = [ProjectMetaData]::New();
         # ----------------------------------------
+
+
+
+        # Obtain the project's meta data from the desired project.
+        if (![ProjectManagerCommon]::ReadMetaFile($projectInformation.GetProjectInstallationPath(), [ref] $metaData))
+        {
+            # Unable to obtain the project's meta data from the file.
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the Message Box string that will be presented to the user
+            [string] $displayErrorMessage = ("Unable to save the changes for '$($metaData.GetProjectName())'!");
+
+            # Generate the initial message
+            [string] $logMessage = $displayErrorMessage;
+
+            # Generate any additional information that might be useful
+            [string] $projInfoStr = $NULL;
+            $projectInformation.Show([ProjectInformationShowDetail]::Full, [ref] $projInfoStr);
+            [string] $logAdditionalMSG = $projInfoStr;
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity(  $logMessage, `              # Initial message
+                                            $logAdditionalMSG, `        # Additional information
+                                            [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that there was an error while trying to obtain the project's
+            #   meta data information.
+            [Logging]::DisplayMessage($logMessage, `                    # Message to display
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($displayErrorMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Cannot save User Config file.
+            return $false;
+        } # if : Failed to Access Meta Data
+
 
 
 
