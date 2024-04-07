@@ -667,7 +667,7 @@ class CommonIO
 
         # Make sure that the description field has something meaningful,
         #  if not (by mistake) - use the executable and args as the description.
-        if ($null -eq $description)
+        if ([CommonFunctions]::IsStringEmpty($description))
         {
             # Generate a new description using what information we have presently.
             [string] $description = [CommonIO]::__ExecuteCommandCreateDescription($command, $arguments);
@@ -916,7 +916,7 @@ class CommonIO
 
         # Is there any data in the STDOUT?
         #  If so, we can continue to evaluate it.  Otherwise, skip over.
-        if ($null -ne $outputResultOut.Value)
+        if (![CommonFunctions]::IsStringEmpty($outputResultOut.Value))
         {
             # Should we store the STDOUT to a variable?
             if ($captureSTDOUT -eq $true)
@@ -969,7 +969,7 @@ class CommonIO
 
 
         # Store the Standard Error in a logfile if there is any data at all?
-        If ($null -ne $outputResultErr.Value)
+        If (![CommonFunctions]::IsStringEmpty($outputResultErr.Value))
         {
             # Write the Standard Error to the logfile
             [Logging]::WriteToLogFile($logStdErr, $outputResultErr.Value);
@@ -2456,6 +2456,324 @@ class CommonIO
 
 
 
+   <# Make a New Text File
+    # -------------------------------
+    # Documentation:
+    #  This function will create a new text file with the provided absolute path, filename, and what
+    #   contents will be inserted into the readable textfile.
+    # -------------------------------
+    # Input:
+    #  [string] filename
+    #   The name of the textfile.
+    #  [string] Absolute Path
+    #   The absolute path of where the textfile will be created within the filesystem.
+    #  [string] Contents
+    #   The contents that will be inserted into the readable textfile.
+    #  [bool] Overwrite
+    #   When true, this will allow the file to be overwritten if the file already exists.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #    $false = Failed to create the text file.
+    #    $true  = Successfully created the text file.
+    # -------------------------------
+    #>
+    static [bool] MakeTextFile( [string]    $filename,      ` # Filename
+                                [string]    $path,          ` # Absolute Path
+                                [string]    $contents,      ` # Readable text to insert
+                                [bool]      $overwrite)       # Overwrite Switch 
+    {
+        # Check to see if the file already exists, if it already exists then we may not proceed.
+        if (($overwrite -eq $false)         -and `
+            ([CommonIO]::CheckPathExists("$($path)\$($filename)", $false)))
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to create text file as it already exists!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = (  "Filename:`r`n"             + `
+                                            "`t`t" + $filename + "`r`n" + `
+                                            "`tPath:`r`n"               + `
+                                            "`t`t" + $path + "`r`n"     + `
+                                            "`tContents:`r`n"           + `
+                                            "`t`t" + $contents          );
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+            # Operation aborted
+            return $false;
+        } # if : File already exists
+
+
+
+        # Try to create the textfile
+        try
+        {
+            # This variable will store the File information of the textfile.
+            [System.IO.FileInfo] $debugInformation = $null;
+
+            # Try to create the textfile; if failure reached - stop.
+            $debugInformation = New-Item    -Path $path `
+                                            -Name $filename `
+                                            -ItemType "file" `
+                                            -Value $contents `
+                                            -Force `
+                                            -ErrorAction Stop;
+
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Get any information that is useful regarding the New-Item operation
+                [string] $debugInformationFile  = ( "`t`tName:`t`t$($debugInformation.Name.ToString())`r`n"             + `
+                                                    "`t`tPath:`t`t$($debugInformation.FullName.ToString())`r`n"         + `
+                                                    "`t`tTime:`t`t$($debugInformation.CreationTime.ToString())`r`n"     + `
+                                                    "`t`tAttributes:`t$($debugInformation.Attributes.ToString())`r`n"   + `
+                                                    "`t`tExists:`t`t$($debugInformation.Exists.ToString())`r`n"         + `
+                                                    "`t`tBytes:`t`t$($debugInformation.Length.ToString())"              );
+
+                # Generate the initial message
+                [string] $logMessage = "Successfully created the textfile!";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = (  "Filename:`r`n"                 + `
+                                                "`t`t" + $filename  + "`r`n"    + `
+                                                "`tPath:`r`n"                   + `
+                                                "`t`t" + $path      + "`r`n"    + `
+                                                "`rContents:`r`n"               + `
+                                                "`t`t" + $contents  + "`r`n"    + `
+                                                "`tFile Information:`r`n"       + `
+                                                $debugInformationFile           );
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                            $logAdditionalMSG, `            # Additional information
+                                            [LogMessageLevel]::Verbose);    # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
+                # Finished successfully
+                return $true;
+        } # try : Create textfile
+
+        catch
+        {
+            # Failed to create the textfile
+
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Prep a message to display to the user for this error; temporary variable
+                [string] $displayErrorMessage = ("Failed to create the textfile!`r`n" + `
+                                                "$([Logging]::GetExceptionInfoShort($_.Exception))");
+
+                # Generate the initial message
+                [string] $logMessage = "Failed to create the textfile by request!";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = (  "Filename:`r`n"                                 + `
+                                                "`t`t" + $filename  + "`r`n"                    + `
+                                                "`tPath:`r`n"                                   + `
+                                                "`t`t" + $path      + "`r`n"                    + `
+                                                "`tContents:`r`n"                               + `
+                                                "`t`t" + $contents  + "`r`n"                    + `
+                                                "`tFile Information:`r`n"                       + `
+                                                "$([Logging]::GetExceptionInfo($_.Exception))"  );
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
+                                            [LogMessageLevel]::Error);  # Message level
+
+                # Display a message to the user that something went horribly wrong
+                #  and log that same message for referencing purpose.
+                [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                            [LogMessageLevel]::Error);  # Message level
+
+                # Alert the user through a message box as well that an issue had occurred;
+                #   the message will be brief as the full details remain within the terminal.
+                [CommonGUI]::MessageBox($displayErrorMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
+                # * * * * * * * * * * * * * * * * * * *
+        } # Catch : Failed to Create Textfile
+
+
+
+        # Making it at this point, would mean that a failure had been reached.
+        return $false;
+    } # MakeTextFile()
+
+
+
+
+   <# Read Text File
+    # -------------------------------
+    # Documentation:
+    #  This function will try to obtain all of the strings from the desired textfile, using the absolute path
+    #   to the textfile from the user, and return the content read as an ArrayList of Strings.  If the file
+    #   cannot be accessed or read, then this function will raise the error signal - while nothing will be
+    #   applied to the ArrayList.
+    # -------------------------------
+    # Input:
+    #  [string] Path to Text File
+    #   Absolute path to the desired text file that will be opened and read.
+    #  [System.Collections.ArrayList] File Contents
+    #   Will contain the contents of the text file, if the textfile could be opened.  The contents will be
+    #   available if this function returns true.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit Code
+    #   $True   = Operation was successful.
+    #   $False  = Operation had failed.
+    # -------------------------------
+    #>
+    static [bool] ReadTextFile( [string] $pathToTextfile,                       ` # Absolute Path to the textfile
+                                [System.Collections.ArrayList] $fileContents)     # File Contents
+    {
+        # Make sure that the file exists
+        if (![CommonIO]::CheckPathExists($pathToTextfile, $true))
+        {
+            # File did not exist; unable to continue.
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Unable to read the text file as it was not found with the path provided!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = (  "Textfile Path:`r`n"        + `
+                                            "`t`t" + $pathToTextFile );
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Unable to continue as the file does not exist.
+            return $false;
+        } # if : Path does not Exist
+
+
+
+        # Fetch content from textfile
+        try
+        {
+            # Clear any data that exists within the provided Array List, as we will provided data later on.
+            $fileContents.Clear();
+
+            # Try to fetch all of the contents from the desired textfile.
+            [System.Object] $fileContentDynamicType = Get-Content               `
+                                                        -Path $pathToTextFile   `
+                                                        -ErrorAction Stop;
+
+
+            # In order to append the data into the arraylist, we will need to examine what output was provided
+            #   from Get-Content.  The CMDLet can return one of the two data types:
+            #   - String    = Only one string exists within the file.
+            #   - Object[]  = Two or more strings exists within the file.
+            if ($fileContentDynamicType.GetType().Name -eq "Object[]")
+            { foreach ($line in $fileContentDynamicType) { $fileContents.Add($line); } }
+
+            # Only a single string was collected
+            else { $fileContents.Add($fileContentDynamicType); }
+
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Successfully opened and read the textfile!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = (  "Textfile Path:`r`n"                                                        + `
+                                            "`t`t$($pathToTextfile)`r`n"                                                + `
+                                            "`r`n"                                                                      + `
+                                            "`tFile Contents`r`n"                                                       + `
+                                            "`t- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n" + `
+                                            "`r`n");
+
+            # Output all of the contents from the User Configuration file into the Log Description
+            foreach ($line in $fileContents) { $logAdditionalMSG += "`t`t$($line)`r`n"; }
+
+            # Just for readability and consistency sakes
+            $logAdditionalMSG += "`r`n`t- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # try : Retrieve the content from Textfile
+
+        # Caught an error
+        catch
+        {
+            # Unable to Open\Read the desired file
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Prep a message to display to the user regarding this error; temporary variable
+            [string] $displayErrorMessage = ("Failed to open or read the textfile!`r`n" + `
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
+
+            # Generate the initial message
+            [string] $logMessage = ("Failed to open or read the textfile!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = (  "Textfile Path:`r`n"            + `
+                                            "`t`t$($pathToTextFile)`r`n"    + `
+                                            "$([Logging]::GetExceptionInfo($_.Exception))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Abort the operation
+            return $false;
+        } # Catch : Caught an Error
+
+
+
+        # Finished successfully
+        return $true;
+    } # ReadTextFile()
+
+
+
+
    <# Check Path Exists
     # -------------------------------
     # Documentation:
@@ -2972,7 +3290,7 @@ class CommonIO
 
 
         # Make sure that the requested new name actually contains some sort of 'string'.
-        if ($null -eq $newName)
+        if ([CommonFunctions]::IsStringEmpty($newName))
         {
             # Because there was no new name given, we cannot proceed any further.
 
@@ -3934,7 +4252,7 @@ class CommonIO
     static [Char] DetermineItemType([string] $targetItem)
     {
         # First make sure that there was a path provided.
-        if ($null -eq $targetItem)
+        if ([CommonFunctions]::IsStringEmpty($targetItem))
         {
             # The target item does not exist; no operations can be performed.
 
@@ -4519,6 +4837,169 @@ class CommonIO
         return $false;
     } # AccessWebpage()
 
+
+
+
+   <# Check Hosts Internet Connection
+    # -------------------------------
+    # Documentation:
+    #  This function will check the hosts network connection to determine
+    #   if the user's system is connected to the internet (WAN).
+    #
+    #  To perform this operation, we will use the Windows Operating
+    #   System's functionality to determine the network adapters
+    #   state.  Further, we could just PING a site, but that could
+    #   be unreliable.  Servers have the ability to disable ICMP
+    #   response messages despite the server responding to HTTP\S,
+    #   thus causing a false positive.  Also, we do not want to
+    #   accidentally ICMP flood a server, thus banning the user
+    #   from that server address.
+    #
+    # Source:
+    #   https://stackoverflow.com/q/33283848/11314373
+    # -------------------------------
+    #  [bool] Exit code
+    #    $false = Not Connected to the Internet (WAN)
+    #    $true  = Connected to the Internet (WAN)
+    # -------------------------------
+    #>
+    static [bool] CheckInternetConnection()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This will hold the host's connection profiles available within
+        #   the system's environment.
+        [System.Object] $hostConnectionProfile = [System.Object]::new();
+
+        # This will hold the final result, determining if the host has
+        #   an active internet connection.
+        [bool] $result = $false;
+        # ----------------------------------------
+
+
+        # Obtain the host's connection profile.
+        $hostConnectionProfile = Get-NetConnectionProfile;
+
+
+        # If no connection profiles were found, then $NULL will be provided.
+        if ($null -eq $hostConnectionProfile) { $result = $false; }
+
+
+        # Determine if the user has multiple network adapters
+        elseif ($hostConnectionProfile.GetType().name -eq "Object[]")
+        {
+            # Scan each item to determine if an internet connection is available.
+            foreach ($item in $hostConnectionProfile)
+            {
+                # Check to see if IPv4 OR IPv6 contains the 'Internet' string value.
+                #   This will indicate that the host has an active internet connection.
+                if (($item.IPv4Connectivity -eq "Internet") -or `
+                    ($item.IPv6Connectivity -eq "Internet"))
+                    { $result = $true; }
+            } # Foreach : Scan all network adapters
+
+
+            # If we made it here, then the user does not have an active Internet
+            #   presently.
+            $result = $false;
+        } # if : Multiple Adapters Found
+
+
+
+        # Assure that either IPv4 or IPv6 contains the 'Internet' string value.
+        #  This value indicates that the host has an active internet connection.
+        elseif (($hostConnectionProfile.IPv4Connectivity -eq "Internet") -or `
+                ($hostConnectionProfile.IPv6Connectivity -eq "Internet"))
+        { $result = $true; }
+
+
+        # The host does not have internet access available at this time.
+        else { $result = $false; }
+
+
+        # If the user does not have an active internet connection, then log it.
+        if (!$result)
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Host system does not have an active Internet Connection.";
+
+            # Generate any additional information that might be useful
+            #   Because the Host Connection can vary in its output, we
+            #   will generate it depending on what information is stored.
+            [string] $logAdditionalMSG = $NULL;
+
+
+            # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+            # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+            # Generate the Log Additional Message.
+
+
+            # No host Connection Profiles Found
+            if ($null -eq $hostConnectionProfile)
+            { $logAdditionalMSG = "Windows did not find any Network Connection Profiles!"; }
+
+            # Multiple Host Connection Profiles Found
+            if ($hostConnectionProfile.GetType() -eq "Object[]")
+            {
+                # Scan each profile obtained.
+                foreach ($item in $hostConnectionProfile)
+                {
+                    $logAdditionalMSG += (  "Name                     : $($hostConnectionProfile.Name)`r`n"                         + `
+                                            "`tInstanceID               : $($hostConnectionProfile.InstanceID)`r`n"                 + `
+                                            "`tInterfaceAlias           : $($hostConnectionProfile.InterfaceAlias)`r`n"             + `
+                                            "`tInterfaceIndex           : $($hostConnectionProfile.InterfaceIndex)`r`n"             + `
+                                            "`tNetworkCategory          : $($hostConnectionProfile.NetworkCategory)`r`n"            + `
+                                            "`tDomainAuthenticationKind : $($hostConnectionProfile.DomainAuthenticationKind)`r`n"   + `
+                                            "`tIPv4Connectivity         : $($hostConnectionProfile.IPv4Connectivity)`r`n"           + `
+                                            "`tIPv6Connectivity         : $($hostConnectionProfile.IPv6Connectivity)`r`n"           + `
+                                            "`tElementName              : $($hostConnectionProfile.ElementName)`r`n"                + `
+                                            "`tPSComputerName           : $($hostConnectionProfile.PSComputerName)`r`n"             + `
+                                            "`tDescription              : $($hostConnectionProfile.Description)`r`n"                + `
+                                            "`tCaption                  : $($hostConnectionProfile.Caption)`r`n"                    + `
+                                            "`r`n");
+                } # foreach : Scan Each Profile
+            } # if : Multiple Host Connection Profiles Found
+
+            # Single Host Connection Profile
+            else
+            {
+                $logAdditionalMSG = (   "Name                     : $($hostConnectionProfile.Name)`r`n"                         + `
+                                        "`tInstanceID               : $($hostConnectionProfile.InstanceID)`r`n"                 + `
+                                        "`tInterfaceAlias           : $($hostConnectionProfile.InterfaceAlias)`r`n"             + `
+                                        "`tInterfaceIndex           : $($hostConnectionProfile.InterfaceIndex)`r`n"             + `
+                                        "`tNetworkCategory          : $($hostConnectionProfile.NetworkCategory)`r`n"            + `
+                                        "`tDomainAuthenticationKind : $($hostConnectionProfile.DomainAuthenticationKind)`r`n"   + `
+                                        "`tIPv4Connectivity         : $($hostConnectionProfile.IPv4Connectivity)`r`n"           + `
+                                        "`tIPv6Connectivity         : $($hostConnectionProfile.IPv6Connectivity)`r`n"           + `
+                                        "`tElementName              : $($hostConnectionProfile.ElementName)`r`n"                + `
+                                        "`tPSComputerName           : $($hostConnectionProfile.PSComputerName)`r`n"             + `
+                                        "`tDescription              : $($hostConnectionProfile.Description)`r`n"                + `
+                                        "`tCaption                  : $($hostConnectionProfile.Caption)");
+            } # else : Single Host Connection Profile
+
+
+            # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+            # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+        } # if : Host does not have Internet Connection
+
+
+
+        # Return the result
+        return $result;
+    } # CheckInternetConnection()
+
     #endregion
 
 
@@ -4565,8 +5046,7 @@ class CommonIO
 
 
         # Make sure that the directory path is not empty.
-        if (($null -eq $directoryPath) -or
-            ("" -eq $directoryPath))
+        if ([CommonFunctions]::IsStringEmpty($directoryPath))
         {
             # Because the directory was not provided, we may not continue.
 
@@ -4607,8 +5087,7 @@ class CommonIO
 
         # Generate the Path and argument variables.
         #  If a file had not been included, then it will be omitted.
-        if (($null -eq $selectFile) -or
-            ("" -eq $selectFile))
+        if ([CommonFunctions]::IsStringEmpty($selectFile))
         {
             # Only provide the directory path.
             $path = $directoryPath;
@@ -4783,7 +5262,7 @@ class CommonIO
 
 
 
-    #region Timers
+    #region Timers and Waits
 
    <# Delay - Seconds
     # -------------------------------
@@ -4828,6 +5307,150 @@ class CommonIO
         while (((Get-Date).ticks) -le $ticks)
         {;}
     } # DelayTicks()
+
+
+
+
+   <# Wait - Process ID
+    # -------------------------------
+    # Documentation:
+    #  This function will wait for the specified Process ID, assigned by the Operating System,
+    #   to be terminated.  If the Process ID is never released (or terminated), then this
+    #   function will not return back to the normal operation.
+    #
+    #
+    # CAUTION:
+    #   This function has the potential to permanently block the entire program, if the Process ID
+    #   is never released back to the Operating System!
+    # -------------------------------
+    # Input:
+    #  [Int32] Process ID
+    #   Defines a specific application's process ID, assigned by the Operating System, to monitor.
+    # -------------------------------
+    #>
+    static [void] WaitForProcess([Int32] $processID) { Wait-Process -Id $processID; }
+
+
+
+
+   <# Wait - File Explorer Window
+    # -------------------------------
+    # Documentation:
+    #  This function will wait for the specified File Explorer window to be closed by the user
+    #   or by the host system itself.  If the window is never closed, then this function will
+    #   not return back to the normal operation.
+    #
+    #
+    # CAUTION:
+    #   This function has the potential to permanently block the entire program, if the File Explorer
+    #   window is never destroyed, renamed, or navigated away from directory with desired name.
+    # -------------------------------
+    # Input:
+    #  [string] directoryFullPath
+    #   Contains the full directory path (relative is acceptable), in such that the directory name
+    #   is part of the path.
+    # -------------------------------
+    #>
+    static [void] WaitForFileExplorer([string] $directoryFullPath)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # We will use this variable to obtain the directory name.
+        [string] $windowName = $NULL;
+
+        # This will help us to determine if we can find the directory name within the File Explorer's
+        #   Window list.
+        [bool] $foundTarget = $false;
+        # ----------------------------------------
+
+
+
+        # Obtain the directory name of the desired path given.
+        $windowName = Split-Path -Path $directoryFullPath -Leaf;
+
+
+
+        # Endless loop; we will break out when the condition is met.
+        for(;;)
+        {
+            # Wait for a few moments; avoid run-time issues.
+            # NOTE: Without this delay, the File Explorer may not had already opened the directory yet.
+            [CommonIO]::DelaySeconds(1);
+
+
+            # Reset Found Target variable.
+            $foundTarget = $false;
+
+
+            # Obtain a list of all windows' that had been generated by the File Explorer.
+            try { $fileExplorerWindowList = (New-Object -ComObject 'Shell.Application').Windows(); }
+
+            # Unable to obtain list; abort operation as the functionality is broken from this point onwards.
+            catch
+            {
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Prep a message to display to the user for this error; temporary variable
+                [string] $displayErrorMessage = ("Failed to obtain File Explorer's Window Items!`r`n", `
+                                                "$([Logging]::GetExceptionInfoShort($_.Exception))");
+
+                # Generate the initial message
+                [string] $logMessage = "Failed to obtain File Explorer's Window List!";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("Directory Path Provided: $($directoryFullPath)`r`n" + `
+                                            "`tDirectory Name to Find: $($windowName)`r`n" + `
+                                            "$([Logging]::GetExceptionInfo($_.Exception))");
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
+                                            [LogMessageLevel]::Error);  # Message level
+
+                # Display a message to the user that something went horribly wrong
+                #  and log that same message for referencing purpose.
+                [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                            [LogMessageLevel]::Error);  # Message level
+
+                # Alert the user through a message box as well that an issue had occurred;
+                #   the message will be brief as the full details remain within the terminal.
+                [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
+
+                return;
+            } # catch : Error Reached
+
+
+            # Since we have the list of objects from the File Explorer, now we need to find the specific
+            #   directory name.
+            foreach ($item in $fileExplorerWindowList)
+            {
+                # Can we find the directory?
+                if ($item.LocationName -eq $windowName)
+                {
+                    # Found the target
+                    $foundTarget = $true;
+
+                    # Bail from the foreach process
+                    break;
+                } # if : Found Target
+            } # foreach : Find Directory Name
+
+
+            # If the directory was found, then we continue with the loop.
+            #  Otherwise, we bail from this function as the window from the File Explorer was closed.
+            if (!$foundTarget)
+            {
+                # Break out from the main loop.
+                break;
+            } # if : Target Not Found
+        } # for : Continuous Check
+    } # WaitForFileExplorer()
     #endregion
 } # CommonIO
 

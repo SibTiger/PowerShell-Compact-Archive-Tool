@@ -33,8 +33,8 @@
  #   environment will remain available long after the program had been terminated.
  # -------------------------------
  #>
- function Uninitializations()
- {
+function Uninitializations()
+{
     # Program Name
     Remove-Variable -Name "_PROGRAMNAME_" `
         -Scope Global `
@@ -101,18 +101,6 @@
         -Force `
         -ErrorAction SilentlyContinue;
 
-    # .NET Framework Requirement
-    Remove-Variable -Name "_DOTNETFRAMEWORK_" `
-        -Scope Global `
-        -Force `
-        -ErrorAction SilentlyContinue;
-
-    # PowerShell Version Requirement
-    Remove-Variable -Name "_POWERSHELLVERSION_" `
-        -Scope Global `
-        -Force `
-        -ErrorAction SilentlyContinue;
-
     # Debug Logging functionality
     Remove-Variable -Name "_DEBUGLOGGING_" `
         -Scope Global `
@@ -144,49 +132,97 @@
         -ErrorAction SilentlyContinue;
 
     # Output Parent Directory Path
-    Remove-Variable -Name "_USERDATA_BUILDS_PATH_" `
+    Remove-Variable -Name "_USERDATA_PROJECT_BUILDS_PATH_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
 
     # Output Release Directory Path
-    Remove-Variable -Name "_USERDATA_RELEASEBUILDS_PATH_" `
+    Remove-Variable -Name "_USERDATA_PROJECT_BUILDS_RELEASE_PATH_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
 
     # Output Development Directory Path
-    Remove-Variable -Name "_USERDATA_DEVBUILDS_PATH_" `
+    Remove-Variable -Name "_USERDATA_PROJECT_BUILDS_DEVELOPMENT_PATH_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
 
     # Program-Data Root Directory Path
-    Remove-Variable -Name "_PROGRAMDATA_ROOT_LOCAL_PATH_" `
+    Remove-Variable -Name "_PROGRAMDATA_LOCAL_ROOT_PATH_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
 
-    # Program-Data Project Parent Directory Path
-    Remove-Variable -Name "_PROGRAMDATA_PROJECT_PATH_" `
+    # Program-Data Program's Images Directory Path
+    Remove-Variable -Name "_PROGRAMDATA_LOCAL_IMAGES_PATH_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
 
-    # Log Directory Path
-    Remove-Variable -Name "_PROGRAMDATA_LOGS_PATH_" `
+    # Program-Data Program's Logo Path
+    Remove-Variable -Name "_PROGRAMDATA_LOCAL_IMAGES_LOGO_PATH_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Program-Data Program's Banner Path
+    Remove-Variable -Name "_PROGRAMDATA_LOCAL_IMAGES_BANNER_PATH_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Program-Data Project Program Log Directory Path
+    Remove-Variable -Name "_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Project Parent Directory
+    Remove-Variable -Name "_PROGRAMDATA_LOCAL_PROJECT_PATH_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Project Log Directory Path
+    Remove-Variable -Name "_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
 
     # Program-Data Parent Directory Path
-    Remove-Variable -Name "_PROGRAMDATA_ROOT_ROAMING_PATH_" `
+    Remove-Variable -Name "_PROGRAMDATA_ROAMING_ROOT_PATH_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
 
     # User Data (Configuration)
-    Remove-Variable -Name "_PROGRAMDATA_CONFIGS_PATH_" `
+    Remove-Variable -Name "_PROGRAMDATA_ROAMING_USERCONFIG_PATH_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # User Data (Project Installation Path)
+    Remove-Variable -Name "_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # User Data (Project Art Directory Path)
+    Remove-Variable -Name "_PROGRAMDATA_ROAMING_PROJECT_ART_PATH_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # User Data (Project Logo Image)
+    Remove-Variable -Name "_PROGRAMDATA_ROAMING_PROJECT_ART_LOGO_PATH_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # User Data (Project Banner Image)
+    Remove-Variable -Name "_PROGRAMDATA_ROAMING_PROJECT_ART_BANNER_PATH_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
@@ -196,4 +232,100 @@
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
- } # Uninitializations()
+
+    # Default GUID
+    Remove-Variable -Name "_DEFAULT_BLANK_GUID_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Project User Configuration Filename
+    Remove-Variable -Name "_PROJECT_USERCONFIG_FILENAME_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # User Configuration File Required String Data
+    Remove-Variable -Name "_PROJECT_USERCONFIG_REQUIRED_NUMBER_OF_STRINGS_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # User Configuration File Delimiter Value
+    Remove-Variable -Name "_PROJECT_USERCONFIG_VALUE_DELIMITER_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # User Configuration string for the "Game Project Source Path" found within the User Configuration file.
+    Remove-Variable -Name "_PROJECT_USERCONFIG_STRING_SOURCE_PATH_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Project's Meta Filename
+    Remove-Variable -Name "_META_FILENAME_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Project's Meta File Required String Data
+    Remove-Variable -Name "_META_REQUIRED_NUMBER_OF_STRINGS_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Meta Value Delimiter
+    Remove-Variable -Name "_META_VALUE_DELIMITER_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Meta string for 'Project Name' within Meta File
+    Remove-Variable -Name "_META_STRING_PROJECT_NAME_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Meta string for 'Project Code Name' within Meta File
+    Remove-Variable -Name "_META_STRING_PROJECT_CODE_NAME_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Meta string for 'Project Revision' within Meta File
+    Remove-Variable -Name "_META_STRING_PROJECT_REVISION_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Meta string for 'Project Output File Name' within Meta File
+    Remove-Variable -Name "_META_STRING_PROJECT_OUTPUT_FILENAME_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Meta string for 'Project Website URL' within Meta File
+    Remove-Variable -Name "_META_STRING_PROJECT_URL_WEBSITE_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Meta string for 'Project Wiki URL' within Meta File
+    Remove-Variable -Name "_META_STRING_PROJECT_URL_WIKI_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Meta string for 'Project Source Code URL' within Meta File
+    Remove-Variable -Name "_META_STRING_PROJECT_URL_SOURCE_CODE_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+
+    # Meta string for 'Project Signature' within Meta File
+    Remove-Variable -Name "_META_STRING_PROJECT_SIGNATURE_" `
+        -Scope Global `
+        -Force `
+        -ErrorAction SilentlyContinue;
+} # Uninitializations()

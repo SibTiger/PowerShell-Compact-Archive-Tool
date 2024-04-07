@@ -123,6 +123,10 @@ class SettingsGit
 
         # Retrieve the Git Control object
         [GitControl] $gitControl = [GitControl]::GetInstance();
+
+        # Retrieve the current instance of the Project Information object; this contains details
+        #  in regards to where the source files exists within the user's system.
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
         # ----------------------------------------
 
 
@@ -192,8 +196,8 @@ class SettingsGit
         {
             [CommonCUI]::DrawMenuItem('U', `
                                     "Update Source", `
-                                    "Allows the ability to update $([ProjectInformation]::projectName) project files.", `
-                                    "Update $([ProjectInformation]::projectName) project files: $($currentSettingUpdateSource)", `
+                                    "Allows the ability to update $($projectInformation.GetProjectName()) project files.", `
+                                    "Update $($projectInformation.GetProjectName()) project files: $($currentSettingUpdateSource)", `
                                     $true);
         } # If: Show Update Source
 
@@ -214,7 +218,7 @@ class SettingsGit
         {
             [CommonCUI]::DrawMenuItem('H', `
                                     "Retrieve History", `
-                                    "Allows the ability to retrieve a history changelog of $([ProjectInformation]::projectName)'s development.", `
+                                    "Allows the ability to retrieve a history changelog of $($projectInformation.GetProjectName())'s development.", `
                                     "Obtain a changelog history of the project: $($currentSettingRetrieveHistory)", `
                                     $true);
         } # If: Show Retrieve History
@@ -236,7 +240,7 @@ class SettingsGit
         {
             [CommonCUI]::DrawMenuItem('R', `
                                     "Generate Report of Project Repository", `
-                                    "Provides a detailed report regarding $([ProjectInformation]::projectName)'s development.", `
+                                    "Provides a detailed report regarding $($projectInformation.GetProjectName())'s development.", `
                                     "Create a report of the latest developments: $($currentSettingGenerateReport) $($currentSettingGenerateReportPDF)", `
                                     $true);
         } # If: Show Generate Report
@@ -672,7 +676,7 @@ class SettingsGit
                  ($_ -eq "disable")))
             }
             {
-                # The user had selected to dis4able Git-SCM functionality.
+                # The user had selected to disable Git-SCM functionality.
                 $userPreferences.SetVersionControlTool([UserPreferencesVersionControlTool]::GitSCM);
 
                 # Update the user's configuration with the latest changes.
@@ -806,8 +810,8 @@ class SettingsGit
                 ($_ -eq "help me")}
             {
                 # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMSITEWIKI_,                   ` # Program's Wiki
-                                                            "$([ProjectInformation]::projectName) Wiki"))   ` # Show page title
+                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMSITEWIKI_,               ` # Program's Wiki
+                                                            "$($GLOBAL:_PROGRAMNAMESHORT_) Wiki"))      ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -826,8 +830,8 @@ class SettingsGit
                 ($_ -eq "Report")}
             {
                 # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
+                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,             ` # Program's Bug Tracker
+                                                            "$($GLOBAL:_PROGRAMNAMESHORT_) Bug Tracker"))       ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -1096,8 +1100,8 @@ class SettingsGit
                 ($_ -eq "Report")}
             {
                 # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
+                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,             ` # Program's Bug Tracker
+                                                            "$($GLOBAL:_PROGRAMNAMESHORT_) Bug Tracker"))       ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -1185,7 +1189,7 @@ class SettingsGit
 
         # Now that we have the results from the finder, now determine
         #  if we were able to automatically detect the Git Application.
-        if ($null -eq $findGitResults)
+        if ([CommonFunctions]::IsStringEmpty($findGitResults))
         {
             # Alert the user that the path is incorrect.
             [NotificationAudible]::Notify([NotificationAudibleEventType]::Warning);
@@ -1498,8 +1502,8 @@ class SettingsGit
                 ($_ -eq "Report")}
             {
                 # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
+                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,             ` # Program's Bug Tracker
+                                                            "$($GLOBAL:_PROGRAMNAMESHORT_) Bug Tracker"))       ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -1784,8 +1788,8 @@ class SettingsGit
                 ($_ -eq "Report")}
             {
                 # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
+                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,             ` # Program's Bug Tracker
+                                                            "$($GLOBAL:_PROGRAMNAMESHORT_) Bug Tracker"))       ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -1951,12 +1955,21 @@ class SettingsGit
     #>
     hidden static [void] __DrawMenuHistory()
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the current instance of the Project Information object; this contains details
+        #  in regards to where the source files exists within the user's system.
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+        # ----------------------------------------
+
+
+
         # Display the Menu List
 
         # Retrieve the History Changelog
         [CommonCUI]::DrawMenuItem('H', `
                                 "Retrieve History", `
-                                "Records the latest developments within the $([ProjectInformation]::projectName) project.", `
+                                "Records the latest developments within the $($projectInformation.GetProjectName()) project.", `
                                 $NULL, `
                                 $true);
 
@@ -2061,8 +2074,8 @@ class SettingsGit
                 ($_ -eq "Report")}
             {
                 # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
+                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,             ` # Program's Bug Tracker
+                                                            "$($GLOBAL:_PROGRAMNAMESHORT_) Bug Tracker"))       ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -2300,8 +2313,8 @@ class SettingsGit
                 ($_ -eq "Report")}
             {
                 # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
+                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,             ` # Program's Bug Tracker
+                                                            "$($GLOBAL:_PROGRAMNAMESHORT_) Bug Tracker"))       ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -2695,8 +2708,8 @@ class SettingsGit
                 ($_ -eq "Report")}
             {
                 # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
+                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,             ` # Program's Bug Tracker
+                                                            "$($GLOBAL:_PROGRAMNAMESHORT_) Bug Tracker"))       ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);

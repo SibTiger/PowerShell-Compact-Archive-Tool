@@ -109,17 +109,23 @@ class Settings
     {
         # Declarations and Initializations
         # ----------------------------------------
+        # Obtain the current project information
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+
+
         # These variables will determine what menus are to be hidden from the user,
         #  as the options are possibly not available or not ready for the user to
         #  configure.
-        [bool] $showMenuZip = $true;    # Zip Menu
+        [bool] $showMenuZip             = $false;   # Zip Menu
+        [bool] $showProjectUserConfig   = $false;   # Project User Configuration
         # ----------------------------------------
 
 
 
 
         # Determine what menus are to be displayed to the user.
-        [Settings]::__DrawMenuDetermineHiddenMenus([ref] $showMenuZip);
+        [Settings]::__DrawMenuDetermineHiddenMenus([ref] $showMenuZip,
+                                                    [ref] $showProjectUserConfig);
 
 
 
@@ -151,6 +157,17 @@ class Settings
                                 "Configure the Git's functionality and preferences.", `
                                 $NULL, `
                                 $true);
+
+
+        # Project User Configuration
+        if ($showProjectUserConfig)
+        {
+            [CommonCUI]::DrawMenuItem('P', `
+                                    "$($projectInformation.GetProjectName()) Configuration", `
+                                    "Perform configuration changes for the $($projectInformation.GetProjectName()) $($GLOBAL:_PROGRAMNAMESHORT_) Project.", `
+                                    $NULL, `
+                                    $true);
+        } # if : Show when Project is Loaded
 
 
         # Update Application
@@ -218,17 +235,23 @@ class Settings
     {
         # Declarations and Initializations
         # ----------------------------------------
+        # Obtain the current instance of the Project Information
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+
+
         # These variables will determine what menus are to be hidden from the user,
         #  as the options are possibly not available or not ready for the user to
         #  configure.
-        [bool] $showMenuZip = $true;    # Zip Menu
+        [bool] $showMenuZip             = $false;   # Zip Menu
+        [bool] $showProjectUserConfig   = $false;   # Project User Configuration
         # ----------------------------------------
 
 
 
 
         # Determine what menus are to be displayed to the user.
-        [Settings]::__DrawMenuDetermineHiddenMenus([ref] $showMenuZip);
+        [Settings]::__DrawMenuDetermineHiddenMenus([ref] $showMenuZip,
+                                                    [ref] $showProjectUserConfig);
 
 
 
@@ -290,6 +313,25 @@ class Settings
 
 
 
+            # Project User Configuration
+            {   ($showProjectUserConfig) -and `
+                (($_ -eq "P") -or `
+                 ($_ -eq "Configure PSCAT Project") -or `
+                 ($_ -eq "Configure Project") -or `
+                 ($_ -eq "Configure $($projectInformation.GetProjectName())") -or `
+                 ($_ -eq "Configure $($projectInformation.GetCodeName())"))
+            }
+            {
+                # Open the PSCAT Project User Configuration menu
+                [SettingsProjectUserConfiguration]::Main();
+
+
+                # Finished
+                break;
+            } # Configure PSCAT Project Preferences
+
+
+
             # Update Software
             #  NOTE: Allow the user's request when they type: 'Update' or 'U'.
             {($_ -eq "U") -or `
@@ -343,8 +385,8 @@ class Settings
                 ($_ -eq "help me")}
             {
                 # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMSITEWIKI_,                   ` # Program's Wiki
-                                                            "$([ProjectInformation]::projectName) Wiki"))   ` # Show page title
+                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMSITEWIKI_,               ` # Program's Wiki
+                                                            "$($GLOBAL:_PROGRAMNAMESHORT_) Wiki"))      ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -363,8 +405,8 @@ class Settings
                 ($_ -eq "Report")}
             {
                 # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
+                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,             ` # Program's Bug Tracker
+                                                            "$($GLOBAL:_PROGRAMNAMESHORT_) Bug Tracker"))       ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -436,10 +478,21 @@ class Settings
     # Input:
     #  [bool] (REFERENCE) Zip Menu
     #   Provides the Zip Menu
+    #  [bool] (REFERENCE) Project User Config.
+    #   Provides the Project User Configuration Menu
     # -------------------------------
     #>
-    hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuZip)
+    hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuZip,
+                                                        [ref] $showProjectUserConfig)
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Obtain the current instance of the Project Information
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+        # ----------------------------------------
+
+
+
         # Show Zip Menu
         #  Show the Zip Menu if the following conditions are true:
         #   - Found Zip Module
@@ -453,5 +506,20 @@ class Settings
         {
             $showMenuZip.Value = $false;
         } # Else: Zip Menu is Hidden
+
+
+        # Show Project User Configuration Menu
+        #  Show the Project User Config. Menu if the following conditions are true:
+        #   - /Any/ Project is Loaded
+        if ($projectInformation.GetProjectLoaded())
+        {
+            $showProjectUserConfig.Value = $true;
+        } # If: Proj. User Config. Menu is Visible
+
+        # Project User Config. Menu is Hidden
+        else
+        {
+            $showProjectUserConfig.Value = $false;
+        } # Else: Proj. User Config. Menu is Hidden
     } # __DrawMenuDetermineHiddenMenus()
 } # Settings

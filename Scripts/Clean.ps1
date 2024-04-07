@@ -168,18 +168,18 @@ function clean()
 
 
     # Delete all of the log\report files and directories
-    [CommonIO]::WriteToBuffer("`tLog Files`r`n`t`t$GLOBAL:_PROGRAMDATA_ROOT_LOCAL_PATH_", + `
+    [CommonIO]::WriteToBuffer("`tLog Files`r`n`t`t$GLOBAL:_PROGRAMDATA_LOCAL_ROOT_PATH_", + `
                                 [LogMessageLevel]::Warning, + `
                                 $false);
 
 
-    if (![CommonIO]::DeleteDirectory($GLOBAL:_PROGRAMDATA_ROOT_LOCAL_PATH_))
+    if (![CommonIO]::DeleteDirectory($GLOBAL:_PROGRAMDATA_LOCAL_ROOT_PATH_))
     {
         # Raise the error flag
         if (!$errorFlag) {$errorFlag = $true;}
 
         # Include the directory path.
-        $messageBoxError += "`r`n>>> $($GLOBAL:_PROGRAMDATA_ROOT_LOCAL_PATH_)";
+        $messageBoxError += "`r`n>>> $($GLOBAL:_PROGRAMDATA_LOCAL_ROOT_PATH_)";
 
         # Show that the directory could not be removed.
         [CommonIO]::WriteToBuffer("`t`tFailed!", + `
@@ -190,31 +190,33 @@ function clean()
 
 
     # User Configuration
+    #        AND
+    # Installed Projects
     # -----------
     # -----------
 
 
-    # Delete the user configuration file
+    # Delete the user configuration AND installed projects
     if ($programMode -eq [CleanUpModeType]::DeepCleanUp)
     {
-        [CommonIO]::WriteToBuffer("`tUser Configuration`r`n`t`t$GLOBAL:_PROGRAMDATA_ROOT_ROAMING_PATH_", + `
+        [CommonIO]::WriteToBuffer("`tUser Configuration and Installed Projects`r`n`t`t$GLOBAL:_PROGRAMDATA_ROAMING_ROOT_PATH_", + `
                                     [LogMessageLevel]::Warning, + `
                                     $false);
 
 
-        if (![CommonIO]::DeleteDirectory($GLOBAL:_PROGRAMDATA_ROOT_ROAMING_PATH_))
+        if (![CommonIO]::DeleteDirectory($GLOBAL:_PROGRAMDATA_ROAMING_ROOT_PATH_))
         {
             # Raise the error flag
             if (!$errorFlag) {$errorFlag = $true;}
 
             # Include the directory path.
-            $messageBoxError += "`r`n>>> $($GLOBAL:_PROGRAMDATA_ROOT_ROAMING_PATH_)";
+            $messageBoxError += "`r`n>>> $($GLOBAL:_PROGRAMDATA_ROAMING_ROOT_PATH_)";
 
             # Show that the directory could not be removed.
             [CommonIO]::WriteToBuffer("`t`tFailed!", + `
                                         [LogMessageLevel]::Error, + `
                                         $false);
-        } # if : Failed to Delete Directory - Logs\Reports
+        } # if : Failed to Delete Directory - User Configuration\Installed Projects
     } # if : Deep Clean Up
 
 

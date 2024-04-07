@@ -246,7 +246,7 @@ class GitControl
         $this.__generateReportFilePDF = $false;
 
         # Log Root Directory Path
-        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\Git";
+        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_)\Git";
 
         # Report Directory Path
         $this.__reportPath = "$($this.__rootLogPath)\reports";
@@ -292,7 +292,7 @@ class GitControl
         $this.__generateReportFilePDF = $generateReportFilePDF;
 
         # Log Root Directory Path
-        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\Git";
+        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_)\Git";
 
         # Report Directory Path
         $this.__reportPath = "$($this.__rootLogPath)\reports";
@@ -320,10 +320,7 @@ class GitControl
     #   The value of the 'Executable Path' to the git.exe binary file.
     # -------------------------------
     #>
-    [string] GetExecutablePath()
-    {
-        return $this.__executablePath;
-    } # GetExecutablePath()
+    [string] GetExecutablePath() { return $this.__executablePath; }
 
 
 
@@ -338,10 +335,7 @@ class GitControl
     #   The value of the 'Update Source'.
     # -------------------------------
     #>
-    [bool] GetUpdateSource()
-    {
-        return $this.__updateSource;
-    } # GetUpdateSource()
+    [bool] GetUpdateSource() { return $this.__updateSource; }
 
 
 
@@ -356,10 +350,7 @@ class GitControl
     #   The value of the 'Commit ID Length'.
     # -------------------------------
     #>
-    [GitCommitLength] GetLengthCommitID()
-    {
-        return $this.__lengthCommitID;
-    } # GetLengthCommitID()
+    [GitCommitLength] GetLengthCommitID() { return $this.__lengthCommitID; }
 
 
 
@@ -374,10 +365,7 @@ class GitControl
     #   The value of the 'Fetch History Changelog'.
     # -------------------------------
     #>
-    [bool] GetFetchChangelog()
-    {
-        return $this.__fetchChangelog;
-    } # GetFetchChangelog()
+    [bool] GetFetchChangelog() { return $this.__fetchChangelog; }
 
 
 
@@ -392,10 +380,7 @@ class GitControl
     #   The value of the 'Changelog History Limit'.
     # -------------------------------
     #>
-    [uint32] GetChangelogLimit()
-    {
-        return $this.__changelogLimit;
-    } # GetChangelogLimit()
+    [uint32] GetChangelogLimit() { return $this.__changelogLimit; }
 
 
 
@@ -410,10 +395,7 @@ class GitControl
     #   The value of the 'Generate Report'.
     # -------------------------------
     #>
-    [bool] GetGenerateReport()
-    {
-        return $this.__generateReport;
-    } # GetGenerateReport()
+    [bool] GetGenerateReport() { return $this.__generateReport; }
 
 
 
@@ -428,10 +410,7 @@ class GitControl
     #   The value of the 'Report Directory Path'.
     # -------------------------------
     #>
-    [string] GetReportPath()
-    {
-        return $this.__reportPath;
-    } # GetReportPath()
+    [string] GetReportPath() { return $this.__reportPath; }
 
 
 
@@ -446,10 +425,7 @@ class GitControl
     #   The value of the 'Generate Report - PDF File'.
     # -------------------------------
     #>
-    [bool] GetGenerateReportFilePDF()
-    {
-        return $this.__generateReportFilePDF;
-    } # GetGenerateReportFilePDF()
+    [bool] GetGenerateReportFilePDF() { return $this.__generateReportFilePDF; }
 
 
 
@@ -464,10 +440,7 @@ class GitControl
     #   The value of the 'Log Directory Path'.
     # -------------------------------
     #>
-    [string] GetLogPath()
-    {
-        return $this.__logPath;
-    } # GetLogPath()
+    [string] GetLogPath() { return $this.__logPath; }
 
 
 
@@ -482,10 +455,7 @@ class GitControl
     #   The value of the 'Log Root Directory Path'.
     # -------------------------------
     #>
-    [string] GetRootLogPath()
-    {
-        return $this.__rootLogPath;
-    } # GetRootLogPath()
+    [string] GetRootLogPath() { return $this.__rootLogPath; }
 
 
 
@@ -500,10 +470,7 @@ class GitControl
     #   The value of the object's GUID.
     # -------------------------------
     #>
-    [GUID] GetObjectGUID()
-    {
-        return $this.__objectGUID;
-    } # GetObjectGUID()
+    [GUID] GetObjectGUID() { return $this.__objectGUID; }
 
     #endregion
 
@@ -1127,7 +1094,7 @@ class GitControl
     [bool] DetectGitExist()
     {
         # Make sure that the value is not empty (or null).
-        if ($null -eq $this.GetExecutablePath())
+        if ([CommonFunctions]::IsStringEmpty($this.GetExecutablePath()))
         {
             # No value was provided; unable to perform a check as nothing was provided.
 
@@ -3325,6 +3292,11 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
+        # Retrieve the current instance of the Project Information object; this contains details
+        #  in regards to where the source files exists within the user's system.
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+
+
         # The following variables will hold the current date and time from the host system.
         #  With this, it'll be available for the filename and inside the report.
         # - - - -
@@ -3340,10 +3312,10 @@ class GitControl
         # This will hold the report's filename.
         # - - - -
         # >> Standard Textfile
-        [string] $fileNameTXT = "$($this.GetReportPath())\$([ProjectInformation]::projectName) - $($dateTime).txt";
+        [string] $fileNameTXT = "$($this.GetReportPath())\$($projectInformation.GetProjectName()) - $($dateTime).txt";
 
         # >> Portable Document File (PDF)
-        [string] $fileNamePDF = "$($this.GetReportPath())\$([ProjectInformation]::projectName) - $($dateTime).pdf";
+        [string] $fileNamePDF = "$($this.GetReportPath())\$($projectInformation.GetProjectName()) - $($dateTime).pdf";
         # - - - -
 
 
@@ -3559,7 +3531,7 @@ class GitControl
                                       "Synopsis`r`n" + `
                                       "----------`r`n" + `
                                       "This report was generated on $($dateNow) at $($timeNow) for the" + `
-                                      "$([ProjectInformation]::projectName) project.  This report contains an overview of" + `
+                                      "$($projectInformation.GetProjectName()) project.  This report contains an overview of" + `
                                       " the project's activity and workflow.  However, all information is solely based on" + `
                                       " the project's Local Repository instead of the Remote Repository.  To assure that" + `
                                       " the information gathered by this report contains the latest information, be sure" + `
@@ -3674,17 +3646,17 @@ class GitControl
                                       "$($sectionBorder)`r`n`r`n" + `
                                       "Provided below is information regarding the project itself.`r`n`r`n" + `
                                       "Project Name:`r`n" + `
-                                      "`t$([ProjectInformation]::projectName)`r`n`r`n" + `
+                                      "`t$($projectInformation.GetProjectName())`r`n`r`n" + `
                                       "Project Code Name:`r`n" + `
-                                      "`t$([ProjectInformation]::codeName)`r`n`r`n" + `
+                                      "`t$($projectInformation.GetCodeName())`r`n`r`n" + `
                                       "Filename:`r`n" + `
-                                      "`t$([ProjectInformation]::fileName)`r`n`r`n" + `
+                                      "`t$($projectInformation.GetFileName())`r`n`r`n" + `
                                       "Project Website:`r`n" + `
-                                      "`t$([ProjectInformation]::urlWebsite)`r`n`r`n" + `
+                                      "`t$($projectInformation.GetURLWebsite())`r`n`r`n" + `
                                       "Project's Documentation:`r`n" + `
-                                      "`t$([ProjectInformation]::urlWiki)`r`n`r`n" + `
+                                      "`t$($projectInformation.GetURLWiki())`r`n`r`n" + `
                                       "Project's Repository:`r`n" + `
-                                      "`t$([ProjectInformation]::urlSource)`r`n" + `
+                                      "`t$($projectInformation.GetURLSource())`r`n" + `
                                       "`r`n`r`n");
 
 

@@ -87,7 +87,7 @@ class DefaultCompress
     static [DefaultCompress] GetInstance([DefaultCompressionLevel] $compressionLevel, ` # Compression Level
                                         [bool] $verifyBuild, `                          # Verify Archive datafile
                                         [bool] $generateReport, `                       # Create report
-                                        [bool] $generateReportFilePDF)          # Create a PDF Report
+                                        [bool] $generateReportFilePDF)                  # Create a PDF Report
     {
         # if there was no previous instance of the object - then create one.
         if ($null -eq [DefaultCompress]::_instance)
@@ -199,7 +199,7 @@ class DefaultCompress
         $this.__generateReportFilePDF = $false;
 
         # Log Root Directory Path
-        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\PSArchive";
+        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_)\PSArchive";
 
         # Report Directory Path
         $this.__reportPath = "$($this.__rootLogPath)\reports";
@@ -233,7 +233,7 @@ class DefaultCompress
         $this.__generateReportFilePDF = $generateReportFilePDF;
 
         # Log Root Directory Path
-        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\PSArchive";
+        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_)\PSArchive";
 
         # Report Directory Path
         $this.__reportPath = "$($this.__rootLogPath)\reports";
@@ -261,10 +261,7 @@ class DefaultCompress
     #   The value of the 'Compression Level'.
     # -------------------------------
     #>
-    [DefaultCompressionLevel] GetCompressionLevel()
-    {
-        return $this.__compressionLevel;
-    } # GetCompressionLevel()
+    [DefaultCompressionLevel] GetCompressionLevel() { return $this.__compressionLevel; }
 
 
 
@@ -279,10 +276,7 @@ class DefaultCompress
     #   The value of the 'Verify Build'.
     # -------------------------------
     #>
-    [bool] GetVerifyBuild()
-    {
-        return $this.__verifyBuild;
-    } # GetVerifyBuild()
+    [bool] GetVerifyBuild() { return $this.__verifyBuild; }
 
 
 
@@ -297,10 +291,7 @@ class DefaultCompress
     #   The value of the 'Generate Report'.
     # -------------------------------
     #>
-    [bool] GetGenerateReport()
-    {
-        return $this.__generateReport;
-    } # GetGenerateReport()
+    [bool] GetGenerateReport() { return $this.__generateReport; }
 
 
 
@@ -315,10 +306,7 @@ class DefaultCompress
     #   The value of the 'Generate Report - PDF File'.
     # -------------------------------
     #>
-    [bool] GetGenerateReportFilePDF()
-    {
-        return $this.__generateReportFilePDF;
-    } # GetGenerateReportFilePDF()
+    [bool] GetGenerateReportFilePDF() { return $this.__generateReportFilePDF; }
 
 
 
@@ -333,10 +321,7 @@ class DefaultCompress
     #   The value of the 'Report Directory Path'.
     # -------------------------------
     #>
-    [string] GetReportPath()
-    {
-        return $this.__reportPath;
-    } # GetReportPath()
+    [string] GetReportPath() { return $this.__reportPath; }
 
 
 
@@ -351,10 +336,7 @@ class DefaultCompress
     #   The value of the 'Log Directory Path'.
     # -------------------------------
     #>
-    [string] GetLogPath()
-    {
-        return $this.__logPath;
-    } # GetLogPath()
+    [string] GetLogPath() { return $this.__logPath; }
 
 
 
@@ -369,10 +351,7 @@ class DefaultCompress
     #   The value of the 'Log Root Directory Path'.
     # -------------------------------
     #>
-    [string] GetRootLogPath()
-    {
-        return $this.__rootLogPath;
-    } # GetRootLogPath()
+    [string] GetRootLogPath() { return $this.__rootLogPath; }
 
 
 
@@ -387,10 +366,7 @@ class DefaultCompress
     #   The value of the object's GUID.
     # -------------------------------
     #>
-    [GUID] GetObjectGUID()
-    {
-        return $this.__objectGUID;
-    } # GetObjectGUID()
+    [GUID] GetObjectGUID() { return $this.__objectGUID; }
 
     #endregion
 
@@ -1254,7 +1230,7 @@ class DefaultCompress
         catch [System.Management.Automation.ItemNotFoundException]
         {
             # This will temporarily hold on to just the file name that is missing or corrupted.
-            [string] $badFileName = Split-Path -Path [string]($_.TargetObject) -Leaf;
+            [string] $badFileName = Split-Path -Path "$([string]($_.TargetObject))" -Leaf;
 
             # This will temporarily hold on to the full path of the file that is missing or corrupted.
             [string] $badFileNameFull = [string]($_.TargetObject);
@@ -1406,7 +1382,7 @@ class DefaultCompress
         {
             # If there is information held in the STDOUT container, then we will convert the data from an array-list
             #  to a literal string.
-            if ($null -ne $execSTDOUT)
+            if (![CommonFunctions]::IsStringEmpty($execSTDOUT))
             {
                 # Because there is information within the STDOUT container, we will convert it to a literal string.
                 #  But because we are going to display the information to a logfile, ultimately, present the data in
@@ -1448,7 +1424,7 @@ class DefaultCompress
 
             # If there is information held in the STDERR container, then we will transform the data from an object
             #  to a literal string.
-            if ($null -ne $execSTDERR)
+            if (![CommonFunctions]::IsStringEmpty($execSTDERR))
             {
                 # Because of how the information is stored in the object, we can just store the data to a literal
                 #  string outright.
@@ -1756,7 +1732,7 @@ class DefaultCompress
 
 
             # If there was information provided, then we will process it accordingly.
-            if ($null -ne $logString)
+            if (![CommonFunctions]::IsStringEmpty($logString))
             {
                 # Because there exists data within the output, we will prepare the output in such a way that
                 #  it can be available within the Logfile in an elegant way.  Ultimately, we want the
@@ -2168,7 +2144,7 @@ class DefaultCompress
         catch [System.Management.Automation.ItemNotFoundException]
         {
             # This will temporarily hold on to just the file name that is missing or corrupted.
-            [string] $badFileName = Split-Path -Path [string]($_.TargetObject) -Leaf;
+            [string] $badFileName = Split-Path -Path "$([string]($_.TargetObject))" -Leaf;
 
             # This will temporarily hold on to the full path of the file that is missing or corrupted.
             [string] $badFileNameFull = [string]($_.TargetObject);
@@ -2803,7 +2779,7 @@ class DefaultCompress
             {
                 # If the STDOUT contains the file path of the archive datafile,
                 #  then we will store it for logging purposes.
-                if ($null -ne $execSTDOUT)
+                if (![CommonFunctions]::IsStringEmpty($execSTDOUT))
                 {
                     # Because we only created just one compressed datafile, we
                     #  will only have one output file - not multiple.  With that,
@@ -2894,6 +2870,11 @@ class DefaultCompress
     {
         # Declarations and Initializations
         # ----------------------------------------
+        # Retrieve the current instance of the Project Information object; this contains details
+        #  in regards to where the source files exists within the user's system.
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+
+
         # Get the filename without the path, extension is kept.
         [string] $fileNameExt = Split-Path $archiveFile -leaf;
 
@@ -3246,17 +3227,17 @@ class DefaultCompress
                                      "$($sectionBorder)`r`n`r`n" + `
                                      "Provided below is information regarding the project.`r`n`r`n" + `
                                      "Project Name:`r`n" + `
-                                     "`t$([ProjectInformation]::projectName)`r`n`r`n" + `
+                                     "`t$($projectInformation.GetProjectName())`r`n`r`n" + `
                                      "Project Code Name:`r`n" + `
-                                     "`t$([ProjectInformation]::codeName)`r`n`r`n" + `
+                                     "`t$($projectInformation.GetCodeName())`r`n`r`n" + `
                                      "Filename:`r`n" + `
-                                     "`t$([ProjectInformation]::fileName)`r`n`r`n" + `
+                                     "`t$($projectInformation.GetFileName())`r`n`r`n" + `
                                      "Project Website:`r`n" + `
-                                     "`t$([ProjectInformation]::urlWebsite)`r`n`r`n" + `
+                                     "`t$($projectInformation.GetURLWebsite())`r`n`r`n" + `
                                      "Project's Documentation:`r`n" + `
-                                     "`t$([ProjectInformation]::urlWiki)`r`n`r`n" + `
+                                     "`t$($projectInformation.GetURLWiki())`r`n`r`n" + `
                                      "Project's Repository:`r`n" + `
-                                     "`t$([ProjectInformation]::urlSource)`r`n" + `
+                                     "`t$($projectInformation.GetURLSource())`r`n" + `
                                      "`r`n`r`n");
 
 
@@ -3623,7 +3604,7 @@ class DefaultCompress
         {
             # if this is the first entry in the variable, then just apply the item
             #  to the string without adding a appending the previous entries.
-            if ($null -eq $knownExtensions)
+            if ([CommonFunctions]::IsStringEmpty($knownExtensions))
             {
                 # First entry to the string.
                 $knownExtensions = $item;

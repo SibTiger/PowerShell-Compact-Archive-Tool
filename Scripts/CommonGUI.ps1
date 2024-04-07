@@ -147,6 +147,50 @@ class CommonGUI
 
 
 
+   <# Browse for Directory - Overload Function
+    # -------------------------------
+    # Documentation:
+    #  This overload function will call the BrowseDirectory(), but will always assume that the Directory
+    #   Browser in Windows should always start at the User's Home Directory [%UserProfile%] AND the
+    #   New Folder button is visible in the Directory Browser.  All other arguments remain the same.
+    #
+    #  The purpose of this overload function existing, is merely for all other methods that relied solely on
+    #   needing to use the Initial Directory at the user's Home Directory.  Keep in mind, in PowerShell,
+    #   Default values in arguments are not yet a thing.  When that functionality is possible, then this
+    #   overloaded function is not necessary.
+    #
+    #  This function will allow the user to select a directory using the Folder Browser dialog window.  By
+    #   using this functionality, the user will be able to expeditiously navigate to the desired directory
+    #   with ease - instead of having to spend extra time digging for a specific folder within the host's
+    #   filesystem.
+    # -------------------------------
+    # Input:
+    #  [string] Instructions
+    #   Provide a brief description as to what the user needs to find within the local host.
+    #  [BrowserInterfaceStyle] Style
+    #   This provides the ability to determine which browser interface is to be drawn to the user.
+    #  [string] (REFERENCE) Results
+    #   If a directory were to be selected, then we will return the value within this variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Path Selected
+    #   $true   = The user had selected a directory and the result had been stored.
+    #   $false  = The user had cancelled the operation, no directory had been selected.
+    # -------------------------------
+    #>
+    static [bool] BrowseDirectory([string] $instructions,           `   # Show description to the user; reminder
+                                [BrowserInterfaceStyle] $style,     `   # Style of the Browser interface
+                                [ref] $result)                          # Selected directory to be returned.
+    {
+        return [CommonGUI]::BrowseDirectory($instructions,          `   # Show the description to the user
+                                            $style,                 `   # Style of the Browser interface
+                                            $true,                  `   # Show 'New Folder' button
+                                            $env:USERPROFILE,       `   # Start at the User's Home directory
+                                            $result);                   # Return the result
+    } # BrowseDirectory()
+
+
+
 
    <# Browse for Directory
     # -------------------------------
@@ -165,6 +209,10 @@ class CommonGUI
     #   Provide a brief description as to what the user needs to find within the local host.
     #  [BrowserInterfaceStyle] Style
     #   This provides the ability to determine which browser interface is to be drawn to the user.
+    #  [Boolean] Show New Folder Button
+    #   When this is true, the 'New Folder' button will be visible in the Browser window.
+    #  [string] Initial Directory
+    #   This provides the starting location for the Directory Browser.
     #  [string] (REFERENCE) Results
     #   If a directory were to be selected, then we will return the value within this variable.
     # -------------------------------
@@ -174,9 +222,11 @@ class CommonGUI
     #   $false  = The user had cancelled the operation, no directory had been selected.
     # -------------------------------
     #>
-    static [bool] BrowseDirectory([string] $instructions,           ` # Show description to the user; reminder
-                                [BrowserInterfaceStyle] $style,     ` # Style of the Browser interface
-                                [ref] $result)                      ` # Selected directory to be returned.
+    static [bool] BrowseDirectory([string] $instructions,           `   # Show description to the user; reminder
+                                [BrowserInterfaceStyle] $style,     `   # Style of the Browser interface
+                                [bool] $showNewFolderButton,        `   # Show the New Folder Button in the Browser
+                                [string] $initialDirectory,         `   # Starting Directory for the Directory Browser
+                                [ref] $result)                          # Selected directory to be returned.
     {
         # Declarations and Initializations
         # -------------------------------------
@@ -191,15 +241,14 @@ class CommonGUI
 
         # Setup the properties for the Folder Browser Dialog
         #   General Settings
-        $directoryBrowser.AutoUpgradeEnabled    = `                                                 # Choose between modern or classical browser.
+        $directoryBrowser.AutoUpgradeEnabled        = `                                     # Choose between modern or classical browser.
                             ($style -eq [BrowserInterfaceStyle]::Modern) ? $true : $false;
-        $directoryBrowser.UseDescriptionForTitle= $false;                                           # Place the description at the title bar?
+        $directoryBrowser.UseDescriptionForTitle    = $false;                               # Place the description at the title bar?
 
-        #   Classical Folder Browser Settings
-        $directoryBrowser.RootFolder            = [System.Environment+SpecialFolder]::MyComputer;   # Allow the user full access to the system.
-        $directoryBrowser.ShowNewFolderButton   = $true;                                            # Allow the user to create a new directory.
-        #   Modern Folder Browser Settings
-        $directoryBrowser.InitialDirectory      = $env:USERPROFILE;                                 # Start the user at their Home directory.
+        #   Browser Settings
+        $directoryBrowser.Description               = $instructions;                        # Show the instructions\description to the user
+        $directoryBrowser.ShowNewFolderButton       = $showNewFolderButton;                 # Allow the user to create a new directory?
+        $directoryBrowser.InitialDirectory          = $initialDirectory;                    # Open the Directory Browser at the Desired Directory
 
 
 
@@ -216,10 +265,69 @@ class CommonGUI
         # Provide the path that the user had chose.
         $result.Value = $directoryBrowser.SelectedPath;
 
+
         # Let the calling function know that the user provided a path.
         return $true;
     } # BrowseDirectory()
 
+
+
+
+   <# Browse for Files - Overload Function
+    # -------------------------------
+    # Documentation:
+    #  This overload function will call the BrowseFile(), but will always assume that the File Browser
+    #   in Windows should always start at the User's Home Directory [%UserProfile%].  All other arguments
+    #   remain the same.
+    #
+    #  The purpose of this overload function existing, is merely for all other methods that relied solely on
+    #   needing to use the Initial Directory at the user's Home directory.  Keep in mind, in PowerShell,
+    #   Default values in arguments are not yet a thing.  When that functionality is possible, then this
+    #   overloaded function is not necessary.
+    #
+    #  This function will allow the user to select a particular or a handful of files with
+    #   the respected file-extensions.  By using this functionality, the user will be able
+    #   to expeditiously navigate to the desired file or files with ease - instead of having
+    #   to spend extra time digging for a specific file's URI.
+    # -------------------------------
+    # Input:
+    #  [string] Title
+    #   This will display a very brief description onto the Title bar of the Dialog window.
+    #  [string] Default Extension
+    #   Provides the default, or preferred, file extension that calling function is requiring.
+    #  [string] Filter Extension Options
+    #   Provides a filter file extensions that are acceptable.
+    #  [Bool] Select Multiple Files
+    #   When true, the user can select one or more files.  False, however, the user can
+    #   only pick just one file.
+    #  [Browser Interface Style] Style
+    #   This provides the ability to determine which browser interface is to be drawn to the
+    #   user.
+    #  [System.Collections.ArrayList] Files
+    #   This provides the list of files that had been selected by the user.  This is returned
+    #   to the calling function for further evaluation.
+    # -------------------------------
+    # Output:
+    #  [bool] File(s) Selected
+    #   $true   = The user had selected at least one file
+    #   $false  = The user had cancelled the operation, no file had been selected.
+    # -------------------------------
+    #>
+    static [bool] BrowseFile([string] $title,                       ` # Brief Description in Title Bar.
+                            [string] $defaultExtension,             ` # Default File Extension.
+                            [string] $filterExtensionOptions,       ` # Filter File Extensions.
+                            [bool] $selectMultipleFiles,            ` # Select only one OR at least one file.
+                            [BrowserInterfaceStyle] $style,         ` # Style of the Browser interface.
+                            [System.Collections.ArrayList] $files)    # Selected files to be returned.
+    {
+        return [CommonGUI]::BrowseFile( $title,                     `
+                                        $defaultExtension,          `
+                                        $filterExtensionOptions,    `
+                                        $selectMultipleFiles,       `
+                                        $style,                     `
+                                        $files,                     `
+                                        $env:USERPROFILE);
+    } # BrowseFile()
 
 
 
@@ -241,7 +349,7 @@ class CommonGUI
     #  [string] Default Extension
     #   Provides the default, or preferred, file extension that calling function is requiring.
     #  [string] Filter Extension Options
-    #   Provides additional file extensions that are acceptable.
+    #   Provides a filter file extensions that are acceptable.
     #  [Bool] Select Multiple Files
     #   When true, the user can select one or more files.  False, however, the user can
     #   only pick just one file.
@@ -251,19 +359,22 @@ class CommonGUI
     #  [System.Collections.ArrayList] Files
     #   This provides the list of files that had been selected by the user.  This is returned
     #   to the calling function for further evaluation.
-    # -------------------------------
+    #  [string] Initial Directory
+    #   This provides the starting location for the File Browser.
+    # ------------------------------
     # Output:
     #  [bool] File(s) Selected
     #   $true   = The user had selected at least one file
     #   $false  = The user had cancelled the operation, no file had been selected.
     # -------------------------------
     #>
-    static [bool] BrowseFile([string] $title,                       ` # Brief Description in Title Bar.
-                            [string] $defaultExtension,             ` # Default File Extension.
-                            [string] $filterExtensionOptions,       ` # Additional File Extensions.
-                            [bool] $selectMultipleFiles,            ` # Select only one OR at least one file.
-                            [BrowserInterfaceStyle] $style,         ` # Style of the Browser interface.
-                            [System.Collections.ArrayList] $files)    # Selected files to be returned.
+    static [bool] BrowseFile([string] $title,                       `   # Brief Description in Title Bar.
+                            [string] $defaultExtension,             `   # Default File Extension.
+                            [string] $filterExtensionOptions,       `   # Filter File Extensions.
+                            [bool] $selectMultipleFiles,            `   # Select only one OR at least one file.
+                            [BrowserInterfaceStyle] $style,         `   # Style of the Browser interface.
+                            [System.Collections.ArrayList] $files,  `   # Selected files to be returned.
+                            [string] $initialDirectory)                 # Starting Directory for the File Browser.
     {
         # Declarations and Initializations
         # -------------------------------------
@@ -281,7 +392,7 @@ class CommonGUI
         $fileBrowser.CheckFileExists                = $true;                                            # Warn user if file non-existent.
         $fileBrowser.CheckPathExists                = $true;                                            # Warn user if path non-existent.
         $fileBrowser.DefaultExt                     = $defaultExtension;                                # Preferred File Extension
-        $fileBrowser.Filter                         = $filterExtensionOptions;                          # Additional File Extensions
+        $fileBrowser.Filter                         = $filterExtensionOptions;                          # Filter File Extensions
         $fileBrowser.DereferenceLinks               = $true;                                            # Dereference symbolic links
         $fileBrowser.Multiselect                    = $selectMultipleFiles;                             # Select only one file or multiple files.
         $fileBrowser.RestoreDirectory               = $true;                                            # Restore previous location upon new session
@@ -289,7 +400,7 @@ class CommonGUI
         $fileBrowser.Title                          = $title;                                           # Brief description in Title bar
         $fileBrowser.ValidateNames                  = $true;                                            # Assure file name is legal
         $fileBrowser.SupportMultiDottedExtensions   = $false;                                           # Disallow multiple file extensions (MyText.txt.zip)
-        $fileBrowser.InitialDirectory               = $env:USERPROFILE;                                 # Start the user at their Home directory.
+        $fileBrowser.InitialDirectory               = $initialDirectory;                                # Open the File Browser at the Desired Directory
 
 
 
@@ -304,12 +415,60 @@ class CommonGUI
 
         # If we made it this far, then we know that the user had chosen one or many files.
         #  Provide the file(s) that the user had selected.
-        foreach ($i in $fileBrowser.FileNames){$files.Add($i);}
+        foreach ($i in $fileBrowser.FileNames) { $files.Add($i); }
 
 
         # Let the calling function know that the user provided atleast one file.
         return $true;
     } # BrowseFile()
+
+
+
+
+   <# Get File Extension Filter
+    # -------------------------------
+    # Documentation:
+    #  When called, this function will provide the file extension filters that will
+    #  be necessary for the Windows GUI, OpenFileDialog(), function.
+    # -------------------------------
+    # Input:
+    #  [FileExtensionList] File Extension Request
+    #   The desired file extension to filter
+    #  [string] {REFERENCE} File Extension Filter String
+    #   The file extension filter string for the OpenFileDialog() function.
+    #  [string] {REFERENCE} Preferred File Extension Filter String
+    #   The preferred file extension filter string for the OpenFileDialog() function.
+    # -------------------------------
+    #>
+    static [void] GetFileExtensionFilter(   [FileExtensionList] $fileExtensionRequest,  `   # Requested File Extension
+                                            [ref] $fileExtensionFilterString,           `   # File Extension Filter String
+                                            [ref] $preferredFileExtensionFilterString)      # Preferred File Extension Filter String
+    {
+        # Determine the file extension filter
+        switch ($fileExtensionRequest)
+        {
+            # File Extension: All
+            {[FileExtensionList]::All}
+            {
+                $fileExtensionFilterString.Value            = "All Files (*.*)|*.*";
+                $preferredFileExtensionFilterString.Value   = "*.*";
+            } # # File Extension: All
+
+            # File Extension: Zip
+            {[FileExtensionList]::Zip}
+            {
+                $fileExtensionFilterString.Value            = "Zip Files (*.zip)|*.zip";
+                $preferredFileExtensionFilterString.Value   = "*.zip";
+            } # File Extension: All
+
+            # File Extension: PSCATProj
+            {[FileExtensionList]::PSCATProj}
+            {
+                $fileExtensionFilterString.Value            = "$($GLOBAL:_PROGRAMNAMESHORT_) Project Files (*.pscatproj)|*.pscatproj";
+                $preferredFileExtensionFilterString.Value   = "*.pscatproj";
+            } # # File Extension: PSCATProj
+        } # switch : Determine File Ext. Filter
+    } # GetFileExtensionFilter()
 } # CommonGUI
 
 
@@ -331,3 +490,19 @@ enum BrowserInterfaceStyle
     Classic    = 0;    # The ol' browser
     Modern     = 1;    # The modern browser
 } # BrowserInterfaceStyle
+
+
+
+
+<# File Extension List [ENUM]
+ # -------------------------------
+ # A list of known file extensions that can be used for the Windows GUI function,
+ #  OpenFileDialog(), to determine what files should be in the user's focus.
+ # -------------------------------
+ #>
+enum FileExtensionList
+{
+    All         ;   # All File Types
+    Zip         ;   # Zip Archive File
+    PSCATProj   ;   # PSCAT Project File
+} # FileExtensionList

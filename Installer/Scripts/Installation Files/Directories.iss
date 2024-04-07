@@ -44,6 +44,9 @@ Name: "{userappdata}\{#_PRODUCT_NAME_FULL_}";           \
 Name: "{userappdata}\{#_PRODUCT_NAME_FULL_}\Configs";   \
     flags: uninsalwaysuninstall;
 
+Name: "{userappdata}\{#_PRODUCT_NAME_FULL_}\Projects";  \
+    flags: uninsalwaysuninstall;
+
 
 
 

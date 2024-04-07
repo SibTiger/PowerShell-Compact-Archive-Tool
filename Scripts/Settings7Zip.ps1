@@ -819,8 +819,8 @@ class Settings7Zip
                 ($_ -eq "help me")}
             {
                 # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMSITEWIKI_,                   ` # Program's Wiki
-                                                            "$([ProjectInformation]::projectName) Wiki"))   ` # Show page title
+                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMSITEWIKI_,               ` # Program's Wiki
+                                                            "$($GLOBAL:_PROGRAMNAMESHORT_) Wiki"))      ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -839,8 +839,8 @@ class Settings7Zip
                 ($_ -eq "Report")}
             {
                 # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
+                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,             ` # Program's Bug Tracker
+                                                            "$($GLOBAL:_PROGRAMNAMESHORT_) Bug Tracker"))       ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -1110,8 +1110,8 @@ class Settings7Zip
                 ($_ -eq "Report")}
             {
                 # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
+                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,             ` # Program's Bug Tracker
+                                                            "$($GLOBAL:_PROGRAMNAMESHORT_) Bug Tracker"))       ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -1199,7 +1199,7 @@ class Settings7Zip
 
         # Now that we have the results from the finder, now determine
         #  if we were able to automatically detect the 7Zip Application.
-        if ($null -eq $find7ZipResults)
+        if ([CommonFunctions]::IsStringEmpty($find7ZipResults))
         {
             # Alert the user that the path is incorrect.
             [NotificationAudible]::Notify([NotificationAudibleEventType]::Warning);
@@ -1516,8 +1516,8 @@ class Settings7Zip
                 ($_ -eq "Report")}
             {
                 # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
+                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,             ` # Program's Bug Tracker
+                                                            "$($GLOBAL:_PROGRAMNAMESHORT_) Bug Tracker"))       ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -1827,8 +1827,8 @@ class Settings7Zip
                 ($_ -eq "Report")}
             {
                 # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
+                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,             ` # Program's Bug Tracker
+                                                            "$($GLOBAL:_PROGRAMNAMESHORT_) Bug Tracker"))       ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -2174,8 +2174,8 @@ class Settings7Zip
                 ($_ -eq "Report")}
             {
                 # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
+                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,             ` # Program's Bug Tracker
+                                                            "$($GLOBAL:_PROGRAMNAMESHORT_) Bug Tracker"))       ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -2522,8 +2522,8 @@ class Settings7Zip
                 ($_ -eq "Report")}
             {
                 # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
+                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,             ` # Program's Bug Tracker
+                                                            "$($GLOBAL:_PROGRAMNAMESHORT_) Bug Tracker"))       ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -2798,8 +2798,8 @@ class Settings7Zip
                 ($_ -eq "Report")}
             {
                 # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
+                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,             ` # Program's Bug Tracker
+                                                            "$($GLOBAL:_PROGRAMNAMESHORT_) Bug Tracker"))       ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -3123,8 +3123,8 @@ class Settings7Zip
                 ($_ -eq "Report")}
             {
                 # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,                 ` # Program's Bug Tracker
-                                                            "$([ProjectInformation]::projectName) Bug Tracker"))    ` # Show page title
+                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,             ` # Program's Bug Tracker
+                                                            "$($GLOBAL:_PROGRAMNAMESHORT_) Bug Tracker"))       ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);

@@ -70,6 +70,15 @@ class CommonCUI
     #>
     static [void] DrawProgramTitleHeader()
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the current instance of the Project Information object; this contains details
+        #  in regards to where the source files exists within the user's system.
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+        # ----------------------------------------
+
+
+
         # Display the top border
         [Logging]::DisplayMessage([CommonCUI]::__borderDashLong);
         # -------------------------------------------------------------------
@@ -88,8 +97,15 @@ class CommonCUI
         # -------------------------------------------------------------------
 
 
-        # Display the intended supported ZDoom project name and codename
-        [Logging]::DisplayMessage("Designed for $([ProjectInformation]::projectName) [$([ProjectInformation]::codeName)]");
+        # Display the current loaded project and its version information to the user.
+        #  However, only if the project information is available.
+        if ($projectInformation.GetProjectLoaded())
+        {
+            [Logging]::DisplayMessage("Project Loaded: $($projectInformation.GetProjectName()) [$($projectInformation.GetCodeName())]");
+            [Logging]::DisplayMessage("Project Compiler Version $($projectInformation.GetCompilerVersion())");
+        } # if : Project is Loaded
+
+
         # -------------------------------------------------------------------
 
 
@@ -208,8 +224,17 @@ class CommonCUI
     #>
     static [void] CompileInstructions()
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Retrieve the current instance of the Project Information object; this contains details
+        #  in regards to where the source files exists within the user's system.
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+        # ----------------------------------------
+
+
+
         # Display the common menu instructions
-        [Logging]::DisplayMessage("Please wait patiently as $([ProjectInformation]::projectName) is being compiled. . .");
+        [Logging]::DisplayMessage("Please wait patiently as $($projectInformation.GetProjectName()) is being compiled. . .");
 
         # Display a border
         [Logging]::DisplayMessage([CommonCUI]::__borderDashLong);
@@ -348,7 +373,7 @@ class CommonCUI
         # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
         # Was the Sub-Description provided?
-        if ($null -ne $itemSubDescription)
+        if (![CommonFunctions]::IsStringEmpty($itemSubDescription))
         {
             # Add the Sub-Description
             $displayMenuOutputFormatting += ("`r`n`t$($itemSubDescription)");
@@ -356,7 +381,7 @@ class CommonCUI
 
 
         # Was the Current Setting provided?
-        if ($null -ne $itemCurrentSetting)
+        if (![CommonFunctions]::IsStringEmpty($itemCurrentSetting))
         {
             # Add the Current Setting
             $displayMenuOutputFormatting += ("`r`n`t`t$($itemCurrentSetting)");
@@ -488,11 +513,17 @@ class CommonCUI
         # Program's Homepage
         [Logging]::DisplayMessage("Homepage:`r`n`t$($Global:_PROGRAMSITEHOMEPAGE_)");
 
+        # Program's Source Code Repository
+        [Logging]::DisplayMessage("Source Code:`r`n`t$($Global:_PROGRAMSITESOURCEREPOSITORY_)");
+
         # Program's Release Page
         [Logging]::DisplayMessage("Downloads:`r`n`t$($Global:_PROGRAMSITEDOWNLOADS_)");
 
         # Program's Wiki Page
         [Logging]::DisplayMessage("Documentation:`r`n`t$($Global:_PROGRAMSITEWIKI_)");
+
+        # Install Path
+        [Logging]::DisplayMessage("Installation Path:`r`n`t$($Global:_SCRIPTPATH_)");
     } # DrawProgramAbout()
 
 
@@ -740,10 +771,9 @@ class CommonCUI
 
 
         # Apply the symbol, if it is used.
-        if ($NULL -ne $symbol)
+        if (![CommonFunctions]::IsStringEmpty($symbol))
         {
-            # Attach the symbol now before we append the message onto the
-            #  message.
+            # Attach the symbol now before we append the message onto the message.
             $formattedMessage += [string]$symbol + " ";
         } # If : Attach symbol
 

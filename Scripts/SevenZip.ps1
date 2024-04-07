@@ -250,7 +250,7 @@ class SevenZip
         $this.__generateReportFilePDF = $false;
 
         # Log Root Directory Path
-        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\7Zip";
+        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_)\7Zip";
 
         # Report Directory Path
         $this.__reportPath = "$($this.__rootLogPath)\reports";
@@ -300,7 +300,7 @@ class SevenZip
         $this.__generateReportFilePDF = $generateReportFilePDF;
 
         # Log Root Directory Path
-        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\7Zip";
+        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_)\7Zip";
 
         # Report Directory Path
         $this.__reportPath = "$($this.__rootLogPath)\reports";
@@ -328,10 +328,7 @@ class SevenZip
     #   The value of the 'Executable Path' to the 7z.exe binary file.
     # -------------------------------
     #>
-    [string] GetExecutablePath()
-    {
-        return $this.__executablePath;
-    } # GetExecutablePath()
+    [string] GetExecutablePath() { return $this.__executablePath; }
 
 
 
@@ -346,10 +343,7 @@ class SevenZip
     #   The value of the 'Compression Method'.
     # -------------------------------
     #>
-    [SevenZipCompressionMethod] GetCompressionMethod()
-    {
-        return $this.__compressionMethod;
-    } # GetCompressionMethod()
+    [SevenZipCompressionMethod] GetCompressionMethod() { return $this.__compressionMethod; }
 
 
 
@@ -364,10 +358,7 @@ class SevenZip
     #   The value of the 'Compression Algorithm'.
     # -------------------------------
     #>
-    [SevenZipAlgorithmZip] GetAlgorithmZip()
-    {
-        return $this.__algorithmZip;
-    } # GetAlgorithmZip()
+    [SevenZipAlgorithmZip] GetAlgorithmZip() { return $this.__algorithmZip; }
 
 
 
@@ -382,10 +373,7 @@ class SevenZip
     #   The value of the Compression Algorithm.
     # -------------------------------
     #>
-    [SevenZipAlgorithm7Zip] GetAlgorithm7Zip()
-    {
-        return $this.__algorithm7Zip;
-    } # GetAlgorithm7Zip()
+    [SevenZipAlgorithm7Zip] GetAlgorithm7Zip() { return $this.__algorithm7Zip; }
 
 
 
@@ -400,10 +388,7 @@ class SevenZip
     #   The value of the 'Compression Level'.
     # -------------------------------
     #>
-    [SevenZipCompressionLevel] GetCompressionLevel()
-    {
-        return $this.__compressionLevel;
-    } # GetCompressionLevel()
+    [SevenZipCompressionLevel] GetCompressionLevel() { return $this.__compressionLevel; }
 
 
 
@@ -418,10 +403,7 @@ class SevenZip
     #   The value of the 'Verify Build'.
     # -------------------------------
     #>
-    [bool] GetVerifyBuild()
-    {
-        return $this.__verifyBuild;
-    } # GetVerifyBuild()
+    [bool] GetVerifyBuild() { return $this.__verifyBuild; }
 
 
 
@@ -436,10 +418,7 @@ class SevenZip
     #   The value of the 'Generate Report'.
     # -------------------------------
     #>
-    [bool] GetGenerateReport()
-    {
-        return $this.__generateReport;
-    } # GetGenerateReport()
+    [bool] GetGenerateReport() { return $this.__generateReport; }
 
 
 
@@ -454,10 +433,7 @@ class SevenZip
     #   The value of the 'Generate Report - PDF File'.
     # -------------------------------
     #>
-    [bool] GetGenerateReportFilePDF()
-    {
-        return $this.__generateReportFilePDF;
-    } # GetGenerateReportFilePDF()
+    [bool] GetGenerateReportFilePDF() { return $this.__generateReportFilePDF; }
 
 
 
@@ -472,10 +448,7 @@ class SevenZip
     #   The value of the 'Report Directory Path'.
     # -------------------------------
     #>
-    [string] GetReportPath()
-    {
-        return $this.__reportPath;
-    } # GetReportPath()
+    [string] GetReportPath() { return $this.__reportPath; }
 
 
 
@@ -490,10 +463,7 @@ class SevenZip
     #   The value of the 'Log Directory Path'.
     # -------------------------------
     #>
-    [string] GetLogPath()
-    {
-        return $this.__logPath;
-    } # GetLogPath()
+    [string] GetLogPath() { return $this.__logPath; }
 
 
 
@@ -508,10 +478,7 @@ class SevenZip
     #   The value of the 'Log Root Directory Path'.
     # -------------------------------
     #>
-    [string] GetRootLogPath()
-    {
-        return $this.__rootLogPath;
-    } # GetRootLogPath()
+    [string] GetRootLogPath() { return $this.__rootLogPath; }
 
 
 
@@ -526,10 +493,7 @@ class SevenZip
     #   The value of the object's GUID.
     # -------------------------------
     #>
-    [GUID] GetObjectGUID()
-    {
-        return $this.__objectGUID;
-    } # GetObjectGUID()
+    [GUID] GetObjectGUID() { return $this.__objectGUID; }
 
 
     #endregion
@@ -1188,7 +1152,7 @@ class SevenZip
     [bool] Detect7ZipExist()
     {
         # Make sure that the value is not empty (or null).
-        if ($null -eq $this.GetExecutablePath())
+        if ([CommonFunctions]::IsStringEmpty($this.GetExecutablePath()))
         {
             # No value was provided; unable to perform a check as nothing was provided.
 
@@ -1588,7 +1552,7 @@ class SevenZip
         # Make sure that the variable containing the Hash information, from 7Zip, is not empty.
         #  We need the variable to be initialized with some sort of data, if the data provided
         #  was empty (or null) - it is not possible to rigorously evaluate the output as needed.
-        if ($null -eq $outputResult)
+        if ([CommonFunctions]::IsStringEmpty($outputResult))
         {
             # The output cannot be evaluated; there is nothing to inspect.
 
@@ -2148,7 +2112,7 @@ class SevenZip
         # Just for assurance; make sure that we have an actual list from the archive
         #  file.  If in case the list was not retrieved successfully, then place an
         #  'ERR' to signify that an issue occurred, but still providing a value.
-        if ($null -eq $outputResult)
+        if ([CommonFunctions]::IsStringEmpty($outputResult))
         {
             # The Output from 7Zip contained no data.
 
@@ -3219,6 +3183,11 @@ class SevenZip
     {
         # Declarations and Initializations
         # ----------------------------------------
+        # Retrieve the current instance of the Project Information object; this contains details
+        #  in regards to where the source files exists within the user's system.
+        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+
+
         # Get the filename without the path, extension is kept.
         [string] $fileNameExt = [string](Split-Path $ArchiveFile -leaf);
 
@@ -3570,17 +3539,17 @@ class SevenZip
                                      "$($sectionBorder)`r`n`r`n" + `
                                      "Provided below is information regarding the project.`r`n`r`n" + `
                                      "Project Name:`r`n" + `
-                                     "`t$([ProjectInformation]::projectName)`r`n`r`n" + `
+                                     "`t$($projectInformation.GetProjectName())`r`n`r`n" + `
                                      "Project Code Name:`r`n" + `
-                                     "`t$([ProjectInformation]::codeName)`r`n`r`n" + `
+                                     "`t$($projectInformation.GetCodeName())`r`n`r`n" + `
                                      "Filename:`r`n" + `
-                                     "`t$([ProjectInformation]::fileName)`r`n`r`n" + `
+                                     "`t$($projectInformation.GetFileName())`r`n`r`n" + `
                                      "Project Website:`r`n" + `
-                                     "`t$([ProjectInformation]::urlWebsite)`r`n`r`n" + `
+                                     "`t$($projectInformation.GetURLWebsite())`r`n`r`n" + `
                                      "Project's Documentation:`r`n" + `
-                                     "`t$([ProjectInformation]::urlWiki)`r`n`r`n" + `
+                                     "`t$($projectInformation.URLWiki())`r`n`r`n" + `
                                      "Project's Repository:`r`n" + `
-                                     "`t$([ProjectInformation]::urlSource)`r`n" + `
+                                     "`t$($projectInformation.URLSource())`r`n" + `
                                      "`r`n`r`n");
 
 
@@ -3947,7 +3916,7 @@ class SevenZip
         {
             # if this is the first entry in the variable, then just apply the item
             #  to the string without adding a appending the previous entries.
-            if ($null -eq $knownExtensions)
+            if ([CommonFunctions]::IsStringEmpty($knownExtensions))
             {
                 # First entry to the string.
                 $knownExtensions = $item;

@@ -38,8 +38,8 @@
 
 
 
- class LoadSaveUserConfiguration
- {
+class LoadSaveUserConfiguration
+{
     # Object Singleton Instance
     # =================================================
     # =================================================
@@ -61,7 +61,7 @@
         {
             # Create a new instance of the singleton object.
             [LoadSaveUserConfiguration]::_instance = `
-                    [LoadSaveUserConfiguration]::new($Global:_PROGRAMDATA_CONFIGS_PATH_);
+                    [LoadSaveUserConfiguration]::new($Global:_PROGRAMDATA_ROAMING_USERCONFIG_PATH_);
         } # If: No Singleton Instance
 
         # Provide an instance of the object.
@@ -525,7 +525,7 @@
             # Because the directory does not exist, try to create it.
             if ($this.__CreateDirectories() -eq $false)
             {
-                # Because we could not create the directory, we can not save the user's configuration.
+            # Because we could not create the directory, we can not save the user's configuration.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -903,30 +903,6 @@
                                     "$([string]$cachedUserConfig[0].__compressionTool)", `  # Value Stored in Config
                                     "$([string]$userPref.GetCompressionTool())", `          # Current Value
                                     $_.Exception);                                          # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
-        # USER PREFERENCES -- PROJECT PATH
-        # - - - - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Project Path
-            $userPref.SetProjectPath([string]$cachedUserConfig[0].__projectPath);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__projectPath", `                            # The Variable Name
-                                    "User Preferences", `                           # The Variable Category
-                                    [string]$cachedUserConfig[0].__projectPath, `   # Value Stored in Config
-                                    [string]$userPref.GetProjectPath(), `           # Current Value
-                                    $_.Exception);                                  # Exception Details
         } # Catch : Unknown Value from Config.
 
 
@@ -1770,4 +1746,4 @@
     } # SaveUserConfiguration()
 
     #endregion
- } # LoadSaveUserConfiguration
+} # LoadSaveUserConfiguration

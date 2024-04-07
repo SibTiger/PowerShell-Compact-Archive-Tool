@@ -234,10 +234,10 @@ class SystemInformation
  #  - https://docs.microsoft.com/en-us/powershell/scripting/powershell-support-lifecycle#supported-platforms
  # -------------------------------
  #>
- enum SystemInformationOperatingSystem
- {
+enum SystemInformationOperatingSystem
+{
     Windows     = 0;  # Windows OS
     Linux       = 1;  # Linux
     Macintosh   = 2;  # Macintosh
     UNKNOWN     = 99; # Unregistered
- } # SystemInformationOperatingSystem
+} # SystemInformationOperatingSystem

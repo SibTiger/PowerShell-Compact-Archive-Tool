@@ -21,27 +21,32 @@
 <# Create Program Required Directories
  # -------------------------------
  # Documentation:
- #  This function will create the directories that is required to house program-data.  These directories
- #   will be paramount for this program to operate successfully.  If the directories do not exist, then
- #   the directories are to be created on the user's filesystem.  If the directories does exist already,
- #   then nothing will be created nor changed.
+ #  This function is designed to assure that the required directories are available within the user's
+ #   filesystem.  If incase one or more directories could not be found, then this function will try
+ #   to create them.  Because of the design of the program, these directories are paramount in order
+ #   for this application to function properly.  If the directories can not be created successfully,
+ #   then we will return an error stating as such back to the calling function.
  #
  # ----
  #
  #  Directories to Create:
- #   - User-Data Domain
- #    - %HomePath%\Documents\<PROGRAM_NAME>
- #    - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>
- #    - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>\Builds
- #    - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>\Builds\Release
- #    - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>\Builds\Development
+ #   - Program Data:
+ #      - %HomePath%\Documents\<PROGRAM_NAME>
+ #      - %LOCALAPPDATA%\<PROGRAM_NAME>
+ #      - %LOCALAPPDATA%\<PROGRAM_NAME>\Images
+ #      - %LOCALAPPDATA%\<PROGRAM_NAME>\Logs
+ #      - %APPDATA%\<PROGRAM_NAME>
+ #      - %APPDATA%\<PROGRAM_NAME>\Configs
+ #      - %APPDATA%\<PROGRAM_NAME>\Projects
  #
- #   - Program-Data Domain
- #    - %APPDATA%\<PROGRAM_NAME>
- #    - %APPDATA%\<PROGRAM_NAME>\Configs
- #    - %LOCALAPPDATA%\<PROGRAM_NAME>
- #    - %LOCALAPPDATA%\<PROGRAM_NAME>\<PROJECT_NAME>
- #    - %LOCALAPPDATA%\<PROGRAM_NAME>\<PROJECT_NAME>\Logs
+ #   - Program Data:
+ #      - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>
+ #      - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>\Builds
+ #      - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>\Builds\Release
+ #      - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>\Builds\Development
+ #      - %LOCALAPPDATA%\<PROGRAM_NAME>\<PROJECT_NAME>
+ #      - %LOCALAPPDATA%\<PROGRAM_NAME>\<PROJECT_NAME>\Logs
+ #      - %APPDATA%\<PROGRAM_NAME>\Projects\<PROJECT_NAME>\Art
  # -------------------------------
  # Output:
  #  [bool] Exit code
@@ -78,18 +83,25 @@ function CreateDirectories()
 
 
     # Because one or more directories did not exist, then we must find it and create them.
-    return (# Create the User Data Directories
-            ([CommonIO]::MakeDirectory($GLOBAL:_USERDATA_ROOT_PATH_)                -eq $true)  -and `   # The Program Root Directory
-            ([CommonIO]::MakeDirectory($GLOBAL:_USERDATA_PROJECT_PATH_)             -eq $true)  -and `   # The Loaded Project Directory
-            ([CommonIO]::MakeDirectory($GLOBAL:_USERDATA_BUILDS_PATH_)              -eq $true)  -and `   # The Program Output Builds Directory
-            ([CommonIO]::MakeDirectory($GLOBAL:_USERDATA_RELEASEBUILDS_PATH_)       -eq $true)  -and `   # The Program Output Release Builds Directory
-            ([CommonIO]::MakeDirectory($GLOBAL:_USERDATA_DEVBUILDS_PATH_)           -eq $true)  -and `   # The Program Output Dev. Builds Directory
-            # Program-Data Directories
-            ([CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_ROOT_LOCAL_PATH_)       -eq $true)  -and `   # The Program Data Root [Local]
-            ([CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_PROJECT_PATH_)          -eq $true)  -and `   # The Project Data Directory [Local]
-            ([CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_LOGS_PATH_)             -eq $true)  -and `   # The Program Data Logs [Local]
-            ([CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_ROOT_ROAMING_PATH_)     -eq $true)  -and `   # The Program Data Root [Roaming]
-            ([CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_CONFIGS_PATH_)          -eq $true));         # The Program Data Configs [Roaming]
+    return ( # Program Specific Directories:
+            (                                                                                           [CommonIO]::MakeDirectory($GLOBAL:_USERDATA_ROOT_PATH_)                         -eq $true)  -and `      # The Program Root Directory
+            (                                                                                           [CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_LOCAL_ROOT_PATH_)                -eq $true)  -and `      # The Program Data Root [Local]
+            (                                                                                           [CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_)        -eq $true)  -and `      # The Program Data Logs [Local]
+            (                                                                                           [CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_LOCAL_IMAGES_PATH_)              -eq $true)  -and `      # The Program Data Images [Local]
+            (                                                                                           [CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_ROAMING_ROOT_PATH_)              -eq $true)  -and `      # The Program Data Root [Roaming]
+            (                                                                                           [CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_ROAMING_USERCONFIG_PATH_)        -eq $true)  -and `      # The Program Data Configs [Roaming]
+            (                                                                                           [CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_)      -eq $true)  -and `      # The Installation Path for Projects [Roaming]
+
+            # Project Specific Directories:
+            # NOTE: We have to allow non-loaded project environments; if string is empty - then proceed onward normally.
+            #       However, if the string is populated - than the directory will need to be further evaluated as expected.
+            ([CommonFunctions]::IsStringEmpty($GLOBAL:_USERDATA_PROJECT_PATH_)                      -or [CommonIO]::MakeDirectory($GLOBAL:_USERDATA_PROJECT_PATH_)                      -eq $true)  -and `      # The Loaded Project Directory
+            ([CommonFunctions]::IsStringEmpty($GLOBAL:_USERDATA_PROJECT_BUILDS_PATH_)               -or [CommonIO]::MakeDirectory($GLOBAL:_USERDATA_PROJECT_BUILDS_PATH_)               -eq $true)  -and `      # The Program Output Builds Directory
+            ([CommonFunctions]::IsStringEmpty($GLOBAL:_USERDATA_PROJECT_BUILDS_RELEASE_PATH_)       -or [CommonIO]::MakeDirectory($GLOBAL:_USERDATA_PROJECT_BUILDS_RELEASE_PATH_)       -eq $true)  -and `      # The Program Output Release Builds Directory
+            ([CommonFunctions]::IsStringEmpty($GLOBAL:_USERDATA_PROJECT_BUILDS_DEVELOPMENT_PATH_)   -or [CommonIO]::MakeDirectory($GLOBAL:_USERDATA_PROJECT_BUILDS_DEVELOPMENT_PATH_)   -eq $true)  -and `      # The Program Output Dev. Builds Directory
+            ([CommonFunctions]::IsStringEmpty($GLOBAL:_PROGRAMDATA_LOCAL_PROJECT_PATH_)             -or [CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_LOCAL_PROJECT_PATH_)             -eq $true)  -and `      # Parent Directory for the Project
+            ([CommonFunctions]::IsStringEmpty($GLOBAL:_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_)        -or [CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_)        -eq $true)  -and `      # The Project Data Logs [Local]
+            ([CommonFunctions]::IsStringEmpty($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_ART_PATH_)       -or [CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_ART_PATH_)       -eq $true));            # The Project's Art Resources
 } # CreateDirectories()
 
 
@@ -98,25 +110,30 @@ function CreateDirectories()
 <# Check Program Directories
  # -------------------------------
  # Documentation:
- #  This function will check to make sure that the required directories exists within the user's
- #   filesystem.
+ #  This function will validate if the required directories already exists within the host's filesystem.
+ #   If one required directory is missing, than this function will provide that signal to the calling
+ #   function.
  #
  # ----
  #
- #  Directories to Check:
- #   - User-Data Domain
- #    - %HomePath%\Documents\<PROGRAM_NAME>
- #    - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>
- #    - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>\Builds
- #    - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>\Builds\Release
- #    - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>\Builds\Development
+ #  Directories to Create:
+ #   - Program Data:
+ #      - %HomePath%\Documents\<PROGRAM_NAME>
+ #      - %LOCALAPPDATA%\<PROGRAM_NAME>
+ #      - %LOCALAPPDATA%\<PROGRAM_NAME>\Images
+ #      - %LOCALAPPDATA%\<PROGRAM_NAME>\Logs
+ #      - %APPDATA%\<PROGRAM_NAME>
+ #      - %APPDATA%\<PROGRAM_NAME>\Configs
+ #      - %APPDATA%\<PROGRAM_NAME>\Projects
  #
- #   - Program-Data Domain
- #    - %APPDATA%\<PROGRAM_NAME>
- #    - %APPDATA%\<PROGRAM_NAME>\Configs
- #    - %LOCALAPPDATA%\<PROGRAM_NAME>
- #    - %LOCALAPPDATA%\<PROGRAM_NAME>\<PROJECT_NAME>
- #    - %LOCALAPPDATA%\<PROGRAM_NAME>\<PROJECT_NAME>\Logs
+ #   - Program Data:
+ #      - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>
+ #      - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>\Builds
+ #      - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>\Builds\Release
+ #      - %HomePath%\Documents\<PROGRAM_NAME>\<PROJECT_NAME>\Builds\Development
+ #      - %LOCALAPPDATA%\<PROGRAM_NAME>\<PROJECT_NAME>
+ #      - %LOCALAPPDATA%\<PROGRAM_NAME>\<PROJECT_NAME>\Logs
+ #      - %APPDATA%\<PROGRAM_NAME>\Projects\<PROJECT_NAME>\Art
  # -------------------------------
  # Output:
  #  [bool] Exit code
@@ -126,18 +143,25 @@ function CreateDirectories()
  #>
 function CheckProgramDirectories()
 {
-    return (# User-Data Directories
-            ([CommonIO]::CheckPathExists($GLOBAL:_USERDATA_ROOT_PATH_, $true)               -eq $true)  -and `  # The Program Root Directory
-            ([CommonIO]::CheckPathExists($GLOBAL:_USERDATA_PROJECT_PATH_, $true)            -eq $true)  -and `  # The Loaded Project Directory
-            ([CommonIO]::CheckPathExists($GLOBAL:_USERDATA_BUILDS_PATH_, $true)             -eq $true)  -and `  # The Program Output Builds Directory
-            ([CommonIO]::CheckPathExists($GLOBAL:_USERDATA_RELEASEBUILDS_PATH_, $true)      -eq $true)  -and `  # The Program Output Release Builds Directory
-            ([CommonIO]::CheckPathExists($GLOBAL:_USERDATA_DEVBUILDS_PATH_, $true)          -eq $true)  -and `  # The Program Output Dev. Builds Directory
-            # Program-Data Directories
-            ([CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_ROOT_LOCAL_PATH_, $true)      -eq $true)  -and `  # The Program Data Root [Local]
-            ([CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_PROJECT_PATH_, $true)         -eq $true)  -and `  # The Project Data Directory [Local]
-            ([CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_LOGS_PATH_, $true)            -eq $true)  -and `  # The Program Data Logs [Local]
-            ([CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_ROOT_ROAMING_PATH_, $true)    -eq $true)  -and `  # The Program Data Root [Roaming]
-            ([CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_CONFIGS_PATH_, $true)         -eq $true));        # The Program Data Configs [Roaming]
+    return ( # Program Specific Directories:
+            (                                                                                           [CommonIO]::CheckPathExists($GLOBAL:_USERDATA_ROOT_PATH_, $true)                        -eq $true)  -and `      # The Program Root Directory
+            (                                                                                           [CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_LOCAL_ROOT_PATH_, $true)               -eq $true)  -and `      # The Program Data Root [Local]
+            (                                                                                           [CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_LOCAL_IMAGES_PATH_, $true)             -eq $true)  -and `      # The Program Data Images [Local]
+            (                                                                                           [CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_, $true)       -eq $true)  -and `      # The Program Data Logs [Local]
+            (                                                                                           [CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_ROAMING_ROOT_PATH_, $true)             -eq $true)  -and `      # The Program Data Root [Roaming]
+            (                                                                                           [CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_ROAMING_USERCONFIG_PATH_, $true)       -eq $true)  -and `      # The Program Data Configs [Roaming]
+            (                                                                                           [CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_, $true)     -eq $true)  -and `      # The Installation Path for Projects [Roaming]
+
+            # Project Specific Directories:
+            # NOTE: We have to allow non-loaded project environments; if string is empty - then proceed onward normally.
+            #       However, if the string is populated - than the directory will need to be further evaluated as expected.
+            ([CommonFunctions]::IsStringEmpty($GLOBAL:_USERDATA_PROJECT_PATH_)                      -or [CommonIO]::CheckPathExists($GLOBAL:_USERDATA_PROJECT_PATH_, $true)                     -eq $true)  -and `      # The Loaded Project Directory
+            ([CommonFunctions]::IsStringEmpty($GLOBAL:_USERDATA_PROJECT_BUILDS_PATH_)               -or [CommonIO]::CheckPathExists($GLOBAL:_USERDATA_PROJECT_BUILDS_PATH_, $true)              -eq $true)  -and `      # The Program Output Builds Directory
+            ([CommonFunctions]::IsStringEmpty($GLOBAL:_USERDATA_PROJECT_BUILDS_RELEASE_PATH_)       -or [CommonIO]::CheckPathExists($GLOBAL:_USERDATA_PROJECT_BUILDS_RELEASE_PATH_, $true)      -eq $true)  -and `      # The Program Output Release Builds Directory
+            ([CommonFunctions]::IsStringEmpty($GLOBAL:_USERDATA_PROJECT_BUILDS_DEVELOPMENT_PATH_)   -or [CommonIO]::CheckPathExists($GLOBAL:_USERDATA_PROJECT_BUILDS_DEVELOPMENT_PATH_, $true)  -eq $true)  -and `      # The Program Output Dev. Builds Directory
+            ([CommonFunctions]::IsStringEmpty($GLOBAL:_PROGRAMDATA_LOCAL_PROJECT_PATH_)             -or [CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_LOCAL_PROJECT_PATH_, $true)            -eq $true)  -and `      # Parent Directory for the Project
+            ([CommonFunctions]::IsStringEmpty($GLOBAL:_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_)        -or [CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_, $true)       -eq $true)  -and `      # The Project Data Logs [Local]
+            ([CommonFunctions]::IsStringEmpty($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_ART_PATH_)       -or [CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_ART_PATH_, $true)      -eq $true));            # The Project's Art Resources
 } # CheckProgramDirectories()
 
 
