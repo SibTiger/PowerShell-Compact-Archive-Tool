@@ -110,6 +110,11 @@ class ProjectUserConfigurationLoadSave
 
 
 
+        # Populate the additional fields that will be necessary
+        $metaData.SetMetaFilePath($projectInformation.GetProjectInstallationPath());
+        $metaData.SetMetaFileName($projectInformation.GetProjectMetaFileName());
+
+
 
         # Make sure that the PSCAT Project Directory exists before continuing forward.
         if (![CommonIO]::CheckPathExists($metaData.GetMetaFilePath(), $true))
