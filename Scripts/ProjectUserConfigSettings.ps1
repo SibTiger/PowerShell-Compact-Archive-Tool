@@ -85,7 +85,7 @@ class ProjectUserConfigurationSettings
 
 
         # Provide the Windows Directory Browser to the user
-        if (![CommonGUI]::BrowseDirectory("Select $($projectInfo.GetProjectPath()) Source Path", `
+        if (![CommonGUI]::BrowseDirectory("Select $($projectInfo.GetProjectName()) Source Path", `
                                         [BrowserInterfaceStyle]::Modern , `
                                         [ref] $newPath))
         {
