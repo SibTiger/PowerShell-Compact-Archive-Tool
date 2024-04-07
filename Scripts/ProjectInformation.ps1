@@ -817,19 +817,19 @@ class ProjectInformation
     #>
     [bool] SetProjectMetaFileName([string] $newVal)
     {
-        # Inspect to see if the path exists
-        if ([CommonIO]::CheckPathExists($newVal, $true))
+        # Assure that the filename is not empty.
+        if (![CommonFunctions]::IsStringEmpty($newVal))
         {
-            # Path exists; use it as requested.
+            # Filename given; use it as requested.
             $this.__projectMetaFileName = $newVal;
 
 
             # Finished successfully
             return $true;
-        } # if : Path Exists
+        } # if : Filename Provided
 
 
-        # Failure; Path did not exist.
+        # Failure; Filename not provided.
         return $false;
     } # SetProjectMetaFileName()
 
