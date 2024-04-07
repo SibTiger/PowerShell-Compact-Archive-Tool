@@ -82,7 +82,7 @@ class ProjectUserConfigurationSettings
 
         # Provide the Windows Directory Browser to the user
         if (![CommonGUI]::BrowseDirectory("Select $($projectInfo.GetProjectPath()) Source Path", `
-                                        [BrowserInterfaceStyle]::Modern `,
+                                        [BrowserInterfaceStyle]::Modern , `
                                         [ref] $newPath))
         {
             # User canceled the operation.
