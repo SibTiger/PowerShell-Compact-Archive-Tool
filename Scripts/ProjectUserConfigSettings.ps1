@@ -51,6 +51,10 @@ class ProjectUserConfigurationSettings
 
         # The new path provided by the user.
         [string] $newPath = $NULL;
+
+        # Create a new instance of the Project User Config. obj. which will be saved
+        #   to the user user proj. config.
+        [ProjectUserConfiguration] $projectUserConfig = [ProjectUserConfiguration]::New();
         # ----------------------------------------
 
 
@@ -114,7 +118,8 @@ class ProjectUserConfigurationSettings
 
 
         # Update the path as requested by the user
-        if (!$projectInfo.SetProjectPath($newPath))
+        if (!$projectInfo.SetProjectPath($newPath) -or `
+            !$projectUserConfig.SetGameProjectSourcePath($newPath))
         {
             # Failed to update the Project's Source Path
 
@@ -144,6 +149,38 @@ class ProjectUserConfigurationSettings
             return $false;
         } # if : Failed to update Project Source Path
 
+
+
+        # Update the Project User Configuration file.
+        if (![ProjectUserConfigurationLoadSave]::Save($projectUserConfig))
+        {
+            # Failed to update the Project User Configuration file.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Unable save the project user configuration file!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = (  "Project Name: $($projectInfo.GetProjectName())`r`n"    + `
+                                            "`tRequested Path: $($newPath)`r`n"                     + `
+                                            "`tCurrent Path: $($project.GetProjectPath())");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Failed to update
+            return $false;
+        } # if : Failed to Save User Proj. Config. File
 
 
 
