@@ -616,7 +616,7 @@ class ProjectMetaData
     [bool] SetMetaFileName([string] $newValue)
     {
         # Make sure that the value is not null; if null - do not update.
-        if (![CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
+        if ([CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
 
 
         # Update the value as requested.
@@ -648,7 +648,7 @@ class ProjectMetaData
     [bool] SetMetaFilePath([string] $newValue)
     {
         # Make sure that the value is not null; if null - do not update.
-        if (![CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
+        if ([CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
 
 
         # Update the value as requested.
