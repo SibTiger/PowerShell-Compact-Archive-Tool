@@ -220,6 +220,13 @@ class ProjectUserConfigurationSettings
     #>
     hidden static [void] __DrawProjectSourcePathInstructions()
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Grab the current instance of the Project Info.
+        [ProjectInformation] $projectInfo = [ProjectInformation]::GetInstance();
+        # ----------------------------------------
+
+
         # Show the instructions to the user.
         [Logging]::DisplayMessage( `
             " To change the $($projectInfo.GetProjectName())'s source location, you will be using the Windows`r`n"          + `
