@@ -45,6 +45,7 @@ class ProjectUserConfigurationSettings
     #>
     static [bool] UpdateProjectSourcePath()
     {
+        # Declarations and Initializations
         # ----------------------------------------
         # Grab the current instance of the Project Info.
         [ProjectInformation] $projectInfo = [ProjectInformation]::GetInstance();
@@ -56,7 +57,6 @@ class ProjectUserConfigurationSettings
         #   to the user user proj. config.
         [ProjectUserConfiguration] $projectUserConfig = [ProjectUserConfiguration]::New();
         # ----------------------------------------
-
 
 
         # Clear the terminal of all previous text; keep the space clean so that it is easier
