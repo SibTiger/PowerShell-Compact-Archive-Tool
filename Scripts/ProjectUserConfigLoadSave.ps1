@@ -74,7 +74,7 @@ class ProjectUserConfigurationLoadSave
             # --------------
 
             # Generate the Message Box string that will be presented to the user
-            [string] $displayErrorMessage = ("Unable to save the changes for '$($metaData.GetProjectName())'!");
+            [string] $displayErrorMessage = ("Unable to save the changes for '$($projectInformation.GetProjectName())'!");
 
             # Generate the initial message
             [string] $logMessage = $displayErrorMessage;
