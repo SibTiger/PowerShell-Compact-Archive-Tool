@@ -818,19 +818,13 @@ class ProjectInformation
     [bool] SetProjectMetaFileName([string] $newVal)
     {
         # Assure that the filename is not empty.
-        if (![CommonFunctions]::IsStringEmpty($newVal))
-        {
-            # Filename given; use it as requested.
-            $this.__projectMetaFileName = $newVal;
+        if ([CommonFunctions]::IsStringEmpty($newVal)) { return $false; }
 
+        # Filename given; use it as requested.
+        $this.__projectMetaFileName = $newVal;
 
-            # Finished successfully
-            return $true;
-        } # if : Filename Provided
-
-
-        # Failure; Filename not provided.
-        return $false;
+        # Finished successfully
+        return $true;
     } # SetProjectMetaFileName()
 
     #endregion
