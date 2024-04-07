@@ -246,7 +246,7 @@ class ProjectUserConfigurationLoadSave
     # -------------------------------
     #>
     static hidden [string] __SaveUserConfigurationString([ProjectUserConfiguration] $userConfig)
-    { return ("$($GLOBAL:_PROJECT_USERCONFIG_STRING_SOURCE_PATH_) $($GLOBAL:_PROJECT_USERCONFIG_VALUE_DELIMITER_) $($userConfig.GetGameProjectSourcePath())`r`n"); }
+    { return ("$($GLOBAL:_PROJECT_USERCONFIG_STRING_SOURCE_PATH_)$($GLOBAL:_PROJECT_USERCONFIG_VALUE_DELIMITER_) $($userConfig.GetGameProjectSourcePath())`r`n"); }
 
     #endregion
 
