@@ -134,7 +134,7 @@ class ProjectUserConfigurationSettings
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = (  "Project Name: $($projectInfo.GetProjectName())`r`n"    + `
                                             "`tRequested Path: $($newPath)`r`n"                     + `
-                                            "`tCurrent Path: $($project.GetProjectPath())");
+                                            "`tCurrent Path: $($projectInfo.GetProjectPath())");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -167,7 +167,7 @@ class ProjectUserConfigurationSettings
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = (  "Project Name: $($projectInfo.GetProjectName())`r`n"    + `
                                             "`tRequested Path: $($newPath)`r`n"                     + `
-                                            "`tCurrent Path: $($project.GetProjectPath())");
+                                            "`tCurrent Path: $($projectInfo.GetProjectPath())");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
