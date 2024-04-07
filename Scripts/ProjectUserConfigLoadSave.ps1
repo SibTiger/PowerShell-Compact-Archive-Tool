@@ -60,12 +60,15 @@ class ProjectUserConfigurationLoadSave
 
         # Create a new instance of the Project Meta Data object; required in order to save with new data.
         [ProjectMetaData] $metaData = [ProjectMetaData]::New();
+
+        # Project Meta File Full Path
+        [string] $projectMetaFilePath = $projectInformation.GetProjectInstallationPath() + "\" + $projectInformation.GetProjectMetaFileName();
         # ----------------------------------------
 
 
 
         # Obtain the project's meta data from the desired project.
-        if (![ProjectManagerCommon]::ReadMetaFile($projectInformation.GetProjectInstallationPath(), [ref] $metaData))
+        if (![ProjectManagerCommon]::ReadMetaFile($projectMetaFilePath, [ref] $metaData))
         {
             # Unable to obtain the project's meta data from the file.
 
