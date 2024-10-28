@@ -19,15 +19,6 @@ function main()
                                              50, `        # Changelog limit
                                              $true)       # Generate a Report
 
-    [SevenZip] $sevenZipObj = [SevenZip]::new("C:\Program Files\7-Zip\7z.exe", `    # Binary Path
-                                               1, `                                 # Compression Method [Zip | 7Zip]
-                                               1, `                                 # Algorithm for Zip
-                                               2, `                                 # Algorithm for 7Zip
-                                               $true, `                             # Multithreaded Operations
-                                               3, `                                 # Compression Level
-                                               $true, `                             # Verify Builds
-                                               $true);                              # Generate a Report
-
     [DefaultCompress] $psArchive = [DefaultCompress]::new(0, `     # Compression Level
                                                           $true, ` # Verify Build
                                                           $true);  # Generate Report
@@ -92,9 +83,9 @@ function main()
 
     # Save\Load Functionality
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    #Write-Host "Load Configuration Status: $($loadSaveConfigs.Load($userPref, $gitObj, $sevenZipObj, $psArchive))`r`n";
+    #Write-Host "Load Configuration Status: $($loadSaveConfigs.Load($userPref, $gitObj, $psArchive))`r`n";
     
-    #Write-Host "Saved Configuration Status: $($loadSaveConfigs.Save($userPref, $gitObj, $sevenZipObj, $psArchive))`r`n";
+    #Write-Host "Saved Configuration Status: $($loadSaveConfigs.Save($userPref, $gitObj, $psArchive))`r`n";
     #>
 
 
@@ -211,53 +202,6 @@ function main()
 
     # Generate a Report
     Write-Host "Generate Report Status: $($psArchive.CreateNewReport("F:\POSH Dev\powershit\files\tgrdm3-deflate.zip", $true))";
-    #>
-
-
-
-
-
-    # 7ZIP TESTING
-    <# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Special Directories Exists?
-    Write-Host "Logging Directories Status: $($sevenZipObj.__CheckRequiredDirectories())";
-
-    # Should we Create the Special Directories?
-    Write-Host "Created Special Directories Status: $($sevenZipObj.__CreateDirectories())";
-
-    # Delete Files
-    Write-Host "Deleting Files Status: $($sevenZipObj.ThrashLogs($true))";
-
-    # Found 7Zip
-    Write-Host "Found 7Zip in Directory: $($sevenZipObj.Find7Zip())";
-
-    # Detected 7Zip
-    Write-Host "Detected 7Zip Status: $($sevenZipObj.Detect7ZipExist())";
-
-    # File Hash IO
-    Write-Host "Test Hash from IO is: $([IOCommon]::FileHash("F:\POSH Dev\powershit\files\tgrdm3.zip", "sha1"))";
-
-    # File Hash 7Z
-    Write-Host "Test Hash from 7Z is: $($sevenZipObj.ArchiveHash("F:\POSH Dev\powershit\files\tgrdm3.zip", "sha1"))";
-
-    # Verify Archive File
-    Write-Host "Verify Build Status: $($sevenZipObj.VerifyArchive("F:\POSH Dev\powershit\files\tgrdm3.zip"))";
-
-    # File List
-    Write-Host "List of All Files: $($sevenZipObj.ListFiles("F:\POSH Dev\powershit\files\tgrdm3.zip", $true))";
-
-    # Extract the File
-    [string] $extractDir = $null;
-    Write-Host "Extracting TGRDM3 Status: $($sevenZipObj.ExtractArchive("F:\POSH Dev\powershit\files\tgrdm3.zip", "F:\POSH Dev\powershit\files\extract", [ref] $extractDir))";
-    Write-Host "  Directory of Contents was stored in: $($extractDir)";
-
-    # Creating new Archive File
-    [string] $addDir = $null;
-    Write-Host "Creating new Archive Status: $($sevenZipObj.CreateArchive("NewArchiveFile", "F:\POSH Dev\powershit\files\extract", "C:\Users\Nicholas\AppData\Local\Programs\GZDoom", [ref] $addDir))";
-    Write-Host "  Archive File Absolute Path: $($addDir)";
-
-    # Create a Report
-    Write-Host "Report Status: $($sevenZipObj.CreateNewReport("F:\POSH Dev\powershit\files\tgrdm3.zip", $true))";
     #>
 
 
