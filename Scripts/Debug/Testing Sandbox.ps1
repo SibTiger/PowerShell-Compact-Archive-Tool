@@ -26,7 +26,7 @@ function main()
     [LoadSaveUserConfiguration] $loadSaveConfigs = `
                 [LoadSaveUserConfiguration]::new("$($Global:_PROGRAMDATA_CONFIGS_PATH_)");
 
-                #>
+
     # Check Special Directories
     Write-Host "Special Directory Results: $(CheckSpecialDirectories)";
     Write-Host "Checking Directory Results: $(CheckProgramDirectories)";
