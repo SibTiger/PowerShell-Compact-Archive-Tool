@@ -123,10 +123,6 @@ CreateDirectories | Out-Null;
 [GitControl] $gitControl = [GitControl]::GetInstance();
 
 
-# Initialize the 7Zip object
-[SevenZip] $sevenZip = [SevenZip]::GetInstance();
-
-
 # Initialize the dotNet Core Zip Archive object
 [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
 
