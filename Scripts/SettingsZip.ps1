@@ -121,15 +121,6 @@ class SettingsZip
         [string] $currentSettingVerifyBuild = $NULL;            # Verify Build
         [string] $currentSettingGenerateReport = $NULL;         # Generate Report
         [string] $currentSettingGenerateReportPDF = $NULL;      # Generate PDF Report
-
-        # These variables will determine what menus are to be hidden from the user,
-        #  as the options are possibly not available or not ready for the user to
-        #  configure.
-        [bool] $showMenuCompressionLevel = $true;   # Compression Level
-        [bool] $showMenuVerifyBuild = $true;        # Verify Build
-        [bool] $showMenuGenerateReport = $true;     # Generate Report
-        [bool] $showMenuUseTool = $true;            # Use dotNET Core Internal Zip functionality
-        [bool] $showMenuToolNotAvailable = $true;   # Signifies that the compression tool is not available
         # ----------------------------------------
 
 
@@ -141,77 +132,31 @@ class SettingsZip
 
 
 
-        # If the dotNET Core Internal Zip functionality is not available, alert the user.
-        if ($showMenuToolNotAvailable)
-        {
-            [string] $displayMessage = ("`r`n" + `
-                                        "The Zip functionality does not seem to be available within your installation of PowerShell Core.`r`n" + `
-                                        "Please assure that PowerShell Core was installed properly.`r`n`r`n" + `
-                                        "Your PowerShell Core version is: $([SystemInformation]::PowerShellVersion())");
-
-            [string] $msgBoxMessage = "Unable to use Zip functionality!  Please make sure PowerShell Core had been installed properly in order to use Windows Zip functionality.";
-
-
-            # Warn the user that the dotNET Core Zip functionality is not available presently.
-            [Logging]::DisplayMessage($displayMessage, `
-                                    [LogMessageLevel]::Error);
-
-
-            # Provide a message box to alert the user that the functionality is not available.
-            [CommonGUI]::MessageBox($msgBoxMessage, `
-                                    [System.Windows.MessageBoxImage]::Hand);
-
-            # Finished
-            return;
-        } # if : Zip Not Available
-
-
-
         # Display the menu list
 
 
-        # Ask the user if they wish to change compression software
-        if (!($showMenuUseTool))
-        {
-            [CommonCUI]::DrawMenuItem('Z', `
-                                    "Internal Zip", `
-                                    "Use the built-in Zip functionality to create ZDoom PK3 WAD files.", `
-                                    $NULL, `
-                                    $true);
-        } # if : Ask to Use Tool
-
-
         # Specify Compression Level
-        if ($showMenuCompressionLevel)
-        {
-            [CommonCUI]::DrawMenuItem('C', `
-                                    "Compression Level", `
-                                    "How tightly is the data going to be compacted into the compressed file.", `
-                                    "Compression level to use: $($currentSettingCompressionLevel)", `
-                                    $true);
-        } # If: Show Compression Level
+        [CommonCUI]::DrawMenuItem('C', `
+                                "Compression Level", `
+                                "How tightly is the data going to be compacted into the compressed file.", `
+                                "Compression level to use: $($currentSettingCompressionLevel)", `
+                                $true);
 
 
         # Toggle the ability to check file's integrity
-        if ($showMenuVerifyBuild)
-        {
-            [CommonCUI]::DrawMenuItem('V', `
-                                    "Verify Build after Compression", `
-                                    "Assure that the data within the compressed file is healthy.", `
-                                    "Verify integrity of the newly generated build: $($currentSettingVerifyBuild)", `
-                                    $true);
-        } # If: Show Verify Build
+        [CommonCUI]::DrawMenuItem('V', `
+                                "Verify Build after Compression", `
+                                "Assure that the data within the compressed file is healthy.", `
+                                "Verify integrity of the newly generated build: $($currentSettingVerifyBuild)", `
+                                $true);
 
 
         # Allow or disallow the ability to generate a report
-        if ($showMenuGenerateReport)
-        {
-            [CommonCUI]::DrawMenuItem('R', `
-                                    "Generate Report of the Archive Datafile", `
-                                    "Provides a detailed report regarding the newly generated compressed file.", `
-                                    "Create a report of the newly generated build: $($currentSettingGenerateReport) $($currentSettingGenerateReportPDF)", `
-                                    $true);
-        } # If: Show Generate Report
+        [CommonCUI]::DrawMenuItem('R', `
+                                "Generate Report of the Archive Datafile", `
+                                "Provides a detailed report regarding the newly generated compressed file.", `
+                                "Create a report of the newly generated build: $($currentSettingGenerateReport) $($currentSettingGenerateReportPDF)", `
+                                $true);
 
 
         # Help Documentation
@@ -420,37 +365,16 @@ class SettingsZip
         # Retrieve the current instance of the User Preferences object; this contains the user's
         #  generalized settings.
         [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
-
-
-        # These variables will determine what menus are to be hidden from the user,
-        #  as the options are possibly not available or not ready for the user to
-        #  configure.
-        [bool] $showMenuCompressionLevel = $true;   # Compression Level
-        [bool] $showMenuVerifyBuild = $true;        # Verify Build
-        [bool] $showMenuGenerateReport = $true;     # Generate Report
-        [bool] $showMenuUseTool = $true;            # Use dotNET Core Internal Zip functionality
-        [bool] $showMenuToolNotAvailable = $true;   # Signifies that the compression tool is not available
         # ----------------------------------------
 
 
 
         switch ($userRequest)
         {
-            # Tool not Available
-            #  NOTE: Internal Zip not available
-            {$showMenuToolNotAvailable}
-            {
-                # Nothing that we can do here.
-                break;
-            } # Tool not Available
-
-
-
             # Compression Level
             #  NOTE: Allow the user's request when they type: 'Compression Level' and 'C'.
-            {($showMenuCompressionLevel) -and `
-                (($_ -eq "C") -or `
-                    ($_ -eq "Compression Level"))}
+            {(($_ -eq "C") -or `
+                ($_ -eq "Compression Level"))}
             {
                 # Allow the user to customize the compression level setting.
                 [SettingsZip]::__CompressionLevel();
@@ -465,13 +389,12 @@ class SettingsZip
             # Verify Build after Compression
             #  NOTE: Allow the user's request when they type: 'Verify Build after Compression', 'Verify',
             #           'Verify Build', 'Test Build', 'Test', as well as 'V'.
-            {($showMenuVerifyBuild) -and `
-                (($_ -eq "V") -or `
-                    ($_ -eq "Verify Build after Compression") -or `
-                    ($_ -eq "Verify") -or `
-                    ($_ -eq "Verify Build") -or `
-                    ($_ -eq "Test Build") -or `
-                    ($_ -eq "Test"))}
+            {(($_ -eq "V") -or `
+                ($_ -eq "Verify Build after Compression") -or `
+                ($_ -eq "Verify") -or `
+                ($_ -eq "Verify Build") -or `
+                ($_ -eq "Test Build") -or `
+                ($_ -eq "Test"))}
             {
                 # Allow the user the ability to verify a newly generated project build.
                 [SettingsZip]::__VerifyBuild();
@@ -486,11 +409,10 @@ class SettingsZip
             # Generate Report of Archive Datafile
             #  NOTE: Allow the user's request when they type: 'Report', 'Generate Report',
             #           'Generate Report of Archive Datafile', as well as 'R'.
-            {($showMenuGenerateReport) -and `
-                (($_ -eq "R") -or `
-                    ($_ -eq "Generate Report") -or `
-                    ($_ -eq "Report") -or `
-                    ($_ -eq "Generate Report of Archive Datafile"))}
+            {(($_ -eq "R") -or `
+                ($_ -eq "Generate Report") -or `
+                ($_ -eq "Report") -or `
+                ($_ -eq "Generate Report of Archive Datafile"))}
             {
                 # Allow the user the ability to request reports for the newly generated archive datafile.
                 [SettingsZip]::__GenerateReport();
