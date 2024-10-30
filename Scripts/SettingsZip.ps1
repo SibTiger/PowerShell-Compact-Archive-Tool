@@ -140,14 +140,6 @@ class SettingsZip
                                                         [ref] $currentSettingGenerateReportPDF);    # Generate PDF Report
 
 
-        # Determine what menus are to be displayed to the user.
-        [SettingsZip]::__DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionLevel, `    # Compression Level
-                                                        [ref] $showMenuVerifyBuild, `       # Verify Build
-                                                        [ref] $showMenuGenerateReport, `    # Generate Report
-                                                        [ref] $showMenuUseTool, `           # Use dotNET Core Internal Zip functionality
-                                                        [ref] $showMenuToolNotAvailable);   # Denotes if the Compression Tool is available
-
-
 
         # If the dotNET Core Internal Zip functionality is not available, alert the user.
         if ($showMenuToolNotAvailable)
@@ -439,14 +431,6 @@ class SettingsZip
         [bool] $showMenuUseTool = $true;            # Use dotNET Core Internal Zip functionality
         [bool] $showMenuToolNotAvailable = $true;   # Signifies that the compression tool is not available
         # ----------------------------------------
-
-
-        # Determine what menus are to be displayed to the user.
-        [SettingsZip]::__DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionLevel, `    # Compression Level
-                                                        [ref] $showMenuVerifyBuild, `       # Verify Build
-                                                        [ref] $showMenuGenerateReport, `    # Generate Report
-                                                        [ref] $showMenuUseTool, `           # Use dotNET Core Internal Zip functionality
-                                                        [ref] $showMenuToolNotAvailable);   # Denotes if the Compression Tool is available
 
 
 
