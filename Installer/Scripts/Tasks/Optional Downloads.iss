@@ -38,7 +38,6 @@
 [CustomMessages]
 
 ManuallyDownloadAndInstallOptionalApplications  = %n Manually Download and Install Optional Applications:
-ManuallyDownloadAndInstallResource_7Zip         = 7-Zip%n  Supports PK3 and PK7 File formats
 ManuallyDownloadAndInstallResource_GitSCM       = Git-SCM%n  Maintains the project source files and creates a history changelog
 ManuallyDownloadAndInstallResource_BurntToast   = BurntToast%n  Provides Toast Notifications to the user
 
@@ -48,11 +47,6 @@ ManuallyDownloadAndInstallResource_BurntToast   = BurntToast%n  Provides Toast N
 
 
 [Tasks]
-
-Name: "OpenURL_7Zip";                                                               \
-    Description: "{cm:ManuallyDownloadAndInstallResource_7Zip}";                    \
-    GroupDescription: "{cm:ManuallyDownloadAndInstallOptionalApplications}";        \
-    Flags: unchecked;
 
 Name: "OpenURL_Git";                                                                \
     Description: "{cm:ManuallyDownloadAndInstallResource_GitSCM}";                  \
@@ -70,10 +64,6 @@ Name: "OpenURL_BurntToast";                                                     
 
 
 [Run]
-
-FileName: "https://www.7-zip.org/";                 \
-    Flags: shellexec runasoriginaluser;             \
-    Tasks: OpenURL_7Zip;
 
 FileName: "https://git-scm.com/";                   \
     Flags: shellexec runasoriginaluser;             \

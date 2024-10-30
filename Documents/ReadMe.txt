@@ -45,19 +45,13 @@ b. General Requirements
 
 c. Optional Requirements
 - - - - - - - - - - - -
-    1. 7-Zip:   22.00 or Later
-                Supports PK3 and PK7 File formats.
-                    Webpage:    https://www.7-zip.org
-                    License:    GNU LGPL and BSD 3-clause License
-                    Cost:       Free
-                ----
-    2. Git-SCM: 2.37.0 or Later
+    1. Git-SCM: 2.37.0 or Later
                 Maintains the project source files and creates a history changelog.
                     Webpage:    https://git-scm.com
                     License:    GNU GPL Version 2
                     Cost:       Free
                 ----
-    3. BurntToast: 0.8.5
+    2. BurntToast: 0.8.5
                 Provides Toast Notifications to the user.
                     Webpage:    https://github.com/Windos/BurntToast
                     License:    MIT
@@ -76,13 +70,9 @@ While using this tool, the user can freely customize their settings that works f
 possible projects -- no more needing to reconfigure their settings for multiple projects
 when instead their settings can be centralized. The user can save time and easily get
 their favorite project's compiled into their preferred compressed archive files. Further,
-this program allows the user to compile their favorite projects into either:
-    - PK3 (ZIP Format)
-        OR
-    - PK7 (7Zip Format)
-With this ability, the user can choose their preferred compression tool and the settings
-that come with the tool. additionally, this front-end tool supports Git-SCM functionality.
-Such features available, when using Git, are to update the project's assets that are stored
+this program allows the user to compile their favorite projects into PK3 (ZIP Format).
+Additionally, this front-end tool supports Git-SCM functionality.  Such features available,
+when using Git, are to update the project's assets that are stored
 locally on the user's system, as well as retrieving a changelog history for reference.
 Moreover, these options and more - are completely customizable to the user. Each setting
 and functionality is fully changeable within the Settings Menu of the program and are
@@ -97,8 +87,7 @@ retained when the user returns back to the program.
 
 a. Automatically Update the project's resources locally on your system, using Git's
     functionality.
-b. Compile the project's assets from the standard folder hierarchy into ZDoom's PK3
-    or PK7 standard structure.
+b. Compile the project's assets from the standard folder hierarchy into ZDoom's PK3 standard structure.
 c. Allow the ability to customize the archive data file attributes and compression level.
 d. Thoroughly verify the compiled file for potential issues.
 e. Capable of compiling developmental builds, to help differentiate between standard builds

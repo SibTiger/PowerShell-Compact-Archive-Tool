@@ -504,9 +504,6 @@ class LoadSaveUserConfiguration
         # Retrieve the User's Git Control Settings
         [GitControl] $gitObj = [GitControl]::GetInstance();
 
-        # Retrieve the User's 7Zip Settings
-        [SevenZip] $sevenZipObj = [SevenZip]::GetInstance();
-
         # Retrieve the User's Default Compress Settings
         [DefaultCompress] $psArchive = [DefaultCompress]::GetInstance();
         # ----------------------------------------
@@ -560,7 +557,7 @@ class LoadSaveUserConfiguration
         try
         {
             Export-Clixml -Path "$($this.GetConfigPath())\$($this.GetConfigFileName())" `
-                          -InputObject @($userPref, $gitObj, $sevenZipObj, $psArchive) `
+                          -InputObject @($userPref, $gitObj, $psArchive) `
                           -Encoding UTF8NoBOM `
                           -ErrorAction Stop;
 
@@ -868,9 +865,6 @@ class LoadSaveUserConfiguration
         # Retrieve the User's Git Control Settings
         [GitControl] $gitObj = [GitControl]::GetInstance();
 
-        # Retrieve the User's 7Zip Settings
-        [SevenZip] $sevenZipObj = [SevenZip]::GetInstance();
-
         # Retrieve the User's Default Compress Settings
         [DefaultCompress] $psArchive = [DefaultCompress]::GetInstance();
         # -----------------------------------------
@@ -882,29 +876,6 @@ class LoadSaveUserConfiguration
         # -------------------------------------
         # -------------------------------------
         # -------------------------------------
-
-
-        # USER PREFERENCES -- COMPRESSION TOOL
-        # - - - - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Compression Tool
-            $userPref.SetCompressionTool([int32]$cachedUserConfig[0].__compressionTool);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__compressionTool", `                                # The Variable Name
-                                    "User Preferences", `                                   # The Variable Category
-                                    "$([string]$cachedUserConfig[0].__compressionTool)", `  # Value Stored in Config
-                                    "$([string]$userPref.GetCompressionTool())", `          # Current Value
-                                    $_.Exception);                                          # Exception Details
-        } # Catch : Unknown Value from Config.
-
 
 
         # USER PREFERENCES -- OUTPUT BUILDS PATH
@@ -1205,279 +1176,7 @@ class LoadSaveUserConfiguration
 
 
 
-        # STEP 3 - 7ZIP SETTINGS
-        # -------------------------------------
-        # -------------------------------------
-        # -------------------------------------
-
-
-        # 7ZIP SETTINGS -- EXECUTABLE PATH
-        # - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Executable Path
-            $sevenZipObj.SetExecutablePath([string]$cachedUserConfig[2].__executablePath);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__executablePath", `                                 # The Variable Name
-                                    "7Zip Settings", `                                      # The Variable Category
-                                    [string]$cachedUserConfig[2].__executablePath, `        # Value Stored in Config
-                                    [string]$sevenZipObj.GetExecutablePath(), `             # Current Value
-                                    $_.Exception);                                          # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
-        # 7ZIP SETTINGS -- COMPRESSION METHOD
-        # - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Compression Method
-            $sevenZipObj.SetCompressionMethod([int32]$cachedUserConfig[2].__compressionMethod);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__compressionMethod", `                              # The Variable Name
-                                    "7Zip Settings", `                                      # The Variable Category
-                                    [string]$cachedUserConfig[2].__compressionMethod, `     # Value Stored in Config
-                                    [string]$sevenZipObj.GetCompressionMethod(), `          # Current Value
-                                    $_.Exception);                                          # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
-        # 7ZIP SETTINGS -- ZIP ALGORITHM
-        # - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Zip Algorithm
-            $sevenZipObj.SetAlgorithmZip([int32]$cachedUserConfig[2].__algorithmZip);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__algorithmZip", `                               # The Variable Name
-                                    "7Zip Settings", `                                  # The Variable Category
-                                    [string]$cachedUserConfig[2].__algorithmZip, `      # Value Stored in Config
-                                    [string]$sevenZipObj.GetAlgorithmZip(), `           # Current Value
-                                    $_.Exception);                                      # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
-        # 7ZIP SETTINGS -- 7ZIP ALGORITHM
-        # - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: 7Zip Algorithm
-            $sevenZipObj.SetAlgorithm7Zip([int32]$cachedUserConfig[2].__algorithm7Zip);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__algorithm7Zip", `                              # The Variable Name
-                                    "7Zip Settings", `                                  # The Variable Category
-                                    [string]$cachedUserConfig[2].__algorithm7Zip, `     # Value Stored in Config
-                                    [string]$sevenZipObj.GetAlgorithm7Zip(), `          # Current Value
-                                    $_.Exception);                                      # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
-        # 7ZIP SETTINGS -- COMPRESSION LEVEL
-        # - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Compression Level
-            $sevenZipObj.SetCompressionLevel([int32]$cachedUserConfig[2].__compressionLevel);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__compressionLevel", `                               # The Variable Name
-                                    "7Zip Settings", `                                      # The Variable Category
-                                    [string]$cachedUserConfig[2].__compressionLevel, `      # Value Stored in Config
-                                    [string]$sevenZipObj.GetCompressionLevel(), `           # Current Value
-                                    $_.Exception);                                          # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
-        # 7ZIP SETTINGS -- VERIFY BUILD
-        # - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Verify Build
-            $sevenZipObj.SetVerifyBuild([bool]$cachedUserConfig[2].__verifyBuild);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__verifyBuild", `                                # The Variable Name
-                                    "7Zip Settings", `                                  # The Variable Category
-                                    [string]$cachedUserConfig[2].__verifyBuild, `       # Value Stored in Config
-                                    [string]$sevenZipObj.GetVerifyBuild(), `            # Current Value
-                                    $_.Exception);                                      # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
-        # 7ZIP SETTINGS -- GENERATE REPORT
-        # - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Generate Report
-            $sevenZipObj.SetGenerateReport([bool]$cachedUserConfig[2].__generateReport);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__generateReport", `                                 # The Variable Name
-                                    "7Zip Settings", `                                      # The Variable Category
-                                    [string]$cachedUserConfig[2].__generateReport, `        # Value Stored in Config
-                                    [string]$sevenZipObj.GetGenerateReport(), `             # Current Value
-                                    $_.Exception);                                          # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
-        # 7ZIP SETTINGS -- GENERATE REPORT USING PDF FILE
-        # - - - - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Generate Report Using PDF File
-            $sevenZipObj.SetGenerateReportFilePDF([bool]$cachedUserConfig[2].__generateReportFilePDF);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__generateReportFilePDF", `                          # The Variable Name
-                                    "7Zip Settings", `                                      # The Variable Category
-                                    [string]$cachedUserConfig[2].__generateReportFilePDF, ` # Value Stored in Config
-                                    [string]$sevenZipObj.GetGenerateReportFilePDF(), `      # Current Value
-                                    $_.Exception);                                          # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
-        # 7ZIP SETTINGS -- ROOT LOG PATH
-        # - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Root Log Path
-            $sevenZipObj.SetRootLogPath([string]$cachedUserConfig[2].__rootLogPath);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__rootLogPath", `                                # The Variable Name
-                                    "7Zip Settings", `                                  # The Variable Category
-                                    [string]$cachedUserConfig[2].__rootLogPath, `       # Value Stored in Config
-                                    [string]$sevenZipObj.GetRootLogPath(), `            # Current Value
-                                    $_.Exception);                                      # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
-        # 7ZIP SETTINGS -- REPORT PATH
-        # - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Report Path
-            $sevenZipObj.SetReportPath([string]$cachedUserConfig[2].__reportPath);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__reportPath", `                                 # The Variable Name
-                                    "7Zip Settings", `                                  # The Variable Category
-                                    [string]$cachedUserConfig[2].__reportPath, `        # Value Stored in Config
-                                    [string]$sevenZipObj.GetReportPath(), `             # Current Value
-                                    $_.Exception);                                      # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
-        # 7ZIP SETTINGS -- LOG PATH
-        # - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Log Path
-            $sevenZipObj.SetLogPath([string]$cachedUserConfig[2].__logPath);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__logPath", `                                # The Variable Name
-                                    "7Zip Settings", `                              # The Variable Category
-                                    [string]$cachedUserConfig[2].__logPath, `       # Value Stored in Config
-                                    [string]$sevenZipObj.GetLogPath(), `            # Current Value
-                                    $_.Exception);                                  # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
-
-
-        # STEP 4 - POWERSHELL'S ARCHIVE SETTINGS
+        # STEP 3 - POWERSHELL'S ARCHIVE SETTINGS
         # -------------------------------------
         # -------------------------------------
         # -------------------------------------

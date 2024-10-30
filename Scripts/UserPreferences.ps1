@@ -70,17 +70,15 @@ class UserPreferences
     # Get the instance of this singleton object (With Args)
     #  Useful if we already know that we have to instantiate
     #  a new instance of this particular object.
-    static [UserPreferences] GetInstance([UserPreferencesCompressTool] $compressionTool, `      # Which Compression Software to use
-                                        [string] $outputBuildsPath, `                           # Output Builds absolute path
+    static [UserPreferences] GetInstance([string] $outputBuildsPath, `                          # Output Builds absolute path
                                         [UserPreferencesVersionControlTool] $versionControl)    # Utilize Git features (if software available)
     {
         # if there was no previous instance of the object - then create one.
         if ($null -eq [UserPreferences]::_instance)
         {
             # Create a new instance of the singleton object.
-            [UserPreferences]::_instance = [UserPreferences]::new($compressionTool, `
-                                                                $outputBuildsPath, `
-                                                                $versionControl);
+            [UserPreferences]::_instance = [UserPreferences]::new($outputBuildsPath, `
+                                                                    $versionControl);
         } # If: No Singleton Instance
 
         # Provide an instance of the object.
@@ -98,13 +96,6 @@ class UserPreferences
 
 
     #region Private Variables (emulated)
-
-    # Compression Choice
-    # ---------------
-    # The choice of which software tool will be used for generating archive data-files.
-    Hidden [UserPreferencesCompressTool] $__compressionTool;
-
-
     # Project Builds Path
     # ---------------
     # The absolute path of the builds output location.
@@ -138,9 +129,6 @@ class UserPreferences
     # Default Constructor
     UserPreferences()
     {
-        # Compression Tool
-        $this.__compressionTool = [UserPreferencesCompressTool]::InternalZip;
-
         # Output Build Path
         $this.__outputBuildsPath = $global:_USERDATA_PROJECT_BUILDS_PATH_;
 
@@ -155,13 +143,9 @@ class UserPreferences
 
 
     # User Preference : On-Load
-    UserPreferences([UserPreferencesCompressTool] $compressionTool, `
-                    [string] $outputBuildsPath, `
+    UserPreferences([string] $outputBuildsPath, `
                     [UserPreferencesVersionControlTool] $versionControl)
     {
-        # Compression Tool
-        $this.__compressionTool = $compressionTool;
-
         # Output Build Path
         $this.__outputBuildsPath = $outputBuildsPath;
 
@@ -177,21 +161,6 @@ class UserPreferences
 
 
     #region Getter Functions
-
-   <# Get Compression Tool Choice
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'Software Compression Tool Choice' variable.
-    # -------------------------------
-    # Output:
-    #  [UserPreferencesCompressTool] Software Compression Tool Choice
-    #   The value of the Software Compression Tool Choice.
-    # -------------------------------
-    #>
-    [UserPreferencesCompressTool] GetCompressionTool() { return $this.__compressionTool; }
-
-
-
 
    <# Get Project Builds Path
     # -------------------------------
@@ -240,37 +209,6 @@ class UserPreferences
 
 
     #region Setter Functions
-
-   <# Set Compression Tool Choice
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Software Compression Tool Choice' variable.
-    # -------------------------------
-    # Input:
-    #  [UserPreferencesCompressTool] Software Compression Tool
-    #   A choice between the various compression software that is supported
-    #    within the application and is available on the user's system.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetCompressionTool([UserPreferencesCompressTool] $newVal)
-    {
-        # Because the value must fit within the 'UserPreferencesCompressTool'
-        #  datatype, there really is no point in checking if the new requested
-        #  value is 'legal'.  Thus, we are going to trust the value and
-        #  automatically return success.
-        $this.__compressionTool = $newVal;
-
-        # Successfully updated.
-        return $true;
-    } # SetCompressionTool()
-
-
-
 
    <# Set Project Builds Path
     # -------------------------------
@@ -337,23 +275,6 @@ class UserPreferences
 
     #endregion
 } # UserPreferences
-
-
-
-
-<# User Preferences Compress Tool [ENUM]
- # -------------------------------
- # Associated with what type of compression tool software should be used when wanting to
- #  compact a data into an archive-file.
- #
- # This provides a list of software that this application supports.
- # -------------------------------
- #>
-enum UserPreferencesCompressTool
-{
-    InternalZip = 0; # Microsoft's .NET 4.5 (or later)
-    SevenZip    = 1; # 7Zip's 7Za (CLI)
-} # UserPreferencesCompressTool
 
 
 

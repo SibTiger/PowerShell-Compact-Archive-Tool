@@ -403,101 +403,6 @@ class SettingsZip
 
 
 
-   <# Draw Menu: Determine Hidden Menus
-    # -------------------------------
-    # Documentation:
-    #  This function will determine what menus and options are to be displayed
-    #   to the user.  Menus can be considered hidden if a particular setting,
-    #   feature, or environment is not available to the user or is not considered
-    #   ready to be used.  This can happen if a parent feature had been disabled,
-    #   thus causes a sub-feature to be hidden from the user.
-    #  This helps to declutter the menu screen by hiding sub-menus from the user
-    #   in-which have no effect as the main feature is disabled or configured in
-    #   a way that has no real effect.
-    # -------------------------------
-    # Input:
-    #  [bool] (REFERENCE) Compression Level
-    #   Defines how tightly to compact the data into the archive datafile
-    #  [bool] (REFERENCE) Verify Build
-    #   Specifies if the archive data file is undergo an integrity check.
-    #  [bool] (REFERENCE) Generate Report
-    #   Determines if the user wanted a report of the newly compiled build.
-    #  [bool] (REFERENCE) Use Tool
-    #   Determines if the dotNET Core Zip functionality had been enabled.
-    #  [bool] (REFERENCE) Tool not Available
-    #   Signifies that the tool is not presently available.
-    # -------------------------------
-    #>
-    hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionLevel, `      # Compression Level
-                                                        [ref] $showMenuVerifyBuild, `           # Verify Build
-                                                        [ref] $showMenuGenerateReport, `        # Generate Report
-                                                        [ref] $showMenuUseTool, `               # Use dotNET Core Internal Zip functionality
-                                                        [ref] $showMenuToolNotAvailable)        # Signifies that the tool is not presently available.
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Retrieve the User Preferences object
-        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
-        # ----------------------------------------
-
-
-
-        # Is dotNET Core Internal Zip available?
-        if (!([CommonFunctions]::IsAvailableZip()))
-        {
-            # Because the internal Zip functionality is not available, hide all options associated with
-            #   Zip's configuration.
-            $showMenuCompressionLevel.Value     = $false;       # Compression Level
-            $showMenuVerifyBuild.Value          = $false;       # Verify Build
-            $showMenuGenerateReport.Value       = $false;       # Generate Report
-            $showMenuUseTool.Value              = $false;       # Use Tool
-
-
-            # Alert the Zip Settings that the functionality is not available.
-            $showMenuToolNotAvailable.Value = $true;
-
-
-            # Finished
-            return;
-        } # if : dotNET Core Zip not Available
-
-
-
-        # Is the user utilizing some other compression software tool?
-        if ($userPreferences.GetCompressionTool() -ne [UserPreferencesCompressTool]::InternalZip)
-        {
-            # Because the user is not utilizing the internal Zip functionality, hide all options associated with the tool.
-            $showMenuCompressionLevel.Value     = $false;       # Compression Level
-            $showMenuVerifyBuild.Value          = $false;       # Verify Build
-            $showMenuGenerateReport.Value       = $false;       # Generate Report
-            $showMenuToolNotAvailable.Value     = $false;       # Tool not Available
-
-
-            # Ask the user if they wish to change settings.
-            $showMenuUseTool.Value              = $false;       # Use Tool
-
-
-            # Finished!
-            return;
-        } # if : Not using dotNET Core Zip Functionality
-
-
-
-        # If we made it here, then that would indicate that the user is presently utilizing the dotNET Core Zip functionality.
-        #  Show the menu items that are associated with the dotNET Zip, however some menu items may be hidden due to dependent
-        #  options.
-
-
-        $showMenuCompressionLevel.Value     = $true;        # Compression Level
-        $showMenuVerifyBuild.Value          = $true;        # Verify Build
-        $showMenuGenerateReport.Value       = $true;        # Generate Report
-        $showMenuUseTool.Value              = $true;        # Use Tool
-        $showMenuToolNotAvailable.Value     = $false;       # Tool not Available
-    } # __DrawMenuDetermineHiddenMenus()
-
-
-
-
    <# Evaluate and Execute User's Request
     # -------------------------------
     # Documentation:
@@ -547,26 +452,6 @@ class SettingsZip
 
         switch ($userRequest)
         {
-            # Use Tool
-            #  NOTE: Allow the user's request when they type: 'Z', 'Internal Zip', 'Zip', 'Default'.
-            {((($showMenuUseTool) -eq $false) -and ($showMenuToolNotAvailable -eq $false)) -and `
-                (($_ -eq "Z") -or `
-                 ($_ -eq "Internal Zip") -or `
-                 ($_ -eq "Zip") -or `
-                 ($_ -eq "Default"))}
-            {
-                # Allow the user to switch compression tool.
-                $userPreferences.SetCompressionTool([UserPreferencesCompressTool]::InternalZip);
-
-                # Update the user's configuration with the latest changes.
-                [LoadSaveUserConfiguration]::SaveUserConfiguration();
-
-                # Finished
-                break;
-            } # Use Tool
-
-
-
             # Tool not Available
             #  NOTE: Internal Zip not available
             {$showMenuToolNotAvailable}

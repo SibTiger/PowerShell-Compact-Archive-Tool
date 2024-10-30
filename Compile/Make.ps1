@@ -6,10 +6,9 @@
     This program is designed to create the project compiler.
     In order to play this project with GZDoom or its children
     ports, this project's source hierarchy must meet with the
-    ZDoom PK3 and PK7 standards.  The compiler, which this
-    program generates, will allow the user to easily create
-    a build of the project and is readable to the GZDoom
-    engine.
+    ZDoom PK3 standards.  The compiler, which this program
+    generates, will allow the user to easily create a build
+    of the project and is readable to the GZDoom engine.
 
 .NOTES
     Author: Nicholas Gautier
@@ -233,7 +232,6 @@ function MakeCompilerDriver()
                         "DefaultCompress.ps1", `
                         "GitControl.ps1", `
                         "ProjectInformation.ps1", `
-                        "SevenZip.ps1", `
                         "UserPreferences.ps1", `
                         "LoadSaveUserConfigs.ps1", `
                         "Logging.ps1", `
@@ -242,7 +240,6 @@ function MakeCompilerDriver()
                         "NotificationAudible.ps1", `
                         "NotificationVisual.ps1", `
                         "Settings.ps1", `
-                        "Settings7Zip.ps1", `
                         "SettingsZip.ps1", `
                         "SettingsGit.ps1", `
                         "SettingsProjectUserConfig.ps1", `

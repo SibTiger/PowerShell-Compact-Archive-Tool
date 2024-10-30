@@ -143,14 +143,6 @@ class Settings
         } # if : Show dotNET Zip Settings Menu
 
 
-        # Configure the 7Zip Application settings
-        [CommonCUI]::DrawMenuItem('7', `
-                                "7Zip Preferences [PK3 or PK7 Builds]", `
-                                "Configure the 7Zip's functionality and preferences.", `
-                                $NULL, `
-                                $true);
-
-
         # Configure the Git Application settings
         [CommonCUI]::DrawMenuItem('G', `
                                 "Git Preferences", `
@@ -273,25 +265,6 @@ class Settings
                 # Finished
                 break;
             } # Configure Zip Preferences
-
-
-
-            # Configure 7Zip Preferences
-            #  NOTE: Allow the user's request when they type: 'Configure 7Zip Preferences',
-            #           'Configure 7Zip', '7Zip', '7Z', as well as '7'.
-            {   ($_ -eq "7") -or `
-                ($_ -eq "Configure 7Zip Preferences") -or `
-                ($_ -eq "Configure 7Zip") -or `
-                ($_ -eq "7Zip") -or `
-                ($_ -eq "7Z")}
-            {
-                # Open the 7Zip preferences menu
-                [Settings7Zip]::Main();
-
-
-                # Finished
-                break;
-            } # Configure 7Zip Preferences
 
 
 
