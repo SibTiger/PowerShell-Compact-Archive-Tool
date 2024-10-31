@@ -121,10 +121,6 @@ CreateDirectories | Out-Null;
 [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
 
 
-# Initialize a default Git Control object.
-[GitControl] $gitControl = [GitControl]::GetInstance();
-
-
 # Initialize the dotNet Core Zip Archive object
 [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
 

@@ -33,35 +33,6 @@
 
 class CommonFunctions
 {
-   <# Is Git Available?
-    # -------------------------------
-    # Documentation:
-    #  This function will determine if the Git functionality is available
-    #   on the host system.  In order for this operation to work, we will
-    #   use the Git object to check if such feature is present.
-    # -------------------------------
-    # Output:
-    #  [bool] Git Availability
-    #   When true, this will mean that Git is available and can be used.
-    #   False, however, will mean that the Git functionality is not available.
-    # -------------------------------
-    #>
-    static [bool] IsAvailableGit()
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Latch onto the single instance of the Git object
-        [GitControl] $gitControl = [GitControl]::GetInstance();
-        # ----------------------------------------
-
-
-        # Return the results from the detection function
-        return $gitControl.DetectGitExist();
-    } # IsAvailableGit()
-
-
-
-
    <# Is .NET Core ZIP Archive Available?
     # -------------------------------
     # Documentation:

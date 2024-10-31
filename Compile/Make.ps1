@@ -230,7 +230,6 @@ function MakeCompilerDriver()
                         "CommonFunctions.ps1", `
                         "ProgramFunctions.ps1", `
                         "DefaultCompress.ps1", `
-                        "GitControl.ps1", `
                         "ProjectInformation.ps1", `
                         "UserPreferences.ps1", `
                         "LoadSaveUserConfigs.ps1", `
@@ -241,7 +240,6 @@ function MakeCompilerDriver()
                         "NotificationVisual.ps1", `
                         "Settings.ps1", `
                         "SettingsZip.ps1", `
-                        "SettingsGit.ps1", `
                         "SettingsProjectUserConfig.ps1", `
                         "ProjectManager.ps1", `
                         "ProjectManagerInstallation.ps1", `

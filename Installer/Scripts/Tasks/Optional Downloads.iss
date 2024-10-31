@@ -38,7 +38,6 @@
 [CustomMessages]
 
 ManuallyDownloadAndInstallOptionalApplications  = %n Manually Download and Install Optional Applications:
-ManuallyDownloadAndInstallResource_GitSCM       = Git-SCM%n  Maintains the project source files and creates a history changelog
 ManuallyDownloadAndInstallResource_BurntToast   = BurntToast%n  Provides Toast Notifications to the user
 
 [/CustomMessages]
@@ -47,11 +46,6 @@ ManuallyDownloadAndInstallResource_BurntToast   = BurntToast%n  Provides Toast N
 
 
 [Tasks]
-
-Name: "OpenURL_Git";                                                                \
-    Description: "{cm:ManuallyDownloadAndInstallResource_GitSCM}";                  \
-    GroupDescription: "{cm:ManuallyDownloadAndInstallOptionalApplications}";        \
-    Flags: unchecked;
 
 Name: "OpenURL_BurntToast";                                                         \
     Description: "{cm:ManuallyDownloadAndInstallResource_BurntToast}";              \
@@ -64,10 +58,6 @@ Name: "OpenURL_BurntToast";                                                     
 
 
 [Run]
-
-FileName: "https://git-scm.com/";                   \
-    Flags: shellexec runasoriginaluser;             \
-    Tasks: OpenURL_Git;
 
 FileName: "https://github.com/Windos/BurntToast";   \
     Flags: shellexec runasoriginaluser;             \

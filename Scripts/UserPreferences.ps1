@@ -70,15 +70,13 @@ class UserPreferences
     # Get the instance of this singleton object (With Args)
     #  Useful if we already know that we have to instantiate
     #  a new instance of this particular object.
-    static [UserPreferences] GetInstance([string] $outputBuildsPath, `                          # Output Builds absolute path
-                                        [UserPreferencesVersionControlTool] $versionControl)    # Utilize Git features (if software available)
+    static [UserPreferences] GetInstance([string] $outputBuildsPath)
     {
         # if there was no previous instance of the object - then create one.
         if ($null -eq [UserPreferences]::_instance)
         {
             # Create a new instance of the singleton object.
-            [UserPreferences]::_instance = [UserPreferences]::new($outputBuildsPath, `
-                                                                    $versionControl);
+            [UserPreferences]::_instance = [UserPreferences]::new($outputBuildsPath);
         } # If: No Singleton Instance
 
         # Provide an instance of the object.
@@ -100,13 +98,6 @@ class UserPreferences
     # ---------------
     # The absolute path of the builds output location.
     Hidden [string] $__outputBuildsPath;
-
-
-    # Version Control Choice
-    # ---------------
-    # The choice of which software tool be used for managing the local copy or local
-    #   repository of the project's source files.
-    Hidden [UserPreferencesVersionControlTool] $__versionControlTool;
 
 
     # Object GUID
@@ -132,9 +123,6 @@ class UserPreferences
         # Output Build Path
         $this.__outputBuildsPath = $global:_USERDATA_PROJECT_BUILDS_PATH_;
 
-        # Use Git Features
-        $this.__versionControlTool = [UserPreferencesVersionControlTool]::None;
-
         # Object Identifier (GUID)
         $this.__objectGUID = [GUID]::NewGuid();
     } # Default Constructor
@@ -143,14 +131,10 @@ class UserPreferences
 
 
     # User Preference : On-Load
-    UserPreferences([string] $outputBuildsPath, `
-                    [UserPreferencesVersionControlTool] $versionControl)
+    UserPreferences([string] $outputBuildsPath)
     {
         # Output Build Path
         $this.__outputBuildsPath = $outputBuildsPath;
-
-        # Use Git Features
-        $this.__versionControlTool = $versionControl;
 
         # Object Identifier (GUID)
         $this.__objectGUID = [GUID]::NewGuid();
@@ -275,20 +259,3 @@ class UserPreferences
 
     #endregion
 } # UserPreferences
-
-
-
-
-<# User Preferences Version Control Tool [ENUM]
- # -------------------------------
- # Associated with what type of Version Control (VCS or SCM) will be used to manage the
- #  local copy or local repository stored on the user's host system.
- #
- # This provides a list of software that this application supports.
- # -------------------------------
- #>
-enum UserPreferencesVersionControlTool
-{
-    None    = 0;    # Nothing
-    GitSCM  = 1;    # Git-SCM
-} # UserPreferencesVersionControlTool

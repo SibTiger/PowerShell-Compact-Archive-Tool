@@ -143,14 +143,6 @@ class Settings
         } # if : Show dotNET Zip Settings Menu
 
 
-        # Configure the Git Application settings
-        [CommonCUI]::DrawMenuItem('G', `
-                                "Git Preferences", `
-                                "Configure the Git's functionality and preferences.", `
-                                $NULL, `
-                                $true);
-
-
         # Project User Configuration
         if ($showProjectUserConfig)
         {
@@ -265,24 +257,6 @@ class Settings
                 # Finished
                 break;
             } # Configure Zip Preferences
-
-
-
-            # Configure Git Preferences
-            #  NOTE: Allow the user's request when they type: 'Configure Git Preferences',
-            #           'Configure Git', 'Git', as well as 'G'.
-            {   ($_ -eq "G") -or `
-                ($_ -eq "Configure Git Preferences") -or `
-                ($_ -eq "Configure Git") -or `
-                ($_ -eq "Git")}
-            {
-                # Open the Git preferences menu
-                [SettingsGit]::Main();
-
-
-                # Finished
-                break;
-            } # Configure Git Preferences
 
 
 

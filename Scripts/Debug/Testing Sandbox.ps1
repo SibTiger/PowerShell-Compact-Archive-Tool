@@ -11,14 +11,6 @@ function main()
     # Initialize the objects
     [UserPreferences] $userPref = [UserPreferences]::GetInstance();
 
-    [GitControl] $gitObj = [GitControl]::new("git.exe", ` # Binary path
-                                             $true, `     # Update Project
-                                             0, `         # CommitID Length
-                                             $true, `     # Fetch Commit ID
-                                             $true, `     # Fetch changelog
-                                             50, `        # Changelog limit
-                                             $true)       # Generate a Report
-
     [DefaultCompress] $psArchive = [DefaultCompress]::new(0, `     # Compression Level
                                                           $true, ` # Verify Build
                                                           $true);  # Generate Report
@@ -83,9 +75,9 @@ function main()
 
     # Save\Load Functionality
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    #Write-Host "Load Configuration Status: $($loadSaveConfigs.Load($userPref, $gitObj, $psArchive))`r`n";
+    #Write-Host "Load Configuration Status: $($loadSaveConfigs.Load($userPref, $psArchive))`r`n";
     
-    #Write-Host "Saved Configuration Status: $($loadSaveConfigs.Save($userPref, $gitObj, $psArchive))`r`n";
+    #Write-Host "Saved Configuration Status: $($loadSaveConfigs.Save($userPref, $psArchive))`r`n";
     #>
 
 
@@ -209,50 +201,6 @@ function main()
     #[Logging]::WriteSystemInformation();
 
 
-    # GIT TESTING
-    <# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Special Directories Exists?
-    Write-Host "Logging Directories Status: $($gitObj.__CheckRequiredDirectories())";
-
-    # Should we Create the Special Directories?
-    Write-Host "Created Special Directories Status: $($gitObj.__CreateDirectories())";
-
-    # Is Git Detectable?
-    Write-Host "Detected Git Status: $($gitObj.DetectGitExist())";
-
-    # Found Git
-    Write-Host "Found Git in Directory: $($gitObj.FindGit())";
-
-    # Can we update the LWC?
-    Write-Host "LWC Update Status: $($gitObj.UpdateLocalRepository("$($userPref.GetProjectPath())"))";
-
-    # Fetch the Commit ID
-    Write-Host "Commit ID Retrieved: $($gitObj.FetchCommitID("$($userPref.GetProjectPath())"))";
-
-    # Get the Changelog
-    Write-Host "Commit History Status: $($gitObj.FetchCommitHistory("$($userPref.GetProjectPath())", "$($gitObj.GetLogPath())"))";
-
-    # Get the Current Branch
-    Write-Host "Current Selected Branch: $($gitObj.FetchCurrentBranch("$($userPref.GetProjectPath())"))";
-
-    # Get All available Branches
-    Write-Host "Available Branches:`r`n$($gitObj.FetchAllBranches("$($userPref.GetProjectPath())"))";
-    
-    # Switch Branch
-    Write-Host "Switching Branch Status: $($gitObj.SwitchLocalBranch("$($userPref.GetProjectPath())", "PowerShelling"))";
-
-    # Get all Contributors
-    Write-Host "Contributors Involved:`r`n$($gitObj.FetchAllContributors("$($userPref.GetProjectPath())"))";
-    # Display neat graph
-    Write-Host "Git Graph:`r`n$($gitObj.GenerateActivityLineGraph("$($userPref.GetProjectPath())"))";
-
-    # Create a Report
-    Write-Host "Report Status: $($gitObj.CreateNewReport("$($userPref.GetProjectPath())", $true))";
-    # Get All Available Branches + Activities
-    Write-Host "Available Branches (+ Activity):`r`n$($gitObj.FetchAllBranchesActivity("$($userPref.GetProjectPath())"))";
-    #>
-
-
 
     Write-Host "$([SystemInformation]::PowerShellVersion())";
 } # main()
@@ -269,7 +217,6 @@ function main()
 $userPreferences = [UserPreferences]::GetInstance(0, `                                                         # Compression
                                     "$($env:HOMEDRIVE)$($env:HOMEPATH)\Projects\ZDoom WADs\Alphecca\Source", ` # Project Path
                                     "$($global:_USERDATA_BUILDS_PATH_)", `                                     # Output
-                                    $true, `                                                                   # Use Git?
                                     $true, `                                                                   # Use Explorer.exe?
                                     $true, `                                                                   # Use Bell?
                                     0);

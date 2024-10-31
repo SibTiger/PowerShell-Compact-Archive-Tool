@@ -39,9 +39,6 @@
             The required shell in order for this application to work properly.
         dotNET Core 3.1.x Minimum
             The required framework that is needed for this program to run successfully on all supported platforms.
-        Git [Optional]
-            Ideal for Alpha and Beta Development Builds.
-            Retrieve project's repository information and pull updates to project's local repository.
         Microsoft Word 2016 or Later [Optional]
             Generate a report in Portable Document File (PDF).
 
