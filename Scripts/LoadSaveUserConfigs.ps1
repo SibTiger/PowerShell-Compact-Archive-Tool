@@ -896,30 +896,6 @@ class LoadSaveUserConfiguration
 
 
 
-        # USER PREFERENCES -- USE VERSION CONTROL TOOL
-        # - - - - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Use Version Control Tool
-            $userPref.SetVersionControlTool([UserPreferencesVersionControlTool]$cachedUserConfig[0].__versionControlTool);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__versionControlTool", `                             # The Variable Name
-                                    "User Preferences", `                                   # The Variable Category
-                                    [string]$cachedUserConfig[0].__versionControlTool, `    # Value Stored in Config
-                                    [string]$userPref.GetVersionControlTool(), `            # Current Value
-                                    $_.Exception);                                          # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
 
 
         # STEP 2 - POWERSHELL'S ARCHIVE SETTINGS

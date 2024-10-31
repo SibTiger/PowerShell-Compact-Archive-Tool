@@ -161,21 +161,6 @@ class UserPreferences
 
 
 
-   <# Get Version Control Tool
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'Version Control Tool' variable.
-    # -------------------------------
-    # Output:
-    #  [UserPreferencesVersionControlTool] Version Control Tool
-    #   The value of the Version Control Tool.
-    # -------------------------------
-    #>
-    [UserPreferencesVersionControlTool] GetVersionControlTool() { return $this.__versionControlTool; }
-
-
-
-
    <# Get Object GUID
     # -------------------------------
     # Documentation:
@@ -222,40 +207,6 @@ class UserPreferences
         # Failure; Path does not exist.
         return $false;
     } # SetProjectBuildsPath()
-
-
-
-
-   <# Set Version Control Tool
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Version Control Tool' variable.
-    # -------------------------------
-    # Input:
-    #  [UserPreferencesVersionControlTool] Version Control Tool
-    #   When set to any other value than 'None' (Nothing), this will allow
-    #   the application to utilize the functionality of the Version Control
-    #   software to manage or obtain information regarding the local working
-    #   copy or local repository of the source files on the host's local
-    #   machine.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetVersionControlTool([UserPreferencesVersionControlTool] $newVal)
-    {
-        # Because the value must fit within the 'UserPreferencesVersionControlTool'
-        #   datatype, there really is no point in checking if the new requested
-        #   value is considered 'legal'.  Thus, we are going to trust the value
-        #   and automatically return success.
-        $this.__versionControlTool = $newVal;
-
-        # Successfully updated.
-        return $true;
-    } # SetVersionControlTool()
 
     #endregion
 } # UserPreferences
