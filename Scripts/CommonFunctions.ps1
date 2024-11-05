@@ -115,6 +115,7 @@ class CommonFunctions
 
             # * * * * * * * * * * * * * * * * * * *
 
+
             # Because the module was not detected, we will have to abort.
             return $false;
         } # Else : Module not detected
