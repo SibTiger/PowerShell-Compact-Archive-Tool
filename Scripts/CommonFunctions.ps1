@@ -61,8 +61,8 @@ class CommonFunctions
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [System.Management.Automation.PSModuleInfo] $getModuleInfo = [System.Management.Automation.PSModuleInfo]::new();
         # This will be used to obtain the meta data from the POSH Module.
+        [System.Management.Automation.PSModuleInfo] $getModuleInfo = $NULL;
         # ----------------------------------------
 
 
