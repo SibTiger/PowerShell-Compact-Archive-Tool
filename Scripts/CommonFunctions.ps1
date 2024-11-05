@@ -56,8 +56,8 @@ class CommonFunctions
     #   False, however, the PowerShell Module Meta Data variable was not set.
     # -------------------------------
     #>
-    static [bool] GetPowerShellModuleMetaDataFull([string] $powerShellModule, `
-                                                    [ref] $powerShellModuleMetaData)
+    static [bool] GetPowerShellModuleMetaDataFull([string] $powerShellModule, `         # POSH Module to get data from
+                                                    [ref] $powerShellModuleMetaData)    # Populated Meta Data to return
     {
         # Declarations and Initializations
         # ----------------------------------------
