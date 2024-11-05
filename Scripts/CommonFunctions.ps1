@@ -122,7 +122,42 @@ class CommonFunctions
 
 
         # Obtain the Module Information and store it temporarily.
-        $getModuleInfo = Get-Module -Name $powerShellModule;
+        try
+        {
+            # Try to obtain the Module Information
+            #   NOTE: what I fear using '-ListAvailable', if there is multiple versions of the POSH Module,
+            #   then this datatype will change to 'System.Object[]' instead of 'PSModuleInfo'.  Then we will
+            #   need to add further detections to determine how the data was returned by Get-Module.  I am
+            #   not sure how to test this?
+            $getModuleInfo = $(Get-Module -Name $powerShellModule -ListAvailable -ErrorAction Stop);
+        } # try : Obtain Meta Data from the POSH Module
+
+        # Caught an error
+        catch
+        {
+            # Unable to obtain the Meta Data from the POSH Module
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to retrieve the Meta Data for the requested PowerShell Module!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("PowerShell Module: $($powerShellModule)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+            # Because we are not able to obtain the meta data, return an error signal.
+            return $false;
+        } # catch : Failed to obtain Meta Data
 
 
         # Now populate the PowerShell Module Meta Data [Full] object.
@@ -133,6 +168,31 @@ class CommonFunctions
         $powerShellModuleMetaData.Value.projectURI      = $getModuleInfo.projecturi;
         $powerShellModuleMetaData.Value.description     = $getModuleInfo.description;
         $powerShellModuleMetaData.Value.releaseNotes    = $getModuleInfo.releasenotes;
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        [string] $logMessage = "Obtained Meta Data for the requested PowerShell Module!";
+
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = ("PowerShell Module: $($powerShellModule)`r`n" + `
+                                        "Author         : $($getModuleInfo.Author)`r`n" + `
+                                        "Name           : $($getModuleInfo.Name)`r`n" + `
+                                        "Version        : $($getModuleInfo.Version)`r`n" + `
+                                        "Copyright      : $($getModuleInfo.Copyright)`r`n" + `
+                                        "Project URI    : $($getModuleInfo.ProjectURI)`r`n" + `
+                                        "Description    : $($getModuleInfo.Description)`r`n"+ `
+                                        "Release Notes  : $($getModuleInfo.ReleaseNotes)");
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
 
 
         # Successfully populated the meta data.
