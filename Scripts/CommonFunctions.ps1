@@ -125,11 +125,15 @@ class CommonFunctions
         try
         {
             # Try to obtain the Module Information
-            #   NOTE: what I fear using '-ListAvailable', if there is multiple versions of the POSH Module,
-            #   then this datatype will change to 'System.Object[]' instead of 'PSModuleInfo'.  Then we will
-            #   need to add further detections to determine how the data was returned by Get-Module.  I am
-            #   not sure how to test this?
-            $getModuleInfo = $(Get-Module -Name $powerShellModule -ListAvailable -ErrorAction Stop);
+            [System.Object] $getModuleInfoDynamicType = $(Get-Module -Name $powerShellModule -ListAvailable -ErrorAction Stop);
+
+            # Determine if the user has multiple versions available of the PowerShell Module:
+            #   if  : Multiple versions were found, only use the first index.
+            #   else: Only one version was detected, just use that. 
+            if ($getModuleInfoDynamicType.GetType().Name -eq "Object[]")
+            { $getModuleInfo = $getModuleInfoDynamicType[0]; }
+            else
+            { $getModuleInfo = $getModuleInfoDynamicType; }
         } # try : Obtain Meta Data from the POSH Module
 
         # Caught an error
