@@ -22,9 +22,10 @@
  # ------------------------------
  # ==============================
  # ==============================
- # These classes will contain meta data information regarding a PowerShell Module.  These classes
- #  will allow the ability for the user to view meta data regarding the PowerShell Module.  The Meta
- #  Data that will be collected are merely information about the Module, nothing more than that.
+ # These classes contain meta data information regarding a PowerShell Module.  These classes will
+ #  allow the ability for the user to view meta data regarding the PowerShell Module.  The Meta
+ #  Data that will be collected are merely information about the PowerShell Module, nothing more
+ #  than that.
  #
  # These classes are designed as fully public and easily accessible; getters and setters will not
  #  be used here whatsoever.
