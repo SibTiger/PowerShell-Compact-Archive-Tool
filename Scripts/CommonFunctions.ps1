@@ -33,6 +33,88 @@
 
 class CommonFunctions
 {
+   <# Detect PowerShell Module
+    # -------------------------------
+    # Documentation:
+    #  This function will try to detect if the requested PowerShell Module is
+    #   available within the PowerShell's current environment.
+    # -------------------------------
+    # Input:
+    #   [string] PowerShell Module
+    #       The PowerShell Module that we want to obtain the meta data.
+    # -------------------------------
+    # Output:
+    #   [bool] PowerShell Module Detection State
+    #       $false  = Module was not detected within the PowerShell's current session.
+    #       $true   = Module was successfully detected within the PowerShell's current session.
+    # -------------------------------
+    #>
+    static [bool] DetectPowerShellModule([string] $powerShellModule)
+    {
+        # Determine if the requested PowerShell Module had been detected.
+        # NOTE: The Get-Module CMDlet will return $true if there is 'any'
+        #       version of the CMDlet presently installed\available within
+        #       the PowerShell Environment.  Otherwise, $false will be
+        #       given when nothing was found.
+        #   Reference: https://stackoverflow.com/a/28740512
+        if (Get-Module -ListAvailable -Name $powerShellModule)
+        {
+            # Detected the module
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Successfully found the $($powerShellModule) module!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # POSH Module was found.
+            return $true;
+        } # if : Module is installed
+
+
+
+        # POSH Module was not detected
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        [string] $logMessage = "Could not find the $($powerShellModule) module!";
+
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = "";
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Warning);    # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
+
+
+        # POSH Module was not found.
+        return $false;
+    } # DetectPowerShellModule()
+
+
+
+
+
    <# Get PowerShell Module Meta Data [Full]
     # -------------------------------
     # Documentation:
