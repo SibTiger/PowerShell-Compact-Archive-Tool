@@ -976,30 +976,6 @@ class LoadSaveUserConfiguration
 
 
 
-        # POWERSHELL'S ARCHIVE SETTINGS -- GENERATE REPORT USING PDF FILE
-        # - - - - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Generate Report Using PDF File
-            $psArchive.SetGenerateReportFilePDF([bool]$cachedUserConfig[3].__generateReportFilePDF);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__generateReportFilePDF", `                          # The Variable Name
-                                    "Archive Settings", `                                   # The Variable Category
-                                    [string]$cachedUserConfig[3].__generateReportFilePDF, ` # Value Stored in Config
-                                    [string]$psArchive.GetGenerateReportFilePDF(), `        # Current Value
-                                    $_.Exception);                                          # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
         # POWERSHELL'S ARCHIVE SETTINGS -- ROOT LOG PATH
         # - - - - - - - - - - - - - - - - - - - - - - -
         try

@@ -123,15 +123,13 @@ class SettingsZip
         [string] $currentSettingCompressionLevel = $NULL;       # Compression Level
         [string] $currentSettingVerifyBuild = $NULL;            # Verify Build
         [string] $currentSettingGenerateReport = $NULL;         # Generate Report
-        [string] $currentSettingGenerateReportPDF = $NULL;      # Generate PDF Report
         # ----------------------------------------
 
 
         # Retrieve the current settings and determine the wording before we generate the menu.
         [SettingsZip]::__DrawMenuDecipherCurrentSettings([ref] $currentSettingCompressionLevel, `   # Compression Level
                                                         [ref] $currentSettingVerifyBuild, `         # Verify Build
-                                                        [ref] $currentSettingGenerateReport, `      # Generate Report
-                                                        [ref] $currentSettingGenerateReportPDF);    # Generate PDF Report
+                                                        [ref] $currentSettingGenerateReport)        # Generate Report
 
 
 
@@ -158,7 +156,7 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('R', `
                                 "Generate Report of the Archive Datafile", `
                                 "Provides a detailed report regarding the newly generated compressed file.", `
-                                "Create a report of the newly generated build: $($currentSettingGenerateReport) $($currentSettingGenerateReportPDF)", `
+                                "Create a report of the newly generated build: $($currentSettingGenerateReport)", `
                                 $true);
 
 
@@ -208,14 +206,11 @@ class SettingsZip
     #   Determines if the newly generated build will be tested to assure its integrity.
     #  [string] (REFERENCE) Generate Report
     #   Determines if the user wanted a report of the newly generated compressed build.
-    #  [string] (REFERENCE) Generate PDF Report
-    #   Determines if the user wanted a PDF report of the newly generated compressed build.
     # -------------------------------
     #>
     hidden static [void] __DrawMenuDecipherCurrentSettings([ref] $compressionLevel, `   # Compression Level
                                                             [ref] $verifyBuild, `       # Verify Build
-                                                            [ref] $generateReport, `    # Generate Report
-                                                            [ref] $generateReportPDF)   # Generate PDF Report
+                                                            [ref] $generateReport)      # Generate Report
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -315,29 +310,6 @@ class SettingsZip
             # The user does not want to have a report generated of the archive datafile.
             $generateReport.Value = "No";
         } # else: Do not create report
-
-
-
-        # - - - - - - - - - - - - - - - - - - - - - -
-        # - - - - - - - - - - - - - - - - - - - - - -
-
-
-
-        # Generate PDF Report
-        # Provide a new PDF report regarding the newly generated archive file
-        if ($defaultCompress.GetGenerateReportFilePDF() -and `
-            $defaultCompress.GetGenerateReport())
-        {
-            # The user wants to have a PDF report generated regarding the archive datafile.
-            $generateReportPDF.Value = "[PDF]";
-        } # if: Create PDF report
-
-        # Do not provide a PDF report regarding the newly generated archive file.
-        else
-        {
-            # The user does not want to have a report generated of the archive datafile.
-            $generateReportPDF.Value = $null;
-        } # else: Do not create PDF report
     } # __DrawMenuDecipherCurrentSettings()
 
 
@@ -1158,18 +1130,8 @@ class SettingsZip
             #  Is the Generate Report presently enabled?
             if ($defaultCompress.GetGenerateReport())
             {
-                # Determine if the PDF is to also be generated
-                if ($defaultCompress.GetGenerateReportFilePDF())
-                {
-                    $decipherNiceString = "I will create a PDF report regarding the newly generated compiled project build.";
-                } # if : Generate PDF Report
-
-                # If a regular report is to only be generated
-                else
-                {
-                    # Generate Report is presently set as enabled.
-                    $decipherNiceString = "I will create a report regarding the newly generated compiled project build.";
-                } # else : Generate Report
+                # Generate Report is presently set as enabled.
+                $decipherNiceString = "I will create a report regarding the newly generated compiled project build.";
             } # if: Generate Report
 
             # Is the Generate Report presently disabled?
@@ -1233,14 +1195,6 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('R', `
                                 "Generate a report file", `
                                 "Generate a new technical report regarding the project's compiled build.", `
-                                $NULL, `
-                                $true);
-
-
-        # Generate a new PDF report regarding the archive datafile.
-        [CommonCUI]::DrawMenuItem('P', `
-                                "Generate a PDF report file", `
-                                "Generate a new technical PDF report regarding the project's compiled build.", `
                                 $NULL, `
                                 $true);
 
@@ -1313,40 +1267,12 @@ class SettingsZip
                 # The user had selected to have technical reports generated regarding newly compiled project build.
                 $defaultCompress.SetGenerateReport($true);
 
-                # The user does not wish to generate PDF reports
-                $defaultCompress.SetGenerateReportFilePDF($false);
-
                 # Update the user's configuration with the latest changes.
                 [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
             } # Selected Generate Reports
-
-
-            # Generate PDF Report
-            #  NOTE: Allow the user's request when they type: "Create PDF reports", "Generate PDF reports", "Make PDF reports",
-            #           "Create PDF", "Generate PDF", "Make PDF", as well as "P".
-            {($_ -eq "P") -or `
-                ($_ -eq "Create PDF report") -or `
-                ($_ -eq "Generate PDF report") -or `
-                ($_ -eq "Make PDF report") -or `
-                ($_ -eq "Create PDF") -or `
-                ($_ -eq "Generate PDF") -or `
-                ($_ -eq "Make PDF")}
-            {
-                # The user had selected to have technical reports generated regarding newly compiled project build.
-                $defaultCompress.SetGenerateReport($true);
-
-                # The user wishes to generate PDF reports
-                $defaultCompress.SetGenerateReportFilePDF($true);
-
-                # Update the user's configuration with the latest changes.
-                [LoadSaveUserConfiguration]::SaveUserConfiguration();
-
-                # Finished
-                break;
-            } # Selected Generate PDF Reports
 
 
             # Do not Generate Reports
@@ -1358,9 +1284,6 @@ class SettingsZip
             {
                 # The user had selected to not have technical reports generated regarding the newly compiled project builds.
                 $defaultCompress.SetGenerateReport($false);
-
-                # The user does not wish to generate PDF reports
-                $defaultCompress.SetGenerateReportFilePDF($false);
 
                 # Update the user's configuration with the latest changes.
                 [LoadSaveUserConfiguration]::SaveUserConfiguration();

@@ -1660,11 +1660,8 @@ class Builder
         #  operation was successful.
         [FormattedListBuilder] $resultSymbol = [FormattedListBuilder]::Failure;
 
-        # When populated, these variables will hold the absolute paths of the generated report files.
-        #  - Text Report File
+        # When populated, this variables will hold the absolute path of the generated report text file.
         [string] $fullPathReportTextFile = $null;
-        #  - PDF Report File
-        [string] $fullPathReportPDFFile = $null;
 
 
         # Debugging Variables
@@ -1718,8 +1715,7 @@ class Builder
 
         # Generate the report
         $result = $defaultCompress.CreateNewReport($compiledBuildFullPath, `
-                                                    [ref] $fullPathReportTextFile, `
-                                                    [ref] $fullPathReportPDFFile);
+                                                    [ref] $fullPathReportTextFile);
 
 
 
@@ -1738,14 +1734,6 @@ class Builder
             # Access the desired directory and select the file.
             [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportTextFile), `
                                         [System.IO.Path]::GetFileName($fullPathReportTextFile));
-
-
-            # User allowed the ability for PDF files to be generated
-            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportPDFFile);
-
-            # Access the desired directory and select the file.
-            [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportPDFFile), `
-                                        [System.IO.Path]::GetFileName($fullPathReportPDFFile));
 
 
             # Revise the status messages
