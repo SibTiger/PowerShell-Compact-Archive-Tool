@@ -332,6 +332,9 @@ class Builder
         #  in regards to where the source files exists within the user's system.
         [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
 
+        # Latch onto the single instance of the Zip object
+        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+
         # We will use this variable to cache the detection status of a particular item that we want
         #  to check.  Instead of having to recall the exact same checking function over and over again,
         #  we will use this variable to merely cache the value as we step through each process within
@@ -499,7 +502,7 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
 
         # Check the current status of the Archive ZIP Module
-        $boolCacheValue = [CommonFunctions]::IsAvailableZip();
+        $boolCacheValue = $defaultCompress.DetectCompressModule();
 
         # Make sure that the dotNET Archive Zip is available
         if ($boolCacheValue -eq $false)
