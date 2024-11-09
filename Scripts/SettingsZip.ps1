@@ -52,6 +52,9 @@ class SettingsZip
         #  If the user were to exit from the menu, this variable's state will be set as false.
         #  Thus, with a false value - they may leave the menu.
         [bool] $menuLoop = $true;
+
+        # Latch onto the single instance of the Zip object
+        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
         # ----------------------------------------
 
 
@@ -79,7 +82,7 @@ class SettingsZip
             # If the Internal Zip functionality is not available, do not allow the user to provide a response.
             #   Otherwise, the user could be stuck in an endless loop or essentially cannot perform any useful
             #   action.
-            if ([CommonFunctions]::IsAvailableZip())
+            if ($defaultCompress.DetectCompressModule())
             {
                 # Capture the user's feedback
                 $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
