@@ -896,12 +896,16 @@ class DefaultCompress
     #>
     [bool] DetectCompressModule()
     {
-        # We are going to try to detect if the module is available within this
-        #  PowerShell instance.  If incase it is not available - then we must
-        #  return false, or simply stating that it was not found.
-        # NOTE: If there is ANY output, then this function will return true.
-        # Reference: https://stackoverflow.com/a/28740512
-        if (Get-Module -ListAvailable -Name Microsoft.PowerShell.Archive)
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Name of the PowerShell Module
+        [string] $moduleName = "Microsoft.PowerShell.Archive"
+        # ----------------------------------------
+
+
+
+        # Determine if the PowerShell Module is presently available within the environment.
+        if ([CommonFunctions]::DetectPowerShellModule($moduleName))
         {
             # Detected the module
 
