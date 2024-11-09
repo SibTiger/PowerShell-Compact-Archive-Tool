@@ -66,11 +66,88 @@ class CommonFunctions
             # Debugging
             # --------------
 
+
+            # Declarations and Initializations
+            # ----------------------------------------
+            # This will contain the module's base information that will be used for logging.
+            [string] $debugInfoModuleBase = "";
+
+            # This will contain a list of installed versions of the module.
+            [string] $debugInfoModuleVersions = "";
+
+            # This will contain the full string, where the base and version(s) are combined into one variable.
+            [string] $debugInfoFullString = "";
+
+            # This will contain a single instance of the module's information;
+            #   We will use this to obtain the base information.
+            [System.Management.Automation.PSModuleInfo] $debugModuleSingleInstance = $NULL;
+
+            # Retrieve all of the information related to the module, including all versions.
+            [System.Object] $debugInstalledModulesList = $(Get-Module -ListAvailable -Name $powerShellModule);
+            # ----------------------------------------
+
+
+
+            # Determine if the user has multiple versions of the PowerShell Module installed
+            if ($debugInstalledModulesList.GetType().Name -eq "Object[]")
+            {
+                # Multiple Module Versions were detected.
+
+                # This will be used to illustrate how many versions where found.
+                [UInt32] $installedCounter = 0;
+
+
+                # Obtain a single instance and save it for later to get the base information.
+                $debugModuleSingleInstance = $debugInstalledModulesList[0];
+
+
+                # Show that multiple versions where found
+                $debugInfoModuleVersions = ("`t-----------------------------------------`r`n" + `
+                                            "`tMultiple Versions where found:`r`n");
+
+
+                # Obtain a list of what versions were installed within the POSH environment.
+                foreach ($item in $debugInstalledModulesList)
+                {
+                    # Increment the counter.
+                    $installedCounter++;
+
+                    # Record the version to the string.
+                    $debugInfoModuleVersions += "`t[" + $installedCounter + "] - " + $item.Version + "`r`n";
+                } # foreach : Scan through all instances found
+            } # if : Multiple Versions Detected
+
+            # Only one version was detected.
+            else
+            {
+                # Obtain the instance and save it for later, so we can get the base information.
+                $debugModuleSingleInstance = $debugInstalledModulesList;
+
+                # Show the version that is installed
+                $debugInfoModuleVersions = "`tVersion        :  " + $debugInstalledModulesList.Version + "`r`n";
+            } # else : Single Instance Detected
+
+
+
+            # Obtain the base information of the installed module.
+            $debugInfoModuleBase = ("Author         : " + $debugModuleSingleInstance.Author         + "`r`n" + `
+                                    "`tName           : " + $debugModuleSingleInstance.Name           + "`r`n" + `
+                                    "`tCopyright      : " + $debugModuleSingleInstance.Copyright      + "`r`n" + `
+                                    "`tProjectURL     : " + $debugModuleSingleInstance.ProjectURI     + "`r`n" + `
+                                    "`tDescription    : " + $debugModuleSingleInstance.Description    + "`r`n" + `
+                                    "`tPath           : " + $debugModuleSingleInstance.Path);
+
+
+            # Put the base and version information together into one string.
+            $debugInfoFullString =  $debugInfoModuleBase + "`r`n" + `
+                                        $debugInfoModuleVersions;
+
+
             # Generate the initial message
             [string] $logMessage = "Successfully found the $($powerShellModule) module!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "";
+            [string] $logAdditionalMSG = $debugInfoFullString;
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
