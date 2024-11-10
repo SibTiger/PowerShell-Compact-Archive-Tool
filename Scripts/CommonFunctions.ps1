@@ -41,7 +41,7 @@ class CommonFunctions
     # -------------------------------
     # Input:
     #   [string] PowerShell Module
-    #       The PowerShell Module that we want to obtain the meta data.
+    #       The PowerShell Module that we want to detect within the POSH Environment.
     # -------------------------------
     # Output:
     #   [bool] PowerShell Module Detection State
