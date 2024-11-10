@@ -33,6 +33,127 @@
 
 class CommonFunctions
 {
+   <# Install PowerShell Module
+    # -------------------------------
+    # Documentation:
+    #  This function will provide the ability to install a specific PowerShell Module
+    #   using the PSGallery Repository.
+    # -------------------------------
+    # Input:
+    #   [string] PowerShell Module
+    #       The PowerShell Module that we want to install.
+    # -------------------------------
+    # Output:
+    #   [bool] PowerShell Module Install Status
+    #       $false  = Failed to install the PowerShell Module.
+    #       $true   = Successfully installed the PowerShell Module.
+    # -------------------------------
+    #>
+    static [bool] PowerShellModuleInstall([string] $powerShellModule)
+    {
+        # Make sure that the user did not provide us with and empty string.
+        if ([CommonFunction]::IsStringEmpty($powerShellModule))
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to install the PowerShell Module!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("The PowerShell Module string was not provided!`r`n" + `
+                                            "`tPowerShell Module to install: $($powerShellModule)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Cannot perform an installation with the string being empty.
+            return $false;
+        } # if : PowerShell Module String Empty
+
+
+
+        # Does the user already have the module installed?
+        if ([CommonFunctions]::DetectPowerShellModule($powerShellModule))
+        {
+            # The PowerShell Module is already installed, no point in installing it again.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to install the PowerShell Module!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("The PowerShell Module had been detected to already be installed!`r`n" + `
+                                            "`tPowerShell Module to install: $($powerShellModule)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Despite the operation never took place, we will return true - ONLY to signify that the POSH
+            #   Module is already available within the PowerShell's current environment.
+            return $true;
+        } # if : PowerShell Module Already Installed
+
+
+        # Try to install the PowerShell Module
+        try
+        {
+            Install-Module -Name $powerShellModule
+                            -ErrorAction Stop;
+        } # try : Install the PowerShell Module
+
+        # An error had occurred
+        catch
+        {
+            # Unable to install the PowerShell Module due to an error.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Failed to install the PowerShell Module!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("PowerShell Module to install: $($powerShellModule)`r`n" + `
+                                            "$([Logging]::GetExceptionInfo($_.Exception))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+            # Operation had failed
+            return $false;
+        } # Catch : Failed to Install Module
+
+
+        # Operation was successful
+        return $true;
+    } # PowerShellModuleInstall()
+
+
+
+
+
    <# Update PowerShell Module
     # -------------------------------
     # Documentation:
