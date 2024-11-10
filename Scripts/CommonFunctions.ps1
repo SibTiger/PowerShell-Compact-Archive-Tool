@@ -63,7 +63,7 @@ class CommonFunctions
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("The PowerShell Module string was not provided!`r`n" + `
-                                            "PowerShell Module to update: $($powerShellModule)");
+                                            "`tPowerShell Module to update: $($powerShellModule)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -189,7 +189,7 @@ class CommonFunctions
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("The PowerShell Module string was not provided!`r`n" + `
-                                            "PowerShell Module to update: $($powerShellModule)");
+                                            "`tPowerShell Module to update: $($powerShellModule)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -406,7 +406,7 @@ class CommonFunctions
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("The PowerShell Module string was not provided!`r`n" + `
-                                            "PowerShell Module to update: $($powerShellModule)");
+                                            "`tPowerShell Module to update: $($powerShellModule)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -609,7 +609,7 @@ class CommonFunctions
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("The PowerShell Module string was not provided!`r`n" + `
-                                            "PowerShell Module to Obtain Meta Data: $($powerShellModule)");
+                                            "`tPowerShell Module to Obtain Meta Data: $($powerShellModule)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -737,13 +737,13 @@ class CommonFunctions
 
         # Generate any additional information that might be useful
         [string] $logAdditionalMSG = ("PowerShell Module: $($powerShellModule)`r`n" + `
-                                        "Author         : $($getModuleInfo.Author)`r`n" + `
-                                        "Name           : $($getModuleInfo.Name)`r`n" + `
-                                        "Version        : $($getModuleInfo.Version)`r`n" + `
-                                        "Copyright      : $($getModuleInfo.Copyright)`r`n" + `
-                                        "Project URI    : $($getModuleInfo.ProjectURI)`r`n" + `
-                                        "Description    : $($getModuleInfo.Description)`r`n"+ `
-                                        "Release Notes  : $($getModuleInfo.ReleaseNotes)");
+                                        "`tAuthor         : $($getModuleInfo.Author)`r`n" + `
+                                        "`tName           : $($getModuleInfo.Name)`r`n" + `
+                                        "`tVersion        : $($getModuleInfo.Version)`r`n" + `
+                                        "`tCopyright      : $($getModuleInfo.Copyright)`r`n" + `
+                                        "`tProject URI    : $($getModuleInfo.ProjectURI)`r`n" + `
+                                        "`tDescription    : $($getModuleInfo.Description)`r`n"+ `
+                                        "`tRelease Notes  : $($getModuleInfo.ReleaseNotes)");
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -807,7 +807,7 @@ class CommonFunctions
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("The PowerShell Module string was not provided!`r`n" + `
-                                            "PowerShell Module to Obtain Meta Data: $($powerShellModule)");
+                                            "`tPowerShell Module to Obtain Meta Data: $($powerShellModule)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -931,9 +931,9 @@ class CommonFunctions
 
         # Generate any additional information that might be useful
         [string] $logAdditionalMSG = ("PowerShell Module: $($powerShellModule)`r`n" + `
-                                        "Author         : $($getModuleInfo.Author)`r`n" + `
-                                        "Version        : $($getModuleInfo.Version)`r`n" + `
-                                        "Copyright      : $($getModuleInfo.Copyright)");
+                                        "`tAuthor         : $($getModuleInfo.Author)`r`n" + `
+                                        "`tVersion        : $($getModuleInfo.Version)`r`n" + `
+                                        "`tCopyright      : $($getModuleInfo.Copyright)");
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity($logMessage, `                # Initial message
