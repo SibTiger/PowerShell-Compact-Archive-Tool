@@ -84,7 +84,7 @@ class CommonFunctions
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Unable to find an install of the PowerShell Module, $($powerShellModule)!`r`n" + `
-                                        "In order to determine if updates are available, the PowerShell Module needs to be already installed.");
+                                        "`tIn order to determine if updates are available, the PowerShell Module needs to be already installed.");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -147,7 +147,7 @@ class CommonFunctions
             [string] $logMessage = "An error happened while attempting to obtain Remote and Installed Version info!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("PowerShell Module to check for updates: $($powerShellModule)!`r`n" + `
+            [string] $logAdditionalMSG = ("PowerShell Module to check for updates: $($powerShellModule)`r`n" + `
                                         "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
