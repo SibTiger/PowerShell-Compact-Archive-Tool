@@ -79,6 +79,34 @@ class CommonFunctions
 
 
 
+        # Make sure that the user has the module already installed within the PowerShell Environment.
+        if (![CommonFunctions]::DetectPowerShellModule($powerShellModule))
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Cannot update the PowerShell Module!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("The PowerShell Module is not installed or was not detected within the current PowerShell Environment.`r`n" + `
+                                            "`tPowerShell Module to update: $($powerShellModule)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Cannot perform the update as the PowerShell Module was not found.
+            return $false;
+        } # if : PowerShell Module Not Installed
+
+
+
         # Try to update the PowerShell Module.
         try
         {
