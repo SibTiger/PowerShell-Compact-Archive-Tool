@@ -33,7 +33,7 @@
 
 class CommonFunctions
 {
-   <# Check PowerShell Module Update
+   <# Update PowerShell Module
     # -------------------------------
     # Documentation:
     #  This function will allow the ability to update the desired PowerShell Module within
