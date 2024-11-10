@@ -52,7 +52,7 @@ class CommonFunctions
     static [bool] PowerShellModuleInstall([string] $powerShellModule)
     {
         # Make sure that the user did not provide us with and empty string.
-        if ([CommonFunction]::IsStringEmpty($powerShellModule))
+        if ([CommonFunctions]::IsStringEmpty($powerShellModule))
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -76,7 +76,6 @@ class CommonFunctions
             # Cannot perform an installation with the string being empty.
             return $false;
         } # if : PowerShell Module String Empty
-
 
 
         # Does the user already have the module installed?
@@ -113,7 +112,7 @@ class CommonFunctions
         # Try to install the PowerShell Module
         try
         {
-            Install-Module -Name $powerShellModule
+            Install-Module  -Name $powerShellModule `
                             -ErrorAction Stop;
         } # try : Install the PowerShell Module
 
@@ -144,6 +143,24 @@ class CommonFunctions
             # Operation had failed
             return $false;
         } # Catch : Failed to Install Module
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        [string] $logMessage = "Successfully installed the PowerShell Module!";
+
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = "PowerShell Module to install: $($powerShellModule)";
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
 
 
         # Operation was successful
