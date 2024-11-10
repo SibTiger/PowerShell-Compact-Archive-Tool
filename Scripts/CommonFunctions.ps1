@@ -37,7 +37,8 @@ class CommonFunctions
     # -------------------------------
     # Documentation:
     #  This function will allow the ability to update the desired PowerShell Module within
-    #   the user's PowerShell's environment.
+    #   the user's PowerShell's environment.  We will use the the PSGallery Repository to
+    #   as the main database to perform the update operation.
     # -------------------------------
     # Input:
     #   [string] PowerShell Module
