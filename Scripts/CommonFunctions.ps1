@@ -36,7 +36,7 @@ class CommonFunctions
    <# Check PowerShell Module Update
     # -------------------------------
     # Documentation:
-    $  This function will allow the ability to update the desired PowerShell Module within
+    #  This function will allow the ability to update the desired PowerShell Module within
     #   the user's PowerShell's environment.
     # -------------------------------
     # Input:
