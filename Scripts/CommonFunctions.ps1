@@ -36,6 +36,115 @@ class CommonFunctions
    <# Check PowerShell Module Update
     # -------------------------------
     # Documentation:
+    $  This function will allow the ability to update the desired PowerShell Module within
+    #   the user's PowerShell's environment.
+    # -------------------------------
+    # Input:
+    #   [string] PowerShell Module
+    #       The PowerShell Module that we want to update.
+    # -------------------------------
+    # Output:
+    #   [bool] PowerShell Module Update Status
+    #       $false  = Failed to update the PowerShell Module.
+    #       $true   = Successfully updated the PowerShell Module.
+    # -------------------------------
+    #>
+    static [bool] PowerShellModuleUpdate([string] $powerShellModule)
+    {
+        # Did the user provide an empty string?
+        if ([CommonFunctions]::IsStringEmpty($powerShellModule))
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Failed to update the PowerShell Module!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("The PowerShell Module string was not provided!`r`n" + `
+                                            "PowerShell Module to update: $($powerShellModule)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Cannot perform an update with the string being empty.
+            return $false;
+        } # if : PowerShell Module String Empty
+
+
+
+        # Try to update the PowerShell Module.
+        try
+        {
+            # Update only the specified PowerShell Module.
+            Update-Module -Name $powerShellModule -ErrorAction Stop;
+        } # Try : Update the PowerShell Module.
+
+        # Caught an Error during Update
+        catch
+        {
+            # Unable to update the desired PowerShell Module.
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Failed to update the PowerShell Module!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("PowerShell Module to update: $($powerShellModule)`r`n" + `
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Because the operation had failed, return that the operation had failed.
+            return $false;
+        } # Catch : Error Occurred while Updating
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        [string] $logMessage = "Successfully updated the PowerShell Module!";
+
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = "PowerShell Module to update: $($powerShellModule)";
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
+
+
+        # Successfully finished the operation
+        return $true;
+    } # PowerShellModuleUpdate()
+
+
+
+
+
+   <# Check PowerShell Module Update
+    # -------------------------------
+    # Documentation:
     #  This function will check for available updates on the requested PowerShell
     #   Module.  With this function, we will check the PSGallery Repository and
     #   requires an active internet connection.  Further, this function requires
