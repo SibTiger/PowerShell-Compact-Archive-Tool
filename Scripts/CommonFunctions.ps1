@@ -60,10 +60,10 @@ class CommonFunctions
         # Declarations and Initializations
         # ----------------------------------------
         # This will hold the latest version available obtained from PSGallery Repo.
-        [System.Version] $getFindModuleResult = 0.0.0;
+        [System.Version] $getFindModuleResult = '0.0.0';
 
         # This will hold the latest version installed within the host system.
-        [System.Version] $getGetModuleResult = 0.0.0;
+        [System.Version] $getGetModuleResult = '0.0.0';
         # ----------------------------------------
 
 
