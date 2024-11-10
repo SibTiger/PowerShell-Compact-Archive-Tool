@@ -285,6 +285,34 @@ class CommonFunctions
     #>
     static [bool] DetectPowerShellModule([string] $powerShellModule)
     {
+        # Did the user provide an empty string?
+        if ([CommonFunctions]::IsStringEmpty($powerShellModule))
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Failed to detect the PowerShell Module!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("The PowerShell Module string was not provided!`r`n" + `
+                                            "PowerShell Module to update: $($powerShellModule)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Cannot detect the the PowerShell Module because the string was empty.
+            return $false;
+        } # if : PowerShell Module String Empty
+
+
+
         # Determine if the requested PowerShell Module had been detected.
         # NOTE: The Get-Module CMDlet will return $true if there is 'any'
         #       version of the CMDlet presently installed\available within
