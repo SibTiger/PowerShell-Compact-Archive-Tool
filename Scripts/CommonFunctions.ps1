@@ -101,7 +101,7 @@ class CommonFunctions
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("PowerShell Module to update: $($powerShellModule)`r`n" + `
-                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
+                                            "$([Logging]::GetExceptionInfo($_.Exception))");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
