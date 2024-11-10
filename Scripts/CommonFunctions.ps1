@@ -597,6 +597,34 @@ class CommonFunctions
 
 
 
+        # Did the user provide an empty string?
+        if ([CommonFunctions]::IsStringEmpty($powerShellModule))
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Cannot Fetch Meta Data for a PowerShell Module!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("The PowerShell Module string was not provided!`r`n" + `
+                                            "PowerShell Module to Obtain Meta Data: $($powerShellModule)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Cannot get Meta Data as the string is empty.
+            return $false;
+        } # if : PowerShell Module String Empty
+
+
+
         # Determine if the desired PowerShell Module is presently available within the environment.
         if ([CommonFunctions]::DetectPowerShellModule($powerShellModule))
         {
