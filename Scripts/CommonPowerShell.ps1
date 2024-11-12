@@ -18,15 +18,29 @@
 
 
 
-<# Common PowerShell
+<# Common PowerShell Functions
  # ------------------------------
  # ==============================
  # ==============================
- # This class will contain generic functions that will be used for
- #  for the PowerShell Modules.  These functions can be used for any
- #  PowerShell Module, but any remote connections for installing,
- #  updating, and retrieving meta data will be from the default
- #  Microsoft PowerShell Repository, the PSGallery Repository.
+ # This class will contain generic functions that will be used for the PowerShell Modules.
+ #  These functions can be used for any PowerShell Module that may already be installed
+ #  within the the current PowerShell Environment.  But, however, if wanting to perform an
+ #  update on a current installed POSH Module, install a new POSH Module, or retrieve
+ #  property data regarding a POSH Module that is available on a remote server, then the
+ #  default PowerShell Repository will be used, the PSGallery Repository.  The PSGallery
+ #  Repository is considered a 'central repository' and is default repository on a user's
+ #  default PowerShell install.  Further, wither good or not, the PSGallery Repository is
+ #  hosted by the Microsoft Corporation.  While Microsoft is hosting the repository, it
+ #  should be understood - that the modules and scripts that are hosted on that database,
+ #  should be considered unsafe.  Unless by vetting the modules and\or scripts that we
+ #  want to use are considered safe for general usage.
+ # Remember that we want to keep our users safe from any potential harm.
+ #
+ #
+ # Developer Notes:
+ #  Default PowerShell Repository:
+ #      - PSGallery Repository
+ #          https://www.powershellgallery.com/
  #>
 
 
