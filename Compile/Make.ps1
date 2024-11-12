@@ -86,8 +86,12 @@ Set-Variable -Name "DEBUGMODE" -Value $false `
 #    msgString [string]
 #     The message to display on the terminal buffer.
 # --------------------------
-function Printf([int] $msgLevel, [string] $msgString)
+function Printf
 {
+    # Function Parameters
+    param([int] $msgLevel, [string] $msgString)
+
+
     # Declarations and Initializations
     # ----------------------------------
     # Sub-Script File (with path)
@@ -149,7 +153,7 @@ function Printf([int] $msgLevel, [string] $msgString)
 
     # Display the message with the formatting
     Write-Host $msgString -BackgroundColor $msgBackColor -ForegroundColor $msgForeColor;
-} # Printf()
+} # Printf
 
 
 
@@ -169,8 +173,12 @@ function Printf([int] $msgLevel, [string] $msgString)
 #    0 = Operation was successful
 #    1 = Operation failed
 # --------------------------
-function MakeCompiler([string] $fileName, [string] $filePath)
+function MakeCompiler
 {
+    # Function Parameters
+    param([string] $fileName, [string] $filePath)
+
+
     # If Debug Mode is enabled, display the operation
     if ($DEBUGMODE)
     {
@@ -194,7 +202,7 @@ function MakeCompiler([string] $fileName, [string] $filePath)
 
     # return successful code
     return 0;
-} # MakeCompiler()
+} # MakeCompiler
 
 
 
@@ -208,7 +216,7 @@ function MakeCompiler([string] $fileName, [string] $filePath)
 #    0 = Operation was successful
 #    1 = Operation failed
 # --------------------------
-function MakeCompilerDriver()
+function MakeCompilerDriver
 {
     # Declarations and Initializations
     # ----------------------------------
@@ -278,7 +286,7 @@ function MakeCompilerDriver()
 
     # Operation was successful
     return 0;
-} # MakeCompilerDriver()
+} # MakeCompilerDriver
 
 
 
@@ -300,8 +308,12 @@ function MakeCompilerDriver()
 #    0 = Operation was successful
 #    1 = Operation failed
 # --------------------------
-function AppendContent([string] $outputFile, [string] $targetFile)
+function AppendContent
 {
+    # Function Parameters
+    param([string] $outputFile, [string] $targetFile)
+
+
     if((Add-Content -Path $outputFile -Value (Get-Content $targetFile) -ErrorAction SilentlyContinue))
     {
         return 0;
@@ -310,7 +322,7 @@ function AppendContent([string] $outputFile, [string] $targetFile)
     {
         return 1;
     } # Else:Failure
-} # AppendContent()
+} # AppendContent
 
 
 
@@ -330,8 +342,12 @@ function AppendContent([string] $outputFile, [string] $targetFile)
 #    0 = Operation was successful
 #    1 = Operation failed
 # --------------------------
-function AppendSeparation([string] $outputFile)
+function AppendSeparation
 {
+    # Function Parameters
+    param([string] $outputFile)
+
+
     # Declarations and Initializations
     # ----------------------------------
     # Border; useful to separate the scripts
@@ -353,7 +369,7 @@ function AppendSeparation([string] $outputFile)
     {
         return 1;
     } # Else:Failure
-} # AppendSeparation()
+} # AppendSeparation
 
 
 
@@ -368,7 +384,7 @@ function AppendSeparation([string] $outputFile)
 #    0 = Created file successfully
 #    1 = Error occurred; vague
 # --------------------------
-function CreateNewScriptFile()
+function CreateNewScriptFile
 {
     # Try to create the file; if we are unable to - then return with an error signal.
     try
@@ -381,7 +397,7 @@ function CreateNewScriptFile()
     {
         return 1;
     } # Error
-} # CreateNewScriptFile()
+} # CreateNewScriptFile
 
 
 
@@ -395,7 +411,7 @@ function CreateNewScriptFile()
 #    0 = Deleted file successfully
 #    1 = Error occurred; vague
 # --------------------------
-function ExpungeOldScriptFile()
+function ExpungeOldScriptFile
 {
     # Try to delete the file, if we are unable to - then return with an error signal.
     try
@@ -407,7 +423,7 @@ function ExpungeOldScriptFile()
     {
         return 1;
     } # Error
-} # ExpungeOldScriptFile()
+} # ExpungeOldScriptFile
 
 
 
@@ -426,8 +442,12 @@ function ExpungeOldScriptFile()
 #    0 = File does not exist
 #    1 = File exist
 # --------------------------
-function FileDetection([string]$path)
+function FileDetection
 {
+    # Function Parameters
+    param([string]$path)
+
+
     if(Test-Path -Path $path)
     {
         return 1;
@@ -436,7 +456,7 @@ function FileDetection([string]$path)
     {
         return 0;
     } # else : File does not exist
-} # FileDetection()
+} # FileDetection
 
 
 
@@ -451,7 +471,7 @@ function FileDetection([string]$path)
 #    0 = Operation was successful
 #    1 = Operation failed; vague
 # --------------------------
-function ExistingFileProtocol()
+function ExistingFileProtocol
 {
     if($(FileDetection($OUTPUTFILE)))
     {
@@ -464,7 +484,7 @@ function ExistingFileProtocol()
     {
         return 0;
     }
-} # ExistingFileProtocol()
+} # ExistingFileProtocol
 
 
 
@@ -475,7 +495,7 @@ function ExistingFileProtocol()
 #    DEBUG MODE ONLY
 #    This function displays all of the global variables.
 # --------------------------
-function Inspector()
+function Inspector
 {
     # Declarations and Initializations
     # ----------------------------------
@@ -505,7 +525,7 @@ function Inspector()
 
     # Add some extra spacing to make the output nicer -- separating data
     Printf 0 "`n`n";
-} # Inspector()
+} # Inspector
 
 
 
@@ -524,10 +544,10 @@ function Inspector()
 #     is redundant - as the terminal will not close
 #     once EXIT has been reached.
 # --------------------------
-function WaitUserInput()
+function WaitUserInput
 {
     Read-Host -Prompt "Press the Enter key to close this program`n";
-} # WaitUserInput()
+} # WaitUserInput
 
 
 
@@ -545,7 +565,7 @@ function WaitUserInput()
 #   where the main application can run successfully and
 #   further enrich the user's experience.
 # --------------------------
-function ProvideLauncher()
+function ProvideLauncher
 {
     # Does the file already exists?
     if (FileDetection $SCRIPTFILENAMELAUNCHER)
@@ -582,7 +602,7 @@ function ProvideLauncher()
 
     # Operation was successful
     return 0;
-} # ProvideLauncher()
+} # ProvideLauncher
 
 
 
@@ -592,7 +612,7 @@ function ProvideLauncher()
 # Documentation
 #    This function is our main program entry point.
 # --------------------------
-function main()
+function main
 {
     # Output all of the Global Variables [DEBUG MODE]
     if($DEBUGMODE)
@@ -707,7 +727,7 @@ function main()
 
     # Successful operation
     return 0;
-} # main()
+} # main
 
 
 
