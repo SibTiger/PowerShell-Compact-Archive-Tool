@@ -245,7 +245,7 @@ class CommonPowerShell
     #       $false  = Failed to update the PowerShell Module.
     # -------------------------------
     #>
-    static [bool] PowerShellModuleUpdate([string] $powerShellModule)
+    static [bool] UpdateModule([string] $powerShellModule)
     {
         # Did the user provide an empty string?
         if ([CommonFunctions]::IsStringEmpty($powerShellModule))
@@ -360,7 +360,7 @@ class CommonPowerShell
 
         # Successfully finished the operation
         return $true;
-    } # PowerShellModuleUpdate()
+    } # UpdateModule()
 
 
 
