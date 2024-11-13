@@ -51,8 +51,16 @@ class CommonPowerShell
    <# Install PowerShell Module
     # -------------------------------
     # Documentation:
-    #  This function will provide the ability to install a specific PowerShell Module
-    #   using the PSGallery Repository.
+    #  This function will provide the ability to install a PowerShell Module
+    #   into the user's system.  Upon installing the PowerShell Module,
+    #   we will install the latest version available within the PowerShell
+    #   Gallery Repository.
+    #
+    # Developer Note:
+    #   - We will use the official central repository, PSGallery Repository.
+    #   - Install-Module will ask the user to confirm installation from the
+    #       default PSGallery Repository.  We /want/ the user to confirm the
+    #       install.
     # -------------------------------
     # Input:
     #   [string] PowerShell Module
@@ -60,8 +68,8 @@ class CommonPowerShell
     # -------------------------------
     # Output:
     #   [bool] PowerShell Module Install Status
-    #       $false  = Failed to install the PowerShell Module.
     #       $true   = Successfully installed the PowerShell Module.
+    #       $false  = Failed to install the PowerShell Module.
     # -------------------------------
     #>
     static [bool] PowerShellModuleInstall([string] $powerShellModule)
@@ -69,6 +77,9 @@ class CommonPowerShell
         # Make sure that the user did not provide us with and empty string.
         if ([CommonFunctions]::IsStringEmpty($powerShellModule))
         {
+            # Because the string given is empty, there's nothing to install.
+
+
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
