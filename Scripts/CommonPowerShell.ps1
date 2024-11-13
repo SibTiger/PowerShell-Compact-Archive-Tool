@@ -118,7 +118,7 @@ class CommonPowerShell
             [string] $logMessage = "Unable to install the PowerShell Module!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("The PowerShell Module had been detected to already be installed!`r`n" + `
+            [string] $logAdditionalMSG = ("The PowerShell Module is already installed!`r`n" + `
                                             "`tPowerShell Module to install: $($powerShellModule)");
 
             # Pass the information to the logging system
