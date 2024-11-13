@@ -84,8 +84,9 @@ class CommonPowerShell
             # Debugging
             # --------------
 
+
             # Generate the initial message
-            [string] $logMessage = "Unable to install the PowerShell Module!";
+            [string] $logMessage = "Unable to install the PowerShell Module, as the name was never provided!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("The PowerShell Module string was not provided!`r`n" + `
@@ -95,6 +96,16 @@ class CommonPowerShell
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
                                         $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Error);      # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($logMessage, `            # Message to display
+                                    [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -152,6 +163,12 @@ class CommonPowerShell
             # Debugging
             # --------------
 
+
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $displayErrorMessage = ("A failure had occurred while installing the PowerShell Module:" + `
+                                            " $($powerShellModule)`r`n" + `
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
+
             # Generate the initial message
             [string] $logMessage = "Failed to install the PowerShell Module!";
 
@@ -163,6 +180,16 @@ class CommonPowerShell
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
                                         $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Error);      # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `   # Message to display
+                                    [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
 
             # * * * * * * * * * * * * * * * * * * *
 
