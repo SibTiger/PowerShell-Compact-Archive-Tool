@@ -48,7 +48,7 @@
 
 class CommonPowerShell
 {
-   <# Install PowerShell Module
+   <# Install Module
     # -------------------------------
     # Documentation:
     #  This function will provide the ability to install a PowerShell Module
@@ -72,7 +72,7 @@ class CommonPowerShell
     #       $false  = Failed to install the PowerShell Module.
     # -------------------------------
     #>
-    static [bool] PowerShellModuleInstall([string] $powerShellModule)
+    static [bool] InstallModule([string] $powerShellModule)
     {
         # Make sure that the user did not provide us with and empty string.
         if ([CommonFunctions]::IsStringEmpty($powerShellModule))
@@ -218,7 +218,7 @@ class CommonPowerShell
 
         # Operation was successful
         return $true;
-    } # PowerShellModuleInstall()
+    } # InstallModule()
 
 
 
