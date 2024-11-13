@@ -227,9 +227,13 @@ class CommonPowerShell
    <# Update PowerShell Module
     # -------------------------------
     # Documentation:
-    #  This function will allow the ability to update the desired PowerShell Module within
-    #   the user's PowerShell's environment.  We will use the the PSGallery Repository to
-    #   as the main database to perform the update operation.
+    #  This function will allow the ability to update an installed PowerShell Module within
+    #   the user's PowerShell's environment.  To perform this update, we will rely on the
+    #   PowerShell Gallery Repository to obtain the latest possible updates for the desired
+    #   PowerShell Module.
+    #
+    # Developer Note:
+    #   - We will use the official central repository, PSGallery Repository.
     # -------------------------------
     # Input:
     #   [string] PowerShell Module
@@ -237,8 +241,8 @@ class CommonPowerShell
     # -------------------------------
     # Output:
     #   [bool] PowerShell Module Update Status
-    #       $false  = Failed to update the PowerShell Module.
     #       $true   = Successfully updated the PowerShell Module.
+    #       $false  = Failed to update the PowerShell Module.
     # -------------------------------
     #>
     static [bool] PowerShellModuleUpdate([string] $powerShellModule)
