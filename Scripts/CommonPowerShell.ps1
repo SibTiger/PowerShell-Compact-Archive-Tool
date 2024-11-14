@@ -247,15 +247,20 @@ class CommonPowerShell
     #>
     static [bool] UpdateModule([string] $powerShellModule)
     {
-        # Did the user provide an empty string?
+        # Because sure that the user did not provide us with an empty string.
         if ([CommonFunctions]::IsStringEmpty($powerShellModule))
         {
+            # Because the string given is empty, we cannot update the desired PowerShell Module.
+            # NOTE: I am fully aware that we can update every PowerShell Module that the user has
+            #       presently installed, but that's not /our/ goal within this function.  ;)
+
+
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Failed to update the PowerShell Module!";
+            [string] $logMessage = "Unable to update the PowerShell Module, as the name was never provided!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("The PowerShell Module string was not provided!`r`n" + `
@@ -265,6 +270,15 @@ class CommonPowerShell
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
                                         $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Error);      # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($logMessage, `            # Message to display
+                                    [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -278,21 +292,41 @@ class CommonPowerShell
         # Make sure that the user has the module already installed within the PowerShell Environment.
         if (![CommonPowerShell]::DetectPowerShellModule($powerShellModule))
         {
+            #  The PowerShell Module is not presently installed (or was not detected), no point in updating
+            #   something that is not available.
+
+
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $displayErrorMessage = ("The PowerShell Module, $($powerShellModule), could not be updated!`r`n" + `
+                                            " - It might be that the PowerShell is not presently installed.`r`n" + `
+                                            " - OR The PowerShell Module is not presently available");
+
             # Generate the initial message
-            [string] $logMessage = "Cannot update the PowerShell Module!";
+            [string] $logMessage = "Unable to update the PowerShell Module!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("The PowerShell Module is not installed or was not detected within the current PowerShell Environment.`r`n" + `
+            [string] $logAdditionalMSG = ("The PowerShell Module was not detected:`r`n" + `
+                                            "`t- The PowerShell Module is presently available in this session.`r`n" + `
+                                            "`t- The PowerShell Module is not installed.`r`n" + `
                                             "`tPowerShell Module to update: $($powerShellModule)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
                                         $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Error);      # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `   # Message to display
+                                    [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -307,18 +341,24 @@ class CommonPowerShell
         try
         {
             # Update only the specified PowerShell Module.
-            Update-Module -Name $powerShellModule -ErrorAction Stop;
+            Update-Module   -Name $powerShellModule `
+                            -ErrorAction Stop;
         } # Try : Update the PowerShell Module.
 
         # Caught an Error during Update
         catch
         {
-            # Unable to update the desired PowerShell Module.
+            # Unable to update the PowerShell Module due to an error.
 
 
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
+
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $displayErrorMessage = ("A failure had occurred while updating the PowerShell Module:" + `
+                                            " $($powerShellModule)`r`n" + `
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
 
             # Generate the initial message
             [string] $logMessage = "Failed to update the PowerShell Module!";
@@ -332,12 +372,21 @@ class CommonPowerShell
                                         $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Error);      # Message level
 
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `   # Message to display
+                                    [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the operation had failed, return that the operation had failed.
+            # Operation had failed.
             return $false;
-        } # Catch : Error Occurred while Updating
+        } # Catch : Failed to Update Module
 
 
         # * * * * * * * * * * * * * * * * * * *
@@ -358,7 +407,7 @@ class CommonPowerShell
         # * * * * * * * * * * * * * * * * * * *
 
 
-        # Successfully finished the operation
+        # Operation was successful
         return $true;
     } # UpdateModule()
 
