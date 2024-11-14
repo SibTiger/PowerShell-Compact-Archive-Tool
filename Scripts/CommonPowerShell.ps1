@@ -74,7 +74,7 @@ class CommonPowerShell
     #>
     static [bool] InstallModule([string] $powerShellModule)
     {
-        # Make sure that the user did not provide us with and empty string.
+        # Make sure that the user did not provide us with an empty string.
         if ([CommonFunctions]::IsStringEmpty($powerShellModule))
         {
             # Because the string given is empty, there's nothing to install.
