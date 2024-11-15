@@ -230,7 +230,8 @@ class CommonPowerShell
     #  This function will allow the ability to update an installed PowerShell Module within
     #   the user's PowerShell's environment.  To perform this update, we will rely on the
     #   PowerShell Gallery Repository to obtain the latest possible updates for the desired
-    #   PowerShell Module.
+    #   PowerShell Module.  Further, the PowerShell Module must already be installed and
+    #   available within the current PowerShell environment.
     #
     # Developer Note:
     #   - We will use the official central repository, PSGallery Repository.
@@ -247,7 +248,7 @@ class CommonPowerShell
     #>
     static [bool] UpdateModule([string] $powerShellModule)
     {
-        # Because sure that the user did not provide us with an empty string.
+        # Make sure that the user did not provide us with an empty string.
         if ([CommonFunctions]::IsStringEmpty($powerShellModule))
         {
             # Because the string given is empty, we cannot update the desired PowerShell Module.
