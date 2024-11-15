@@ -416,59 +416,79 @@ class CommonPowerShell
 
 
 
-   <# Check PowerShell Module Update
+   <# Check for PowerShell Module Updates
     # -------------------------------
     # Documentation:
-    #  This function will check for available updates on the requested PowerShell
-    #   Module.  With this function, we will check the PSGallery Repository and
-    #   requires an active internet connection.  Further, this function requires
-    #   that the requested PowerShell Module already had been installed,
-    #   regardless of version.
+    #  This function will try to check for available updates on a desired PowerShell
+    #   Module.  To perform this operation, we will rely on the PowerShell Gallery
+    #   Repository to obtain wither or not there are existing updates available.
+    #   Further, the PowerShell Module must already be installed and available
+    #   within the current PowerShell environment.
+    #
+    # Developer Note:
+    #   - We will use the official central repository, PSGallery Repository.
     # -------------------------------
     # Input:
     #   [string] PowerShell Module
     #       The PowerShell Module that we want to check for updates.
-    #   [string] (REFERENCE) Version String
+    #   [string] (REFERENCE) Nice Message String
     #       A User-Friendly string that can be shown to the user regarding the updates available.
     # -------------------------------
     # Output:
-    #   [bool] PowerShell Module Updates Available
-    #       $false  = Updates are not Available for the POSH Module.
+    #   [bool] Updates Available for PowerShell Module Status
     #       $true   = Updates are available for the POSH Module.
+    #       $false  = Updates are not Available for the POSH Module.
     # -------------------------------
     #>
-    static [bool] CheckPowerShellModuleUpdate([string] $powerShellModule, ` # PowerShell Module Full Name
-                                                [ref] $versionString)       # Shows a user-friendly message regarding the status.
+    static [bool] CheckUpdateModule([string] $powerShellModule, `   # PowerShell Module Full Name
+                                    [ref] $niceMsgString)           # Returns User-Friendly String of Status.
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # This will hold the latest version available obtained from PSGallery Repo.
+        # Used to capture the latest version retrieved from the PowerShell Gallery Repository.
         [System.Version] $getFindModuleResult = '0.0.0';
 
-        # This will hold the latest version installed within the host system.
+        # Used to capture the installed version.
         [System.Version] $getGetModuleResult = '0.0.0';
         # ----------------------------------------
 
 
 
-        # Did the user provide an empty string?
+        # Make sure that the user did not provide us with an empty string.
         if ([CommonFunctions]::IsStringEmpty($powerShellModule))
         {
+            # Because the string given is empty, we cannot check for potential updates on the desired
+            #   PowerShell Module.
+
+
+            # Update the Message String to show that an error had been reached.
+            $niceMsgString.Value = "Unable to check for updates on a PowerShell Module, as the Module name was not given!";
+
+
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Failed to check for updates for the PowerShell Module!";
+            [string] $logMessage = "Unable to check for updates on a PowerShell Module, as the name was never provided!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("The PowerShell Module string was not provided!`r`n" + `
-                                            "`tPowerShell Module to update: $($powerShellModule)");
+                                            "`tPowerShell Module to check for updates: $($powerShellModule)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
                                         $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Error);      # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($logMessage, `            # Message to display
+                                    [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -479,83 +499,111 @@ class CommonPowerShell
 
 
 
-        # Make sure that the POSH Module is installed.
+        # Make sure that the user has the module already installed within the PowerShell Environment.
         if(![CommonPowerShell]::DetectPowerShellModule($powerShellModule))
         {
-            # Update the Version String to show that the Module is not currently installed.
-            $versionString.Value = "Unable to check for updates as the PowerShell Module, " + $powerShellModule + ", is not currently installed.";
+            # The PowerShell Module is not presently installed (or was not detected), no point in checking
+            #   for updates on something that is not available.
+
+
+            # Update the Message String to show that an error had been reached.
+            $niceMsgString.Value = "Unable to check for updates as the PowerShell Module, " + $powerShellModule + ", is not currently installed.";
 
 
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $displayErrorMessage = ("Cannot check for updates for the desired PowerShell Module, $($powerShellModule)`r`n" + `
+                                            " - It might be that the PowerShell is not presently installed.`r`n" + `
+                                            " - OR The PowerShell Module is not presently available");
+
             # Generate the initial message
-            [string] $logMessage = "Unable to check for PowerShell Module Updates!";
+            [string] $logMessage = "Unable to check for updates on the requested PowerShell Module!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Unable to find an install of the PowerShell Module, $($powerShellModule)!`r`n" + `
-                                        "`tIn order to determine if updates are available, the PowerShell Module needs to be already installed.");
+            [string] $logAdditionalMSG = ("The PowerShell Module was not detected:`r`n" + `
+                                            "`t- The PowerShell Module is presently available in this session.`r`n" + `
+                                            "`t- The PowerShell Module is not installed.`r`n" + `
+                                            "`tPowerShell Module to check for updates: $($powerShellModule)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
                                         $logAdditionalMSG, `            # Additional information
-                                        [LogMessageLevel]::Warning);    # Message level
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `   # Message to display
+                                    [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Abort; we cannot detect updates for something that is not presently installed within the system.
+            # Cannot check for updates as the PowerShell Module was not found.
             return $false;
-        } # if : POSH Module is not Installed.
+        } # if : PowerShell Module Not Installed
 
 
 
-        # Try to obtain the Installed and Remote module data.
+        # Try to obtain the Installed and Remote PowerShell Module version information.
         try
         {
             # Declarations and Initializations
             # ----------------------------------------
-            # This will hold all of the results gathered by the Get-Module CMDlet;
-            #   This will be used to cherry pick the latest version - if more than one
-            #   version of the module is installed.
+            # This will hold all of the Installed Module results obtained by using the CMDlet,
+            #   Get-Module.  From this list, we can obtain the latest version installed and
+            #   compare that with what is available on the PowerShell Gallery Repository.
             [System.Object] $getGetModuleResultList = [System.Object]::new();
             # ----------------------------------------
 
 
-            # Obtain latest version from the PSGallery Repository
+            # Obtain the latest version of the PowerShell Module's meta-data from the PowerShell
+            #   Gallery Repository;
             $getFindModuleResult = [System.Version]((Find-Module -Name $powerShellModule -ErrorAction Stop).Version);
 
 
-            # Obtain the information regarding the installed module
-            #   There could be more than one version installed
+            # Obtain a list of all installed versions of the PowerShell Module's meta data.
             $getGetModuleResultList = (Get-Module -Name $powerShellModule -ListAvailable -ErrorAction Stop);
 
 
-            # Determine if the user has multiple versions available of the PowerShell Module:
-            #   if  : Multiple versions were found, only use the first index.
+            # Determine if the user has multiple versions of the PowerShell Module installed:
+            #   if  : Multiple versions were found, only use the first index as that is the latest.
             #   else: Only one version was detected, just use that. 
             if ($getGetModuleResultList.GetType().Name -eq "Object[]")
             { $getGetModuleResult = $getGetModuleResultList[0].Version; }
             else
             { $getGetModuleResult = $getGetModuleResultList.Version; }
-        } # Try : Obtain the Install and Remote Module Data
+        } # Try : Obtain the Installed and Remote POSH Module Meta Data
 
 
-        # Caught Failure
+        # Caught an Error while Checking for Updates
         catch
         {
-            # Update  the Version String to show than an error had occurred.
-            $versionString.Value = ("Unable to check for updates due to an error:`r`n" + `
-                                    "$([Logging]::GetExceptionInfoShort($_.Exception))");
+            # Unable to check for updates due to an error.
+
+
+            # Update the Message String to show that an error had been reached.
+            $niceMsgString.Value = ("Unable to check for updates due to an error:`r`n" + `
+                                    "`t$([Logging]::GetExceptionInfoShort($_.Exception))");
 
 
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $displayErrorMessage = ("A failure had occurred while checking for updates on the desired PowerShell Module:" + `
+                                            " $($powerShellModule)`r`n" + `
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
+
             # Generate the initial message
-            [string] $logMessage = "An error happened while attempting to obtain Remote and Installed Version info!";
+            [string] $logMessage = "An error had occurred while attempting to obtain Remote and Installed Version info!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("PowerShell Module to check for updates: $($powerShellModule)`r`n" + `
@@ -566,23 +614,26 @@ class CommonPowerShell
                                         $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Error);      # Message level
 
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Signal that an error had happened.
+            # Operation had failed.
             return $false;
-        } # Catch : Something Happened, Something Happened.
+        } # Catch : Failed to Check for Updates
 
 
         # Now compare the results and determine if there are updates available.
-        # Are Updates Available?
         if ($getGetModuleResult -lt $getFindModuleResult)
         {
             # Updates are Available
 
 
             # Update the Version String to show that there is a new version available.
-            $versionString.Value = ("Updates are available for $($powerShellModule)!`r`n" + `
+            $niceMsgString.Value = ("Updates are available for $($powerShellModule)!`r`n" + `
                                     " - Installed Version: $($getGetModuleResult)`r`n" + `
                                     " - New Version Available: $($getFindModuleResult)");
 
@@ -607,7 +658,7 @@ class CommonPowerShell
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Signal that updates are available
+            # Updates are Available
             return $true;
         } # if : Updates Available
 
@@ -617,7 +668,7 @@ class CommonPowerShell
 
 
         # Update the Version String to show that there is no new version available.
-        $versionString.Value = ("Updates are not available for $($powerShellModule).`r`n" + `
+        $niceMsgString.Value = ("Updates are not available for $($powerShellModule).`r`n" + `
                                 " - Installed Version: $($getGetModuleResult)`r`n" + `
                                 " - Current Released Version: $(($getFindModuleResult).ToString())");
 
@@ -642,9 +693,9 @@ class CommonPowerShell
         # * * * * * * * * * * * * * * * * * * *
 
 
-        # Signal that there are not updates available.
+        # Updates are not available
         return $false;
-    } # CheckPowerShellModuleUpdate()
+    } # CheckUpdateModule()
 
 
 
