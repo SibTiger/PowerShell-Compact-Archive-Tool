@@ -704,128 +704,149 @@ class CommonPowerShell
    <# Detect PowerShell Module
     # -------------------------------
     # Documentation:
-    #  This function will try to detect if the requested PowerShell Module is
-    #   available within the PowerShell's current environment.
+    #  This function will try to detect if the requested PowerShell Module is available within the
+    #   PowerShell's environment.  The detection works by using the Get-Module CMDlet, which requires
+    #   that the PowerShell Module, regardless of the version, is already installed within the system.
+    #   If the PowerShell Module had not already been installed within the system, than the detection
+    #   will not be able to find the module.
     # -------------------------------
     # Input:
     #   [string] PowerShell Module
-    #       The PowerShell Module that we want to detect within the POSH Environment.
+    #       The PowerShell Module that we want to detect within the PowerShell environment.
     # -------------------------------
     # Output:
-    #   [bool] PowerShell Module Detection State
-    #       $false  = Module was not detected within the PowerShell's current session.
-    #       $true   = Module was successfully detected within the PowerShell's current session.
+    #   [bool] PowerShell Module Detection Status
+    #       $true   = Detected the PowerShell Module
+    #       $false  = Did not detect the PowerShell Module.    
     # -------------------------------
     #>
     static [bool] DetectPowerShellModule([string] $powerShellModule)
     {
-        # Did the user provide an empty string?
+        # Make sure that the user did not provide us with an empty string.
         if ([CommonFunctions]::IsStringEmpty($powerShellModule))
         {
+            # Because the string given is empty, there's nothing to detect.
+
+
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
+
             # Generate the initial message
-            [string] $logMessage = "Failed to detect the PowerShell Module!";
+            [string] $logMessage = "Unable to detect a PowerShell Module, as the module name was never provided!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("The PowerShell Module string was not provided!`r`n" + `
-                                            "`tPowerShell Module to update: $($powerShellModule)");
+                                            "`tPowerShell Module to Detect: $($powerShellModule)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
                                         $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Error);      # Message level
 
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($logMessage, `            # Message to display
+                                    [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
+
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Cannot detect the the PowerShell Module because the string was empty.
+            # Cannot perform the detection with the string being empty.
             return $false;
         } # if : PowerShell Module String Empty
 
 
 
-        # Determine if the requested PowerShell Module had been detected.
-        # NOTE: The Get-Module CMDlet will return $true if there is 'any'
-        #       version of the CMDlet presently installed\available within
-        #       the PowerShell Environment.  Otherwise, $false will be
-        #       given when nothing was found.
-        #   Reference: https://stackoverflow.com/a/28740512
-        if (Get-Module -ListAvailable -Name $powerShellModule)
+        # Try to determine if the PowerShell Module is available within the current PowerShell Environment.
+        try
         {
-            # Detected the module
-
-
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-
             # Declarations and Initializations
             # ----------------------------------------
-            # This will contain the module's base information that will be used for logging.
-            [string] $debugInfoModuleBase = "";
+            # Retrieve all of the information related to the module, including all versions.
+            #   NOTE: If the Get-Module CMDlet fails to obtain at least one instance, such as the Module
+            #           we are wanting to find is not installed, than we will jump-into the catch-block.
+            [System.Object] $debugInstalledModulesList = $(Get-Module -ListAvailable -Name $powerShellModule -ErrorAction Stop);
 
-            # This will contain a list of installed versions of the module.
-            [string] $debugInfoModuleVersions = "";
-
-            # This will contain the full string, where the base and version(s) are combined into one variable.
-            [string] $debugInfoFullString = "";
-
-            # This will contain a single instance of the module's information;
-            #   We will use this to obtain the base information.
+            # This will only contain the latest version detected by the Get-Module CMDlet.  We will use this
+            #   variable as the main source of obtaining the meta-data properties of that Module.
             [System.Management.Automation.PSModuleInfo] $debugModuleSingleInstance = $NULL;
 
-            # Retrieve all of the information related to the module, including all versions.
-            [System.Object] $debugInstalledModulesList = $(Get-Module -ListAvailable -Name $powerShellModule);
+            # This string will contain basic information regarding the Module's basic information.
+            [string] $debugInfoModuleBase = "";
+
+            # This string will contain a list of additional versions that had been detected from the
+            #   Get-Module CMDlet.
+            [string] $debugInfoModuleVersions = "";
+
+            # This string will contain the basic information and the additional versions into one
+            #   accumulative string.
+            [string] $debugInfoFullString = "";
             # ----------------------------------------
 
 
+            # If we made it this far, than Get-Module had detected at least one or more versions of the
+            #  POSH Module.  Get as much information as possible regarding the module that was found and
+            #  present that into the debugger\logging.
 
-            # Determine if the user has multiple versions of the PowerShell Module installed
+
+            # Determine if the user has multiple versions of the PowerShell Module installed.
             if ($debugInstalledModulesList.GetType().Name -eq "Object[]")
             {
                 # Multiple Module Versions were detected.
 
-                # This will be used to illustrate how many versions where found.
+                # This will be used to illustrate how many versions where found and presented in the
+                #   Debug logfile.
                 [UInt32] $installedCounter = 0;
 
 
-                # Obtain a single instance and save it for later to get the base information.
+                # Obtain the most up-to-date version of the Module; we will use this to retrieve the
+                #   Meta-Data properties of the Module.
                 $debugModuleSingleInstance = $debugInstalledModulesList[0];
 
 
-                # Show that multiple versions where found
+                # Provide a nicer format to show that multiple versions of the Module had been detected.
                 $debugInfoModuleVersions = ("`t-----------------------------------------`r`n" + `
                                             "`tMultiple Versions where found:`r`n");
 
 
-                # Obtain a list of what versions were installed within the POSH environment.
+                # Retrieve each version of the module that is presently installed within the system.
                 foreach ($item in $debugInstalledModulesList)
                 {
                     # Increment the counter.
                     $installedCounter++;
 
-                    # Record the version to the string.
-                    $debugInfoModuleVersions += "`t[" + $installedCounter + "] - " + $item.Version + "`r`n";
-                } # foreach : Scan through all instances found
+                    # Record the version
+                    $debugInfoModuleVersions += "`t[" + $installedCounter + "] - " + $item.Version;
+
+                    # Is this considered the latest version? (First index is the latest)
+                    if ($installedCounter -eq 1) { $debugInfoModuleVersions += " { Latest Version }`r`n";}
+                    else { $debugInfoModuleVersions += "`r`n";}
+                } # foreach : Scan through all installed versions
             } # if : Multiple Versions Detected
 
             # Only one version was detected.
             else
             {
-                # Obtain the instance and save it for later, so we can get the base information.
+                # Obtain the single instance of the module that is installed; we will use this to retrieve
+                #   the Meta-Data properties of the installed module.
                 $debugModuleSingleInstance = $debugInstalledModulesList;
 
-                # Show the version that is installed
-                $debugInfoModuleVersions = "`tVersion        :  " + $debugInstalledModulesList.Version + "`r`n";
+                # Record the version of the module that is installed.
+                $debugInfoModuleVersions = "`tVersion        : " + $debugInstalledModulesList.Version + "`r`n";
             } # else : Single Instance Detected
 
 
+            # Now we want to begin putting the information together so we can log it efficiently.
 
-            # Obtain the base information of the installed module.
+
+            # Obtain the meta-data properties of the installed module.
             $debugInfoModuleBase = ("Author         : " + $debugModuleSingleInstance.Author         + "`r`n" + `
                                     "`tName           : " + $debugModuleSingleInstance.Name           + "`r`n" + `
                                     "`tCopyright      : " + $debugModuleSingleInstance.Copyright      + "`r`n" + `
@@ -834,10 +855,14 @@ class CommonPowerShell
                                     "`tPath           : " + $debugModuleSingleInstance.Path);
 
 
-            # Put the base and version information together into one string.
-            $debugInfoFullString =  $debugInfoModuleBase + "`r`n" + `
-                                        $debugInfoModuleVersions;
+            # Now put the string together that will be written to the debug logfile.
+            $debugInfoFullString =  $debugInfoModuleBase    + "`r`n" + `
+                                    $debugInfoModuleVersions;
 
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
 
             # Generate the initial message
             [string] $logMessage = "Successfully found the $($powerShellModule) module!";
@@ -851,38 +876,38 @@ class CommonPowerShell
                                         [LogMessageLevel]::Verbose);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
+        } # try : Detect POSH Module
 
 
-            # POSH Module was found.
-            return $true;
-        } # if : Module is installed
+        # PowerShell Module not Detected
+        catch
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to find any installed versions of the desired PowerShell Module!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "The PowerShell Module to detect if installed: $($powerShellModule)";
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # PowerShell Module was not detected.
+            return $false;
+        } # catch : PowerShell Module not Detected
 
 
 
-        # POSH Module was not detected
-
-
-        # * * * * * * * * * * * * * * * * * * *
-        # Debugging
-        # --------------
-
-        # Generate the initial message
-        [string] $logMessage = "Could not find the $($powerShellModule) module!";
-
-        # Generate any additional information that might be useful
-        [string] $logAdditionalMSG = "";
-
-        # Pass the information to the logging system
-        [Logging]::LogProgramActivity($logMessage, `                # Initial message
-                                    $logAdditionalMSG, `            # Additional information
-                                    [LogMessageLevel]::Warning);    # Message level
-
-        # * * * * * * * * * * * * * * * * * * *
-
-
-        # POSH Module was not found.
-        return $false;
-    } # DetectPowerShellModule()
+        # POSH Module was found.
+        return $true;
 
 
 
