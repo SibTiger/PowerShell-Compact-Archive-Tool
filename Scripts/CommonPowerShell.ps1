@@ -116,7 +116,7 @@ class CommonPowerShell
 
 
         # Does the user already have the module installed?
-        if ([CommonPowerShell]::DetectPowerShellModule($powerShellModule))
+        if ([CommonPowerShell]::DetectModule($powerShellModule))
         {
             # The PowerShell Module is already installed, no point in installing it again.
 
@@ -291,7 +291,7 @@ class CommonPowerShell
 
 
         # Make sure that the user has the module already installed within the PowerShell Environment.
-        if (![CommonPowerShell]::DetectPowerShellModule($powerShellModule))
+        if (![CommonPowerShell]::DetectModule($powerShellModule))
         {
             #  The PowerShell Module is not presently installed (or was not detected), no point in updating
             #   something that is not available.
@@ -500,7 +500,7 @@ class CommonPowerShell
 
 
         # Make sure that the user has the module already installed within the PowerShell Environment.
-        if(![CommonPowerShell]::DetectPowerShellModule($powerShellModule))
+        if(![CommonPowerShell]::DetectModule($powerShellModule))
         {
             # The PowerShell Module is not presently installed (or was not detected), no point in checking
             #   for updates on something that is not available.
@@ -720,7 +720,7 @@ class CommonPowerShell
     #       $false  = Did not detect the PowerShell Module.    
     # -------------------------------
     #>
-    static [bool] DetectPowerShellModule([string] $powerShellModule)
+    static [bool] DetectModule([string] $powerShellModule)
     {
         # Make sure that the user did not provide us with an empty string.
         if ([CommonFunctions]::IsStringEmpty($powerShellModule))
@@ -908,6 +908,7 @@ class CommonPowerShell
 
         # POSH Module was found.
         return $true;
+    } # DetectModule()
 
 
 
@@ -976,7 +977,7 @@ class CommonPowerShell
 
 
         # Determine if the desired PowerShell Module is presently available within the environment.
-        if ([CommonPowerShell]::DetectPowerShellModule($powerShellModule))
+        if ([CommonPowerShell]::DetectModule($powerShellModule))
         {
             # Detected the module
 
@@ -1174,7 +1175,7 @@ class CommonPowerShell
 
 
         # Determine if the desired PowerShell Module is presently available within the environment.
-        if ([CommonPowerShell]::DetectPowerShellModule($powerShellModule))
+        if ([CommonPowerShell]::DetectModule($powerShellModule))
         {
             # Detected the module
 
