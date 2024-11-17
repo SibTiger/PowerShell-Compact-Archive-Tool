@@ -574,7 +574,7 @@ class CommonPowerShell
 
             # Determine if the user has multiple versions of the PowerShell Module installed:
             #   if  : Multiple versions were found, only use the first index as that is the latest.
-            #   else: Only one version was detected, just use that. 
+            #   else: Only one version was detected, just use that.
             if ($getGetModuleResultList.GetType().Name -eq "Object[]")
             { $getGetModuleResult = $getGetModuleResultList[0].Version; }
             else
@@ -717,7 +717,7 @@ class CommonPowerShell
     # Output:
     #   [bool] PowerShell Module Detection Status
     #       $true   = Detected the PowerShell Module
-    #       $false  = Did not detect the PowerShell Module.    
+    #       $false  = Did not detect the PowerShell Module.
     # -------------------------------
     #>
     static [bool] DetectModule([string] $powerShellModule)
@@ -1034,7 +1034,7 @@ class CommonPowerShell
 
             # Determine if the user has multiple versions available of the PowerShell Module:
             #   if  : Multiple versions were found, only use the first index.
-            #   else: Only one version was detected, just use that. 
+            #   else: Only one version was detected, just use that.
             if ($getModuleInfoDynamicType.GetType().Name -eq "Object[]")
             { $getModuleInfo = $getModuleInfoDynamicType[0]; }
             else
@@ -1232,7 +1232,7 @@ class CommonPowerShell
 
             # Determine if the user has multiple versions available of the PowerShell Module:
             #   if  : Multiple versions were found, only use the first index.
-            #   else: Only one version was detected, just use that. 
+            #   else: Only one version was detected, just use that.
             if ($getModuleInfoDynamicType.GetType().Name -eq "Object[]")
             { $getModuleInfo = $getModuleInfoDynamicType[0]; }
             else
