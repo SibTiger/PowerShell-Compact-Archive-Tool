@@ -914,134 +914,116 @@ class CommonPowerShell
 
 
 
-   <# Get PowerShell Module Meta Data [Full]
+   <# Get PowerShell Module Meta Data Properties [Full]
     # -------------------------------
     # Documentation:
-    #  This function will obtain the meta data of the desired PowerShell
-    #   Module is that presently available within the current PowerShell
-    #   environment.
-    #  If the PowerShell Module was not detected, than this function
-    #   will return a failure signal and without populating any of the
-    #   Meta Data information.
+    #  This function will obtain the PowerShell Module's meta data properties.
+    #   In order to perform this operation, the PowerShell Module must already
+    #   be installed and is available within the PowerShell environment.  When
+    #   the PowerShell Module is present within the environment, the
+    #   'Get-Module' CMDlet will be able to retrieve information regarding all
+    #   of the available versions that are installed.  From there, this
+    #   function will collect the following Meta Data Properties:
+    #   - Author of the Module
+    #   - Name of the Module
+    #   - Version of the Installed Module
+    #   - Copyright of the Installed Module
+    #   - Project URL for the Module
+    #   - Description of the Module
+    #   - Release Notes for the installed version
     # -------------------------------
     # Input:
     #   [string] PowerShell Module
-    #       The PowerShell Module that we want to obtain the meta data.
-    #   [PowerShellModuleMetaDataFull] (REFERENCE) PowerShell Module Meta Data
-    #       If the PowerShell Module exists, then this will contain meta data
-    #       from the desired PowerShell Module.
+    #       The PowerShell Module to collect Meta Data Properties.
+    #   [PowerShellModuleMetaDataFull] (REFERENCE) Meta Data Properties
+    #       Contains the PowerShell Module's Meta Data properties; this will
+    #       be returned with populated data if the POSH Module was detected.
     # -------------------------------
     # Output:
-    #  [bool] PowerShell Module was Detected
-    #   When true, the PowerShell Module Meta Data variable will contain data.
-    #   False, however, the PowerShell Module Meta Data variable was not set.
+    #   [bool] PowerShell Module Detection Status
+    #       $true   = Detected the PowerShell Module
+    #       $false  = Did not detect the PowerShell Module.
     # -------------------------------
     #>
-    static [bool] GetPowerShellModuleMetaDataFull([string] $powerShellModule, `         # POSH Module to get data from
-                                                    [ref] $powerShellModuleMetaData)    # Populated Meta Data to return
+    static [bool] GetModuleMetaDataFull([string] $powerShellModule, `       # PowerShell Module
+                                        [ref] $powerShellModuleMetaData)    # Meta Data Properties
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # This will be used to obtain the meta data from the POSH Module.
-        [System.Management.Automation.PSModuleInfo] $getModuleInfo = $NULL;
-        # ----------------------------------------
-
-
-
-        # Did the user provide an empty string?
+        # Make sure that the user did not provide us with an empty string.
         if ([CommonFunctions]::IsStringEmpty($powerShellModule))
         {
+            # Because the string given is empty, there's nothing to detect.
+
+
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Cannot Fetch Meta Data for a PowerShell Module!";
+            [string] $logMessage = "Unable to retrieve the meta data properties, as the module name was never given!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("The PowerShell Module string was not provided!`r`n" + `
-                                            "`tPowerShell Module to Obtain Meta Data: $($powerShellModule)");
+                                            "`tPowerShell Module to Collect Meta Data: $($powerShellModule)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
                                         $logAdditionalMSG, `            # Additional information
                                         [LogMessageLevel]::Error);      # Message level
 
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($logMessage, `            # Message to display
+                                    [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Cannot get Meta Data as the string is empty.
+            # Cannot obtain meta data with the string being empty.
             return $false;
         } # if : PowerShell Module String Empty
 
 
 
-        # Determine if the desired PowerShell Module is presently available within the environment.
-        if ([CommonPowerShell]::DetectModule($powerShellModule))
-        {
-            # Detected the module
-
-
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Generate the initial message
-            [string] $logMessage = "Found the $($powerShellModule) module!";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "It is possible to obtain the Meta Data from the POSH Module.";
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity($logMessage, `                # Initial message
-                                        $logAdditionalMSG, `            # Additional information
-                                        [LogMessageLevel]::Verbose);    # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
-        } # if : Module is installed
-
-        # POSH Module was not detected
-        else
-        {
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Generate the initial message
-            [string] $logMessage = "Could not find the $($powerShellModule) module!";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("It is not possible to obtain Meta Data as the module was not found.");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity($logMessage, `                # Initial message
-                                        $logAdditionalMSG, `            # Additional information
-                                        [LogMessageLevel]::Warning);    # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
-
-
-            # Because the module was not detected, we will have to abort.
-            return $false;
-        } # Else : Module not detected
-
-
-        # Obtain the Module Information and store it temporarily.
+        # Try to obtain the meta data from the POSH Module.
         try
         {
+            # Declarations and Initializations
+            # ----------------------------------------
+            # This will be used to obtain the meta data from the POSH Module.
+            [System.Management.Automation.PSModuleInfo] $getModuleInfo = $NULL;
+            # ----------------------------------------
+
+
             # Try to obtain the Module Information
             [System.Object] $getModuleInfoDynamicType = $(Get-Module -Name $powerShellModule -ListAvailable -ErrorAction Stop);
 
-            # Determine if the user has multiple versions available of the PowerShell Module:
+
+            # Determine if the user has multiple versions installed:
             #   if  : Multiple versions were found, only use the first index.
             #   else: Only one version was detected, just use that.
             if ($getModuleInfoDynamicType.GetType().Name -eq "Object[]")
             { $getModuleInfo = $getModuleInfoDynamicType[0]; }
             else
             { $getModuleInfo = $getModuleInfoDynamicType; }
-        } # try : Obtain Meta Data from the POSH Module
 
-        # Caught an error
+
+
+            # Now populate the PowerShell Module Meta Data [Full] object.
+            $powerShellModuleMetaData.Value.author          = $getModuleInfo.author;
+            $powerShellModuleMetaData.Value.name            = $getModuleInfo.name;
+            $powerShellModuleMetaData.Value.version         = $getModuleInfo.version;
+            $powerShellModuleMetaData.Value.copyright       = $getModuleInfo.copyright;
+            $powerShellModuleMetaData.Value.projectURI      = $getModuleInfo.projecturi;
+            $powerShellModuleMetaData.Value.description     = $getModuleInfo.description;
+            $powerShellModuleMetaData.Value.releaseNotes    = $getModuleInfo.releasenotes;
+        } # try : Obtain Meta Data Properties
+
+
+        # PowerShell Module was not Detected
         catch
         {
             # Unable to obtain the Meta Data from the POSH Module
@@ -1052,31 +1034,24 @@ class CommonPowerShell
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Unable to retrieve the Meta Data for the requested PowerShell Module!";
+            [string] $logMessage = "Unable to obtain meta data properties from the desired PowerShell Module!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("PowerShell Module: $($powerShellModule)");
+            [string] $logAdditionalMSG = ("The PowerShell Module to obtain meta data properties: $($powerShellModule)`r`n" + `
+                                            "`tMake sure that the PowerShell Module had been installed");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
                                         $logAdditionalMSG, `            # Additional information
-                                        [LogMessageLevel]::Error);      # Message level
+                                        [LogMessageLevel]::Warning);    # Message level
 
             # * * * * * * * * * * * * * * * * * * *
 
-            # Because we are not able to obtain the meta data, return an error signal.
+
+            # PowerShell Module was not detected.
             return $false;
-        } # catch : Failed to obtain Meta Data
+        } # catch : PowerShell Module not Detected
 
-
-        # Now populate the PowerShell Module Meta Data [Full] object.
-        $powerShellModuleMetaData.Value.author          = $getModuleInfo.author;
-        $powerShellModuleMetaData.Value.name            = $getModuleInfo.name;
-        $powerShellModuleMetaData.Value.version         = $getModuleInfo.version;
-        $powerShellModuleMetaData.Value.copyright       = $getModuleInfo.copyright;
-        $powerShellModuleMetaData.Value.projectURI      = $getModuleInfo.projecturi;
-        $powerShellModuleMetaData.Value.description     = $getModuleInfo.description;
-        $powerShellModuleMetaData.Value.releaseNotes    = $getModuleInfo.releasenotes;
 
 
         # * * * * * * * * * * * * * * * * * * *
@@ -1084,17 +1059,20 @@ class CommonPowerShell
         # --------------
 
         # Generate the initial message
-        [string] $logMessage = "Obtained Meta Data for the requested PowerShell Module!";
+        [string] $logMessage = "Obtained Meta Data Properties for the requested PowerShell Module.";
 
         # Generate any additional information that might be useful
-        [string] $logAdditionalMSG = ("PowerShell Module: $($powerShellModule)`r`n" + `
+        [string] $logAdditionalMSG = ("POSH Module    : $($powerShellModule)`r`n" + `
                                         "`tAuthor         : $($getModuleInfo.Author)`r`n" + `
                                         "`tName           : $($getModuleInfo.Name)`r`n" + `
                                         "`tVersion        : $($getModuleInfo.Version)`r`n" + `
                                         "`tCopyright      : $($getModuleInfo.Copyright)`r`n" + `
                                         "`tProject URI    : $($getModuleInfo.ProjectURI)`r`n" + `
                                         "`tDescription    : $($getModuleInfo.Description)`r`n"+ `
-                                        "`tRelease Notes  : $($getModuleInfo.ReleaseNotes)");
+                                        "`tRelease Notes`r`n" + `
+                                        "-----------------------------------------`r`n" + `
+                                        $getModuleInfo.ReleaseNotes + `
+                                        "-----------------------------------------");
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -1106,7 +1084,7 @@ class CommonPowerShell
 
         # Successfully populated the meta data.
         return $true;
-    } # GetPowerShellModuleMetaDataFull()
+    } # GetModuleMetaDataFull()
 
 
 
