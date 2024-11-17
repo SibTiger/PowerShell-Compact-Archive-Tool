@@ -231,7 +231,6 @@ function MakeCompilerDriver
                         "StartUpArguments.ps1"
                         "Initializations.ps1", `
                         "Uninitializations.ps1", `
-                        "PowerShellModuleMetaData.ps1", `
                         "CommonIO.ps1", `
                         "CommonCUI.ps1", `
                         "CommonGUI.ps1", `

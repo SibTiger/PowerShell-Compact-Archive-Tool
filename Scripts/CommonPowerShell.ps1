@@ -1086,3 +1086,25 @@ class CommonPowerShell
         return $true;
     } # GetModuleMetaData()
 } # CommonPowerShell
+
+
+
+
+<# PowerShell Module - Meta Data Properties [CLASS]
+ # -------------------------------
+ # This class contains meta data information regarding a POSH Module.  This gives the user with the
+ #  ability to view information regarding the PowerShell Module that is installed on the user's
+ #  system.  I# In order to populate this object with meaningful data, one must use the Get-Module
+ #  CMDlet.
+ # -------------------------------
+ #>
+class PowerShellModuleMetaData
+{
+    [string] $author;
+    [string] $name;
+    [string] $version;
+    [string] $copyright;
+    [string] $projectURI;
+    [string] $description;
+    [string] $releaseNotes;
+} # PowerShellModuleMetaData
