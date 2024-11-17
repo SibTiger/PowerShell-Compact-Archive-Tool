@@ -34,8 +34,8 @@
 
 
 
-# PowerShell Module Meta Data - Full
-class PowerShellModuleMetaDataFull
+# PowerShell Module Meta Data
+class PowerShellModuleMetaData
 {
     [string] $author;
     [string] $name;
@@ -44,15 +44,4 @@ class PowerShellModuleMetaDataFull
     [string] $projectURI;
     [string] $description;
     [string] $releaseNotes;
-} # PowerShellModuleMetaDataFull
-
-
-
-
-# PowerShell Module Meta Data - Brief
-class PowerShellModuleMetaDataBrief
-{
-    [string] $author;
-    [string] $version;
-    [string] $copyright;
-} # PowerShellModuleMetaDataBrief
+} # PowerShellModuleMetaData
