@@ -75,7 +75,7 @@ class CommonPowerShell
     static [bool] InstallModule([string] $powerShellModule)
     {
         # Make sure that the user did not provide us with an empty string.
-        if ([CommonFunctions]::IsStringEmpty($powerShellModule))
+        if ([CommonIO]::IsStringEmpty($powerShellModule))
         {
             # Because the string given is empty, there's nothing to install.
 
@@ -249,7 +249,7 @@ class CommonPowerShell
     static [bool] UpdateModule([string] $powerShellModule)
     {
         # Make sure that the user did not provide us with an empty string.
-        if ([CommonFunctions]::IsStringEmpty($powerShellModule))
+        if ([CommonIO]::IsStringEmpty($powerShellModule))
         {
             # Because the string given is empty, we cannot update the desired PowerShell Module.
             # NOTE: I am fully aware that we can update every PowerShell Module that the user has
@@ -455,7 +455,7 @@ class CommonPowerShell
 
 
         # Make sure that the user did not provide us with an empty string.
-        if ([CommonFunctions]::IsStringEmpty($powerShellModule))
+        if ([CommonIO]::IsStringEmpty($powerShellModule))
         {
             # Because the string given is empty, we cannot check for potential updates on the desired
             #   PowerShell Module.
@@ -723,7 +723,7 @@ class CommonPowerShell
     static [bool] DetectModule([string] $powerShellModule)
     {
         # Make sure that the user did not provide us with an empty string.
-        if ([CommonFunctions]::IsStringEmpty($powerShellModule))
+        if ([CommonIO]::IsStringEmpty($powerShellModule))
         {
             # Because the string given is empty, there's nothing to detect.
 
@@ -949,7 +949,7 @@ class CommonPowerShell
                                     [ref] $powerShellModuleMetaData)    # Meta Data Properties
     {
         # Make sure that the user did not provide us with an empty string.
-        if ([CommonFunctions]::IsStringEmpty($powerShellModule))
+        if ([CommonIO]::IsStringEmpty($powerShellModule))
         {
             # Because the string given is empty, there's nothing to detect.
 

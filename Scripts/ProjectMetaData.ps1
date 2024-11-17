@@ -616,7 +616,7 @@ class ProjectMetaData
     [bool] SetMetaFileName([string] $newValue)
     {
         # Make sure that the value is not null; if null - do not update.
-        if ([CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
+        if ([CommonIO]::IsStringEmpty($newValue)) { return $false; }
 
 
         # Update the value as requested.
@@ -648,7 +648,7 @@ class ProjectMetaData
     [bool] SetMetaFilePath([string] $newValue)
     {
         # Make sure that the value is not null; if null - do not update.
-        if ([CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
+        if ([CommonIO]::IsStringEmpty($newValue)) { return $false; }
 
 
         # Update the value as requested.
@@ -708,7 +708,7 @@ class ProjectMetaData
     [bool] SetProjectName([string] $newValue)
     {
         # Make sure that the value is not null; if null - do not update.
-        if ([CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
+        if ([CommonIO]::IsStringEmpty($newValue)) { return $false; }
 
 
         # Update the value as requested.
@@ -796,7 +796,7 @@ class ProjectMetaData
     [bool] SetProjectOutputFileName([string] $newValue)
     {
         # Make sure that the value is not null; if null - do not update.
-        if ([CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
+        if ([CommonIO]::IsStringEmpty($newValue)) { return $false; }
 
 
         # Update the value as requested.
@@ -912,7 +912,7 @@ class ProjectMetaData
     [bool] SetProgramDirectoryName([string] $newValue)
     {
         # Make sure that the value is not null; if null - do not update.
-        if ([CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
+        if ([CommonIO]::IsStringEmpty($newValue)) { return $false; }
 
 
         # Update the value as requested.
@@ -1006,7 +1006,7 @@ class ProjectMetaData
     [bool] SetProgramMessage([string] $newValue)
     {
         # Make sure that the value is not null; if null - do not update.
-        if ([CommonFunctions]::IsStringEmpty($newValue)) { return $false; }
+        if ([CommonIO]::IsStringEmpty($newValue)) { return $false; }
 
 
         # Update the value as requested.

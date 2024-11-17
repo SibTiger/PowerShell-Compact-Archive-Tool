@@ -579,7 +579,7 @@ class MainMenu
 
         # Project's Homepage - Visible
         if (($projectInformation.GetProjectLoaded()) -and `
-            ((![CommonFunctions]::IsStringEmpty($projectInformation.GetURLWebsite())) -and `
+            ((![CommonIO]::IsStringEmpty($projectInformation.GetURLWebsite())) -and `
              ([WebsiteResources]::CheckSiteAvailability($projectInformation.GetURLWebsite(), $true))))
         {
             $showMenuProjectHomePage.Value = $true;
@@ -596,7 +596,7 @@ class MainMenu
 
         # Project's Wiki Page - Visible
         if (($projectInformation.GetProjectLoaded()) -and `
-            ((![CommonFunctions]::IsStringEmpty($projectInformation.GetURLWiki())) -and `
+            ((![CommonIO]::IsStringEmpty($projectInformation.GetURLWiki())) -and `
              ([WebsiteResources]::CheckSiteAvailability($projectInformation.GetURLWiki(), $true))))
         {
             $showMenuProjectWikiPage.Value = $true;
@@ -613,7 +613,7 @@ class MainMenu
 
         # Project's Source Code: Visible
         if (($projectInformation.GetProjectLoaded()) -and `
-            ((![CommonFunctions]::IsStringEmpty($projectInformation.GetURLSource()) -and `
+            ((![CommonIO]::IsStringEmpty($projectInformation.GetURLSource()) -and `
              ([WebsiteResources]::CheckSiteAvailability($projectInformation.GetURLSource(), $true)))))
         {
             $showMenuProjectSourceCode.Value = $true;

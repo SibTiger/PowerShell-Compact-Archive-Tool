@@ -235,7 +235,6 @@ function MakeCompilerDriver
                         "CommonCUI.ps1", `
                         "CommonGUI.ps1", `
                         "UserExperience.ps1", `
-                        "CommonFunctions.ps1", `
                         "CommonPowerShell.ps1", `
                         "ProgramFunctions.ps1", `
                         "DefaultCompress.ps1", `

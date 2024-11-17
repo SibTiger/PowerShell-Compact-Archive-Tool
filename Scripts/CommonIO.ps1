@@ -666,7 +666,7 @@ class CommonIO
 
         # Make sure that the description field has something meaningful,
         #  if not (by mistake) - use the executable and args as the description.
-        if ([CommonFunctions]::IsStringEmpty($description))
+        if ([CommonIO]::IsStringEmpty($description))
         {
             # Generate a new description using what information we have presently.
             [string] $description = [CommonIO]::__ExecuteCommandCreateDescription($command, $arguments);
@@ -915,7 +915,7 @@ class CommonIO
 
         # Is there any data in the STDOUT?
         #  If so, we can continue to evaluate it.  Otherwise, skip over.
-        if (![CommonFunctions]::IsStringEmpty($outputResultOut.Value))
+        if (![CommonIO]::IsStringEmpty($outputResultOut.Value))
         {
             # Should we store the STDOUT to a variable?
             if ($captureSTDOUT -eq $true)
@@ -968,7 +968,7 @@ class CommonIO
 
 
         # Store the Standard Error in a logfile if there is any data at all?
-        If (![CommonFunctions]::IsStringEmpty($outputResultErr.Value))
+        If (![CommonIO]::IsStringEmpty($outputResultErr.Value))
         {
             # Write the Standard Error to the logfile
             [Logging]::WriteToLogFile($logStdErr, $outputResultErr.Value);
@@ -2904,7 +2904,7 @@ class CommonIO
 
 
         # Make sure that the requested new name actually contains some sort of 'string'.
-        if ([CommonFunctions]::IsStringEmpty($newName))
+        if ([CommonIO]::IsStringEmpty($newName))
         {
             # Because there was no new name given, we cannot proceed any further.
 
@@ -3866,7 +3866,7 @@ class CommonIO
     static [Char] DetermineItemType([string] $targetItem)
     {
         # First make sure that there was a path provided.
-        if ([CommonFunctions]::IsStringEmpty($targetItem))
+        if ([CommonIO]::IsStringEmpty($targetItem))
         {
             # The target item does not exist; no operations can be performed.
 
@@ -4660,7 +4660,7 @@ class CommonIO
 
 
         # Make sure that the directory path is not empty.
-        if ([CommonFunctions]::IsStringEmpty($directoryPath))
+        if ([CommonIO]::IsStringEmpty($directoryPath))
         {
             # Because the directory was not provided, we may not continue.
 
@@ -4701,7 +4701,7 @@ class CommonIO
 
         # Generate the Path and argument variables.
         #  If a file had not been included, then it will be omitted.
-        if ([CommonFunctions]::IsStringEmpty($selectFile))
+        if ([CommonIO]::IsStringEmpty($selectFile))
         {
             # Only provide the directory path.
             $path = $directoryPath;
@@ -5065,6 +5065,33 @@ class CommonIO
             } # if : Target Not Found
         } # for : Continuous Check
     } # WaitForFileExplorer()
+    #endregion
+
+
+
+    #region Common Functions
+
+   <# Is String Empty
+    # -------------------------------
+    # Documentation:
+    #  This function will determine if the provided string is empty.
+    #
+    # NOTE:
+    #  If the string only contains whitespace(s), then it will be considered empty.
+    # -------------------------------
+    # Input:
+    #  [string] Message
+    #   The desired string to inspect if it is empty or had already been assigned
+    #   to a specific value.
+    # -------------------------------
+    # Output:
+    #  [bool] Is String Empty
+    #   True  = String is empty
+    #   False = String is Populated \ Not-Empty.
+    # -------------------------------
+    #>
+    static [bool] IsStringEmpty([string] $message) { return [string]::IsNullOrEmpty($message.Trim()); }
+
     #endregion
 } # CommonIO
 
