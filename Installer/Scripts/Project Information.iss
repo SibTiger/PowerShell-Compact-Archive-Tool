@@ -32,11 +32,11 @@
 #define public _PRODUCT_NAME_SHORT_                     "PSCAT"
 #define public _PRODUCT_VERSION_                        "1.2.0-Alpha"
 #define public _PRODUCT_VERSION_CODENAME_               "Cordis"
-#define public _PRODUCT_VERSION_DATE_                   "dd.mm.2023"
+#define public _PRODUCT_VERSION_DATE_                   "dd.mm.2025"
 #define public _PRODUCT_WEBSITE_HOMEPAGE_               "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool"
 #define public _PRODUCT_WEBSITE_SUPPORT_                "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/wiki"
 #define public _PRODUCT_WEBSITE_UPDATES_                "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/releases"
 #define public _PRODUCT_README_FILE_                    "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/wiki"
 #define public _PRODUCT_WEBSITE_COMMUNITY_              "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/discussions"
 #define public _PRODUCT_BRIEF_DESCRIPTION_              "Generates PK3 ZDoom Mods"
-#define public _PRODUCT_COPYRIGHT_                      "2018-2023 - " + _PRODUCT_AUTHOR_
+#define public _PRODUCT_COPYRIGHT_                      "2018-2025 - " + _PRODUCT_AUTHOR_

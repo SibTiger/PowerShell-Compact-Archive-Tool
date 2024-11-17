@@ -184,7 +184,7 @@ function InitializationProgramIdentity()
     # Date Format: DD.MM.YYYY with leading zeros
     Set-Variable `
         -Name "_RELEASEDATE_" `
-        -Value "DD.MM.2023" `
+        -Value "DD.MM.2025" `
         -Scope Global `
         -Option ReadOnly `
         -Visibility Public `
