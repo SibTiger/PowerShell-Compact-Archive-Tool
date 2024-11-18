@@ -360,15 +360,24 @@ function AppendSeparation
       -Scope Local;
     # ----------------------------------
 
+
     # Append the separation to the script
-    if((Add-Content -Path $outputFile -Value $($scriptSeparator) -ErrorAction SilentlyContinue))
+    try
     {
-        return 0;
-    } # If:Successful
-    else
+        Add-Content -Path $outputFile -Value $scriptSeparator -ErrorAction Stop;
+    } # Try to Append Separators between Contents
+
+    # Caught an Error
+    catch
     {
+        # Show the Exception Message
+        Printf 2 $_.Exception.Message;
         return 1;
-    } # Else:Failure
+    } # Catch : Failed to Append Separators between Contents
+
+
+    # Operation was successful.
+    return 0;
 } # AppendSeparation
 
 
