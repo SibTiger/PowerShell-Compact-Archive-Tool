@@ -314,14 +314,23 @@ function AppendContent
     param([string] $outputFile, [string] $targetFile)
 
 
-    if((Add-Content -Path $outputFile -Value (Get-Content $targetFile) -ErrorAction SilentlyContinue))
+    # Append Script Contents
+    try
     {
-        return 0;
-    } # If:Successful
-    else
+        Add-Content -Path $outputFile -Value (Get-Content $targetFile) -ErrorAction Stop;
+    } # Try to Append Script Contents
+
+    # Caught an Error
+    catch
     {
+        # Show the Exception Message
+        Printf 2 $_.Exception.Message;
         return 1;
-    } # Else:Failure
+    } # Catch : Failed to Append Contents
+
+
+    # Operation was successful.
+    return 0;
 } # AppendContent
 
 
