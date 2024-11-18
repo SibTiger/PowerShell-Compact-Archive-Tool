@@ -187,8 +187,10 @@ function MakeCompiler
         Printf 3 "    $($filePath)";
     } # DEBUGMODE - Starting Task Msg
 
-    # Append the file and assure it was successful
-    if (!($(FileDetection $filePath) -and $(AppendContent $OUTPUTFILE $filePath) -and $(AppendSeparation $OUTPUTFILE)))
+    # Append the file and assure it was successful\
+    if( ($(FileDetection $filePath) -eq 0) -or `                # Unable to detect file
+        ($(AppendContent $OUTPUTFILE $filePath) -eq 1) -or `    # Failed to Append Content
+        ($(AppendSeparation $OUTPUTFILE) -eq 1))                # Failed to Append Borders
     {
         # An error occurred
         return 1;
