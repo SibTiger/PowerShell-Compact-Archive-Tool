@@ -46,16 +46,16 @@ Set-Variable -Name "SCRIPTFILENAME" -Value "PSCAT.ps1" `
 Set-Variable -Name "SCRIPTFILENAMELAUNCHER" -Value "Launcher.ps1" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Subscripts Directory
-Set-Variable -Name "SCRIPTSDIRECTORY" -Value "$($SCRIPTPATH)\..\Scripts\" `
+Set-Variable -Name "SCRIPTSDIRECTORY" -Value "$($GLOBAL:SCRIPTPATH)\..\Scripts\" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Launcher Subscripts Directory
-Set-Variable -Name "SCRIPTSDIRECTORYLAUCNHER" -Value "$($SCRIPTPATH)\..\Scripts\Launcher\" `
+Set-Variable -Name "SCRIPTSDIRECTORYLAUCNHER" -Value "$($GLOBAL:SCRIPTPATH)\..\Scripts\Launcher\" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Output Compiler Directory
 Set-Variable -Name "OUTPUTDIRECTORY" -Value "$(Resolve-Path "$($PSScriptRoot)\" | Select-Object -ExpandProperty Path)" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Output Script File
-Set-Variable -Name "OUTPUTFILE" -Value "$($OUTPUTDIRECTORY)$($SCRIPTFILENAME)" `
+Set-Variable -Name "OUTPUTFILE" -Value "$($GLOBAL:OUTPUTDIRECTORY)$($GLOBAL:SCRIPTFILENAME)" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Cache Program Content instead of Writing to Output Immediately -- can resolve issues with Add-Content per-each iteration.
 Set-Variable -Name "CACHEPROGRAMCONTENT" -Value $true `
