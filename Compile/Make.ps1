@@ -74,6 +74,36 @@ Set-Variable -Name "DEBUGMODE" -Value $false `
 
 
 
+# Uninitialize Variables
+# --------------------------
+# Documentation
+#   This function will remove any mutable global variable from
+#       the environment.
+# ----------------
+function UninitializeVariables
+{
+    # Try to remove global variables
+    try
+    {
+        Remove-Variable -Name CACHEDPROGRAMCONTENTS `
+                        -Scope Global `
+                        -Force `
+                        -ErrorAction Stop;
+    } # Try to Uninit. Vars
+
+    # Caught an error
+    catch
+    {
+        Printf 2 "Failed to Uninitialize a mutable global variable!";
+        Printf 2 $_.Exception.Message;
+
+        return;
+    } # Caught an error
+} # UninitializeVariables()
+
+
+
+
 # Print with Formatting
 # --------------------------
 # Documentation
@@ -891,6 +921,9 @@ function main
 
 # Start the program
 $errorSignal = $(main);
+
+# Remove mutable variables
+UninitializeVariables
 
 # Wait for the user to view the results
 WaitUserInput;
