@@ -527,10 +527,14 @@ function Inspector
     # Add in the Global Vars. to our HashTable
     $inspectorTable.Add("SCRIPTPATH", "$($SCRIPTPATH)");
     $inspectorTable.Add("SCRIPTFILENAME", "$($SCRIPTFILENAME)");
+    $inspectorTable.Add("SCRIPTFILENAMELAUNCHER", "$($SCRIPTFILENAMELAUNCHER)");
     $inspectorTable.Add("SCRIPTSDIRECTORY", "$($SCRIPTSDIRECTORY)");
+    $inspectorTable.Add("SCRIPTSDIRECTORYLAUCNHER", "$($SCRIPTSDIRECTORYLAUCNHER)");
     $inspectorTable.Add("OUTPUTDIRECTORY", "$($OUTPUTDIRECTORY)");
     $inspectorTable.Add("OUTPUTFILE", "$($OUTPUTFILE)");
     $inspectorTable.Add("PROJECTNAME", "$($PROJECTNAME)");
+    $inspectorTable.Add("DEBUGMODE", "$($DEBUGMODE)");
+
 
     # Display the Table Header
     Printf 3 "GLOBAL VARIABLE TABLE";
