@@ -57,6 +57,12 @@ Set-Variable -Name "OUTPUTDIRECTORY" -Value "$(Resolve-Path "$($PSScriptRoot)\" 
 # Output Script File
 Set-Variable -Name "OUTPUTFILE" -Value "$($OUTPUTDIRECTORY)$($SCRIPTFILENAME)" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+# Cache Program Content instead of Writing to Output Immediately -- can resolve issues with Add-Content per-each iteration.
+Set-Variable -Name "CACHEPROGRAMCONTENT" -Value $true `
+    -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+# Cached Program Contents
+Set-Variable -Name "CACHEDPROGRAMCONTENTS" `
+    -Scope Global -Force -Option None -ErrorAction Stop;
 # Project Name
 Set-Variable -Name "PROJECTNAME" -Value "PowerShell Compact-Archive Tool" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
@@ -161,13 +167,18 @@ function Printf
 # Make Compiler
 # --------------------------
 # Documentation
-#    This function will combine all of the sub-scripts into one script.
+#    This function will combine all of the sub-scripts into one script
+#                       OR
+#    This function will cache the contents from the sub-script into a string.
 # --------------------------
 # Parameters
 #    fileName [string]
 #     The file name of the file
 #    filePath [string]
 #     The file path of the script
+#    cacheResults [Bool]
+#     When true, specifies that the content from the script(s) will be
+#       cached into a string instead of being written to a file.
 # --------------------------
 # Return [int]
 #    0 = Operation was successful
@@ -176,21 +187,22 @@ function Printf
 function MakeCompiler
 {
     # Function Parameters
-    param([string] $fileName, [string] $filePath)
+    param([string] $fileName, [string] $filePath, [bool] $cacheResults)
 
 
     # If Debug Mode is enabled, display the operation
     if ($DEBUGMODE)
     {
-        Printf 3 "Including File: $($fileName). . .";
+        if (!$cacheResults) { Printf 3 "Including File: $($fileName). . ."; }
+        else { Printf 3 "Caching File: $($fileName). . ."; }
         Printf 3 " >> LOCATION:";
         Printf 3 "    $($filePath)";
     } # DEBUGMODE - Starting Task Msg
 
     # Append the file and assure it was successful\
-    if( ($(FileDetection $filePath) -eq 0) -or `                # Unable to detect file
-        ($(AppendContent $OUTPUTFILE $filePath) -eq 1) -or `    # Failed to Append Content
-        ($(AppendSeparation $OUTPUTFILE) -eq 1))                # Failed to Append Borders
+    if( ($(FileDetection $filePath) -eq 0) -or `                            # Unable to detect file
+        ($(AppendContent $OUTPUTFILE $filePath $cacheResults) -eq 1) -or `  # Failed to Append Content
+        ($(AppendSeparation $OUTPUTFILE $cacheResults) -eq 1))              # Failed to Append Borders
     {
         # An error occurred
         return 1;
@@ -214,12 +226,21 @@ function MakeCompiler
 # Documentation
 #    This function will organize how the file should be included into the compiler script.
 # --------------------------
+# Parameters
+#    cacheResults [Bool]
+#     When true, specifies that the content from the script(s) will be
+#       cached into a string instead of being written to a file.
+# --------------------------
 # Return [int]
 #    0 = Operation was successful
 #    1 = Operation failed
 # --------------------------
 function MakeCompilerDriver
 {
+    # Function Parameters
+    param([bool] $cacheResults)
+
+
     # Declarations and Initializations
     # ----------------------------------
     # Sub-Script File (with path)
@@ -274,7 +295,7 @@ function MakeCompilerDriver
         $scriptFile = "$($SCRIPTSDIRECTORY)$($index)";
 
         # Try to append the target script to the destination file
-        if ($(MakeCompiler $index $scriptFile))
+        if ($(MakeCompiler $index $scriptFile $cacheResults))
         {
             # An error occurred
             Printf 2 "Unable to include file: $($scriptFile)";
@@ -283,6 +304,19 @@ function MakeCompilerDriver
             return 1;
         } # If Operation was Successful
     } #foreach
+
+
+    # Program Contents Cached?
+    if (($cacheResults      -eq $true)  -and `      # Contents cached into a string?
+        (WriteCacheToFile   -eq 1))                 # Failure had occurred while writing to disk
+    {
+        # Write contents to disk had failed
+        Printf 2 "Failed to write cached contents to disk!";
+
+        # Return error code;
+        return 1;
+    } # if : Program Contents Cached
+
 
     # Operation was successful
     return 0;
@@ -303,6 +337,10 @@ function MakeCompilerDriver
 #    targetFile [string]
 #     The target file that contains the data that we want
 #      to mirror to another file.
+#    cacheResults [Bool]
+#     When true, specifies that the content from the script(s) will be
+#       cached into a string instead of being written to a file.
+#       $outputFile will be ignored.
 # --------------------------
 # Return [int]
 #    0 = Operation was successful
@@ -311,25 +349,38 @@ function MakeCompilerDriver
 function AppendContent
 {
     # Function Parameters
-    param([string] $outputFile, [string] $targetFile)
+    param([string] $outputFile, [string] $targetFile, [bool] $cacheResults)
 
 
-    # Append Script Contents
-    try
+    # Write to File
+    if ($cacheResults -eq $false)
     {
-        Add-Content -Path $outputFile -Value (Get-Content $targetFile) -ErrorAction Stop;
-    } # Try to Append Script Contents
+        # Append Script Contents
+        try
+        {
+            Add-Content -Path $outputFile -Value (Get-Content $targetFile) -ErrorAction Stop;
+        } # Try to Append Script Contents
 
-    # Caught an Error
-    catch
-    {
-        # Show the Exception Message
-        Printf 2 $_.Exception.Message;
-        return 1;
-    } # Catch : Failed to Append Contents
+        # Caught an Error
+        catch
+        {
+            # Show the Exception Message
+            Printf 2 $_.Exception.Message;
+            return 1;
+        } # Catch : Failed to Append Contents
 
 
-    # Operation was successful.
+        # Operation was successful.
+        return 0;
+    } # if : Write to File
+
+
+
+    # Cache the contents into the designated variable
+    $GLOBAL:CACHEDPROGRAMCONTENTS += $(Get-Content $targetFile);
+
+
+    # Done
     return 0;
 } # AppendContent
 
@@ -346,6 +397,10 @@ function AppendContent
 # Parameters
 #    outputFile [string]
 #     The destination file that the data will be appended.
+#    cacheResults [Bool]
+#     When true, specifies that the content from the script(s) will be
+#       cached into a string instead of being written to a file.
+#       $outputFile will be ignored.
 # --------------------------
 # Return [int]
 #    0 = Operation was successful
@@ -354,7 +409,7 @@ function AppendContent
 function AppendSeparation
 {
     # Function Parameters
-    param([string] $outputFile)
+    param([string] $outputFile, [bool] $cacheResults)
 
 
     # Declarations and Initializations
@@ -370,24 +425,77 @@ function AppendSeparation
     # ----------------------------------
 
 
-    # Append the separation to the script
-    try
+    # Write to file
+    if ($cacheResults -eq $false)
     {
-        Add-Content -Path $outputFile -Value $scriptSeparator -ErrorAction Stop;
-    } # Try to Append Separators between Contents
+        # Append the separation to the script
+        try
+        {
+            Add-Content -Path $outputFile -Value $scriptSeparator -ErrorAction Stop;
+        } # Try to Append Separators between Contents
 
-    # Caught an Error
-    catch
-    {
-        # Show the Exception Message
-        Printf 2 $_.Exception.Message;
-        return 1;
-    } # Catch : Failed to Append Separators between Contents
+        # Caught an Error
+        catch
+        {
+            # Show the Exception Message
+            Printf 2 $_.Exception.Message;
+            return 1;
+        } # Catch : Failed to Append Separators between Contents
 
 
-    # Operation was successful.
+        # Operation was successful.
+        return 0;
+    } # if : Write to File
+
+
+
+    # Cache the results to the designated variable.
+    $GLOBAL:CACHEDPROGRAMCONTENTS += $scriptSeparator;
+
+
+    # Done
     return 0;
 } # AppendSeparation
+
+
+
+
+# Write Cache to File
+# --------------------------
+# Documentation
+#    This function will write the contents that had been
+#       cached in the designated string to the output file.
+#
+# NOTE: Only call this function when the flag,
+#       $CACHEPROGRAMCONTENT, is '$true'.
+# --------------------------
+# Return [int]
+#    0 = Operation was successful
+#    1 = Operation failed
+# --------------------------
+function WriteCacheToFile
+{
+    # Try to write cached contents to disk
+    try
+    {
+        Add-Content -Path $outputFile -Value $CACHEDPROGRAMCONTENTS -ErrorAction Stop;
+    } # Try : Write Cached Contents to Disk
+
+    # Caught an error
+    catch
+    {
+        # Provide the exception message to the user.
+        Printf 2 "ERROR:"
+        Printf 2 $_.Exception.Message;
+
+        # Return error
+        return 1;
+    } # Catch : Failed to Write Cached Contents to Disk
+
+
+    # Finished
+    return 0;
+} # WriteCacheToFile()
 
 
 
@@ -532,6 +640,8 @@ function Inspector
     $inspectorTable.Add("SCRIPTSDIRECTORYLAUCNHER", "$($SCRIPTSDIRECTORYLAUCNHER)");
     $inspectorTable.Add("OUTPUTDIRECTORY", "$($OUTPUTDIRECTORY)");
     $inspectorTable.Add("OUTPUTFILE", "$($OUTPUTFILE)");
+    $inspectorTable.Add("CACHEPROGRAMCONTENT", "$($CACHEPROGRAMCONTENT)");
+    $inspectorTable.Add("CACHEDPROGRAMCONTENTS", "$($CACHEDPROGRAMCONTENTS)");
     $inspectorTable.Add("PROJECTNAME", "$($PROJECTNAME)");
     $inspectorTable.Add("DEBUGMODE", "$($DEBUGMODE)");
 
@@ -693,18 +803,43 @@ function main
     # ===============================================
     # ===============================================
     # Third, append all of the sub-scripts into one script file
+    #       OR
+    #       Cache all of the sub-scripts into one large string
 
-    if($DEBUGMODE)
-    {
-        Printf 3 "Building $($SCRIPTFILENAME) script file. . .";
-    } # DEBUG MODE
 
-    # Append the sub-scripts to the main script
-    if(MakeCompilerDriver)
+    # Write to File
+    if (!$CACHEDPROGRAMCONTENTS)
     {
-        Printf 2 "Failure to generate the script file";
-        return 1;
-    } # Generate the script
+        if($DEBUGMODE)
+        {
+            Printf 3 "Building $($SCRIPTFILENAME) script file. . .";
+        } # DEBUG MODE
+
+        # Append the sub-scripts to the main script
+        if(MakeCompilerDriver $false)
+        {
+            Printf 2 "Failure to generate the script file";
+            return 1;
+        } # Generate the script
+    } # if : Write to File
+
+    # Cache to String
+    else
+    {
+        if($DEBUGMODE)
+        {
+            Printf 3 "Caching $($SCRIPTFILENAME) contents into main memory. . .";
+        } # DEBUG MODE
+
+        # Cache the sub-scripts contents into a string datatype.
+        if(MakeCompilerDriver $true)
+        {
+            Printf 2 "Failure to cache the contents!`r`n`tDid we go beyond the CLR memory restrictions?";
+            return 1;
+        } # Generate the script
+    } # else : Cache to String
+
+
 
     if($DEBUGMODE)
     {
