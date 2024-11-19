@@ -191,7 +191,7 @@ function MakeCompiler
 
 
     # If Debug Mode is enabled, display the operation
-    if ($DEBUGMODE)
+    if ($GLOBAL:DEBUGMODE)
     {
         if (!$cacheResults) { Printf 3 "Including File: $($fileName). . ."; }
         else { Printf 3 "Caching File: $($fileName). . ."; }
@@ -200,16 +200,16 @@ function MakeCompiler
     } # DEBUGMODE - Starting Task Msg
 
     # Append the file and assure it was successful\
-    if( ($(FileDetection $filePath) -eq 0) -or `                            # Unable to detect file
-        ($(AppendContent $OUTPUTFILE $filePath $cacheResults) -eq 1) -or `  # Failed to Append Content
-        ($(AppendSeparation $OUTPUTFILE $cacheResults) -eq 1))              # Failed to Append Borders
+    if( ($(FileDetection $filePath) -eq 0) -or `                                    # Unable to detect file
+        ($(AppendContent $GLOBAL:OUTPUTFILE $filePath $cacheResults) -eq 1) -or `   # Failed to Append Content
+        ($(AppendSeparation $GLOBAL:OUTPUTFILE $cacheResults) -eq 1))               # Failed to Append Borders
     {
         # An error occurred
         return 1;
     } # If : File does not exist
 
     # If Debug Mode is enabled, display the operation passed
-    if ($DEBUGMODE)
+    if ($GLOBAL:DEBUGMODE)
     {
         Printf 3 "Added File: $($fileName) successfully!";
     } # DEBUGMODE - Finished Task Msg
@@ -292,7 +292,7 @@ function MakeCompilerDriver
     foreach ($index in $scriptFileName)
     {
         # Update target script
-        $scriptFile = "$($SCRIPTSDIRECTORY)$($index)";
+        $scriptFile = "$($GLOBAL:SCRIPTSDIRECTORY)$($index)";
 
         # Try to append the target script to the destination file
         if ($(MakeCompiler $index $scriptFile $cacheResults))
@@ -478,7 +478,7 @@ function WriteCacheToFile
     # Try to write cached contents to disk
     try
     {
-        Add-Content -Path $outputFile -Value $CACHEDPROGRAMCONTENTS -ErrorAction Stop;
+        Add-Content -Path $outputFile -Value $GLOBAL:CACHEDPROGRAMCONTENTS -ErrorAction Stop;
     } # Try : Write Cached Contents to Disk
 
     # Caught an error
@@ -515,8 +515,8 @@ function CreateNewScriptFile
     # Try to create the file; if we are unable to - then return with an error signal.
     try
     {
-        New-Item -Path $OUTPUTDIRECTORY -Name $SCRIPTFILENAME -ItemType "File" `
-            -Value "# The $($PROJECTNAME) was generated on: $(Get-Date)`r`n`r`n" -ErrorAction Stop | Out-Null;
+        New-Item -Path $GLOBAL:OUTPUTDIRECTORY -Name $GLOBAL:SCRIPTFILENAME -ItemType "File" `
+            -Value "# The $($GLOBAL:PROJECTNAME) was generated on: $(Get-Date)`r`n`r`n" -ErrorAction Stop | Out-Null;
         return 0;
     } # Try
     catch
@@ -542,7 +542,7 @@ function ExpungeOldScriptFile
     # Try to delete the file, if we are unable to - then return with an error signal.
     try
     {
-        Remove-Item -Path $OUTPUTFILE -ErrorAction Stop;
+        Remove-Item -Path $GLOBAL:OUTPUTFILE -ErrorAction Stop;
         return 0;
     } # Try
     catch
@@ -599,7 +599,7 @@ function FileDetection
 # --------------------------
 function ExistingFileProtocol
 {
-    if($(FileDetection($OUTPUTFILE)))
+    if($(FileDetection($GLOBAL:OUTPUTFILE)))
     {
         if (ExpungeOldScriptFile)
         {
@@ -633,17 +633,17 @@ function Inspector
     $inspectorTable = @{}
 
     # Add in the Global Vars. to our HashTable
-    $inspectorTable.Add("SCRIPTPATH", "$($SCRIPTPATH)");
-    $inspectorTable.Add("SCRIPTFILENAME", "$($SCRIPTFILENAME)");
-    $inspectorTable.Add("SCRIPTFILENAMELAUNCHER", "$($SCRIPTFILENAMELAUNCHER)");
-    $inspectorTable.Add("SCRIPTSDIRECTORY", "$($SCRIPTSDIRECTORY)");
-    $inspectorTable.Add("SCRIPTSDIRECTORYLAUCNHER", "$($SCRIPTSDIRECTORYLAUCNHER)");
-    $inspectorTable.Add("OUTPUTDIRECTORY", "$($OUTPUTDIRECTORY)");
-    $inspectorTable.Add("OUTPUTFILE", "$($OUTPUTFILE)");
-    $inspectorTable.Add("CACHEPROGRAMCONTENT", "$($CACHEPROGRAMCONTENT)");
-    $inspectorTable.Add("CACHEDPROGRAMCONTENTS", "$($CACHEDPROGRAMCONTENTS)");
-    $inspectorTable.Add("PROJECTNAME", "$($PROJECTNAME)");
-    $inspectorTable.Add("DEBUGMODE", "$($DEBUGMODE)");
+    $inspectorTable.Add("SCRIPTPATH", "$($GLOBAL:SCRIPTPATH)");
+    $inspectorTable.Add("SCRIPTFILENAME", "$($GLOBAL:SCRIPTFILENAME)");
+    $inspectorTable.Add("SCRIPTFILENAMELAUNCHER", "$($GLOBAL:SCRIPTFILENAMELAUNCHER)");
+    $inspectorTable.Add("SCRIPTSDIRECTORY", "$($GLOBAL:SCRIPTSDIRECTORY)");
+    $inspectorTable.Add("SCRIPTSDIRECTORYLAUCNHER", "$($GLOBAL:SCRIPTSDIRECTORYLAUCNHER)");
+    $inspectorTable.Add("OUTPUTDIRECTORY", "$($GLOBAL:OUTPUTDIRECTORY)");
+    $inspectorTable.Add("OUTPUTFILE", "$($GLOBAL:OUTPUTFILE)");
+    $inspectorTable.Add("CACHEPROGRAMCONTENT", "$($GLOBAL:CACHEPROGRAMCONTENT)");
+    $inspectorTable.Add("CACHEDPROGRAMCONTENTS", "$($GLOBAL:CACHEDPROGRAMCONTENTS)");
+    $inspectorTable.Add("PROJECTNAME", "$($GLOBAL:PROJECTNAME)");
+    $inspectorTable.Add("DEBUGMODE", "$($GLOBAL:DEBUGMODE)");
 
 
     # Display the Table Header
@@ -700,12 +700,12 @@ function WaitUserInput
 function ProvideLauncher
 {
     # Does the file already exists?
-    if (FileDetection $SCRIPTFILENAMELAUNCHER)
+    if (FileDetection $GLOBAL:SCRIPTFILENAMELAUNCHER)
     {
         # Found the script file, try to remove it.
         try
         {
-            Remove-Item -Path "$($OUTPUTDIRECTORY)\$($SCRIPTFILENAMELAUNCHER)" `
+            Remove-Item -Path "$($GLOBAL:OUTPUTDIRECTORY)\$($GLOBAL:SCRIPTFILENAMELAUNCHER)" `
                         -ErrorAction Stop;
         } # Try : Remove Script File
 
@@ -720,8 +720,8 @@ function ProvideLauncher
     # Try to duplicate the Launcher file to the output directory
     try
     {
-        Copy-Item -Path "$($SCRIPTSDIRECTORYLAUCNHER)\$($SCRIPTFILENAMELAUNCHER)" `
-                    -Destination "$($OUTPUTDIRECTORY)\$($SCRIPTFILENAMELAUNCHER)" `
+        Copy-Item -Path "$($GLOBAL:SCRIPTSDIRECTORYLAUCNHER)\$($GLOBAL:SCRIPTFILENAMELAUNCHER)" `
+                    -Destination "$($GLOBAL:OUTPUTDIRECTORY)\$($GLOBAL:SCRIPTFILENAMELAUNCHER)" `
                     -ErrorAction Stop;
     } # Try : Duplicate Script File
 
@@ -747,22 +747,22 @@ function ProvideLauncher
 function main
 {
     # Output all of the Global Variables [DEBUG MODE]
-    if($DEBUGMODE)
+    if($GLOBAL:DEBUGMODE)
     {
         Inspector;
     } # Inspect Global Vars
 
     # Tell the user that the program is preparing to generate the script
-    Printf 0 "Creating the $($SCRIPTFILENAME) script file. . .";
+    Printf 0 "Creating the $($GLOBAL:SCRIPTFILENAME) script file. . .";
 
 
     # ===============================================
     # ===============================================
     # First, check if the script file already exists
 
-    if($DEBUGMODE)
+    if($GLOBAL:DEBUGMODE)
     {
-        Printf 3 "Checking for existing $($SCRIPTFILENAME) and thrashing it. . .";
+        Printf 3 "Checking for existing $($GLOBAL:SCRIPTFILENAME) and thrashing it. . .";
     } # DEBUG MODE
     
     # Check for existing script and delete it - if it exists
@@ -772,7 +772,7 @@ function main
         return 1;
     } # Check existing script
 
-    if($DEBUGMODE)
+    if($GLOBAL:DEBUGMODE)
     {
         Printf 3 "  Done!";
     } # DEBUG MODE
@@ -782,9 +782,9 @@ function main
     # ===============================================
     # Second, create a new script file
 
-    if($DEBUGMODE)
+    if($GLOBAL:DEBUGMODE)
     {
-        Printf 3 "Creating a new empty $($SCRIPTFILENAME) file. . .";
+        Printf 3 "Creating a new empty $($GLOBAL:SCRIPTFILENAME) file. . .";
     } # DEBUG MODE
 
     # Create the script
@@ -794,7 +794,7 @@ function main
         return 1;
     } # Create the script
 
-    if($DEBUGMODE)
+    if($GLOBAL:DEBUGMODE)
     {
         Printf 3 "  Done!";
     } # DEBUG MODE
@@ -808,11 +808,11 @@ function main
 
 
     # Write to File
-    if (!$CACHEDPROGRAMCONTENTS)
+    if ($GLOBAL:CACHEDPROGRAMCONTENTS -eq $false)
     {
-        if($DEBUGMODE)
+        if($GLOBAL:DEBUGMODE)
         {
-            Printf 3 "Building $($SCRIPTFILENAME) script file. . .";
+            Printf 3 "Building $($GLOBAL:SCRIPTFILENAME) script file. . .";
         } # DEBUG MODE
 
         # Append the sub-scripts to the main script
@@ -826,9 +826,9 @@ function main
     # Cache to String
     else
     {
-        if($DEBUGMODE)
+        if($GLOBAL:DEBUGMODE)
         {
-            Printf 3 "Caching $($SCRIPTFILENAME) contents into main memory. . .";
+            Printf 3 "Caching $($GLOBAL:SCRIPTFILENAME) contents into main memory. . .";
         } # DEBUG MODE
 
         # Cache the sub-scripts contents into a string datatype.
@@ -841,7 +841,7 @@ function main
 
 
 
-    if($DEBUGMODE)
+    if($GLOBAL:DEBUGMODE)
     {
         Printf 3 "  Done!";
     } # DEBUG MODE
@@ -852,9 +852,9 @@ function main
     # Fourth, provide the Launcher script file
 
 
-    if($DEBUGMODE)
+    if($GLOBAL:DEBUGMODE)
     {
-        Printf 3 "Providing $($SCRIPTFILENAMELAUNCHER) script file. . .";
+        Printf 3 "Providing $($GLOBAL:SCRIPTFILENAMELAUNCHER) script file. . .";
     } # DEBUG MODE
 
     # Setup the Launcher for easy access
@@ -864,7 +864,7 @@ function main
         return 1;
     } # Prepare the Launcher
 
-    if ($DEBUGMODE)
+    if ($GLOBAL:DEBUGMODE)
     {
         Printf 3 "  Done!";
     } # DEBUG MODE
@@ -874,12 +874,12 @@ function main
     # ===============================================
 
     # Display a message that the build has been generated
-    Printf 1 "$($SCRIPTFILENAMELAUNCHER) is ready!";
-    Printf 1 "You may find the $($SCRIPTFILENAMELAUNCHER) in this path:";
-    Printf 1 "  $($OUTPUTDIRECTORY)$($SCRIPTFILENAMELAUNCHER)";
-    Printf 1 "$($SCRIPTFILENAME) has been successfully created!";
-    Printf 1 "You may find the $($SCRIPTFILENAME) in this path:";
-    Printf 1 "  $($OUTPUTFILE)";
+    Printf 1 "$($GLOBAL:SCRIPTFILENAMELAUNCHER) is ready!";
+    Printf 1 "You may find the $($GLOBAL:SCRIPTFILENAMELAUNCHER) in this path:";
+    Printf 1 "  $($GLOBAL:OUTPUTDIRECTORY)$($GLOBAL:SCRIPTFILENAMELAUNCHER)";
+    Printf 1 "$($GLOBAL:SCRIPTFILENAME) has been successfully created!";
+    Printf 1 "You may find the $($GLOBAL:SCRIPTFILENAME) in this path:";
+    Printf 1 "  $($GLOBAL:OUTPUTFILE)";
 
 
     # Successful operation
