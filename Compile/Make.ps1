@@ -808,7 +808,7 @@ function main
 
 
     # Write to File
-    if ($GLOBAL:CACHEDPROGRAMCONTENTS -eq $false)
+    if ($GLOBAL:CACHEPROGRAMCONTENT -eq $false)
     {
         if($GLOBAL:DEBUGMODE)
         {
