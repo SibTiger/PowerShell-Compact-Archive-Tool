@@ -406,8 +406,19 @@ function AppendContent
 
 
 
-    # Cache the contents into the designated variable
-    $GLOBAL:CACHEDPROGRAMCONTENTS += $(Get-Content $targetFile);
+    # Try to cache the contents into the designated variable
+    try
+    {
+        $GLOBAL:CACHEDPROGRAMCONTENTS += $(Get-Content $targetFile);
+    } # try : Cache Contents
+
+    # Caught an Error
+    catch
+    {
+        # Reached CLR limit?
+        Printf 2 $_.Exception.Message;
+        return 1;
+    } # Catch : Caught Error
 
 
     # Done
@@ -479,8 +490,19 @@ function AppendSeparation
 
 
 
-    # Cache the results to the designated variable.
-    $GLOBAL:CACHEDPROGRAMCONTENTS += $scriptSeparator;
+    # Try to cache the results to the designated variable.
+    try
+    {
+        $GLOBAL:CACHEDPROGRAMCONTENTS += $scriptSeparator;
+    } # try : Cache Contents
+
+    # Caught an Error
+    catch
+    {
+        # Reached CLR limit?
+        Printf 2 $_.Exception.Message;
+        return 1;
+    } # Catch : Caught Error
 
 
     # Done
