@@ -842,7 +842,7 @@ class DefaultCompress
 
 
         # Determine if the PowerShell Module is presently available within the environment.
-        if ([CommonPowerShell]::DetectPowerShellModule($moduleName))
+        if ([CommonPowerShell]::DetectModule($moduleName))
         {
             # Detected the module
 
