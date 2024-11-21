@@ -156,6 +156,15 @@ class DefaultCompress
     Hidden [string] $__logPath;
 
 
+    # PowerShell Module Name
+    # ---------------
+    # This will contain the name of the PowerShell Module for this specific functionality.
+    #   With having the POSH Module name available to us, we can be able to perform Module
+    #   specific actions, such as updates, install, or uninstalling the module when requested
+    #   to do so by the user.
+    Hidden [string] $__powerShellModuleName;
+
+
     # Object GUID
     # ---------------
     # Provides a unique identifier to the object, useful to make sure that we are using
