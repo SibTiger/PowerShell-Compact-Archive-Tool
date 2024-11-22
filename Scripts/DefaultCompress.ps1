@@ -203,6 +203,9 @@ class DefaultCompress
         # Log Directory Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
 
+        # PowerShell Module Name
+        $this.__powerShellModuleName = "Microsoft.PowerShell.Archive";
+
         # Object Identifier (GUID)
         $this.__objectGUID = [GUID]::NewGuid();
     } # Default Constructor
@@ -232,6 +235,9 @@ class DefaultCompress
 
         # Log Directory Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
+
+        # PowerShell Module Name
+        $this.__powerShellModuleName = "Microsoft.PowerShell.Archive";
 
         # Object Identifier (GUID)
         $this.__objectGUID = [GUID]::NewGuid();
