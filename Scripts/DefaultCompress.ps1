@@ -162,6 +162,13 @@ class DefaultCompress
     #   With having the POSH Module name available to us, we can be able to perform Module
     #   specific actions, such as updates, install, or uninstalling the module when requested
     #   to do so by the user.
+    #
+    # Install Location:
+    #   Built-In since Windows 10
+    # Module Requirements:
+    #   PowerShell Version 5.0 and Later
+    # Module Information:
+    #   https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive
     Hidden [string] $__powerShellModuleName;
 
 
