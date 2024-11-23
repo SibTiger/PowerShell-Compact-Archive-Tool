@@ -841,11 +841,6 @@ class DefaultCompress
     #  This function will try to detect if the host system has the primary module
     #   available to the PowerShell's current environment.  Without this module,
     #   it is not possible to use a lot of the functionality within this class.
-    #
-    # Module(s) and Dependencies:
-    #  - Microsoft.PowerShell.Archive
-    #    >> PowerShell Version 5.0 and Later
-    #       https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -855,16 +850,8 @@ class DefaultCompress
     #>
     [bool] DetectCompressModule()
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Name of the PowerShell Module
-        [string] $moduleName = "Microsoft.PowerShell.Archive"
-        # ----------------------------------------
-
-
-
         # Determine if the PowerShell Module is presently available within the environment.
-        if ([CommonPowerShell]::DetectModule($moduleName))
+        if ([CommonPowerShell]::DetectModule($__powerShellModuleName))
         {
             # Detected the module
 
@@ -874,10 +861,10 @@ class DefaultCompress
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Found the Microsoft.PowerShell.Archive module!";
+            [string] $logMessage = "Found the $($__powerShellModuleName) module!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "It is possible to use Microsoft.PowerShell.Archive features!";
+            [string] $logAdditionalMSG = "It is possible to use $($__powerShellModuleName) features!";
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -899,10 +886,10 @@ class DefaultCompress
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Could not find the Microsoft.PowerShell.Archive module!";
+            [string] $logMessage = "Could not find the $($__powerShellModuleName) module!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("It is not possible to use the Microsoft.PowerShell.Archive features!`r`n" + `
+            [string] $logAdditionalMSG = ("It is not possible to use the $($__powerShellModuleName) features!`r`n" + `
                                         "`t- Please consider downloading the latest version of dotNET Core:`r`n" + `
                                         "`t`thttps://dotnet.microsoft.com/download`r`n" + `
                                         "`t- Also make sure that you are using the latest PowerShell Core version as well:`r`n" + `
