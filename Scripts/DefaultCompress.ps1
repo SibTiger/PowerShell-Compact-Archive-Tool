@@ -346,6 +346,21 @@ class DefaultCompress
 
 
 
+   <# Get PowerShell Module Name
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the 'PowerShell Module Name' variable.
+    # -------------------------------
+    # Output:
+    #  [string] PowerShell Module Name
+    #   The value of the 'PowerShell Module Name'.
+    # -------------------------------
+    #>
+    [string] GetPowerShellModuleName() { return $this.__powerShellModuleName; }
+
+
+
+
    <# Get Object GUID
     # -------------------------------
     # Documentation:
@@ -851,7 +866,7 @@ class DefaultCompress
     [bool] DetectCompressModule()
     {
         # Determine if the PowerShell Module is presently available within the environment.
-        if ([CommonPowerShell]::DetectModule($__powerShellModuleName))
+        if ([CommonPowerShell]::DetectModule($this.GetPowerShellModuleName()))
         {
             # Detected the module
 
@@ -861,10 +876,10 @@ class DefaultCompress
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Found the $($__powerShellModuleName) module!";
+            [string] $logMessage = "Found the $($this.GetPowerShellModuleName())) module!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "It is possible to use $($__powerShellModuleName) features!";
+            [string] $logAdditionalMSG = "It is possible to use $($this.GetPowerShellModuleName()) features!";
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -886,10 +901,10 @@ class DefaultCompress
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Could not find the $($__powerShellModuleName) module!";
+            [string] $logMessage = "Could not find the $($this.GetPowerShellModuleName()) module!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("It is not possible to use the $($__powerShellModuleName) features!`r`n" + `
+            [string] $logAdditionalMSG = ("It is not possible to use the $($this.GetPowerShellModuleName()) features!`r`n" + `
                                         "`t- Please consider downloading the latest version of dotNET Core:`r`n" + `
                                         "`t`thttps://dotnet.microsoft.com/download`r`n" + `
                                         "`t- Also make sure that you are using the latest PowerShell Core version as well:`r`n" + `
