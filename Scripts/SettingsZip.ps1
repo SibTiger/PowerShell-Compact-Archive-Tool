@@ -360,8 +360,6 @@ class SettingsZip
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Retrieve the dotNET Archive object.
-        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
         # ----------------------------------------
 
 
@@ -437,7 +435,7 @@ class SettingsZip
                 ($_ -eq "Upgrade Compression Module")}
             {
                 # Update the PowerShell Module as requested
-                $defaultCompress.UpdateModule();
+                # << ADD CODE HERE >>
 
 
                 # Finished
