@@ -925,6 +925,32 @@ class DefaultCompress
 
 
 
+
+   <# Update Module
+    # -------------------------------
+    # Documentation:
+    #  This function will try to update the Microsoft's Archive Zip POSH Module
+    #   software to the latest version possible.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #   $true  = Successfully Updated the POSH Module
+    #   $false = Failed to Updated the POSH Module
+    # -------------------------------
+    #>
+    [bool] UpdateModule()
+    {
+        # Perform the update
+        if ([CommonPowerShell]::UpdateModule($this.GetPowerShellModuleName()))
+        {
+            return $true;
+        } # if : Successfully Updated
+
+        # Failed to update
+        return $false;
+    } # UpdateModule()
+
+
     #region Inspect Archive
 
 
