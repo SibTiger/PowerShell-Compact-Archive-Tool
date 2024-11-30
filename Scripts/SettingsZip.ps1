@@ -123,15 +123,13 @@ class SettingsZip
         [string] $currentSettingCompressionLevel = $NULL;       # Compression Level
         [string] $currentSettingVerifyBuild = $NULL;            # Verify Build
         [string] $currentSettingGenerateReport = $NULL;         # Generate Report
-        [string] $moduleName = $NULL;                           # The POSH Module Name
         # ----------------------------------------
 
 
         # Retrieve the current settings and determine the wording before we generate the menu.
         [SettingsZip]::__DrawMenuDecipherCurrentSettings([ref] $currentSettingCompressionLevel, `   # Compression Level
                                                         [ref] $currentSettingVerifyBuild, `         # Verify Build
-                                                        [ref] $currentSettingGenerateReport, `      # Generate Report
-                                                        [ref] $moduleName);                         # PowerShell Module Name
+                                                        [ref] $currentSettingGenerateReport)        # Generate Report
 
 
 
@@ -159,14 +157,6 @@ class SettingsZip
                                 "Generate Report of the Archive Datafile", `
                                 "Provides a detailed report regarding the newly generated compressed file.", `
                                 "Create a report of the newly generated build: $($currentSettingGenerateReport)", `
-                                $true);
-
-
-        # Update PowerShell Module
-        [CommonCUI]::DrawMenuItem('U', `
-                                "Update the Compression Software", `
-                                "Perform an update on the compression software if available.", `
-                                "PowerShell Module Name: $($moduleName).", `
                                 $true);
 
 
@@ -216,14 +206,11 @@ class SettingsZip
     #   Determines if the newly generated build will be tested to assure its integrity.
     #  [string] (REFERENCE) Generate Report
     #   Determines if the user wanted a report of the newly generated compressed build.
-    #  [string] (REFERENCE) PowerShell Module Name
-    #   The PowerShell Module for the Compression implementation.
     # -------------------------------
     #>
     hidden static [void] __DrawMenuDecipherCurrentSettings([ref] $compressionLevel, `   # Compression Level
                                                             [ref] $verifyBuild, `       # Verify Build
-                                                            [ref] $generateReport, `    # Generate Report
-                                                            [ref] $moduleName)          # PowerShell Module Name
+                                                            [ref] $generateReport)      # Generate Report
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -323,16 +310,6 @@ class SettingsZip
             # The user does not want to have a report generated of the archive datafile.
             $generateReport.Value = "No";
         } # else: Do not create report
-
-
-
-        # - - - - - - - - - - - - - - - - - - - - - -
-        # - - - - - - - - - - - - - - - - - - - - - -
-
-
-
-        # Obtain the PowerShell Module Name of the Compression functionality.
-        $moduleName.Value = $defaultCompress.GetPowerShellModuleName();
     } # __DrawMenuDecipherCurrentSettings()
 
 
@@ -416,31 +393,6 @@ class SettingsZip
                 # Finished
                 break;
             } # Generate Report of Archive Datafile
-
-
-
-            # Update the PowerShell Module
-            #  NOTE: Allow the user's request when the type: 'Update', 'Upgrade',
-            #           'Update Compression Software', 'Update Module', 'Update Compression Module',
-            #           'Upgrade Compression Software', 'Upgrade Module', Upgrade Compression Module',
-            #           as well as 'U'.
-            {($_ -eq "U") -or `
-                ($_ -eq "Update") -or `
-                ($_ -eq "Upgrade") -or `
-                ($_ -eq "Update Compression Software") -or `
-                ($_ -eq "Update Module") -or `
-                ($_ -eq "Update Compression Module") -or `
-                ($_ -eq "Upgrade Compression Software") -or `
-                ($_ -eq "Upgrade Module") -or `
-                ($_ -eq "Upgrade Compression Module")}
-            {
-                # Update the PowerShell Module as requested
-                # << ADD CODE HERE >>
-
-
-                # Finished
-                break;
-            } # Update PowerShell Module
 
 
 
