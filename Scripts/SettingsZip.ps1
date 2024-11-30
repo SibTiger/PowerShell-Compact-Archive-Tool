@@ -360,9 +360,6 @@ class SettingsZip
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Retrieve the current instance of the User Preferences object; this contains the user's
-        #  generalized settings.
-        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
         # ----------------------------------------
 
 
