@@ -1413,7 +1413,9 @@ class SettingsZip
 
 
         # Determine if we have enough information to provide something useful to the user.
-        if ($NULL -eq $aboutInfo.Author -eq $aboutInfo.Name)
+        #  If there was not enough information available, then do not generate the string.
+        if (([CommonIO]::IsStringEmpty($aboutInfo.Author)   -eq $true) -and `   # Is Author field empty
+            ([CommonIO]::IsStringEmpty($aboutInfo.Name)     -eq $true))         # Is POSH Module Name field empty
         {
             # Not enough information was collected; do not generate the string.
             return $NULL;
