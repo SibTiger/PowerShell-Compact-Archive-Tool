@@ -1402,11 +1402,31 @@ class SettingsZip
 
 
 
-        # Determine if it is possible to obtain the meta data for this PowerShell Module
+        # Determine if it is possible to obtain the meta data for this PowerShell Module.
+        #   If we cannot get the meta data, than return null.
         if (![CommonPowerShell]::GetModuleMetaData($defaultCompress.GetPowerShellModuleName(), `
                                                     [ref] $aboutInfo))
-        {
-            # Unable to obtain any About Info. data.
+        { 
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to show brief POSH Module About information!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("There is no Meta Information available to show for:`r`n" + `
+                                            "`t" + $defaultCompress.GetPowerShellModuleName());
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Return nothing.
             return $NULL;
         } # if : Unable to Get Meta Data
 
@@ -1417,7 +1437,31 @@ class SettingsZip
         if (([CommonIO]::IsStringEmpty($aboutInfo.Author)   -eq $true) -and `   # Is Author field empty
             ([CommonIO]::IsStringEmpty($aboutInfo.Name)     -eq $true))         # Is POSH Module Name field empty
         {
-            # Not enough information was collected; do not generate the string.
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to show brief POSH Module About information due to missing information!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("PowerShell Module Full Name:`r`n" + `
+                                            "`t" + $defaultCompress.GetPowerShellModuleName() + "`r`n" + `
+                                            "`tThe following information is required:`r`n" + `
+                                            "`t`t - Author:      "    + $aboutInfo.Author + "`r`n" + `
+                                            "`t`t - Module Name: "    + $aboutInfo.Name + "`r`n" + `
+                                            "`tOptional Information:`r`n" + `
+                                            "`t`t - Module Version: " + $aboutInfo.Version + "`r`n");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Return nothing
             return $NULL;
         } # if : Not Enough Information
 
@@ -1434,6 +1478,33 @@ class SettingsZip
 
         # Add the Author
         $aboutString += "by " + $aboutInfo.Author;
+
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        [string] $logMessage = "Successfully created the Brief About information!";
+
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = ("PowerShell Module Full Name:`r`n" + `
+                                        "`t`t" + $defaultCompress.GetPowerShellModuleName() + "`r`n" + `
+                                        "`tThe About Information Collected:`r`n" + `
+                                        "`t`t - Author:         " + $aboutInfo.Author   + "`r`n" + `
+                                        "`t`t - Module Name:    " + $aboutInfo.Name     + "`r`n" + `
+                                        "`t`t - Module Version: " + $aboutInfo.Version  + "`r`n" + `
+                                        "`tBrief About String that was created:`r`n" + `
+                                        "`t`t" + $aboutString);
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
+
 
 
         # Finished!
