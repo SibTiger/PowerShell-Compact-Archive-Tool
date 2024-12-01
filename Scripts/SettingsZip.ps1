@@ -73,6 +73,9 @@ class SettingsZip
             # Show the user that they are at the Zip Settings Menu.
             [CommonCUI]::DrawSectionHeader("Zip Settings Menu");
 
+            # Show Brief-About Information to the User
+            [Logging]::DisplayMessage([SettingsZip]::ShowAboutBrief() + "`r`n`r`n");
+
             # Display the instructions to the user
             [CommonCUI]::DrawMenuInstructions();
 
@@ -1349,5 +1352,90 @@ class SettingsZip
         # Finished with the operation; return back to the current menu.
         return $true;
     } # __EvaluateExecuteUserRequestGenerateReport()
+    #endregion
+
+
+
+
+
+    #region Menu Specific Functions
+    #                                  Menu Specific Functions
+    # ==========================================================================================
+    # ------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------
+    # ==========================================================================================
+
+
+
+
+
+   <# Show About - Brief
+    # -------------------------------
+    # Documentation:
+    #   This function will provide a brief 'about' information regarding the module.
+    #   The about information will be extremely brief, only consisting the following:
+    #       - Module Name, or just 'Name'.
+    #       - Module Version, or just 'Version'.
+    #       - Author of the Module, or just 'Author'.
+    #
+    #   The output string format will be in the following:
+    #       [Name] v[Version] by [Author]
+    # -------------------------------
+    # Output:
+    #  [string] About String
+    #   String containing the: Module Name, Module Version, and the Author of the Module.
+    # -------------------------------
+    #>
+    static [string] ShowAboutBrief()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This will be used to collect the PowerShell Module's meta data.
+        [PowerShellModuleMetaData] $aboutInfo = [PowerShellModuleMetaData]::new();
+
+        # This is the about string that will be presented to the user.
+        [string] $aboutString = $NULL;
+
+        # Retrieve the current instance of the Default Compress object.
+        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        # ----------------------------------------
+
+
+
+        # Determine if it is possible to obtain the meta data for this PowerShell Module
+        if (![CommonPowerShell]::GetModuleMetaData($defaultCompress.GetPowerShellModuleName(), `
+                                                    [ref] $aboutInfo))
+        {
+            # Unable to obtain any About Info. data.
+            return $NULL;
+        } # if : Unable to Get Meta Data
+
+
+
+        # Determine if we have enough information to provide something useful to the user.
+        if ($NULL -eq $aboutInfo.Author -eq $aboutInfo.Name)
+        {
+            # Not enough information was collected; do not generate the string.
+            return $NULL;
+        } # if : Not Enough Information
+
+
+        # Construct the string with the data that we had just obtained.
+        # To do this in a meaningful way, we will do this piece by piece
+        # due to optional data being possibly available or not.
+
+        # Add the Module Name
+        $aboutString = $aboutInfo.Name + " ";
+
+        # Add the version string?
+        if ($NULL -ne $aboutInfo.Version) { $aboutString += "v" + $aboutInfo.Version + " "; }
+
+        # Add the Author
+        $aboutString += "by " + $aboutInfo.Author;
+
+
+        # Finished!
+        return $aboutString;
+    } # ShowAboutBrief()
     #endregion
 } # SettingsZip
