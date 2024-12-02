@@ -1416,9 +1416,21 @@ class SettingsZip
         # ----------------------------------------
 
 
+        # Clear the terminal of all previous text; keep the space clean so that it is easy
+        #  for the user to read and follow along.
+        [CommonIO]::ClearBuffer();
+
+        # Draw Program Information Header
+        [CommonCUI]::DrawProgramTitleHeader();
+
+        # Show the user that they are at the Generate Report menu
+        [CommonCUI]::DrawSectionHeader("Show About for $($defaultCompress.GetPowerShellModuleName())");
+
+        # Provide some extra white spacing so that it is easier to read for the user
+        [Logging]::DisplayMessage("`r`n`r`n");
+
         # Show the about information to the user
         $defaultCompress.ShowAbout();
-
 
         # Wait for the user to provide the enter key.
         [CommonIO]::FetchEnterKey();
