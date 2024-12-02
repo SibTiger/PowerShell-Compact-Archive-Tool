@@ -948,6 +948,9 @@ class DefaultCompress
 
         # This is the about string that will be presented to the user.
         [string] $aboutString = $NULL;
+
+        # A quick 'Double Space' macro.
+        [string] $dbs = "`r`n`r`n";
         # ----------------------------------------
 
 
@@ -987,28 +990,24 @@ class DefaultCompress
         #   data is available within a field.  Otherwise, if nothing is available,
         #   then the missing information will not be included into the string.
         if ([CommonIO]::IsStringEmpty($aboutInfo.Author) -ne $true)
-        { $aboutString += "Author:`r`n`t" + $aboutInfo.Author + "`r`n"; }
+        { $aboutString += "Author:`r`n`t" + $aboutInfo.Author + $dbs; }
 
         if ([CommonIO]::IsStringEmpty($aboutInfo.Name) -ne $true)
-        { $aboutString += "PowerShell Module Name:`r`n`t" + $aboutInfo.Name + "`r`n"; }
+        { $aboutString += "PowerShell Module Name:`r`n`t" + $aboutInfo.Name + $dbs; }
 
         if ([CommonIO]::IsStringEmpty($aboutInfo.Version) -ne $true)
-        { $aboutString += "PowerShell Module Version:`r`n`t" + $aboutInfo.Version + "`r`n"; }
+        { $aboutString += "PowerShell Module Version:`r`n`t" + $aboutInfo.Version + $dbs; }
 
         if ([CommonIO]::IsStringEmpty($aboutInfo.Copyright) -ne $true)
-        { $aboutString += "Copyright:`r`n`t" + $aboutInfo.Copyright + "`r`n"; }
+        { $aboutString += "Copyright:`r`n`t" + $aboutInfo.Copyright + $dbs; }
 
         if ([CommonIO]::IsStringEmpty($aboutInfo.ProjectURI) -ne $true)
-        { $aboutString += "Webpage:`r`n`t" + $aboutInfo.ProjectURI + "`r`n"; }
+        { $aboutString += "Webpage:`r`n`t" + $aboutInfo.ProjectURI + $dbs; }
 
         if ([CommonIO]::IsStringEmpty($aboutInfo.Description) -ne $true)
         {
             $aboutString += ("Description:`r`n" + `
-                    "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~`r`n" + `
-                    "`r`n" + `
-                    $aboutInfo.Description + `
-                    "`r`n" + `
-                    "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~`r`n");
+                    "`t" + $aboutInfo.Description + $dbs);
         } # if : Append Description
 
         if ([CommonIO]::IsStringEmpty($aboutInfo.ReleaseNotes)  -ne $true)
