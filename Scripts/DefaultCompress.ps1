@@ -933,6 +933,11 @@ class DefaultCompress
     #   present it to the user.  The about information shown to the user will contain as much
     #   data as possible that is related to the PowerShell Module.
     # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #   $true = Successfully retrieved About Information
+    #   $false = Unable to retrieve useful About information
+    # -------------------------------
     #>
     [bool] ShowAbout()
     {
