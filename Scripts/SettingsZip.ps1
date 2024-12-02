@@ -1432,6 +1432,9 @@ class SettingsZip
         # Show the about information to the user
         $defaultCompress.ShowAbout();
 
+        # Provide an extra white space so that it is a bit easier to differentiate content and user input.
+        [Logging]::DisplayMessage("`r`n");
+
         # Wait for the user to provide the enter key.
         [CommonIO]::FetchEnterKey();
     } # __ShowAbout()
