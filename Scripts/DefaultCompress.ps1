@@ -925,6 +925,193 @@ class DefaultCompress
 
 
 
+
+   <# Show About
+    # -------------------------------
+    # Documentation:
+    #   This function will provide the 'About' information about this PowerShell Module and
+    #   present it to the user.  The about information shown to the user will contain as much
+    #   data as possible that is related to the PowerShell Module.
+    # -------------------------------
+    #>
+    [bool] ShowAbout()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This will be used to collect the PowerShell Module's meta data.
+        [PowerShellModuleMetaData] $aboutInfo = [PowerShellModuleMetaData]::new();
+
+        # This is the about string that will be presented to the user.
+        [string] $aboutString = $NULL;
+        # ----------------------------------------
+
+
+
+        # Determine if it is possible to obtain the meta data for this PowerShell Module.
+        #   If we cannot get the meta data, than return an error.
+        if (![CommonPowerShell]::GetModuleMetaData($this.GetPowerShellModuleName(), `
+                                                    [ref] $aboutInfo))
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to show the POSH Module About information!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("There is no Meta Information available to show for:`r`n" + `
+                                            "`t" + $this.GetPowerShellModuleName());
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Unable to obtain any About Info. data.
+            return $false;
+        } # if : Unable to Get Meta Data
+
+
+
+        # Construct the string with the data that we just obtained.
+        # To do this properly, we will only append information to the string - if
+        #   data is available within a field.  Otherwise, if nothing is available,
+        #   then the missing information will not be included into the string.
+        if ([CommonIO]::IsStringEmpty($aboutInfo.Author) -ne $true)
+        { $aboutString += "Author:`r`n`t" + $aboutInfo.Author + "`r`n"; }
+
+        if ([CommonIO]::IsStringEmpty($aboutInfo.Name) -ne $true)
+        { $aboutString += "PowerShell Module Name:`r`n`t" + $aboutInfo.Name + "`r`n"; }
+
+        if ([CommonIO]::IsStringEmpty($aboutInfo.Version) -ne $true)
+        { $aboutString += "PowerShell Module Version:`r`n`t" + $aboutInfo.Version + "`r`n"; }
+
+        if ([CommonIO]::IsStringEmpty($aboutInfo.Copyright) -ne $true)
+        { $aboutString += "Copyright:`r`n`t" + $aboutInfo.Copyright + "`r`n"; }
+
+        if ([CommonIO]::IsStringEmpty($aboutInfo.ProjectURI) -ne $true)
+        { $aboutString += "Webpage:`r`n`t" + $aboutInfo.ProjectURI + "`r`n"; }
+
+        if ([CommonIO]::IsStringEmpty($aboutInfo.Description) -ne $true)
+        {
+            $aboutString += ("Description:`r`n" + `
+                    "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~`r`n" + `
+                    "`r`n" + `
+                    $aboutInfo.Description + `
+                    "`r`n" + `
+                    "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~`r`n");
+        } # if : Append Description
+
+        if ([CommonIO]::IsStringEmpty($aboutInfo.ReleaseNotes)  -ne $true)
+        {
+            $aboutString += ("Release Notes:`r`n" + `
+                    "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~`r`n" + `
+                    "`r`n" + `
+                    $aboutInfo.ReleaseNotes + `
+                    "`r`n" + `
+                    "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~`r`n");
+        } # if : Append Release Notes
+
+
+
+        # If incase /nothing/ was collected, alert the user that we couldn't generate any
+        #   useful information regarding the PowerShell Module.
+        if ([CommonIO]::IsStringEmpty($aboutString))
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to show the POSH Module About information!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("There is no useful Meta Information available to show for:`r`n" + `
+                                            "`t" + $this.GetPowerShellModuleName() + "`r`n"         + `
+                                            "`tAbout String:`r`n" + `
+                                            "=====================================================`r`n" + `
+                                            "`r`n" + `
+                                            $aboutString + "`r`n" + `
+                                            "`r`n" + `
+                                            "=====================================================");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Nothing of use was collected.
+            return $false;
+        } # if : About String is Empty
+
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        [string] $logMessage = "Successfully created the About information!";
+
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = ("PowerShell Module Full Name:`r`n" + `
+                                        "`t`t" + $this.GetPowerShellModuleName() + "`r`n" + `
+                                        "`tThe About Information Collected:`r`n" + `
+                                        "`t`t - Author:         " + $aboutInfo.Author       + "`r`n" + `
+                                        "`t`t`tString was empty?  " + [CommonIO]::IsStringEmpty($aboutInfo.Author) + "`r`n" + `
+                                        "`t`t - Module Name:    " + $aboutInfo.Name         + "`r`n" + `
+                                        "`t`t`tString was empty?  " + [CommonIO]::IsStringEmpty($aboutInfo.Name) + "`r`n" + `
+                                        "`t`t - Module Version: " + $aboutInfo.Version      + "`r`n" + `
+                                        "`t`t`tString was empty?  " + [CommonIO]::IsStringEmpty($aboutInfo.Version) + "`r`n" + `
+                                        "`t`t - Copyright:      " + $aboutInfo.Copyright    + "`r`n" + `
+                                        "`t`t`tString was empty?  " + [CommonIO]::IsStringEmpty($aboutInfo.Copyright) + "`r`n" + `
+                                        "`t`t - Project URI:    " + $aboutInfo.ProjectURI   + "`r`n" + `
+                                        "`t`t`tString was empty?  " + [CommonIO]::IsStringEmpty($aboutInfo.ProjectURI) + "`r`n" + `
+                                        "`t`t - Description:`r`n" + `
+                                        "`t`t`tString was empty?  " + [CommonIO]::IsStringEmpty($aboutInfo.Description) + "`r`n" + `
+                                        "= - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - `r`n" + `
+                                        "`r`n" + `
+                                        $aboutInfo.description + "`r`n" + `
+                                        "`r`n" + `
+                                        "= - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - `r`n" + `
+                                        "`t`t - Release Notes:`r`n" + `
+                                        "`t`t`tString was empty?  " + [CommonIO]::IsStringEmpty($aboutInfo.ReleaseNotes) + "`r`n" + `
+                                        "= - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - `r`n" + `
+                                        "`r`n" + `
+                                        $aboutInfo.ReleaseNotes + "`r`n" + `
+                                        "`r`n" + `
+                                        "= - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - `r`n" + `
+                                        "`r`n" + `
+                                        "`tAbout String that was created:`r`n" + `
+                                        "`t`t" + $aboutString);
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
+
+
+
+        # Show the information to the user.
+        [Logging]::DisplayMessage($aboutString);
+
+
+
+        # Finished
+        return $true;
+    } # ShowAbout()
+
+
+
     #region Inspect Archive
 
 
