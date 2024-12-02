@@ -126,6 +126,9 @@ class SettingsZip
         [string] $currentSettingCompressionLevel = $NULL;       # Compression Level
         [string] $currentSettingVerifyBuild = $NULL;            # Verify Build
         [string] $currentSettingGenerateReport = $NULL;         # Generate Report
+
+        # Retrieve the dotNET Archive object.
+        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
         # ----------------------------------------
 
 
@@ -160,6 +163,14 @@ class SettingsZip
                                 "Generate Report of the Archive Datafile", `
                                 "Provides a detailed report regarding the newly generated compressed file.", `
                                 "Create a report of the newly generated build: $($currentSettingGenerateReport)", `
+                                $true);
+
+
+        # Show About Information regarding the PowerShell Module
+        [CommonCUI]::DrawMenuItem('A', `
+                                "About $($defaultCompress.GetPowerShellModuleName())", `
+                                "Provides details regarding the PowerShell Module, $($defaultCompress.GetPowerShellModuleName())", `
+                                $NULL, `
                                 $true);
 
 
@@ -341,6 +352,8 @@ class SettingsZip
     {
         # Declarations and Initializations
         # ----------------------------------------
+        # Retrieve the dotNET Archive object.
+        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
         # ----------------------------------------
 
 
@@ -397,6 +410,23 @@ class SettingsZip
                 # Finished
                 break;
             } # Generate Report of Archive Datafile
+
+
+
+            # Show the About Page to the User
+            #  NOTE: Allow the user's request when they type: 'About', 'About $moduleNameHere',
+            #    as well as 'A'.
+            {(($_ -eq "A") -or `
+                ($_ -eq "About") -or `
+                ($_ -eq "About $($defaultCompress.GetPowerShellModuleName())"))}
+            {
+                # Show the About Page to the user
+                [SettingsZip]::__ShowAbout();
+
+
+                # Finished
+                break;
+            } # Show the About PAge to the User
 
 
 
@@ -1353,6 +1383,48 @@ class SettingsZip
         return $true;
     } # __EvaluateExecuteUserRequestGenerateReport()
     #endregion
+
+
+
+
+
+    #region Show About Page
+    #                                        Show About
+    # ==========================================================================================
+    # ------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------
+    # ==========================================================================================
+
+
+
+
+
+   <# Show About
+    # -------------------------------
+    # Documentation:
+    #  This function will show the 'About' page to the user; because there's no further
+    #   action required from the user, we will merely present the information to the user
+    #   and then wait for the user to press the desired key to move back to the settings menu.
+    # -------------------------------
+    #>
+    hidden static [void] __ShowAbout()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Latch onto the single instance of the Zip object
+        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        # ----------------------------------------
+
+
+        # Show the about information to the user
+        $defaultCompress.ShowAbout();
+
+
+        # Wait for the user to provide the enter key.
+        [CommonIO]::FetchEnterKey();
+    } # __ShowAbout()
+    #endregion
+
 
 
 
