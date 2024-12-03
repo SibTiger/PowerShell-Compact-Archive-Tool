@@ -1,5 +1,5 @@
 ﻿<# PowerShell Compact-Archive Tool
- # Copyright (C) 2023
+ # Copyright (C) 2025
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -184,7 +184,7 @@ function InitializationProgramIdentity()
     # Date Format: DD.MM.YYYY with leading zeros
     Set-Variable `
         -Name "_RELEASEDATE_" `
-        -Value "DD.MM.2023" `
+        -Value "DD.MM.2025" `
         -Scope Global `
         -Option ReadOnly `
         -Visibility Public `

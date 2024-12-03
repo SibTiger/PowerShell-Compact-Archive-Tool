@@ -1,5 +1,5 @@
 <# PowerShell Compact-Archive Tool
- # Copyright (C) 2023
+ # Copyright (C) 2025
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -62,7 +62,7 @@ class Builder
     #   $true = The Project Build had successfully been created.
     # -------------------------------
     #>
-    static [bool] Build([bool] $makeDevBuild)
+    static [bool] Build()
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -135,22 +135,6 @@ class Builder
 
 
 
-        #           Update Source (Git)
-        # * * * * * * * * * * * * * * * * * * * *
-        # * * * * * * * * * * * * * * * * * * * *
-
-        # Try to update the user's copy of the project files.
-        if (![Builder]::__UpdateProject())
-        {
-            # Because there was an error while attempting to update the user's
-            #  local copy of the project files, we cannot proceed.
-            return $false;
-        } # if : Update Local Project Files
-
-
-
-
-
         #            Generate Filename
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
@@ -158,7 +142,7 @@ class Builder
         # We will need to know the file name that will identify archive datafile,
         #  as well as the file extension that will help to classify the archive
         #  datafile's data structure.
-        $fileName = [Builder]::__GenerateArchiveFileName($makeDevBuild);
+        $fileName = [Builder]::__GenerateArchiveFileName();
 
 
 
@@ -289,15 +273,6 @@ class Builder
         } # if : Generate Report Failed for Archive File
 
 
-        # True to generate a report based on the Local Repository.
-        if (![Builder]::__GenerateReportProjectLocalRepository())
-        {
-            # Because we could not generate a report of the project's local
-            #  repository, then the compiled project might had been damaged.
-            return $false;
-        } # if : Generate Report Failed for Local Repo. Project
-
-
 
 
 
@@ -353,17 +328,12 @@ class Builder
         #  generalized settings.
         [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
 
-        # Retrieve the current instance of the user's Git Control object; this contains the user's
-        #  preferences as to how Git will be used within this application.
-        [GitControl] $gitControl = [GitControl]::GetInstance();
-
-        # Retrieve the current instance of the user's 7Zip object; this contains the user's
-        #  preferences as to how 7Zip will be utilized within this application.
-        [SevenZip] $sevenZip = [SevenZip]::GetInstance();
-
         # Retrieve the current instance of the Project Information object; this contains details
         #  in regards to where the source files exists within the user's system.
         [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+
+        # Latch onto the single instance of the Zip object
+        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
 
         # We will use this variable to cache the detection status of a particular item that we want
         #  to check.  Instead of having to recall the exact same checking function over and over again,
@@ -531,302 +501,70 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
 
-        # Determine if the chosen compression tool is available for us to utilize.
-        switch ($userPreferences.GetCompressionTool())
+        # Check the current status of the Archive ZIP Module
+        $boolCacheValue = $defaultCompress.DetectCompressModule();
+
+        # Make sure that the dotNET Archive Zip is available
+        if ($boolCacheValue -eq $false)
         {
-            # dotNET Archive Zip
-            ([UserPreferencesCompressTool]::InternalZip)
-            {
-                # Check the current status of the Archive ZIP Module
-                $boolCacheValue = [CommonFunctions]::IsAvailableZip();
+            # Unable to find the dotNET Archive Zip
 
-                # Make sure that the dotNET Archive Zip is available
-                if ($boolCacheValue -eq $false)
-                {
-                    # Unable to find the dotNET Archive Zip
+            # Alert the user that an error had been reached.
+            [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
 
-                    # Alert the user that an error had been reached.
-                    [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
 
+            # Show that this program cannot detect the dotNET Core Archive ZIP functionality.
+            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find native support with Default ZIP functionality");
+            [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please assure that you are using the latest version of PowerShell Core!");
+            [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
 
-                    # Show that this program cannot detect the dotNET Core Archive ZIP functionality.
-                    [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find native support with Default ZIP functionality");
-                    [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please assure that you are using the latest version of PowerShell Core!");
-                    [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
 
 
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
 
-                    # * * * * * * * * * * * * * * * * * * *
-                    # Debugging
-                    # --------------
+            # Generate a message to display to the user.
+            [string] $displayErrorMessage = ("I am unable to find support for ZIP in this version of PowerShell!`r`n" + `
+                                            "Please make sure that you are using the latest version of PowerShell Core!`r`n" + `
+                                            "`t- You are currently using PowerShell Core Version: $([SystemInformation]::PowerShellVersion())`r`n" + `
+                                            "`t- ZIP Archive Module Detection Status: $([string]$boolCacheValue)`r`n" + `
+                                            "`t- You may check out any new releases of the PowerShell Core at GitHub!`r`n" + `
+                                            "`t`thttps://github.com/PowerShell/PowerShell/releases");
 
-                    # Generate a message to display to the user.
-                    [string] $displayErrorMessage = ("I am unable to find support for ZIP in this version of PowerShell!`r`n" + `
-                                                    "Please make sure that you are using the latest version of PowerShell Core!`r`n" + `
-                                                    "`t- You are currently using PowerShell Core Version: $([SystemInformation]::PowerShellVersion())`r`n" + `
-                                                    "`t- ZIP Archive Module Detection Status: $([string]$boolCacheValue)`r`n" + `
-                                                    "`t- You may check out any new releases of the PowerShell Core at GitHub!`r`n" + `
-                                                    "`t`thttps://github.com/PowerShell/PowerShell/releases");
+            # Generate the initial message
+            $logMessage = "Unable to find the dotNET Archive Zip Module!";
 
-                    # Generate the initial message
-                    $logMessage = "Unable to find the dotNET Archive Zip Module!";
+            # Generate any additional information that might be useful
+            $logAdditionalMSG = ("Please assure that you are currently using the latest version of PowerShell Core!`r`n" + `
+                                "`tArchive ZIP Module Detection reported: $([string]$boolCacheValue)`r`n" + `
+                                "`tPowerShell Version: $([SystemInformation]::PowerShellVersion())`r`n" + `
+                                "`tOperating System: $([String][SystemInformation]::OperatingSystem())`r`n" + `
+                                "`tCheck for new versions of PowerShell Core at the provided official website:`r`n" + `
+                                "`t`thttps://github.com/PowerShell/PowerShell/releases");
 
-                    # Generate any additional information that might be useful
-                    $logAdditionalMSG = ("Please assure that you are currently using the latest version of PowerShell Core!`r`n" + `
-                                        "`tArchive ZIP Module Detection reported: $([string]$boolCacheValue)`r`n" + `
-                                        "`tPowerShell Version: $([SystemInformation]::PowerShellVersion())`r`n" + `
-                                        "`tOperating System: $([String][SystemInformation]::OperatingSystem())`r`n" + `
-                                        "`tCheck for new versions of PowerShell Core at the provided official website:`r`n" + `
-                                        "`t`thttps://github.com/PowerShell/PowerShell/releases");
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
 
-                    # Pass the information to the logging system
-                    [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                                $logAdditionalMSG, `        # Additional information
-                                                [LogMessageLevel]::Error);  # Message level
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
 
-                    # Display a message to the user that something went horribly wrong
-                    #  and log that same message for referencing purpose.
-                    [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
-                                                [LogMessageLevel]::Error);  # Message level
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
-                    # Alert the user through a message box as well that an issue had occurred;
-                    #   the message will be brief as the full details remain within the terminal.
-                    [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+            # * * * * * * * * * * * * * * * * * * *
 
-                    # * * * * * * * * * * * * * * * * * * *
 
+            # Because we cannot find the default internal Archive Module within PowerShell, we
+            #  cannot proceed forward with the compiling phase.
+            return $false;
+        } # if : Check if dotNET Archive Zip Exists
 
-                    # Because we cannot find the default internal Archive Module within PowerShell, we
-                    #  cannot proceed forward with the compiling phase.
-                    return $false;
-                } # If : Found Default Zip
-
-
-                # Successfully found native support with the Archive ZIP module
-                [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Successful, "Found native support with dotNET Core Archive ZIP!");
-
-
-                # Finished
-                break;
-            } # dotNET Archive Zip
-
-
-            # 7Zip
-            ([UserPreferencesCompressTool]::SevenZip)
-            {
-                # Check the current status of the 7Zip application
-                $boolCacheValue = [CommonFunctions]::IsAvailable7Zip();
-
-                # Make sure that the 7Zip is available
-                if ($boolCacheValue -eq $false)
-                {
-                    # Unable to find the 7Zip application
-
-                    # Alert the user that an error had been reached.
-                    [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
-
-
-                    # Show that this program cannot find the 7Zip software installed on this system or the desired location.
-                    [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find the 7Zip application installed!");
-                    [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please assure that you have 7Zip installed and that this program can find it as well.");
-                    [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
-
-
-
-                    # * * * * * * * * * * * * * * * * * * *
-                    # Debugging
-                    # --------------
-
-                    # Generate a message to display to the user.
-                    [string] $displayErrorMessage = ("I am unable to find the 7Zip software on your computer!`r`n" + `
-                                                    "Please assure that 7Zip had been properly installed on your computer!`r`n" + `
-                                                    "`t- 7Zip Detection Status: $([string]$boolCacheValue)`r`n" + `
-                                                    "`t- You may download the latest version of 7Zip at the official website!`r`n" + `
-                                                    "`t`thttps://www.7-zip.org/download.html");
-
-                    # Generate the initial message
-                    $logMessage = "Unable to find the 7Zip Application!";
-
-                    # Generate any additional information that might be useful
-                    $logAdditionalMSG = ("Please assure that you currently have 7Zip installed and that $($Global:_PROGRAMNAME_) can detect it's installation path!`r`n" + `
-                                        "`tFound 7Zip: $([String]$boolCacheValue)`r`n" + `
-                                        "`t7Zip Path: $($sevenZip.GetExecutablePath())`r`n" + `
-                                        "`tInstall the latest version of 7Zip at the official website:`r`n" + `
-                                        "`t`thttps://www.7-zip.org/download.html");
-
-                    # Pass the information to the logging system
-                    [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                                $logAdditionalMSG, `        # Additional information
-                                                [LogMessageLevel]::Error);  # Message level
-
-                    # Display a message to the user that something went horribly wrong
-                    #  and log that same message for referencing purpose.
-                    [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
-                                                [LogMessageLevel]::Error);  # Message level
-
-                    # Alert the user through a message box as well that an issue had occurred;
-                    #   the message will be brief as the full details remain within the terminal.
-                    [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
-
-                    # * * * * * * * * * * * * * * * * * * *
-
-
-                    # Because the user specified that we must use 7Zip in order to compile the builds,
-                    #  then we must abort the operation as we are unable to find the software.
-                    return $false;
-                } # If : Found 7Zip
-
-
-                # Successfully found 7Zip
-                [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Successful, "Found the 7Zip Application!");
-
-
-                # Finished
-                break;
-            } # 7Zip
-
-
-            # Unknown or Unsupported (Error Case)
-            default
-            {
-                # Unknown or Unsupported compression tool!
-
-                # Alert the user that an error had been reached.
-                [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
-
-
-                # Show that the preferred compression tool is not valid.
-                [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Preferred Compression Tool is not supported or I don't know what it is!");
-                [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please reconfigure the Compression Tool within the Program Generalized Settings!");
-                [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
-
-
-
-                # * * * * * * * * * * * * * * * * * * *
-                # Debugging
-                # --------------
-
-                # Generate a message to display to the user.
-                [string] $displayErrorMessage = ("Please choose a valid Compression Tool within the Program's Generalized settings!`r`n" + `
-                                                "The current compression tool that you had requested is either no longer supported or unknown.`r`n" + `
-                                                "`t- Current Compression Tool ID is: $([uint]$userPreferences.GetCompressionTool())");
-
-                # Generate the initial message
-                $logMessage = "Requested compression software is either unsupported or unknown!";
-
-                # Generate any additional information that might be useful
-                $logAdditionalMSG = ("Please reconfigure your preferred Compression Tool within the Program's Generalized Settings!`r`n" + `
-                                    "`tCompression Tool ID: $([uint]$userPreferences.GetCompressionTool())");
-
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                            $logAdditionalMSG, `        # Additional information
-                                            [LogMessageLevel]::Error);  # Message level
-
-                # Display a message to the user that something went horribly wrong
-                #  and log that same message for referencing purpose.
-                [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
-                                            [LogMessageLevel]::Error);  # Message level
-
-                # Alert the user through a message box as well that an issue had occurred;
-                #   the message will be brief as the full details remain within the terminal.
-                [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
-
-                # * * * * * * * * * * * * * * * * * * *
-
-
-                # Because this compression tool is not support or simply unknown, have to abruptly
-                #  stop.
-                return $false;
-            } # Unknown or Unsupported
-        } # Switch : Determine Specified Compression Tool
-
-
-
-
-        #           Git Functionality
-        # * * * * * * * * * * * * * * * * * * * *
-        # * * * * * * * * * * * * * * * * * * * *
-
-        # Determine if the user wanted us to use Git Features
-        if ($userPreferences.GetVersionControlTool() -eq [UserPreferencesVersionControlTool]::GitSCM)
-        {
-            # Check the current status of the Git application
-            $boolCacheValue = [CommonFunctions]::IsAvailableGit();
-
-            # Assure that we are able to find the Git Application
-            if ($boolCacheValue -eq $false)
-            {
-                # Unable to find the Git application.
-
-                # Alert the user that an error had been reached.
-                [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
-
-
-                # Show that the preferred compression tool is not valid.
-                [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find the Git SCM Version Control Application!");
-                [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please assure that you have Git installed and that this program can find it as well.");
-                [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
-
-
-
-                # * * * * * * * * * * * * * * * * * * *
-                # Debugging
-                # --------------
-
-                # Generate a message to display to the user.
-                [string] $displayErrorMessage = ("I am unable to find the Git Version Control software on your computer!`r`n" + `
-                                                "Please assure that Git Version Control had been properly installed on your computer!`r`n" + `
-                                                "`t- Git Detection Status: $([string]$boolCacheValue)`r`n" + `
-                                                "`t- You may download the latest version of Git at the official website!`r`n" + `
-                                                "`t`thttps://git-scm.com/");
-
-                # Generate the initial message
-                $logMessage = "Unable to find the Git Application!";
-
-                # Generate any additional information that might be useful
-                $logAdditionalMSG = ("Please assure that you currently have Git installed and that $($Global:_PROGRAMNAME_) can detect it's installation path!`r`n" + `
-                                    "`tFound Git: $([String]$boolCacheValue)`r`n" + `
-                                    "`tGit Path: $($gitControl.GetExecutablePath())`r`n" + `
-                                    "`tInstall the latest version of GIT at the official website:`r`n" + `
-                                    "`t`thttps://git-scm.com/");
-
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                            $logAdditionalMSG, `        # Additional information
-                                            [LogMessageLevel]::Error);  # Message level
-
-                # Display a message to the user that something went horribly wrong
-                #  and log that same message for referencing purpose.
-                [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
-                                            [LogMessageLevel]::Error);  # Message level
-
-                # Alert the user through a message box as well that an issue had occurred;
-                #   the message will be brief as the full details remain within the terminal.
-                [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
-
-                # * * * * * * * * * * * * * * * * * * *
-
-
-                # Because the user had requested that we utilize the Git software yet we are unable
-                #  to find it, we may not continue with the compiling operation.
-                return $false;
-            } # if : Check if Git Exists
-
-
-
-        # Successfully found Git SCM!
-        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Successful, "Found the Git Application!");
-        } # if : Git Features Requested
-
-
-
-
-        #                  DONE!
-        # * * * * * * * * * * * * * * * * * * * *
-        # * * * * * * * * * * * * * * * * * * * *
-
-        # If we made it this far, that means that we have everything we need to compile this project!
 
 
         # Show that the Perquisite Check had passed!
@@ -863,192 +601,6 @@ class Builder
 
 
 
-   <# Git - Update Project
-    # -------------------------------
-    # Documentation:
-    #  This function will update the project's source files by
-    #   updating the local repository, which in turn - updates
-    #   the local working copy files at the same time.  In which
-    #   assures that the user has the latest version of the
-    #   project files within the selected branch.
-    # -------------------------------
-    # Output:
-    #  [bool] Exit code
-    #   $false = Failed to update the project source files
-    #   $true = Successfully updated the project source files
-    # -------------------------------
-    #>
-    hidden static [bool] __UpdateProject()
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Retrieve the current instance of the User Preferences object; this contains the user's
-        #  generalized settings.
-        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
-
-        # Retrieve the current instance of the user's Git Control object; this contains the user's
-        #  preferences as to how Git will be used within this application.
-        [GitControl] $gitControl = [GitControl]::GetInstance();
-
-        # Retrieve the current instance of the Project Information object; this contains details
-        #  in regards to where the source files exists within the user's system.
-        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
-
-        # We will use this to hold the local repository's last branch update Commit ID.
-        [string] $projectCommitIDNew = $NULL;           # Updated Local Repository Commit ID
-        [string] $projectCommitIDOld = $NULL;           # Before the Update Commit ID
-
-
-        # Debugging Variables
-        [string] $logMessage = $NULL;           # Main message regarding the logged event.
-        [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
-        # ----------------------------------------
-
-
-
-
-        # First we will want to make sure that the user wanted us to update the project's source files
-        if ((($userPreferences.GetVersionControlTool() -eq [UserPreferencesVersionControlTool]::GitSCM) -and $gitControl.GetUpdateSource()) -eq $false)
-        {
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Generate the initial message
-            $logMessage = "The user does not wish to update the $($projectInformation.GetProjectName()) local repository!";
-
-            # Generate any additional information that might be useful
-            $logAdditionalMSG = ("User's Preferences for using Git Features: $($userPreferences.GetVersionControlTool())`r`n" + `
-                                "`tGit's Settings for Updating Project Source: $($gitControl.GetUpdateSource())");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity($logMessage, `                # Initial message
-                                        $logAdditionalMSG, `            # Additional information
-                                        [LogMessageLevel]::Verbose);    # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
-
-
-            # Because the user had requested that this step be skipped, then we will
-            #  provide a successful signal.  Ideally, there was no error here, other
-            #  than following the user's request.
-            return $true;
-        } # If : Do not update project source files
-
-
-
-
-        # Show that we are about to update the project source files
-        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Update $($projectInformation.GetProjectName())");
-
-
-
-
-        # If we made it this far, then we can try to update the project's source files.
-        # Retrieve the current Commit ID of the selected Branch:
-        $projectCommitIDOld = $gitControl.FetchCommitID($projectInformation.GetProjectPath());
-
-
-        # Show the user the current operation that is about to take place
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Updating $($projectInformation.GetProjectName())'s source files. . .");
-        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "Current Local Repository Commit ID: $($projectCommitIDOld)");
-
-
-        # Try to update the local repository
-        if (!$gitControl.UpdateLocalRepository($projectInformation.GetProjectPath()))
-        {
-            # Reached an error while attempting to update the local repository.
-
-            # Alert the user that an error had been reached.
-            [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
-
-
-            # Show to the user that there was an error while attempting to update the local repository
-            [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Failure, "An error had occurred while updating your copy of $($projectInformation.GetProjectName())!");
-            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "If incase you made changes with the files, you may need to commit them before losing your work!");
-            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "If incase you not made any changes, you will need validate your Local Repository against the Remote Repository using Git!");
-            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
-
-
-
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Generate a message to display to the user.
-            [string] $displayErrorMessage = ("An error had occurred while updating your copy of $($projectInformation.GetProjectName())!`r`n" + `
-                                            "Please make sure of the following:`r`n" + `
-                                            "`t- If incase you had made some changes to the $($projectInformation.GetProjectName())'s source files, be sure to commit your work or undo the changes!`r`n" + `
-                                            "`t- If incase you had not made any changes to your copy of $($projectInformation.GetProjectName()), then please validate your local copy of the project using Git SCM!`r`n" + `
-                                            "Because there exists changes that is causing conflicts with the update, it is not possible to proceed forward with the update!");
-
-            # Generate the initial message
-            $logMessage = "Unable to update the user's local repository for $($projectInformation.GetProjectName())!";
-
-            # Generate any additional information that might be useful
-            $logAdditionalMSG = "Make sure that all file conflicts at been corrected before proceeding.";
-
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                        $logAdditionalMSG, `        # Additional information
-                                        [LogMessageLevel]::Error);  # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
-                                        [LogMessageLevel]::Error);  # Message level
-
-            # Alert the user through a message box as well that an issue had occurred;
-            #   the message will be brief as the full details remain within the terminal.
-            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
-
-            # * * * * * * * * * * * * * * * * * * *
-
-
-            # Because we had reached an error, we cannot proceed forward.
-            return $false;
-        } # If : Failed to update the Local Repository
-
-
-
-        # Retrieve the new Commit ID of the Local Repository's current state.
-        $projectCommitIDNew = $gitControl.FetchCommitID($projectInformation.GetProjectPath());
-
-
-        # Show that the project's files had been updated!
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully updated the $($projectInformation.GetProjectName())'s source files!");
-        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "New Local Repository Commit ID: $($projectCommitIDNew)");
-
-
-
-        # * * * * * * * * * * * * * * * * * * *
-        # Debugging
-        # --------------
-
-        # Generate the initial message
-        $logMessage = "Successfully updated the $($projectInformation.GetProjectName()) local repository!";
-
-        # Generate any additional information that might be useful
-        $logAdditionalMSG = ("Previous Parent Commit ID: $($projectCommitIDOld) `r`n" + `
-                            "`tNew Parent Commit ID: $($projectCommitIDNew)");
-
-        # Pass the information to the logging system
-        [Logging]::LogProgramActivity($logMessage, `                # Initial message
-                                    $logAdditionalMSG, `            # Additional information
-                                    [LogMessageLevel]::Verbose);    # Message level
-
-        # * * * * * * * * * * * * * * * * * * *
-
-
-        # We successfully updated the user's local repository!
-        return $true;
-    } # __UpdateProject()
-
-
-
-
-
    <# Generate Archive Filename
     # -------------------------------
     # Documentation:
@@ -1056,25 +608,19 @@ class Builder
     #   the archive filename.
     # -------------------------------
     # Input:
-    #  [bool] Make Development Build
-    #   When this flag is true, this will append the latest git commit
-    #   available within the user's local repository.  Only useful
-    #   when wanting to create a specialized developmental build.
+    #   [void] None
     # -------------------------------
     # Output:
     #   [string] Archive Datafile Name
     #       The name of the archive datafile that will be generated.
     # -------------------------------
     #>
-    hidden static [string] __GenerateArchiveFileName([bool] $makeDevBuild)
+    hidden static [string] __GenerateArchiveFileName()
     {
         # Declarations and Initializations
         # ----------------------------------------
         # This will hold the filename for the archive data file
         [string] $archiveFileName = $null;
-
-        # Retrieve the Git Control object
-        [GitControl] $gitControl = [GitControl]::GetInstance();
 
         # Retrieve the current instance of the User Preferences object; this contains the user's
         #  generalized settings.
@@ -1094,14 +640,6 @@ class Builder
 
         # Apply the core filename of the archive datafile
         $archiveFileName = $projectInformation.GetFileName();
-
-
-        # Determine if we are to apply the git SHA1 onto the filename
-        if ($makeDevBuild)
-        {
-            # Because we are constructing a developmental build of the project, we will append the SHA1 hash onto the filename.
-            $archiveFileName += "-dev_" + $gitControl.FetchCommitID($projectInformation.GetProjectPath());
-        } # if: Dev. Build Request
 
 
 
@@ -1190,10 +728,6 @@ class Builder
         #  generalized settings.
         [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
 
-        # Retrieve the current instance of the user's 7Zip object; this contains the user's
-        #  preferences as to how 7Zip will be utilized within this application.
-        [SevenZip] $sevenZip = [SevenZip]::GetInstance();
-
         # Retrieve the current instance of the user's Default Compressing object; this contains
         #  the user's preferences as to how the Archive ZIP module will be utilized within this
         #  application.
@@ -1216,182 +750,67 @@ class Builder
         [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Compiling $($projectInformation.GetProjectName()). . .");
 
 
-        # Use the preferred compiler as requested by the user
-        switch ($userPreferences.GetCompressionTool())
-        {
-            # dotNET Core Archive ZIP PowerShell Module
-            ([UserPreferencesCompressTool]::InternalZip)
-            {
-                # Show that we are using the Archive ZIP Module
-                [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::InProgress, "Compacting using the default compression software. . .");
+        # Show that we are using the Archive ZIP Module
+        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::InProgress, "Compacting using the default compression software. . .");
 
-                # Compact the files
-                if (!$defaultCompress.CreateArchive($archiveFileName, `
-                                                    $userPreferences.GetProjectBuildsPath(), `
-                                                    $projectPath, `
-                                                    $filePath))
-                {
-                    # Reached an error while trying to compact the files.
-
-                    # Alert the user that an error had been reached.
-                    [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
-
-
-                    # An error had been reached while compacting the project's files.
-                    [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "An error occurred while compiling $($projectInformation.GetProjectName())!");
-                    [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please review the logs for more information!");
-                    [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
-
-
-
-                    # * * * * * * * * * * * * * * * * * * *
-                    # Debugging
-                    # --------------
-
-                    # Generate a message to display to the user.
-                    [string] $displayErrorMessage = ("Failed to compile $($projectInformation.GetProjectName())!`r`n" + `
-                                                    "Please inspect the logs for what could had caused the problem.");
-
-                    # Generate the initial message
-                    $logMessage = "An error had been reached while compiling $($projectInformation.GetProjectName())!";
-
-                    # Generate any additional information that might be useful
-                    $logAdditionalMSG = ("Compression Tool: Archive Module [Default]`r`n" + `
-                                        "`tArchive File Name Requested: $($archiveFileName)`r`n" + `
-                                        "`tOutput Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
-                                        "`tProject Path: $($projectPath)`r`n" + `
-                                        "`tEntire Path (Optional): $($filePath.Value)");
-
-                    # Pass the information to the logging system
-                    [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                                $logAdditionalMSG, `        # Additional information
-                                                [LogMessageLevel]::Error);  # Message level
-
-                    # Display a message to the user that something went horribly wrong
-                    #  and log that same message for referencing purpose.
-                    [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
-                                                [LogMessageLevel]::Error);  # Message level
-
-                    # Alert the user through a message box as well that an issue had occurred;
-                    #   the message will be brief as the full details remain within the terminal.
-                    [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
-
-                    # * * * * * * * * * * * * * * * * * * *
-                } # If : Compiling Project Reached an Error
-            } # dotNET Core Archive ZIP PowerShell Module
-
-
-            # 7Zip
-            ([UserPreferencesCompressTool]::SevenZip)
-            {
-                # Show that we are using the 7Zip software
-                [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::InProgress, "Compacting using the 7Zip compression software. . .");
-
-                # Compact the files
-                if (!$sevenZip.CreateArchive($archiveFileName, `
+        # Compact the files
+        if (!$defaultCompress.CreateArchive($archiveFileName, `
                                             $userPreferences.GetProjectBuildsPath(), `
                                             $projectPath, `
                                             $filePath))
-                {
-                    # Reached an error while trying to compact the files.
+        {
+            # Reached an error while trying to compact the files.
 
-                    # Alert the user that an error had been reached.
-                    [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
-
-
-                    # An error had been reached while compacting the project's files.
-                    [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "An error occurred while compiling $($projectInformation.GetProjectName())!");
-                    [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please review the logs for more information!");
-                    [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
+            # Alert the user that an error had been reached.
+            [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
 
 
-
-                    # * * * * * * * * * * * * * * * * * * *
-                    # Debugging
-                    # --------------
-
-                    # Generate a message to display to the user.
-                    [string] $displayErrorMessage = ("Failed to compile $($projectInformation.GetProjectName())!" + `
-                                                    "Please inspect the logs for what could had caused the problem.");
-
-                    # Generate the initial message
-                    $logMessage = "An error had been reached while compiling $($projectInformation.GetProjectName())!";
-
-                    # Generate any additional information that might be useful
-                    $logAdditionalMSG = ("Compression Tool: 7Zip`r`n" + `
-                                        "`tArchive File Name Requested: $($archiveFileName)`r`n" + `
-                                        "`tOutput Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
-                                        "`tProject Path: $($projectPath)`r`n" + `
-                                        "`tEntire Path (Optional): $($filePath.Value)");
-
-                    # Pass the information to the logging system
-                    [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                                $logAdditionalMSG, `        # Additional information
-                                                [LogMessageLevel]::Error);  # Message level
-
-                    # Display a message to the user that something went horribly wrong
-                    #  and log that same message for referencing purpose.
-                    [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
-                                                [LogMessageLevel]::Error);  # Message level
-
-
-                    # Alert the user through a message box as well that an issue had occurred;
-                    #   the message will be brief as the full details remain within the terminal.
-                    [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
-                    # * * * * * * * * * * * * * * * * * * *
-                } # If : Compiling Project Reached an Error
-            } # 7Zip
-
-
-            # Error Case
-            default
-            {
-                # Unknown Compression Tool
-
-                # Alert the user that an error had been reached.
-                [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
-
-
-                # Show that we could not determine the preferred compression tool
-                [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unknown or unsupported preferred compression software!");
-                [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
+            # An error had been reached while compacting the project's files.
+            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "An error occurred while compiling $($projectInformation.GetProjectName())!");
+            [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please review the logs for more information!");
+            [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
 
 
 
-                # * * * * * * * * * * * * * * * * * * *
-                # Debugging
-                # --------------
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
 
-                # Generate a message to display to the user.
-                [string] $displayErrorMessage = ("Unable to compile $($projectInformation.GetProjectName())!" + `
-                                                "The compression tool is unknown or unrecognizable");
+            # Generate a message to display to the user.
+            [string] $displayErrorMessage = ("Failed to compile $($projectInformation.GetProjectName())!`r`n" + `
+                                            "Please inspect the logs for what could had caused the problem.");
 
-                # Generate the initial message
-                $logMessage = "Cannot compile the $($projectInformation.GetProjectName()) project due to an unknown Compression Tool!";
+            # Generate the initial message
+            $logMessage = "An error had been reached while compiling $($projectInformation.GetProjectName())!";
 
-                # Generate any additional information that might be useful
-                $logAdditionalMSG = ("Compression Tool: $($userPreferences.GetCompressionTool())`r`n" + `
-                                    "`tArchive File Name Requested: $($archiveFileName)`r`n" + `
-                                    "`tOutput Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
-                                    "`tProject Path: $($projectPath)");
+            # Generate any additional information that might be useful
+            $logAdditionalMSG = ("Compression Tool: Archive Module [Default]`r`n" + `
+                                "`tArchive File Name Requested: $($archiveFileName)`r`n" + `
+                                "`tOutput Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
+                                "`tProject Path: $($projectPath)`r`n" + `
+                                "`tEntire Path (Optional): $($filePath.Value)");
 
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                            $logAdditionalMSG, `        # Additional information
-                                            [LogMessageLevel]::Error);  # Message level
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
 
-                # Display a message to the user that something went horribly wrong
-                #  and log that same message for referencing purpose.
-                [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
-                                            [LogMessageLevel]::Error);  # Message level
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
 
 
-                # Alert the user through a message box as well that an issue had occurred;
-                #   the message will be brief as the full details remain within the terminal.
-                [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
-                # * * * * * * * * * * * * * * * * * * *
-            } # Error Case
-        } # Switch: Compile Project
+            # Because the compiling process had reached an error, return a failure signal back.
+            return $false;
+        } # If : Compiling Project Reached an Error
+
 
 
         # If we made it this far, that means that the operation was successful!
@@ -1407,8 +826,7 @@ class Builder
         $logMessage = "Successfully compiled the $($projectInformation.GetProjectName()) project!";
 
         # Generate any additional information that might be useful
-        $logAdditionalMSG = ("Compression Tool: $([string] $userPreferences.GetCompressionTool())`r`n" + `
-                            "`tArchive File Name Requested: $($archiveFileName)`r`n" + `
+        $logAdditionalMSG = ("Archive File Name Requested: $($archiveFileName)`r`n" + `
                             "`tOutput Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
                             "`tProject Path: $($projectPath)" + `
                             "`tEntire Path: $($filePath.Value)");
@@ -2069,11 +1487,6 @@ class Builder
         [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
 
 
-        # Retrieve the current instance of the user's 7Zip object; this contains the user's
-        #  preferences as to how 7Zip will be utilized within this application.
-        [SevenZip] $sevenZip = [SevenZip]::GetInstance();
-
-
         # Retrieve the current instance of the user's Default Compressing object; this contains
         #  the user's preferences as to how the Archive ZIP module will be utilized within this
         #  application.
@@ -2104,8 +1517,7 @@ class Builder
 
 
         # Did the user wanted us to check the health of the archive datafile?
-        if (!((($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) -and $defaultCompress.GetVerifyBuild()) -or `
-            (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and $sevenZip.GetVerifyBuild())))
+        if (!$defaultCompress.GetVerifyBuild())
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -2115,9 +1527,7 @@ class Builder
             $logMessage = "The user does not wish to check the health of the archive data file!";
 
             # Generate any additional information that might be useful
-            $logAdditionalMSG = ("Desired Compression Tool: $([string]$userPreferences.GetCompressionTool())`r`n" + `
-                                "`tDefault Compression Verify Setting: $([string]$defaultCompress.GetVerifyBuild())`r`n" + `
-                                "`t7Zip Verify Setting: $([string]$sevenZip.GetVerifyBuild())");
+            $logAdditionalMSG = ("Verify Setting: $([string]$defaultCompress.GetVerifyBuild())");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -2147,72 +1557,7 @@ class Builder
 
 
         # Perform the test.
-        #  Default Compression Tool
-        if (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) -and $defaultCompress.GetVerifyBuild())
-        {
-            # Check the compiled build using the Archive Module
-            $result = $defaultCompress.VerifyArchive($compiledBuildFullPath);
-        } # if : Testing with Default Compression Tool
-
-        # 7Zip Compression Tool
-        elseif (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and $sevenZip.GetVerifyBuild())
-        {
-            # Check the compiled build using the 7Zip extCMD
-            $result = $sevenZip.VerifyArchive($compiledBuildFullPath);
-        } # elseif : Testing with 7Zip Compression Tool
-
-        # Unknown Case
-        else
-        {
-            # Unable to determine the selected compression tool
-
-            # Alert the user that an error had been reached.
-            [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
-
-
-            # Unknown condition was reached
-            [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Error, "Unable to check the file's health and data structure integrity!");
-
-
-
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Generate a message to display to the user.
-            [string] $displayErrorMessage = ("An error had occur while attempting to verify the archive data file!`r`n" + `
-                                            "Please assure that you had specified if you want the archive file to be tested.");
-
-            # Generate the initial message
-            $logMessage = "Unable to verify the archive data file due to an unknown or special rare event.";
-
-            # Generate any additional information that might be useful
-            $logAdditionalMSG = ("Desired Compression Tool: $([string]$userPreferences.GetCompressionTool())`r`n" + `
-                                "`tDefault Compression Verify Setting: $([string]$defaultCompress.GetVerifyBuild())`r`n" + `
-                                "`t7Zip Verify Setting: $([string]$sevenZip.GetVerifyBuild())");
-
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                        $logAdditionalMSG, `        # Additional information
-                                        [LogMessageLevel]::Error);  # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
-                                        [LogMessageLevel]::Error);  # Message level
-
-            # Alert the user through a message box as well that an issue had occurred;
-            #   the message will be brief as the full details remain within the terminal.
-            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
-
-            # * * * * * * * * * * * * * * * * * * *
-
-
-
-            # Because an error had been reached, we will have to abort the operation
-            return $false;
-        } # else : Unknown Case \ Error Case
+        $result = $defaultCompress.VerifyArchive($compiledBuildFullPath);
 
 
         # Revise the Nice Result such that we indicate that the build is healthy
@@ -2297,10 +1642,6 @@ class Builder
         #  generalized settings.
         [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
 
-        # Retrieve the current instance of the user's 7Zip object; this contains the user's
-        #  preferences as to how 7Zip will be utilized within this application.
-        [SevenZip] $sevenZip = [SevenZip]::GetInstance();
-
         # Retrieve the current instance of the user's Default Compressing object; this contains
         #  the user's preferences as to how the Archive ZIP module will be utilized within this
         #  application.
@@ -2319,15 +1660,8 @@ class Builder
         #  operation was successful.
         [FormattedListBuilder] $resultSymbol = [FormattedListBuilder]::Failure;
 
-        # With this variable, we may easily determine if the user wanted to utilize the default
-        #  compression or the 7Zip compression object to generate the report.
-        [char] $compressionTool = $null;
-
-        # When populated, these variables will hold the absolute paths of the generated report files.
-        #  - Text Report File
+        # When populated, this variables will hold the absolute path of the generated report text file.
         [string] $fullPathReportTextFile = $null;
-        #  - PDF Report File
-        [string] $fullPathReportPDFFile = $null;
 
 
         # Debugging Variables
@@ -2338,20 +1672,7 @@ class Builder
 
 
         # Determine if the user wanted a report generated and with what compression tool.
-        #  Did the user wanted Default Compression and generate report?
-        if (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::InternalZip) -and $defaultCompress.GetGenerateReport())
-        {
-            # User wanted a report generated using the Default Compression object.
-            $compressionTool = 'D';
-        } # if : Generate Report using Default Compression Tool
-        #  Did the user wanted 7Zip Compression and generate report?
-        elseif (($userPreferences.GetCompressionTool() -eq [UserPreferencesCompressTool]::SevenZip) -and $sevenZip.GetGenerateReport())
-        {
-            # User wanted a report generated using the 7Zip Compression object.
-            $compressionTool = '7';
-        } # if : Generate Report using 7Zip Compression Tool
-        #  User does not want a report to be generated.
-        else
+        if (!$defaultCompress.GetGenerateReport())
         {
             # User does not want a report generated.
 
@@ -2365,9 +1686,7 @@ class Builder
             $logMessage = "The user does not wish to generate a report on the archive data file!";
 
             # Generate any additional information that might be useful
-             $logAdditionalMSG = ("Desired Compression Tool: $([string]$userPreferences.GetCompressionTool())`r`n" + `
-                                "`tDefault Compression Generate Report Setting: $([string]$defaultCompress.GetGenerateReport())`r`n" + `
-                                "`t7Zip Generate Report Setting: $([string]$sevenZip.GetGenerateReport())");
+             $logAdditionalMSG = ("Generate Report Setting: $([string]$defaultCompress.GetGenerateReport())");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -2380,7 +1699,7 @@ class Builder
 
             # Even though we did not perform the check, we will still return a successful signal to keep the process running.
             return $true;
-        } # else : Do not generate report
+        } # if : Generate Report using Default Compression Tool
 
 
 
@@ -2395,76 +1714,9 @@ class Builder
 
 
         # Generate the report
-        #  Default Compression Tool
-        if ($compressionTool -eq 'D')
-        {
-            # Generate a report using the default compression tool
-            $result = $defaultCompress.CreateNewReport($compiledBuildFullPath, `
-                                                        [ref] $fullPathReportTextFile, `
-                                                        [ref] $fullPathReportPDFFile);
-        } # if : Generate report with Default Compression Tool
+        $result = $defaultCompress.CreateNewReport($compiledBuildFullPath, `
+                                                    [ref] $fullPathReportTextFile);
 
-        # 7Zip Compression Tool
-        elseif ($compressionTool -eq '7')
-        {
-            # Generate a report using the 7Zip compression tool
-            $result = $sevenZip.CreateNewReport($compiledBuildFullPath, `
-                                                [ref] $fullPathReportTextFile, `
-                                                [ref] $fullPathReportPDFFile);
-        } # elseif : Generate report with 7Zip Compression Tool
-
-        # Unknown Case
-        else
-        {
-            # Unable to determine the selected compression tool
-
-            # Alert the user that an error had been reached.
-            [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
-
-
-            # Unknown condition was reached
-            [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Error, "Unable to generate a report on the archive file!");
-
-
-
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Generate a message to display to the user.
-            [string] $displayErrorMessage = ("An error had occur while attempting to generate a report on the archive data file!`r`n" + `
-                                            "Please assure that you had specified if you want a report on the archive data file.");
-
-            # Generate the initial message
-            $logMessage = "Unable to generate a report of the archive data file due to an unknown or special rare event.";
-
-            # Generate any additional information that might be useful
-            $logAdditionalMSG = ("Desired Compression Tool: $([string]$userPreferences.GetCompressionTool())`r`n" + `
-                                "`tDefault Compression Generate Report Setting: $([string]$defaultCompress.GetGenerateReport())`r`n" + `
-                                "`t7Zip Generate Report Setting: $([string]$sevenZip.GetGenerateReport())");
-
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                        $logAdditionalMSG, `        # Additional information
-                                        [LogMessageLevel]::Error);  # Message level
-
-            # Display a message to the user that something went horribly wrong
-            #  and log that same message for referencing purpose.
-            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
-                                        [LogMessageLevel]::Error);  # Message level
-
-            # Alert the user through a message box as well that an issue had occurred;
-            #   the message will be brief as the full details remain within the terminal.
-            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
-
-            # * * * * * * * * * * * * * * * * * * *
-
-
-
-            # Because an error had been reached, we will have to abort the operation
-            return $false;
-        } # else : Unknown Case \ Error Case
 
 
         # Provide the user the locations as to where the report files are placed within the their system.
@@ -2482,21 +1734,6 @@ class Builder
             # Access the desired directory and select the file.
             [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportTextFile), `
                                         [System.IO.Path]::GetFileName($fullPathReportTextFile));
-
-
-            # Report File - PDF Report
-            # = - - - - - - - - - - =
-            if (($compressionTool -eq 'D' -and $defaultCompress.GetGenerateReportFilePDF()) -or `
-                ($compressionTool -eq '7' -and $sevenZip.GetGenerateReportFilePDF()))
-            {
-                # User allowed the ability for PDF files to be generated
-                [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportPDFFile);
-
-                # Access the desired directory and select the file.
-                [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportPDFFile), `
-                                            [System.IO.Path]::GetFileName($fullPathReportPDFFile));
-            } # if : Show PDF Report
-
 
 
             # Revise the status messages
@@ -2547,183 +1784,6 @@ class Builder
         # Return the result back to the calling function
         return $result;
     } # __GenerateReportArchiveDataFile()
-
-
-
-
-
-   <# Generate Report: Project's Local Repository
-    # -------------------------------
-    # Documentation:
-    #  This function will try to create a report regarding the
-    #   local repository's current state and activity in relation
-    #   to the project.  With the information gathered, the report
-    #   will contain authors that had contributed, branches that
-    #   are part of the project's development, and the activity
-    #   within the present active branch.
-    # -------------------------------
-    # Output:
-    #  [bool] Exit code
-    #   $false = Failed to create the desired report
-    #   $true  = Successfully created the requested report
-    # -------------------------------
-    #>
-    hidden static [bool] __GenerateReportProjectLocalRepository()
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Retrieve the current instance of the User Preferences object; this contains the user's
-        #  generalized settings.
-        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
-
-        # Retrieve the Git Control object
-        [GitControl] $gitControl = [GitControl]::GetInstance();
-
-        # Retrieve the current instance of the Project Information object; this contains details
-        #  in regards to where the source files exists within the user's system.
-        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
-
-        # This will store the exit condition provided by the test function.
-        [bool] $result = $false;
-
-        # This is equivalent to the result [boolean] variable, but this will be displayed onto the
-        #  terminal.  We will populate this value with a default value signifying that it had failed.
-        #  However, we will update this value if the resulting operation was successful.
-        [string] $resultNiceValue = "Failed to create a report on project's local repository!";
-
-        # With this variable, we can adjust the symbol that is provided when issuing the bullet
-        #  message to the user.  By default, we will use an error - but change it later if the
-        #  operation was successful.
-        [FormattedListBuilder] $resultSymbol = [FormattedListBuilder]::Failure;
-
-        # When populated, these variables will hold the absolute paths of the generated report files.
-        #  - Text Report File
-        [string] $fullPathReportTextFile = $null;
-        #  - PDF Report File
-        [string] $fullPathReportPDFFile = $null;
-
-
-        # Debugging Variables
-        [string] $logMessage = $NULL;           # Main message regarding the logged event.
-        [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
-        # ----------------------------------------
-
-
-
-        # Did the user wanted a report of the project's local repository?
-        if (!$gitControl.GetGenerateReport())
-        {
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Generate the initial message
-            $logMessage = "The user does not wish to generate a report on the project's local repository!";
-
-            # Generate any additional information that might be useful
-             $logAdditionalMSG = "Current Generate Report Setting: " + $([string]$gitControl.GetReportPath());
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity($logMessage, `                # Initial message
-                                        $logAdditionalMSG, `            # Additional information
-                                        [LogMessageLevel]::Verbose);    # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
-
-            # Even though we did not perform the check, we will still return a successful signal to keep the process running.
-            return $true;
-        } # if : User Request; do not generate a report
-
-
-
-
-        # Show that we are about to generate a report on the project's local repository.
-        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Generating report of the project's local repository");
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Report will be based on the " + $projectInformation.GetProjectName() + " Local Repository.");
-        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, "Using project path: " + $projectInformation.GetProjectPath());
-
-
-        # Let the user know that the report is being created
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Generating report. . .");
-
-
-        # Generate the report
-        if ($gitControl.CreateNewReport($projectInformation.GetProjectPath(), `
-                                        [ref] $fullPathReportTextFile, `
-                                        [ref] $fullPathReportPDFFile))
-        {
-            # Successfully generated the report; revise the variables so we can provide the results to the user.
-            $resultNiceValue = "Successfully created the report!";
-            $resultSymbol = [FormattedListBuilder]::Child;
-
-            # Update the result, such that it provides a successful signal.
-            $result = $true;
-
-
-            # Because the reports were successfully generated, show where the files are located within their
-            #  system.
-
-            # Report File - Text Report
-            # = - - - - - - - - - - - =
-            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportTextFile);
-
-            # Access the desired directory and select the file.
-            [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportTextFile), `
-                                        [System.IO.Path]::GetFileName($fullPathReportTextFile));
-
-
-            # Report File - PDF Report
-            # = - - - - - - - - - - =
-            if ($gitControl.GetGenerateReportFilePDF())
-            {
-                # User allowed the ability for PDF files to be generated
-                [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::NoSymbol, $fullPathReportPDFFile);
-
-                # Access the desired directory and select the file.
-                [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($fullPathReportPDFFile), `
-                                            [System.IO.Path]::GetFileName($fullPathReportPDFFile));
-            } # if : Show PDF Report
-        } # if : Report Created Successfully
-
-        # If the report could not be successfully generated.
-        else
-        {
-            # Unable to generate report
-
-            # Alert the user that the report could not be made.
-            [NotificationAudible]::Notify([NotificationAudibleEventType]::Warning);
-        } # else : Failed to Generate Report
-
-
-
-        # Show that the operation had been completed; provide the results
-        [Builder]::__DisplayBulletListMessage(1, $resultSymbol, $resultNiceValue);
-
-
-
-        # * * * * * * * * * * * * * * * * * * *
-        # Debugging
-        # --------------
-
-        # Generate the initial message
-        $logMessage = "Successfully attempted to create a report based on the project's local repository!";
-
-        # Generate any additional information that might be useful
-        $logAdditionalMSG = ("Report based on the following project path: $($projectInformation.GetProjectPath())`r`n" + `
-                            "`tNice Result Provided: $($resultNiceValue)`r`n" + `
-                            "`tResult Given: $($result)");
-
-        # Pass the information to the logging system
-        [Logging]::LogProgramActivity($logMessage, `                # Initial message
-                                    $logAdditionalMSG, `            # Additional information
-                                    [LogMessageLevel]::Verbose);    # Message level
-
-        # * * * * * * * * * * * * * * * * * * *
-
-
-        # Return the result back to the calling function
-        return $result;
-    } # __GenerateReportProjectLocalRepository()
 
 
 

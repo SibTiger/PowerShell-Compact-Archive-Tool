@@ -1,5 +1,5 @@
 <# PowerShell Compact-Archive Tool
- # Copyright (C) 2023
+ # Copyright (C) 2025
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -112,7 +112,7 @@ class ProjectUserConfiguration
     [bool] SetGameProjectSourcePath([string] $newValue)
     {
         # Make sure that the new value satisfies these following requirements:
-        if (([CommonFunctions]::IsStringEmpty($newValue)    -eq $true) -or `    # Make sure that the value is not empty
+        if (([CommonIO]::IsStringEmpty($newValue)           -eq $true) -or `    # Make sure that the value is not empty
              [CommonIO]::CheckPathExists($newValue, $true)  -eq $false)         # Make sure that the path exists
         { return $false; }
 

@@ -1,5 +1,5 @@
 <# PowerShell Compact-Archive Tool
- # Copyright (C) 2023
+ # Copyright (C) 2025
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -373,7 +373,7 @@ class CommonCUI
         # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
         # Was the Sub-Description provided?
-        if (![CommonFunctions]::IsStringEmpty($itemSubDescription))
+        if (![CommonIO]::IsStringEmpty($itemSubDescription))
         {
             # Add the Sub-Description
             $displayMenuOutputFormatting += ("`r`n`t$($itemSubDescription)");
@@ -381,7 +381,7 @@ class CommonCUI
 
 
         # Was the Current Setting provided?
-        if (![CommonFunctions]::IsStringEmpty($itemCurrentSetting))
+        if (![CommonIO]::IsStringEmpty($itemCurrentSetting))
         {
             # Add the Current Setting
             $displayMenuOutputFormatting += ("`r`n`t`t$($itemCurrentSetting)");
@@ -771,7 +771,7 @@ class CommonCUI
 
 
         # Apply the symbol, if it is used.
-        if (![CommonFunctions]::IsStringEmpty($symbol))
+        if (![CommonIO]::IsStringEmpty($symbol))
         {
             # Attach the symbol now before we append the message onto the message.
             $formattedMessage += [string]$symbol + " ";

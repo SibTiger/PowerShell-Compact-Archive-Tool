@@ -6,10 +6,9 @@
     This program is designed to create the project compiler.
     In order to play this project with GZDoom or its children
     ports, this project's source hierarchy must meet with the
-    ZDoom PK3 and PK7 standards.  The compiler, which this
-    program generates, will allow the user to easily create
-    a build of the project and is readable to the GZDoom
-    engine.
+    ZDoom PK3 standards.  The compiler, which this program
+    generates, will allow the user to easily create a build
+    of the project and is readable to the GZDoom engine.
 
 .NOTES
     Author: Nicholas Gautier
@@ -47,17 +46,23 @@ Set-Variable -Name "SCRIPTFILENAME" -Value "PSCAT.ps1" `
 Set-Variable -Name "SCRIPTFILENAMELAUNCHER" -Value "Launcher.ps1" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Subscripts Directory
-Set-Variable -Name "SCRIPTSDIRECTORY" -Value "$($SCRIPTPATH)\..\Scripts\" `
+Set-Variable -Name "SCRIPTSDIRECTORY" -Value "$($GLOBAL:SCRIPTPATH)\..\Scripts\" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Launcher Subscripts Directory
-Set-Variable -Name "SCRIPTSDIRECTORYLAUCNHER" -Value "$($SCRIPTPATH)\..\Scripts\Launcher\" `
+Set-Variable -Name "SCRIPTSDIRECTORYLAUCNHER" -Value "$($GLOBAL:SCRIPTPATH)\..\Scripts\Launcher\" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Output Compiler Directory
 Set-Variable -Name "OUTPUTDIRECTORY" -Value "$(Resolve-Path "$($PSScriptRoot)\" | Select-Object -ExpandProperty Path)" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Output Script File
-Set-Variable -Name "OUTPUTFILE" -Value "$($OUTPUTDIRECTORY)$($SCRIPTFILENAME)" `
+Set-Variable -Name "OUTPUTFILE" -Value "$($GLOBAL:OUTPUTDIRECTORY)$($GLOBAL:SCRIPTFILENAME)" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+# Cache Program Content instead of Writing to Output Immediately -- can resolve issues with Add-Content per-each iteration.
+Set-Variable -Name "CACHEPROGRAMCONTENT" -Value $true `
+    -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+# Cached Program Contents
+Set-Variable -Name "CACHEDPROGRAMCONTENTS" `
+    -Scope Global -Force -Option None -ErrorAction Stop;
 # Project Name
 Set-Variable -Name "PROJECTNAME" -Value "PowerShell Compact-Archive Tool" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
@@ -65,6 +70,36 @@ Set-Variable -Name "PROJECTNAME" -Value "PowerShell Compact-Archive Tool" `
 Set-Variable -Name "DEBUGMODE" -Value $false `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # --------------------------
+
+
+
+
+# Uninitialize Variables
+# --------------------------
+# Documentation
+#   This function will remove any mutable global variable from
+#       the environment.
+# ----------------
+function UninitializeVariables
+{
+    # Try to remove global variables
+    try
+    {
+        Remove-Variable -Name CACHEDPROGRAMCONTENTS `
+                        -Scope Global `
+                        -Force `
+                        -ErrorAction Stop;
+    } # Try to Uninit. Vars
+
+    # Caught an error
+    catch
+    {
+        Printf 2 "Failed to Uninitialize a mutable global variable!";
+        Printf 2 $_.Exception.Message;
+
+        return;
+    } # Caught an error
+} # UninitializeVariables()
 
 
 
@@ -87,8 +122,12 @@ Set-Variable -Name "DEBUGMODE" -Value $false `
 #    msgString [string]
 #     The message to display on the terminal buffer.
 # --------------------------
-function Printf([int] $msgLevel, [string] $msgString)
+function Printf
 {
+    # Function Parameters
+    param([int] $msgLevel, [string] $msgString)
+
+
     # Declarations and Initializations
     # ----------------------------------
     # Sub-Script File (with path)
@@ -150,7 +189,7 @@ function Printf([int] $msgLevel, [string] $msgString)
 
     # Display the message with the formatting
     Write-Host $msgString -BackgroundColor $msgBackColor -ForegroundColor $msgForeColor;
-} # Printf()
+} # Printf
 
 
 
@@ -158,44 +197,56 @@ function Printf([int] $msgLevel, [string] $msgString)
 # Make Compiler
 # --------------------------
 # Documentation
-#    This function will combine all of the sub-scripts into one script.
+#    This function will combine all of the sub-scripts into one script
+#                       OR
+#    This function will cache the contents from the sub-script into a string.
 # --------------------------
 # Parameters
 #    fileName [string]
 #     The file name of the file
 #    filePath [string]
 #     The file path of the script
+#    cacheResults [Bool]
+#     When true, specifies that the content from the script(s) will be
+#       cached into a string instead of being written to a file.
 # --------------------------
 # Return [int]
 #    0 = Operation was successful
 #    1 = Operation failed
 # --------------------------
-function MakeCompiler([string] $fileName, [string] $filePath)
+function MakeCompiler
 {
+    # Function Parameters
+    param([string] $fileName, [string] $filePath, [bool] $cacheResults)
+
+
     # If Debug Mode is enabled, display the operation
-    if ($DEBUGMODE)
+    if ($GLOBAL:DEBUGMODE)
     {
-        Printf 3 "Including File: $($fileName). . .";
+        if (!$cacheResults) { Printf 3 "Including File: $($fileName). . ."; }
+        else { Printf 3 "Caching File: $($fileName). . ."; }
         Printf 3 " >> LOCATION:";
         Printf 3 "    $($filePath)";
     } # DEBUGMODE - Starting Task Msg
 
-    # Append the file and assure it was successful
-    if (!($(FileDetection $filePath) -and $(AppendContent $OUTPUTFILE $filePath) -and $(AppendSeparation $OUTPUTFILE)))
+    # Append the file and assure it was successful\
+    if( ($(FileDetection $filePath) -eq 0) -or `                                    # Unable to detect file
+        ($(AppendContent $GLOBAL:OUTPUTFILE $filePath $cacheResults) -eq 1) -or `   # Failed to Append Content
+        ($(AppendSeparation $GLOBAL:OUTPUTFILE $cacheResults) -eq 1))               # Failed to Append Borders
     {
         # An error occurred
         return 1;
     } # If : File does not exist
 
     # If Debug Mode is enabled, display the operation passed
-    if ($DEBUGMODE)
+    if ($GLOBAL:DEBUGMODE)
     {
         Printf 3 "Added File: $($fileName) successfully!";
     } # DEBUGMODE - Finished Task Msg
 
     # return successful code
     return 0;
-} # MakeCompiler()
+} # MakeCompiler
 
 
 
@@ -205,12 +256,21 @@ function MakeCompiler([string] $fileName, [string] $filePath)
 # Documentation
 #    This function will organize how the file should be included into the compiler script.
 # --------------------------
+# Parameters
+#    cacheResults [Bool]
+#     When true, specifies that the content from the script(s) will be
+#       cached into a string instead of being written to a file.
+# --------------------------
 # Return [int]
 #    0 = Operation was successful
 #    1 = Operation failed
 # --------------------------
-function MakeCompilerDriver()
+function MakeCompilerDriver
 {
+    # Function Parameters
+    param([bool] $cacheResults)
+
+
     # Declarations and Initializations
     # ----------------------------------
     # Sub-Script File (with path)
@@ -228,12 +288,10 @@ function MakeCompilerDriver()
                         "CommonCUI.ps1", `
                         "CommonGUI.ps1", `
                         "UserExperience.ps1", `
-                        "CommonFunctions.ps1", `
+                        "CommonPowerShell.ps1", `
                         "ProgramFunctions.ps1", `
                         "DefaultCompress.ps1", `
-                        "GitControl.ps1", `
                         "ProjectInformation.ps1", `
-                        "SevenZip.ps1", `
                         "UserPreferences.ps1", `
                         "LoadSaveUserConfigs.ps1", `
                         "Logging.ps1", `
@@ -242,9 +300,7 @@ function MakeCompilerDriver()
                         "NotificationAudible.ps1", `
                         "NotificationVisual.ps1", `
                         "Settings.ps1", `
-                        "Settings7Zip.ps1", `
                         "SettingsZip.ps1", `
-                        "SettingsGit.ps1", `
                         "SettingsProjectUserConfig.ps1", `
                         "ProjectManager.ps1", `
                         "ProjectManagerInstallation.ps1", `
@@ -266,10 +322,10 @@ function MakeCompilerDriver()
     foreach ($index in $scriptFileName)
     {
         # Update target script
-        $scriptFile = "$($SCRIPTSDIRECTORY)$($index)";
+        $scriptFile = "$($GLOBAL:SCRIPTSDIRECTORY)$($index)";
 
         # Try to append the target script to the destination file
-        if ($(MakeCompiler $index $scriptFile))
+        if ($(MakeCompiler $index $scriptFile $cacheResults))
         {
             # An error occurred
             Printf 2 "Unable to include file: $($scriptFile)";
@@ -279,9 +335,22 @@ function MakeCompilerDriver()
         } # If Operation was Successful
     } #foreach
 
+
+    # Program Contents Cached?
+    if (($cacheResults      -eq $true)  -and `      # Contents cached into a string?
+        (WriteCacheToFile   -eq 1))                 # Failure had occurred while writing to disk
+    {
+        # Write contents to disk had failed
+        Printf 2 "Failed to write cached contents to disk!";
+
+        # Return error code;
+        return 1;
+    } # if : Program Contents Cached
+
+
     # Operation was successful
     return 0;
-} # MakeCompilerDriver()
+} # MakeCompilerDriver
 
 
 
@@ -298,22 +367,63 @@ function MakeCompilerDriver()
 #    targetFile [string]
 #     The target file that contains the data that we want
 #      to mirror to another file.
+#    cacheResults [Bool]
+#     When true, specifies that the content from the script(s) will be
+#       cached into a string instead of being written to a file.
+#       $outputFile will be ignored.
 # --------------------------
 # Return [int]
 #    0 = Operation was successful
 #    1 = Operation failed
 # --------------------------
-function AppendContent([string] $outputFile, [string] $targetFile)
+function AppendContent
 {
-    if((Add-Content -Path $outputFile -Value (Get-Content $targetFile) -ErrorAction SilentlyContinue))
+    # Function Parameters
+    param([string] $outputFile, [string] $targetFile, [bool] $cacheResults)
+
+
+    # Write to File
+    if ($cacheResults -eq $false)
     {
+        # Append Script Contents
+        try
+        {
+            Add-Content -Path $outputFile -Value (Get-Content $targetFile) -ErrorAction Stop;
+        } # Try to Append Script Contents
+
+        # Caught an Error
+        catch
+        {
+            # Show the Exception Message
+            Printf 2 $_.Exception.Message;
+            return 1;
+        } # Catch : Failed to Append Contents
+
+
+        # Operation was successful.
         return 0;
-    } # If:Successful
-    else
+    } # if : Write to File
+
+
+
+    # Try to cache the contents into the designated variable
+    try
     {
+        $GLOBAL:CACHEDPROGRAMCONTENTS += $(Get-Content $targetFile);
+    } # try : Cache Contents
+
+    # Caught an Error
+    catch
+    {
+        # Reached CLR limit?
+        Printf 2 $_.Exception.Message;
         return 1;
-    } # Else:Failure
-} # AppendContent()
+    } # Catch : Caught Error
+
+
+    # Done
+    return 0;
+} # AppendContent
 
 
 
@@ -328,13 +438,21 @@ function AppendContent([string] $outputFile, [string] $targetFile)
 # Parameters
 #    outputFile [string]
 #     The destination file that the data will be appended.
+#    cacheResults [Bool]
+#     When true, specifies that the content from the script(s) will be
+#       cached into a string instead of being written to a file.
+#       $outputFile will be ignored.
 # --------------------------
 # Return [int]
 #    0 = Operation was successful
 #    1 = Operation failed
 # --------------------------
-function AppendSeparation([string] $outputFile)
+function AppendSeparation
 {
+    # Function Parameters
+    param([string] $outputFile, [bool] $cacheResults)
+
+
     # Declarations and Initializations
     # ----------------------------------
     # Border; useful to separate the scripts
@@ -347,16 +465,89 @@ function AppendSeparation([string] $outputFile)
       -Scope Local;
     # ----------------------------------
 
-    # Append the separation to the script
-    if((Add-Content -Path $outputFile -Value $($scriptSeparator) -ErrorAction SilentlyContinue))
+
+    # Write to file
+    if ($cacheResults -eq $false)
     {
+        # Append the separation to the script
+        try
+        {
+            Add-Content -Path $outputFile -Value $scriptSeparator -ErrorAction Stop;
+        } # Try to Append Separators between Contents
+
+        # Caught an Error
+        catch
+        {
+            # Show the Exception Message
+            Printf 2 $_.Exception.Message;
+            return 1;
+        } # Catch : Failed to Append Separators between Contents
+
+
+        # Operation was successful.
         return 0;
-    } # If:Successful
-    else
+    } # if : Write to File
+
+
+
+    # Try to cache the results to the designated variable.
+    try
     {
+        $GLOBAL:CACHEDPROGRAMCONTENTS += $scriptSeparator;
+    } # try : Cache Contents
+
+    # Caught an Error
+    catch
+    {
+        # Reached CLR limit?
+        Printf 2 $_.Exception.Message;
         return 1;
-    } # Else:Failure
-} # AppendSeparation()
+    } # Catch : Caught Error
+
+
+    # Done
+    return 0;
+} # AppendSeparation
+
+
+
+
+# Write Cache to File
+# --------------------------
+# Documentation
+#    This function will write the contents that had been
+#       cached in the designated string to the output file.
+#
+# NOTE: Only call this function when the flag,
+#       $CACHEPROGRAMCONTENT, is '$true'.
+# --------------------------
+# Return [int]
+#    0 = Operation was successful
+#    1 = Operation failed
+# --------------------------
+function WriteCacheToFile
+{
+    # Try to write cached contents to disk
+    try
+    {
+        Add-Content -Path $outputFile -Value $GLOBAL:CACHEDPROGRAMCONTENTS -ErrorAction Stop;
+    } # Try : Write Cached Contents to Disk
+
+    # Caught an error
+    catch
+    {
+        # Provide the exception message to the user.
+        Printf 2 "ERROR:"
+        Printf 2 $_.Exception.Message;
+
+        # Return error
+        return 1;
+    } # Catch : Failed to Write Cached Contents to Disk
+
+
+    # Finished
+    return 0;
+} # WriteCacheToFile()
 
 
 
@@ -371,20 +562,20 @@ function AppendSeparation([string] $outputFile)
 #    0 = Created file successfully
 #    1 = Error occurred; vague
 # --------------------------
-function CreateNewScriptFile()
+function CreateNewScriptFile
 {
     # Try to create the file; if we are unable to - then return with an error signal.
     try
     {
-        New-Item -Path $OUTPUTDIRECTORY -Name $SCRIPTFILENAME -ItemType "File" `
-            -Value "# The $($PROJECTNAME) was generated on: $(Get-Date)`r`n`r`n" -ErrorAction Stop | Out-Null;
+        New-Item -Path $GLOBAL:OUTPUTDIRECTORY -Name $GLOBAL:SCRIPTFILENAME -ItemType "File" `
+            -Value "# The $($GLOBAL:PROJECTNAME) was generated on: $(Get-Date)`r`n`r`n" -ErrorAction Stop | Out-Null;
         return 0;
     } # Try
     catch
     {
         return 1;
     } # Error
-} # CreateNewScriptFile()
+} # CreateNewScriptFile
 
 
 
@@ -398,19 +589,19 @@ function CreateNewScriptFile()
 #    0 = Deleted file successfully
 #    1 = Error occurred; vague
 # --------------------------
-function ExpungeOldScriptFile()
+function ExpungeOldScriptFile
 {
     # Try to delete the file, if we are unable to - then return with an error signal.
     try
     {
-        Remove-Item -Path $OUTPUTFILE -ErrorAction Stop;
+        Remove-Item -Path $GLOBAL:OUTPUTFILE -ErrorAction Stop;
         return 0;
     } # Try
     catch
     {
         return 1;
     } # Error
-} # ExpungeOldScriptFile()
+} # ExpungeOldScriptFile
 
 
 
@@ -429,8 +620,12 @@ function ExpungeOldScriptFile()
 #    0 = File does not exist
 #    1 = File exist
 # --------------------------
-function FileDetection([string]$path)
+function FileDetection
 {
+    # Function Parameters
+    param([string]$path)
+
+
     if(Test-Path -Path $path)
     {
         return 1;
@@ -439,7 +634,7 @@ function FileDetection([string]$path)
     {
         return 0;
     } # else : File does not exist
-} # FileDetection()
+} # FileDetection
 
 
 
@@ -454,9 +649,9 @@ function FileDetection([string]$path)
 #    0 = Operation was successful
 #    1 = Operation failed; vague
 # --------------------------
-function ExistingFileProtocol()
+function ExistingFileProtocol
 {
-    if($(FileDetection($OUTPUTFILE)))
+    if($(FileDetection($GLOBAL:OUTPUTFILE)))
     {
         if (ExpungeOldScriptFile)
         {
@@ -467,7 +662,7 @@ function ExistingFileProtocol()
     {
         return 0;
     }
-} # ExistingFileProtocol()
+} # ExistingFileProtocol
 
 
 
@@ -478,7 +673,7 @@ function ExistingFileProtocol()
 #    DEBUG MODE ONLY
 #    This function displays all of the global variables.
 # --------------------------
-function Inspector()
+function Inspector
 {
     # Declarations and Initializations
     # ----------------------------------
@@ -490,12 +685,18 @@ function Inspector()
     $inspectorTable = @{}
 
     # Add in the Global Vars. to our HashTable
-    $inspectorTable.Add("SCRIPTPATH", "$($SCRIPTPATH)");
-    $inspectorTable.Add("SCRIPTFILENAME", "$($SCRIPTFILENAME)");
-    $inspectorTable.Add("SCRIPTSDIRECTORY", "$($SCRIPTSDIRECTORY)");
-    $inspectorTable.Add("OUTPUTDIRECTORY", "$($OUTPUTDIRECTORY)");
-    $inspectorTable.Add("OUTPUTFILE", "$($OUTPUTFILE)");
-    $inspectorTable.Add("PROJECTNAME", "$($PROJECTNAME)");
+    $inspectorTable.Add("SCRIPTPATH", "$($GLOBAL:SCRIPTPATH)");
+    $inspectorTable.Add("SCRIPTFILENAME", "$($GLOBAL:SCRIPTFILENAME)");
+    $inspectorTable.Add("SCRIPTFILENAMELAUNCHER", "$($GLOBAL:SCRIPTFILENAMELAUNCHER)");
+    $inspectorTable.Add("SCRIPTSDIRECTORY", "$($GLOBAL:SCRIPTSDIRECTORY)");
+    $inspectorTable.Add("SCRIPTSDIRECTORYLAUCNHER", "$($GLOBAL:SCRIPTSDIRECTORYLAUCNHER)");
+    $inspectorTable.Add("OUTPUTDIRECTORY", "$($GLOBAL:OUTPUTDIRECTORY)");
+    $inspectorTable.Add("OUTPUTFILE", "$($GLOBAL:OUTPUTFILE)");
+    $inspectorTable.Add("CACHEPROGRAMCONTENT", "$($GLOBAL:CACHEPROGRAMCONTENT)");
+    $inspectorTable.Add("CACHEDPROGRAMCONTENTS", "$($GLOBAL:CACHEDPROGRAMCONTENTS)");
+    $inspectorTable.Add("PROJECTNAME", "$($GLOBAL:PROJECTNAME)");
+    $inspectorTable.Add("DEBUGMODE", "$($GLOBAL:DEBUGMODE)");
+
 
     # Display the Table Header
     Printf 3 "GLOBAL VARIABLE TABLE";
@@ -508,7 +709,7 @@ function Inspector()
 
     # Add some extra spacing to make the output nicer -- separating data
     Printf 0 "`n`n";
-} # Inspector()
+} # Inspector
 
 
 
@@ -527,10 +728,10 @@ function Inspector()
 #     is redundant - as the terminal will not close
 #     once EXIT has been reached.
 # --------------------------
-function WaitUserInput()
+function WaitUserInput
 {
     Read-Host -Prompt "Press the Enter key to close this program`n";
-} # WaitUserInput()
+} # WaitUserInput
 
 
 
@@ -548,15 +749,15 @@ function WaitUserInput()
 #   where the main application can run successfully and
 #   further enrich the user's experience.
 # --------------------------
-function ProvideLauncher()
+function ProvideLauncher
 {
     # Does the file already exists?
-    if (FileDetection $SCRIPTFILENAMELAUNCHER)
+    if (FileDetection $GLOBAL:SCRIPTFILENAMELAUNCHER)
     {
         # Found the script file, try to remove it.
         try
         {
-            Remove-Item -Path "$($OUTPUTDIRECTORY)\$($SCRIPTFILENAMELAUNCHER)" `
+            Remove-Item -Path "$($GLOBAL:OUTPUTDIRECTORY)\$($GLOBAL:SCRIPTFILENAMELAUNCHER)" `
                         -ErrorAction Stop;
         } # Try : Remove Script File
 
@@ -571,8 +772,8 @@ function ProvideLauncher()
     # Try to duplicate the Launcher file to the output directory
     try
     {
-        Copy-Item -Path "$($SCRIPTSDIRECTORYLAUCNHER)\$($SCRIPTFILENAMELAUNCHER)" `
-                    -Destination "$($OUTPUTDIRECTORY)\$($SCRIPTFILENAMELAUNCHER)" `
+        Copy-Item -Path "$($GLOBAL:SCRIPTSDIRECTORYLAUCNHER)\$($GLOBAL:SCRIPTFILENAMELAUNCHER)" `
+                    -Destination "$($GLOBAL:OUTPUTDIRECTORY)\$($GLOBAL:SCRIPTFILENAMELAUNCHER)" `
                     -ErrorAction Stop;
     } # Try : Duplicate Script File
 
@@ -585,7 +786,7 @@ function ProvideLauncher()
 
     # Operation was successful
     return 0;
-} # ProvideLauncher()
+} # ProvideLauncher
 
 
 
@@ -595,25 +796,25 @@ function ProvideLauncher()
 # Documentation
 #    This function is our main program entry point.
 # --------------------------
-function main()
+function main
 {
     # Output all of the Global Variables [DEBUG MODE]
-    if($DEBUGMODE)
+    if($GLOBAL:DEBUGMODE)
     {
         Inspector;
     } # Inspect Global Vars
 
     # Tell the user that the program is preparing to generate the script
-    Printf 0 "Creating the $($SCRIPTFILENAME) script file. . .";
+    Printf 0 "Creating the $($GLOBAL:SCRIPTFILENAME) script file. . .";
 
 
     # ===============================================
     # ===============================================
     # First, check if the script file already exists
 
-    if($DEBUGMODE)
+    if($GLOBAL:DEBUGMODE)
     {
-        Printf 3 "Checking for existing $($SCRIPTFILENAME) and thrashing it. . .";
+        Printf 3 "Checking for existing $($GLOBAL:SCRIPTFILENAME) and thrashing it. . .";
     } # DEBUG MODE
     
     # Check for existing script and delete it - if it exists
@@ -623,7 +824,7 @@ function main()
         return 1;
     } # Check existing script
 
-    if($DEBUGMODE)
+    if($GLOBAL:DEBUGMODE)
     {
         Printf 3 "  Done!";
     } # DEBUG MODE
@@ -633,9 +834,9 @@ function main()
     # ===============================================
     # Second, create a new script file
 
-    if($DEBUGMODE)
+    if($GLOBAL:DEBUGMODE)
     {
-        Printf 3 "Creating a new empty $($SCRIPTFILENAME) file. . .";
+        Printf 3 "Creating a new empty $($GLOBAL:SCRIPTFILENAME) file. . .";
     } # DEBUG MODE
 
     # Create the script
@@ -645,7 +846,7 @@ function main()
         return 1;
     } # Create the script
 
-    if($DEBUGMODE)
+    if($GLOBAL:DEBUGMODE)
     {
         Printf 3 "  Done!";
     } # DEBUG MODE
@@ -654,20 +855,45 @@ function main()
     # ===============================================
     # ===============================================
     # Third, append all of the sub-scripts into one script file
+    #       OR
+    #       Cache all of the sub-scripts into one large string
 
-    if($DEBUGMODE)
+
+    # Write to File
+    if ($GLOBAL:CACHEPROGRAMCONTENT -eq $false)
     {
-        Printf 3 "Building $($SCRIPTFILENAME) script file. . .";
-    } # DEBUG MODE
+        if($GLOBAL:DEBUGMODE)
+        {
+            Printf 3 "Building $($GLOBAL:SCRIPTFILENAME) script file. . .";
+        } # DEBUG MODE
 
-    # Append the sub-scripts to the main script
-    if(MakeCompilerDriver)
+        # Append the sub-scripts to the main script
+        if(MakeCompilerDriver $false)
+        {
+            Printf 2 "Failure to generate the script file";
+            return 1;
+        } # Generate the script
+    } # if : Write to File
+
+    # Cache to String
+    else
     {
-        Printf 2 "Failure to generate the script file";
-        return 1;
-    } # Generate the script
+        if($GLOBAL:DEBUGMODE)
+        {
+            Printf 3 "Caching $($GLOBAL:SCRIPTFILENAME) contents into main memory. . .";
+        } # DEBUG MODE
 
-    if($DEBUGMODE)
+        # Cache the sub-scripts contents into a string datatype.
+        if(MakeCompilerDriver $true)
+        {
+            Printf 2 "Failure to cache the contents!`r`n`tDid we go beyond the CLR memory restrictions?";
+            return 1;
+        } # Generate the script
+    } # else : Cache to String
+
+
+
+    if($GLOBAL:DEBUGMODE)
     {
         Printf 3 "  Done!";
     } # DEBUG MODE
@@ -678,9 +904,9 @@ function main()
     # Fourth, provide the Launcher script file
 
 
-    if($DEBUGMODE)
+    if($GLOBAL:DEBUGMODE)
     {
-        Printf 3 "Providing $($SCRIPTFILENAMELAUNCHER) script file. . .";
+        Printf 3 "Providing $($GLOBAL:SCRIPTFILENAMELAUNCHER) script file. . .";
     } # DEBUG MODE
 
     # Setup the Launcher for easy access
@@ -690,7 +916,7 @@ function main()
         return 1;
     } # Prepare the Launcher
 
-    if ($DEBUGMODE)
+    if ($GLOBAL:DEBUGMODE)
     {
         Printf 3 "  Done!";
     } # DEBUG MODE
@@ -700,23 +926,26 @@ function main()
     # ===============================================
 
     # Display a message that the build has been generated
-    Printf 1 "$($SCRIPTFILENAMELAUNCHER) is ready!";
-    Printf 1 "You may find the $($SCRIPTFILENAMELAUNCHER) in this path:";
-    Printf 1 "  $($OUTPUTDIRECTORY)$($SCRIPTFILENAMELAUNCHER)";
-    Printf 1 "$($SCRIPTFILENAME) has been successfully created!";
-    Printf 1 "You may find the $($SCRIPTFILENAME) in this path:";
-    Printf 1 "  $($OUTPUTFILE)";
+    Printf 1 "$($GLOBAL:SCRIPTFILENAMELAUNCHER) is ready!";
+    Printf 1 "You may find the $($GLOBAL:SCRIPTFILENAMELAUNCHER) in this path:";
+    Printf 1 "  $($GLOBAL:OUTPUTDIRECTORY)$($GLOBAL:SCRIPTFILENAMELAUNCHER)";
+    Printf 1 "$($GLOBAL:SCRIPTFILENAME) has been successfully created!";
+    Printf 1 "You may find the $($GLOBAL:SCRIPTFILENAME) in this path:";
+    Printf 1 "  $($GLOBAL:OUTPUTFILE)";
 
 
     # Successful operation
     return 0;
-} # main()
+} # main
 
 
 
 
 # Start the program
 $errorSignal = $(main);
+
+# Remove mutable variables
+UninitializeVariables
 
 # Wait for the user to view the results
 WaitUserInput;

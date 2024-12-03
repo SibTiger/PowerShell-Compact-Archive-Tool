@@ -1,5 +1,5 @@
 ﻿<# PowerShell Compact-Archive Tool
- # Copyright (C) 2023
+ # Copyright (C) 2025
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -86,8 +86,7 @@ class DefaultCompress
     #  a new instance of this particular object.
     static [DefaultCompress] GetInstance([DefaultCompressionLevel] $compressionLevel, ` # Compression Level
                                         [bool] $verifyBuild, `                          # Verify Archive datafile
-                                        [bool] $generateReport, `                       # Create report
-                                        [bool] $generateReportFilePDF)                  # Create a PDF Report
+                                        [bool] $generateReport)                         # Create report
     {
         # if there was no previous instance of the object - then create one.
         if ($null -eq [DefaultCompress]::_instance)
@@ -95,8 +94,7 @@ class DefaultCompress
             # Create a new instance of the singleton object.
             [DefaultCompress]::_instance = [DefaultCompress]::new($compressionLevel, `
                                                                     $verifyBuild, `
-                                                                    $generateReport, `
-                                                                    $generateReportFilePDF);
+                                                                    $generateReport);
         } # If: No Singleton Instance
 
         # Provide an instance of the object.
@@ -135,14 +133,6 @@ class DefaultCompress
     Hidden [bool] $__generateReport;
 
 
-    # Generate Report - PDF File
-    # ---------------
-    # Dependant on the Generate Report functionality, this variable will dictate
-    #  if a PDF file is to be generated during the creation of the report.  The
-    #  PDF file will contain all of the information from the originated report source.
-    Hidden [bool] $__generateReportFilePDF;
-
-
     # Log Root
     # ---------------
     # The main parent directory's absolute path that will hold this object's
@@ -164,6 +154,22 @@ class DefaultCompress
     #  from this object when creating, verifying, extracting, and listing
     #  contents from within an archive datafile.
     Hidden [string] $__logPath;
+
+
+    # PowerShell Module Name
+    # ---------------
+    # This will contain the name of the PowerShell Module for this specific functionality.
+    #   With having the POSH Module name available to us, we can be able to perform Module
+    #   specific actions, such as updates, install, or uninstalling the module when requested
+    #   to do so by the user.
+    #
+    # Install Location:
+    #   Built-In since Windows 10
+    # Module Requirements:
+    #   PowerShell Version 5.0 and Later
+    # Module Information:
+    #   https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive
+    Hidden [string] $__powerShellModuleName;
 
 
     # Object GUID
@@ -195,9 +201,6 @@ class DefaultCompress
         # Generate Report
         $this.__generateReport = $false;
 
-        # Generate Report - PDF File
-        $this.__generateReportFilePDF = $false;
-
         # Log Root Directory Path
         $this.__rootLogPath = "$($global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_)\PSArchive";
 
@@ -206,6 +209,9 @@ class DefaultCompress
 
         # Log Directory Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
+
+        # PowerShell Module Name
+        $this.__powerShellModuleName = "Microsoft.PowerShell.Archive";
 
         # Object Identifier (GUID)
         $this.__objectGUID = [GUID]::NewGuid();
@@ -217,8 +223,7 @@ class DefaultCompress
     # User Preference : On-Load
     DefaultCompress([DefaultCompressionLevel] $compressionLevel, `
                     [bool] $verifyBuild, `
-                    [bool] $generateReport, `
-                    [bool] $generateReportFilePDF)
+                    [bool] $generateReport)
     {
         # Compression Level
         $this.__compressionLevel = $compressionLevel;
@@ -229,9 +234,6 @@ class DefaultCompress
         # Generate Report
         $this.__generateReport = $generateReport;
 
-        # Generate Report - PDF File
-        $this.__generateReportFilePDF = $generateReportFilePDF;
-
         # Log Root Directory Path
         $this.__rootLogPath = "$($global:_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_)\PSArchive";
 
@@ -240,6 +242,9 @@ class DefaultCompress
 
         # Log Directory Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
+
+        # PowerShell Module Name
+        $this.__powerShellModuleName = "Microsoft.PowerShell.Archive";
 
         # Object Identifier (GUID)
         $this.__objectGUID = [GUID]::NewGuid();
@@ -296,21 +301,6 @@ class DefaultCompress
 
 
 
-   <# Get Generate Report - Generate PDF File
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'Generate Report - PDF File' variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Generate Report using PDF File
-    #   The value of the 'Generate Report - PDF File'.
-    # -------------------------------
-    #>
-    [bool] GetGenerateReportFilePDF() { return $this.__generateReportFilePDF; }
-
-
-
-
    <# Get Report Directory Path
     # -------------------------------
     # Documentation:
@@ -352,6 +342,21 @@ class DefaultCompress
     # -------------------------------
     #>
     [string] GetRootLogPath() { return $this.__rootLogPath; }
+
+
+
+
+   <# Get PowerShell Module Name
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the 'PowerShell Module Name' variable.
+    # -------------------------------
+    # Output:
+    #  [string] PowerShell Module Name
+    #   The value of the 'PowerShell Module Name'.
+    # -------------------------------
+    #>
+    [string] GetPowerShellModuleName() { return $this.__powerShellModuleName; }
 
 
 
@@ -465,37 +470,6 @@ class DefaultCompress
         # Successfully updated.
         return $true;
     } # SetGenerateReport()
-
-
-
-
-   <# Set Generate Report - Generate PDF File
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Generate Report - PDF File' variable.
-    # -------------------------------
-    # Input:
-    #  [bool] Generate Report - PDF File
-    #   When true, this will allow the report functionality to generate
-    #    a PDF file.  Otherwise, only the text file will be produced.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetGenerateReportFilePDF([bool] $newVal)
-    {
-        # Because the value is either true or false, there really is no
-        #  point in checking if the new requested value is 'legal'.
-        #  Thus, we are going to trust the value and automatically
-        #  return success.
-        $this.__generateReportFilePDF = $newVal;
-
-        # Successfully updated.
-        return $true;
-    } # SetGenerateReportFilePDF()
 
 
 
@@ -882,11 +856,6 @@ class DefaultCompress
     #  This function will try to detect if the host system has the primary module
     #   available to the PowerShell's current environment.  Without this module,
     #   it is not possible to use a lot of the functionality within this class.
-    #
-    # Module(s) and Dependencies:
-    #  - Microsoft.PowerShell.Archive
-    #    >> PowerShell Version 5.0 and Later
-    #       https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive
     # -------------------------------
     # Output:
     #  [bool] Exit code
@@ -896,12 +865,8 @@ class DefaultCompress
     #>
     [bool] DetectCompressModule()
     {
-        # We are going to try to detect if the module is available within this
-        #  PowerShell instance.  If incase it is not available - then we must
-        #  return false, or simply stating that it was not found.
-        # NOTE: If there is ANY output, then this function will return true.
-        # Reference: https://stackoverflow.com/a/28740512
-        if (Get-Module -ListAvailable -Name Microsoft.PowerShell.Archive)
+        # Determine if the PowerShell Module is presently available within the environment.
+        if ([CommonPowerShell]::DetectModule($this.GetPowerShellModuleName()))
         {
             # Detected the module
 
@@ -911,10 +876,10 @@ class DefaultCompress
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Found the Microsoft.PowerShell.Archive module!";
+            [string] $logMessage = "Found the $($this.GetPowerShellModuleName())) module!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "It is possible to use Microsoft.PowerShell.Archive features!";
+            [string] $logAdditionalMSG = "It is possible to use $($this.GetPowerShellModuleName()) features!";
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -936,10 +901,10 @@ class DefaultCompress
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Could not find the Microsoft.PowerShell.Archive module!";
+            [string] $logMessage = "Could not find the $($this.GetPowerShellModuleName()) module!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("It is not possible to use the Microsoft.PowerShell.Archive features!`r`n" + `
+            [string] $logAdditionalMSG = ("It is not possible to use the $($this.GetPowerShellModuleName()) features!`r`n" + `
                                         "`t- Please consider downloading the latest version of dotNET Core:`r`n" + `
                                         "`t`thttps://dotnet.microsoft.com/download`r`n" + `
                                         "`t- Also make sure that you are using the latest PowerShell Core version as well:`r`n" + `
@@ -957,6 +922,197 @@ class DefaultCompress
         # Because the module was not detected.
         return $false;
     } # DetectCompressModule()
+
+
+
+
+   <# Show About
+    # -------------------------------
+    # Documentation:
+    #   This function will provide the 'About' information about this PowerShell Module and
+    #   present it to the user.  The about information shown to the user will contain as much
+    #   data as possible that is related to the PowerShell Module.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #   $true = Successfully retrieved About Information
+    #   $false = Unable to retrieve useful About information
+    # -------------------------------
+    #>
+    [bool] ShowAbout()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This will be used to collect the PowerShell Module's meta data.
+        [PowerShellModuleMetaData] $aboutInfo = [PowerShellModuleMetaData]::new();
+
+        # This is the about string that will be presented to the user.
+        [string] $aboutString = $NULL;
+
+        # A quick 'Double Space' macro.
+        [string] $dbs = "`r`n`r`n";
+        # ----------------------------------------
+
+
+
+        # Determine if it is possible to obtain the meta data for this PowerShell Module.
+        #   If we cannot get the meta data, than return an error.
+        if (![CommonPowerShell]::GetModuleMetaData($this.GetPowerShellModuleName(), `
+                                                    [ref] $aboutInfo))
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to show the POSH Module About information!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("There is no Meta Information available to show for:`r`n" + `
+                                            "`t" + $this.GetPowerShellModuleName());
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Unable to obtain any About Info. data.
+            return $false;
+        } # if : Unable to Get Meta Data
+
+
+
+        # Construct the string with the data that we just obtained.
+        # To do this properly, we will only append information to the string - if
+        #   data is available within a field.  Otherwise, if nothing is available,
+        #   then the missing information will not be included into the string.
+        if ([CommonIO]::IsStringEmpty($aboutInfo.Author) -ne $true)
+        { $aboutString += "Author:`r`n`t" + $aboutInfo.Author + $dbs; }
+
+        if ([CommonIO]::IsStringEmpty($aboutInfo.Name) -ne $true)
+        { $aboutString += "PowerShell Module Name:`r`n`t" + $aboutInfo.Name + $dbs; }
+
+        if ([CommonIO]::IsStringEmpty($aboutInfo.Version) -ne $true)
+        { $aboutString += "PowerShell Module Version:`r`n`t" + $aboutInfo.Version + $dbs; }
+
+        if ([CommonIO]::IsStringEmpty($aboutInfo.Copyright) -ne $true)
+        { $aboutString += "Copyright:`r`n`t" + $aboutInfo.Copyright + $dbs; }
+
+        if ([CommonIO]::IsStringEmpty($aboutInfo.ProjectURI) -ne $true)
+        { $aboutString += "Webpage:`r`n`t" + $aboutInfo.ProjectURI + $dbs; }
+
+        if ([CommonIO]::IsStringEmpty($aboutInfo.Description) -ne $true)
+        {
+            $aboutString += ("Description:`r`n" + `
+                    "`t" + $aboutInfo.Description + $dbs);
+        } # if : Append Description
+
+        if ([CommonIO]::IsStringEmpty($aboutInfo.ReleaseNotes)  -ne $true)
+        {
+            $aboutString += ("Release Notes:`r`n" + `
+                    "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~`r`n" + `
+                    "`r`n" + `
+                    $aboutInfo.ReleaseNotes + `
+                    "`r`n" + `
+                    "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~`r`n");
+        } # if : Append Release Notes
+
+
+
+        # If incase /nothing/ was collected, alert the user that we couldn't generate any
+        #   useful information regarding the PowerShell Module.
+        if ([CommonIO]::IsStringEmpty($aboutString))
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to show the POSH Module About information!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("There is no useful Meta Information available to show for:`r`n" + `
+                                            "`t" + $this.GetPowerShellModuleName() + "`r`n"         + `
+                                            "`tAbout String:`r`n" + `
+                                            "=====================================================`r`n" + `
+                                            "`r`n" + `
+                                            $aboutString + "`r`n" + `
+                                            "`r`n" + `
+                                            "=====================================================");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Error);      # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Nothing of use was collected.
+            return $false;
+        } # if : About String is Empty
+
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        [string] $logMessage = "Successfully created the About information!";
+
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = ("PowerShell Module Full Name:`r`n" + `
+                                        "`t`t" + $this.GetPowerShellModuleName() + "`r`n" + `
+                                        "`tThe About Information Collected:`r`n" + `
+                                        "`t`t - Author:         " + $aboutInfo.Author       + "`r`n" + `
+                                        "`t`t`tString was empty?  " + [CommonIO]::IsStringEmpty($aboutInfo.Author) + "`r`n" + `
+                                        "`t`t - Module Name:    " + $aboutInfo.Name         + "`r`n" + `
+                                        "`t`t`tString was empty?  " + [CommonIO]::IsStringEmpty($aboutInfo.Name) + "`r`n" + `
+                                        "`t`t - Module Version: " + $aboutInfo.Version      + "`r`n" + `
+                                        "`t`t`tString was empty?  " + [CommonIO]::IsStringEmpty($aboutInfo.Version) + "`r`n" + `
+                                        "`t`t - Copyright:      " + $aboutInfo.Copyright    + "`r`n" + `
+                                        "`t`t`tString was empty?  " + [CommonIO]::IsStringEmpty($aboutInfo.Copyright) + "`r`n" + `
+                                        "`t`t - Project URI:    " + $aboutInfo.ProjectURI   + "`r`n" + `
+                                        "`t`t`tString was empty?  " + [CommonIO]::IsStringEmpty($aboutInfo.ProjectURI) + "`r`n" + `
+                                        "`t`t - Description:`r`n" + `
+                                        "`t`t`tString was empty?  " + [CommonIO]::IsStringEmpty($aboutInfo.Description) + "`r`n" + `
+                                        "= - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - `r`n" + `
+                                        "`r`n" + `
+                                        $aboutInfo.description + "`r`n" + `
+                                        "`r`n" + `
+                                        "= - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - `r`n" + `
+                                        "`t`t - Release Notes:`r`n" + `
+                                        "`t`t`tString was empty?  " + [CommonIO]::IsStringEmpty($aboutInfo.ReleaseNotes) + "`r`n" + `
+                                        "= - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - `r`n" + `
+                                        "`r`n" + `
+                                        $aboutInfo.ReleaseNotes + "`r`n" + `
+                                        "`r`n" + `
+                                        "= - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - `r`n" + `
+                                        "`r`n" + `
+                                        "`tAbout String that was created:`r`n" + `
+                                        "`t`t" + $aboutString);
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
+
+
+
+        # Show the information to the user.
+        [Logging]::DisplayMessage($aboutString);
+
+
+
+        # Finished
+        return $true;
+    } # ShowAbout()
 
 
 
@@ -1382,7 +1538,7 @@ class DefaultCompress
         {
             # If there is information held in the STDOUT container, then we will convert the data from an array-list
             #  to a literal string.
-            if (![CommonFunctions]::IsStringEmpty($execSTDOUT))
+            if (![CommonIO]::IsStringEmpty($execSTDOUT))
             {
                 # Because there is information within the STDOUT container, we will convert it to a literal string.
                 #  But because we are going to display the information to a logfile, ultimately, present the data in
@@ -1424,7 +1580,7 @@ class DefaultCompress
 
             # If there is information held in the STDERR container, then we will transform the data from an object
             #  to a literal string.
-            if (![CommonFunctions]::IsStringEmpty($execSTDERR))
+            if (![CommonIO]::IsStringEmpty($execSTDERR))
             {
                 # Because of how the information is stored in the object, we can just store the data to a literal
                 #  string outright.
@@ -1732,7 +1888,7 @@ class DefaultCompress
 
 
             # If there was information provided, then we will process it accordingly.
-            if (![CommonFunctions]::IsStringEmpty($logString))
+            if (![CommonIO]::IsStringEmpty($logString))
             {
                 # Because there exists data within the output, we will prepare the output in such a way that
                 #  it can be available within the Logfile in an elegant way.  Ultimately, we want the
@@ -2779,7 +2935,7 @@ class DefaultCompress
             {
                 # If the STDOUT contains the file path of the archive datafile,
                 #  then we will store it for logging purposes.
-                if (![CommonFunctions]::IsStringEmpty($execSTDOUT))
+                if (![CommonIO]::IsStringEmpty($execSTDOUT))
                 {
                     # Because we only created just one compressed datafile, we
                     #  will only have one output file - not multiple.  With that,
@@ -2852,10 +3008,6 @@ class DefaultCompress
     #   Returns the full path of the generated TXT report file.  Useful to
     #    provide a full location as to where the report resides within the host's
     #    filesystem.
-    #  [string] (REFERENCE) Return the File Path [Portable Document File]
-    #   Returns the full path of the generated PDF report file.  Useful to
-    #    provide a full location as to where the report resides within the host's
-    #    filesystem.
     # -------------------------------
     # Output:
     #  [bool] Status Code
@@ -2865,8 +3017,7 @@ class DefaultCompress
     # -------------------------------
     #>
     [bool] CreateNewReport([string] $archiveFile, `     # The archive file that we will generate a report from.
-                           [ref] $returnFilePathTXT, `  # Returns the report's path (TXT)
-                           [ref] $returnFilePathPDF)    # Returns the report's path (PDF)
+                           [ref] $returnFilePathTXT)    # Returns the report's path (TXT)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2895,9 +3046,6 @@ class DefaultCompress
         # - - - -
         # >> Standard Textfile
         [string] $fileNameTXT = "$($this.GetReportPath())\$($fileNameExt) - $($dateTime).txt";
-
-        # >> Portable Document File (PDF)
-        [string] $fileNamePDF = "$($this.GetReportPath())\$($fileNameExt) - $($dateTime).pdf";
         # - - - -
 
 
@@ -2905,14 +3053,6 @@ class DefaultCompress
         # - - - -
         # >> Standard Textfile
         $returnFilePathTXT.Value = $fileNameTXT;
-
-        # >> Portable Document File (PDF)
-        #  Make sure that the user wanted a PDF file before assuming to provide the path.
-        if ($this.GetGenerateReportFilePDF())
-        {
-            # User requested to generate a report using the PDF format
-            $returnFilePathPDF.Value = $fileNamePDF;
-        } # if : Make PDF Report
         # - - - -
 
 
@@ -3513,43 +3653,6 @@ class DefaultCompress
 
 
 
-        # Does the user also want a PDF file of the report?
-        if ($this.GetGenerateReportFilePDF() -eq $true)
-        {
-            # Create the PDF file as requested
-            if([CommonIO]::CreatePDFFile($fileNameTXT, $fileNamePDF) -eq $false)
-            {
-                # Failure occurred while creating the PDF document.
-
-
-                # * * * * * * * * * * * * * * * * * * *
-                # Debugging
-                # --------------
-
-                # Generate the initial message
-                [string] $logMessage = "Could not create a PDF file of the report!";
-
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Object: DefaultCompress`r`n" + `
-                                            "`tReport is based on the archive file: $($archiveFile)`r`n" + `
-                                            "`tText file of the report: $($fileNameTXT)`r`n" + `
-                                            "`tTried to create PDF file: $($fileNamePDF)");
-
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                            $logAdditionalMSG, `        # Additional information
-                                            [LogMessageLevel]::Error);  # Message level
-
-                # * * * * * * * * * * * * * * * * * * *
-
-
-                # Because the report could not be made in the PDF format, we will signify an error.
-                return $false;
-            } # If : Failure while creating PDF
-        } # If : Make PDF Report
-
-
-
         # Successfully wrote to the file
         return $true;
     } # CreateNewReport()
@@ -3586,7 +3689,7 @@ class DefaultCompress
         # Declarations and Initializations
         # ----------------------------------------
         [string[]] $extLogs = @('*.err', '*.out');      # Array of log extensions
-        [string[]] $extReports = @('*.txt', '*.pdf');   # Array of report extensions
+        [string[]] $extReports = @('*.txt');            # Array of report extensions
         [string] $knownExtensions = $null;              # This will hold a nice string value of all of
                                                         #  the extensions that this function will remove;
                                                         #  extensions being: $extLogs and $extReports combined.
@@ -3604,7 +3707,7 @@ class DefaultCompress
         {
             # if this is the first entry in the variable, then just apply the item
             #  to the string without adding a appending the previous entries.
-            if ([CommonFunctions]::IsStringEmpty($knownExtensions))
+            if ([CommonIO]::IsStringEmpty($knownExtensions))
             {
                 # First entry to the string.
                 $knownExtensions = $item;

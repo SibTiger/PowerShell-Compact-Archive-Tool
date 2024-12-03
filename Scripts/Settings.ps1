@@ -1,5 +1,5 @@
 <# PowerShell Compact-Archive Tool
- # Copyright (C) 2023
+ # Copyright (C) 2025
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -143,22 +143,6 @@ class Settings
         } # if : Show dotNET Zip Settings Menu
 
 
-        # Configure the 7Zip Application settings
-        [CommonCUI]::DrawMenuItem('7', `
-                                "7Zip Preferences [PK3 or PK7 Builds]", `
-                                "Configure the 7Zip's functionality and preferences.", `
-                                $NULL, `
-                                $true);
-
-
-        # Configure the Git Application settings
-        [CommonCUI]::DrawMenuItem('G', `
-                                "Git Preferences", `
-                                "Configure the Git's functionality and preferences.", `
-                                $NULL, `
-                                $true);
-
-
         # Project User Configuration
         if ($showProjectUserConfig)
         {
@@ -273,43 +257,6 @@ class Settings
                 # Finished
                 break;
             } # Configure Zip Preferences
-
-
-
-            # Configure 7Zip Preferences
-            #  NOTE: Allow the user's request when they type: 'Configure 7Zip Preferences',
-            #           'Configure 7Zip', '7Zip', '7Z', as well as '7'.
-            {   ($_ -eq "7") -or `
-                ($_ -eq "Configure 7Zip Preferences") -or `
-                ($_ -eq "Configure 7Zip") -or `
-                ($_ -eq "7Zip") -or `
-                ($_ -eq "7Z")}
-            {
-                # Open the 7Zip preferences menu
-                [Settings7Zip]::Main();
-
-
-                # Finished
-                break;
-            } # Configure 7Zip Preferences
-
-
-
-            # Configure Git Preferences
-            #  NOTE: Allow the user's request when they type: 'Configure Git Preferences',
-            #           'Configure Git', 'Git', as well as 'G'.
-            {   ($_ -eq "G") -or `
-                ($_ -eq "Configure Git Preferences") -or `
-                ($_ -eq "Configure Git") -or `
-                ($_ -eq "Git")}
-            {
-                # Open the Git preferences menu
-                [SettingsGit]::Main();
-
-
-                # Finished
-                break;
-            } # Configure Git Preferences
 
 
 
@@ -489,6 +436,9 @@ class Settings
         # ----------------------------------------
         # Obtain the current instance of the Project Information
         [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
+
+        # Latch onto the single instance of the Zip object
+        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
         # ----------------------------------------
 
 
@@ -496,7 +446,7 @@ class Settings
         # Show Zip Menu
         #  Show the Zip Menu if the following conditions are true:
         #   - Found Zip Module
-        if ([CommonFunctions]::IsAvailableZip())
+        if ($defaultCompress.DetectCompressModule())
         {
             $showMenuZip.Value = $true;
         } # If: Zip Menu is Visible

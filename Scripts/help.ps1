@@ -1,5 +1,5 @@
 ﻿<# PowerShell Compact-Archive Tool
- # Copyright (C) 2023
+ # Copyright (C) 2025
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -20,10 +20,10 @@
 
 <#
 .SYNOPSIS
-    Compiles a ZDoom based mod project in to an PK3 or PK7 archive datafile.
+    Compiles a ZDoom based mod project in to an PK3 archive datafile.
 
 .DESCRIPTION
-    This program provides the ability to compile a ZDoom family-based project source into either an PK3 or PK7 archive datafile.  With transforming the project's source to an archive datafile to either PK3 or PK7: this allows any modern ZDoom family engine to easily read the file, exporting the archive file to any webservices, sharing with user's abroad on the internet, and to neatly organize different builds for development purposes.
+    This program provides the ability to compile a ZDoom family-based project source into either an PK3 archive datafile.  With transforming the project's source to an archive datafile to PK3: this allows any modern ZDoom family engine to easily read the file, exporting the archive file to any webservices, sharing with user's abroad on the internet, and to neatly organize different builds for development purposes.
 
     Make sure that your project source (or custom source) follows the ZDoom's ZIP Specifications.  For more information, please look at the following resources:
         https://zdoom.org/wiki/Using_ZIPs_as_WAD_replacement
@@ -39,13 +39,6 @@
             The required shell in order for this application to work properly.
         dotNET Core 3.1.x Minimum
             The required framework that is needed for this program to run successfully on all supported platforms.
-        7Zip [Optional]
-            Compact the project source to either a PK3 or PK7 archive datafile.
-        Git [Optional]
-            Ideal for Alpha and Beta Development Builds.
-            Retrieve project's repository information and pull updates to project's local repository.
-        Microsoft Word 2016 or Later [Optional]
-            Generate a report in Portable Document File (PDF).
 
 .NOTES
     Author: Nicholas Gautier

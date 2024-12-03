@@ -1,5 +1,5 @@
 ﻿<# PowerShell Compact-Archive Tool
- # Copyright (C) 2023
+ # Copyright (C) 2025
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -421,7 +421,7 @@ class ProjectInformation
     #>
     [Bool] DetermineAssignedWebsite()
     {
-        if ([CommonFunctions]::IsStringEmpty($this.__urlWebsite))
+        if ([CommonIO]::IsStringEmpty($this.__urlWebsite))
         {
             # Website was not provided.
             return $false;
@@ -503,7 +503,7 @@ class ProjectInformation
     {
         # Insure that the provided value is not null.
         # If it is null, we cannot accept the change as it is a mandatory value.
-        if ([CommonFunctions]::IsStringEmpty($newVal)) { return $false; }
+        if ([CommonIO]::IsStringEmpty($newVal)) { return $false; }
 
 
         # Set the Project Name as requested.
@@ -536,7 +536,7 @@ class ProjectInformation
     {
         # Insure that the provided value is not null.
         # If it is null, we cannot accept the change as it is a mandatory value.
-        if ([CommonFunctions]::IsStringEmpty($newVal)) { return $false; }
+        if ([CommonIO]::IsStringEmpty($newVal)) { return $false; }
 
 
         # Set the Project's Code Name as requested.
@@ -569,7 +569,7 @@ class ProjectInformation
     {
         # Insure that the provided value is not null.
         # If it is null, we cannot accept the change as it is a mandatory value.
-        if ([CommonFunctions]::IsStringEmpty($newVal)) { return $false; }
+        if ([CommonIO]::IsStringEmpty($newVal)) { return $false; }
 
 
         # Set the Project's Compiler Version as requested.
@@ -602,7 +602,7 @@ class ProjectInformation
     {
         # Insure that the provided value is not null.
         # If it is null, we cannot accept the change as it is a mandatory value.
-        if ([CommonFunctions]::IsStringEmpty($newVal)) { return $false; }
+        if ([CommonIO]::IsStringEmpty($newVal)) { return $false; }
 
 
         # Set the File Name as requested.
@@ -818,7 +818,7 @@ class ProjectInformation
     [bool] SetProjectMetaFileName([string] $newVal)
     {
         # Assure that the filename is not empty.
-        if ([CommonFunctions]::IsStringEmpty($newVal)) { return $false; }
+        if ([CommonIO]::IsStringEmpty($newVal)) { return $false; }
 
         # Filename given; use it as requested.
         $this.__projectMetaFileName = $newVal;

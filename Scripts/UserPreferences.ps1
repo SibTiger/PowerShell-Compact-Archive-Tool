@@ -1,5 +1,5 @@
 ﻿<# PowerShell Compact-Archive Tool
- # Copyright (C) 2023
+ # Copyright (C) 2025
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -70,17 +70,13 @@ class UserPreferences
     # Get the instance of this singleton object (With Args)
     #  Useful if we already know that we have to instantiate
     #  a new instance of this particular object.
-    static [UserPreferences] GetInstance([UserPreferencesCompressTool] $compressionTool, `      # Which Compression Software to use
-                                        [string] $outputBuildsPath, `                           # Output Builds absolute path
-                                        [UserPreferencesVersionControlTool] $versionControl)    # Utilize Git features (if software available)
+    static [UserPreferences] GetInstance([string] $outputBuildsPath)
     {
         # if there was no previous instance of the object - then create one.
         if ($null -eq [UserPreferences]::_instance)
         {
             # Create a new instance of the singleton object.
-            [UserPreferences]::_instance = [UserPreferences]::new($compressionTool, `
-                                                                $outputBuildsPath, `
-                                                                $versionControl);
+            [UserPreferences]::_instance = [UserPreferences]::new($outputBuildsPath);
         } # If: No Singleton Instance
 
         # Provide an instance of the object.
@@ -98,24 +94,10 @@ class UserPreferences
 
 
     #region Private Variables (emulated)
-
-    # Compression Choice
-    # ---------------
-    # The choice of which software tool will be used for generating archive data-files.
-    Hidden [UserPreferencesCompressTool] $__compressionTool;
-
-
     # Project Builds Path
     # ---------------
     # The absolute path of the builds output location.
     Hidden [string] $__outputBuildsPath;
-
-
-    # Version Control Choice
-    # ---------------
-    # The choice of which software tool be used for managing the local copy or local
-    #   repository of the project's source files.
-    Hidden [UserPreferencesVersionControlTool] $__versionControlTool;
 
 
     # Object GUID
@@ -138,14 +120,8 @@ class UserPreferences
     # Default Constructor
     UserPreferences()
     {
-        # Compression Tool
-        $this.__compressionTool = [UserPreferencesCompressTool]::InternalZip;
-
         # Output Build Path
         $this.__outputBuildsPath = $global:_USERDATA_PROJECT_BUILDS_PATH_;
-
-        # Use Git Features
-        $this.__versionControlTool = [UserPreferencesVersionControlTool]::None;
 
         # Object Identifier (GUID)
         $this.__objectGUID = [GUID]::NewGuid();
@@ -155,18 +131,10 @@ class UserPreferences
 
 
     # User Preference : On-Load
-    UserPreferences([UserPreferencesCompressTool] $compressionTool, `
-                    [string] $outputBuildsPath, `
-                    [UserPreferencesVersionControlTool] $versionControl)
+    UserPreferences([string] $outputBuildsPath)
     {
-        # Compression Tool
-        $this.__compressionTool = $compressionTool;
-
         # Output Build Path
         $this.__outputBuildsPath = $outputBuildsPath;
-
-        # Use Git Features
-        $this.__versionControlTool = $versionControl;
 
         # Object Identifier (GUID)
         $this.__objectGUID = [GUID]::NewGuid();
@@ -177,21 +145,6 @@ class UserPreferences
 
 
     #region Getter Functions
-
-   <# Get Compression Tool Choice
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'Software Compression Tool Choice' variable.
-    # -------------------------------
-    # Output:
-    #  [UserPreferencesCompressTool] Software Compression Tool Choice
-    #   The value of the Software Compression Tool Choice.
-    # -------------------------------
-    #>
-    [UserPreferencesCompressTool] GetCompressionTool() { return $this.__compressionTool; }
-
-
-
 
    <# Get Project Builds Path
     # -------------------------------
@@ -204,21 +157,6 @@ class UserPreferences
     # -------------------------------
     #>
     [string] GetProjectBuildsPath() { return $this.__outputBuildsPath; }
-
-
-
-
-   <# Get Version Control Tool
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'Version Control Tool' variable.
-    # -------------------------------
-    # Output:
-    #  [UserPreferencesVersionControlTool] Version Control Tool
-    #   The value of the Version Control Tool.
-    # -------------------------------
-    #>
-    [UserPreferencesVersionControlTool] GetVersionControlTool() { return $this.__versionControlTool; }
 
 
 
@@ -240,37 +178,6 @@ class UserPreferences
 
 
     #region Setter Functions
-
-   <# Set Compression Tool Choice
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Software Compression Tool Choice' variable.
-    # -------------------------------
-    # Input:
-    #  [UserPreferencesCompressTool] Software Compression Tool
-    #   A choice between the various compression software that is supported
-    #    within the application and is available on the user's system.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetCompressionTool([UserPreferencesCompressTool] $newVal)
-    {
-        # Because the value must fit within the 'UserPreferencesCompressTool'
-        #  datatype, there really is no point in checking if the new requested
-        #  value is 'legal'.  Thus, we are going to trust the value and
-        #  automatically return success.
-        $this.__compressionTool = $newVal;
-
-        # Successfully updated.
-        return $true;
-    } # SetCompressionTool()
-
-
-
 
    <# Set Project Builds Path
     # -------------------------------
@@ -301,73 +208,5 @@ class UserPreferences
         return $false;
     } # SetProjectBuildsPath()
 
-
-
-
-   <# Set Version Control Tool
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Version Control Tool' variable.
-    # -------------------------------
-    # Input:
-    #  [UserPreferencesVersionControlTool] Version Control Tool
-    #   When set to any other value than 'None' (Nothing), this will allow
-    #   the application to utilize the functionality of the Version Control
-    #   software to manage or obtain information regarding the local working
-    #   copy or local repository of the source files on the host's local
-    #   machine.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetVersionControlTool([UserPreferencesVersionControlTool] $newVal)
-    {
-        # Because the value must fit within the 'UserPreferencesVersionControlTool'
-        #   datatype, there really is no point in checking if the new requested
-        #   value is considered 'legal'.  Thus, we are going to trust the value
-        #   and automatically return success.
-        $this.__versionControlTool = $newVal;
-
-        # Successfully updated.
-        return $true;
-    } # SetVersionControlTool()
-
     #endregion
 } # UserPreferences
-
-
-
-
-<# User Preferences Compress Tool [ENUM]
- # -------------------------------
- # Associated with what type of compression tool software should be used when wanting to
- #  compact a data into an archive-file.
- #
- # This provides a list of software that this application supports.
- # -------------------------------
- #>
-enum UserPreferencesCompressTool
-{
-    InternalZip = 0; # Microsoft's .NET 4.5 (or later)
-    SevenZip    = 1; # 7Zip's 7Za (CLI)
-} # UserPreferencesCompressTool
-
-
-
-
-<# User Preferences Version Control Tool [ENUM]
- # -------------------------------
- # Associated with what type of Version Control (VCS or SCM) will be used to manage the
- #  local copy or local repository stored on the user's host system.
- #
- # This provides a list of software that this application supports.
- # -------------------------------
- #>
-enum UserPreferencesVersionControlTool
-{
-    None    = 0;    # Nothing
-    GitSCM  = 1;    # Git-SCM
-} # UserPreferencesVersionControlTool

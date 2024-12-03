@@ -1,5 +1,5 @@
 ﻿<# PowerShell Compact-Archive Tool
- # Copyright (C) 2023
+ # Copyright (C) 2025
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -23,9 +23,9 @@
  # ==============================
  # ==============================
  # This source file will initialize the application's environment, assuring that the program can run within the host's
- #  PowerShell instance, provide a means for the user to interact within the software, and then - once the user had finished
- #  using the program - termination by safely closing the environment that had been created.
- # Essentially, this is the spine of the entire program.  If the entry point fails, the entire application will fall apart.
+ #  PowerShell instance, provide a means for the user to interact within the software, and then - once the user had
+ #  finished using the program - termination by safely closing the environment that had been created.  Essentially,
+ #  this is the spine of the entire program.  If the entry point fails, the entire application will fall apart.
  # ----------------------------
  # Exit Codes:
  # 0 = Successfully
@@ -51,8 +51,10 @@ function main()
 
 
     # This variable will provide how long the splash screen should be displayed on the terminal.
-    #  Because I want the splash screen to be displayed AND still having some work done in the background, we will capture the time now.
-    [UInt64] $splashScreenHoldTime = ((Get-Date) + (New-TimeSpan -Seconds $Global:_STARTUPSPLASHSCREENHOLDTIME_)).Ticks;
+    #  Because I want the splash screen to be displayed AND still having some work done in the background, we will
+    #  capture the time now.
+    [UInt64] $splashScreenHoldTime = `
+                    ((Get-Date) + (New-TimeSpan -Seconds $Global:_STARTUPSPLASHSCREENHOLDTIME_)).Ticks;
     # ----------------------------------------
 
 
@@ -117,14 +119,6 @@ CreateDirectories | Out-Null;
 
 # Initialize the User Preference object.
 [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
-
-
-# Initialize a default Git Control object.
-[GitControl] $gitControl = [GitControl]::GetInstance();
-
-
-# Initialize the 7Zip object
-[SevenZip] $sevenZip = [SevenZip]::GetInstance();
 
 
 # Initialize the dotNet Core Zip Archive object

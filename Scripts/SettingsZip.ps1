@@ -1,5 +1,5 @@
 <# PowerShell Compact-Archive Tool
- # Copyright (C) 2023
+ # Copyright (C) 2025
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -52,6 +52,9 @@ class SettingsZip
         #  If the user were to exit from the menu, this variable's state will be set as false.
         #  Thus, with a false value - they may leave the menu.
         [bool] $menuLoop = $true;
+
+        # Latch onto the single instance of the Zip object
+        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
         # ----------------------------------------
 
 
@@ -70,6 +73,9 @@ class SettingsZip
             # Show the user that they are at the Zip Settings Menu.
             [CommonCUI]::DrawSectionHeader("Zip Settings Menu");
 
+            # Show Brief-About Information to the User
+            [Logging]::DisplayMessage([SettingsZip]::ShowAboutBrief() + "`r`n`r`n");
+
             # Display the instructions to the user
             [CommonCUI]::DrawMenuInstructions();
 
@@ -79,7 +85,7 @@ class SettingsZip
             # If the Internal Zip functionality is not available, do not allow the user to provide a response.
             #   Otherwise, the user could be stuck in an endless loop or essentially cannot perform any useful
             #   action.
-            if ([CommonFunctions]::IsAvailableZip())
+            if ($defaultCompress.DetectCompressModule())
             {
                 # Capture the user's feedback
                 $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
@@ -120,106 +126,52 @@ class SettingsZip
         [string] $currentSettingCompressionLevel = $NULL;       # Compression Level
         [string] $currentSettingVerifyBuild = $NULL;            # Verify Build
         [string] $currentSettingGenerateReport = $NULL;         # Generate Report
-        [string] $currentSettingGenerateReportPDF = $NULL;      # Generate PDF Report
 
-        # These variables will determine what menus are to be hidden from the user,
-        #  as the options are possibly not available or not ready for the user to
-        #  configure.
-        [bool] $showMenuCompressionLevel = $true;   # Compression Level
-        [bool] $showMenuVerifyBuild = $true;        # Verify Build
-        [bool] $showMenuGenerateReport = $true;     # Generate Report
-        [bool] $showMenuUseTool = $true;            # Use dotNET Core Internal Zip functionality
-        [bool] $showMenuToolNotAvailable = $true;   # Signifies that the compression tool is not available
+        # Retrieve the dotNET Archive object.
+        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
         # ----------------------------------------
 
 
         # Retrieve the current settings and determine the wording before we generate the menu.
         [SettingsZip]::__DrawMenuDecipherCurrentSettings([ref] $currentSettingCompressionLevel, `   # Compression Level
                                                         [ref] $currentSettingVerifyBuild, `         # Verify Build
-                                                        [ref] $currentSettingGenerateReport, `      # Generate Report
-                                                        [ref] $currentSettingGenerateReportPDF);    # Generate PDF Report
-
-
-        # Determine what menus are to be displayed to the user.
-        [SettingsZip]::__DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionLevel, `    # Compression Level
-                                                        [ref] $showMenuVerifyBuild, `       # Verify Build
-                                                        [ref] $showMenuGenerateReport, `    # Generate Report
-                                                        [ref] $showMenuUseTool, `           # Use dotNET Core Internal Zip functionality
-                                                        [ref] $showMenuToolNotAvailable);   # Denotes if the Compression Tool is available
-
-
-
-        # If the dotNET Core Internal Zip functionality is not available, alert the user.
-        if ($showMenuToolNotAvailable)
-        {
-            [string] $displayMessage = ("`r`n" + `
-                                        "The Zip functionality does not seem to be available within your installation of PowerShell Core.`r`n" + `
-                                        "Please assure that PowerShell Core was installed properly.`r`n`r`n" + `
-                                        "Your PowerShell Core version is: $([SystemInformation]::PowerShellVersion())");
-
-            [string] $msgBoxMessage = "Unable to use Zip functionality!  Please make sure PowerShell Core had been installed properly in order to use Windows Zip functionality.";
-
-
-            # Warn the user that the dotNET Core Zip functionality is not available presently.
-            [Logging]::DisplayMessage($displayMessage, `
-                                    [LogMessageLevel]::Error);
-
-
-            # Provide a message box to alert the user that the functionality is not available.
-            [CommonGUI]::MessageBox($msgBoxMessage, `
-                                    [System.Windows.MessageBoxImage]::Hand);
-
-            # Finished
-            return;
-        } # if : Zip Not Available
+                                                        [ref] $currentSettingGenerateReport)        # Generate Report
 
 
 
         # Display the menu list
 
 
-        # Ask the user if they wish to change compression software
-        if (!($showMenuUseTool))
-        {
-            [CommonCUI]::DrawMenuItem('Z', `
-                                    "Internal Zip", `
-                                    "Use the built-in Zip functionality to create ZDoom PK3 WAD files.", `
-                                    $NULL, `
-                                    $true);
-        } # if : Ask to Use Tool
-
-
         # Specify Compression Level
-        if ($showMenuCompressionLevel)
-        {
-            [CommonCUI]::DrawMenuItem('C', `
-                                    "Compression Level", `
-                                    "How tightly is the data going to be compacted into the compressed file.", `
-                                    "Compression level to use: $($currentSettingCompressionLevel)", `
-                                    $true);
-        } # If: Show Compression Level
+        [CommonCUI]::DrawMenuItem('C', `
+                                "Compression Level", `
+                                "How tightly is the data going to be compacted into the compressed file.", `
+                                "Compression level to use: $($currentSettingCompressionLevel)", `
+                                $true);
 
 
         # Toggle the ability to check file's integrity
-        if ($showMenuVerifyBuild)
-        {
-            [CommonCUI]::DrawMenuItem('V', `
-                                    "Verify Build after Compression", `
-                                    "Assure that the data within the compressed file is healthy.", `
-                                    "Verify integrity of the newly generated build: $($currentSettingVerifyBuild)", `
-                                    $true);
-        } # If: Show Verify Build
+        [CommonCUI]::DrawMenuItem('V', `
+                                "Verify Build after Compression", `
+                                "Assure that the data within the compressed file is healthy.", `
+                                "Verify integrity of the newly generated build: $($currentSettingVerifyBuild)", `
+                                $true);
 
 
         # Allow or disallow the ability to generate a report
-        if ($showMenuGenerateReport)
-        {
-            [CommonCUI]::DrawMenuItem('R', `
-                                    "Generate Report of the Archive Datafile", `
-                                    "Provides a detailed report regarding the newly generated compressed file.", `
-                                    "Create a report of the newly generated build: $($currentSettingGenerateReport) $($currentSettingGenerateReportPDF)", `
-                                    $true);
-        } # If: Show Generate Report
+        [CommonCUI]::DrawMenuItem('R', `
+                                "Generate Report of the Archive Datafile", `
+                                "Provides a detailed report regarding the newly generated compressed file.", `
+                                "Create a report of the newly generated build: $($currentSettingGenerateReport)", `
+                                $true);
+
+
+        # Show About Information regarding the PowerShell Module
+        [CommonCUI]::DrawMenuItem('A', `
+                                "About $($defaultCompress.GetPowerShellModuleName())", `
+                                "Provides details regarding the PowerShell Module, $($defaultCompress.GetPowerShellModuleName())", `
+                                $NULL, `
+                                $true);
 
 
         # Help Documentation
@@ -252,6 +204,7 @@ class SettingsZip
 
 
 
+
    <# Draw Menu: Decipher Current Settings
     # -------------------------------
     # Documentation:
@@ -268,14 +221,11 @@ class SettingsZip
     #   Determines if the newly generated build will be tested to assure its integrity.
     #  [string] (REFERENCE) Generate Report
     #   Determines if the user wanted a report of the newly generated compressed build.
-    #  [string] (REFERENCE) Generate PDF Report
-    #   Determines if the user wanted a PDF report of the newly generated compressed build.
     # -------------------------------
     #>
     hidden static [void] __DrawMenuDecipherCurrentSettings([ref] $compressionLevel, `   # Compression Level
                                                             [ref] $verifyBuild, `       # Verify Build
-                                                            [ref] $generateReport, `    # Generate Report
-                                                            [ref] $generateReportPDF)   # Generate PDF Report
+                                                            [ref] $generateReport)      # Generate Report
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -375,125 +325,7 @@ class SettingsZip
             # The user does not want to have a report generated of the archive datafile.
             $generateReport.Value = "No";
         } # else: Do not create report
-
-
-
-        # - - - - - - - - - - - - - - - - - - - - - -
-        # - - - - - - - - - - - - - - - - - - - - - -
-
-
-
-        # Generate PDF Report
-        # Provide a new PDF report regarding the newly generated archive file
-        if ($defaultCompress.GetGenerateReportFilePDF() -and `
-            $defaultCompress.GetGenerateReport())
-        {
-            # The user wants to have a PDF report generated regarding the archive datafile.
-            $generateReportPDF.Value = "[PDF]";
-        } # if: Create PDF report
-
-        # Do not provide a PDF report regarding the newly generated archive file.
-        else
-        {
-            # The user does not want to have a report generated of the archive datafile.
-            $generateReportPDF.Value = $null;
-        } # else: Do not create PDF report
     } # __DrawMenuDecipherCurrentSettings()
-
-
-
-
-   <# Draw Menu: Determine Hidden Menus
-    # -------------------------------
-    # Documentation:
-    #  This function will determine what menus and options are to be displayed
-    #   to the user.  Menus can be considered hidden if a particular setting,
-    #   feature, or environment is not available to the user or is not considered
-    #   ready to be used.  This can happen if a parent feature had been disabled,
-    #   thus causes a sub-feature to be hidden from the user.
-    #  This helps to declutter the menu screen by hiding sub-menus from the user
-    #   in-which have no effect as the main feature is disabled or configured in
-    #   a way that has no real effect.
-    # -------------------------------
-    # Input:
-    #  [bool] (REFERENCE) Compression Level
-    #   Defines how tightly to compact the data into the archive datafile
-    #  [bool] (REFERENCE) Verify Build
-    #   Specifies if the archive data file is undergo an integrity check.
-    #  [bool] (REFERENCE) Generate Report
-    #   Determines if the user wanted a report of the newly compiled build.
-    #  [bool] (REFERENCE) Use Tool
-    #   Determines if the dotNET Core Zip functionality had been enabled.
-    #  [bool] (REFERENCE) Tool not Available
-    #   Signifies that the tool is not presently available.
-    # -------------------------------
-    #>
-    hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionLevel, `      # Compression Level
-                                                        [ref] $showMenuVerifyBuild, `           # Verify Build
-                                                        [ref] $showMenuGenerateReport, `        # Generate Report
-                                                        [ref] $showMenuUseTool, `               # Use dotNET Core Internal Zip functionality
-                                                        [ref] $showMenuToolNotAvailable)        # Signifies that the tool is not presently available.
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Retrieve the User Preferences object
-        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
-        # ----------------------------------------
-
-
-
-        # Is dotNET Core Internal Zip available?
-        if (!([CommonFunctions]::IsAvailableZip()))
-        {
-            # Because the internal Zip functionality is not available, hide all options associated with
-            #   Zip's configuration.
-            $showMenuCompressionLevel.Value     = $false;       # Compression Level
-            $showMenuVerifyBuild.Value          = $false;       # Verify Build
-            $showMenuGenerateReport.Value       = $false;       # Generate Report
-            $showMenuUseTool.Value              = $false;       # Use Tool
-
-
-            # Alert the Zip Settings that the functionality is not available.
-            $showMenuToolNotAvailable.Value = $true;
-
-
-            # Finished
-            return;
-        } # if : dotNET Core Zip not Available
-
-
-
-        # Is the user utilizing some other compression software tool?
-        if ($userPreferences.GetCompressionTool() -ne [UserPreferencesCompressTool]::InternalZip)
-        {
-            # Because the user is not utilizing the internal Zip functionality, hide all options associated with the tool.
-            $showMenuCompressionLevel.Value     = $false;       # Compression Level
-            $showMenuVerifyBuild.Value          = $false;       # Verify Build
-            $showMenuGenerateReport.Value       = $false;       # Generate Report
-            $showMenuToolNotAvailable.Value     = $false;       # Tool not Available
-
-
-            # Ask the user if they wish to change settings.
-            $showMenuUseTool.Value              = $false;       # Use Tool
-
-
-            # Finished!
-            return;
-        } # if : Not using dotNET Core Zip Functionality
-
-
-
-        # If we made it here, then that would indicate that the user is presently utilizing the dotNET Core Zip functionality.
-        #  Show the menu items that are associated with the dotNET Zip, however some menu items may be hidden due to dependent
-        #  options.
-
-
-        $showMenuCompressionLevel.Value     = $true;        # Compression Level
-        $showMenuVerifyBuild.Value          = $true;        # Verify Build
-        $showMenuGenerateReport.Value       = $true;        # Generate Report
-        $showMenuUseTool.Value              = $true;        # Use Tool
-        $showMenuToolNotAvailable.Value     = $false;       # Tool not Available
-    } # __DrawMenuDetermineHiddenMenus()
 
 
 
@@ -520,68 +352,18 @@ class SettingsZip
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Retrieve the current instance of the User Preferences object; this contains the user's
-        #  generalized settings.
-        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
-
-
-        # These variables will determine what menus are to be hidden from the user,
-        #  as the options are possibly not available or not ready for the user to
-        #  configure.
-        [bool] $showMenuCompressionLevel = $true;   # Compression Level
-        [bool] $showMenuVerifyBuild = $true;        # Verify Build
-        [bool] $showMenuGenerateReport = $true;     # Generate Report
-        [bool] $showMenuUseTool = $true;            # Use dotNET Core Internal Zip functionality
-        [bool] $showMenuToolNotAvailable = $true;   # Signifies that the compression tool is not available
+        # Retrieve the dotNET Archive object.
+        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
         # ----------------------------------------
-
-
-        # Determine what menus are to be displayed to the user.
-        [SettingsZip]::__DrawMenuDetermineHiddenMenus([ref] $showMenuCompressionLevel, `    # Compression Level
-                                                        [ref] $showMenuVerifyBuild, `       # Verify Build
-                                                        [ref] $showMenuGenerateReport, `    # Generate Report
-                                                        [ref] $showMenuUseTool, `           # Use dotNET Core Internal Zip functionality
-                                                        [ref] $showMenuToolNotAvailable);   # Denotes if the Compression Tool is available
 
 
 
         switch ($userRequest)
         {
-            # Use Tool
-            #  NOTE: Allow the user's request when they type: 'Z', 'Internal Zip', 'Zip', 'Default'.
-            {((($showMenuUseTool) -eq $false) -and ($showMenuToolNotAvailable -eq $false)) -and `
-                (($_ -eq "Z") -or `
-                 ($_ -eq "Internal Zip") -or `
-                 ($_ -eq "Zip") -or `
-                 ($_ -eq "Default"))}
-            {
-                # Allow the user to switch compression tool.
-                $userPreferences.SetCompressionTool([UserPreferencesCompressTool]::InternalZip);
-
-                # Update the user's configuration with the latest changes.
-                [LoadSaveUserConfiguration]::SaveUserConfiguration();
-
-                # Finished
-                break;
-            } # Use Tool
-
-
-
-            # Tool not Available
-            #  NOTE: Internal Zip not available
-            {$showMenuToolNotAvailable}
-            {
-                # Nothing that we can do here.
-                break;
-            } # Tool not Available
-
-
-
             # Compression Level
             #  NOTE: Allow the user's request when they type: 'Compression Level' and 'C'.
-            {($showMenuCompressionLevel) -and `
-                (($_ -eq "C") -or `
-                    ($_ -eq "Compression Level"))}
+            {(($_ -eq "C") -or `
+                ($_ -eq "Compression Level"))}
             {
                 # Allow the user to customize the compression level setting.
                 [SettingsZip]::__CompressionLevel();
@@ -596,13 +378,12 @@ class SettingsZip
             # Verify Build after Compression
             #  NOTE: Allow the user's request when they type: 'Verify Build after Compression', 'Verify',
             #           'Verify Build', 'Test Build', 'Test', as well as 'V'.
-            {($showMenuVerifyBuild) -and `
-                (($_ -eq "V") -or `
-                    ($_ -eq "Verify Build after Compression") -or `
-                    ($_ -eq "Verify") -or `
-                    ($_ -eq "Verify Build") -or `
-                    ($_ -eq "Test Build") -or `
-                    ($_ -eq "Test"))}
+            {(($_ -eq "V") -or `
+                ($_ -eq "Verify Build after Compression") -or `
+                ($_ -eq "Verify") -or `
+                ($_ -eq "Verify Build") -or `
+                ($_ -eq "Test Build") -or `
+                ($_ -eq "Test"))}
             {
                 # Allow the user the ability to verify a newly generated project build.
                 [SettingsZip]::__VerifyBuild();
@@ -617,11 +398,10 @@ class SettingsZip
             # Generate Report of Archive Datafile
             #  NOTE: Allow the user's request when they type: 'Report', 'Generate Report',
             #           'Generate Report of Archive Datafile', as well as 'R'.
-            {($showMenuGenerateReport) -and `
-                (($_ -eq "R") -or `
-                    ($_ -eq "Generate Report") -or `
-                    ($_ -eq "Report") -or `
-                    ($_ -eq "Generate Report of Archive Datafile"))}
+            {(($_ -eq "R") -or `
+                ($_ -eq "Generate Report") -or `
+                ($_ -eq "Report") -or `
+                ($_ -eq "Generate Report of Archive Datafile"))}
             {
                 # Allow the user the ability to request reports for the newly generated archive datafile.
                 [SettingsZip]::__GenerateReport();
@@ -630,6 +410,23 @@ class SettingsZip
                 # Finished
                 break;
             } # Generate Report of Archive Datafile
+
+
+
+            # Show the About Page to the User
+            #  NOTE: Allow the user's request when they type: 'About', 'About $moduleNameHere',
+            #    as well as 'A'.
+            {(($_ -eq "A") -or `
+                ($_ -eq "About") -or `
+                ($_ -eq "About $($defaultCompress.GetPowerShellModuleName())"))}
+            {
+                # Show the About Page to the user
+                [SettingsZip]::__ShowAbout();
+
+
+                # Finished
+                break;
+            } # Show the About PAge to the User
 
 
 
@@ -1364,18 +1161,8 @@ class SettingsZip
             #  Is the Generate Report presently enabled?
             if ($defaultCompress.GetGenerateReport())
             {
-                # Determine if the PDF is to also be generated
-                if ($defaultCompress.GetGenerateReportFilePDF())
-                {
-                    $decipherNiceString = "I will create a PDF report regarding the newly generated compiled project build.";
-                } # if : Generate PDF Report
-
-                # If a regular report is to only be generated
-                else
-                {
-                    # Generate Report is presently set as enabled.
-                    $decipherNiceString = "I will create a report regarding the newly generated compiled project build.";
-                } # else : Generate Report
+                # Generate Report is presently set as enabled.
+                $decipherNiceString = "I will create a report regarding the newly generated compiled project build.";
             } # if: Generate Report
 
             # Is the Generate Report presently disabled?
@@ -1439,14 +1226,6 @@ class SettingsZip
         [CommonCUI]::DrawMenuItem('R', `
                                 "Generate a report file", `
                                 "Generate a new technical report regarding the project's compiled build.", `
-                                $NULL, `
-                                $true);
-
-
-        # Generate a new PDF report regarding the archive datafile.
-        [CommonCUI]::DrawMenuItem('P', `
-                                "Generate a PDF report file", `
-                                "Generate a new technical PDF report regarding the project's compiled build.", `
                                 $NULL, `
                                 $true);
 
@@ -1519,40 +1298,12 @@ class SettingsZip
                 # The user had selected to have technical reports generated regarding newly compiled project build.
                 $defaultCompress.SetGenerateReport($true);
 
-                # The user does not wish to generate PDF reports
-                $defaultCompress.SetGenerateReportFilePDF($false);
-
                 # Update the user's configuration with the latest changes.
                 [LoadSaveUserConfiguration]::SaveUserConfiguration();
 
                 # Finished
                 break;
             } # Selected Generate Reports
-
-
-            # Generate PDF Report
-            #  NOTE: Allow the user's request when they type: "Create PDF reports", "Generate PDF reports", "Make PDF reports",
-            #           "Create PDF", "Generate PDF", "Make PDF", as well as "P".
-            {($_ -eq "P") -or `
-                ($_ -eq "Create PDF report") -or `
-                ($_ -eq "Generate PDF report") -or `
-                ($_ -eq "Make PDF report") -or `
-                ($_ -eq "Create PDF") -or `
-                ($_ -eq "Generate PDF") -or `
-                ($_ -eq "Make PDF")}
-            {
-                # The user had selected to have technical reports generated regarding newly compiled project build.
-                $defaultCompress.SetGenerateReport($true);
-
-                # The user wishes to generate PDF reports
-                $defaultCompress.SetGenerateReportFilePDF($true);
-
-                # Update the user's configuration with the latest changes.
-                [LoadSaveUserConfiguration]::SaveUserConfiguration();
-
-                # Finished
-                break;
-            } # Selected Generate PDF Reports
 
 
             # Do not Generate Reports
@@ -1564,9 +1315,6 @@ class SettingsZip
             {
                 # The user had selected to not have technical reports generated regarding the newly compiled project builds.
                 $defaultCompress.SetGenerateReport($false);
-
-                # The user does not wish to generate PDF reports
-                $defaultCompress.SetGenerateReportFilePDF($false);
 
                 # Update the user's configuration with the latest changes.
                 [LoadSaveUserConfiguration]::SaveUserConfiguration();
@@ -1634,5 +1382,220 @@ class SettingsZip
         # Finished with the operation; return back to the current menu.
         return $true;
     } # __EvaluateExecuteUserRequestGenerateReport()
+    #endregion
+
+
+
+
+
+    #region Show About Page
+    #                                        Show About
+    # ==========================================================================================
+    # ------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------
+    # ==========================================================================================
+
+
+
+
+
+   <# Show About
+    # -------------------------------
+    # Documentation:
+    #  This function will show the 'About' page to the user; because there's no further
+    #   action required from the user, we will merely present the information to the user
+    #   and then wait for the user to press the desired key to move back to the settings menu.
+    # -------------------------------
+    #>
+    hidden static [void] __ShowAbout()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Latch onto the single instance of the Zip object
+        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        # ----------------------------------------
+
+
+        # Clear the terminal of all previous text; keep the space clean so that it is easy
+        #  for the user to read and follow along.
+        [CommonIO]::ClearBuffer();
+
+        # Draw Program Information Header
+        [CommonCUI]::DrawProgramTitleHeader();
+
+        # Show the user that they are at the Generate Report menu
+        [CommonCUI]::DrawSectionHeader("Show About for $($defaultCompress.GetPowerShellModuleName())");
+
+        # Provide some extra white spacing so that it is easier to read for the user
+        [Logging]::DisplayMessage("`r`n`r`n");
+
+        # Show the about information to the user
+        $defaultCompress.ShowAbout();
+
+        # Provide an extra white space so that it is a bit easier to differentiate content and user input.
+        [Logging]::DisplayMessage("`r`n");
+
+        # Wait for the user to provide the enter key.
+        [CommonIO]::FetchEnterKey();
+    } # __ShowAbout()
+    #endregion
+
+
+
+
+
+
+    #region Menu Specific Functions
+    #                                  Menu Specific Functions
+    # ==========================================================================================
+    # ------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------
+    # ==========================================================================================
+
+
+
+
+
+   <# Show About - Brief
+    # -------------------------------
+    # Documentation:
+    #   This function will provide a brief 'about' information regarding the module.
+    #   The about information will be extremely brief, only consisting the following:
+    #       - Module Name, or just 'Name'.
+    #       - Module Version, or just 'Version'.
+    #       - Author of the Module, or just 'Author'.
+    #
+    #   The output string format will be in the following:
+    #       [Name] v[Version] by [Author]
+    # -------------------------------
+    # Output:
+    #  [string] About String
+    #   String containing the: Module Name, Module Version, and the Author of the Module.
+    # -------------------------------
+    #>
+    static [string] ShowAboutBrief()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This will be used to collect the PowerShell Module's meta data.
+        [PowerShellModuleMetaData] $aboutInfo = [PowerShellModuleMetaData]::new();
+
+        # This is the about string that will be presented to the user.
+        [string] $aboutString = $NULL;
+
+        # Retrieve the current instance of the Default Compress object.
+        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        # ----------------------------------------
+
+
+
+        # Determine if it is possible to obtain the meta data for this PowerShell Module.
+        #   If we cannot get the meta data, than return null.
+        if (![CommonPowerShell]::GetModuleMetaData($defaultCompress.GetPowerShellModuleName(), `
+                                                    [ref] $aboutInfo))
+        { 
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to show brief POSH Module About information!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("There is no Meta Information available to show for:`r`n" + `
+                                            "`t" + $defaultCompress.GetPowerShellModuleName());
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Return nothing.
+            return $NULL;
+        } # if : Unable to Get Meta Data
+
+
+
+        # Determine if we have enough information to provide something useful to the user.
+        #  If there was not enough information available, then do not generate the string.
+        if (([CommonIO]::IsStringEmpty($aboutInfo.Author)   -eq $true) -and `   # Is Author field empty
+            ([CommonIO]::IsStringEmpty($aboutInfo.Name)     -eq $true))         # Is POSH Module Name field empty
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to show brief POSH Module About information due to missing information!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("PowerShell Module Full Name:`r`n" + `
+                                            "`t" + $defaultCompress.GetPowerShellModuleName() + "`r`n" + `
+                                            "`tThe following information is required:`r`n" + `
+                                            "`t`t - Author:      "    + $aboutInfo.Author + "`r`n" + `
+                                            "`t`t - Module Name: "    + $aboutInfo.Name + "`r`n" + `
+                                            "`tOptional Information:`r`n" + `
+                                            "`t`t - Module Version: " + $aboutInfo.Version + "`r`n");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Return nothing
+            return $NULL;
+        } # if : Not Enough Information
+
+
+        # Construct the string with the data that we had just obtained.
+        # To do this in a meaningful way, we will do this piece by piece
+        # due to optional data being possibly available or not.
+
+        # Add the Module Name
+        $aboutString = $aboutInfo.Name + " ";
+
+        # Add the version string?
+        if ($NULL -ne $aboutInfo.Version) { $aboutString += "v" + $aboutInfo.Version + " "; }
+
+        # Add the Author
+        $aboutString += "by " + $aboutInfo.Author;
+
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        [string] $logMessage = "Successfully created the Brief About information!";
+
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = ("PowerShell Module Full Name:`r`n" + `
+                                        "`t`t" + $defaultCompress.GetPowerShellModuleName() + "`r`n" + `
+                                        "`tThe About Information Collected:`r`n" + `
+                                        "`t`t - Author:         " + $aboutInfo.Author   + "`r`n" + `
+                                        "`t`t - Module Name:    " + $aboutInfo.Name     + "`r`n" + `
+                                        "`t`t - Module Version: " + $aboutInfo.Version  + "`r`n" + `
+                                        "`tBrief About String that was created:`r`n" + `
+                                        "`t`t" + $aboutString);
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
+
+
+
+        # Finished!
+        return $aboutString;
+    } # ShowAboutBrief()
     #endregion
 } # SettingsZip

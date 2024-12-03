@@ -1,5 +1,5 @@
 ﻿<# PowerShell Compact-Archive Tool
- # Copyright (C) 2023
+ # Copyright (C) 2025
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -446,7 +446,7 @@ class Logging
 
         # Make sure that there is something to actually write, if there is no message - then
         #  there is no point in trying to write to the logfile.
-        elseif ([CommonFunctions]::IsStringEmpty($message))
+        elseif ([CommonIO]::IsStringEmpty($message))
         {
             # Because the message is empty, there is really no point in written to the logfile.\
             [string] $errorMessage = "ERR! Message can not be recorded as it is null!";
@@ -562,7 +562,7 @@ class Logging
         #  some default message to indicate that something is wrong - but we managed to log the error regardless.
 
         # There was no initial message provided
-        if ([CommonFunctions]::IsStringEmpty($msg))
+        if ([CommonIO]::IsStringEmpty($msg))
         {
             # Provide an default error message; helps to indicate that something went horribly wrong.
             $message = "<<UNKNOWN OR BLANK MESSAGE>>";
@@ -612,7 +612,7 @@ class Logging
         # Any additional information provided, optional field.  This can be null (or merely empty).
 
         # No additional information provided
-        if ([CommonFunctions]::IsStringEmpty($additionalMsg))
+        if ([CommonIO]::IsStringEmpty($additionalMsg))
         {
             # No additional information was provided
             $messageAdditional = $null;

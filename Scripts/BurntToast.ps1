@@ -1,5 +1,5 @@
 <# PowerShell Compact-Archive Tool
- # Copyright (C) 2023
+ # Copyright (C) 2025
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -58,12 +58,16 @@ class BurntToast
     #>
     static [bool] DetectModule()
     {
-        # We are going to try to detect if the module is available within this PowerShell
-        #   instance.  If incase it is not available - then we will return $false, simply
-        #   stating that it was not found.  When any output is provided, then we will
-        #   return $true - as an instance of the module had been detected.
-        # Reference: https://stackoverflow.com/a/28740512
-        if (Get-Module -ListAvailable -Name "BurntToast")
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Name of the PowerShell Module
+        [string] $moduleName = "BurntToast"
+        # ----------------------------------------
+
+
+
+        # Determine if the PowerShell Module is presently available within the environment.
+        if ([CommonPowerShell]::DetectModule($moduleName))
         {
             # BurntToast had been detected
 

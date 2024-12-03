@@ -1,5 +1,5 @@
 <# PowerShell Compact-Archive Tool
- # Copyright (C) 2023
+ # Copyright (C) 2025
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -369,7 +369,7 @@ class WebsiteResources
         # Check if the String of the site is null.
         #  If the string is null\empty, then false will be provided.
         #  Otherwise, true will be given.
-        return (![CommonFunctions]::IsStringEmpty($site));
+        return (![CommonIO]::IsStringEmpty($site));
     } # __CheckSiteAvailability_SiteProvided()
 
 
