@@ -22,20 +22,26 @@
  # ------------------------------
  # ==============================
  # ==============================
- # This class allows the possibility to compress data into an archive
- #  file, verify data within an archive file, extract data from an
- #  archive file, and to list data that exists within the archive file.
- #  This class does not require any external resources, such as external
- #  command (7Zip, WinZip, etc), instead it is dependent on the .NET and
- #  the .NET Core frameworks.  Thus, we will use the archive
- #  functionality that is normally provided within the Windows Operating
- #  Systems.
+ # This class will allow the user to perform the following actions:
+ #  - Compress files to a archive data file
+ #  - Extract files from  a archive data file
+ #  - List files that are present within a archive data file.
+ # In order for this functionality to work, we will use the PowerShell
+ #  Module in order to perform the necessary actions properly.
+ #  As a benefit of using the PowerShell Module, we do not need to
+ #  need to worry about any external resources, such as WinZip or 7Zip.
+ #  However, instead, we only need to assure that the host system has
+ #  the correct version of the dotNET Core Framework and PowerShell
+ #  Core installed.
  #
  # DEPENDENCIES:
- #  .NET Framework 4.5 and later
- #  .NET Core Framework 1.0 and later <Primary dependency due to
- #      PowerShell Core>
- #  PowerShell Core 6.0 and Later
+ #  - PowerShell Core 6.0, at minimum
+ #      - Built with dotNET Core 2.0
+ #      OR
+ #  - PowerShell Core 7.4.6, tested during development
+ #      - Built with dotNET 8.0
+ #          known working on Windows 10 and Windows 11.
+ #          Later versions should work fine?
  #
  # DEVELOPER NOTES [API]:
  #  We will be using the following modules and APIs heavily within
