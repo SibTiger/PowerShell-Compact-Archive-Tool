@@ -45,7 +45,7 @@
  #
  # DEVELOPER NOTES [API]:
  #  We will be using the following modules and APIs heavily within
- #   this object:
+ #   this class:
  #   - System.IO.Compression (dotNET Framework && dotNET Core Framework)
  #     > https://docs.microsoft.com/en-us/dotnet/api/system.io.compression
  #   - Microsoft.PowerShell.Archive (PowerShell Module)
