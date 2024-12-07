@@ -131,27 +131,11 @@ class DefaultCompress
     Hidden [bool] $__verifyBuild;
 
 
-    # Generate Report
-    # ---------------
-    # Allow the possibility to generate a report about the archive datafile.
-    #  Reports provide some insight about the archive datafile and the
-    #  contents that are within the file itself.
-    Hidden [bool] $__generateReport;
-
-
     # Log Root
     # ---------------
     # The main parent directory's absolute path that will hold this object's
     #  logs and reports directories.
     Hidden [string] $__rootLogPath;
-
-
-    # Report Path
-    # ---------------
-    # This directory, in absolute form, will hold reports that were generated
-    #  from this object.  Reports provide some insight about the archive datafile
-    #  and the contents that are within the file itself.
-    Hidden [string] $__reportPath;
 
 
     # Log Root Path
@@ -204,14 +188,8 @@ class DefaultCompress
         # Verify Build
         $this.__verifyBuild = $true;
 
-        # Generate Report
-        $this.__generateReport = $false;
-
         # Log Root Directory Path
         $this.__rootLogPath = "$($global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_)\PSArchive";
-
-        # Report Directory Path
-        $this.__reportPath = "$($this.__rootLogPath)\reports";
 
         # Log Directory Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
@@ -228,8 +206,7 @@ class DefaultCompress
 
     # User Preference : On-Load
     DefaultCompress([DefaultCompressionLevel] $compressionLevel, `
-                    [bool] $verifyBuild, `
-                    [bool] $generateReport)
+                    [bool] $verifyBuild)
     {
         # Compression Level
         $this.__compressionLevel = $compressionLevel;
@@ -237,20 +214,11 @@ class DefaultCompress
         # Verify Build
         $this.__verifyBuild = $verifyBuild;
 
-        # Generate Report
-        $this.__generateReport = $generateReport;
-
         # Log Root Directory Path
         $this.__rootLogPath = "$($global:_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_)\PSArchive";
 
-        # Report Directory Path
-        $this.__reportPath = "$($this.__rootLogPath)\reports";
-
         # Log Directory Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
-
-        # PowerShell Module Name
-        $this.__powerShellModuleName = "Microsoft.PowerShell.Archive";
 
         # Object Identifier (GUID)
         $this.__objectGUID = [GUID]::NewGuid();
@@ -288,36 +256,6 @@ class DefaultCompress
     # -------------------------------
     #>
     [bool] GetVerifyBuild() { return $this.__verifyBuild; }
-
-
-
-
-   <# Get Generate Report
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'Generate Report' variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Generate Report
-    #   The value of the 'Generate Report'.
-    # -------------------------------
-    #>
-    [bool] GetGenerateReport() { return $this.__generateReport; }
-
-
-
-
-   <# Get Report Directory Path
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'Report Directory Path' variable.
-    # -------------------------------
-    # Output:
-    #  [string] Report Path
-    #   The value of the 'Report Directory Path'.
-    # -------------------------------
-    #>
-    [string] GetReportPath() { return $this.__reportPath; }
 
 
 
@@ -448,38 +386,6 @@ class DefaultCompress
 
 
 
-   <# Set Generate Report
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Generate Report' variable.
-    # -------------------------------
-    # Input:
-    #  [bool] Generate Report
-    #   When true, this will allow the report functionality to be
-    #    executed.  Otherwise the report functionality will be turned
-    #    off.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetGenerateReport([bool] $newVal)
-    {
-        # Because the value is either true or false, there really is no
-        #  point in checking if the new requested value is 'legal'.
-        #  Thus, we are going to trust the value and automatically
-        #  return success.
-        $this.__generateReport = $newVal;
-
-        # Successfully updated.
-        return $true;
-    } # SetGenerateReport()
-
-
-
-
    <# Set Root Log Directory Path
     # -------------------------------
     # Documentation:
@@ -549,42 +455,6 @@ class DefaultCompress
         return $false;
     } # SetLogPath()
 
-
-
-
-   <# Set Report Directory Path
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Report Directory Path' variable.
-    #
-    # WARNING:
-    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!  IT IS RECOMMENDED
-    #   TO _NOT_ REVISE THIS VARIABLE UNLESS IT IS ABSOLUTELY NECESSARY!
-    # -------------------------------
-    # Input:
-    #  [string] Report Path
-    #   The new location of the Report directory.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetReportPath([string] $newVal)
-    {
-        # Inspect to see if the path exists
-        if (Test-Path $newVal.trim())
-        {
-            # Path exists; use it as requested
-            $this.__reportPath = $newVal;
-            return $true;
-        } # IF: Path Exists
-
-        # Failure; Path does not exist.
-        return $false;
-    } # SetReportPath()
-
     #endregion
 
 
@@ -636,8 +506,7 @@ class DefaultCompress
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Default Compress Logging Directories:`r`n" + `
                                         "`t`tThe Root Directory is:`t`t$($this.GetRootLogPath())`r`n" + `
-                                        "`t`tThe Logging Directory is:`t$($this.GetLogPath())`r`n" + `
-                                        "`t`tThe Report Directory is:`t$($this.GetReportPath())`r`n");
+                                        "`t`tThe Logging Directory is:`t$($this.GetLogPath())`r`n");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -724,39 +593,6 @@ class DefaultCompress
         # ----
 
 
-        # Report Directory
-        if([CommonIO]::CheckPathExists($this.GetReportPath(), $true) -eq $false)
-        {
-            # Report Directory does not exist, try to create it.
-            if ([CommonIO]::MakeDirectory($this.GetReportPath()) -eq $false)
-            {
-                # * * * * * * * * * * * * * * * * * * *
-                # Debugging
-                # --------------
-
-                # Generate the initial message
-                [string] $logMessage = "Couldn't create the Default Compress's (dotNET Core) report directory!";
-
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = "The report directory path is: " + $this.GetReportPath();
-
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                            $logAdditionalMSG, `        # Additional information
-                                            [LogMessageLevel]::Error);  # Message level
-
-                # * * * * * * * * * * * * * * * * * * *
-
-
-                # Failure occurred; could not create directory.
-                return $false;
-            } # If : Failed to Create Directory
-        } # If : Not Detected Report Directory
-
-
-        # ----
-
-
         # Fail-safe; final assurance that the directories have been created successfully.
         if($this.__CheckRequiredDirectories() -eq $true)
         {
@@ -770,8 +606,7 @@ class DefaultCompress
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Default Compress Logging Directories:`r`n" + `
                                             "`t`tThe Root Directory is:`t`t$($this.GetRootLogPath())`r`n" + `
-                                            "`t`tThe Logging Directory is:`t$($this.GetLogPath())`r`n" + `
-                                            "`t`tThe Report Directory is:`t$($this.GetReportPath())`r`n");
+                                            "`t`tThe Logging Directory is:`t$($this.GetLogPath())`r`n");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -802,8 +637,7 @@ class DefaultCompress
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Default Compress Logging Directories:`r`n" + `
                                             "`t`tThe Root Directory is:`t`t$($this.GetRootLogPath())`r`n" + `
-                                            "`t`tThe Logging Directory is:`t$($this.GetLogPath())`r`n" + `
-                                            "`t`tThe Report Directory is:`t$($this.GetReportPath())`r`n");
+                                            "`t`tThe Logging Directory is:`t$($this.GetLogPath())`r`n");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -844,7 +678,6 @@ class DefaultCompress
     Hidden [bool] __CheckRequiredDirectories()
     {
         return (([CommonIO]::CheckPathExists($this.GetRootLogPath(), $true) -eq $true) -and   ` # Check the Root Log Directory
-                ([CommonIO]::CheckPathExists($this.GetReportPath(), $true) -eq $true) -and    ` # Check the Report Path Directory
                 ([CommonIO]::CheckPathExists($this.GetLogPath(), $true) -eq $true));            # Check the Log Path Directory
     } # __CheckRequiredDirectories()
 
@@ -1597,7 +1430,7 @@ class DefaultCompress
             # Create the logfiles as requested
             [CommonIO]::PSCMDLetLogging($this.GetLogPath(), `       # Log path for the STDOUT logfile.
                                         $this.GetLogPath(), `       # Log path for the STDERR logfile.
-                                        $this.GetReportPath(), `    # Report path and filename.
+                                        $NULL, `                    # Report path and filename.
                                         $false, `                   # Is this a report?
                                         $false, `                   # Should we receive the STDOUT or STDERR for further processing?
                                         $execReason, `              # Reason for using the CMDLet.
@@ -1948,7 +1781,7 @@ class DefaultCompress
             # Create the logfile as requested
             [CommonIO]::PSCMDLetLogging($this.GetLogPath(), `       # Log path for the STDOUT logfile.
                                         $this.GetLogPath(), `       # Log path for the STDERR logfile.
-                                        $this.GetReportPath(), `    # Report path and filename.
+                                        $NULL, `                    # Report path and filename.
                                         $false, `                   # Is this a report?
                                         $false, `                   # Should we receive the STDOUT or STDERR for further processing?
                                         $execReason, `              # Reason for the operation.
@@ -2499,7 +2332,7 @@ class DefaultCompress
                 # Create the logfiles as requested
                 [CommonIO]::PSCMDLetLogging($this.GetLogPath(), `       # Log path for the STDOUT logfile.
                                             $this.GetLogPath(), `       # Log path for the STDERR logfile.
-                                            $this.GetReportPath(), `    # Report path and filename.
+                                            $NULL, `                    # Report path and filename.
                                             $false, `                   # Is this a report?
                                             $false, `                   # Should we receive the STDOUT or STDERR for further processing?
                                             $execReason, `              # Reason for using the CMDLet.
@@ -2970,7 +2803,7 @@ class DefaultCompress
                 # Create the logfiles
                 [CommonIO]::PSCMDLetLogging($this.GetLogPath(), `
                                             $this.GetLogPath(), `
-                                            $this.GetReportPath(), `
+                                            $NULL, `
                                             $false, `
                                             $false, `
                                             $execReason, `
@@ -2993,677 +2826,6 @@ class DefaultCompress
     #endregion
 
 
-
-    #region Report
-
-   <# Create a new Report
-    # -------------------------------
-    # Documentation:
-    #  This function will create a report based upon the archive data file that
-    #   is provided when calling this function.
-    #  The report will contain information regarding the archive file.  The
-    #   information may contain a list of files that resides within the archive
-    #   datafile, typical hashes data of the archive file itself, and any general
-    #   details that might be useful for inspection purposes.
-    # -------------------------------
-    # Input:
-    #  [string] Archive File
-    #   The archive file that will be used to generate the report; this is our
-    #    target file.
-    #  [string] (REFERENCE) Return the File Path [Text File]
-    #   Returns the full path of the generated TXT report file.  Useful to
-    #    provide a full location as to where the report resides within the host's
-    #    filesystem.
-    # -------------------------------
-    # Output:
-    #  [bool] Status Code
-    #    $false = Failure occurred while generating the report.
-    #    $true  = Successfully created the report or user did not request to
-    #               generate a report.
-    # -------------------------------
-    #>
-    [bool] CreateNewReport([string] $archiveFile, `     # The archive file that we will generate a report from.
-                           [ref] $returnFilePathTXT)    # Returns the report's path (TXT)
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Retrieve the current instance of the Project Information object; this contains details
-        #  in regards to where the source files exists within the user's system.
-        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
-
-
-        # Get the filename without the path, extension is kept.
-        [string] $fileNameExt = Split-Path $archiveFile -leaf;
-
-
-        # The following variables will hold the current date and time from the host system.
-        #  With this, it will be available for the filename and inside the report.
-        # - - - -
-        # >> Date
-        [string] $dateNow = [string](Get-Date -UFormat "%d-%b-%y");
-        # >> Time
-        [string] $timeNow = [string](Get-Date -UFormat "%H.%M.%S");
-        # >> Date && Time
-        [string] $dateTime = $dateNow + " " + $timeNow;
-        # - - - -
-
-
-        # The following variables will hold the report's filename.
-        # - - - -
-        # >> Standard Textfile
-        [string] $fileNameTXT = "$($this.GetReportPath())\$($fileNameExt) - $($dateTime).txt";
-        # - - - -
-
-
-        # Prepare the reference variables with the report file names (with path)
-        # - - - -
-        # >> Standard Textfile
-        $returnFilePathTXT.Value = $fileNameTXT;
-        # - - - -
-
-
-        # This variable will hold the output provided by the various function calls that are used in this method.
-        #  Because some of the information provided might be excessively large, we will only store one chunk of
-        #  data at a time throughout the entire process.  It might be possible to store multiple chunks into this
-        #  variable in one shoot, but we will require much more resources from the host's system main memory.  Lets
-        #  try to conserve the user's primary storage.
-        # NOTE: CLR String Datatypes can reach ~3GB of memory usage.
-        [string] $outputContent = $null;
-
-
-        # This will be used to jump from one case to another; this will greatly help to keep the procedure organized.
-        #  Essentially this variable will drive the structure of the report, but in a proper sequential manner.
-        [int] $traverse = 0;
-
-
-        # This variable will contain a border that will visually help to separate each section of the report.  With
-        #  this defined in this way, we can cut code redundancy without having type it over and over again through
-        #  out this entire function.
-        [string] $sectionBorder = ("------------------------------`r`n" + `
-                                    "==============================`r`n" + `
-                                    "==============================`r`n");
-
-
-        # This variable will be used as our break to escape the do-while loop; when we are finished generating the
-        #  report - this variable will allow us to move forward into the final stages of completing the newly created
-        #  report.
-        [bool] $readyToBreak = $false;
-        # ----------------------------------------
-
-
-
-        # Did the user want a report of an archive data file?
-        if ($this.GetGenerateReport() -eq $false)
-        {
-            # The user does not wish to have a report generated; we will abort this operation by request.
-
-
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Generate the initial message
-            [string] $logMessage = ("Unable to create the report because the user does not request to" + `
-                                    " generate one (User Settings).");
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Current User Setting: $($this.GetGenerateReport())`r`n" + `
-                                        "`tRequested file to generate a report: $($archiveFile)");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity($logMessage, `                # Initial message
-                                        $logAdditionalMSG, `            # Additional information
-                                        [LogMessageLevel]::Warning);    # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
-
-
-            # Because the user did not want a report generated, merely return 'true'.
-            return $true;
-        } # if : Do not create report
-
-
-        # Dependency Check
-        # - - - - - - - - - - - - - -
-        #  Make sure that all of the resources are available before trying to use them
-        #   This check is to make sure that nothing goes horribly wrong.
-        # ---------------------------
-
-        # Make sure that the .NET Compress Archive Logging directories are ready for use (if required)
-        if ($this.__CreateDirectories() -eq $false)
-        {
-            # Because the logging directories could not be created, we cannot log.
-
-
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Generate the initial message
-            [string] $logMessage = "Unable to create a report on the archive data file due to logging complications!";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Because the logging directories for the Default Compress could not be created," + `
-                                        " nothing can be logged as expected.`r`n" + `
-                                        "`tTo resolve the issue:`r`n" + `
-                                        "`t`t- Make sure that the required logging directories are created.`r`n" + `
-                                        "`t`t- OR Disable logging`r`n" + `
-                                        "`tRequested file to generate a report: $($archiveFile)");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                        $logAdditionalMSG, `        # Additional information
-                                        [LogMessageLevel]::Error);  # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
-
-
-            # Because the logging features are required, we cannot run the operation.
-            return $false;
-        } # If : Logging Requirements are Met
-
-
-        # Make sure that the current PowerShell instance has the Archive functionality ready for use.
-        if ($this.DetectCompressModule() -eq $false)
-        {
-            # Because this current PowerShell instance lacks the functionality required to open and analyze
-            #  the archive datafile, we cannot proceed any further.
-
-
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Generate the initial message
-            [string] $logMessage = "Unable to create a report on the archive data file; unable to find the required module!";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Be sure that you have the latest dotNET Core and PowerShell Core available.`r`n" + `
-                                        "`tRequested file to generate a report: $($archiveFile)");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                        $logAdditionalMSG, `        # Additional information
-                                        [LogMessageLevel]::Error);  # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
-
-
-            # Because the required module was not found, we cannot proceed any further.
-            return $false;
-        } # if : PowerShell Archive Support Missing
-
-
-        # Make sure that the target archive file exists.
-        if ([CommonIO]::CheckPathExists($archiveFile, $true) -eq $false)
-        {
-            # The target archive data file does not exist; we cannot perform a report on something
-            #  when that file simply does not exist with the given file path.
-
-
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Generate the initial message
-            [string] $logMessage = "Unable to create a report on the archive data file because the target file does not exist!";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "Requested file to generate a report: " + $archiveFile;
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                        $logAdditionalMSG, `        # Additional information
-                                        [LogMessageLevel]::Error);  # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
-
-
-            # Return a failure as the target file does not exist.
-            return $false;
-        } # if : Target Archive File does not Exist
-
-
-        # ---------------------------
-        # - - - - - - - - - - - - - -
-
-
-        # Generate the Report (Procedure Methodology)
-        #  This loop will help us to stay organized as we traverse through each step.
-        DO
-        {
-            # Sequential steps
-            switch ($traverse)
-            {
-                # Report Header
-                0
-                {
-                    # Prepare the message that we will write to the report.
-                    # Word Art for the report's header were provided by this website:
-                    #  http://patorjk.com/software/taag
-                    #  FONT: Big
-                    #  All other settings set to 'default'.
-                    $outputContent = ("+---------------------------------------------------------------------+`r`n" + `
-                                      "|   _______       ______ _ _        _____                       _     |`r`n" + `
-                                      "|  |___  (_)     |  ____(_) |      |  __ \                     | |    |`r`n" + `
-                                      "|     / / _ _ __ | |__   _| | ___  | |__) |___ _ __   ___  _ __| |_   |`r`n" + `
-                                      "|    / / | | '_ \|  __| | | |/ _ \ |  _  // _ \ '_ \ / _ \| '__| __|  |`r`n" + `
-                                      "|   / /__| | |_) | |    | | |  __/ | | \ \  __/ |_) | (_) | |  | |_   |`r`n" + `
-                                      "|  /_____|_| .__/|_|    |_|_|\___| |_|  \_\___| .__/ \___/|_|   \__|  |`r`n" + `
-                                      "|          | |                                | |                     |`r`n" + `
-                                      "|          |_|                                |_|                     |`r`n" + `
-                                      "+---------------------------------------------------------------------+`r`n" + `
-                                      "`r`n`r`n" + `
-                                      "Synopsis`r`n" + `
-                                      "----------`r`n" + `
-                                      "This report was generated on $($dateNow) at $($timeNow) for the archive file" + `
-                                      " named '$($fileNameExt)'.  This report contains an overview of what is within" + `
-                                      " the archive data file and information regarding the file itself.  The information" + `
-                                      " provided can be helpful for validation purposes and assuring that the archive data" + `
-                                      " file itself was not damaged." + `
-                                      "`r`n`r`n`r`n");
-
-
-                    # Write the message to the report file
-                    if ([CommonIO]::WriteToFile($fileNameTXT, $outputContent) -eq $false)
-                    {
-                        # Because there was failure while writing to the report file, we cannot proceed any further.
-
-
-                        # * * * * * * * * * * * * * * * * * * *
-                        # Debugging
-                        # --------------
-
-                        # Generate the initial message
-                        [string] $logMessage = "Unable to write the Header to the report!";
-
-                        # Generate any additional information that might be useful
-                        [string] $logAdditionalMSG = ("Object: DefaultCompress`r`n" + `
-                                                    "`tIteration Step: $($traverse)`r`n" + `
-                                                    "`tRequested file to generate a report: $($archiveFile)`r`n" + `
-                                                    "`tTried to write to report file: $($fileNameTXT)`r`n" + `
-                                                    "`tInformation to write:`r`n" + `
-                                                    "$($outputContent)");
-
-                        # Pass the information to the logging system
-                        [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                                    $logAdditionalMSG, `        # Additional information
-                                                    [LogMessageLevel]::Error);  # Message level
-
-                        # * * * * * * * * * * * * * * * * * * *
-
-
-                        # Failure occurred while writing to the file.
-                        return $false;
-                    } # If : Failure to write file
-
-
-                    # Increment the traverse variable; proceed to the next step.
-                    $traverse++;
-
-
-                    # Finished with the report's Header
-                    break;
-                } # Case : Report Header
-
-
-
-                # Table of Contents
-                1
-                {
-                    # Prepare the message that we will write to the report.
-                    $outputContent = ("Table of Contents:`r`n" + `
-                                     "---------------------`r`n" + `
-                                     "1) Project Information`r`n" + `
-                                     "2) Archive File Information`r`n" + `
-                                     "3) File Hash Details`r`n" + `
-                                     "4) List of Files inside Archive`r`n" + `
-                                     "`r`n`r`n");
-
-
-                    # Write the message to the report file
-                    if ([CommonIO]::WriteToFile($fileNameTXT, $outputContent) -eq $false)
-                    {
-                        # Because there was failure while writing to the report file, we cannot proceed any further.
-
-
-                        # * * * * * * * * * * * * * * * * * * *
-                        # Debugging
-                        # --------------
-
-                        # Generate the initial message
-                        [string] $logMessage = "Unable to write the Table of Contents to the report!";
-
-                        # Generate any additional information that might be useful
-                        [string] $logAdditionalMSG = ("Object: DefaultCompress`r`n" + `
-                                                    "`tIteration Step: $($traverse)`r`n" + `
-                                                    "`tRequested file to generate a report: $($archiveFile)`r`n" + `
-                                                    "`tTried to write to report file: $($fileNameTXT)`r`n" + `
-                                                    "`tInformation to write:`r`n" + `
-                                                    "$($outputContent)");
-
-                        # Pass the information to the logging system
-                        [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                                    $logAdditionalMSG, `        # Additional information
-                                                    [LogMessageLevel]::Error);  # Message level
-
-                        # * * * * * * * * * * * * * * * * * * *
-
-
-                        # Failure occurred while writing to the file.
-                        return $false;
-                    } # If : Failure to write file
-
-
-                    # Increment the traverse variable; proceed to the next step.
-                    $traverse++;
-
-
-                    # Finished with the report's Table of Contents
-                    break;
-                } # Case : Table of Contents
-
-
-
-                # Project Information
-                2
-                {
-                    # Prepare the message that we will write to the report.
-                    $outputContent = ("1) PROJECT INFORMATION`r`n" + `
-                                     "$($sectionBorder)`r`n`r`n" + `
-                                     "Provided below is information regarding the project.`r`n`r`n" + `
-                                     "Project Name:`r`n" + `
-                                     "`t$($projectInformation.GetProjectName())`r`n`r`n" + `
-                                     "Project Code Name:`r`n" + `
-                                     "`t$($projectInformation.GetCodeName())`r`n`r`n" + `
-                                     "Filename:`r`n" + `
-                                     "`t$($projectInformation.GetFileName())`r`n`r`n" + `
-                                     "Project Website:`r`n" + `
-                                     "`t$($projectInformation.GetURLWebsite())`r`n`r`n" + `
-                                     "Project's Documentation:`r`n" + `
-                                     "`t$($projectInformation.GetURLWiki())`r`n`r`n" + `
-                                     "Project's Repository:`r`n" + `
-                                     "`t$($projectInformation.GetURLSource())`r`n" + `
-                                     "`r`n`r`n");
-
-
-                    # Write the message to the report file
-                    if ([CommonIO]::WriteToFile($fileNameTXT, $outputContent) -eq $false)
-                    {
-                        # Because there was failure while writing to the report file, we cannot proceed any further.
-
-
-                        # * * * * * * * * * * * * * * * * * * *
-                        # Debugging
-                        # --------------
-
-                        # Generate the initial message
-                        [string] $logMessage = "Unable to write the Project Information to the report!";
-
-                        # Generate any additional information that might be useful
-                        [string] $logAdditionalMSG = ("Object: DefaultCompress`r`n" + `
-                                                    "`tIteration Step: $($traverse)`r`n" + `
-                                                    "`tRequested file to generate a report: $($archiveFile)`r`n" + `
-                                                    "`tTried to write to report file: $($fileNameTXT)`r`n" + `
-                                                    "`tInformation to write:`r`n" + `
-                                                    "$($outputContent)");
-
-                        # Pass the information to the logging system
-                        [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                                    $logAdditionalMSG, `        # Additional information
-                                                    [LogMessageLevel]::Error);  # Message level
-
-                        # * * * * * * * * * * * * * * * * * * *
-
-
-                        # Failure occurred while writing to the file.
-                        return $false;
-                    } # If : Failure to write file
-
-
-                    # Increment the traverse variable; proceed to the next step.
-                    $traverse++;
-
-
-                    # Finished with the report's Project Information
-                    break;
-                } # Case : Project Information
-
-
-
-                # Archive Information
-                3
-                {
-                    # Prepare the message that we will write to the report.
-                    $outputContent = ("2) ARCHIVE FILE INFORMATION`r`n" + `
-                                     "$($sectionBorder)`r`n`r`n" + `
-                                     "Provided below is information regarding the archive file.  This information can" + `
-                                     " be helpful to know the properties of the archive data file itself.`r`n`r`n" + `
-
-                                     "File Property Information:`r`n" + `
-                                     "File Base Name:`r`n" + `
-                                     "  $($(Get-Item "$($archiveFile)").BaseName)`r`n`r`n" + `
-                                     "File Exists in Directory:`r`n" + `
-                                     "  $($(Get-Item "$($archiveFile)").DirectoryName)`r`n`r`n" + `
-                                     "File Created:`r`n" + `
-                                     "  $($(Get-Item "$($archiveFile)").CreationTime)`r`n`r`n" + `
-                                     "File Created (UTC):`r`n" + `
-                                     "  $($(Get-Item "$($archiveFile)").CreationTimeUtc)`r`n`r`n" + `
-                                     "File Attributes:`r`n" + `
-                                     "  $($(Get-Item "$($archiveFile)").Attributes)`r`n`r`n" + `
-                                     "Size of File:`r`n" + `
-                                     "  $($(Get-Item "$($archiveFile)").Length) bytes`r`n`r`n");
-
-
-                    # Write the message to the report file
-                    if ([CommonIO]::WriteToFile($fileNameTXT, $outputContent) -eq $false)
-                    {
-                        # Because there was failure while writing to the report file, we cannot proceed any further.
-
-
-                        # * * * * * * * * * * * * * * * * * * *
-                        # Debugging
-                        # --------------
-
-                        # Generate the initial message
-                        [string] $logMessage = "Unable to write the Archive Information to the report!";
-
-                        # Generate any additional information that might be useful
-                        [string] $logAdditionalMSG = ("Object: DefaultCompress`r`n" + `
-                                                    "`tIteration Step: $($traverse)`r`n" + `
-                                                    "`tRequested file to generate a report: $($archiveFile)`r`n" + `
-                                                    "`tTried to write to report file: $($fileNameTXT)`r`n" + `
-                                                    "`tInformation to write:`r`n" + `
-                                                    "$($outputContent)");
-
-                        # Pass the information to the logging system
-                        [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                                    $logAdditionalMSG, `        # Additional information
-                                                    [LogMessageLevel]::Error);  # Message level
-
-                        # * * * * * * * * * * * * * * * * * * *
-
-
-                        # Failure occurred while writing to the file.
-                        return $false;
-                    } # If : Failure to write file
-
-
-                    # Increment the traverse variable; proceed to the next step.
-                    $traverse++;
-
-
-                    # Finished with the report's Archive Information
-                    break;
-                } # Case : Archive Information
-
-
-
-                # File Hash Information
-                4
-                {
-                    # Prepare the message that we will write to the report.
-                    $outputContent = ("3) FILE HASH INFORMATION`r`n" + `
-                                     "$($sectionBorder)`r`n`r`n" + `
-                                     "File Hash values are helpful to know if the archive file was: corrupted, damaged," + `
-                                     " or altered.  The hash of the file signifies a 'fingerprint', each hash is generally" + `
-                                     " unique to that file at the given time it was created or updated.  When the hash" + `
-                                     " value is different, in comparison to another version of the same file, it is" + `
-                                     " likely that the finger-print has changed or the file itself was damaged\corrupted" + `
-                                     " during transfer from one location to the next.`r`n" + `
-                                     "Provided below is the list of Hash values regarding $($fileNameExt)." + `
-                                     "`r`n`r`n" + `
-
-                                     "File Hash Information:`r`n" + `
-                                     "$($this.FetchHashInformation("$($archiveFile)"))");
-
-
-                    # Write the message to the report file
-                    if ([CommonIO]::WriteToFile($fileNameTXT, $outputContent) -eq $false)
-                    {
-                        # Because there was failure while writing to the report file, we cannot proceed any further.
-
-
-                        # * * * * * * * * * * * * * * * * * * *
-                        # Debugging
-                        # --------------
-
-                        # Generate the initial message
-                        [string] $logMessage = "Unable to write the File Hash Information to the report!";
-
-                        # Generate any additional information that might be useful
-                        [string] $logAdditionalMSG = ("Object: DefaultCompress`r`n" + `
-                                                    "`tIteration Step: $($traverse)`r`n" + `
-                                                    "`tRequested file to generate a report: $($archiveFile)`r`n" + `
-                                                    "`tTried to write to report file: $($fileNameTXT)`r`n" + `
-                                                    "`tInformation to write:`r`n" + `
-                                                    "$($outputContent)");
-
-                        # Pass the information to the logging system
-                        [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                                    $logAdditionalMSG, `        # Additional information
-                                                    [LogMessageLevel]::Error);  # Message level
-
-                        # * * * * * * * * * * * * * * * * * * *
-
-
-                        # Failure occurred while writing to the file.
-                        return $false;
-                    } # If : Failure to write file
-
-
-                    # Increment the traverse variable; proceed to the next step.
-                    $traverse++;
-
-
-                    # Finished with the report's File Hash Information
-                    break;
-                } # Case : File Hash Information
-
-
-
-                # List of Files Within the Archive File
-                5
-                {
-                    # Prepare the message that we will write to the report.
-                    $outputContent = ("4) LIST OF FILES INSIDE THE ARCHIVE FILE`r`n" + `
-                                     "$($sectionBorder)`r`n`r`n" + `
-                                     "Provided below is a list of files that exists within the archive data file." + `
-                                     "`r`n`r`n" + `
-
-                                     "List of Files inside $($fileNameExt):`r`n" + `
-                                     "$($this.ListFiles("$($archiveFile)", $true))");
-
-
-                    # Write the message to the report file
-                    if ([CommonIO]::WriteToFile($fileNameTXT, $outputContent) -eq $false)
-                    {
-                        # Because there was failure while writing to the report file, we cannot proceed any further.
-
-
-                        # * * * * * * * * * * * * * * * * * * *
-                        # Debugging
-                        # --------------
-
-                        # Generate the initial message
-                        [string] $logMessage = "Unable to write the List of Files Inside the Archive File to the report!";
-
-                        # Generate any additional information that might be useful
-                        [string] $logAdditionalMSG = ("Object: DefaultCompress`r`n" + `
-                                                    "`tIteration Step: $($traverse)`r`n" + `
-                                                    "`tRequested file to generate a report: $($archiveFile)`r`n" + `
-                                                    "`tTried to write to report file: $($fileNameTXT)`r`n" + `
-                                                    "`tInformation to write:`r`n" + `
-                                                    "$($outputContent)");
-
-                        # Pass the information to the logging system
-                        [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                                    $logAdditionalMSG, `        # Additional information
-                                                    [LogMessageLevel]::Error);  # Message level
-
-                        # * * * * * * * * * * * * * * * * * * *
-
-
-                        # Failure occurred while writing to the file.
-                        return $false;
-                    } # If : Failure to write file
-
-
-                    # Increment the traverse variable; proceed to the next step.
-                    $traverse++;
-
-
-                    # Jump out of the Loop key; without this flag - a Run-Away will occur.
-                    $readyToBreak = $true;
-
-
-                    # Finished with the report's File Hash Information
-                    break;
-                } # Case : List of Files Within the Archive File
-
-
-
-                # Default - ERROR; Run Away
-                default
-                {
-                    # Something went horribly wrong
-                    #  In normal cases, we should _NEVER_ reach this point.
-
-
-                    # * * * * * * * * * * * * * * * * * * *
-                    # Debugging
-                    # --------------
-
-                    # Generate the initial message
-                    [string] $logMessage = "Run-Away had occurred while generating the requested report!";
-
-                    # Generate any additional information that might be useful
-                    [string] $logAdditionalMSG = ("Object: DefaultCompress`r`n" + `
-                                                "`tIteration Step: $($traverse)`r`n" + `
-                                                "`tRequested file to generate a report: $($archiveFile)`r`n" + `
-                                                "`tTried to write to report file: $($fileNameTXT)`r`n");
-
-                    # Pass the information to the logging system
-                    [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                                $logAdditionalMSG, `        # Additional information
-                                                [LogMessageLevel]::Error);  # Message level
-
-                    # * * * * * * * * * * * * * * * * * * *
-
-
-                    # Because a Run-Away occurred,
-                    return $false;
-                } # Case : Default
-            } # switch()
-        } While ($readyToBreak -eq $false);
-
-
-
-        # Successfully wrote to the file
-        return $true;
-    } # CreateNewReport()
-
-    #endregion
 
 
 
@@ -3804,38 +2966,6 @@ class DefaultCompress
 
 
         # ----
-
-
-        # Did the user also wanted to thrash the reports?
-        if (($expungeReports -eq $true) -and `
-            ([CommonIO]::DeleteFile($this.GetReportPath(), $extReports) -eq $false))
-        {
-            # Reached a failure upon removing the requested log files.
-
-
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Generate the initial message
-            [string] $logMessage = "A failure occurred while removing the requested report files!";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Object: DefaultCompress`r`n" + `
-                                        "`tRequested file extensions to delete: $($knownExtensions)");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                        $logAdditionalMSG, `        # Additional information
-                                        [LogMessageLevel]::Error);  # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
-
-
-            # Because the operation failed, we will update the exit code to 'false'
-            #  to signify that we reached an error.
-            $exitCode = $false;
-        } # If : thrash the reports
 
 
         # If everything succeeded, provide this information to the logfile.

@@ -952,30 +952,6 @@ class LoadSaveUserConfiguration
 
 
 
-        # POWERSHELL'S ARCHIVE SETTINGS -- GENERATE REPORT
-        # - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Generate Report
-            $psArchive.SetGenerateReport([bool]$cachedUserConfig[3].__generateReport);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__generateReport", `                                 # The Variable Name
-                                    "Archive Settings", `                                   # The Variable Category
-                                    [string]$cachedUserConfig[3].__generateReport, `        # Value Stored in Config
-                                    [string]$psArchive.GetGenerateReport(), `               # Current Value
-                                    $_.Exception);                                          # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
         # POWERSHELL'S ARCHIVE SETTINGS -- ROOT LOG PATH
         # - - - - - - - - - - - - - - - - - - - - - - -
         try
@@ -995,30 +971,6 @@ class LoadSaveUserConfiguration
                                     "Archive Settings", `                               # The Variable Category
                                     [string]$cachedUserConfig[3].__rootLogPath, `       # Value Stored in Config
                                     [string]$psArchive.GetRootLogPath(), `              # Current Value
-                                    $_.Exception);                                      # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
-        # POWERSHELL'S ARCHIVE SETTINGS -- REPORT PATH
-        # - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Report Path
-            $psArchive.SetReportPath([string]$cachedUserConfig[3].__reportPath);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__reportPath", `                                 # The Variable Name
-                                    "Archive Settings", `                               # The Variable Category
-                                    [string]$cachedUserConfig[3].__reportPath, `        # Value Stored in Config
-                                    [string]$psArchive.GetReportPath(), `               # Current Value
                                     $_.Exception);                                      # Exception Details
         } # Catch : Unknown Value from Config.
 

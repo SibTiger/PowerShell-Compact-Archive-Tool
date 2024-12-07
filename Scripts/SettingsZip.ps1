@@ -125,7 +125,6 @@ class SettingsZip
         #  a way that it is easier to convey the point across to the user.
         [string] $currentSettingCompressionLevel = $NULL;       # Compression Level
         [string] $currentSettingVerifyBuild = $NULL;            # Verify Build
-        [string] $currentSettingGenerateReport = $NULL;         # Generate Report
 
         # Retrieve the dotNET Archive object.
         [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
@@ -134,8 +133,7 @@ class SettingsZip
 
         # Retrieve the current settings and determine the wording before we generate the menu.
         [SettingsZip]::__DrawMenuDecipherCurrentSettings([ref] $currentSettingCompressionLevel, `   # Compression Level
-                                                        [ref] $currentSettingVerifyBuild, `         # Verify Build
-                                                        [ref] $currentSettingGenerateReport)        # Generate Report
+                                                        [ref] $currentSettingVerifyBuild);          # Verify Build
 
 
 
@@ -155,14 +153,6 @@ class SettingsZip
                                 "Verify Build after Compression", `
                                 "Assure that the data within the compressed file is healthy.", `
                                 "Verify integrity of the newly generated build: $($currentSettingVerifyBuild)", `
-                                $true);
-
-
-        # Allow or disallow the ability to generate a report
-        [CommonCUI]::DrawMenuItem('R', `
-                                "Generate Report of the Archive Datafile", `
-                                "Provides a detailed report regarding the newly generated compressed file.", `
-                                "Create a report of the newly generated build: $($currentSettingGenerateReport)", `
                                 $true);
 
 
@@ -219,13 +209,10 @@ class SettingsZip
     #   Determines the current compression level that is presently configured.
     #  [string] (REFERENCE) Verify Build
     #   Determines if the newly generated build will be tested to assure its integrity.
-    #  [string] (REFERENCE) Generate Report
-    #   Determines if the user wanted a report of the newly generated compressed build.
     # -------------------------------
     #>
     hidden static [void] __DrawMenuDecipherCurrentSettings([ref] $compressionLevel, `   # Compression Level
-                                                            [ref] $verifyBuild, `       # Verify Build
-                                                            [ref] $generateReport)      # Generate Report
+                                                            [ref] $verifyBuild)         # Verify Build
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -303,28 +290,6 @@ class SettingsZip
             # The user does not wish to have the archive datafile tested.
             $verifyBuild.Value = "No";
         } # else: Do not test Archive Datafile
-
-
-
-        # - - - - - - - - - - - - - - - - - - - - - -
-        # - - - - - - - - - - - - - - - - - - - - - -
-
-
-
-        # Generate Report
-        # Provide a new report regarding the newly generated archive file
-        if ($defaultCompress.GetGenerateReport())
-        {
-            # The user wants to have a report generated regarding the archive datafile.
-            $generateReport.Value = "Yes";
-        } # if: Create report
-
-        # Do not provide a new report regarding the newly generated archive file.
-        else
-        {
-            # The user does not want to have a report generated of the archive datafile.
-            $generateReport.Value = "No";
-        } # else: Do not create report
     } # __DrawMenuDecipherCurrentSettings()
 
 
@@ -392,24 +357,6 @@ class SettingsZip
                 # Finished
                 break;
             } # Verify Build after Compression
-
-
-
-            # Generate Report of Archive Datafile
-            #  NOTE: Allow the user's request when they type: 'Report', 'Generate Report',
-            #           'Generate Report of Archive Datafile', as well as 'R'.
-            {(($_ -eq "R") -or `
-                ($_ -eq "Generate Report") -or `
-                ($_ -eq "Report") -or `
-                ($_ -eq "Generate Report of Archive Datafile"))}
-            {
-                # Allow the user the ability to request reports for the newly generated archive datafile.
-                [SettingsZip]::__GenerateReport();
-
-
-                # Finished
-                break;
-            } # Generate Report of Archive Datafile
 
 
 
@@ -1106,282 +1053,6 @@ class SettingsZip
         # Finished with the operation; return back to the current menu.
         return $true;
     } # __EvaluateExecuteUserRequestVerifyBuild()
-    #endregion
-
-
-
-
-
-    #region Generate Report
-    #                                        Generate Report
-    # ==========================================================================================
-    # ------------------------------------------------------------------------------------------
-    # ------------------------------------------------------------------------------------------
-    # ==========================================================================================
-
-
-
-
-
-   <# Generate Report
-    # -------------------------------
-    # Documentation:
-    #  This function will allow the user the ability to request a report once the archive
-    #   data file has been generated.
-    # -------------------------------
-    #>
-    hidden static [void] __GenerateReport()
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # This variable will hold the user's input as they navigate within the menu.
-        [string] $userInput = $null;
-
-        # This variable will determine if the user is to remain within the current menu loop.
-        #  If the user were to exit from the menu, this variable's state will be set as false.
-        #  Thus, with a false value - they may leave from the menu.
-        [bool] $menuLoop = $true;
-
-        # Retrieve the current instance of the User Preferences object; this contains the user's
-        #  generalized settings.
-        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
-
-        # We will use this variable to make the string that is displayed to the user - a bit easier to read.
-        #  Further, we could use a simple if conditional statement below where we ultimately just display the
-        #  results, but lets keep the code nicer to read for our own benefit instead.
-        [string] $decipherNiceString = $null;
-        # ----------------------------------------
-
-
-        # Open the Generate Report Menu
-        #  Keep the user within the menu until they request to return back to the previous menu.
-        do
-        {
-            # Determine the current state of the Generate Report variable and make it nicer for the user to understand.
-            #  Is the Generate Report presently enabled?
-            if ($defaultCompress.GetGenerateReport())
-            {
-                # Generate Report is presently set as enabled.
-                $decipherNiceString = "I will create a report regarding the newly generated compiled project build.";
-            } # if: Generate Report
-
-            # Is the Generate Report presently disabled?
-            else
-            {
-                # Generate Report is not presently set as enabled.
-                $decipherNiceString = "I will not create a report regarding any new builds compiled.";
-            } # else: Do not a Generate Report
-
-
-
-            # Clear the terminal of all previous text; keep the space clean so that it is easy
-            #  for the user to read and follow along.
-            [CommonIO]::ClearBuffer();
-
-            # Draw Program Information Header
-            [CommonCUI]::DrawProgramTitleHeader();
-
-            # Show the user that they are at the Generate Report menu
-            [CommonCUI]::DrawSectionHeader("Generate Report");
-
-            # Show the user the current state of the 'Generate Report' variable that is presently set within the program.
-            [Logging]::DisplayMessage($decipherNiceString);
-
-            # Provide some extra white spacing so that it is easier to read for the user
-            [Logging]::DisplayMessage("`r`n`r`n");
-
-            # Display the instructions to the user
-            [CommonCUI]::DrawMenuInstructions();
-
-            # Draw the menu list to the user
-            [SettingsZip]::__DrawMenuGenerateReport();
-
-            # Provide some extra padding
-            [Logging]::DisplayMessage("`r`n");
-
-            # Capture the user's feedback
-            $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
-
-            # Execute the user's request
-            $menuLoop = [SettingsZip]::__EvaluateExecuteUserRequestGenerateReport($userInput);
-        } while ($menuLoop);
-    } # __GenerateReport()
-
-
-
-
-   <# Draw Menu: Generate Report
-    # -------------------------------
-    # Documentation:
-    #  This function will essentially draw the menu list for the Generate Report.
-    #   This provides the option if the user wants to have a report available for
-    #   the compiled project build.
-    # -------------------------------
-    #>
-    hidden static [void] __DrawMenuGenerateReport()
-    {
-        # Display the Menu List
-
-        # Generate a new report regarding the archive datafile.
-        [CommonCUI]::DrawMenuItem('R', `
-                                "Generate a report file", `
-                                "Generate a new technical report regarding the project's compiled build.", `
-                                $NULL, `
-                                $true);
-
-
-        # Do not generate a new report regarding the archive datafile.
-        [CommonCUI]::DrawMenuItem('N', `
-                                "Do not generate a report file.", `
-                                "Do not create a technical report regarding the compiled build.", `
-                                $NULL, `
-                                $true);
-
-
-        # Report an Issue or Feature
-        [CommonCUI]::DrawMenuItem('#', `
-                                "Report an issue or feature", `
-                                "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Online Bug Tracker.", `
-                                $NULL, `
-                                $true);
-
-
-        # Return back to the previous menu
-        [CommonCUI]::DrawMenuItem('X', `
-                                "Cancel", `
-                                "Return back to the previous menu.", `
-                                $NULL, `
-                                $true);
-    } # __DrawMenuGenerateReport()
-
-
-
-
-   <# Evaluate and Execute User's Request: Generate Report
-    # -------------------------------
-    # Documentation:
-    #  This function will evaluate and execute the user's desired request in respect to
-    #   the menu options that were provided to them.
-    # -------------------------------
-    # Input:
-    #  [string] User's Request
-    #   This will provide the user's desired request to run an operation or to access
-    #    a specific functionality.
-    # -------------------------------
-    # Output:
-    #  [bool] User Stays at Menu
-    #   This defines if the user is to remain at the Menu screen.
-    #       $true  = User is to remain at the Menu.
-    #       $false = User requested to leave the Menu.
-    # -------------------------------
-    #>
-    hidden static [bool] __EvaluateExecuteUserRequestGenerateReport([string] $userRequest)
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Retrieve the current instance of the User Preferences object; this contains the user's
-        #  generalized settings.
-        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
-        # ----------------------------------------
-
-
-        # Evaluate the user's request
-        switch ($userRequest)
-        {
-            # Generate Report
-            #  NOTE: Allow the user's request when they type: "Create reports", "Generate reports", "Make reports", as well as "R".
-            {($_ -eq "R") -or `
-                ($_ -eq "Create report") -or `
-                ($_ -eq "Generate report") -or `
-                ($_ -eq "Make report")}
-            {
-                # The user had selected to have technical reports generated regarding newly compiled project build.
-                $defaultCompress.SetGenerateReport($true);
-
-                # Update the user's configuration with the latest changes.
-                [LoadSaveUserConfiguration]::SaveUserConfiguration();
-
-                # Finished
-                break;
-            } # Selected Generate Reports
-
-
-            # Do not Generate Reports
-            #  NOTE: Allow the user's request when they type: "Do not create reports", "do not generate reports", "Do not make reports", as well as "N".
-            {($_ -eq "N") -or `
-                ($_ -eq "Do not create reports") -or `
-                ($_ -eq "do not generate reports") -or `
-                ($_ -eq "Do not make reports")}
-            {
-                # The user had selected to not have technical reports generated regarding the newly compiled project builds.
-                $defaultCompress.SetGenerateReport($false);
-
-                # Update the user's configuration with the latest changes.
-                [LoadSaveUserConfiguration]::SaveUserConfiguration();
-
-                # Finished
-                break;
-            } # Selected Do not Generate Reports
-
-
-            # Access the Program's Bug Tracker
-            #  NOTE: Allow the user's request when they type: 'Report' or '#'.
-            {($_ -eq "#") -or `
-                ($_ -eq "Report")}
-            {
-                # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($Global:_PROGRAMREPORTBUGORFEATURE_,             ` # Program's Bug Tracker
-                                                            "$($GLOBAL:_PROGRAMNAMESHORT_) Bug Tracker"))       ` # Show page title
-                {
-                    # Alert the user that the web functionality did not successfully work as intended.
-                    [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
-                } # If : Failed to Provide Webpage
-
-
-                # Finished
-                break;
-            } # Access Help Program's Documentation
-
-
-            # Exit
-            #  NOTE: Allow the user's request when they type: 'Exit', 'Cancel', 'Return',
-            #         as well as 'X'.
-            #         This can come handy if the user is in a panic - remember that the terminal
-            #         is intimidating for some which may cause user's to panic, and this can be
-            #         helpful if user's are just used to typing 'Exit' or perhaps 'Quit'.
-            {($_ -eq "X") -or `
-                ($_ -eq "Exit") -or `
-                ($_ -eq "Cancel") -or `
-                ($_ -eq "Return")}
-            {
-                # Return back to the previous menu
-                return $false;
-            } # Exit
-
-
-
-            # Unknown Option
-            default
-            {
-                # Alert the user that they had provided an incorrect option.
-                [NotificationAudible]::Notify([NotificationAudibleEventType]::IncorrectOption);
-
-
-                # Provide an error message to the user that the option they chose is
-                #  not available.
-                [CommonCUI]::DrawIncorrectMenuOption();
-
-
-                # Finished
-                break;
-            } # Unknown Option
-        } # Switch : Evaluate User's Request
-
-
-
-        # Finished with the operation; return back to the current menu.
-        return $true;
-    } # __EvaluateExecuteUserRequestGenerateReport()
     #endregion
 
 
