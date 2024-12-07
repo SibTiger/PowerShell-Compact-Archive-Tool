@@ -617,14 +617,15 @@ class DefaultCompress
    <# Detect Compression Module
     # -------------------------------
     # Documentation:
-    #  This function will try to detect if the host system has the primary module
-    #   available to the PowerShell's current environment.  Without this module,
-    #   it is not possible to use a lot of the functionality within this class.
+    #  This function will try to detect if the required PowerShell Module is
+    #   presently available within the PowerShell Core's environment.  Without
+    #   the PowerShell Module, the primary functionality within this class is
+    #   merely pointless.
     # -------------------------------
     # Output:
     #  [bool] Exit code
-    #   $false = Archive module was not detected.
-    #   $true = Archive module was successfully detected.
+    #   $false = Required PowerShell Module was not found
+    #   $true = Required PowerShell Module was found
     # -------------------------------
     #>
     [bool] DetectCompressModule()
@@ -632,7 +633,7 @@ class DefaultCompress
         # Determine if the PowerShell Module is presently available within the environment.
         if ([CommonPowerShell]::DetectModule($this.GetPowerShellModuleName()))
         {
-            # Detected the module
+            # Detected the PowerShell Module
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -653,11 +654,11 @@ class DefaultCompress
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Return that we detected the module
+            # Return that we had found the PowerShell Module
             return $true;
         } # if : Module is installed
 
-        # When the module was not detected
+        # Unable to find the required PowerShell Module
         else
         {
             # * * * * * * * * * * * * * * * * * * *
@@ -683,7 +684,7 @@ class DefaultCompress
         } # Else : Module not detected
 
 
-        # Because the module was not detected.
+        # Because the PowerShell Module was not detected.
         return $false;
     } # DetectCompressModule()
 
