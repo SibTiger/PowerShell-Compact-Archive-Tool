@@ -91,16 +91,14 @@ class DefaultCompress
     #  Useful if we already know that we have to instantiate
     #  a new instance of this particular object.
     static [DefaultCompress] GetInstance([DefaultCompressionLevel] $compressionLevel, ` # Compression Level
-                                        [bool] $verifyBuild, `                          # Verify Archive datafile
-                                        [bool] $generateReport)                         # Create report
+                                        [bool] $verifyBuild)                            # Verify Archive datafile
     {
         # if there was no previous instance of the object - then create one.
         if ($null -eq [DefaultCompress]::_instance)
         {
             # Create a new instance of the singleton object.
             [DefaultCompress]::_instance = [DefaultCompress]::new($compressionLevel, `
-                                                                    $verifyBuild, `
-                                                                    $generateReport);
+                                                                    $verifyBuild);
         } # If: No Singleton Instance
 
         # Provide an instance of the object.
