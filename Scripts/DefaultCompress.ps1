@@ -1,4 +1,4 @@
-<# PowerShell Compact-Archive Tool
+﻿<# PowerShell Compact-Archive Tool
  # Copyright (C) 2025
  #
  # This program is free software: you can redistribute it and/or modify
@@ -381,78 +381,6 @@ class DefaultCompress
         # Successfully updated.
         return $true;
     } # SetVerifyBuild()
-
-
-
-
-   <# Set Root Log Directory Path
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Root Log Directory Path' variable.
-    #
-    # WARNING:
-    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!  IT IS RECOMMENDED
-    #   TO _NOT_ REVISE THIS VARIABLE UNLESS IT IS ABSOLUTELY NECESSARY!
-    # -------------------------------
-    # Input:
-    #  [string] Root Log Path
-    #   The new location of the Root Log directory.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetRootLogPath([string] $newVal)
-    {
-        # Inspect to see if the path exists
-        if (Test-Path $newVal.trim())
-        {
-            # Path exists; use it as requested
-            $this.__rootLogPath = $newVal;
-            return $true;
-        } # IF: Path Exists
-
-        # Failure; Path does not exist.
-        return $false;
-    } # SetRootLogPath()
-
-
-
-
-   <# Set Log Directory Path
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Log Directory Path' variable.
-    #
-    # WARNING:
-    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!  IT IS RECOMMENDED
-    #   TO _NOT_ REVISE THIS VARIABLE UNLESS IT IS ABSOLUTELY NECESSARY!
-    # -------------------------------
-    # Input:
-    #  [string] Log Path
-    #   The new location of the Logging directory.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetLogPath([string] $newVal)
-    {
-        # Inspect to see if the path exists
-        if (Test-Path $newVal.trim())
-        {
-            # Path exists; use it as requested
-            $this.__logPath = $newVal;
-            return $true;
-        } # IF: Path Exists
-
-        # Failure; Path does not exist.
-        return $false;
-    } # SetLogPath()
 
     #endregion
 
