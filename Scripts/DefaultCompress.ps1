@@ -678,12 +678,12 @@ class DefaultCompress
     # Documentation:
     #   This function will provide the 'About' information about this PowerShell Module and
     #   present it to the user.  The about information shown to the user will contain as much
-    #   data as possible that is related to the PowerShell Module.
+    #   meta data as possible, if any present, that is related to the PowerShell Module.
     # -------------------------------
     # Output:
     #  [bool] Exit code
     #   $true = Successfully retrieved About Information
-    #   $false = Unable to retrieve useful About information
+    #   $false = Unable to retrieve any useful About information
     # -------------------------------
     #>
     [bool] ShowAbout()
@@ -732,10 +732,11 @@ class DefaultCompress
 
 
 
-        # Construct the string with the data that we just obtained.
+        # Construct the string, that we will present to the user, with the data
+        #   that we had just obtained.
         # To do this properly, we will only append information to the string - if
-        #   data is available within a field.  Otherwise, if nothing is available,
-        #   then the missing information will not be included into the string.
+        #   the data is available within the field.  Otherwise, if nothing is available,
+        #   than the missing information will not be included into the string.
         if ([CommonIO]::IsStringEmpty($aboutInfo.Author) -ne $true)
         { $aboutString += "Author:`r`n`t" + $aboutInfo.Author + $dbs; }
 
@@ -852,7 +853,7 @@ class DefaultCompress
 
 
 
-        # Show the information to the user.
+        # Show the information we had gathered to the user.
         [Logging]::DisplayMessage($aboutString);
 
 
