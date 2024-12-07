@@ -1094,7 +1094,7 @@ class SettingsZip
         # Draw Program Information Header
         [CommonCUI]::DrawProgramTitleHeader();
 
-        # Show the user that they are at the Generate Report menu
+        # Show the user that they are at the About section
         [CommonCUI]::DrawSectionHeader("Show About for $($defaultCompress.GetPowerShellModuleName())");
 
         # Provide some extra white spacing so that it is easier to read for the user
