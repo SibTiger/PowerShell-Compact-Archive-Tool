@@ -130,7 +130,7 @@ class DefaultCompress
     # Log Root
     # ---------------
     # The main parent directory's absolute path that will hold this object's logs directory.
-    Hidden [string] $__rootLogPath;
+    Hidden [string] $__rootLogPath = "$($global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_)\PSArchive";
 
 
     # Log Root Path
@@ -138,7 +138,7 @@ class DefaultCompress
     # This directory, in absolute form, will hold logfiles that were generated
     #  from this object when creating, verifying, extracting, and listing
     #  contents from within an archive datafile.
-    Hidden [string] $__logPath;
+    Hidden [string] $__logPath = "$($this.__rootLogPath)\logs";
 
 
     # PowerShell Module Name
@@ -169,7 +169,7 @@ class DefaultCompress
     # ---------------
     # Provides a unique identifier to the object, useful to make sure that we are using
     #  the right object within the program.
-    Hidden [GUID] $__objectGUID;
+    Hidden [GUID] $__objectGUID = [GUID]::NewGuid();
 
     #endregion
 
@@ -190,15 +190,6 @@ class DefaultCompress
 
         # Verify Build
         $this.__verifyBuild = $true;
-
-        # Log Root Directory Path
-        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_)\PSArchive";
-
-        # Log Directory Path
-        $this.__logPath = "$($this.__rootLogPath)\logs";
-
-        # Object Identifier (GUID)
-        $this.__objectGUID = [GUID]::NewGuid();
     } # Default Constructor
 
 
@@ -213,15 +204,6 @@ class DefaultCompress
 
         # Verify Build
         $this.__verifyBuild = $verifyBuild;
-
-        # Log Root Directory Path
-        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_)\PSArchive";
-
-        # Log Directory Path
-        $this.__logPath = "$($this.__rootLogPath)\logs";
-
-        # Object Identifier (GUID)
-        $this.__objectGUID = [GUID]::NewGuid();
     } # User Preference Constructor
 
     #endregion
