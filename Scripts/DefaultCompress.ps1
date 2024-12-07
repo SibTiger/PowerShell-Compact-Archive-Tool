@@ -386,7 +386,7 @@ class DefaultCompress
 
 
 
-    #region Private Functions
+    #region Hidden Functions
 
 
    <# Create Directories
