@@ -641,7 +641,7 @@ class DefaultCompress
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Found the $($this.GetPowerShellModuleName())) module!";
+            [string] $logMessage = "Found the $($this.GetPowerShellModuleName())) PowerShell Module!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = "It is possible to use $($this.GetPowerShellModuleName()) features!";
@@ -666,14 +666,14 @@ class DefaultCompress
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Could not find the $($this.GetPowerShellModuleName()) module!";
+            [string] $logMessage = "Could not find the PowerShell Module: $($this.GetPowerShellModuleName())!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("It is not possible to use the $($this.GetPowerShellModuleName()) features!`r`n" + `
-                                        "`t- Please consider downloading the latest version of dotNET Core:`r`n" + `
-                                        "`t`thttps://dotnet.microsoft.com/download`r`n" + `
-                                        "`t- Also make sure that you are using the latest PowerShell Core version as well:`r`n" + `
-                                        "`t`thttps://github.com/PowerShell/PowerShell");
+            [string] $logAdditionalMSG = ("It is not possible to use $($this.GetPowerShellModuleName()) features!`r`n" + `
+                                        "`t- Please make sure that you have the latest version of the PowerShell Core installed:`r`n" + `
+                                        "`t`thttps://github.com/PowerShell/PowerShell`r`n" + `
+                                        "`t- If needed, you may also need to download the latest version of the dotNET Core:`r`n" + `
+                                        "`t`thttps://dotnet.microsoft.com/download");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
