@@ -584,8 +584,8 @@ class DefaultCompress
    <# Check Required Directories
     # -------------------------------
     # Documentation:
-    #  This function will check to make sure that the log and report directories,
-    #   that are used in this class, currently exists within the host system's
+    #  This function will check to make sure that the log directories,
+    #   that are used in this class, currently exists within the host's
     #   filesystem.
     #
     # ----
@@ -593,7 +593,6 @@ class DefaultCompress
     #  Directories to be checked:
     #   - %LOCALAPPDATA%\<PROG_NAME>\PSArchive
     #   - %LOCALAPPDATA%\<PROG_NAME>\PSArchive\logs
-    #   - %LOCALAPPDATA%\<PROG_NAME>\PSArchive\reports
     # -------------------------------
     # Output:
     #  [bool] Exit code
