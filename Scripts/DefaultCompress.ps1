@@ -121,7 +121,7 @@ class DefaultCompress
 
     # Compression Level
     # ---------------
-    # The compression level specified when generating an archive datafile.
+    # The compression level specified when compacting data into an archive datafile.
     Hidden [DefaultCompressionLevel] $__compressionLevel;
 
 
@@ -173,7 +173,7 @@ class DefaultCompress
     # Object GUID
     # ---------------
     # Provides a unique identifier to the object, useful to make sure that we are using
-    #  the right object within the software.
+    #  the right object within the program.
     Hidden [GUID] $__objectGUID;
 
     #endregion
