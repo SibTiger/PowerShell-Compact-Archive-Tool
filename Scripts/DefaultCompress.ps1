@@ -867,47 +867,6 @@ class DefaultCompress
     #region Inspect Archive
 
 
-   <# Fetch Hash Information
-    # -------------------------------
-    # Documentation:
-    #  This function will retrieve and return all of the hash values that is
-    #   associated with the specific file given.  The file, ideally should be
-    #   an archive data file, but any file - that is valid - is acceptable.
-    #  Hash values are essentially a fingerprint of a specific file that was
-    #   generated at a specific time. If the hash value differs to a specific
-    #   file, that could mean that the file is different (possibility altered)
-    #   or corrupted.
-    # -------------------------------
-    # Input:
-    #  [string] Archive datafile Path
-    #   The archive file that will be inspected.
-    #    The path provided should be in absolute form.
-    # -------------------------------
-    # Output:
-    #  [string] Hash Values
-    #    A string list of all hash values associated with that specific archive
-    #     file.
-    # -------------------------------
-    #>
-    [string] FetchHashInformation([string] $file)
-    {
-        # Get all the hash values that is associated with the given file and
-        #  return the results.
-        return ("SHA1:`r`n" + `
-                "`t$([CommonIO]::FileHash($file, [FileHashAlgorithmDotNet]::sha1))`r`n`r`n" + `
-                "SHA256:`r`n" + `
-                "`t$([CommonIO]::FileHash($file, [FileHashAlgorithmDotNet]::sha256))`r`n`r`n" + `
-                "SHA384:`r`n" + `
-                "`t$([CommonIO]::FileHash($file, [FileHashAlgorithmDotNet]::sha384))`r`n`r`n" + `
-                "SHA512:`r`n" + `
-                "`t$([CommonIO]::FileHash($file, [FileHashAlgorithmDotNet]::sha512))`r`n`r`n" + `
-                "MD5:`r`n" + `
-                "`t$([CommonIO]::FileHash($file, [FileHashAlgorithmDotNet]::md5))`r`n`r`n");
-    } # FetchHashInformation()
-
-
-
-
    <# Verify Archive
     # -------------------------------
     # Documentation:
