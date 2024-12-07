@@ -149,9 +149,17 @@ class DefaultCompress
     # PowerShell Module Name
     # ---------------
     # This will contain the name of the PowerShell Module for this specific functionality.
-    #   With having the POSH Module name available to us, we can be able to perform Module
-    #   specific actions, such as updates, install, or uninstalling the module when requested
-    #   to do so by the user.
+    #   With this POSH Module being already built into the POSH Core framework, we can only
+    #   check to make sure that the module is still present within the POSH Core environment.
+    #
+    # Developer Note:
+    #   Because this POSH Module is built-into the POSH Core's framework, we cannot perform
+    #   the following actions:
+    #       - Updates
+    #       - Uninstall
+    #       - Install
+    #   This is due to the module not having to be installed through the PowerShell
+    #   Gallery Repository.
     #
     # Install Location:
     #   Built-In since Windows 10
@@ -159,7 +167,7 @@ class DefaultCompress
     #   PowerShell Version 5.0 and Later
     # Module Information:
     #   https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive
-    Hidden [string] $__powerShellModuleName;
+    Hidden [string] $__powerShellModuleName = "Microsoft.PowerShell.Archive";
 
 
     # Object GUID
@@ -193,9 +201,6 @@ class DefaultCompress
 
         # Log Directory Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
-
-        # PowerShell Module Name
-        $this.__powerShellModuleName = "Microsoft.PowerShell.Archive";
 
         # Object Identifier (GUID)
         $this.__objectGUID = [GUID]::NewGuid();
