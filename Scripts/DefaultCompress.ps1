@@ -117,7 +117,7 @@ class DefaultCompress
     # =================================================
 
 
-    #region Private Variables (emulated)
+    #region Hidden Variables
 
     # Compression Level
     # ---------------
