@@ -611,7 +611,7 @@ class DefaultCompress
 
 
 
-    #region Public Functions
+    #region Visible Functions
 
 
    <# Detect Compression Module
