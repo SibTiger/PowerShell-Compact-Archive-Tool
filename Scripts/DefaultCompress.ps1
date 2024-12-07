@@ -1,4 +1,4 @@
-﻿<# PowerShell Compact-Archive Tool
+<# PowerShell Compact-Archive Tool
  # Copyright (C) 2025
  #
  # This program is free software: you can redistribute it and/or modify
@@ -88,8 +88,6 @@ class DefaultCompress
 
 
     # Get the instance of this singleton object (With Args)
-    #  Useful if we already know that we have to instantiate
-    #  a new instance of this particular object.
     static [DefaultCompress] GetInstance([DefaultCompressionLevel] $compressionLevel, ` # Compression Level
                                         [bool] $verifyBuild)                            # Verify Archive datafile
     {
@@ -125,14 +123,13 @@ class DefaultCompress
 
     # Verify Build
     # ---------------
-    # Test the archive datafile to assure that it has not been corrupted.
+    # Test the archive datafile to ensure that it is not corrupted.
     Hidden [bool] $__verifyBuild;
 
 
     # Log Root
     # ---------------
-    # The main parent directory's absolute path that will hold this object's
-    #  logs and reports directories.
+    # The main parent directory's absolute path that will hold this object's logs directory.
     Hidden [string] $__rootLogPath;
 
 
@@ -333,8 +330,7 @@ class DefaultCompress
     # -------------------------------
     # Input:
     #  [DefaultCompressionLevel] Compression Level
-    #   The desired compression level for compacting newly generated
-    #    archive data files.
+    #   The desired compression level for compacting data into the archive datafile.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -365,8 +361,8 @@ class DefaultCompress
     # Input:
     #  [bool] Verify Archive
     #   When true, allow the possibility to test the archive datafile's
-    #    integrity.  Otherwise, do not allow the possibility to
-    #    examine the archive file.
+    #    integrity.  Otherwise, when false, do not examine the archive
+    #    file for potential errors.
     # -------------------------------
     # Output:
     #  [bool] Status
@@ -376,8 +372,8 @@ class DefaultCompress
     #>
     [bool] SetVerifyBuild([bool] $newVal)
     {
-        # Because the value is either true or false, there really is no
-        #  point in checking if the new requested value is 'legal'.
+        # Because the value must be either true or false, there really
+        #  is no point in checking if the new requested value is 'legal'.
         #  Thus, we are going to trust the value and automatically
         #  return success.
         $this.__verifyBuild = $newVal;
