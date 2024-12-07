@@ -712,10 +712,10 @@ class DefaultCompress
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Unable to show the POSH Module About information!";
+            [string] $logMessage = "Unable to show the PowerShell Module About information!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("There is no Meta Information available to show for:`r`n" + `
+            [string] $logAdditionalMSG = ("There was no Meta Data Information available for:`r`n" + `
                                             "`t" + $this.GetPowerShellModuleName());
 
             # Pass the information to the logging system
@@ -779,11 +779,11 @@ class DefaultCompress
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Unable to show the POSH Module About information!";
+            [string] $logMessage = "Unable to show the PowerShell Module About information!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("There is no useful Meta Information available to show for:`r`n" + `
-                                            "`t" + $this.GetPowerShellModuleName() + "`r`n"         + `
+            [string] $logAdditionalMSG = ("There was no useful Meta Data Information available for:`r`n" + `
+                                            "`t" + $this.GetPowerShellModuleName() + "`r`n" + `
                                             "`tAbout String:`r`n" + `
                                             "=====================================================`r`n" + `
                                             "`r`n" + `
@@ -810,12 +810,12 @@ class DefaultCompress
         # --------------
 
         # Generate the initial message
-        [string] $logMessage = "Successfully created the About information!";
+        [string] $logMessage = "Successfully created the About Information string!";
 
         # Generate any additional information that might be useful
         [string] $logAdditionalMSG = ("PowerShell Module Full Name:`r`n" + `
                                         "`t`t" + $this.GetPowerShellModuleName() + "`r`n" + `
-                                        "`tThe About Information Collected:`r`n" + `
+                                        "`tThe About Information that was Collected:`r`n" + `
                                         "`t`t - Author:         " + $aboutInfo.Author       + "`r`n" + `
                                         "`t`t`tString was empty?  " + [CommonIO]::IsStringEmpty($aboutInfo.Author) + "`r`n" + `
                                         "`t`t - Module Name:    " + $aboutInfo.Name         + "`r`n" + `
