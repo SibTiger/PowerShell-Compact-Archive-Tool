@@ -1305,72 +1305,70 @@ class DefaultCompress
         # =================
         # - - - - - - - - -
 
-        # Did the user want the operation to be logged?  If so, log the operation that was just performed.
-        if ([Logging]::DebugLoggingState() -eq $true)
+
+        # If there is information held in the STDOUT container, then we will convert the data from an array-list
+        #  to a literal string.
+        if (![CommonIO]::IsStringEmpty($execSTDOUT))
         {
-            # If there is information held in the STDOUT container, then we will convert the data from an array-list
-            #  to a literal string.
-            if (![CommonIO]::IsStringEmpty($execSTDOUT))
+            # Because there is information within the STDOUT container, we will convert it to a literal string.
+            #  But because we are going to display the information to a logfile, ultimately, present the data in
+            #  a readable form for the end-user to easily decipher the report.
+
+
+            # HEADER
+            # - - - - - -
+            # Logfile Header
+
+            $strSTDOUT = ("Successfully verified the archive data file named $($targetFileName).`r`n" + `
+                            "Below is a list of files that resides within the archive file and that has been tested:`r`n" + `
+                            "`r`n" + `
+                            "-----------------------------------------------------------`r`n" + `
+                            "`r`n");
+
+
+            # BODY
+            # - - - - - -
+            # Logfile Body (List of files)
+
+            foreach ($item in $execSTDOUT)
             {
-                # Because there is information within the STDOUT container, we will convert it to a literal string.
-                #  But because we are going to display the information to a logfile, ultimately, present the data in
-                #  a readable form for the end-user to easily decipher the report.
-
-
-                # HEADER
-                # - - - - - -
-                # Logfile Header
-
-                $strSTDOUT = ("Successfully verified the archive data file named $($targetFileName).`r`n" + `
-                                "Below is a list of files that resides within the archive file and that has been tested:`r`n" + `
-                                "`r`n" + `
-                                "-----------------------------------------------------------`r`n" + `
-                                "`r`n");
-
-
-                # BODY
-                # - - - - - -
-                # Logfile Body (List of files)
-
-                foreach ($item in $execSTDOUT)
-                {
-                    $strSTDOUT = ($strSTDOUT + `
-                                    "`t>> $([string]$($item))`r`n");
-                } # foreach : File in List
-
-
-                # FOOTER
-                # - - - - - -
-                # Logfile Footer
-
                 $strSTDOUT = ($strSTDOUT + `
-                                "`r`n" + `
-                                "-----------------------------------------------------------`r`n");
-            } # if : STDOUT Contains Data
+                                "`t>> $([string]$($item))`r`n");
+            } # foreach : File in List
+
+
+            # FOOTER
+            # - - - - - -
+            # Logfile Footer
+
+            $strSTDOUT = ($strSTDOUT + `
+                            "`r`n" + `
+                            "-----------------------------------------------------------`r`n");
+        } # if : STDOUT Contains Data
 
 
 
-            # If there is information held in the STDERR container, then we will transform the data from an object
-            #  to a literal string.
-            if (![CommonIO]::IsStringEmpty($execSTDERR))
-            {
-                # Because of how the information is stored in the object, we can just store the data to a literal
-                #  string outright.
-                $strSTDERR = [string]($execSTDERR);
-            } # if : STDERR Contains Data
+        # If there is information held in the STDERR container, then we will transform the data from an object
+        #  to a literal string.
+        if (![CommonIO]::IsStringEmpty($execSTDERR))
+        {
+            # Because of how the information is stored in the object, we can just store the data to a literal
+            #  string outright.
+            $strSTDERR = [string]($execSTDERR);
+        } # if : STDERR Contains Data
 
 
-            # Create the logfiles as requested
-            [CommonIO]::PSCMDLetLogging($this.GetLogPath(), `       # Log path for the STDOUT logfile.
-                                        $this.GetLogPath(), `       # Log path for the STDERR logfile.
-                                        $NULL, `                    # Report path and filename.
-                                        $false, `                   # Is this a report?
-                                        $false, `                   # Should we receive the STDOUT or STDERR for further processing?
-                                        $execReason, `              # Reason for using the CMDLet.
-                                        $null, `                    # Returned STDOUT\STDERR for further processing.
-                                        [ref] $strSTDOUT, `         # STDOUT output from the CMDLet.
-                                        [ref] $strSTDERR );         # STDERR output from the CMDLet.
-        } # if : Logging Requested
+        # Create the logfiles as requested
+        [CommonIO]::PSCMDLetLogging($this.GetLogPath(), `       # Log path for the STDOUT logfile.
+                                    $this.GetLogPath(), `       # Log path for the STDERR logfile.
+                                    $NULL, `                    # Report path and filename.
+                                    $false, `                   # Is this a report?
+                                    $false, `                   # Should we receive the STDOUT or STDERR for further processing?
+                                    $execReason, `              # Reason for using the CMDLet.
+                                    $null, `                    # Returned STDOUT\STDERR for further processing.
+                                    [ref] $strSTDOUT, `         # STDOUT output from the CMDLet.
+                                    [ref] $strSTDERR );         # STDERR output from the CMDLet.
+
 
         # - - - - - - - - -
         # =================
