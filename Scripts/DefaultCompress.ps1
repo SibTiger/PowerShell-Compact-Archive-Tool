@@ -871,36 +871,37 @@ class DefaultCompress
     # -------------------------------
     # Documentation:
     #  This function will test the archive data file by making sure that all of
-    #   the contents within the file are readable - thus not corrupted.  If the
-    #   files within the archive data file are corrupted or somehow damaged,
-    #   the test will fail - as the integrity of the archive file has been
-    #   compromised.
+    #   the contents within the compressed file are not corrupted.  If the
+    #   source files within the archive data file are corrupted then the test
+    #   will fail - as the integrity of the archive file had been compromised.
     #
     # Developer Note:
-    #  Because the PowerShell's Archive module, at least by the time of writing
-    #   this, does not have a function to verify the archive file itself.
-    #   With this limitation in mind, we can merely expand all of the contents
-    #   within the archive data file to a temporary directory, and thus making
-    #   sure that the data can be extracted successfully.  Upon researching ideas
-    #   to combat this limitation, others have suggested that merely 'listing'
-    #   all of the data - using a function from the .NET framework - to test the
-    #   archive file's contents integrity. But, upon testing, I have found that
-    #   'listing' the contents from the archive was not enough as the contents
-    #   could still be identified and not marked as corrupted or damaged.  The
-    #   testing I performed was a direct manipulation of the archive data file
-    #   using a Hex Editor tool.  By extracting the contents, it was possible to
-    #   easily point-out if the file's contents were corrupted.  However, the
-    #   massive drawback was the performance of the operation.  Instead of just
-    #   expeditiously 'verifying' each file within the archive, we must extract
-    #   it to a temporary directory in order to test each file's integrity.
+    #  Because the PowerShell Module that we use to perform this operation, at
+    #   least by the time of writing this, does not have a explicit function to
+    #   'verify' the archive data file itself, we will have to improvise our own
+    #   way of performing the validation process.  Searching for how others
+    #   tackled this limitation, the best course of action is to extract all of
+    #   the data from the compressed file.  We will extract the data into a
+    #   temporary location - which will be removed after the verification had
+    #   finished.  Please keep in mind that this operation, unfortunately,
+    #   requires a lot resources to extract the files to a destination.  This
+    #   is where I really wish this PowerShell Module had the ability to verify
+    #   a compressed zip file, like 7Zip.
+    #  Further researching, others had suggested to obtain a list of files
+    #   that are present within the archive data file.  The intention of that
+    #   operation is by forcing the bit-stream check of the compressed file
+    #   to obtain the list of files.  However, I had quickly noticed that I
+    #   was able to achieve a false-positive with a corrupted archive file by
+    #   manipulating the bytes of the compressed file by using a Hex Editor tool,
+    #   HxD.  With that reason alone, I will not 'list' files that are in the
+    #   archive data file.
     #
     # Extract Information:
     #    https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive/Expand-Archive
     # -------------------------------
     # Input:
     #  [string] Target File
-    #   The archive file, in absolute path form, that will undergo an integrity
-    #    test.
+    #   The archive data file, in absolute path form, that will be verified.
     # -------------------------------
     # Output:
     #  [bool] Exit code
