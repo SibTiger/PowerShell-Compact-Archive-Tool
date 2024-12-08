@@ -2877,14 +2877,14 @@ class DefaultCompress
 <# Default Compression Level [ENUM]
  # -------------------------------
  # Associated with what type of compression level the end-user prefers when compacting
- #  an archive datafile from the DefaultCompress object.
+ #  source files into an archive datafile through the DefaultCompress object.
  # Please see the '-CompressionLevel' from the 'Compress-Archive' CMDLet here:
  #  https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive/compress-archive#parameters
  # -------------------------------
  #>
 enum DefaultCompressionLevel
 {
-    Optimal         = 0; # Best Compression (takes time)
-    Fastest         = 1; # Light Compression (little time)
-    NoCompression   = 2; # Store [No Compression]
+    Optimal         = 0;    # Best Compression
+    Fastest         = 1;    # Light Compression
+    NoCompression   = 2;    # Store
 } # DefaultCompressionLevel
