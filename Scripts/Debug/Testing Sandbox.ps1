@@ -174,11 +174,6 @@ function main()
     # Verify Archive File
     Write-Host "Archive File Test Status: $($psArchive.VerifyArchive("F:\POSH Dev\powershit\files\tgrdm3-deflate.zip"))";
 
-    # List of Files
-    [string] $fileList = "$($psArchive.ListFiles("F:\POSH Dev\powershit\files\tgrdm3-deflate.zip", $true))";
-    [string] $fileList = "$($psArchive.ListFiles("F:\POSH Dev\powershit\files\corrupted-deflate.zip", $true))";
-    Write-Host "Archive File List:`r`n$($fileList)";
-
     # Extract files
     [string] $extractOutput = $null;
     Write-Host "Extract Status: $($psArchive.ExtractArchive("F:\POSH Dev\powershit\files\tgrdm3-deflate.zip", "F:\POSH Dev\powershit\files\extract", [ref] $extractOutput))";
@@ -191,9 +186,6 @@ function main()
     [string] $archiveOutput = $null;
     Write-Host "Create Archive File Status: $($psArchive.CreateArchive("NewTestBuild", "F:\POSH Dev\powershit\files\extract", "C:\Users\Nicholas\AppData\Local\Programs\GZDoom*", [ref] $archiveOutput))";
     Write-Host "  Archive Path is: $($archiveOutput)";
-
-    # Generate a Report
-    Write-Host "Generate Report Status: $($psArchive.CreateNewReport("F:\POSH Dev\powershit\files\tgrdm3-deflate.zip", $true))";
     #>
 
 
