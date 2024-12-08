@@ -906,8 +906,8 @@ class DefaultCompress
     # Output:
     #  [bool] Exit code
     #    $false = Archive file failed the verification process.
-    #              Some files or the archive file itself is corrupted or damaged.
-    #    $true = Archive file passed verification process
+    #              Some files or the archive file itself is corrupted.
+    #    $true = Archive file passed the verification process.
     # -------------------------------
     #>
     [bool] VerifyArchive([string] $targetFile)
@@ -950,7 +950,8 @@ class DefaultCompress
         # Make sure that the logging requirements are met.
         if ($this.__CreateDirectories() -eq $false)
         {
-            # Because the logging directories could not be created, we cannot log.
+            # Because the logging directories could not be created, we cannot log the event nor continue
+            #   with the operation.
 
 
             # * * * * * * * * * * * * * * * * * * *
