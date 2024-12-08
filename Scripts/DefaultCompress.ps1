@@ -963,7 +963,7 @@ class DefaultCompress
                                             "`t" + $targetFileName + "`r`n" + `
                                             "The Logging directories could not be created!`r`n" + `
                                             "Please make sure that you have sufficient privileges to create directories in:`r`n" + `
-                                            "`t" + $global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_ + "`r`n");
+                                            "`t" + $global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_);
 
             # Generate the initial message
             [string] $logMessage = "Unable to verify the archive data file due to logging complications!";
