@@ -1022,7 +1022,7 @@ class DefaultCompress
             [string] $logMessage = "Unable to verify the archive data file; unable to find the required module!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Be sure that you have the latest dotNET Core and PowerShell Core available.`r`n" + `
+            [string] $logAdditionalMSG = ("Please assure that you have the latest version of PowerShell Core installed.`r`n" + `
                                         "`tRequested file to verify: $($targetFile)");
 
             # Pass the information to the logging system
