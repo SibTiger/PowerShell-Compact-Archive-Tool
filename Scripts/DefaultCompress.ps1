@@ -1159,17 +1159,17 @@ class DefaultCompress
                            -ErrorVariable execSTDERR;
         } # Try : Extract Archive Data File
 
-        # An error occurred; a file might have been corrupted or missing.
+        # An error occurred; a file, within the archive, might have been corrupted or missing.
         catch [System.Management.Automation.ItemNotFoundException]
         {
-            # This will temporarily hold on to just the file name that is missing or corrupted.
+            # Obtain the file name that is either corrupted or missing from the archive datafile.
             [string] $badFileName = Split-Path -Path "$([string]($_.TargetObject))" -Leaf;
 
-            # This will temporarily hold on to the full path of the file that is missing or corrupted.
+            # Obtain the full file path that is either corrupted or missing from the archive datafile.
             [string] $badFileNameFull = [string]($_.TargetObject);
 
 
-            # Because a failure had been reached, we will have to update the exit code.
+            # Because a failure had been reached, update the exit code to signify that an issue had occurred.
             $testResult = $false;
 
 
@@ -1207,14 +1207,12 @@ class DefaultCompress
             [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
-
-
         } # Catch [ItemNotFound] : File Not Found
 
         # An error occurred; the archive data file's format is malformed
         catch [System.IO.FileFormatException]
         {
-            # Because a failure had been reached, we will have to update the exit code.
+            # Because a failure had been reached, update the exit code to signify that an issue had occurred.
             $testResult = $false;
 
 
@@ -1250,14 +1248,13 @@ class DefaultCompress
             [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
-
-
         } # Catch [FileFormat] : Archive File Format Malformed
 
         # A general error occurred while testing the archive file.
         catch
         {
-            # A failure occurred while extracting the contents, we will assume that the archive file is corrupted or damaged.
+            # A failure occurred while extracting the contents, we will assume that the archive file
+            #   is corrupted or damaged.
             $testResult = $false;
 
 
@@ -1293,8 +1290,6 @@ class DefaultCompress
             [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
-
-
         } # Catch : Failed to Verify Archive
 
         # Thrash the temporary directory and all data within it.
