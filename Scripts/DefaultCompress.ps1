@@ -1111,6 +1111,12 @@ class DefaultCompress
             # Debugging
             # --------------
 
+            # Generate a message to display to the user.
+            [string] $displayErrorMessage = ("Unable to verify the compressed file:`r`n" + `
+                                            "`t" + $targetFileName + "`r`n" + `
+                                            "Tried to create a temporary directory to perform the validation" + `
+                                            " process, however the temporary directory could not be created!");
+
             # Generate the initial message
             [string] $logMessage = "Unable to verify the archive data file because the temporary directory could not be created!";
 
@@ -1122,6 +1128,15 @@ class DefaultCompress
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
                                         $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
 
