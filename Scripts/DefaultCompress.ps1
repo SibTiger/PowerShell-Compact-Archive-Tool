@@ -1010,6 +1010,14 @@ class DefaultCompress
             # Debugging
             # --------------
 
+            # Generate a message to display to the user.
+            [string] $displayErrorMessage = ("Unable to verify the compressed file:`r`n" + `
+                                            "`t" + $targetFileName + "`r`n" + `
+                                            "The PowerShell Module, " + $this.GetPowerShellModuleName() + `
+                                                ", was not detected!`r`n" + `
+                                            "Because the PowerShell Module was not found, it is not possible" + `
+                                            " to perform the validation operation!");
+
             # Generate the initial message
             [string] $logMessage = "Unable to verify the archive data file; unable to find the required module!";
 
@@ -1021,6 +1029,15 @@ class DefaultCompress
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
                                         $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
 
