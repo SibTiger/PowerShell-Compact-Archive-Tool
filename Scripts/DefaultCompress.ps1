@@ -1183,7 +1183,7 @@ class DefaultCompress
                                             "$([Logging]::GetExceptionInfoShort($_.Exception))");
 
             # Generate the initial message
-            [string] $logMessage = ("Verification process failed; the file with a name of '$($badFileName)' was not found in the " + `
+            [string] $logMessage = ("Verification process had failed; the file '$($badFileName)' was not found within the " + `
                                     "archive data file!");
 
             # Generate any additional information that might be useful
@@ -1226,7 +1226,7 @@ class DefaultCompress
                                             "$([Logging]::GetExceptionInfoShort($_.Exception))");
 
             # Generate the initial message
-            [string] $logMessage = "Verification process failed; the archive data file structure is malformed.";
+            [string] $logMessage = "Verification process had failed; the archive data file structure is malformed.";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Requested file to verify: $($targetFile)`r`n" + `
@@ -1267,7 +1267,7 @@ class DefaultCompress
                                             "$([Logging]::GetExceptionInfoShort($_.Exception))");
 
             # Generate the initial message
-            [string] $logMessage = ("Verification process failed; A general failure occurred while extracting the " + `
+            [string] $logMessage = ("Verification process had failed; A general failure occurred while extracting the " + `
                                     "archive data file.");
 
             # Generate any additional information that might be useful
