@@ -284,17 +284,6 @@ function InitializationProgramSites()
  #>
 function InitializationProgramData()
 {
-    # Debug Logging functionality
-    Set-Variable `
-        -Name "_DEBUGLOGGING_" `
-        -Value $true `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "Allows control to either enable or disable the program's logging functionalities.";
-
-
     # Splash Screen Hold Timer (Seconds)
     #  How many seconds the splash screen will remain visible to the user, yet locking the
     #  program from proceeding onwards.

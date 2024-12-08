@@ -838,26 +838,6 @@ class Logging
 
 
 
-   <# Allow Logging
-    # -------------------------------
-    # Documentation:
-    #  This function will provide the current status if the logging functionality, which
-    #   could be either enabled or disabled.
-    # -------------------------------
-    # Output:
-    #  [bool] Logging State
-    #   $false = Logging is currently disabled
-    #   $true = Logging is currently enabled
-    # -------------------------------
-    #>
-    static [bool] DebugLoggingState()
-    {
-        return $Global:_DEBUGLOGGING_;
-    } # DebugLoggingState()
-
-
-
-
    <# Thrash Logs and Reports
     # -------------------------------
     # Documentation:
@@ -968,13 +948,8 @@ class Logging
         [CommonIO]::WriteToBuffer($msg, $msgLevel, $false);
 
 
-        # Is the Debugging Functionality active?
-        #  If the functionality is deactivated - then we'ire finished at this point, otherwise proceed onwards by logging the message.
-        if ([Logging]::DebugLoggingState() -eq $true)
-        {
-            # Log the message to the logfile.
-            [Logging]::__FormatLogMessage($msgLevel, $msg, $null) | Out-Null;
-        } # IF : Debug Functionality Active
+        # Log the message to the logfile.
+        [Logging]::__FormatLogMessage($msgLevel, $msg, $null) | Out-Null;
     } # DisplayMessage()
 
 
@@ -1077,15 +1052,6 @@ class Logging
                                     [string] $additionalInformation, `      # Additional information to be recorded
                                     [LogMessageLevel] $messageLevel)        # Severity of the message
     {
-        # Is the Debugging Functionality active?
-        #  If the functionality is deactivated - then abort any further actions, otherwise proceed onwards with the debugging procedure.
-        if ([Logging]::DebugLoggingState() -eq $false)
-        {
-            # Logging is presently deactivated; do not perform any debug operations.
-            return;
-        } # IF : Abort Debug Feature
-
-
         # Because we have the information already provided for us, we will merely pass the
         #  data to the appropriate functions to properly record it in the logfile.
         [Logging]::__FormatLogMessage($messageLevel, `
@@ -1114,12 +1080,8 @@ class Logging
     static [void] WriteToLogFile([string] $filePath, `      # The absolute path of the logfile
                                 [ref] $msg)                 # The message to be written
     {
-        # If the logging functionality is enabled, write the information as requested.
-        if ([Logging]::DebugLoggingState())
-        {
-            # Logging is available presently, write the file as requested.
-            [CommonIO]::WriteToFile($filePath, $msg.Value.ToString()) | Out-Null;
-        } # If : Logging is enabled & available
+        # Logging is available presently, write the file as requested.
+        [CommonIO]::WriteToFile($filePath, $msg.Value.ToString()) | Out-Null;
     } # WriteToLogFile()
 
 

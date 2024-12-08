@@ -101,12 +101,6 @@ function Uninitializations()
         -Force `
         -ErrorAction SilentlyContinue;
 
-    # Debug Logging functionality
-    Remove-Variable -Name "_DEBUGLOGGING_" `
-        -Scope Global `
-        -Force `
-        -ErrorAction SilentlyContinue;
-
     # Splash Screen Hold Timer (Seconds)
     Remove-Variable -Name "_STARTUPSPLASHSCREENHOLDTIME_" `
         -Scope Global `
