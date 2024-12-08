@@ -958,21 +958,39 @@ class DefaultCompress
             # Debugging
             # --------------
 
+            # Generate a message to display to the user.
+            [string] $displayErrorMessage = ("Unable to verify the compressed file:`r`n" + `
+                                            "`t" + $targetFileName + "`r`n" + `
+                                            "The Logging directories could not be created!`r`n" + `
+                                            "Please make sure that you have sufficient privileges to create directories in:`r`n" + `
+                                            "`t" + $global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_ + "`r`n");
+
             # Generate the initial message
             [string] $logMessage = "Unable to verify the archive data file due to logging complications!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Because the logging directories for the Default Compress could not be created," + `
                                         " nothing can be logged as expected.`r`n" + `
+                                        "Tried to create directories in:`r`n" + `
+                                        "`t" + $global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_ + "`r`n" + `
                                         "`tTo resolve the issue:`r`n" + `
                                         "`t`t- Make sure that the required logging directories are created.`r`n" + `
-                                        "`t`t- OR Disable logging`r`n" + `
+                                        "`t`t- Make sure that you have sufficient permissions to create directories.`r`n" + `
                                         "`tRequested file to verify: $($targetFile)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
                                         $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
 
