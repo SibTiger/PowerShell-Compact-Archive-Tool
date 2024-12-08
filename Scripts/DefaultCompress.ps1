@@ -1099,12 +1099,13 @@ class DefaultCompress
 
 
 
-        # To test the archive data file, we will extract all of the contents to a temporary
-        #  directory.  With that, we must first make a request to create a temporary directory.
-        #  We will obtain the temporary directory's full path by using a reference.
+        # To verify the archive data file, we will need to extract all of the contents into a temporary
+        #  directory.  With that, we must first create a temporary directory.
+        #  We will also obtain the temporary directory's full path by using a reference.
         if ([CommonIO]::MakeTempDirectory("Verify", [ref] $tmpDirectory) -eq $false)
         {
-            # Because the temporary directory could not be created, we cannot continue any further.
+            # Because the temporary directory could not be created, we cannot continue any further
+            #   in the operation.
 
 
             # * * * * * * * * * * * * * * * * * * *
