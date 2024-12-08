@@ -1860,70 +1860,66 @@ class DefaultCompress
         # Log the activity in the logfiles (if requested)
         finally
         {
-            # Does the user want the operation performed logged?
-            if ([Logging]::DebugLoggingState() -eq $true)
+            # Because there is information within the STDOUT container, we will convert it to a literal string.
+            #  But because we are going to display the information to a logfile, ultimately, present the data in
+            #  a readable form for the end-user to easily decipher the report.
+            if ($null -ne $execSTDOUT)
             {
-                # Because there is information within the STDOUT container, we will convert it to a literal string.
-                #  But because we are going to display the information to a logfile, ultimately, present the data in
-                #  a readable form for the end-user to easily decipher the report.
-                if ($null -ne $execSTDOUT)
+                # HEADER
+                # - - - - - -
+                # Logfile Header
+
+                $strSTDOUT = ("Successfully extracted the archive data file named" + `
+                                " $($fileNameExt).`r`n" + `
+                                "Below is a list of files that had been extracted successfully from the archive file:`r`n" + `
+                                "`r`n" + `
+                                "-----------------------------------------------------------`r`n" + `
+                                "`r`n");
+
+
+                # BODY
+                # - - - - - -
+                # Logfile Body (List of files)
+
+                foreach ($item in $execSTDOUT)
                 {
-                    # HEADER
-                    # - - - - - -
-                    # Logfile Header
-
-                    $strSTDOUT = ("Successfully extracted the archive data file named" + `
-                                    " $($fileNameExt).`r`n" + `
-                                    "Below is a list of files that had been extracted successfully from the archive file:`r`n" + `
-                                    "`r`n" + `
-                                    "-----------------------------------------------------------`r`n" + `
-                                    "`r`n");
+                    # Append the information as a long list, but in a readable and presentable way.
+                    $strSTDOUT = $strSTDOUT + `
+                                    "`t>> $([string]$($item))`r`n";
+                } # foreach : File in List
 
 
-                    # BODY
-                    # - - - - - -
-                    # Logfile Body (List of files)
+                # FOOTER
+                # - - - - - -
+                # Logfile Footer
 
-                    foreach ($item in $execSTDOUT)
-                    {
-                        # Append the information as a long list, but in a readable and presentable way.
-                        $strSTDOUT = $strSTDOUT + `
-                                        "`t>> $([string]$($item))`r`n";
-                    } # foreach : File in List
-
-
-                    # FOOTER
-                    # - - - - - -
-                    # Logfile Footer
-
-                    $strSTDOUT = ($strSTDOUT + `
-                                    "`r`n" + `
-                                    "-----------------------------------------------------------`r`n");
-                } # if : STDOUT Contains Data
+                $strSTDOUT = ($strSTDOUT + `
+                                "`r`n" + `
+                                "-----------------------------------------------------------`r`n");
+            } # if : STDOUT Contains Data
 
 
 
-                # If there is information held within the STDERR container, then we will transform the
-                #  data from an object to a literal string.
-                if ($null -ne $execSTDERR)
-                {
-                    # Because of how the information is stored in the object, we can just store the data to
-                    #  a literal string outright.
-                    $strSTDERR = [string]($execSTDERR);
-                } # if : STDERR Contains Data
+            # If there is information held within the STDERR container, then we will transform the
+            #  data from an object to a literal string.
+            if ($null -ne $execSTDERR)
+            {
+                # Because of how the information is stored in the object, we can just store the data to
+                #  a literal string outright.
+                $strSTDERR = [string]($execSTDERR);
+            } # if : STDERR Contains Data
 
 
-                # Create the logfiles as requested
-                [CommonIO]::PSCMDLetLogging($this.GetLogPath(), `       # Log path for the STDOUT logfile.
-                                            $this.GetLogPath(), `       # Log path for the STDERR logfile.
-                                            $NULL, `                    # Report path and filename.
-                                            $false, `                   # Is this a report?
-                                            $false, `                   # Should we receive the STDOUT or STDERR for further processing?
-                                            $execReason, `              # Reason for using the CMDLet.
-                                            $null, `                    # Returned STDOUT\STDERR for further processing.
-                                            [ref] $strSTDOUT, `         # STDOUT output from the CMDLet.
-                                            [ref] $strSTDERR);          # STDERR output from the CMDLet.
-            } # if : Logging Requested
+            # Create the logfiles as requested
+            [CommonIO]::PSCMDLetLogging($this.GetLogPath(), `       # Log path for the STDOUT logfile.
+                                        $this.GetLogPath(), `       # Log path for the STDERR logfile.
+                                        $NULL, `                    # Report path and filename.
+                                        $false, `                   # Is this a report?
+                                        $false, `                   # Should we receive the STDOUT or STDERR for further processing?
+                                        $execReason, `              # Reason for using the CMDLet.
+                                        $null, `                    # Returned STDOUT\STDERR for further processing.
+                                        [ref] $strSTDOUT, `         # STDOUT output from the CMDLet.
+                                        [ref] $strSTDERR);          # STDERR output from the CMDLet.
         } # finally : Log the activity in the log files
 
 
