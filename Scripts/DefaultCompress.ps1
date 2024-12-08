@@ -2349,48 +2349,44 @@ class DefaultCompress
         # Log the activity in the logfiles (if requested)
         finally
         {
-            # Does the user want logfiles?
-            if ([Logging]::DebugLoggingState() -eq $true)
+            # If the STDOUT contains the file path of the archive datafile,
+            #  then we will store it for logging purposes.
+            if (![CommonIO]::IsStringEmpty($execSTDOUT))
             {
-                # If the STDOUT contains the file path of the archive datafile,
-                #  then we will store it for logging purposes.
-                if (![CommonIO]::IsStringEmpty($execSTDOUT))
-                {
-                    # Because we only created just one compressed datafile, we
-                    #  will only have one output file - not multiple.  With that,
-                    #  we just need to capture just the one output file - which is
-                    #  our compressed archive datafile.
-                    $strSTDOUT = "Newly created archive datafile path: " + [string]($execSTDOUT);
-                } # if : STDOUT Is not null
+                # Because we only created just one compressed datafile, we
+                #  will only have one output file - not multiple.  With that,
+                #  we just need to capture just the one output file - which is
+                #  our compressed archive datafile.
+                $strSTDOUT = "Newly created archive datafile path: " + [string]($execSTDOUT);
+            } # if : STDOUT Is not null
 
 
 
-                # If the STDERR contains information, then store
-                #  it as a standard string datatype.  Luckily the
-                #  information provided within the object requires
-                #  no real changes or data manipulation, we can
-                #  just cast it and it works like magic!  I love
-                #  the simplicity!
-                if ($null -ne $execSTDERR)
-                {
-                    # No need to filter or manipulate the data, just
-                    #  cast it as is.  Everything we need is already
-                    #  available and readable.
-                    $strSTDERR = [string]($execSTDERR);
-                } # if : STDERR Is not null
+            # If the STDERR contains information, then store
+            #  it as a standard string datatype.  Luckily the
+            #  information provided within the object requires
+            #  no real changes or data manipulation, we can
+            #  just cast it and it works like magic!  I love
+            #  the simplicity!
+            if ($null -ne $execSTDERR)
+            {
+                # No need to filter or manipulate the data, just
+                #  cast it as is.  Everything we need is already
+                #  available and readable.
+                $strSTDERR = [string]($execSTDERR);
+            } # if : STDERR Is not null
 
 
-                # Create the logfiles
-                [CommonIO]::PSCMDLetLogging($this.GetLogPath(), `
-                                            $this.GetLogPath(), `
-                                            $NULL, `
-                                            $false, `
-                                            $false, `
-                                            $execReason, `
-                                            $null, `
-                                            [ref] $strSTDOUT, `
-                                            [ref] $strSTDERR );
-            } # if : User requested logging
+            # Create the logfiles
+            [CommonIO]::PSCMDLetLogging($this.GetLogPath(), `
+                                        $this.GetLogPath(), `
+                                        $NULL, `
+                                        $false, `
+                                        $false, `
+                                        $execReason, `
+                                        $null, `
+                                        [ref] $strSTDOUT, `
+                                        [ref] $strSTDERR );
         } # finally : Log the activity in the log files
 
 
