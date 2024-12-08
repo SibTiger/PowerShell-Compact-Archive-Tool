@@ -1058,6 +1058,15 @@ class DefaultCompress
             # Debugging
             # --------------
 
+            # Generate a message to display to the user.
+            [string] $displayErrorMessage = ("Unable to verify the compressed file:`r`n" + `
+                                            "`t" + $targetFileName + "`r`n" + `
+                                            "The path to the compressed file is not correct:`r`n" + `
+                                            "`t- The path to the desired file was incorrect.`r`n" + `
+                                            "`t- The file may not exist.`r`n" + `
+                                            "The path given to the compressed file:`r`n" + `
+                                            "`t" + $targetFile);
+
             # Generate the initial message
             [string] $logMessage = "Unable to verify the archive data file because the target file does not exist!";
 
@@ -1068,6 +1077,15 @@ class DefaultCompress
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
                                         $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
 
