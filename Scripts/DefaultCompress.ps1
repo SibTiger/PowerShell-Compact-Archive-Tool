@@ -1000,11 +1000,10 @@ class DefaultCompress
         } # If : Logging Requirements are Met
 
 
-        # Make sure that the current PowerShell instance has the Archive functionality ready for use.
+        # Make sure that The PowerShell Module is presently available for us to use.
         if ($this.DetectCompressModule() -eq $false)
         {
-            # Because this current PowerShell instance lacks the functionality required to test the
-            #  archive datafile, we cannot proceed any further.
+            # Because the PowerShell Module is not available, we essentially cannot do anything meaningful.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1028,14 +1027,14 @@ class DefaultCompress
 
             # Because the required module was not found, we cannot proceed any further.
             return $false;
-        } # if : PowerShell Archive Support Missing
+        } # if : PowerShell Module not Available
 
 
         # Make sure that the target archive file exists.
         if ([CommonIO]::CheckPathExists($targetFile, $true) -eq $false)
         {
-            # The target archive data file does not exist; we cannot perform a test on something
-            #  that simply does not exist with the given file path.
+            # The target archive data file does not exist with the provided path;
+            #   We will not be able to perform the validation operation.
 
 
             # * * * * * * * * * * * * * * * * * * *
