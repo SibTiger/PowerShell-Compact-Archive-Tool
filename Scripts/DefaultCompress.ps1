@@ -950,8 +950,7 @@ class DefaultCompress
         # Make sure that the logging requirements are met.
         if ($this.__CreateDirectories() -eq $false)
         {
-            # Because the logging directories could not be created, we cannot log the event nor continue
-            #   with the operation.
+            # Because the log directories could not be created, we cannot log any events.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -961,20 +960,20 @@ class DefaultCompress
             # Generate a message to display to the user.
             [string] $displayErrorMessage = ("Unable to verify the compressed file:`r`n" + `
                                             "`t" + $targetFileName + "`r`n" + `
-                                            "The Logging directories could not be created!`r`n" + `
+                                            "The Log directories could not be created!`r`n" + `
                                             "Please make sure that you have sufficient privileges to create directories in:`r`n" + `
                                             "`t" + $global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_);
 
             # Generate the initial message
-            [string] $logMessage = "Unable to verify the archive data file due to logging complications!";
+            [string] $logMessage = "Unable to verify the compressed file because the log directories could not be created!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Because the logging directories for the Default Compress could not be created," + `
-                                        " nothing can be logged as expected.`r`n" + `
+            [string] $logAdditionalMSG = ("Because the log directories for the Default Compress could not be created, " + `
+                                            "nothing can be logged as required.`r`n" + `
                                         "Tried to create directories in:`r`n" + `
                                         "`t" + $global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_ + "`r`n" + `
                                         "`tTo resolve the issue:`r`n" + `
-                                        "`t`t- Make sure that the required logging directories are created.`r`n" + `
+                                        "`t`t- Make sure that the required log directories are created.`r`n" + `
                                         "`t`t- Make sure that you have sufficient permissions to create directories.`r`n" + `
                                         "`tRequested file to verify: $($targetFile)");
 
@@ -995,7 +994,7 @@ class DefaultCompress
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the logging features are required, we cannot run the operation.
+            # Because logging features are required, we cannot run the operation.
             return $false;
         } # If : Logging Requirements are Met
 
@@ -1015,15 +1014,19 @@ class DefaultCompress
                                             "`t" + $targetFileName + "`r`n" + `
                                             "The PowerShell Module, " + $this.GetPowerShellModuleName() + `
                                                 ", was not detected!`r`n" + `
-                                            "Because the PowerShell Module was not found, it is not possible" + `
-                                            " to perform the validation operation!");
+                                            "Because the PowerShell Module was not found, it is not possible " + `
+                                                "to perform the validation operation!");
 
             # Generate the initial message
-            [string] $logMessage = "Unable to verify the archive data file; unable to find the required module!";
+            [string] $logMessage = ("Unable to verify the compressed file; unable to find the required PowerShell Module, " + `
+                                        $this.GetPowerShellModuleName() + "!");
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Please assure that you have the latest version of PowerShell Core installed.`r`n" + `
-                                        "`tRequested file to verify: $($targetFile)");
+                                        "`tRequired PowerShell Module: " + $this.GetPowerShellModuleName() + "`r`n" + `
+                                        "`tRequested file to verify: $($targetFile)" + `
+                                        "`tPlease check for the latest version of PowerShell Core: `r`n" + `
+                                        "`t`thttps://learn.microsoft.com/en-us/powershell/");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -1042,7 +1045,7 @@ class DefaultCompress
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the required module was not found, we cannot proceed any further.
+            # Because the required PowerShell Module was not found, we cannot proceed any further.
             return $false;
         } # if : PowerShell Module not Available
 
@@ -1061,14 +1064,12 @@ class DefaultCompress
             # Generate a message to display to the user.
             [string] $displayErrorMessage = ("Unable to verify the compressed file:`r`n" + `
                                             "`t" + $targetFileName + "`r`n" + `
-                                            "The path to the compressed file is not correct:`r`n" + `
-                                            "`t- The path to the desired file was incorrect.`r`n" + `
-                                            "`t- The file may not exist.`r`n" + `
+                                            "The path to the compressed file is not correct.`r`n" + `
                                             "The path given to the compressed file:`r`n" + `
                                             "`t" + $targetFile);
 
             # Generate the initial message
-            [string] $logMessage = "Unable to verify the archive data file because the target file does not exist!";
+            [string] $logMessage = "Unable to verify the compressed file because the path was not correct!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = "Requested file to verify: " + $targetFile;
@@ -1104,8 +1105,7 @@ class DefaultCompress
         #  We will also obtain the temporary directory's full path by using a reference.
         if ([CommonIO]::MakeTempDirectory("Verify", [ref] $tmpDirectory) -eq $false)
         {
-            # Because the temporary directory could not be created, we cannot continue any further
-            #   in the operation.
+            # Because the temporary directory could not be created, we cannot continue any further.
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1115,8 +1115,8 @@ class DefaultCompress
             # Generate a message to display to the user.
             [string] $displayErrorMessage = ("Unable to verify the compressed file:`r`n" + `
                                             "`t" + $targetFileName + "`r`n" + `
-                                            "Tried to create a temporary directory to perform the validation" + `
-                                            " process, however the temporary directory could not be created!");
+                                            "Tried to create a temporary directory to perform the validation " + `
+                                                "process, however the temporary directory could not be created!");
 
             # Generate the initial message
             [string] $logMessage = "Unable to verify the archive data file because the temporary directory could not be created!";
@@ -1178,13 +1178,13 @@ class DefaultCompress
             # --------------
 
             # Prep a message to display to the user regarding this error; temporary variable
-            [string] $displayErrorMessage = ("The file named '$($badFileName)' was not found in the archive file: " + `
-                                            "$($targetFileName)`r`n" + `
+            [string] $displayErrorMessage = ("The file named '$($badFileName)' was not found in the compressed file: " + `
+                                                "$($targetFileName)`r`n" + `
                                             "$([Logging]::GetExceptionInfoShort($_.Exception))");
 
             # Generate the initial message
             [string] $logMessage = ("Verification process had failed; the file '$($badFileName)' was not found within the " + `
-                                    "archive data file!");
+                                    "compressed file!");
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("File that is missing or corrupted: $($badFileNameFull)`r`n" + `
@@ -1221,12 +1221,12 @@ class DefaultCompress
             # --------------
 
             # Prep a message to display to the user regarding this error; temporary variable
-            [string] $displayErrorMessage = ("The archive data file '$($targetFileName)' may not be a valid archive file " + `
+            [string] $displayErrorMessage = ("The compressed file '$($targetFileName)' may not be a valid archive file " + `
                                             "structure.`r`n" + `
                                             "$([Logging]::GetExceptionInfoShort($_.Exception))");
 
             # Generate the initial message
-            [string] $logMessage = "Verification process had failed; the archive data file structure is malformed.";
+            [string] $logMessage = "Verification process had failed; the compressed file structure is damaged.";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Requested file to verify: $($targetFile)`r`n" + `
@@ -1263,12 +1263,12 @@ class DefaultCompress
             # --------------
 
             # Prep a message to display to the user for this error; temporary variable
-            [string] $displayErrorMessage = ("A general failure occurred while trying to verify the archive data file!`r`n" + `
+            [string] $displayErrorMessage = ("A general failure occurred while trying to verify the compressed file!`r`n" + `
                                             "$([Logging]::GetExceptionInfoShort($_.Exception))");
 
             # Generate the initial message
-            [string] $logMessage = ("Verification process had failed; A general failure occurred while extracting the " + `
-                                    "archive data file.");
+            [string] $logMessage = ("Verification process had failed; A general failure occurred while extracting files " + `
+                                    "from the compressed file.");
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Requested file to verify: $($targetFile)`r`n" + `
@@ -1290,14 +1290,14 @@ class DefaultCompress
             [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
-        } # Catch : Failed to Verify Archive
+        } # Catch : General Failure while Verifying Archive
 
-        # Thrash the temporary directory and all data within it.
+        # Delete the temporary directory and all data within it.
         finally
         {
-            # Thrash the temporary directory, we no longer need it.
+            # Delete the temporary directory, we no longer need it.
             [CommonIO]::DeleteDirectory($tmpDirectory) | Out-Null;
-        } # Finally : Expunge Temporary Directory
+        } # Finally : Delete Temporary Directory
 
 
 
@@ -1319,7 +1319,7 @@ class DefaultCompress
             # - - - - - -
             # Logfile Header
 
-            $strSTDOUT = ("Successfully verified the archive data file named $($targetFileName).`r`n" + `
+            $strSTDOUT = ("Successfully verified the archive data file, $($targetFileName).`r`n" + `
                             "Below is a list of files that resides within the archive file and that has been tested:`r`n" + `
                             "`r`n" + `
                             "-----------------------------------------------------------`r`n" + `
