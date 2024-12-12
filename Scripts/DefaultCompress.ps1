@@ -1433,27 +1433,46 @@ class DefaultCompress
                                                                     #  directory set by this variable.
         [string] $getDateTime = $null;                              # This variable will hold the date and time, if required to help
                                                                     #  make the extracting directory path unique.
-        [string] $fileName = $null;                                 # This will only hold filename of the archive file, omitting the
-                                                                    #  extension and absolute path.
-        [string] $execReason = $null;                               # Description; used for logging
-        [bool] $exitCode = $false;                                  # The exit code status provided by the Expand-Archive operation
-                                                                    #  status.  If the operation was successful, then true will be
-                                                                    #  set.  Otherwise, it well be set as false to signify an error.
+        [string] $fileName = $null;                                 # This will only hold the filename of the archive file, omitting
+                                                                    #  the extension and absolute path.
+        [string] $fileNameExt = $null;                              # This will only hold the filename of the archive file, containing
+                                                                    #  the extension and absolute path.
+        [string] $execReason = $null;                               # This will hold the description of the operation that is being
+                                                                    #  performed in this function, but only presented for logging
+        [bool] $exitCode = $false;                                  # Used to determine the status of the Expand-Archive operation.
         [System.Object] $execSTDOUT = [System.Object]::new();       # This will hold the STDOUT that is provided by the CMDLet that
-                                                                    #  will be used for extracting the archive file, but contained
-                                                                    #  as an object.
+                                                                    #  will be used for the extraction process, but contained as
+                                                                    #  an object.
         [System.Object] $execSTDERR = [System.Object]::new();       # This will hold the STDERR that is provided by the CMDLet that
-                                                                    #  will be used for extracting the archive file, but contained
-                                                                    #  as an object.
+                                                                    #  will be used for the extraction process, but contained as
+                                                                    #  an object.
         [string] $strSTDOUT = $null;                                # This will hold the STDOUT information, but will be held as a
                                                                     #  literal string.  The information provided to it will be
-                                                                    #  converted from an object to a string, the information held
-                                                                    #  in this variable will be presented in the logfile.
+                                                                    #  converted from an object to a string, the information held in
+                                                                    #  this variable will be presented in the logfile.
         [string] $strSTDERR = $null;                                # This will hold the STDERR information, but will be held as a
                                                                     #  literal string.  The information provided to it will be
-                                                                    #  converted from an object to a string, the information held
-                                                                    #  in this variable will be presented in the logfile.
+                                                                    #  converted from an object to a string, the information held in
+                                                                    #  this variable will be presented in the logfile.
         # ----------------------------------------
+
+
+
+        # Assign the Variables
+        # - - - - - - - - - - - - - -
+        # Perform the necessary assignments that we couldn't do during the initialization phase, because
+        #   of the width was too large.
+        # ---------------------------
+
+        # Setup the filename to match with the archive data file's name but omitting the file extension.
+        $fileName = [string]([System.IO.Path]::GetFileNameWithoutExtension($file));
+
+        # Setup the filename to match with the archive data file's name, including the file extension.
+        $fileNameExt = [string]([System.IO.Path]::GetFileName($file));
+
+        # The description that will be presented in the logfile.
+        $execReason = "Extracting " + $fileNameExt;
+
 
 
         # Dependency Check
@@ -1465,96 +1484,155 @@ class DefaultCompress
         # Make sure that the logging requirements are met.
         if ($this.__CreateDirectories() -eq $false)
         {
-            # Because the logging directories could not be created, we cannot log.
+            # Because the log directories could not be created, we cannot log any events.
 
 
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
+            # Generate a message to display to the user.
+            [string] $displayErrorMessage = ("Unable to extract data from the compressed file:`r`n" + `
+                                            "`t`t" + $fileName + "`r`n" + `
+                                            "The Log directories could not be created!`r`n" + `
+                                            "Please make sure that you have sufficient privileges to create directories in:`r`n" + `
+                                            "`t" + $global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_);
+
             # Generate the initial message
-            [string] $logMessage = "Unable to extract the archive data file due to logging complications!";
+            [string] $logMessage = "Unable to extract data from the compressed file because the log directories could not be created!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Because the logging directories for the Default Compress could not be created," + `
-                                        " nothing can be logged as expected.`r`n" + `
+            [string] $logAdditionalMSG = ("Because the log directories for the Default Compress could not be created, " + `
+                                            "nothing can be logged as required.`r`n" + `
+                                        "Tried to create directories in:`r`n" + `
+                                        "`t" + $global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_ + "`r`n" + `
                                         "`tTo resolve the issue:`r`n" + `
-                                        "`t`t- Make sure that the required logging directories are created.`r`n" + `
-                                        "`t`t- OR Disable logging`r`n" + `
-                                        "`tRequested archive file to extract: $($file)");
+                                        "`t`t- Make sure that the required log directories are created.`r`n" + `
+                                        "`t`t- Make sure that you have sufficient permissions to create directories.`r`n" + `
+                                        "`tTried to Extract from the Compressed File: $($fileName)`r`n" + `
+                                        "`tPath to the Archive Data File:`r`n" + `
+                                        "`t" + $file);
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
                                         $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the logging features are required, we cannot run the operation.
+            # Because logging features are required, we cannot run the operation.
             return $false;
         } # If : Logging Requirements are Met
 
 
-        # Make sure that the current PowerShell instance has the Archive functionality ready for use.
+        # Make sure that The PowerShell Module is presently available for us to use.
         if ($this.DetectCompressModule() -eq $false)
         {
-            # Because this current PowerShell instance lacks the functionality required to extract the
-            #  archive datafile, we cannot proceed any further.
+            # Because the PowerShell Module is not available, we essentially cannot do anything meaningful.
 
 
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
+            # Generate a message to display to the user.
+            [string] $displayErrorMessage = ("Unable to extract data from the compressed file:`r`n" + `
+                                            "`t`t" + $fileName + "`r`n" + `
+                                            "The PowerShell Module, " + $this.GetPowerShellModuleName() + `
+                                                ", was not detected!`r`n" + `
+                                            "Because the PowerShell Module was not found, it is not possible " + `
+                                                "to extract data from a compressed file!");
+
             # Generate the initial message
-            [string] $logMessage = "Unable to extract the archive data file; unable to find the required module!";
+            [string] $logMessage = ("Unable to extract data from the compressed file because the required PowerShell Module, " + `
+                                        $this.GetPowerShellModuleName() + ", was not found!");
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Be sure that you have the latest dotNET Core and PowerShell Core available.`r`n" + `
-                                        "`tRequested archive file to extract: $($file)");
+            [string] $logAdditionalMSG = ("Please assure that you have the latest version of PowerShell Core installed.`r`n" + `
+                                        "`tRequired PowerShell Module: " + $this.GetPowerShellModuleName() + "`r`n" + `
+                                        "`tTried to Extract from the Compressed File: $($fileName)`r`n" + `
+                                        "`tPath to the Archive Data File:`r`n" + `
+                                        "`t`t" + $file + "`r`n" + `
+                                        "`tPlease check for the latest version of PowerShell Core: `r`n" + `
+                                        "`t`thttps://learn.microsoft.com/en-us/powershell/");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
                                         $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the required module was not found, we cannot proceed any further.
+            # Because the required PowerShell Module was not found, we cannot proceed any further.
             return $false;
-        } # if : PowerShell Archive Support Missing
+        } # if : PowerShell Module not Available
 
 
-        # Make sure that the target archive file exists.
+        # Make sure that the archive file exists.
         if ([CommonIO]::CheckPathExists($file, $true) -eq $false)
         {
-            # The target archive data file does not exist, we cannot extract an archive file when
-            #  it does not exist - with the given file path.
+            # The archive data file does not exist with the provided path;
+            #   We will not be able to perform the extraction operation.
 
 
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
             # --------------
 
+            # Generate a message to display to the user.
+            [string] $displayErrorMessage = ("Unable to extract data from the compressed file:`r`n" + `
+                                            "`t`t" + $fileName + "`r`n" + `
+                                            "The path to the compressed file is not correct.`r`n" + `
+                                            "The path given to the compressed file:`r`n" + `
+                                            "`t" + $file);
+
             # Generate the initial message
-            [string] $logMessage = "Unable to extract the archive data file because the file does not exist!";
+            [string] $logMessage = "Unable to extract data from the compressed file because the path was not correct!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "Requested archive file to extract: " + $file;
+            [string] $logAdditionalMSG = "The Archive Data File Path Given: `r`n" + `
+                                            "`t`t" + $file;
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
                                         $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Return a failure as the target file does not exist.
+            # Return a failure as the archive file does not exist.
             return $false;
-        } # if : Target Archive File does not Exist
+        } # if : Archive File does not Exist
 
 
         # Make sure that the desired output path currently exists
@@ -1585,25 +1663,6 @@ class DefaultCompress
             # The output path does not exist; we cannot extract the contents.
             return $false;
         } # if : Output Directory does not exist
-
-        # ---------------------------
-        # - - - - - - - - - - - - - -
-
-
-        # SETUP THE ENVIRONMENT
-        # - - - - - - - - - - - - - -
-        # Make sure that the environment is ready before we proceed by initializing any variables that need to be
-        #  configured before we proceed any further during the extracting procedure protocol.
-        # ---------------------------
-
-        # Setup the filename to match with the archive data file's name but omitting the file extension.
-        $fileName = [string]([System.IO.Path]::GetFileNameWithoutExtension($file));
-
-        # Setup the filename to match with the archive data file's name, including the file extension.
-        $fileNameExt = [string]([System.IO.Path]::GetFileName($file));
-
-        # The description that will be presented in the logfile.
-        $execReason = "Extracting " + $fileNameExt;
 
         # ---------------------------
         # - - - - - - - - - - - - - -
