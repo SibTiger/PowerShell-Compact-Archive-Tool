@@ -959,7 +959,7 @@ class DefaultCompress
 
             # Generate a message to display to the user.
             [string] $displayErrorMessage = ("Unable to verify the compressed file:`r`n" + `
-                                            "`t" + $targetFileName + "`r`n" + `
+                                            "`t`t" + $targetFileName + "`r`n" + `
                                             "The Log directories could not be created!`r`n" + `
                                             "Please make sure that you have sufficient privileges to create directories in:`r`n" + `
                                             "`t" + $global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_);
@@ -1011,7 +1011,7 @@ class DefaultCompress
 
             # Generate a message to display to the user.
             [string] $displayErrorMessage = ("Unable to verify the compressed file:`r`n" + `
-                                            "`t" + $targetFileName + "`r`n" + `
+                                            "`t`t" + $targetFileName + "`r`n" + `
                                             "The PowerShell Module, " + $this.GetPowerShellModuleName() + `
                                                 ", was not detected!`r`n" + `
                                             "Because the PowerShell Module was not found, it is not possible " + `
@@ -1063,7 +1063,7 @@ class DefaultCompress
 
             # Generate a message to display to the user.
             [string] $displayErrorMessage = ("Unable to verify the compressed file:`r`n" + `
-                                            "`t" + $targetFileName + "`r`n" + `
+                                            "`t`t" + $targetFileName + "`r`n" + `
                                             "The path to the compressed file is not correct.`r`n" + `
                                             "The path given to the compressed file:`r`n" + `
                                             "`t" + $targetFile);
