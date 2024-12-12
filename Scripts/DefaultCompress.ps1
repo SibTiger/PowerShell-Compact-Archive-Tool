@@ -1388,37 +1388,38 @@ class DefaultCompress
    <# Extract Archive
     # -------------------------------
     # Documentation:
-    #  This function will extract all the contents that reside within the
-    #   provided archive data file to the desired output directory.  This
-    #   function will create a new directory with the same name as the archive
-    #   file, omitting the extension, within the desired output path given
-    #   - this will be our extracting directory.  If incase the final extracting
-    #   directory already exists, then this function will try to make a unique
-    #   directory by attaching a time and date stamp to the directory's name.
-    #   Though, if this function is incapable of creating a unique directory
-    #   then the entire operation will be aborted as there is no valid directory
-    #   to store the data.
+    #  This function will extract all of the contents that is inside of the
+    #   archive data file.  The contents that had been extracted will be placed
+    #   in the designated output directory, if the output is a legal path.
+    #
+    #  Output Directory:
+    #   In this function, a new directory will be created containing the same
+    #   name as the archive data file's name, excluding the file extension.
+    #   If, however, the directory already exists with the same name, then a new
+    #   directory will be created with a Data & Time Stamp to the filename to
+    #   make it unique.
+    #
     #  For Example:
     #   E:\User\FreddyM\Documents\{{DESIRED_OUTPUT}}\{{ARCHIVE_FILENAME_EXTRACTED_FILES}}\*
-    #  OR
-    #   E:\User\FreddyM\Documents\{{DESIRED_OUTPUT}}\{{FILENAME_EXTRACTED_FILES}}{{DATE_TIME_STAMP}}\*
+    #  OR, if the directory already exists:
+    #   E:\User\FreddyM\Documents\{{DESIRED_OUTPUT}}\{{ARCHIVE_FILENAME_EXTRACTED_FILES}}_{{DATE_TIME_STAMP}}\*
     #
-    #  Extract Files Information:
-    #    https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive/expand-archive
+    # Extract Information:
+    #    https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive/Expand-Archive
     # -------------------------------
     # Input:
     #  [string] Target File
-    #   The requested archive data file that will be extracted.
+    #   The archive data file, in absolute path form, that we want to extract.
     #  [string] Output Path
-    #   The absolute path to output all the contents from the requested archive file.
+    #   The absolute path of where the new directory, containing the
+    #   extracted contents, will be stored.
     #  [string] (REFERENCE) Directory Output
-    #   The extracting directory's absolute path of where the contents of the archive file
-    #   have been placed within the filesystem.
+    #   The absolute path of the newly created directory containing the extracted files.
     # -------------------------------
     # Output:
-    #  [bool] Status Code
-    #    $false = A failure occurred while extracting the contents
-    #    $true  = Successfully extracted the contents
+    #  [bool] Exit Code
+    #    $false = Failed to extract files from the archive data file.
+    #    $true  = Successfully extracted files from the archive data file.
     # -------------------------------
     #>
     [bool] ExtractArchive([string] $file, `         # The archive file we want to extract the data from
