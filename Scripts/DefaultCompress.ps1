@@ -1493,7 +1493,7 @@ class DefaultCompress
 
             # Generate a message to display to the user.
             [string] $displayErrorMessage = ("Unable to extract data from the compressed file:`r`n" + `
-                                            "`t`t" + $fileName + "`r`n" + `
+                                            "`t" + $fileName + "`r`n" + `
                                             "The Log directories could not be created!`r`n" + `
                                             "Please make sure that you have sufficient privileges to create directories in:`r`n" + `
                                             "`t" + $global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_);
@@ -1547,7 +1547,7 @@ class DefaultCompress
 
             # Generate a message to display to the user.
             [string] $displayErrorMessage = ("Unable to extract data from the compressed file:`r`n" + `
-                                            "`t`t" + $fileName + "`r`n" + `
+                                            "`t" + $fileName + "`r`n" + `
                                             "The PowerShell Module, " + $this.GetPowerShellModuleName() + `
                                                 ", was not detected!`r`n" + `
                                             "Because the PowerShell Module was not found, it is not possible " + `
@@ -1601,17 +1601,21 @@ class DefaultCompress
 
             # Generate a message to display to the user.
             [string] $displayErrorMessage = ("Unable to extract data from the compressed file:`r`n" + `
-                                            "`t`t" + $fileName + "`r`n" + `
+                                            "`t" + $fileName + "`r`n" + `
                                             "The path to the compressed file is not correct.`r`n" + `
                                             "The path given to the compressed file:`r`n" + `
-                                            "`t" + $file);
+                                            "`t" + $file + "`r`n" + `
+                                            "The output path given was:`r`n" + `
+                                            "`t" + $outputPath);
 
             # Generate the initial message
-            [string] $logMessage = "Unable to extract data from the compressed file because the path was not correct!";
+            [string] $logMessage = "Unable to extract data from the compressed file because the output path was not correct!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = "The Archive Data File Path Given: `r`n" + `
-                                            "`t`t" + $file;
+                                        "`t`t" + $file + "`r`n" + `
+                                        "`tOutput Path Given was:`r`n" + `
+                                        "`t`t" + $outputPath;
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -1645,6 +1649,13 @@ class DefaultCompress
             # Debugging
             # --------------
 
+            # Generate a message to display to the user.
+            [string] $displayErrorMessage = ("Unable to extract data from the compressed file:`r`n" + `
+                                            "`t" + $fileName + "`r`n" + `
+                                            "The output path was not correct.`r`n" + `
+                                            "The output path given was:`r`n" + `
+                                            "`t" + $outputPath);
+
             # Generate the initial message
             [string] $logMessage = "Unable to extract the archive data file because the output directory could not be found!";
 
@@ -1656,6 +1667,15 @@ class DefaultCompress
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
                                         $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -1706,6 +1726,13 @@ class DefaultCompress
             # Debugging
             # --------------
 
+            # Generate a message to display to the user.
+            [string] $displayErrorMessage = ("Unable to extract data from the compressed file:`r`n" + `
+                                            "`t" + $fileName + "`r`n" + `
+                                            "It was not possible to create the output directory as needed.`r`n" + `
+                                            "Output Directory Path:`r`n" + `
+                                            "`t" + $extractPath);
+
             # Generate the initial message
             [string] $logMessage = "Unable to extract the archive data file because the extracting directory could not be created!";
 
@@ -1718,6 +1745,15 @@ class DefaultCompress
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
                                         $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2093,6 +2129,13 @@ class DefaultCompress
             # Debugging
             # --------------
 
+            # Generate a message to display to the user.
+            [string] $displayErrorMessage = ("Unable to verify the compressed file:`r`n" + `
+                                            "`t`t" + $targetFileName + "`r`n" + `
+                                            "The path to the compressed file is not correct.`r`n" + `
+                                            "The path given to the compressed file:`r`n" + `
+                                            "`t" + $targetFile);
+
             # Generate the initial message
             [string] $logMessage = "Unable to create a new archive file due to logging complications!";
 
@@ -2110,6 +2153,15 @@ class DefaultCompress
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
                                         $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
 
@@ -2143,6 +2195,15 @@ class DefaultCompress
                                         $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
             # * * * * * * * * * * * * * * * * * * *
 
 
@@ -2174,6 +2235,15 @@ class DefaultCompress
                                         $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
 
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
             # * * * * * * * * * * * * * * * * * * *
 
 
@@ -2193,6 +2263,11 @@ class DefaultCompress
             # Debugging
             # --------------
 
+            # Generate a message to display to the user.
+            [string] $displayErrorMessage = ("Unable to create a new compress file, " + $archiveFileNameRequest + ", " + `
+                                            "because the source files could not be found with the given path:`r`n" + `
+                                            "`t" + $targetDirectory + "`r`n");
+
             # Generate the initial message
             [string] $logMessage = "Unable to create the archive data file because the target directory could not be found!";
 
@@ -2205,6 +2280,15 @@ class DefaultCompress
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
                                         $logAdditionalMSG, `        # Additional information
                                         [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
 
