@@ -2130,11 +2130,10 @@ class DefaultCompress
             # --------------
 
             # Generate a message to display to the user.
-            [string] $displayErrorMessage = ("Unable to verify the compressed file:`r`n" + `
-                                            "`t`t" + $targetFileName + "`r`n" + `
-                                            "The path to the compressed file is not correct.`r`n" + `
-                                            "The path given to the compressed file:`r`n" + `
-                                            "`t" + $targetFile);
+            [string] $displayErrorMessage = ("Unable to create a new compress file, " + $archiveFileNameRequest + ", " + `
+                                            "because the log directories could not be created!`r`n" + `
+                                            "Please make sure that you have sufficient privileges to create directories in:`r`n" + `
+                                            "`t" + $global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_);
 
             # Generate the initial message
             [string] $logMessage = "Unable to create a new archive file due to logging complications!";
@@ -2182,6 +2181,13 @@ class DefaultCompress
             # Debugging
             # --------------
 
+            # Generate a message to display to the user.
+            [string] $displayErrorMessage = ("Unable to create a new compress file, " + $archiveFileNameRequest + ", " + `
+                                            "because the PowerShell Module, " + $this.GetPowerShellModuleName() + `
+                                                ", was not detected!`r`n" + `
+                                            "Because the PowerShell Module was not found, it is not possible " + `
+                                                "to create the compressed file!");
+
             # Generate the initial message
             [string] $logMessage = "Unable to create a new archive data file; unable to find the required module!";
 
@@ -2222,13 +2228,18 @@ class DefaultCompress
             # Debugging
             # --------------
 
+            # Generate a message to display to the user.
+            [string] $displayErrorMessage = ("Unable to create a new compress file, " + $archiveFileNameRequest + ", " + `
+                                            "because the output path could not be found:`r`n" + `
+                                            "`t" + $outputPath + "`r`n");
+
             # Generate the initial message
-            [string] $logMessage = "Unable to create the archive data file because the output directory could not be found!";
+            [string] $logMessage = "Unable to create the archive data file because the output path could not be found!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Requested archive file to create: $($archiveFileNameRequest)`r`n" + `
                                         "`tContents to compact: $($targetDirectory)`r`n" + `
-                                        "`tOutput directory: $($outputPath)");
+                                        "`tOutput path: $($outputPath)");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -2337,7 +2348,7 @@ class DefaultCompress
                 # --------------
 
                     # Prep a message to display to the user for this error; temporary variable.
-                    [string] $displayErrorMessage = "Failed to create a new archive data file!";
+                    [string] $displayErrorMessage = "Failed to create a new archive data file because it was not possible to create a unique filename!";
 
                     # Generate the initial message
                     [string] $logMessage = $displayErrorMessage;
