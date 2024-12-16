@@ -715,8 +715,8 @@ class ArchiveZip
             [string] $logMessage = "Unable to show the PowerShell Module About information!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("There was no Meta Data Information available for:`r`n" + `
-                                            "`t" + $this.GetPowerShellModuleName());
+            [string] $logAdditionalMSG = ("There was no Meta Data Information available for the PowerShell Module!`r`n" + `
+                                            "`tPowerShell Module Name: " + $this.GetPowerShellModuleName());
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -783,8 +783,9 @@ class ArchiveZip
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("There was no useful Meta Data Information available for:`r`n" + `
-                                            "`t" + $this.GetPowerShellModuleName() + "`r`n" + `
-                                            "`tAbout String:`r`n" + `
+                                            "`t`t" + $this.GetPowerShellModuleName() + "`r`n" + `
+                                            "`r`n" + `
+                                            "`tAbout String that was Collected:`r`n" + `
                                             "=====================================================`r`n" + `
                                             "`r`n" + `
                                             $aboutString + "`r`n" + `
@@ -841,8 +842,10 @@ class ArchiveZip
                                         "`r`n" + `
                                         "= - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - `r`n" + `
                                         "`r`n" + `
-                                        "`tAbout String that was created:`r`n" + `
-                                        "`t`t" + $aboutString);
+                                        "`r`n" + `
+                                        "About String that was Generated:`r`n" + `
+                                        "----------------------------------`r`n" + `
+                                        $aboutString);
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity($logMessage, `                # Initial message
