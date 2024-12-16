@@ -317,7 +317,7 @@ class Builder
         [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
 
         # Latch onto the single instance of the Zip object
-        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        [ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
 
         # We will use this variable to cache the detection status of a particular item that we want
         #  to check.  Instead of having to recall the exact same checking function over and over again,
@@ -486,7 +486,7 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
 
         # Check the current status of the Archive ZIP Module
-        $boolCacheValue = $defaultCompress.DetectCompressModule();
+        $boolCacheValue = $archiveZip.DetectCompressModule();
 
         # Make sure that the dotNET Archive Zip is available
         if ($boolCacheValue -eq $false)
@@ -712,10 +712,10 @@ class Builder
         #  generalized settings.
         [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
 
-        # Retrieve the current instance of the user's Default Compressing object; this contains
+        # Retrieve the current instance of the user's Archive Zip object; this contains
         #  the user's preferences as to how the Archive ZIP module will be utilized within this
         #  application.
-        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        [ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
 
         # Retrieve the current instance of the Project Information object; this contains details
         #  in regards to where the source files exists within the user's system.
@@ -735,13 +735,13 @@ class Builder
 
 
         # Show that we are using the Archive ZIP Module
-        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::InProgress, "Compacting using the default compression software. . .");
+        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::InProgress, "Compacting using the PowerShell Archive compression built-in software. . .");
 
         # Compact the files
-        if (!$defaultCompress.CreateArchive($archiveFileName, `
-                                            $userPreferences.GetProjectBuildsPath(), `
-                                            $projectPath, `
-                                            $filePath))
+        if (!$archiveZip.CreateArchive($archiveFileName, `
+                                        $userPreferences.GetProjectBuildsPath(), `
+                                        $projectPath, `
+                                        $filePath))
         {
             # Reached an error while trying to compact the files.
 
@@ -1471,10 +1471,10 @@ class Builder
         [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
 
 
-        # Retrieve the current instance of the user's Default Compressing object; this contains
+        # Retrieve the current instance of the user's Archive Zip object; this contains
         #  the user's preferences as to how the Archive ZIP module will be utilized within this
         #  application.
-        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        [ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
 
 
         # This will store the exit condition provided by the test function.
@@ -1501,7 +1501,7 @@ class Builder
 
 
         # Did the user wanted us to check the health of the archive datafile?
-        if (!$defaultCompress.GetVerifyBuild())
+        if (!$archiveZip.GetVerifyBuild())
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -1511,7 +1511,7 @@ class Builder
             $logMessage = "The user does not wish to check the health of the archive data file!";
 
             # Generate any additional information that might be useful
-            $logAdditionalMSG = ("Verify Setting: $([string]$defaultCompress.GetVerifyBuild())");
+            $logAdditionalMSG = ("Verify Setting: $([string]$archiveZip.GetVerifyBuild())");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -1541,7 +1541,7 @@ class Builder
 
 
         # Perform the test.
-        $result = $defaultCompress.VerifyArchive($compiledBuildFullPath);
+        $result = $archiveZip.VerifyArchive($compiledBuildFullPath);
 
 
         # Revise the Nice Result such that we indicate that the build is healthy

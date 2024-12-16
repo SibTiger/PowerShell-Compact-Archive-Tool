@@ -501,8 +501,8 @@ class LoadSaveUserConfiguration
         # Retrieve the User's Preferences
         [UserPreferences] $userPref = [UserPreferences]::GetInstance();
 
-        # Retrieve the User's Default Compress Settings
-        [DefaultCompress] $psArchive = [DefaultCompress]::GetInstance();
+        # Retrieve the User's Archive Zip Settings
+        [ArchiveZip] $psArchive = [ArchiveZip]::GetInstance();
         # ----------------------------------------
 
 
@@ -859,8 +859,8 @@ class LoadSaveUserConfiguration
         # Retrieve the User's Preferences
         [UserPreferences] $userPref = [UserPreferences]::GetInstance();
 
-        # Retrieve the User's Default Compress Settings
-        [DefaultCompress] $psArchive = [DefaultCompress]::GetInstance();
+        # Retrieve the User's Archive Zip Settings
+        [ArchiveZip] $psArchive = [ArchiveZip]::GetInstance();
         # -----------------------------------------
 
 

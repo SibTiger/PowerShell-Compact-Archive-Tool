@@ -18,7 +18,7 @@
 
 
 
-<# Default Compress
+<# Archive Zip
  # ------------------------------
  # ==============================
  # ==============================
@@ -55,7 +55,7 @@
 
 
 
-class DefaultCompress
+class ArchiveZip
 {
     # Object Singleton Instance
     # =================================================
@@ -65,42 +65,42 @@ class DefaultCompress
     #region Singleton Instance
 
     # Singleton Instance of the object
-    hidden static [DefaultCompress] $_instance = $null;
+    hidden static [ArchiveZip] $_instance = $null;
 
 
 
 
     # Get the instance of this singleton object (Default)
-    static [DefaultCompress] GetInstance()
+    static [ArchiveZip] GetInstance()
     {
         # if there was no previous instance of the object - then create one.
-        if ($null -eq [DefaultCompress]::_instance)
+        if ($null -eq [ArchiveZip]::_instance)
         {
             # Create a new instance of the singleton object.
-            [DefaultCompress]::_instance = [DefaultCompress]::new();
+            [ArchiveZip]::_instance = [ArchiveZip]::new();
         } # If: No Singleton Instance
 
         # Provide an instance of the object.
-        return [DefaultCompress]::_instance;
+        return [ArchiveZip]::_instance;
     } # GetInstance()
 
 
 
 
     # Get the instance of this singleton object (With Args)
-    static [DefaultCompress] GetInstance([DefaultCompressionLevel] $compressionLevel, ` # Compression Level
-                                        [bool] $verifyBuild)                            # Verify Archive datafile
+    static [ArchiveZip] GetInstance([CompressionLevel] $compressionLevel, ` # Compression Level
+                                    [bool] $verifyBuild)                    # Verify Archive datafile
     {
         # if there was no previous instance of the object - then create one.
-        if ($null -eq [DefaultCompress]::_instance)
+        if ($null -eq [ArchiveZip]::_instance)
         {
             # Create a new instance of the singleton object.
-            [DefaultCompress]::_instance = [DefaultCompress]::new($compressionLevel, `
-                                                                    $verifyBuild);
+            [ArchiveZip]::_instance = [ArchiveZip]::new($compressionLevel, `
+                                                        $verifyBuild);
         } # If: No Singleton Instance
 
         # Provide an instance of the object.
-        return [DefaultCompress]::_instance;
+        return [ArchiveZip]::_instance;
     } # GetInstance()
 
     #endregion
@@ -118,7 +118,7 @@ class DefaultCompress
     # Compression Level
     # ---------------
     # The compression level specified when compacting data into an archive datafile.
-    Hidden [DefaultCompressionLevel] $__compressionLevel;
+    Hidden [CompressionLevel] $__compressionLevel;
 
 
     # Verify Build
@@ -183,10 +183,10 @@ class DefaultCompress
     #region Constructor Functions
 
     # Default Constructor
-    DefaultCompress()
+    ArchiveZip()
     {
         # Compression Level
-        $this.__compressionLevel = [DefaultCompressionLevel]::Fastest;
+        $this.__compressionLevel = [CompressionLevel]::Fastest;
 
         # Verify Build
         $this.__verifyBuild = $true;
@@ -196,7 +196,7 @@ class DefaultCompress
 
 
     # User Preference : On-Load
-    DefaultCompress([DefaultCompressionLevel] $compressionLevel, `
+    ArchiveZip([CompressionLevel] $compressionLevel, `
                     [bool] $verifyBuild)
     {
         # Compression Level
@@ -218,11 +218,11 @@ class DefaultCompress
     #  Returns the value of the 'Compression Level' variable.
     # -------------------------------
     # Output:
-    #  [DefaultCompressionLevel] Compression Level
+    #  [CompressionLevel] Compression Level
     #   The value of the 'Compression Level'.
     # -------------------------------
     #>
-    [DefaultCompressionLevel] GetCompressionLevel() { return $this.__compressionLevel; }
+    [CompressionLevel] GetCompressionLevel() { return $this.__compressionLevel; }
 
 
 
@@ -311,7 +311,7 @@ class DefaultCompress
     #  Sets a new value for the 'Compression Level' variable.
     # -------------------------------
     # Input:
-    #  [DefaultCompressionLevel] Compression Level
+    #  [CompressionLevel] Compression Level
     #   The desired compression level for compacting data into the archive datafile.
     # -------------------------------
     # Output:
@@ -320,9 +320,9 @@ class DefaultCompress
     #   false = Failure; could not set a new value.
     # -------------------------------
     #>
-    [bool] SetCompressionLevel([DefaultCompressionLevel] $newVal)
+    [bool] SetCompressionLevel([CompressionLevel] $newVal)
     {
-        # Because the value must fit within the 'DefaultCompressionLevel'
+        # Because the value must fit within the 'CompressionLevel'
         #  datatype, there really is no point in checking if the new
         #  requested value is 'legal'.  Thus, we are going to trust the
         #  value and automatically return success.
@@ -407,11 +407,11 @@ class DefaultCompress
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = ("The Default Compress logging directories already exists;" + `
+            [string] $logMessage = ("The Archive Zip logging directories already exists;" + `
                                     " there is no need to create the directories again.");
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Default Compress Logging Directories:`r`n" + `
+            [string] $logAdditionalMSG = ("Archive Zip Logging Directories:`r`n" + `
                                         "`t`tThe Root Directory is:`t`t$($this.GetRootLogPath())`r`n" + `
                                         "`t`tThe Logging Directory is:`t$($this.GetLogPath())`r`n");
 
@@ -445,7 +445,7 @@ class DefaultCompress
                 # --------------
 
                 # Generate the initial message
-                [string] $logMessage = "Couldn't create the Default Compress root logging!";
+                [string] $logMessage = "Couldn't create the Archive Zip root logging!";
 
                 # Generate any additional information that might be useful
                 [string] $logAdditionalMSG = ("The root directory path would be:`r`n" + `
@@ -479,7 +479,7 @@ class DefaultCompress
                 # --------------
 
                 # Generate the initial message
-                [string] $logMessage = "Couldn't create the Default Compress logging directory!";
+                [string] $logMessage = "Couldn't create the Archive Zip logging directory!";
 
                 # Generate any additional information that might be useful
                 [string] $logAdditionalMSG = ("The logging directory path would be:`r`n" + `
@@ -510,10 +510,10 @@ class DefaultCompress
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Successfully created the Default Compress logging directories!";
+            [string] $logMessage = "Successfully created the Archive Zip logging directories!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Default Compress Logging Directories:`r`n" + `
+            [string] $logAdditionalMSG = ("Archive Zip Logging Directories:`r`n" + `
                                             "`t`tThe Root Directory is:`t`t$($this.GetRootLogPath())`r`n" + `
                                             "`t`tThe Logging Directory is:`t$($this.GetLogPath())`r`n");
 
@@ -540,10 +540,10 @@ class DefaultCompress
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Failed to detect the Default Compress required logging directories!";
+            [string] $logMessage = "Failed to detect the Archive Zip required logging directories!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Default Compress Logging Directories:`r`n" + `
+            [string] $logAdditionalMSG = ("Archive Zip Logging Directories:`r`n" + `
                                             "`t`tThe Root Directory is:`t`t$($this.GetRootLogPath())`r`n" + `
                                             "`t`tThe Logging Directory is:`t$($this.GetLogPath())`r`n");
 
@@ -968,7 +968,7 @@ class DefaultCompress
             [string] $logMessage = "Unable to verify the compressed file because the log directories could not be created!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Because the log directories for the Default Compress could not be created, " + `
+            [string] $logAdditionalMSG = ("Because the log directories for the Archive Zip could not be created, " + `
                                             "nothing can be logged as required.`r`n" + `
                                         "Tried to create directories in:`r`n" + `
                                         "`t" + $global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_ + "`r`n" + `
@@ -1502,7 +1502,7 @@ class DefaultCompress
             [string] $logMessage = "Unable to extract data from the compressed file because the log directories could not be created!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Because the log directories for the Default Compress could not be created, " + `
+            [string] $logAdditionalMSG = ("Because the log directories for the Archive Zip could not be created, " + `
                                             "nothing can be logged as required.`r`n" + `
                                         "Tried to create directories in:`r`n" + `
                                         "`t" + $global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_ + "`r`n" + `
@@ -2139,7 +2139,7 @@ class DefaultCompress
             [string] $logMessage = "Unable to create a new archive file due to logging complications!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Because the logging directories for the Default Compress could not be created," + `
+            [string] $logAdditionalMSG = ("Because the logging directories for the Archive Zip could not be created," + `
                                         " nothing can be logged as expected.`r`n" + `
                                         "`tTo resolve the issue:`r`n" + `
                                         "`t`t- Make sure that the required logging directories are created.`r`n" + `
@@ -2628,7 +2628,7 @@ class DefaultCompress
             [string] $logMessage = "Unable to delete the requested files as the logging directories were not found!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Object: DefaultCompress`r`n" + `
+            [string] $logAdditionalMSG = ("Object: ArchiveZip`r`n" + `
                                         "`tRequested file extensions to delete: $($knownExtensions)");
 
             # Pass the information to the logging system
@@ -2660,7 +2660,7 @@ class DefaultCompress
             [string] $logMessage = "A failure occurred while removing the requested log files!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Object: DefaultCompress`r`n" + `
+            [string] $logAdditionalMSG = ("Object: ArchiveZip`r`n" + `
                                         "`tRequested file extensions to delete: $($knownExtensions)");
 
             # Pass the information to the logging system
@@ -2694,7 +2694,7 @@ class DefaultCompress
             [string] $logMessage = "Successfully expunged the requested files!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Object: DefaultCompress`r`n" + `
+            [string] $logAdditionalMSG = ("Object: ArchiveZip`r`n" + `
                                         "`tRequested file extensions to delete: $($knownExtensions)");
 
             # Pass the information to the logging system
@@ -2712,22 +2712,22 @@ class DefaultCompress
 
     #endregion
     #endregion
-} # DefaultCompress
+} # ArchiveZip
 
 
 
 
-<# Default Compression Level [ENUM]
+<# Compression Level [ENUM]
  # -------------------------------
  # Associated with what type of compression level the end-user prefers when compacting
- #  source files into an archive datafile through the DefaultCompress object.
+ #  source files into an archive datafile through the ArchiveZip object.
  # Please see the '-CompressionLevel' from the 'Compress-Archive' CMDLet here:
  #  https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive/compress-archive#parameters
  # -------------------------------
  #>
-enum DefaultCompressionLevel
+enum CompressionLevel
 {
     Optimal         = 0;    # Best Compression
     Fastest         = 1;    # Light Compression
     NoCompression   = 2;    # Store
-} # DefaultCompressionLevel
+} # CompressionLevel

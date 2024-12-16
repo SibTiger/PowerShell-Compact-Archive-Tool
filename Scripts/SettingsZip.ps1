@@ -54,7 +54,7 @@ class SettingsZip
         [bool] $menuLoop = $true;
 
         # Latch onto the single instance of the Zip object
-        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        [ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
         # ----------------------------------------
 
 
@@ -85,7 +85,7 @@ class SettingsZip
             # If the Internal Zip functionality is not available, do not allow the user to provide a response.
             #   Otherwise, the user could be stuck in an endless loop or essentially cannot perform any useful
             #   action.
-            if ($defaultCompress.DetectCompressModule())
+            if ($archiveZip.DetectCompressModule())
             {
                 # Capture the user's feedback
                 $userInput = [CommonCUI]::GetUserInput([DrawWaitingForUserInputText]::WaitingOnYourResponse);
@@ -127,7 +127,7 @@ class SettingsZip
         [string] $currentSettingVerifyBuild = $NULL;            # Verify Build
 
         # Retrieve the dotNET Archive object.
-        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        [ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
         # ----------------------------------------
 
 
@@ -158,8 +158,8 @@ class SettingsZip
 
         # Show About Information regarding the PowerShell Module
         [CommonCUI]::DrawMenuItem('A', `
-                                "About $($defaultCompress.GetPowerShellModuleName())", `
-                                "Provides details regarding the PowerShell Module, $($defaultCompress.GetPowerShellModuleName())", `
+                                "About $($archiveZip.GetPowerShellModuleName())", `
+                                "Provides details regarding the PowerShell Module, $($archiveZip.GetPowerShellModuleName())", `
                                 $NULL, `
                                 $true);
 
@@ -217,15 +217,15 @@ class SettingsZip
         # Declarations and Initializations
         # ----------------------------------------
         # Retrieve the dotNET Archive object.
-        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        [ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
         # ----------------------------------------
 
 
         # Compression Level
-        switch ($defaultCompress.GetCompressionLevel())
+        switch ($archiveZip.GetCompressionLevel())
         {
             # Best Compression Possible
-            ([DefaultCompressionLevel]::Optimal)
+            ([CompressionLevel]::Optimal)
             {
                 # Set the string that will be displayed
                 $compressionLevel.Value = "Optimal Compression";
@@ -236,7 +236,7 @@ class SettingsZip
 
 
             # Favor Speed over Compression
-            ([DefaultCompressionLevel]::Fastest)
+            ([CompressionLevel]::Fastest)
             {
                 # Set the string that will be displayed
                 $compressionLevel.Value = "Fastest Compression";
@@ -247,7 +247,7 @@ class SettingsZip
 
 
             # Store; no compression
-            ([DefaultCompressionLevel]::NoCompression)
+            ([CompressionLevel]::NoCompression)
             {
                 # Set the string that will be displayed
                 $compressionLevel.Value = "No Compression";
@@ -277,7 +277,7 @@ class SettingsZip
 
         # Verify Build
         # Test the archive datafile's integrity
-        if ($defaultCompress.GetVerifyBuild())
+        if ($archiveZip.GetVerifyBuild())
         {
             # The user wishes to have the archive datafile tested, to assure
             #  that it was compressed correctly.
@@ -318,7 +318,7 @@ class SettingsZip
         # Declarations and Initializations
         # ----------------------------------------
         # Retrieve the dotNET Archive object.
-        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        [ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
         # ----------------------------------------
 
 
@@ -365,7 +365,7 @@ class SettingsZip
             #    as well as 'A'.
             {(($_ -eq "A") -or `
                 ($_ -eq "About") -or `
-                ($_ -eq "About $($defaultCompress.GetPowerShellModuleName())"))}
+                ($_ -eq "About $($archiveZip.GetPowerShellModuleName())"))}
             {
                 # Show the About Page to the user
                 [SettingsZip]::__ShowAbout();
@@ -497,7 +497,7 @@ class SettingsZip
 
         # Retrieve the current instance of the User Preferences object; this contains the user's
         #  generalized settings.
-        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        [ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
 
         # We will use this variable to make the string that is displayed to the user - a bit easier to read.
         #  Further, we could use a simple if conditional statement below where we ultimately just display the
@@ -511,9 +511,9 @@ class SettingsZip
         do
         {
             # Determine the current state of the Compression Level variable and make it nicer for the user to understand.
-            switch ($defaultCompress.GetCompressionLevel())
+            switch ($archiveZip.GetCompressionLevel())
             {
-                ([DefaultCompressionLevel]::Optimal)
+                ([CompressionLevel]::Optimal)
                 {
                     # Compression Level is currently set at the optimal setting
                     $decipherNiceString = "I will use the optimal compression setting while compacting the project files.";
@@ -523,7 +523,7 @@ class SettingsZip
                 } # Optimal
 
 
-                ([DefaultCompressionLevel]::Fastest)
+                ([CompressionLevel]::Fastest)
                 {
                     # Compression Level is currently set at the fastest setting
                     $decipherNiceString = "I will use the fastest compression rate possible while compacting the project files.";
@@ -533,7 +533,7 @@ class SettingsZip
                 } # Fastest
 
 
-                ([DefaultCompressionLevel]::NoCompression)
+                ([CompressionLevel]::NoCompression)
                 {
                     # Compression Level is currently set at no compression setting.
                     $decipherNiceString = "I will not use any compression while compacting the project files.";
@@ -660,7 +660,7 @@ class SettingsZip
         # ----------------------------------------
         # Retrieve the current instance of the User Preferences object; this contains the user's
         #  generalized settings.
-        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        [ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
         # ----------------------------------------
 
 
@@ -674,7 +674,7 @@ class SettingsZip
                 ($_ -eq "Optimal Compression")}
             {
                 # The user had selected to use the optimal compression setting.
-                $defaultCompress.SetCompressionLevel([DefaultCompressionLevel]::Optimal);
+                $archiveZip.SetCompressionLevel([CompressionLevel]::Optimal);
 
                 # Update the user's configuration with the latest changes.
                 [LoadSaveUserConfiguration]::SaveUserConfiguration();
@@ -692,7 +692,7 @@ class SettingsZip
                 ($_ -eq "Fast")}
             {
                 # The user had selected to use the fastest compression setting.
-                $defaultCompress.SetCompressionLevel([DefaultCompressionLevel]::Fastest);
+                $archiveZip.SetCompressionLevel([CompressionLevel]::Fastest);
 
                 # Update the user's configuration with the latest changes.
                 [LoadSaveUserConfiguration]::SaveUserConfiguration();
@@ -709,7 +709,7 @@ class SettingsZip
                 ($_ -eq "Store")}
             {
                 # The user had selected to not use any compression while compacting files.
-                $defaultCompress.SetCompressionLevel([DefaultCompressionLevel]::NoCompression);
+                $archiveZip.SetCompressionLevel([CompressionLevel]::NoCompression);
 
                 # Update the user's configuration with the latest changes.
                 [LoadSaveUserConfiguration]::SaveUserConfiguration();
@@ -815,7 +815,7 @@ class SettingsZip
 
         # Retrieve the current instance of the User Preferences object; this contains the user's
         #  generalized settings.
-        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        [ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
 
         # We will use this variable to make the string that is displayed to the user - a bit easier to read.
         #  Further, we could use a simple if conditional statement below where we ultimately just display the
@@ -830,7 +830,7 @@ class SettingsZip
         {
             # Determine the current state of the Verify Build variable and make it nicer for the user to understand.
             #  Is the Verify Build presently enabled?
-            if ($defaultCompress.GetVerifyBuild())
+            if ($archiveZip.GetVerifyBuild())
             {
                 # Verify Build is presently set as enabled.
                 $decipherNiceString = "I will verify the newly compiled build's file integrity is healthy.";
@@ -952,7 +952,7 @@ class SettingsZip
         # ----------------------------------------
         # Retrieve the current instance of the User Preferences object; this contains the user's
         #  generalized settings.
-        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        [ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
         # ----------------------------------------
 
 
@@ -968,7 +968,7 @@ class SettingsZip
                 ($_ -eq "Test Build")}
             {
                 # The user had selected to verify the newly generated project build.
-                $defaultCompress.SetVerifyBuild($true);
+                $archiveZip.SetVerifyBuild($true);
 
                 # Update the user's configuration with the latest changes.
                 [LoadSaveUserConfiguration]::SaveUserConfiguration();
@@ -985,7 +985,7 @@ class SettingsZip
                 ($_ -eq "Do not verify")}
             {
                 # The user had selected to not verify the newly generated project build.
-                $defaultCompress.SetVerifyBuild($false);
+                $archiveZip.SetVerifyBuild($false);
 
                 # Update the user's configuration with the latest changes.
                 [LoadSaveUserConfiguration]::SaveUserConfiguration();
@@ -1083,7 +1083,7 @@ class SettingsZip
         # Declarations and Initializations
         # ----------------------------------------
         # Latch onto the single instance of the Zip object
-        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        [ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
         # ----------------------------------------
 
 
@@ -1095,13 +1095,13 @@ class SettingsZip
         [CommonCUI]::DrawProgramTitleHeader();
 
         # Show the user that they are at the About section
-        [CommonCUI]::DrawSectionHeader("Show About for $($defaultCompress.GetPowerShellModuleName())");
+        [CommonCUI]::DrawSectionHeader("Show About for $($archiveZip.GetPowerShellModuleName())");
 
         # Provide some extra white spacing so that it is easier to read for the user
         [Logging]::DisplayMessage("`r`n`r`n");
 
         # Show the about information to the user
-        $defaultCompress.ShowAbout();
+        $archiveZip.ShowAbout();
 
         # Provide an extra white space so that it is a bit easier to differentiate content and user input.
         [Logging]::DisplayMessage("`r`n");
@@ -1154,15 +1154,15 @@ class SettingsZip
         # This is the about string that will be presented to the user.
         [string] $aboutString = $NULL;
 
-        # Retrieve the current instance of the Default Compress object.
-        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        # Retrieve the current instance of the Archive Zip object.
+        [ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
         # ----------------------------------------
 
 
 
         # Determine if it is possible to obtain the meta data for this PowerShell Module.
         #   If we cannot get the meta data, than return null.
-        if (![CommonPowerShell]::GetModuleMetaData($defaultCompress.GetPowerShellModuleName(), `
+        if (![CommonPowerShell]::GetModuleMetaData($archiveZip.GetPowerShellModuleName(), `
                                                     [ref] $aboutInfo))
         { 
             # * * * * * * * * * * * * * * * * * * *
@@ -1174,7 +1174,7 @@ class SettingsZip
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("There is no Meta Information available to show for:`r`n" + `
-                                            "`t" + $defaultCompress.GetPowerShellModuleName());
+                                            "`t" + $archiveZip.GetPowerShellModuleName());
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -1204,7 +1204,7 @@ class SettingsZip
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("PowerShell Module Full Name:`r`n" + `
-                                            "`t" + $defaultCompress.GetPowerShellModuleName() + "`r`n" + `
+                                            "`t" + $archiveZip.GetPowerShellModuleName() + "`r`n" + `
                                             "`tThe following information is required:`r`n" + `
                                             "`t`t - Author:      "    + $aboutInfo.Author + "`r`n" + `
                                             "`t`t - Module Name: "    + $aboutInfo.Name + "`r`n" + `
@@ -1248,7 +1248,7 @@ class SettingsZip
 
         # Generate any additional information that might be useful
         [string] $logAdditionalMSG = ("PowerShell Module Full Name:`r`n" + `
-                                        "`t`t" + $defaultCompress.GetPowerShellModuleName() + "`r`n" + `
+                                        "`t`t" + $archiveZip.GetPowerShellModuleName() + "`r`n" + `
                                         "`tThe About Information Collected:`r`n" + `
                                         "`t`t - Author:         " + $aboutInfo.Author   + "`r`n" + `
                                         "`t`t - Module Name:    " + $aboutInfo.Name     + "`r`n" + `

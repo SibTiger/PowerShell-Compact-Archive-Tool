@@ -254,10 +254,10 @@ class ProjectManagerInstallation
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Retrieve the current instance of the user's Default Compressing object; this contains
+        # Retrieve the current instance of the user's Archive Zip object; this contains
         #  the user's preferences as to how the Archive ZIP module will be utilized within this
         #  application.
-        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        [ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
 
         # Browse File Title String
         [string] $windowsGUIBrowseFileTitleStr = "Select one or more $($GLOBAL:_PROGRAMNAMESHORT_) Project(s) to Install or Update";
@@ -451,10 +451,10 @@ class ProjectManagerInstallation
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Retrieve the current instance of the user's Default Compressing object; this contains
+        # Retrieve the current instance of the user's Archive Zip object; this contains
         #  the user's preferences as to how the Archive ZIP module will be utilized within this
         #  application.
-        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        [ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
         # ----------------------------------------
 
 
@@ -511,7 +511,7 @@ class ProjectManagerInstallation
 
 
             # Determine verification status
-            if ($defaultCompress.VerifyArchive($item.GetMetaFilePath()))
+            if ($archiveZip.VerifyArchive($item.GetMetaFilePath()))
             {
                 # Save the result provided by the verification process.
                 $logActivity = $logActivity + "`r`n`t- Result: Passed!";
@@ -714,10 +714,10 @@ class ProjectManagerInstallation
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Retrieve the current instance of the user's Default Compressing object; this contains
+        # Retrieve the current instance of the user's Archive Software object; this contains
         #  the user's preferences as to how the Archive ZIP module will be utilized within this
         #  application.
-        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        [ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
 
 
         # Contains a list of projects that had already been installed previously.
@@ -893,9 +893,9 @@ class ProjectManagerInstallation
 
 
             # Extract the desired project to the temporary directory.
-            if (!$defaultCompress.ExtractArchive($item.GetMetaFilePath(),       `
-                                                $($temporaryProjectDirectory),  `
-                                                [ref] $outputDirectory))
+            if (!$archiveZip.ExtractArchive($item.GetMetaFilePath(), `
+                                            $($temporaryProjectDirectory), `
+                                            [ref] $outputDirectory))
             {
                 # Failed to properly extract the project's contents into a temporary directory.
 

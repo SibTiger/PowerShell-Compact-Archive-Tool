@@ -438,7 +438,7 @@ class Settings
         [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
 
         # Latch onto the single instance of the Zip object
-        [DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+        [ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
         # ----------------------------------------
 
 
@@ -446,7 +446,7 @@ class Settings
         # Show Zip Menu
         #  Show the Zip Menu if the following conditions are true:
         #   - Found Zip Module
-        if ($defaultCompress.DetectCompressModule())
+        if ($archiveZip.DetectCompressModule())
         {
             $showMenuZip.Value = $true;
         } # If: Zip Menu is Visible

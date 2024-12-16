@@ -122,7 +122,7 @@ CreateDirectories | Out-Null;
 
 
 # Initialize the dotNet Core Zip Archive object
-[DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
+[ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
 
 
 # Initialize the Loading and Saving of User Configurations

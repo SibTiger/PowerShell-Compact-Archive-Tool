@@ -11,9 +11,9 @@ function main()
     # Initialize the objects
     [UserPreferences] $userPref = [UserPreferences]::GetInstance();
 
-    [DefaultCompress] $psArchive = [DefaultCompress]::new(0, `     # Compression Level
-                                                          $true, ` # Verify Build
-                                                          $true);  # Generate Report
+    [ArchiveZip] $psArchive = [ArchiveZip]::new(0, `        # Compression Level
+                                                $true, `    # Verify Build
+                                                $true);     # Generate Report
     
     [LoadSaveUserConfiguration] $loadSaveConfigs = `
                 [LoadSaveUserConfiguration]::new("$($Global:_PROGRAMDATA_CONFIGS_PATH_)");
