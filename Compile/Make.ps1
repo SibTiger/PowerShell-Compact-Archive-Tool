@@ -290,7 +290,7 @@ function MakeCompilerDriver
                         "UserExperience.ps1", `
                         "CommonPowerShell.ps1", `
                         "ProgramFunctions.ps1", `
-                        "DefaultCompress.ps1", `
+                        "ArchiveZip.ps1", `
                         "ProjectInformation.ps1", `
                         "UserPreferences.ps1", `
                         "LoadSaveUserConfigs.ps1", `
