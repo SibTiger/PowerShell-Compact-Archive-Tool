@@ -1496,7 +1496,7 @@ class ArchiveZip
 
             # Generate a message to display to the user.
             [string] $displayErrorMessage = ("Unable to extract data from the compressed file:`r`n" + `
-                                            "`t" + $fileName + "`r`n" + `
+                                            "`t" + $fileNameExt + "`r`n" + `
                                             "The Log directories could not be created!`r`n" + `
                                             "Please make sure that you have sufficient privileges to create directories in:`r`n" + `
                                             "`t" + $global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_);
@@ -1507,14 +1507,15 @@ class ArchiveZip
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Because the log directories for the Archive Zip could not be created, " + `
                                             "nothing can be logged as required.`r`n" + `
-                                        "Tried to create directories in:`r`n" + `
-                                        "`t" + $global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_ + "`r`n" + `
+                                        "`tTried to create directories in:`r`n" + `
+                                        "`t`t" + $global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_ + "`r`n" + `
                                         "`tTo resolve the issue:`r`n" + `
                                         "`t`t- Make sure that the required log directories are created.`r`n" + `
                                         "`t`t- Make sure that you have sufficient permissions to create directories.`r`n" + `
-                                        "`tTried to Extract from the Compressed File: $($fileName)`r`n" + `
+                                        "`tTried to Extract from the Compressed File:`r`n" + `
+                                        "`t`t" + $fileName + "`r`n" + `
                                         "`tPath to the Archive Data File:`r`n" + `
-                                        "`t" + $file);
+                                        "`t`t" + $file);
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -1550,7 +1551,7 @@ class ArchiveZip
 
             # Generate a message to display to the user.
             [string] $displayErrorMessage = ("Unable to extract data from the compressed file:`r`n" + `
-                                            "`t" + $fileName + "`r`n" + `
+                                            "`t" + $fileNameExt + "`r`n" + `
                                             "The PowerShell Module, " + $this.GetPowerShellModuleName() + `
                                                 ", was not detected!`r`n" + `
                                             "Because the PowerShell Module was not found, it is not possible " + `
@@ -1562,8 +1563,10 @@ class ArchiveZip
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Please assure that you have the latest version of PowerShell Core installed.`r`n" + `
-                                        "`tRequired PowerShell Module: " + $this.GetPowerShellModuleName() + "`r`n" + `
-                                        "`tTried to Extract from the Compressed File: $($fileName)`r`n" + `
+                                        "`tRequired PowerShell Module:`r`n" + `
+                                        "`t`t" + $this.GetPowerShellModuleName() + "`r`n" + `
+                                        "`tTried to Extract from the Compressed File:`r`n" + `
+                                        "`t`t" + $fileNameExt + "`r`n" + `
                                         "`tPath to the Archive Data File:`r`n" + `
                                         "`t`t" + $file + "`r`n" + `
                                         "`tPlease check for the latest version of PowerShell Core: `r`n" + `
@@ -1604,15 +1607,13 @@ class ArchiveZip
 
             # Generate a message to display to the user.
             [string] $displayErrorMessage = ("Unable to extract data from the compressed file:`r`n" + `
-                                            "`t" + $fileName + "`r`n" + `
+                                            "`t" + $fileNameExt + "`r`n" + `
                                             "The path to the compressed file is not correct.`r`n" + `
                                             "The path given to the compressed file:`r`n" + `
-                                            "`t" + $file + "`r`n" + `
-                                            "The output path given was:`r`n" + `
-                                            "`t" + $outputPath);
+                                            "`t" + $file);
 
             # Generate the initial message
-            [string] $logMessage = "Unable to extract data from the compressed file because the output path was not correct!";
+            [string] $logMessage = "Unable to extract data from the compressed file because the archive file was not found!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = "The Archive Data File Path Given: `r`n" + `
@@ -1654,17 +1655,19 @@ class ArchiveZip
 
             # Generate a message to display to the user.
             [string] $displayErrorMessage = ("Unable to extract data from the compressed file:`r`n" + `
-                                            "`t" + $fileName + "`r`n" + `
-                                            "The output path was not correct.`r`n" + `
-                                            "The output path given was:`r`n" + `
+                                            "`t" + $fileNameExt + "`r`n" + `
+                                            "The path to the output directory was not correct.`r`n" + `
+                                            "The output directory path given was:`r`n" + `
                                             "`t" + $outputPath);
 
             # Generate the initial message
-            [string] $logMessage = "Unable to extract the archive data file because the output directory could not be found!";
+            [string] $logMessage = "Unable to extract the compressed file because the output directory could not be found!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Requested archive file to extract: $($file)`r`n" + `
-                                        "`tOutput Directory: $($outputPath)");
+            [string] $logAdditionalMSG = ("Requested archive file to extract:`r`n" + `
+                                        "`t`t" + $file  + "`r`n" + `
+                                        "`tOutput Directory:`r`n" + `
+                                        "`t`t" + $outputPath);
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -1731,18 +1734,21 @@ class ArchiveZip
 
             # Generate a message to display to the user.
             [string] $displayErrorMessage = ("Unable to extract data from the compressed file:`r`n" + `
-                                            "`t" + $fileName + "`r`n" + `
-                                            "It was not possible to create the output directory as needed.`r`n" + `
-                                            "Output Directory Path:`r`n" + `
+                                            "`t" + $fileNameExt + "`r`n" + `
+                                            "It was not possible to create the extracting directory as needed.`r`n" + `
+                                            "Extracting Directory Path:`r`n" + `
                                             "`t" + $extractPath);
 
             # Generate the initial message
-            [string] $logMessage = "Unable to extract the archive data file because the extracting directory could not be created!";
+            [string] $logMessage = "Unable to extract data from the compressed file because the extracting directory could not be created!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Requested archive file to extract: $($file)`r`n" + `
-                                        "`tOutput Directory: $($outputPath)`r`n" + `
-                                        "`tExtracting Directory: $($extractPath)");
+            [string] $logAdditionalMSG = ("Requested compressed file to extract:`r`n" + `
+                                        "`t`t" + $file + "`r`n" + `
+                                        "`tOutput Directory:`r`n" +
+                                        "`t`t" + $outputPath + "`r`n" + `
+                                        "`tExtracting Directory:`r`n" + `
+                                        "`t`t" + $extractPath);
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -1799,12 +1805,15 @@ class ArchiveZip
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Successfully extracted the archive file!";
+            [string] $logMessage = "Successfully extracted the data from the compressed file!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Archive file that was extracted: $($file)`r`n" + `
-                                        "`tOutput Directory: $($outputPath)`r`n" + `
-                                        "`tExtracting Directory: $($extractPath)");
+            [string] $logAdditionalMSG = ("Compressed file that was extracted:`r`n" + `
+                                        "`t`t" + $file + "`r`n" + `
+                                        "`tOutput Directory:`r`n" + `
+                                        "`t`t" + $outputPath + "`r`n" + `
+                                        "`tExtracting Directory:`r`n" + `
+                                        "`t`t" + $extractPath);
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -1842,15 +1851,19 @@ class ArchiveZip
                                             "$([Logging]::GetExceptionInfoShort($_.Exception))");
 
             # Generate the initial message
-            [string] $logMessage = ("Failed to extract the archive data file; the file with a name of '$($badFileName)' was" + `
-                                    " not found in the archive data file!");
+            [string] $logMessage = ("Failed to extract data from the compressed file; the file with a name of '$($badFileName)' was" + `
+                                    " not found in the compressed file!");
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("File that is missing or corrupted: $($badFileNameFull)`r`n" + `
-                                        "`tArchive file that was extracted: $($file)`r`n" + `
-                                        "`tOutput Directory: $($outputPath)`r`n" + `
-                                        "`tExtracting Directory: $($extractPath)`r`n" + `
-                                        "$([Logging]::GetExceptionInfo($_.Exception))");
+            [string] $logAdditionalMSG = ("File that is missing or corrupted:`r`n" + `
+                                        "`t`t" + $badFileNameFull + "`r`n" + `
+                                        "`tArchive file that was extracted:`r`n" + `
+                                        "`t`t" + $file + "`r`n" + `
+                                        "`tOutput Directory:`r`n" + `
+                                        "`t`t" + $outputPath + "`r`n" + `
+                                        "`tExtracting Directory:`r`n" + `
+                                        "`t`t" + $extractPath + "`r`n" + `
+                                        [Logging]::GetExceptionInfo($_.Exception));
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -1883,18 +1896,20 @@ class ArchiveZip
             # --------------
 
             # Prep a message to display to the user regarding this error; temporary variable
-            [string] $displayErrorMessage = ("The archive data file '$($fileNameExt)' may not be a valid archive file " + `
-                                            "structure.`r`n" + `
+            [string] $displayErrorMessage = ("The compressed file, $($fileNameExt), is corrupted.`r`n" + `
                                             "$([Logging]::GetExceptionInfoShort($_.Exception))");
 
             # Generate the initial message
-            [string] $logMessage = "Failed to extract the archive data file; the archive data file structure is malformed.";
+            [string] $logMessage = "Failed to extract data from the compressed file; the compressed file is corrupted.";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Archive file that was extracted: $($file)`r`n" + `
-                                        "`tOutput Directory: $($outputPath)`r`n" + `
-                                        "`tExtracting Directory: $($extractPath)`r`n" + `
-                                        "$([Logging]::GetExceptionInfo($_.Exception))");
+            [string] $logAdditionalMSG = ("Compressed file that was extracted:`r`n" + `
+                                        "`t`t" + $file + "`r`n" + `
+                                        "`tOutput Directory:`r`n" + `
+                                        "`t`t" + $outputPath + "`r`n" + `
+                                        "`tExtracting Directory:`r`n" + `
+                                        "`t`t" + $extractPath + "`r`n" + `
+                                        [Logging]::GetExceptionInfo($_.Exception));
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -1911,8 +1926,6 @@ class ArchiveZip
             [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
-
-
         } # Catch [FileFormat] : Archive File Format Malformed
 
         # A general error had occurred
@@ -1923,17 +1936,20 @@ class ArchiveZip
             # --------------
 
             # Prep a message to display to the user for this error; temporary variable
-            [string] $displayErrorMessage = ("Unable to extract the requested archive data file!`r`n" + `
+            [string] $displayErrorMessage = ("Unable to extract data from the compressed file due to a general error!`r`n" + `
                                             "$([Logging]::GetExceptionInfoShort($_.Exception))");
 
             # Generate the initial message
-            [string] $logMessage = "Failed to extract the archive data file.";
+            [string] $logMessage = "Failed to extract data from the compressed file due to a general failure.";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Archive file that was extracted: $($file)`r`n" + `
-                                        "`tOutput Directory: $($outputPath)`r`n" + `
-                                        "`tExtracting Directory: $($extractPath)`r`n" + `
-                                        "$([Logging]::GetExceptionInfo($_.Exception))");
+            [string] $logAdditionalMSG = ("Compressed file that was extracted:`r`n" + `
+                                        "`t`t" + $file + "`r`n" + `
+                                        "`tOutput Directory:`r`n" + `
+                                        "`t`t" + $outputPath + "`r`n" + `
+                                        "`tExtracting Directory:`r`n" + `
+                                        "`t`t" + $extractPath + "`r`n" + `
+                                        [Logging]::GetExceptionInfo($_.Exception));
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
