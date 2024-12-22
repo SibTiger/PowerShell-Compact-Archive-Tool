@@ -2695,7 +2695,7 @@ class ArchiveZip
 
 
         # Because the directories exists - let's try to thrash the logs.
-        if([CommonIO]::DeleteFile($this.GetLogPath(), $extLogs) -eq $false)
+        if([CommonIO]::DeleteFile($this.GetLogPath(), $extLogs, $false) -eq $false)
         {
             # Reached a failure upon removing the requested log files.
 
