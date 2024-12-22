@@ -123,10 +123,6 @@ class ProjectManagerInstallation
         [ProjectManagerInstallation]::__MetamorphoseType($listOfProjectsToInstall);
 
 
-        # Perform a validation check by assuring that all provided archive datafiles given are healthy.
-        [ProjectManagerInstallation]::__CheckArchiveFileIntegrity($listOfProjectsToInstall);
-
-
         # Perform the Installation
         $operationState = [ProjectManagerInstallation]::__InstallProjects($listOfProjectsToInstall);
 
@@ -428,127 +424,6 @@ class ProjectManagerInstallation
         # Insert all of the items from the new file list to the given parameter.
         foreach ($file in $newFileList) { $fileList.Add($file); }
     } # __MetamorphoseType()
-
-
-
-
-   <# Check Archive File Integrity
-    # -------------------------------
-    # Documentation:
-    #  This function will verify the integrity of the files that had been selected by the user.
-    #   In by doing so, if incase one or more files are corrupted - this function will mark those files as
-    #   damaged - using the ProjectMetaData datatype attributes.
-    #
-    #
-    #  NOTE: All entries within the Array List must be in the ProjectMetaData data type.
-    # -------------------------------
-    # Input:
-    #  [System.Collections.ArrayList] {ProjectMetaData} File Collection
-    #   Provides a list of files provided by the user to install.
-    # -------------------------------
-    #>
-    hidden static [void] __CheckArchiveFileIntegrity([System.Collections.ArrayList] $fileCollection)
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Retrieve the current instance of the user's Archive Zip object; this contains
-        #  the user's preferences as to how the Archive ZIP module will be utilized within this
-        #  application.
-        [ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
-        # ----------------------------------------
-
-
-
-        # If there's nothing provided, then there is nothing todo.
-        if ($fileCollection.Count -eq 0)
-        {   # There exists no files within the File Collection, nothing to validate.
-
-
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Generate the initial message
-            [string] $logMessage = ("Unable to perform validation as there exists no files within the" + `
-                                    " File Collection List!");
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "$($NULL)";
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity($logMessage, `                # Initial message
-                                        $logAdditionalMSG, `            # Additional information
-                                        [LogMessageLevel]::Error);      # Message level
-
-
-            # * * * * * * * * * * * * * * * * * * *
-
-
-            # Abruptly terminate from this function
-            return;
-        } # if : File Collection List is Empty
-
-
-        # Alert the user that we are inspecting the provided files.
-        [Logging]::DisplayMessage("Verifying file(s). . .`r`n");
-
-
-        # Verify that _ALL_ of the archive data file(s) are healthy.
-        foreach ($item in $fileCollection)
-        {
-            # Declarations and Initializations
-            # ----------------------------------------
-            # Create a string in which we can use to generate the operation and record the result.  This
-            #   information will be logged within the program's logfile -- useful for debugging if needed.
-            # We will initialize this variable by including the filename that is being inspected.
-            [string] $logActivity = "Verified file named: $($item.GetMetaFileName())";
-
-            # This will provide additional information that could be useful within the logfile, related to
-            #   the operation.
-            [string] $logAdditionalInformation = $null;
-            # ----------------------------------------
-
-
-
-            # Determine verification status
-            if ($archiveZip.VerifyArchive($item.GetMetaFilePath()))
-            {
-                # Save the result provided by the verification process.
-                $logActivity = $logActivity + "`r`n`t- Result: Passed!";
-
-                # Provide additional information
-                $logAdditionalInformation = "This file is healthy and can be installed.";
-
-                # Adjust the attributes of the desired file entry.
-                $item.SetProgramVerification([ProjectMetaDataFileVerification]::Passed);
-            } # if : Verification Passed
-
-            # Verification had Failed
-            else
-            {
-                # Save the result provided by the verification process.
-                $logActivity = $logActivity + "`r`n`t- Result: Failed!";
-
-                # Provide additional information
-                $logAdditionalInformation = "This file is damaged and cannot be installed.";
-
-                # Adjust the attributes of the desired file entry.
-                $item.SetProgramVerification([ProjectMetaDataFileVerification]::Failed);
-
-                # Provide the reason for why the file will not be installed.
-                $item.SetProgramMessage("This file had been determined to be corrupted, and therefore, cannot be installed.");
-
-                # Clear the absolute path as we can no longer use this file.
-                $item.SetMetaFilePathAsEmpty();
-            } # else : Verification Failed
-
-
-            # Record the information to the program's logfile.
-            [Logging]::LogProgramActivity($logActivity, `
-                                        $logAdditionalInformation, `
-                                        [LogMessageLevel]::Information);
-        } # foreach : Verify Archive File(s)
-    } # __CheckArchiveFileIntegrity()
 
 
 
