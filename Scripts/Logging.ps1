@@ -894,7 +894,7 @@ class Logging
 
 
         # Because the logging directory exist, lets try to thrash the log files.
-        elseif ([CommonIO]::DeleteFile([Logging]::ProgramLogPath, $extLogs) -eq $false)
+        elseif ([CommonIO]::DeleteFile([Logging]::ProgramLogPath, $extLogs, $false) -eq $false)
         {
             # Failure to remove the requested files
             $exitCode = $false;
