@@ -2149,23 +2149,27 @@ class ArchiveZip
             # --------------
 
             # Generate a message to display to the user.
-            [string] $displayErrorMessage = ("Unable to create a new compress file, " + $archiveFileNameRequest + ", " + `
-                                            "because the log directories could not be created!`r`n" + `
-                                            "Please make sure that you have sufficient privileges to create directories in:`r`n" + `
+            [string] $displayErrorMessage = ("Unable to create a new compress file:`r`n " + `
+                                            "`t" + $archiveFileNameRequest + "`r`n" + `
+                                            "The Log directories could not be created!`r`n" + `
+                                            "Please make sure that your have sufficient privileges to create directories in:`r`n" + `
                                             "`t" + $global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_);
 
             # Generate the initial message
-            [string] $logMessage = "Unable to create a new archive file due to logging complications!";
+            [string] $logMessage = "Unable to create a new compressed file because the log directories could not be created!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Because the logging directories for the Archive Zip could not be created," + `
-                                        " nothing can be logged as expected.`r`n" + `
+            [string] $logAdditionalMSG = ("Because the log directories for the Archive Zip could not be created, " + `
+                                            "nothing can be logged as required.`r`n" + `
+                                        "`tTried to create directories in:`r`n" + `
+                                        "`t`t" + $global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_ + "`r`n" + `
                                         "`tTo resolve the issue:`r`n" + `
-                                        "`t`t- Make sure that the required logging directories are created.`r`n" + `
-                                        "`t`t- OR Disable logging`r`n" + `
-                                        "`tRequested archive file to create: $($archiveFileNameRequest)`r`n" + `
-                                        "`tContents to compact: $($targetDirectory)`r`n" + `
-                                        "`tOutput directory: $($outputPath)");
+                                        "`t`t- Make sure that the required log directories are created.`r`n" + `
+                                        "`t`t- Make sure that you have sufficient permissions to create directories.`r`n" + `
+                                        "`tTried to create Compress File:`r`n" + `
+                                        "`t`t" + $archiveFileNameRequest + "`r`n" + `
+                                        "`tPath of the contents to compact:`r`n" + `
+                                        "`t`t" + $targetDirectory);
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -2201,19 +2205,25 @@ class ArchiveZip
             # --------------
 
             # Generate a message to display to the user.
-            [string] $displayErrorMessage = ("Unable to create a new compress file, " + $archiveFileNameRequest + ", " + `
-                                            "because the PowerShell Module, " + $this.GetPowerShellModuleName() + `
+            [string] $displayErrorMessage = ("Unable to create a new compressed file:`r`n" + `
+                                            "`t" + $archiveFileNameRequest + "`r`n" + `
+                                            "The PowerShell Module, " + $this.GetPowerShellModuleName() + `
                                                 ", was not detected!`r`n" + `
                                             "Because the PowerShell Module was not found, it is not possible " + `
-                                                "to create the compressed file!");
+                                                "to create a new compress file!");
 
             # Generate the initial message
-            [string] $logMessage = "Unable to create a new archive data file; unable to find the required module!";
+            [string] $logMessage = ("Unable to create a new compress file because the required PowerShell Module, " + `
+                                    $this.GetPowerShellModuleName() + ", was not found!");
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Be sure that you have the latest dotNET Core and PowerShell Core available.`r`n" + `
-                                        "`tRequested archive file to create: $($archiveFileNameRequest)`r`n" + `
-                                        "`tContents to compact: $($targetDirectory)");
+            [string] $logAdditionalMSG = ("Please assure that you have the latest version of PowerShell Core installed.`r`n" + `
+                                        "`tRequired PowerShell Module:`r`n" + `
+                                        "`t`t" + $this.GetPowerShellModuleName() + "`r`n" + `
+                                        "`tTried to create Compress File:`r`n" + `
+                                        "`t`t" + $archiveFileNameRequest + "`r`n" + `
+                                        "`tPath of the contents to compact:`r`n" + `
+                                        "`t`t" + $targetDirectory);
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -2248,17 +2258,20 @@ class ArchiveZip
             # --------------
 
             # Generate a message to display to the user.
-            [string] $displayErrorMessage = ("Unable to create a new compress file, " + $archiveFileNameRequest + ", " + `
-                                            "because the output path could not be found:`r`n" + `
-                                            "`t" + $outputPath + "`r`n");
+            [string] $displayErrorMessage = ("Unable to create a new compress file:`r`n" + `
+                                            "`t" + $archiveFileNameRequest + "`r`n" + `
+                                            "The path to store the compressed file is not correct`r`n" + `
+                                            "The path given to output the compressed file:`r`n" + `
+                                            "`t" + $outputPath);
 
             # Generate the initial message
-            [string] $logMessage = "Unable to create the archive data file because the output path could not be found!";
+            [string] $logMessage = "Unable to create a new compress file because the output directory does not exist!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Requested archive file to create: $($archiveFileNameRequest)`r`n" + `
-                                        "`tContents to compact: $($targetDirectory)`r`n" + `
-                                        "`tOutput path: $($outputPath)");
+            [string] $logAdditionalMSG = ("The Archive Data File to Create:`r`n" + `
+                                            "`t`t" + $archiveFileNameRequest + "`r`n" + `
+                                            "`tOutput Path to Place the Compressed File:`r`n" + `
+                                            "`t`t" + $outputPath);
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -2294,17 +2307,20 @@ class ArchiveZip
             # --------------
 
             # Generate a message to display to the user.
-            [string] $displayErrorMessage = ("Unable to create a new compress file, " + $archiveFileNameRequest + ", " + `
-                                            "because the source files could not be found with the given path:`r`n" + `
-                                            "`t" + $targetDirectory + "`r`n");
+            [string] $displayErrorMessage = ("Unable to create a new compress file:`r`n" + `
+                                            "`t" + $archiveFileNameRequest + "`r`n" + `
+                                            "The path to the files that are to be compressed is not correct.`r`n" + `
+                                            "The path given for the contents that are to be compacted:`r`n" + `
+                                            "`t" + $targetDirectory);
 
             # Generate the initial message
-            [string] $logMessage = "Unable to create the archive data file because the target directory could not be found!";
+            [string] $logMessage = "Unable to create a new compress file because the target directory path does not exist!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Requested archive file to create: $($archiveFileNameRequest)`r`n" + `
-                                        "`tContents to compact: $($targetDirectory)`r`n" + `
-                                        "`tOutput directory: $($outputPath)");
+            [string] $logAdditionalMSG = ("The Archive Data File to Create:`r`n" + `
+                                            "`t`t" + $archiveFileNameRequest + "`r`n" + `
+                                            "`tTarget Directory Path to Compress:`t`n" + `
+                                            "`t`t" + $targetDirectory);
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -2367,16 +2383,20 @@ class ArchiveZip
                 # --------------
 
                     # Prep a message to display to the user for this error; temporary variable.
-                    [string] $displayErrorMessage = "Failed to create a new archive data file because it was not possible to create a unique filename!";
+                    [string] $displayErrorMessage = ("Unable to create a new compress file:`r`n" + `
+                                                    "`t" + $archiveFileNameRequest + "`r`n" + `
+                                                    "It was not possible to create a unique filename for the compress file.`r`n" + `
+                                                    "The path given to output the compressed file:`r`n" + `
+                                                    "`t" + $outputPath);
 
                     # Generate the initial message
-                    [string] $logMessage = $displayErrorMessage;
+                    [string] $logMessage = "Unable to create a new compress file because the filename of the compress file could not be unique!";
 
                     # Generate any additional information that might be useful
-                    [string] $logAdditionalMSG = ("Unable to create a unique filename for the archive datafile!`r`n" + `
-                                                "`tArchive Filename [Absolute Path]: $($archiveFileName).$($archiveFileExtension)`r`n" + `
-                                                "`tContents to compact: $($targetDirectory)`r`n" + `
-                                                "`tOutput directory: $($outputPath)");
+                    [string] $logAdditionalMSG = ("The Archive Data File to Create:`r`n" + `
+                                                "`t`t" + $archiveFileNameRequest + "`r`n" + `
+                                                "`tOutput Path to Place the Compressed File:`r`n" + `
+                                                "`t`t" + $outputPath);
 
                     # Pass the information to the logging system
                     [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -2446,18 +2466,22 @@ class ArchiveZip
             # --------------
 
             # Prep a message to display to the user for this error; temporary variable
-            [string] $displayErrorMessage = ("Failed to create a new archive datafile because of memory limitations!" + `
-                                            "  There may be too much data to compact or a file is too large to compress!`r`n" + `
-                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
+            [string] $displayErrorMessage = ("Failed to create a new compressed file because there was not enough system memory!`r`n" + `
+                                            [Logging]::GetExceptionInfoShort($_.Exception));
 
             # Generate the initial message
             [string] $logMessage = "Failed to create a new archive datafile due to memory constraints!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Archive Filename [Absolute Path]: $($archiveFileName).$($archiveFileExtension)`r`n" + `
-                                        "`tContents to compact: $($targetDirectory)`r`n" + `
-                                        "`tOutput directory: $($outputPath)`r`n" + `
-                                        "$([Logging]::GetExceptionInfo($_.Exception))");
+            [string] $logAdditionalMSG = ("The Archive Data File to Create:`r`n" + `
+                                            "`t`t" + $archiveFileNameRequest + "`r`n" + `
+                                            "The path given for the contents that are to be compacted:`r`n" + `
+                                            "`t" + $targetDirectory + "`r`n" + `
+                                            "`tOutput Path to Place the Compressed File:`r`n" + `
+                                            "`t`t" + $outputPath + "`r`n" + `
+                                            "`tThe full path to the archive data file:`r`n" + `
+                                            "`t`t" + $archiveFileName + "." + $archiveFileExtension + "`r`n" + `
+                                            [Logging]::GetExceptionInfo($_.Exception));
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -2488,17 +2512,22 @@ class ArchiveZip
                 # --------------
 
                 # Prep a message to display to the user for this error; temporary variable
-                [string] $displayErrorMessage = ("Failed to create a new archive datafile!`r`n" + `
+                [string] $displayErrorMessage = ("Failed to create a new compressed file!`r`n" + `
                                                 "$([Logging]::GetExceptionInfoShort($_.Exception))");
 
                 # Generate the initial message
                 [string] $logMessage = "Failed to create a new archive datafile!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Archive Filename [Absolute Path]: $($archiveFileName).$($archiveFileExtension)`r`n" + `
-                                            "`tContents to compact: $($targetDirectory)`r`n" + `
-                                            "`tOutput directory: $($outputPath)`r`n" + `
-                                            "$([Logging]::GetExceptionInfo($_.Exception))");
+                [string] $logAdditionalMSG = ("The Archive Data File to Create:`r`n" + `
+                                                "`t`t" + $archiveFileNameRequest + "`r`n" + `
+                                                "The path given for the contents that are to be compacted:`r`n" + `
+                                                "`t" + $targetDirectory + "`r`n" + `
+                                                "`tOutput Path to Place the Compressed File:`r`n" + `
+                                                "`t`t" + $outputPath + "`r`n" + `
+                                                "`tThe full path to the archive data file:`r`n" + `
+                                                "`t`t" + $archiveFileName + "." + $archiveFileExtension + "`r`n" + `
+                                                [Logging]::GetExceptionInfo($_.Exception));
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity($logMessage, `            # Initial message
