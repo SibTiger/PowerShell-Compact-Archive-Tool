@@ -168,12 +168,6 @@ function main()
     Write-Host "Created %TEMP% Directory Status: $([IOCommon]::MakeTempDirectory("Test", [ref] $TempDir))";
     Write-Host "  Directory Path is: $($TempDir)";
 
-    # Verify Archive File - CORRUPTED TEST
-    Write-Host "Archive File Test [Corrupted] Status: $($psArchive.VerifyArchive("F:\POSH Dev\powershit\files\corrupted-deflate.zip"))";
-
-    # Verify Archive File
-    Write-Host "Archive File Test Status: $($psArchive.VerifyArchive("F:\POSH Dev\powershit\files\tgrdm3-deflate.zip"))";
-
     # Extract files
     [string] $extractOutput = $null;
     Write-Host "Extract Status: $($psArchive.ExtractArchive("F:\POSH Dev\powershit\files\tgrdm3-deflate.zip", "F:\POSH Dev\powershit\files\extract", [ref] $extractOutput))";
