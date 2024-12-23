@@ -88,15 +88,13 @@ class ArchiveZip
 
 
     # Get the instance of this singleton object (With Args)
-    static [ArchiveZip] GetInstance([CompressionLevel] $compressionLevel, ` # Compression Level
-                                    [bool] $verifyBuild)                    # Verify Archive datafile
+    static [ArchiveZip] GetInstance([CompressionLevel] $compressionLevel)
     {
         # if there was no previous instance of the object - then create one.
         if ($null -eq [ArchiveZip]::_instance)
         {
             # Create a new instance of the singleton object.
-            [ArchiveZip]::_instance = [ArchiveZip]::new($compressionLevel, `
-                                                        $verifyBuild);
+            [ArchiveZip]::_instance = [ArchiveZip]::new($compressionLevel);
         } # If: No Singleton Instance
 
         # Provide an instance of the object.
