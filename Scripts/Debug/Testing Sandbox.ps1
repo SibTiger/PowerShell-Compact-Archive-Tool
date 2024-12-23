@@ -79,14 +79,6 @@ function main()
     #>
 
 
-    # IOCommon - Rename
-   <# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    #Write-Host "Renamed Directory Status: $([IOCommon]::RenameItem("F:\POSH Dev\powershit\files\play.txt", "MyPlayground.txt2"))";
-    #Write-Host "Renamed DIrectory Status [Bad Path]: $([IOCommon]::RenameItem("F:\POSH Dev\powershit\files\play.txt", "MyPlayground.txt2"))";
-    #Write-Host "Renamed DIrectory Status [No Name]: $([IOCommon]::RenameItem("F:\POSH Dev\powershit\files\play.txt", "$($null)"))";
-    #>
-
-
     # IOCommon - Move Directory
     <# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Write-Host "Moved Directory Status: $([IOCommon]::MoveDirectory("C:\Users\Nicholas\Desktop\test", "C:\Users\Nicholas\Desktop\House"))";
@@ -96,32 +88,12 @@ function main()
     #>
 
 
-    # IOCommon - Move Files
-    <# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    [string[]] $fileMoveList = @("*.txt", "New Microsoft Word Document (3).docx");
-    Write-Host "Moved Files Status: $([IOCommon]::MoveFile("C:\Users\Nicholas\Desktop\test", "C:\Users\Nicholas\Desktop\House", $fileMoveList))";
-    Write-Host "Moved Directory Status [Bad Target]: $([IOCommon]::MoveFile("C:\Users\Nicholas\Desktop\house\test1", "C:\Users\Nicholas\Desktop", $fileMoveList))";
-    Write-Host "Moved Directory Status [Bad Destination]: $([IOCommon]::MoveFile("C:\Users\Nicholas\Desktop\test", "C:\Users\Nicholas\Desktop\House1", $fileMoveList))";
-    Write-Host "Moved Directory Status [Bad Permissions]: $([IOCommon]::MoveFile("C:\Users\Nicholas\Desktop\testBadPermissions", "C:\Users\Nicholas\Desktop\House", $fileMoveList))";
-    #>
-
-
     # IOCommon - Copy Directory
     <# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Write-Host "Copied Directory Status: $([IOCommon]::CopyDirectory("C:\Users\Nicholas\Desktop\test", "C:\Users\Nicholas\Desktop\house"))";
     Write-Host "Copied Directory Status [Bad Target]: $([IOCommon]::CopyDirectory("C:\Users\Nicholas\Desktop\test1", "C:\Users\Nicholas\Desktop\house"))";
     Write-Host "Copied Directory Status [Bad Destination]: $([IOCommon]::CopyDirectory("C:\Users\Nicholas\Desktop\test", "C:\Users\Nicholas\Desktop\house1"))";
     Write-Host "Copied Directory Status [Bad Permissions]: $([IOCommon]::CopyDirectory("C:\Users\Nicholas\Desktop\testBadPermissions", "C:\Users\Nicholas\Desktop\house"))";
-    #>
-
-
-    # IOCommon - Copy Files
-    <# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    [string[]] $fileCopyList = @("*.txt", "New Microsoft Word Document (3).docx");
-    Write-Host "Copied Directory Status: $([IOCommon]::CopyFile("C:\Users\Nicholas\Desktop\test", "C:\Users\Nicholas\Desktop\house", $fileCopyList))";
-    Write-Host "Copied Directory Status [Bad Target]: $([IOCommon]::CopyFile("C:\Users\Nicholas\Desktop\test1", "C:\Users\Nicholas\Desktop\house", $fileCopyList))";
-    Write-Host "Copied Directory Status [Bad Destination]: $([IOCommon]::CopyFile("C:\Users\Nicholas\Desktop\test", "C:\Users\Nicholas\Desktop\house1", $fileCopyList))";
-    Write-Host "Copied Directory Status [Bad Permissions]: $([IOCommon]::CopyFile("C:\Users\Nicholas\Desktop\testBadPermissions", "C:\Users\Nicholas\Desktop\house", $fileCopyList))";
     #>
 
 
