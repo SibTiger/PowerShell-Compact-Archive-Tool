@@ -119,12 +119,6 @@ class ArchiveZip
     Hidden [CompressionLevel] $__compressionLevel;
 
 
-    # Verify Build
-    # ---------------
-    # Test the archive datafile to ensure that it is not corrupted.
-    Hidden [bool] $__verifyBuild;
-
-
     # Log Root
     # ---------------
     # The main parent directory's absolute path that will hold this object's logs directory.
@@ -218,21 +212,6 @@ class ArchiveZip
 
 
 
-   <# Get Verify Build
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'Verify Build' variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Verify Build
-    #   The value of the 'Verify Build'.
-    # -------------------------------
-    #>
-    [bool] GetVerifyBuild() { return $this.__verifyBuild; }
-
-
-
-
    <# Get Log Directory Path
     # -------------------------------
     # Documentation:
@@ -322,38 +301,6 @@ class ArchiveZip
         # Successfully updated.
         return $true;
     } # SetCompressionLevel()
-
-
-
-
-   <# Set Verify Build
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Verify Build' variable.
-    # -------------------------------
-    # Input:
-    #  [bool] Verify Archive
-    #   When true, allow the possibility to test the archive datafile's
-    #    integrity.  Otherwise, when false, do not examine the archive
-    #    file for potential errors.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetVerifyBuild([bool] $newVal)
-    {
-        # Because the value must be either true or false, there really
-        #  is no point in checking if the new requested value is 'legal'.
-        #  Thus, we are going to trust the value and automatically
-        #  return success.
-        $this.__verifyBuild = $newVal;
-
-        # Successfully updated.
-        return $true;
-    } # SetVerifyBuild()
 
     #endregion
 
