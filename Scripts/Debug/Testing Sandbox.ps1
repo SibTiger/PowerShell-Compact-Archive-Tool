@@ -98,18 +98,6 @@ function main()
 
 
 
-    # IOCommon - Search Item (Search Depth)
-    <# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    [System.IO.FileSystemInfo[]] $results = $([IOCommon]::SearchFile("E:\", "*Links*.*"));
-    Write-Host "Found the following hits: $($results.Count)";
-    Foreach ($item in $results)
-    {
-        write-host "`t>> $($item.FullName)";
-    }
-    #>
-
-
-
     # IOCommon - Websites
     <# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     $webList = @("http://tiger.rfc1337.net", `
