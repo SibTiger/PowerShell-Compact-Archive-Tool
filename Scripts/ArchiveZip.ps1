@@ -128,8 +128,8 @@ class ArchiveZip
     # Log Root Path
     # ---------------
     # This directory, in absolute form, will hold logfiles that were generated
-    #  from this object when creating, verifying, extracting, and listing
-    #  contents from within an archive datafile.
+    #  from this object when creating and extracting contents from within an
+    #  archive datafile.
     Hidden [string] $__logPath = "$($this.__rootLogPath)\logs";
 
 
