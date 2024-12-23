@@ -187,23 +187,16 @@ class ArchiveZip
     {
         # Compression Level
         $this.__compressionLevel = [CompressionLevel]::Fastest;
-
-        # Verify Build
-        $this.__verifyBuild = $true;
     } # Default Constructor
 
 
 
 
     # User Preference : On-Load
-    ArchiveZip([CompressionLevel] $compressionLevel, `
-                    [bool] $verifyBuild)
+    ArchiveZip([CompressionLevel] $compressionLevel)
     {
         # Compression Level
         $this.__compressionLevel = $compressionLevel;
-
-        # Verify Build
-        $this.__verifyBuild = $verifyBuild;
     } # User Preference Constructor
 
     #endregion
