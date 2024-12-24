@@ -84,23 +84,6 @@ class ArchiveZip
         return [ArchiveZip]::_instance;
     } # GetInstance()
 
-
-
-
-    # Get the instance of this singleton object (With Args)
-    static [ArchiveZip] GetInstance([CompressionLevel] $compressionLevel)
-    {
-        # if there was no previous instance of the object - then create one.
-        if ($null -eq [ArchiveZip]::_instance)
-        {
-            # Create a new instance of the singleton object.
-            [ArchiveZip]::_instance = [ArchiveZip]::new($compressionLevel);
-        } # If: No Singleton Instance
-
-        # Provide an instance of the object.
-        return [ArchiveZip]::_instance;
-    } # GetInstance()
-
     #endregion
 
 
@@ -112,12 +95,6 @@ class ArchiveZip
 
 
     #region Hidden Variables
-
-    # Compression Level
-    # ---------------
-    # The compression level specified when compacting data into an archive datafile.
-    Hidden [CompressionLevel] $__compressionLevel;
-
 
     # Log Root
     # ---------------
@@ -175,42 +152,13 @@ class ArchiveZip
     #region Constructor Functions
 
     # Default Constructor
-    ArchiveZip()
-    {
-        # Compression Level
-        $this.__compressionLevel = [CompressionLevel]::Fastest;
-    } # Default Constructor
-
-
-
-
-    # User Preference : On-Load
-    ArchiveZip([CompressionLevel] $compressionLevel)
-    {
-        # Compression Level
-        $this.__compressionLevel = $compressionLevel;
-    } # User Preference Constructor
+    ArchiveZip() {;}
 
     #endregion
 
 
 
     #region Getter Functions
-
-   <# Get Compression Level
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'Compression Level' variable.
-    # -------------------------------
-    # Output:
-    #  [CompressionLevel] Compression Level
-    #   The value of the 'Compression Level'.
-    # -------------------------------
-    #>
-    [CompressionLevel] GetCompressionLevel() { return $this.__compressionLevel; }
-
-
-
 
    <# Get Log Directory Path
     # -------------------------------
@@ -268,39 +216,6 @@ class ArchiveZip
     # -------------------------------
     #>
     [GUID] GetObjectGUID() { return $this.__objectGUID; }
-
-    #endregion
-
-
-
-    #region Setter Functions
-
-   <# Set Compression Level
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Compression Level' variable.
-    # -------------------------------
-    # Input:
-    #  [CompressionLevel] Compression Level
-    #   The desired compression level for compacting data into the archive datafile.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetCompressionLevel([CompressionLevel] $newVal)
-    {
-        # Because the value must fit within the 'CompressionLevel'
-        #  datatype, there really is no point in checking if the new
-        #  requested value is 'legal'.  Thus, we are going to trust the
-        #  value and automatically return success.
-        $this.__compressionLevel = $newVal;
-
-        # Successfully updated.
-        return $true;
-    } # SetCompressionLevel()
 
     #endregion
 
@@ -1515,6 +1430,8 @@ class ArchiveZip
                                                                     #   Thus, this variable will be set as 'PK3'.
         [string] $archiveFileName = $null;                          # This will hold the archive data file's full name, including the
                                                                     #  absolute path to access the file specifically.
+        [string] $compressionLevel = "Optimal";                     # Specified Compression Level to be used when creating the compressed
+                                                                    #   file.
         [bool] $exitCode = $false;                                  # The exit code status provided by the Compress-Archive operation
                                                                     #  status.  If the operation was successful, then true will be
                                                                     #  set.  Otherwise, it well be set as false to signify an error.
@@ -1867,7 +1784,7 @@ class ArchiveZip
             # Create the archive datafile.
             Compress-Archive -Path "$($targetDirectory)\*" `
                              -DestinationPath "$($archiveFileName).$($archiveFileExtension)" `
-                             -CompressionLevel $this.GetCompressionLevel() `
+                             -CompressionLevel $compressionLevel `
                              -ErrorAction Stop `
                              -PassThru `
                              -OutVariable execSTDOUT `
@@ -2180,21 +2097,3 @@ class ArchiveZip
     #endregion
     #endregion
 } # ArchiveZip
-
-
-
-
-<# Compression Level [ENUM]
- # -------------------------------
- # Associated with what type of compression level the end-user prefers when compacting
- #  source files into an archive datafile through the ArchiveZip object.
- # Please see the '-CompressionLevel' from the 'Compress-Archive' CMDLet here:
- #  https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive/compress-archive#parameters
- # -------------------------------
- #>
-enum CompressionLevel
-{
-    Optimal         = 0;    # Best Compression
-    Fastest         = 1;    # Light Compression
-    NoCompression   = 2;    # Store
-} # CompressionLevel

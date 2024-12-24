@@ -250,11 +250,6 @@ class ProjectManagerInstallation
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Retrieve the current instance of the user's Archive Zip object; this contains
-        #  the user's preferences as to how the Archive ZIP module will be utilized within this
-        #  application.
-        [ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
-
         # Browse File Title String
         [string] $windowsGUIBrowseFileTitleStr = "Select one or more $($GLOBAL:_PROGRAMNAMESHORT_) Project(s) to Install or Update";
 

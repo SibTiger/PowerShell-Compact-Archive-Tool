@@ -11,7 +11,7 @@ function main()
     # Initialize the objects
     [UserPreferences] $userPref = [UserPreferences]::GetInstance();
 
-    [ArchiveZip] $psArchive = [ArchiveZip]::new(0);
+    [ArchiveZip] $psArchive = [ArchiveZip]::new();
     
     [LoadSaveUserConfiguration] $loadSaveConfigs = `
                 [LoadSaveUserConfiguration]::new("$($Global:_PROGRAMDATA_CONFIGS_PATH_)");

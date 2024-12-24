@@ -500,9 +500,6 @@ class LoadSaveUserConfiguration
         # ----------------------------------------
         # Retrieve the User's Preferences
         [UserPreferences] $userPref = [UserPreferences]::GetInstance();
-
-        # Retrieve the User's Archive Zip Settings
-        [ArchiveZip] $psArchive = [ArchiveZip]::GetInstance();
         # ----------------------------------------
 
 
@@ -554,7 +551,7 @@ class LoadSaveUserConfiguration
         try
         {
             Export-Clixml -Path "$($this.GetConfigPath())\$($this.GetConfigFileName())" `
-                          -InputObject @($userPref, $psArchive) `
+                          -InputObject @($userPref) `
                           -Encoding UTF8NoBOM `
                           -ErrorAction Stop;
 
@@ -858,9 +855,6 @@ class LoadSaveUserConfiguration
         # -----------------------------------------
         # Retrieve the User's Preferences
         [UserPreferences] $userPref = [UserPreferences]::GetInstance();
-
-        # Retrieve the User's Archive Zip Settings
-        [ArchiveZip] $psArchive = [ArchiveZip]::GetInstance();
         # -----------------------------------------
 
 
@@ -891,38 +885,6 @@ class LoadSaveUserConfiguration
                                     "User Preferences", `                                   # The Variable Category
                                     [string]$cachedUserConfig[0].__outputBuildsPath, `      # Value Stored in User Config
                                     [string]$userPref.GetProjectBuildsPath(), `             # Current value of Variable
-                                    $_.Exception);                                          # Exception Details
-        } # Catch : Unknown Value from Config.
-
-
-
-
-
-        # STEP 2 - POWERSHELL'S ARCHIVE SETTINGS
-        # -------------------------------------
-        # -------------------------------------
-        # -------------------------------------
-
-
-        # POWERSHELL'S ARCHIVE SETTINGS -- COMPRESSION LEVEL
-        # - - - - - - - - - - - - - - - - - - - - - - -
-        try
-        {
-            # Set: Compression Level
-            $psArchive.SetCompressionLevel([int32]$cachedUserConfig[3].__compressionLevel);
-        } # Try : Load Value from Config
-
-        # Error trying to load variable into the current program's instance.
-        catch
-        {
-            # Because the value was unknown, we will keep what value is already stored.
-
-
-            # Provide error information to the user and logfile.
-            $this.__LoadStepWiseError("__compressionLevel", `                               # The Variable Name
-                                    "Archive Settings", `                                   # The Variable Category
-                                    [string]$cachedUserConfig[3].__compressionLevel, `      # Value Stored in Config
-                                    [string]$psArchive.GetCompressionLevel(), `             # Current Value
                                     $_.Exception);                                          # Exception Details
         } # Catch : Unknown Value from Config.
 
