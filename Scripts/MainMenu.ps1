@@ -194,14 +194,6 @@ class MainMenu
         } # if : Show Project's Source Code
 
 
-        # Project Installer
-        [CommonCUI]::DrawMenuItem('I', `
-                                "Install Projects into $($GLOBAL:_PROGRAMNAMESHORT_)", `
-                                "Install or Update projects into $($GLOBAL:_PROGRAMNAME_)", `
-                                $NULL, `
-                                $true);
-
-
         # Help Documentation
         [CommonCUI]::DrawMenuItem('?', `
                                 "Help Documentation", `
@@ -381,25 +373,6 @@ class MainMenu
                 # Finished
                 break;
             } # Access ZDoom project's Repository
-
-
-            # Project Installer
-            #  NOTE: Allow the user's request when they type: 'Installer', 'Install', 'Project Installer',
-            #       'Install Project' as well as 'I'
-            {($_ -eq "Installer") -or `
-                ($_ -eq "Install") -or `
-                ($_ -eq "Project Installer") -or `
-                ($_ -eq "Project Install") -or `
-                ($_ -eq "Install Project") -or `
-                ($_ -eq "I")}
-                {
-                    # Open the Project Installer through the Project Manager
-                    [ProjectManager]::Main([ProjectManagerOperationRequest]::ShowMenu);
-
-
-                    # Finished
-                    break;
-                } # Install \ Update PSCAT Project
 
 
             # Access the Help Program's Documentation
