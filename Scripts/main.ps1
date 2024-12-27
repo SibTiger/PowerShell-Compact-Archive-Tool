@@ -116,11 +116,6 @@ CreateDirectories | Out-Null;
 
 
 #region Instantiate Singletons
-
-# Initialize the User Preference object.
-[UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
-
-
 # Initialize the dotNet Core Zip Archive object
 [ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
 

@@ -291,7 +291,6 @@ function MakeCompilerDriver
                         "ProgramFunctions.ps1", `
                         "ArchiveZip.ps1", `
                         "ProjectInformation.ps1", `
-                        "UserPreferences.ps1", `
                         "LoadSaveUserConfigs.ps1", `
                         "Logging.ps1", `
                         "SystemInformation.ps1", `
