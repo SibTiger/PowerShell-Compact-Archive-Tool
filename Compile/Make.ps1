@@ -297,16 +297,7 @@ function MakeCompilerDriver
                         "SystemInformation.ps1", `
                         "WebsiteResources.ps1", `
                         "NotificationAudible.ps1", `
-                        "ProjectManager.ps1", `
-                        "ProjectManagerInstallation.ps1", `
-                        "ProjectManagerLoadProject.ps1", `
-                        "ProjectManagerCommon.ps1", `
-                        "ProjectManagerUninstall.ps1", `
-                        "ProjectManagerShowProjects.ps1", `
                         "ProjectMetaData.ps1", `
-                        "ProjectUserConfig.ps1", `
-                        "ProjectUserConfigLoadSave.ps1", `
-                        "ProjectUserConfigSettings.ps1", `
                         "MainMenu.ps1", `
                         "Builder.ps1", `
                         "Clean.ps1", `
