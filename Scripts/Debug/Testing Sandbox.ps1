@@ -9,12 +9,7 @@ function main()
     Initializations;
 
     # Initialize the objects
-    [UserPreferences] $userPref = [UserPreferences]::GetInstance();
-
     [ArchiveZip] $psArchive = [ArchiveZip]::new();
-    
-    [LoadSaveUserConfiguration] $loadSaveConfigs = `
-                [LoadSaveUserConfiguration]::new("$($Global:_PROGRAMDATA_CONFIGS_PATH_)");
 
 
     # Check Special Directories
@@ -68,14 +63,6 @@ function main()
     Write-Host "Writing to file (Message 2): $([Logging]::WriteLogFile("Alex Jones"))";
     Write-Host "Stopping Transcription: $([Logging]::CaptureBufferStop())";
     Write-Host "Writing to file (Message 3): $([Logging]::WriteLogFile("Jackthomson in the airflane smequel of Jack Krost!"))";
-    #>
-
-
-    # Save\Load Functionality
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    #Write-Host "Load Configuration Status: $($loadSaveConfigs.Load($userPref, $psArchive))`r`n";
-    
-    #Write-Host "Saved Configuration Status: $($loadSaveConfigs.Save($userPref, $psArchive))`r`n";
     #>
 
 
@@ -154,16 +141,6 @@ function main()
 
 # Flush the terminal's buffer.
 [IOCommon]::ClearBuffer();
-
-
-
-# User Preferences
-$userPreferences = [UserPreferences]::GetInstance(0, `                                                         # Compression
-                                    "$($env:HOMEDRIVE)$($env:HOMEPATH)\Projects\ZDoom WADs\Alphecca\Source", ` # Project Path
-                                    "$($global:_USERDATA_BUILDS_PATH_)", `                                     # Output
-                                    $true, `                                                                   # Use Explorer.exe?
-                                    $true, `                                                                   # Use Bell?
-                                    0);
 #Write-Host ("PARENT User Preference GUID is: $($userPreferences.GetObjectGUID())`r`n");
 # Start the program
 main;
