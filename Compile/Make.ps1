@@ -308,7 +308,6 @@ function MakeCompilerDriver
                         "ProjectUserConfig.ps1", `
                         "ProjectUserConfigLoadSave.ps1", `
                         "ProjectUserConfigSettings.ps1", `
-                        "BurntToast.ps1", `
                         "MainMenu.ps1", `
                         "Builder.ps1", `
                         "Clean.ps1", `
