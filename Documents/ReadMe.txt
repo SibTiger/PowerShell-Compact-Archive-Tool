@@ -43,16 +43,6 @@ b. General Requirements
 
 
 
-c. Optional Requirements
-- - - - - - - - - - - -
-    1. BurntToast: 0.8.5
-                Provides Toast Notifications to the user.
-                    Webpage:    https://github.com/Windos/BurntToast
-                    License:    MIT
-                    Cost:       Free
-
-
-
 
 2) What is PowerShell Compact-Archive Tool
 --------------------------------------------------------------------
