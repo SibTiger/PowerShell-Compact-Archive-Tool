@@ -298,7 +298,6 @@ function MakeCompilerDriver
                         "SystemInformation.ps1", `
                         "WebsiteResources.ps1", `
                         "NotificationAudible.ps1", `
-                        "NotificationVisual.ps1", `
                         "ProjectManager.ps1", `
                         "ProjectManagerInstallation.ps1", `
                         "ProjectManagerLoadProject.ps1", `
