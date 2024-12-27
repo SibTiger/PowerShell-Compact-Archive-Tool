@@ -299,7 +299,6 @@ function MakeCompilerDriver
                         "WebsiteResources.ps1", `
                         "NotificationAudible.ps1", `
                         "NotificationVisual.ps1", `
-                        "SettingsZip.ps1", `
                         "SettingsProjectUserConfig.ps1", `
                         "ProjectManager.ps1", `
                         "ProjectManagerInstallation.ps1", `
