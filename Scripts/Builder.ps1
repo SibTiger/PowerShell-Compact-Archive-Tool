@@ -291,10 +291,6 @@ class Builder
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Retrieve the current instance of the User Preferences object; this contains the user's
-        #  generalized settings.
-        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
-
         # Retrieve the current instance of the Project Information object; this contains details
         #  in regards to where the source files exists within the user's system.
         [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
@@ -398,7 +394,7 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
 
         # Check the current status of the Output Path
-        $boolCacheValue = [CommonIO]::CheckPathExists($userPreferences.GetProjectBuildsPath(), $true);
+        $boolCacheValue = [CommonIO]::CheckPathExists($GLOBAL:_OUTPUT_BUILDS_PATH_, $true);
 
         # Can we find the output path?
         if ($boolCacheValue -eq $false)
@@ -423,7 +419,7 @@ class Builder
             # Generate a message to display to the user.
             [string] $displayErrorMessage = ("I cannot find the folder to store any new compiled builds!`r`n" + `
                                             "Please reconfigure the Output Path in the program's general settings!`r`n" + `
-                                            "`t- Output Path is presently: $($userPreferences.GetProjectBuildsPath())`r`n" + `
+                                            "`t- Output Path is presently: $($GLOBAL:_OUTPUT_BUILDS_PATH_)`r`n" + `
                                             "`t- Path Exists Detection Status: $([string]$boolCacheValue)");
 
             # Generate the initial message
@@ -431,7 +427,7 @@ class Builder
 
             # Generate any additional information that might be useful
             $logAdditionalMSG = ("Please reconfigure the location of the Output Directory.`r`n" + `
-                                "`tOutput Directory Location is: $($userPreferences.GetProjectBuildsPath())`r`n" + `
+                                "`tOutput Directory Location is: $($GLOBAL:_OUTPUT_BUILDS_PATH_)`r`n" + `
                                 "`tOutput Directory Path Found: $([string]$boolCacheValue)");
 
             # Pass the information to the logging system
@@ -589,10 +585,6 @@ class Builder
         # This will hold the filename for the archive data file
         [string] $archiveFileName = $null;
 
-        # Retrieve the current instance of the User Preferences object; this contains the user's
-        #  generalized settings.
-        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
-
         # Retrieve the current instance of the Project Information object; this contains details
         #  in regards to where the source files exists within the user's system.
         [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
@@ -637,24 +629,16 @@ class Builder
     #>
     hidden static [string] __GenerateOutputPath()
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Retrieve the current instance of the User Preferences object; this contains the user's
-        #  generalized settings.
-        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
-        # ----------------------------------------
-
-
         # Show that we determining the final output location
         [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Determining the Output Directory. . .");
 
 
         # Show that we had concluded the output directory and everything is finished!
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "The compiled build will be stored under `"$($userPreferences.GetProjectBuildsPath())`"");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "The compiled build will be stored under `"$($GLOBAL:_OUTPUT_BUILDS_PATH_)`"");
 
 
         # We will store the archive file in the output directory as-is
-        return $userPreferences.GetProjectBuildsPath();
+        return $GLOBAL:_OUTPUT_BUILDS_PATH_;
     } # __GenerateOutputPath()
 
 
@@ -691,10 +675,6 @@ class Builder
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Retrieve the current instance of the User Preferences object; this contains the user's
-        #  generalized settings.
-        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
-
         # Retrieve the current instance of the user's Archive Zip object; this contains
         #  the user's preferences as to how the Archive ZIP module will be utilized within this
         #  application.
@@ -722,7 +702,7 @@ class Builder
 
         # Compact the files
         if (!$archiveZip.CreateArchive($archiveFileName, `
-                                        $userPreferences.GetProjectBuildsPath(), `
+                                        $GLOBAL:_OUTPUT_BUILDS_PATH_, `
                                         $projectPath, `
                                         $filePath))
         {
@@ -753,7 +733,7 @@ class Builder
             # Generate any additional information that might be useful
             $logAdditionalMSG = ("Compression Tool: Archive Module [Default]`r`n" + `
                                 "`tArchive File Name Requested: $($archiveFileName)`r`n" + `
-                                "`tOutput Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
+                                "`tOutput Path: $($GLOBAL:_OUTPUT_BUILDS_PATH_)`r`n" + `
                                 "`tProject Path: $($projectPath)`r`n" + `
                                 "`tEntire Path (Optional): $($filePath.Value)");
 
@@ -794,7 +774,7 @@ class Builder
 
         # Generate any additional information that might be useful
         $logAdditionalMSG = ("Archive File Name Requested: $($archiveFileName)`r`n" + `
-                            "`tOutput Path: $($userPreferences.GetProjectBuildsPath())`r`n" + `
+                            "`tOutput Path: $($GLOBAL:_OUTPUT_BUILDS_PATH_)`r`n" + `
                             "`tProject Path: $($projectPath)" + `
                             "`tEntire Path: $($filePath.Value)");
 
@@ -974,11 +954,6 @@ class Builder
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Retrieve the current instance of the User Preferences object; this contains the user's
-        #  generalized settings.
-        [UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
-
-
         # Retrieve the current instance of the Project Information object; this contains details
         #  in regards to where the source files exists within the user's system.
         [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
