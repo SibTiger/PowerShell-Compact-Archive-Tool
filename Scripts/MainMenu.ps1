@@ -202,14 +202,6 @@ class MainMenu
                                 $true);
 
 
-        # Preferences
-        [CommonCUI]::DrawMenuItem('P', `
-                                "Preferences", `
-                                "Configure how $($GLOBAL:_PROGRAMNAME_) works within your desired environment.", `
-                                $NULL, `
-                                $true);
-
-
         # Help Documentation
         [CommonCUI]::DrawMenuItem('?', `
                                 "Help Documentation", `
@@ -408,21 +400,6 @@ class MainMenu
                     # Finished
                     break;
                 } # Install \ Update PSCAT Project
-
-
-            # Configure User Preferences
-            #  NOTE: Allow the user's request when they type: 'Settings', 'Preferences', as well as 'P'.
-            {($_ -eq "P") -or `
-                ($_ -eq "Settings") -or `
-                ($_ -eq "Preferences")}
-            {
-                # Open the Preferences Main Menu
-                [Settings]::Main();
-
-
-                # Finished
-                break;
-            } # Configure User Preferences
 
 
             # Access the Help Program's Documentation
