@@ -145,8 +145,5 @@
 ; Ask user to Create Desktop Shortcut
 #include ".\Scripts\Tasks\Desktop Shortcut.iss"
 
-; Ask user to Download Optional Dependencies
-#include ".\Scripts\Tasks\Optional Downloads.iss"
-
 ; Check for PowerShell Core Dependency
 #include ".\Scripts\Tasks\Check POSHCore.iss"
