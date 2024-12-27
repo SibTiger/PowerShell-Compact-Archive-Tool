@@ -71,10 +71,6 @@ function main()
     [CommonIO]::SetTerminalWindowTitle("$($Global:_PROGRAMNAME_) (Version $($Global:_VERSION_))");
 
 
-    # Load the user's configurations, if available.
-    $loadSaveUserConfiguration.Load();
-
-
     # Delay the program momentarily so the user can see the splash screen.
     [CommonIO]::DelayTicks($splashScreenHoldTime);
 
@@ -85,10 +81,6 @@ function main()
 
     # Execute the Main Menu; from here - the program will be entirely driven by User Interactions.
     $exitLevel = [MainMenu]::Main();
-
-
-    # Save the user's configurations before terminating the program.
-    $loadSaveUserConfiguration.Save();
 
 
     # Restore the Window Title back to it's state.
@@ -118,11 +110,6 @@ CreateDirectories | Out-Null;
 #region Instantiate Singletons
 # Initialize the dotNet Core Zip Archive object
 [ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
-
-
-# Initialize the Loading and Saving of User Configurations
-[LoadSaveUserConfiguration] $loadSaveUserConfiguration = `
-                                [LoadSaveUserConfiguration]::GetInstance();
 
 
 # Initialize the main Project Information object
