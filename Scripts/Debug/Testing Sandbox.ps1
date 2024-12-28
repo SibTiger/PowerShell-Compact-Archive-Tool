@@ -113,14 +113,6 @@ function main()
     Write-Host "Created %TEMP% Directory Status: $([IOCommon]::MakeTempDirectory("Test", [ref] $TempDir))";
     Write-Host "  Directory Path is: $($TempDir)";
 
-    # Extract files
-    [string] $extractOutput = $null;
-    Write-Host "Extract Status: $($psArchive.ExtractArchive("F:\POSH Dev\powershit\files\tgrdm3-deflate.zip", "F:\POSH Dev\powershit\files\extract", [ref] $extractOutput))";
-    Write-Host "  Directory Path is: $($extractOutput)";
-
-    Write-Host "Extract Status [1]: $($psArchive.ExtractArchive("F:\POSH Dev\powershit\files\corrupted-deflate.zip", "F:\POSH Dev\powershit\files\extract", [ref] $extractOutput))";
-    Write-Host "  Directory Path is [1]: $($extractOutput)";
-
     # Create Archivefile
     [string] $archiveOutput = $null;
     Write-Host "Create Archive File Status: $($psArchive.CreateArchive("NewTestBuild", "F:\POSH Dev\powershit\files\extract", "C:\Users\Nicholas\AppData\Local\Programs\GZDoom*", [ref] $archiveOutput))";
