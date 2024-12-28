@@ -522,46 +522,14 @@ function InitializationDirectoryPaths_Project()
     # Program Data [Roaming AppData]
 
 
-    # Project Art Directory Path
+
+
     # ---------------
-    # The directory that will contain the project's images that will be visible using Windows' Toast Notifications.
     Set-Variable `
-        -Name "_PROGRAMDATA_ROAMING_PROJECT_ART_PATH_" `
-        -Value "$($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_)\$([ProjectInformation]::projectName)\Art" `
         -Scope Global `
         -Option ReadOnly `
         -Visibility Public `
-        -Force `
         -ErrorAction SilentlyContinue `
-        -Description "Holds the path for the project's art pieces, such as logo and banner images.";
-
-
-    # Project Logo Art
-    # ---------------
-    # The project's logo image that will be shown within the Windows Toast Notifications.
-    Set-Variable `
-        -Name "_PROGRAMDATA_ROAMING_PROJECT_ART_LOGO_PATH_" `
-        -Value "$($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_ART_PATH_)\Logo.png" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -Force `
-        -ErrorAction SilentlyContinue `
-        -Description "Holds the path of the project's logo image that will be visible in Windows Toast Notifications.";
-
-
-    # Project Banner Art
-    # ---------------
-    # The project's banner image (also known as Hero Image) that will be shown within the Windows Toast Notifications.
-    Set-Variable `
-        -Name "_PROGRAMDATA_ROAMING_PROJECT_ART_BANNER_PATH_" `
-        -Value "$($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_ART_PATH_)\Banner.png" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -Force `
-        -ErrorAction SilentlyContinue `
-        -Description "Holds the path of the project's banner image that will be visible in Windows Toast Notifications.";
 } # InitializationDirectoryPaths_Project()
 
 
