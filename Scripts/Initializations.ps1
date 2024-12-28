@@ -40,8 +40,8 @@ function Initializations()
     # Program Data and Internal Mutable Data
     InitializationProgramData;
 
-    # Directory Paths - Program
-    __Initialization_DirectorySetupDriver([InitializationsDirectoryChoice]::Program);
+    # Directory Paths
+    InitializationDirectoryPaths
 
     # Program environment
     InitializationEnvironment;
@@ -49,74 +49,6 @@ function Initializations()
     # Generalized Variables
     GeneralizedVariables;
 } # Initializations()
-
-
-
-
-<# Initializations - Update Project Paths
- # -------------------------------
- # Documentation:
- #  This function, when called, will update the project path global variables.  This is useful
- #   for when a project had been loaded after the initialization ritual, but we need to have the
- #   paths updated.
- #  Thus, when we need to load-in a new project into the environment, then we also need to update
- #   the project paths as well.  This is where this function comes into play.
- #
- # NOTE: This function is NOT intended to be loaded before the main Initialization function driver.
- # -------------------------------
- #>
-function Initializations_UpdateProjectPaths()
-{
-    # Directory Paths - Project Environment
-    __Initialization_DirectorySetupDriver([InitializationsDirectoryChoice]::Project);
-} # Initializations_UpdateProjectPaths()
-
-
-
-
-<# Initializations - Directory Driver
- # -------------------------------
- # Documentation:
- #  This function will provide a gateway into initializing the desired directory global variables.
- #
- # NOTE:
- #  It is strongly recommended to initialize the Program directories before initializing any other
- #   directory variables!
- # -------------------------------
- # Input:
- #  [InitializationsDirectoryChoice] Directory Setup
- #   This will determine what directory variables are to be initialized or re-assigned.
- # -------------------------------
-#>
-function __Initialization_DirectorySetupDriver([InitializationsDirectoryChoice] $directorySetup)
-{
-    # Determine what directory variables to initialize
-    switch ($directorySetup)
-    {
-        # Program Directories
-        ([InitializationsDirectoryChoice]::Program)
-        {
-            # Setup the Program's directories
-            InitializationDirectoryPaths_Program;
-
-
-            # Finished!
-            break;
-        } # Program Directories
-
-
-        # Project Directories
-        ([InitializationsDirectoryChoice]::Project)
-        {
-            # Setup the Loaded Project's directories
-            InitializationDirectoryPaths_Project;
-
-
-            # Finished!
-            break;
-        } # Project Directories
-    } # switch : Determine Directory Initializations
-} # __Initialization_DirectorySetupDriver()
 
 
 
@@ -294,14 +226,14 @@ function InitializationProgramData()
 
 
 
-<# Initialization Directory Paths - Program Paths
+<# Initialization Directory Paths
  # -------------------------------
  # Documentation:
  #  This function will initialize variables that will provide the directory paths used
  #   for the program's needs within the host system.
  # -------------------------------
  #>
-function InitializationDirectoryPaths_Program()
+function InitializationDirectoryPaths()
 {
     # Script Absolute Script Path
     # ---------------
@@ -385,29 +317,8 @@ function InitializationDirectoryPaths_Program()
         -Description "Holds the root path in which the program data will be stored, but can be moved around within a Roaming Profile environment.";
 
 
-} # InitializationDirectoryPaths_Program()
-
-
-
-
-<# Initialization Directory Paths - Project Paths
- # -------------------------------
- # Documentation:
- #  This function will initialize variables that will provide the directory paths used
- #   for loaded projects within the host system.
- # -------------------------------
- #>
-function InitializationDirectoryPaths_Project()
-{
-    # ----
-    # User Data
-
-
 
     # ----
-    # Program Data [Local AppData]
-
-
     # Output Directories
 
 
@@ -421,8 +332,8 @@ function InitializationDirectoryPaths_Project()
         -Option ReadOnly `
         -Visibility Public `
         -ErrorAction SilentlyContinue `
-} # InitializationDirectoryPaths_Project()
         -Description "Contains the parent path where the compiled builds will be stored.";
+} # InitializationDirectoryPaths()
 
 
 
@@ -516,18 +427,3 @@ function FetchPathAppDataRoaming() { return $env:APPDATA; }
  # -------------------------------
  #>
 function FetchPathUserDocuments() { return "$($env:HOMEDRIVE)$($env:HOMEPATH)\Documents"; }
-
-
-
-
-<# Initialize Directory Choice [ENUM]
- # -------------------------------
- # Provides a readability aid as to what directories are to be
- #  initialized or re-assigned if necessary.
- # -------------------------------
- #>
-enum InitializationsDirectoryChoice
-{
-    Program     = 0;    # Program Directories
-    Project     = 1;    # Project Directories
-} # InitializationsDirectoryChoice
