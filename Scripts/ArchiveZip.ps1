@@ -117,15 +117,6 @@ class ArchiveZip
     # =================================================
 
 
-    #region Constructor Functions
-
-    # Default Constructor
-    ArchiveZip() {;}
-
-    #endregion
-
-
-
     #region Getter Functions
 
    <# Get Log Directory Path
