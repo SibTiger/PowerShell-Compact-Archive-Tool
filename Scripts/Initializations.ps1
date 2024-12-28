@@ -50,7 +50,7 @@ function Initializations()
     __InitializationProjectUserConfiguration;
 
     # Generalized Variables
-    __GeneralizedVariables;
+    GeneralizedVariables;
 } # Initializations()
 
 
@@ -459,7 +459,7 @@ function InitializationEnvironment()
  #  This function will initialize generalized variables that can be used within the program.
  # -------------------------------
  #>
-function __GeneralizedVariables()
+function GeneralizedVariables()
 {
     # Default GUID
     Set-Variable `
@@ -470,11 +470,7 @@ function __GeneralizedVariables()
         -Visibility Public `
         -ErrorAction SilentlyContinue `
         -Description "Provides a zero filled GUID that will act as a temporary default.";
-} # __GeneralizedVariables()
-
-
-
-
+} # GeneralizedVariables()
 
 
 
