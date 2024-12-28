@@ -57,38 +57,6 @@
 
 class ArchiveZip
 {
-    # Object Singleton Instance
-    # =================================================
-    # =================================================
-
-
-    #region Singleton Instance
-
-    # Singleton Instance of the object
-    hidden static [ArchiveZip] $_instance = $null;
-
-
-
-
-    # Get the instance of this singleton object (Default)
-    static [ArchiveZip] GetInstance()
-    {
-        # if there was no previous instance of the object - then create one.
-        if ($null -eq [ArchiveZip]::_instance)
-        {
-            # Create a new instance of the singleton object.
-            [ArchiveZip]::_instance = [ArchiveZip]::new();
-        } # If: No Singleton Instance
-
-        # Provide an instance of the object.
-        return [ArchiveZip]::_instance;
-    } # GetInstance()
-
-    #endregion
-
-
-
-
     # Member Variables :: Properties
     # =================================================
     # =================================================
