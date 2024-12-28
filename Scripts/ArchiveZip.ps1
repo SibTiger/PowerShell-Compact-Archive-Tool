@@ -49,16 +49,16 @@ class ArchiveZip
 
     # Log Root
     # ---------------
-    # The main parent directory's absolute path that will hold this object's logs directory.
-    Hidden [string] $__rootLogPath = "$($global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_)\PSArchive";
+    # The absolute path to the parent directory.
+    Hidden Static [string] $__rootLogPath = "$($global:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_)\PSArchive";
 
 
     # Log Root Path
     # ---------------
-    # This directory, in absolute form, will hold logfiles that were generated
-    #  from this object when creating and extracting contents from within an
-    #  archive datafile.
-    Hidden [string] $__logPath = "$($this.__rootLogPath)\logs";
+    # The absolute path to the logs directory, where the Archive
+    #   PowerShell Module activities will be stored.  Useful to
+    #   capture errors and verbose activities when available.
+    Hidden Static [string] $__logPath = "$($this.__rootLogPath)\logs";
 
 
     # PowerShell Module Name
