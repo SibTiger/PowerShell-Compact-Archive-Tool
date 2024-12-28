@@ -46,9 +46,6 @@ function Initializations()
     # Program environment
     InitializationEnvironment;
 
-    # Project User Configuration
-    __InitializationProjectUserConfiguration;
-
     # Generalized Variables
     GeneralizedVariables;
 } # Initializations()
