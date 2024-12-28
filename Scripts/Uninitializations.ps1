@@ -137,6 +137,8 @@ function Uninitializations()
         -Force `
         -ErrorAction SilentlyContinue;
 
+    # Builds Output Path
+    Remove-Variable -Name "_OUTPUT_BUILDS_PATH_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;

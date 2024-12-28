@@ -411,15 +411,21 @@ function InitializationDirectoryPaths_Project()
     # Program Data [Local AppData]
 
 
+    # Output Directories
 
 
+    # Output Builds Directory Path
     # ---------------
+    # The compiled builds directory path
     Set-Variable `
+        -Name "_OUTPUT_BUILDS_PATH_" `
+        -Value "$(FetchPathUserDocuments)\$($GLOBAL:_PROGRAMNAME_)" `
         -Scope Global `
         -Option ReadOnly `
         -Visibility Public `
         -ErrorAction SilentlyContinue `
 } # InitializationDirectoryPaths_Project()
+        -Description "Contains the parent path where the compiled builds will be stored.";
 
 
 
