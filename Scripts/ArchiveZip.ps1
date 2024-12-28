@@ -237,15 +237,18 @@ class ArchiveZip
    <# Detect Compression Module
     # -------------------------------
     # Documentation:
-    #  This function will try to detect if the required PowerShell Module is
-    #   presently available within the PowerShell Core's environment.  Without
-    #   the PowerShell Module, the primary functionality within this class is
-    #   merely pointless.
+    #  This function will detect if the required PowerShell Module(s),
+    #   are available within the current PowerShell's environment.
+    #
+    # DEVELOPER NOTE:
+    #   Using 'Get-Module' CMDLet will return $true if there is any version installed
+    #   of the desired PowerShell Module.  Otherwise, $false will be given.
+    #   Reference: https://stackoverflow.com/a/28740512
     # -------------------------------
     # Output:
-    #  [bool] Exit code
-    #   $false = Required PowerShell Module was not found
-    #   $true = Required PowerShell Module was found
+    #  [bool] Detection State
+    #   $true   = Required PowerShell Module was found
+    #   $false  = Required PowerShell Module was not found
     # -------------------------------
     #>
     [bool] DetectCompressModule()
@@ -257,11 +260,9 @@ class ArchiveZip
         # ----------------------------------------
 
 
-        # We are going to try to detect if the module is available within this
-        #  PowerShell instance.  If incase it is not available - then we must
-        #  return false, or simply stating that it was not found.
-        # NOTE: If there is ANY output, then this function will return true.
-        # Reference: https://stackoverflow.com/a/28740512
+
+        # Determine if /any/ version of the PowerShell Module was found
+        #   within the current PowerShell environment.
         if (Get-Module -ListAvailable -Name $moduleName)
         {
             # Detected the PowerShell Module
@@ -272,10 +273,10 @@ class ArchiveZip
             # --------------
 
             # Generate the initial message
-            [string] $logMessage = "Found the $($this.GetPowerShellModuleName())) PowerShell Module!";
+            [string] $logMessage = "Found the PowerShell Module: " + $moduleName + "!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = "It is possible to use $($this.GetPowerShellModuleName()) features!";
+            [string] $logAdditionalMSG = "It is possible to use $($moduleName) features!";
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -289,33 +290,48 @@ class ArchiveZip
             return $true;
         } # if : Module is installed
 
+
+
         # Unable to find the required PowerShell Module
-        else
-        {
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Generate the initial message
-            [string] $logMessage = "Could not find the PowerShell Module: $($this.GetPowerShellModuleName())!";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("It is not possible to use $($this.GetPowerShellModuleName()) features!`r`n" + `
-                                        "`t- Please make sure that you have the latest version of the PowerShell Core installed:`r`n" + `
-                                        "`t`thttps://github.com/PowerShell/PowerShell`r`n" + `
-                                        "`t- If needed, you may also need to download the latest version of the dotNET Core:`r`n" + `
-                                        "`t`thttps://dotnet.microsoft.com/download");
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity($logMessage, `                # Initial message
-                                        $logAdditionalMSG, `            # Additional information
-                                        [LogMessageLevel]::Warning);    # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
-        } # Else : Module not detected
 
 
-        # Because the PowerShell Module was not detected.
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate a message to display to the user.
+        [string] $displayErrorMessage = ("It is not possible to create a compressed file, because the required PowerShell " + `
+                                            "Modules were not found:`r`n " + `
+                                        "`t" + $moduleName + "`r`n" + `
+                                        "`r`n" + `
+                                        "Please make sure that you have the latest version of the PowerShell Core installed:`r`n" + `
+                                        "`thttps://github.com/PowerShell/PowerShell");
+
+        # Generate the initial message
+        [string] $logMessage = "Could not find the PowerShell Module: " + $moduleName + "!";
+
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = ("It is not possible to use $($moduleName) features!`r`n" + `
+                                    "`tPlease make sure that you have the latest version of the PowerShell Core installed:`r`n" + `
+                                    "`t`thttps://github.com/PowerShell/PowerShell");
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Error);      # Message level
+
+        # Display a message to the user that something went horribly wrong
+        #  and log that same message for referencing purpose.
+        [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                    [LogMessageLevel]::Error);  # Message level
+
+        # Alert the user through a message box as well that an issue had occurred;
+        #   the message will be brief as the full details remain within the terminal.
+        [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+        # * * * * * * * * * * * * * * * * * * *
+
+
+        # Return that we could not find the PowerShell Module
         return $false;
     } # DetectCompressModule()
 
