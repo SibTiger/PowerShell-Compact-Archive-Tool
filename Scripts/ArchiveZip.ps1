@@ -117,69 +117,6 @@ class ArchiveZip
     # =================================================
 
 
-    #region Getter Functions
-
-   <# Get Log Directory Path
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'Log Directory Path' variable.
-    # -------------------------------
-    # Output:
-    #  [string] Log Path
-    #   The value of the 'Log Directory Path'.
-    # -------------------------------
-    #>
-    [string] GetLogPath() { return $this.__logPath; }
-
-
-
-
-   <# Get Root Log Directory Path
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'Root Log Directory Path' variable.
-    # -------------------------------
-    # Output:
-    #  [string] Root Log Path
-    #   The value of the 'Log Root Directory Path'.
-    # -------------------------------
-    #>
-    [string] GetRootLogPath() { return $this.__rootLogPath; }
-
-
-
-
-   <# Get PowerShell Module Name
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'PowerShell Module Name' variable.
-    # -------------------------------
-    # Output:
-    #  [string] PowerShell Module Name
-    #   The value of the 'PowerShell Module Name'.
-    # -------------------------------
-    #>
-    [string] GetPowerShellModuleName() { return $this.__powerShellModuleName; }
-
-
-
-
-   <# Get Object GUID
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the object's 'Global Unique ID' variable.
-    # -------------------------------
-    # Output:
-    #  [GUID] Global Unique Identifier (GUID)
-    #   The value of the object's GUID.
-    # -------------------------------
-    #>
-    [GUID] GetObjectGUID() { return $this.__objectGUID; }
-
-    #endregion
-
-
-
     #region Hidden Functions
 
 
