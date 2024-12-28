@@ -58,7 +58,7 @@ class ArchiveZip
     # The absolute path to the logs directory, where the Archive
     #   PowerShell Module activities will be stored.  Useful to
     #   capture errors and verbose activities when available.
-    Hidden Static [string] $__logPath = "$($this.__rootLogPath)\logs";
+    Hidden Static [string] $__logPath = "$([ArchiveZip]::__rootLogPath)\logs";
 
     #endregion
 
