@@ -137,11 +137,6 @@ function Uninitializations()
         -Force `
         -ErrorAction SilentlyContinue;
 
-    # User Data (Configuration)
-    Remove-Variable -Name "_PROGRAMDATA_ROAMING_USERCONFIG_PATH_" `
-        -Scope Global `
-        -Force `
-        -ErrorAction SilentlyContinue;
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;

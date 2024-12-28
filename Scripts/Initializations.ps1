@@ -388,19 +388,6 @@ function InitializationDirectoryPaths_Program()
         -Description "Holds the root path in which the program data will be stored, but can be moved around within a Roaming Profile environment.";
 
 
-    # User Data (Configuration)
-    # ---------------
-    # This directory will hold the user's configurations.
-    Set-Variable `
-        -Name "_PROGRAMDATA_ROAMING_USERCONFIG_PATH_" `
-        -Value "$($GLOBAL:_PROGRAMDATA_ROAMING_ROOT_PATH_)\Configs" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "Holds the parent path in which holds the user's configurations.";
-
-
 } # InitializationDirectoryPaths_Program()
 
 
