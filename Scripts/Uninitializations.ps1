@@ -119,30 +119,6 @@ function Uninitializations()
         -Force `
         -ErrorAction SilentlyContinue;
 
-    # User-Data Project Parent Project Directory Path
-    Remove-Variable -Name "_USERDATA_PROJECT_PATH_" `
-        -Scope Global `
-        -Force `
-        -ErrorAction SilentlyContinue;
-
-    # Output Parent Directory Path
-    Remove-Variable -Name "_USERDATA_PROJECT_BUILDS_PATH_" `
-        -Scope Global `
-        -Force `
-        -ErrorAction SilentlyContinue;
-
-    # Output Release Directory Path
-    Remove-Variable -Name "_USERDATA_PROJECT_BUILDS_RELEASE_PATH_" `
-        -Scope Global `
-        -Force `
-        -ErrorAction SilentlyContinue;
-
-    # Output Development Directory Path
-    Remove-Variable -Name "_USERDATA_PROJECT_BUILDS_DEVELOPMENT_PATH_" `
-        -Scope Global `
-        -Force `
-        -ErrorAction SilentlyContinue;
-
     # Program-Data Root Directory Path
     Remove-Variable -Name "_PROGRAMDATA_LOCAL_ROOT_PATH_" `
         -Scope Global `
@@ -155,18 +131,6 @@ function Uninitializations()
         -Force `
         -ErrorAction SilentlyContinue;
 
-    # Project Parent Directory
-    Remove-Variable -Name "_PROGRAMDATA_LOCAL_PROJECT_PATH_" `
-        -Scope Global `
-        -Force `
-        -ErrorAction SilentlyContinue;
-
-    # Project Log Directory Path
-    Remove-Variable -Name "_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_" `
-        -Scope Global `
-        -Force `
-        -ErrorAction SilentlyContinue;
-
     # Program-Data Parent Directory Path
     Remove-Variable -Name "_PROGRAMDATA_ROAMING_ROOT_PATH_" `
         -Scope Global `
@@ -175,12 +139,6 @@ function Uninitializations()
 
     # User Data (Configuration)
     Remove-Variable -Name "_PROGRAMDATA_ROAMING_USERCONFIG_PATH_" `
-        -Scope Global `
-        -Force `
-        -ErrorAction SilentlyContinue;
-
-    # User Data (Project Installation Path)
-    Remove-Variable -Name "_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_" `
         -Scope Global `
         -Force `
         -ErrorAction SilentlyContinue;
