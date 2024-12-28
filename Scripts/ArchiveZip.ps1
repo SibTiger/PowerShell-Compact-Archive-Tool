@@ -124,7 +124,7 @@ class ArchiveZip
     #             Directories already existed, nothing to do.
     # -------------------------------
     #>
-    Hidden [bool] __CreateDirectories()
+    Hidden static [bool] __CreateDirectories()
     {
         # First, check if the directories already exist.
         if([ArchiveZip]::__CheckRequiredDirectories())
