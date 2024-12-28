@@ -612,57 +612,6 @@ function __GeneralizedVariables()
 
 
 
-<# Initialization: Project User Configuration
- # -------------------------------
- # Documentation:
- #  This function will initialize the variables that will be used within the Project User Configuration Functionality.
- # -------------------------------
- #>
-function __InitializationProjectUserConfiguration()
-{
-    # Project User Configuration Filename
-    Set-Variable `
-        -Name "_PROJECT_USERCONFIG_FILENAME_" `
-        -Value "userconfig" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "Provides the filename of the user's Project User Configuration file.";
-
-
-    # Required User Config. string data (Natural Numbers)
-    Set-Variable `
-        -Name "_PROJECT_USERCONFIG_REQUIRED_NUMBER_OF_STRINGS_" `
-        -Value 1 `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "The required number of strings that must be obtained from the User Config. file.";
-
-
-    # User Configuration Value Delimiter
-    Set-Variable `
-        -Name "_PROJECT_USERCONFIG_VALUE_DELIMITER_" `
-        -Value "=" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "This defines the delimiter that marks the value of a variable within the User Config. file.";
-
-
-    # User Configuration Game Project Source Path
-    Set-Variable `
-        -Name "_PROJECT_USERCONFIG_STRING_SOURCE_PATH_" `
-        -Value "GameProjectSourcePath" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "A string within the User Configuration file that contains a path to the Source directory.";
-} # __InitializationProjectUserConfiguration()
 
 
 
