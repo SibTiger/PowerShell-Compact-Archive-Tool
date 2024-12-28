@@ -341,33 +341,40 @@ class ArchiveZip
    <# Create Archive File
     # -------------------------------
     # Documentation:
-    #  This function will provide the ability to create a new archive data file from scratch.
-    #   Because of the design of this function, it only supports a bulk operation - but not
-    #   appending updates to an already existing archive data file.  Thus, it is recommended
-    #   to have a dedicated directory containing all the files and subdirectories we want
-    #   to place into the archive data file and then proceed with the operation.
+    #  This function will create a new compress file by compacting files that were found
+    #   within the target directory.  This function is designed to perform bulk compression,
+    #   meaning that the files must exist within the directory - and be readable - in order
+    #   to be included into the archive datafile.  It is not, however, possible to explicitly
+    #   define what files are to be included into a compress file.
     #
-    #  Compress Archive Information:
+    #
+    # DEVELOPER NOTE:
+    #  We will use the Compress-Archive CMDLet, coming from the PowerShell Module:
+    #   Microsoft.PowerShell.Archive.
+    #
+    #  Compress-Archive Information:
     #    https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive/compress-archive
     # -------------------------------
     # Input:
-    #  [string] Archive File
-    #   The requested name of the archive data file that is going to be created.
+    #  [string] Archive File Name Request
+    #   The name of the Compressed File that will be created.
+    #       NOTE: If the filename already exists, then a Date and Time stamp will be included at
+    #               the end of the filename only to make it unique.
     #  [string] Output Path
-    #   The output path to place the newly created archive file.
+    #   The location of where the compressed file will be stored.
     #  [string] Target Directory
-    #   The root of the directory that contains all of the data that we want to compact
-    #    into a single archive data file.
-    #   NOTE: This argument might contain wildcards, for example:
-    #       D:\Users\Admin\Desktop\TopSecret\*.*
-    #  [string] (REFERENCE) Archive File Path
-    #   This will hold the newly created archive file's absolute path and file name.
-    #    This will be returned to the calling function.
+    #   The location of the directory's contents that we want to compact into a compressed file.
+    #       NOTE: This argument supports the use of wildcards.
+    #               For example:
+    #                   D:\Users\Admin\Desktop\TopSecret\*.*
+    #  [string] (REFERENCE) Archive Path
+    #   This string will provide the absolute full path (including the filename + extension) to
+    #   the archive datafile.  This string is returned back to the calling function.
     # -------------------------------
     # Output:
     #  [bool] Status Code
-    #    $false = A failure occurred while creating the archive file.
-    #    $true  = Successfully created the archive file.
+    #    $true  = Successfully created the compressed file.
+    #    $false = Failed to create the compressed file.
     # -------------------------------
     #>
     Static [bool] CreateArchive([string] $archiveFileNameRequest, `     # The name of the archive that will be created
