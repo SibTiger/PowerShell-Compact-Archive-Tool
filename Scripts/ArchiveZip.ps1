@@ -377,10 +377,10 @@ class ArchiveZip
     #    $false = Failed to create the compressed file.
     # -------------------------------
     #>
-    Static [bool] CreateArchive([string] $archiveFileNameRequest, `     # The name of the archive that will be created
-                                [string] $outputPath, `                 # The destination path of the archive file.
-                                [string] $targetDirectory, `            # The directory we want to compact; may contain wildcards
-                                [ref] $archivePath)                     # The full path of the archive file's location.
+    Static [bool] CreateArchive([string] $archiveFileNameRequest, `     # The name of the compressed file
+                                [string] $outputPath, `                 # The destination path for the compressed file
+                                [string] $targetDirectory, `            # The directory contents we want to compact
+                                [ref] $archivePath)                     # The full path of the compressed file (including filename + extension)
     {
         # Declarations and Initializations
         # ----------------------------------------
