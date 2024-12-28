@@ -72,6 +72,34 @@ class ArchiveZip
     #region Hidden Functions
 
 
+   <# Check Required Directories
+    # -------------------------------
+    # Documentation:
+    #  This function will check to make sure that the log directories,
+    #   that are used in this class, currently exists within the host's
+    #   filesystem.
+    #
+    # ----
+    #
+    #  Directories to be checked:
+    #   - %LOCALAPPDATA%\<PROG_NAME>\PSArchive
+    #   - %LOCALAPPDATA%\<PROG_NAME>\PSArchive\logs
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #    $true  = Directories exist
+    #    $false = One or more directories does not exist.
+    # -------------------------------
+    #>
+    Hidden Static [bool] __CheckRequiredDirectories()
+    {
+        return (([CommonIO]::CheckPathExists([ArchiveZip]::__rootLogPath,   $true) -eq $true) -and `    # Check the Root Log Directory
+                ([CommonIO]::CheckPathExists([ArchiveZip]::__logPath,       $true) -eq $true));         # Check the Log Path Directory
+    } # __CheckRequiredDirectories()
+
+
+
+
    <# Create Directories
     # -------------------------------
     # Documentation:
@@ -264,30 +292,7 @@ class ArchiveZip
 
 
 
-   <# Check Required Directories
-    # -------------------------------
-    # Documentation:
-    #  This function will check to make sure that the log directories,
-    #   that are used in this class, currently exists within the host's
-    #   filesystem.
-    #
-    # ----
-    #
-    #  Directories to be checked:
-    #   - %LOCALAPPDATA%\<PROG_NAME>\PSArchive
-    #   - %LOCALAPPDATA%\<PROG_NAME>\PSArchive\logs
-    # -------------------------------
-    # Output:
-    #  [bool] Exit code
-    #    $false = One or more directories does not exist.
-    #    $true = Directories exist
-    # -------------------------------
-    #>
-    Hidden [bool] __CheckRequiredDirectories()
-    {
-        return (([CommonIO]::CheckPathExists($this.GetRootLogPath(), $true) -eq $true) -and   ` # Check the Root Log Directory
-                ([CommonIO]::CheckPathExists($this.GetLogPath(), $true) -eq $true));            # Check the Log Path Directory
-    } # __CheckRequiredDirectories()
+
 
 
     #endregion
