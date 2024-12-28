@@ -384,33 +384,29 @@ class ArchiveZip
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $execReason = $null;                               # Description; used for logging
-        [string] $archiveFileExtension = "pk3";                     # This will hold the archive file's extension.
-                                                                    #  NOTE: Because the ZipFile class only supports the Zip standard, and
-                                                                    #   we are targeting the ZDoom engine, the extension will be fixated to
-                                                                    #   the Zip file extension that is recognizable to the ZDoom engine.
-                                                                    #   Thus, this variable will be set as 'PK3'.
-        [string] $archiveFileName = $null;                          # This will hold the archive data file's full name, including the
-                                                                    #  absolute path to access the file specifically.
-        [string] $compressionLevel = "Optimal";                     # Specified Compression Level to be used when creating the compressed
-                                                                    #   file.
-        [bool] $exitCode = $false;                                  # The exit code status provided by the Compress-Archive operation
-                                                                    #  status.  If the operation was successful, then true will be
-                                                                    #  set.  Otherwise, it well be set as false to signify an error.
-        [System.Object] $execSTDOUT = [System.Object]::new();       # This will hold the STDOUT that is provided by the CMDLet that
-                                                                    #  will be used for compacting the archive file, but contained
-                                                                    #  as an object.
-        [System.Object] $execSTDERR = [System.Object]::new();       # This will hold the STDERR that is provided by the CMDLet that
-                                                                    #  will be used for compacting the archive file, but contained
-                                                                    #  as an object.
-        [string] $strSTDOUT = $null;                                # This will hold the STDOUT information, but will be held as a
-                                                                    #  literal string.  The information provided to it will be
-                                                                    #  converted from an object to a string, the information held
-                                                                    #  in this variable will be presented in the logfile.
-        [string] $strSTDERR = $null;                                # This will hold the STDERR information, but will be held as a
-                                                                    #  literal string.  The information provided to it will be
-                                                                    #  converted from an object to a string, the information held
-                                                                    #  in this variable will be presented in the logfile.
+        [string] $archiveFileExtension = "pk3";                 # This will hold the archive file's extension.
+        [string] $archiveFileName = $null;                      # This will hold the archive data file's full name, including the
+                                                                #  absolute path to access the file specifically.
+        [string] $compressionLevel = "Optimal";                 # Specified Compression Level to be used when creating the compressed
+                                                                #   file.
+        [bool] $exitCode = $false;                              # The exit code status provided by the Compress-Archive operation
+                                                                #  status.  If the operation was successful, then true will be
+                                                                #  set.  Otherwise, it well be set as false to signify an error.
+        [string] $execReason = $null;                           # Description; used for logging
+        [System.Object] $execSTDOUT = [System.Object]::new();   # This will hold the STDOUT that is provided by the CMDLet that
+                                                                #  will be used for compacting the archive file, but contained
+                                                                #  as an object.
+        [System.Object] $execSTDERR = [System.Object]::new();   # This will hold the STDERR that is provided by the CMDLet that
+                                                                #  will be used for compacting the archive file, but contained
+                                                                #  as an object.
+        [string] $strSTDOUT = $null;                            # This will hold the STDOUT information, but will be held as a
+                                                                #  literal string.  The information provided to it will be
+                                                                #  converted from an object to a string, the information held
+                                                                #  in this variable will be presented in the logfile.
+        [string] $strSTDERR = $null;                            # This will hold the STDERR information, but will be held as a
+                                                                #  literal string.  The information provided to it will be
+                                                                #  converted from an object to a string, the information held
+                                                                #  in this variable will be presented in the logfile.
         # ----------------------------------------
 
 
