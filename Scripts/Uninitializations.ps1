@@ -149,24 +149,6 @@ function Uninitializations()
         -Force `
         -ErrorAction SilentlyContinue;
 
-    # Program-Data Program's Images Directory Path
-    Remove-Variable -Name "_PROGRAMDATA_LOCAL_IMAGES_PATH_" `
-        -Scope Global `
-        -Force `
-        -ErrorAction SilentlyContinue;
-
-    # Program-Data Program's Logo Path
-    Remove-Variable -Name "_PROGRAMDATA_LOCAL_IMAGES_LOGO_PATH_" `
-        -Scope Global `
-        -Force `
-        -ErrorAction SilentlyContinue;
-
-    # Program-Data Program's Banner Path
-    Remove-Variable -Name "_PROGRAMDATA_LOCAL_IMAGES_BANNER_PATH_" `
-        -Scope Global `
-        -Force `
-        -ErrorAction SilentlyContinue;
-
     # Program-Data Project Program Log Directory Path
     Remove-Variable -Name "_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_" `
         -Scope Global `
