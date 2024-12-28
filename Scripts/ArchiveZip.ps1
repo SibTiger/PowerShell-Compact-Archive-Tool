@@ -337,7 +337,7 @@ class ArchiveZip
 
 
 
-    #region Archive File Management
+
    <# Create Archive File
     # -------------------------------
     # Documentation:
@@ -370,10 +370,10 @@ class ArchiveZip
     #    $true  = Successfully created the archive file.
     # -------------------------------
     #>
-    [bool] CreateArchive([string] $archiveFileNameRequest, `    # The name of the archive that will be created
-                        [string] $outputPath, `                 # The destination path of the archive file.
-                        [string] $targetDirectory, `            # The directory we want to compact; may contain wildcards
-                        [ref] $archivePath)                     # The full path of the archive file's location.
+    Static [bool] CreateArchive([string] $archiveFileNameRequest, `     # The name of the archive that will be created
+                                [string] $outputPath, `                 # The destination path of the archive file.
+                                [string] $targetDirectory, `            # The directory we want to compact; may contain wildcards
+                                [ref] $archivePath)                     # The full path of the archive file's location.
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -892,9 +892,6 @@ class ArchiveZip
         # Successfully finished the operation
         return $exitCode;
     } # CreateArchive()
-
-    #endregion
-
 
 
 
