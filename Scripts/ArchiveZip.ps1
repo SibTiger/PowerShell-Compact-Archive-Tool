@@ -101,13 +101,6 @@ class ArchiveZip
     #   https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive
     Hidden [string] $__powerShellModuleName = "Microsoft.PowerShell.Archive";
 
-
-    # Object GUID
-    # ---------------
-    # Provides a unique identifier to the object, useful to make sure that we are using
-    #  the right object within the program.
-    Hidden [GUID] $__objectGUID = [GUID]::NewGuid();
-
     #endregion
 
 
