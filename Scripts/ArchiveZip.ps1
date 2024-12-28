@@ -251,7 +251,7 @@ class ArchiveZip
     #   $false  = Required PowerShell Module was not found
     # -------------------------------
     #>
-    [bool] DetectCompressModule()
+    Static [bool] DetectCompressModule()
     {
         # Declarations and Initializations
         # ----------------------------------------
