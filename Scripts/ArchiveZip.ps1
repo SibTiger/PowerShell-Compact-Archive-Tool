@@ -60,30 +60,6 @@ class ArchiveZip
     #   capture errors and verbose activities when available.
     Hidden Static [string] $__logPath = "$($this.__rootLogPath)\logs";
 
-
-    # PowerShell Module Name
-    # ---------------
-    # This will contain the name of the PowerShell Module for this specific functionality.
-    #   With this POSH Module being already built into the POSH Core framework, we can only
-    #   check to make sure that the module is still present within the POSH Core environment.
-    #
-    # Developer Note:
-    #   Because this POSH Module is built-into the POSH Core's framework, we cannot perform
-    #   the following actions:
-    #       - Updates
-    #       - Uninstall
-    #       - Install
-    #   This is due to the module not having to be installed through the PowerShell
-    #   Gallery Repository.
-    #
-    # Install Location:
-    #   Built-In since Windows 10
-    # Module Requirements:
-    #   PowerShell Version 5.0 and Later
-    # Module Information:
-    #   https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive
-    Hidden [string] $__powerShellModuleName = "Microsoft.PowerShell.Archive";
-
     #endregion
 
 
@@ -337,12 +313,19 @@ class ArchiveZip
     #>
     [bool] DetectCompressModule()
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # The PowerShell Module name for the Archive functionality that we use within this class.
+        [string] $moduleName = "Microsoft.PowerShell.Archive";
+        # ----------------------------------------
+
+
         # We are going to try to detect if the module is available within this
         #  PowerShell instance.  If incase it is not available - then we must
         #  return false, or simply stating that it was not found.
         # NOTE: If there is ANY output, then this function will return true.
         # Reference: https://stackoverflow.com/a/28740512
-        if (Get-Module -ListAvailable -Name $this.GetPowerShellModuleName())
+        if (Get-Module -ListAvailable -Name $moduleName)
         {
             # Detected the PowerShell Module
 
