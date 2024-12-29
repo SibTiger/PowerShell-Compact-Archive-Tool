@@ -108,10 +108,6 @@ CreateDirectories | Out-Null;
 
 
 #region Instantiate Singletons
-# Initialize the dotNet Core Zip Archive object
-[ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
-
-
 # Initialize the main Project Information object
 [ProjectInformation] $projectInformation = `
                                 [ProjectInformation]::GetInstance();
