@@ -66,15 +66,6 @@ function main()
     #>
 
 
-    # IOCommon - Move Directory
-    <# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Write-Host "Moved Directory Status: $([IOCommon]::MoveDirectory("C:\Users\Nicholas\Desktop\test", "C:\Users\Nicholas\Desktop\House"))";
-    Write-Host "Moved Directory Status [Bad Target]: $([IOCommon]::MoveDirectory("C:\Users\Nicholas\Desktop\house\test1", "C:\Users\Nicholas\Desktop"))";
-    Write-Host "Moved Directory Status [Bad Destination]: $([IOCommon]::MoveDirectory("C:\Users\Nicholas\Desktop\test", "C:\Users\Nicholas\Desktop\House1"))";
-    Write-Host "Moved Directory Status [Bad Permissions]: $([IOCommon]::MoveDirectory("C:\Users\Nicholas\Desktop\testBadPermissions", "C:\Users\Nicholas\Desktop\House"))";
-    #>
-
-
     # IOCommon - Copy Directory
     <# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Write-Host "Copied Directory Status: $([IOCommon]::CopyDirectory("C:\Users\Nicholas\Desktop\test", "C:\Users\Nicholas\Desktop\house"))";
