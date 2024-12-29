@@ -889,7 +889,7 @@ class ArchiveZip
     #           Log directories were not found.
     # -------------------------------
     #>
-    [bool] ThrashLogs()
+    Static [bool] ThrashLogs()
     {
         # Declarations and Initializations
         # ----------------------------------------
