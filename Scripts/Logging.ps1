@@ -1,4 +1,4 @@
-﻿<# PowerShell Compact-Archive Tool
+<# PowerShell Compact-Archive Tool
  # Copyright (C) 2025
  #
  # This program is free software: you can redistribute it and/or modify
@@ -672,27 +672,6 @@ class Logging
 
 
     #region Public Functions
-
-
-   <# Get Restrict Logging Functionality Controller
-    # -------------------------------
-    # Documentation:
-    #  This function will return the current value of the Restrict Logging Functionality
-    #   variable.  This will variable dictates if the logging features are to function
-    #   at the present time.
-    # -------------------------------
-    # Output:
-    #   [bool] Restrict Logging
-    #       $true = All logging functionalities are currently disabled.
-    #       $false = All logging functionalities are currently enabled.
-    # -------------------------------
-    #>
-    Static [bool] GetRestrictLogging()
-    {
-        return [Logging]::RestrictLogging;
-    } # GetRestrictLogging()
-
-
 
 
    <# Set Restrict Logging Functionality Controller
