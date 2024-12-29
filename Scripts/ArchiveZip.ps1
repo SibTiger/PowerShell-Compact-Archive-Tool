@@ -871,8 +871,6 @@ class ArchiveZip
 
 
 
-    #region File Management
-
    <# Thrash Logs
     # -------------------------------
     # Documentation:
@@ -1021,6 +1019,5 @@ class ArchiveZip
         return $exitCode;
     } # ThrashLogs()
 
-    #endregion
     #endregion
 } # ArchiveZip
