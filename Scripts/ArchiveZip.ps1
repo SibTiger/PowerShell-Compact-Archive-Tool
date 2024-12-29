@@ -927,7 +927,7 @@ class ArchiveZip
 
         # Make sure that the logging directories exist.  If the directories are not
         #  available presently, than there is nothing that can be done at this time.
-        if ($this.__CheckRequiredDirectories() -eq $false)
+        if ([ArchiveZip]::__CheckRequiredDirectories() -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
@@ -956,7 +956,7 @@ class ArchiveZip
 
 
         # Because the directories exists - let's try to thrash the logs.
-        if([CommonIO]::DeleteFile($this.GetLogPath(), $extLogs, $false) -eq $false)
+        if([CommonIO]::DeleteFile([ArchiveZip]::__logPath, $extLogs, $false) -eq $false)
         {
             # Reached a failure upon removing the requested log files.
 
