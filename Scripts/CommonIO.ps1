@@ -445,6 +445,179 @@ class CommonIO
 
 
 
+   <# Execute Command - Logging
+    # -------------------------------
+    # Documentation:
+    #  This function will take the outputs provided by the external command or executable
+    #   file and place them in the log files or redirect the output to a specific
+    #   reference variable upon request.
+    # -------------------------------
+    # Inputs:
+    #  [string] STDOUT Log Path
+    #   Absolute path to store the log file containing the program's STDOUT output.
+    #   - NOTE: Filename is provided by this function.
+    #  [string] STDERR Log Path
+    #   Absolute path to store the log file containing the program's STDERR output.
+    #   - NOTE: Filename is provided by this function.
+    #  [string] Report Path
+    #   Absolute path and filename to store the report file.
+    #   - NOTE: The filename of the report __MUST_BE_INCLUDED!___
+    #  [bool] Is Report
+    #   When true, this will assure that the information is logged as a report.
+    #  [bool] Capture STDOUT
+    #   When true, the STDOUT will not be logged in a text file, instead it will be
+    #    captured into a reference string.  Useful for processing the STDOUT
+    #  [string] Description
+    #   Used for logging and for information purposes only.
+    #   - NOTE: A description can provide a reason for executing the executable or
+    #            an operation that is being performed by the executable.  For
+    #            example: "Using the Tree extCMD will provide an overview of the
+    #            filesystem's directory hierarchy - as well as the depth of the
+    #            directories."  Just remember, this is only shown in the log file.
+    #  [string] (REFERENCE) Output String
+    #   When Capture STDOUT is true, this parameter will carry the STDOUT from the
+    #    executable.  The information provided will be available for use from the
+    #    calling function.
+    #  [string] (REFERENCE) Output Result STDOUT
+    #   The STDOUT provided by the extCMD.
+    #   - NOTE: Trying to conserve main memory space by using referencing.
+    #            Output can be at maximum of 2GB of space. (Defined by CLR)
+    #  [string] (REFERENCE) Output Result STDERR
+    #   The STDOUT provided by the extCMD.
+    #   - NOTE: Trying to conserve main memory space by using referencing.
+    #            Output can be at maximum of 2GB of space. (Defined by CLR)
+    # -------------------------------
+    #>
+    Static Hidden [void] __ExecuteCommandLog([string] $stdOutLogPath, `     # Standard Out (Execution Logging) Path
+                                            [string] $stdErrLogPath, `      # Standard Error (Execution Logging) Path
+                                            [string] $reportPath, `         # Report path and filename (isReport)
+                                            [bool] $isReport, `             # Output should be in the report file
+                                            [bool] $captureSTDOUT, `        # Capture the output from the command to a variable
+                                            [string] $description, `        # Reason for why we are executing the command
+                                            [ref] $stringOutput, `          # Holds the output from the command (captureSTDOUT); used for
+                                                                            #  further processing within the program.
+                                            [ref] $outputResultOut, `       # Contains the STDOUT result from the command or extCMD
+                                            [ref] $outputResultErr)         # Contains the STDERR result from the command or extCMD
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [string] $logTime        = [string](Get-Date -UFormat "%d-%b-%y %H.%M.%S");     # Capture the current date and time.
+        [string] $logStdErr      = "$($stdErrLogPath)\$($logTime)-$($description).err"; # Standard Error absolute log file path
+        [string] $logStdOut      = "$($stdOutLogPath)\$($logTime)-$($description).out"; # Standard Out absolute log file path
+        [string] $fileOutput     = $null;                                               # The absolute path of the file that will
+                                                                                        #  contain the output result from the extCMD
+                                                                                        #  or command.
+        # ----------------------------------------
+
+
+        # Determine the file name that will soon contain the output
+        #  information from the extCMD or command.
+        # Is it a report file or a logfile?
+        if ($isReport)
+        {
+            # User is requesting a report file.
+            $fileOutput = $reportPath;
+        } # If: Generating a Report
+        else
+        {
+            # User is requesting a logfile
+            $fileOutput = $LogStdOut;
+        } # Else: Generating a logfile
+
+
+        # Standard Output
+        # -------------------
+        # +++++++++++++++++++
+
+
+        # Is there any data in the STDOUT?
+        #  If so, we can continue to evaluate it.  Otherwise, skip over.
+        if (![CommonIO]::IsStringEmpty($outputResultOut.Value))
+        {
+            # Should we store the STDOUT to a variable?
+            if ($captureSTDOUT -eq $true)
+            {
+                # Store the resulting information onto the string output, allowing
+                #   for any further process to occur later on.
+                $stringOutput.Value = $outputResultOut.Value;
+            } # If : Stored in Reference Var.
+
+
+            # Should we store the STDOUT to a report file?
+            ElseIf ($isReport -eq $true)
+            {
+                # Write the data to the report file.
+                [CommonIO]::WriteToFile($reportPath, $outputResultOut.Value) | Out-Null;
+            } # If : Generating a Report
+
+
+            # Store the Standard Out data to the logfile
+            [Logging]::WriteToLogFile($logStdOut, $outputResultOut.Value);
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "The external command provided output in the STDOUT container!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Description for executing the extCMD: $($description)`r`n" + `
+                                        "`tSTDOUT Logfile Path: $($logStdOut)`r`n" + `
+                                        "`tSTDOUT Output:`r`n" + `
+                                        "`t$($outputResultOut.Value)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+        } # If : STDOUT contains data
+
+
+        # Standard Error
+        # -------------------
+        # +++++++++++++++++++
+
+
+        # Store the Standard Error in a logfile if there is any data at all?
+        If (![CommonIO]::IsStringEmpty($outputResultErr.Value))
+        {
+            # Write the Standard Error to the logfile
+            [Logging]::WriteToLogFile($logStdErr, $outputResultErr.Value);
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "The external command provided output in the STDERR container!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Description for executing the extCMD: $($description)`r`n" + `
+                                        "`tSTDERR Logfile Path: $($logStdErr)`r`n" + `
+                                        "`tSTDERR Output:`r`n" + `
+                                        "`t$($outputResultErr.Value)");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+        } # If : Log the STDERR
+    } # __ExecuteCommandLog()
+
+
+
+
    <# PowerShell CMDLet - Logging
     # -------------------------------
     # Documentation:
