@@ -103,7 +103,7 @@ function main()
     # PowerShell Archive
     <# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Delete all logs and reports
-    Write-Host "Deleting logs and reports status: $($psArchive.ThrashLogs($true))";
+    Write-Host "Deleting logs and reports status: $($psArchive.DeleteLogs($true))";
 
     # Detect PowerShell Archive
     Write-Host "Archive Module Detection status: $($psArchive.DetectCompressModule())";
