@@ -1,4 +1,4 @@
-<# PowerShell Compact-Archive Tool
+﻿<# PowerShell Compact-Archive Tool
  # Copyright (C) 2025
  #
  # This program is free software: you can redistribute it and/or modify
@@ -384,46 +384,34 @@ class ArchiveZip
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $archiveFileExtension = "pk3";                 # This will hold the archive file's extension.
-        [string] $archiveFileName = $null;                      # This will hold the archive data file's full name, including the
-                                                                #  absolute path to access the file specifically.
-        [string] $compressionLevel = "Optimal";                 # Specified Compression Level to be used when creating the compressed
-                                                                #   file.
-        [bool] $exitCode = $false;                              # The exit code status provided by the Compress-Archive operation
-                                                                #  status.  If the operation was successful, then true will be
-                                                                #  set.  Otherwise, it well be set as false to signify an error.
-        [string] $execReason = $null;                           # Description; used for logging
-        [System.Object] $execSTDOUT = [System.Object]::new();   # This will hold the STDOUT that is provided by the CMDLet that
-                                                                #  will be used for compacting the archive file, but contained
-                                                                #  as an object.
-        [System.Object] $execSTDERR = [System.Object]::new();   # This will hold the STDERR that is provided by the CMDLet that
-                                                                #  will be used for compacting the archive file, but contained
-                                                                #  as an object.
-        [string] $strSTDOUT = $null;                            # This will hold the STDOUT information, but will be held as a
-                                                                #  literal string.  The information provided to it will be
-                                                                #  converted from an object to a string, the information held
-                                                                #  in this variable will be presented in the logfile.
-        [string] $strSTDERR = $null;                            # This will hold the STDERR information, but will be held as a
-                                                                #  literal string.  The information provided to it will be
-                                                                #  converted from an object to a string, the information held
-                                                                #  in this variable will be presented in the logfile.
+        [string] $archiveFileExtension = "pk3";                         # This will hold the archive file's extension.
+        [string] $archiveFileName = `                                   # This will hold the archive data file's full name, including the
+                "$($outputPath)\$($archiveFileNameRequest)";            #  absolute path to access the file specifically.
+        [string] $compressionLevel = "Optimal";                         # Specified Compression Level to be used when creating the compressed
+                                                                        #   file.
+        [bool] $exitCode = $false;                                      # The exit code status provided by the Compress-Archive operation
+                                                                        #  status.  If the operation was successful, then true will be
+                                                                        #  set.  Otherwise, it well be set as false to signify an error.
+        [string] $execReason = "Creating " + $archiveFileNameRequest;   # Description; used for logging
+        [System.Object] $execSTDOUT = [System.Object]::new();           # This will hold the STDOUT that is provided by the CMDLet that
+                                                                        #  will be used for compacting the archive file, but contained
+                                                                        #  as an object.
+        [System.Object] $execSTDERR = [System.Object]::new();           # This will hold the STDERR that is provided by the CMDLet that
+                                                                        #  will be used for compacting the archive file, but contained
+                                                                        #  as an object.
+        [System.Object] $execSTDERR = [System.Object]::new();           # This will hold the STDERR that is provided by the CMDLet that
+                                                                        #  will be used for compacting the archive file, but contained
+                                                                        #  as an object.
+        [string] $strSTDOUT = $null;                                    # This will hold the STDOUT information, but will be held as a
+                                                                        #  literal string.  The information provided to it will be
+                                                                        #  converted from an object to a string, the information held
+                                                                        #  in this variable will be presented in the logfile.
+        [string] $strSTDERR = $null;                                    # This will hold the STDERR information, but will be held as a
+                                                                        #  literal string.  The information provided to it will be
+                                                                        #  converted from an object to a string, the information held
+                                                                        #  in this variable will be presented in the logfile.
         # ----------------------------------------
 
-
-        # SETUP THE ENVIRONMENT
-        # - - - - - - - - - - - - - -
-        # Make sure that the environment is ready before we proceed by initializing any variables that need to be
-        #  configured before we proceed any further during the compacting procedure protocol.
-        # ---------------------------
-        # The description that will be presented in the logfile.
-        $execReason = "Creating " + $archiveFileNameRequest;
-
-        # Generate the full path of the archive data file, though this may change later if it is not unique.
-        #  NOTE: Omitting the file extension.
-        $archiveFileName = "$($outputPath)\$($archiveFileNameRequest)";
-
-        # ---------------------------
-        # - - - - - - - - - - - - - -
 
 
         # Dependency Check
@@ -433,7 +421,7 @@ class ArchiveZip
         # ---------------------------
 
         # Make sure that the logging requirements are met.
-        if ($this.__CreateDirectories() -eq $false)
+        if ([ArchiveZip]::__CreateDirectories() -eq $false)
         {
             # Because the logging directories could not be created, we cannot log.
 
@@ -487,8 +475,8 @@ class ArchiveZip
         } # If : Logging Requirements are Met
 
 
-        # Make sure that the current PowerShell instance has the Archive functionality ready for use.
-        if ($this.DetectCompressModule() -eq $false)
+        # Make sure that the current PowerShell instance has the proper PowerShell Module ready.
+        if ([ArchiveZip]::DetectCompressModule() -eq $false)
         {
             # Because this current PowerShell instance lacks the functionality required to create the
             #  archive datafile, we cannot proceed any further.
@@ -501,20 +489,14 @@ class ArchiveZip
             # Generate a message to display to the user.
             [string] $displayErrorMessage = ("Unable to create a new compressed file:`r`n" + `
                                             "`t" + $archiveFileNameRequest + "`r`n" + `
-                                            "The PowerShell Module, " + $this.GetPowerShellModuleName() + `
-                                                ", was not detected!`r`n" + `
                                             "Because the PowerShell Module was not found, it is not possible " + `
                                                 "to create a new compress file!");
 
             # Generate the initial message
-            [string] $logMessage = ("Unable to create a new compress file because the required PowerShell Module, " + `
-                                    $this.GetPowerShellModuleName() + ", was not found!");
+            [string] $logMessage = "Unable to create a new compress file because the required PowerShell Module was not found!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("Please assure that you have the latest version of PowerShell Core installed.`r`n" + `
-                                        "`tRequired PowerShell Module:`r`n" + `
-                                        "`t`t" + $this.GetPowerShellModuleName() + "`r`n" + `
-                                        "`tTried to create Compress File:`r`n" + `
+            [string] $logAdditionalMSG = ("Tried to create the Compress File:`r`n" + `
                                         "`t`t" + $archiveFileNameRequest + "`r`n" + `
                                         "`tPath of the contents to compact:`r`n" + `
                                         "`t`t" + $targetDirectory);
@@ -554,7 +536,7 @@ class ArchiveZip
             # Generate a message to display to the user.
             [string] $displayErrorMessage = ("Unable to create a new compress file:`r`n" + `
                                             "`t" + $archiveFileNameRequest + "`r`n" + `
-                                            "The path to store the compressed file is not correct`r`n" + `
+                                            "The path to store the compressed file is not correct!`r`n" + `
                                             "The path given to output the compressed file:`r`n" + `
                                             "`t" + $outputPath);
 
@@ -584,7 +566,7 @@ class ArchiveZip
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # The output path does not exist; we cannot extract the contents.
+            # The output path does not exist; we cannot create archive file.
             return $false;
         } # if : Output Directory does not exist
 
@@ -604,7 +586,7 @@ class ArchiveZip
             [string] $displayErrorMessage = ("Unable to create a new compress file:`r`n" + `
                                             "`t" + $archiveFileNameRequest + "`r`n" + `
                                             "The path to the files that are to be compressed is not correct.`r`n" + `
-                                            "The path given for the contents that are to be compacted:`r`n" + `
+                                            "The path to the files to compress given is:`r`n" + `
                                             "`t" + $targetDirectory);
 
             # Generate the initial message
@@ -649,11 +631,11 @@ class ArchiveZip
         # ---------------------------
 
 
-        # If the full path is not unique, try to make it unique.
+        # If the filename is not unique, try to make it unique.
         if ([CommonIO]::CheckPathExists("$($archiveFileName).$($archiveFileExtension)", $true) -eq $true)
         {
             # Because the filename already exists within the given output path, we can make it unique by adding in a timestamp
-            #  to the filename.  However, in case we cannot make the filename unique (even with the timestamp), then the
+            #  to the filename.  However, if in case we cannot make the filename unique (even with the timestamp), then the
             #  operation must be aborted.
 
 
@@ -676,31 +658,35 @@ class ArchiveZip
                 # Debugging
                 # --------------
 
-                    # Prep a message to display to the user for this error; temporary variable.
-                    [string] $displayErrorMessage = ("Unable to create a new compress file:`r`n" + `
-                                                    "`t" + $archiveFileNameRequest + "`r`n" + `
-                                                    "It was not possible to create a unique filename for the compress file.`r`n" + `
-                                                    "The path given to output the compressed file:`r`n" + `
-                                                    "`t" + $outputPath);
+                # Prep a message to display to the user for this error; temporary variable.
+                [string] $displayErrorMessage = ("Unable to create a new compress file:`r`n" + `
+                                                "`t" + $archiveFileNameRequest + "`r`n" + `
+                                                "It was not possible to create a unique filename for the compress file.`r`n" + `
+                                                "The path given to output the compressed file:`r`n" + `
+                                                "`t" + $outputPath + "`r`n" + `
+                                                "Tried to use the filename instead:`r`n" + `
+                                                "`t$($archiveFileName).$($archiveFileExtension)");
 
-                    # Generate the initial message
-                    [string] $logMessage = "Unable to create a new compress file because the filename of the compress file could not be unique!";
+                # Generate the initial message
+                [string] $logMessage = "Unable to create a new compress file because the filename could not be unique!";
 
-                    # Generate any additional information that might be useful
-                    [string] $logAdditionalMSG = ("The Archive Data File to Create:`r`n" + `
-                                                "`t`t" + $archiveFileNameRequest + "`r`n" + `
-                                                "`tOutput Path to Place the Compressed File:`r`n" + `
-                                                "`t`t" + $outputPath);
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = ("The Archive Data File to Create:`r`n" + `
+                                            "`t`t" + $archiveFileNameRequest + "`r`n" + `
+                                            "`tOutput Path to Place the Compressed File:`r`n" + `
+                                            "`t`t" + $outputPath + "`r`n" + `
+                                            "`tCompress File Full Output Path:`r`n" + `
+                                            "`t`t$($archiveFileName).$($archiveFileExtension)");
 
-                    # Pass the information to the logging system
-                    [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                                $logAdditionalMSG, `        # Additional information
-                                                [LogMessageLevel]::Error);  # Message level
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
+                                            [LogMessageLevel]::Error);  # Message level
 
-                    # Display a message to the user that something went horribly wrong
-                    #  and log that same message for referencing purpose.
-                    [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
-                                                [LogMessageLevel]::Error);  # Message level
+                # Display a message to the user that something went horribly wrong
+                #  and log that same message for referencing purpose.
+                [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                            [LogMessageLevel]::Error);  # Message level
 
                 # Alert the user through a message box as well that an issue had occurred;
                 #   the message will be brief as the full details remain within the terminal.
@@ -717,13 +703,6 @@ class ArchiveZip
 
         # Now save the output path to our reference (pointer) variable, this will allow the calling function to get the absolute path of
         #  where the archive file resides.
-
-
-
-        # Now save the output path to our reference (pointer) variable, this will allow the
-        #  calling function to get the absolute path of where the archive file resides.
-        #  Thus, the calling function can bring the new archive file to the user's
-        #  attention using whatever methods necessary.
         $archivePath.Value = "$($archiveFileName).$($archiveFileExtension)";
 
 
@@ -760,18 +739,18 @@ class ArchiveZip
             # --------------
 
             # Prep a message to display to the user for this error; temporary variable
-            [string] $displayErrorMessage = ("Failed to create a new compressed file because there was not enough system memory!`r`n" + `
+            [string] $displayErrorMessage = ("Failed to create the compressed file because there was not enough system memory!`r`n" + `
                                             [Logging]::GetExceptionInfoShort($_.Exception));
 
             # Generate the initial message
-            [string] $logMessage = "Failed to create a new archive datafile due to memory constraints!";
+            [string] $logMessage = "Failed to create the archive datafile due to memory constraints!";
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("The Archive Data File to Create:`r`n" + `
                                             "`t`t" + $archiveFileNameRequest + "`r`n" + `
-                                            "The path given for the contents that are to be compacted:`r`n" + `
-                                            "`t" + $targetDirectory + "`r`n" + `
-                                            "`tOutput Path to Place the Compressed File:`r`n" + `
+                                            "`tThe contents to compact:`r`n" + `
+                                            "`t`t" + $targetDirectory + "`r`n" + `
+                                            "`tOutput Path to place the Compressed File:`r`n" + `
                                             "`t`t" + $outputPath + "`r`n" + `
                                             "`tThe full path to the archive data file:`r`n" + `
                                             "`t`t" + $archiveFileName + "." + $archiveFileExtension + "`r`n" + `
@@ -792,55 +771,48 @@ class ArchiveZip
             [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
             # * * * * * * * * * * * * * * * * * * *
-
-
-            # Because a failure had been reached, we will have to update the exit code.
-            $exitCode = $false;
         } # Catch [OutOfMemory] : File(s) too large
 
         # A general error had occurred
         catch
         {
-                # * * * * * * * * * * * * * * * * * * *
-                # Debugging
-                # --------------
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
 
-                # Prep a message to display to the user for this error; temporary variable
-                [string] $displayErrorMessage = ("Failed to create a new compressed file!`r`n" + `
-                                                "$([Logging]::GetExceptionInfoShort($_.Exception))");
+            # Prep a message to display to the user for this error; temporary variable
+            [string] $displayErrorMessage = ("Failed to create the compressed file!`r`n" + `
+                                            "$([Logging]::GetExceptionInfoShort($_.Exception))");
 
-                # Generate the initial message
-                [string] $logMessage = "Failed to create a new archive datafile!";
+            # Generate the initial message
+            [string] $logMessage = "Failed to create the archive datafile due to a hard error!";
 
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("The Archive Data File to Create:`r`n" + `
-                                                "`t`t" + $archiveFileNameRequest + "`r`n" + `
-                                                "The path given for the contents that are to be compacted:`r`n" + `
-                                                "`t" + $targetDirectory + "`r`n" + `
-                                                "`tOutput Path to Place the Compressed File:`r`n" + `
-                                                "`t`t" + $outputPath + "`r`n" + `
-                                                "`tThe full path to the archive data file:`r`n" + `
-                                                "`t`t" + $archiveFileName + "." + $archiveFileExtension + "`r`n" + `
-                                                [Logging]::GetExceptionInfo($_.Exception));
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("The Archive Data File to Create:`r`n" + `
+                                            "`t`t" + $archiveFileNameRequest + "`r`n" + `
+                                            "`tThe contents to compact:`r`n" + `
+                                            "`t`t" + $targetDirectory + "`r`n" + `
+                                            "`tOutput Path to place the Compressed File:`r`n" + `
+                                            "`t`t" + $outputPath + "`r`n" + `
+                                            "`tThe full path to the archive data file:`r`n" + `
+                                            "`t`t" + $archiveFileName + "." + $archiveFileExtension + "`r`n" + `
+                                            [Logging]::GetExceptionInfo($_.Exception));
 
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                            $logAdditionalMSG, `        # Additional information
-                                            [LogMessageLevel]::Error);  # Message level
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
 
-                # Display a message to the user that something went horribly wrong
-                #  and log that same message for referencing purpose.
-                [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
-                                            [LogMessageLevel]::Error);  # Message level
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
 
             # Alert the user through a message box as well that an issue had occurred;
             #   the message will be brief as the full details remain within the terminal.
             [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
 
-                # * * * * * * * * * * * * * * * * * * *
-
-            # Update the Exit Code status; the operation failed.
-            $exitCode = $false;
+            # * * * * * * * * * * * * * * * * * * *
         } # catch : Caught Error in Compression Task
 
         # Log the activity in the logfiles (if requested)
@@ -875,8 +847,8 @@ class ArchiveZip
 
 
             # Create the logfiles
-            [CommonIO]::PSCMDLetLogging($this.GetLogPath(), `
-                                        $this.GetLogPath(), `
+            [CommonIO]::PSCMDLetLogging([ArchiveZip]::__logPath, `
+                                        [ArchiveZip]::__logPath, `
                                         $NULL, `
                                         $false, `
                                         $false, `
@@ -892,7 +864,7 @@ class ArchiveZip
         # - - - - - - - - - - - - - - -
 
 
-        # Successfully finished the operation
+        # Finished with the operation
         return $exitCode;
     } # CreateArchive()
 
