@@ -33,6 +33,46 @@
 
 class ProjectInformation
 {
+
+    # Member Variables :: Properties
+    # =================================================
+    # =================================================
+
+
+    #region Private Variables (emulated)
+
+    # Project's Name
+    # ---------------
+    # The name of the project.
+    Static Hidden [string] $__name = $NULL;
+
+
+    # Project's Website
+    # ---------------
+    # The website for the project.
+    Static Hidden [string] $__website = $NULL;
+
+
+    # Project's Compiled Name
+    # ---------------
+    # Defines the final output filename of the compiled build.
+    Static Hidden [string] $__outputName = $NULL;
+
+
+    # Project's Path
+    # ---------------
+    # The absolute path to the project's source files on the local filesystem.
+    Static Hidden [string] $__path = $NULL;
+
+
+    # Project is Ready
+    # ---------------
+    # Flag that signifies if the project information had been loaded into the environment.
+    Static Hidden [bool] $__isLoaded = $false;
+
+    #endregion
+
+
     # Object Singleton Instance
     # =================================================
     # =================================================
