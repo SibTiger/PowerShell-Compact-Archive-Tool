@@ -111,16 +111,6 @@ CreateDirectories | Out-Null;
 
 
 
-#region Instantiate Singletons
-# Initialize the main Project Information object
-[ProjectInformation] $projectInformation = `
-                                [ProjectInformation]::GetInstance();
-
-#endregion
-
-
-
-
 #region Special Program Variables
 
 # This will contain all of the information stored within the pipe.  Now, I am using this
