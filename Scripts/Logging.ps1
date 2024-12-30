@@ -1004,7 +1004,8 @@ class Logging
                             "`t`tSYSTEM INFORMATION`r`n" + `
                             "==================================`r`n" + `
                             "Operating System: ---- $([SystemInformation]::OperatingSystem())`r`n" + `
-                            "PowerShell Edition: -- $([SystemInformation]::PowerShellEdition())`r`n" + `
+                            "Multiple Threads: ---- $([SystemInformation]::SupportMultipleThreads())`r`n" + `
+                            "PowerShell Version: -- $([SystemInformation]::PowerShellVersion())`r`n" + `
                             "Application PID: ----- $([SystemInformation]::ProcessID())`r`n" + `
                             "Working Directory: --- $([SystemInformation]::WorkingDirectoryPath())`r`n" + `
                             "Output Encoding: ----- $([SystemInformation]::OutputEncoding())");
