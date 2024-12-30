@@ -1,4 +1,4 @@
-﻿<# PowerShell Compact-Archive Tool
+<# PowerShell Compact-Archive Tool
  # Copyright (C) 2025
  #
  # This program is free software: you can redistribute it and/or modify
@@ -69,6 +69,10 @@ function main()
 
     # Provide a new Window Title
     [CommonIO]::SetTerminalWindowTitle("$($Global:_PROGRAMNAME_) (Version $($Global:_VERSION_))");
+
+
+    # Provide System and Environment Details
+    [Logging]::WriteSystemInformation();
 
 
     # Delay the program momentarily so the user can see the splash screen.
