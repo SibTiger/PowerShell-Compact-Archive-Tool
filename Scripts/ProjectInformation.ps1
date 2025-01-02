@@ -22,10 +22,9 @@
  # ------------------------------
  # ==============================
  # ==============================
- # This class holds all information regarding the desired project that we will be essentially compiling.
- #  Such information is essentially basic, such as: project name, code name, output filename, and project
- #  URLs.  This is going to be helpful for the program to be much more modular and yet also helpful for
- #  the end-user that will be using this program tool.
+ # This class will contain information regarding a desired project that had been selected by the
+ #  user.  The information collected within this class will contain the essential meta-data needed
+ #  to help aid the compiling process that is performed within the program.
  #>
 
 
@@ -39,18 +38,18 @@ class ProjectInformation
     # =================================================
 
 
-    #region Private Variables (emulated)
+    #region Hidden Variables
 
     # Project's Name
     # ---------------
     # The name of the project.
-    Static Hidden [string] $__name = $NULL;
+    Static Hidden [string] $__projectName = $NULL;
 
 
     # Project's Website
     # ---------------
     # The website for the project.
-    Static Hidden [string] $__website = $NULL;
+    Static Hidden [string] $__projectWebsite = $NULL;
 
 
     # Project's Compiled Name
@@ -61,169 +60,56 @@ class ProjectInformation
 
     # Project's Path
     # ---------------
-    # The absolute path to the project's source files on the local filesystem.
-    Static Hidden [string] $__path = $NULL;
+    # The absolute path to the project's source files on a filesystem.
+    Static Hidden [string] $__sourcePath = $NULL;
 
 
     # Project is Ready
     # ---------------
-    # Flag that signifies if the project information had been loaded into the environment.
+    # A flag that signifies if a project had been loaded into the environment.
     Static Hidden [bool] $__isLoaded = $false;
 
-    #endregion
 
 
-    # Object Singleton Instance
-    # =================================================
-    # =================================================
+    # -----------------------------
+    # -----------------------------
+    # Project File
 
 
-    #region Singleton Instance
-
-    # Singleton Instance of the object
-    hidden static [ProjectInformation] $_instance = $null;
-
-
-
-
-    # Get the instance of this singleton object (Default)
-    static [ProjectInformation] GetInstance()
-    {
-        # if there was no previous instance of the object - then create one.
-        if ($null -eq [ProjectInformation]::_instance)
-        {
-            # Create a new instance of the singleton object.
-            [ProjectInformation]::_instance = [ProjectInformation]::new();
-        } # If : No Singleton Instance
-
-        # Provide an instance of the object.
-        return [ProjectInformation]::_instance;
-    } # GetInstance()
-
-
-
-
-    # Get the instance of this singleton object (with Args)
-    #  Useful if we already know that we have to instantiate
-    #  a new instance of this particular object.
-    static [ProjectInformation] GetInstance([string] $projectName,      `   # Project's full name
-                                            [string] $codeName,         `   # Project's Codename (or version codename)
-                                            [string] $compilerVersion,  `   # Project's Compiler Version
-                                            [string] $fileName,         `   # Project's Filename (compiled name)
-                                            [string] $urlWebsite,       `   # Project's Website Link
-                                            [string] $urlWiki,          `   # Project's Wiki Link
-                                            [string] $urlSource,        `   # Project's Source Line
-                                            [string] $projectPath)          # Project's Source files; local filesystem path.
-    {
-        # if there was no previous instance of the object - then create one.
-        if ($null -eq [ProjectInformation]::_instance)
-        {
-            # Create a new instance of the singleton object.
-            [ProjectInformation]::_instance = [ProjectInformation]::new($projectName,       $codeName,
-                                                                        $compilerVersion,   $fileName,
-                                                                        $urlWebsite,        $urlWiki,
-                                                                        $urlSource,         $projectPath);
-        } # If : No Singleton Instance
-
-        # Provide an instance of the object.
-        return [ProjectInformation]::_instance;
-    } # GetInstance()
-
-    #endregion
-
-
-
-
-    # Member Variables :: Properties
-    # =================================================
-    # =================================================
-
-
-    #region Private Variables (emulated)
-
-    # Project's Name
+    # Project Filename
     # ---------------
-    # The formal name of the project.
-    Hidden [string] $__projectName = "projectNameHere";
+    # A file the contains a project's meta-data information in plaintext.
+    Static Hidden [string] $__projectFileName = "$($GLOBAL:_PROGRAMNAMESHORT_).Proj";
 
 
-    # Project's Code Name (or Version Code Name)
+    # Variable: Comment Token
     # ---------------
-    # The code name of the overall project or version of the project.
-    Hidden [string] $__codeName = "projectsCodeNameHere";
+    # A character at the first column that specifies that the line is a comment.
+    Static Hidden [char] $__projectMetaDataCommentToken = '#';
 
 
-    # Project's Compiler Version
+    # Variable: Assignment Delimiter
     # ---------------
-    # The base version of the project's version within this program.
-    # NOTE: The version does not reflect the version of the project
-    #           itself, but the version in regards to this program.
-    Hidden [string] $__compilerVersion = "";
+    # A character that separates the variable and the value of the variable.
+    Static Hidden [char] $__projectFileAssignmentDelimiter = '=';
 
 
-    # Output Filename
+    # Variable: Project Name
     # ---------------
-    # The filename that will be used in compiled builds.
-    # NOTE: Remember that /idgames has a fixed 8char upper-limit!
-    Hidden [string] $__fileName = "projectsFileNameHere";
+    # A variable, within the Project File, that provides the Project's name.
+    Static Hidden [string] $__projectFileVariable_ProjectName = "Project_Name_String";
 
 
-    # Project's Website
+    # Variable: Project Website
     # ---------------
-    # The project's official website; which can be accessed by the end-user by request.  This can be
-    #  helpful to the user, in-which they may check out the project's latest public announcements and
-    #  insights regarding the project.
-    Hidden [string] $__urlWebsite = "";
+    # A variable, within the Project File, that provides the Project's website.
+    Static Hidden [string] $__projectFileVariable_ProjectWebsite = "Project_Website_String";
 
 
-    # Project's Help Documentation
+    # Variable: Output Filename
     # ---------------
-    # The project's official Wikipedia; which can be accessed by the end-user by request.  This can
-    #  greatly be helpful to the user, as they may view the project's help-documentation for abroad
-    #  reasons but not limited to using this very tool.
-    # NOTE: Wiki's are usually provided in some Developer\Repositories Web-Services, such as GitHub.
-    Hidden [string] $__urlWiki = "";
-
-
-    # Project's Repository
-    # ---------------
-    # The project's official repository; which can be accessed by the end-user by request.  This can
-    #  allow the user to view the project's source code via their preferred web-browser.  Prime example
-    #  of Repositories: GitHub, SourceForge, BitBucket, GitLab, and many more.
-    Hidden [string] $__urlSource = "";
-
-
-    # Project Loaded
-    # ---------------
-    # This variable will keep track if a project had been loaded within the program's environment.
-    #  By keeping track if a project had been loaded, the program can be able to restrict certain
-    #  operations as well as encouraging the user to load projects.
-    Hidden [bool] $__projectLoaded = $false;
-
-
-    # Project's Path
-    # ---------------
-    # This will provide the location as to where the project is located within the host's system.
-    #  More specifically, where the user has it stored within their system.  By having this member
-    #   variable available, we can easily auto-assign this with the desired path already provided
-    #   by the user during load.
-    Hidden [string] $__projectPath = "";
-
-
-    # Project's Installation Path
-    # ---------------
-    # This will provide the absolute location of the PSCAT project's installation path.  This
-    #   will be used as a way to update additional configuration files as needed.
-    Hidden [string] $__projectInstallationPath = "";
-
-
-    # Project's Meta File Name
-    # ---------------
-    # Specifies the exact filename of the current loaded project's Metadata file.  This will be
-    #   used as a way to update additional configuration files as needed, in which we can
-    #   expeditiously load the project's meta file.
-    Hidden [string] $__projectMetaFileName = "";
-
+    # A variable, within the Project File, that provides the Output filename
+    Static Hidden [string] $__projectFileVariable_OutputFileName = "Project_BuildName_String";
 
     #endregion
 
@@ -233,95 +119,6 @@ class ProjectInformation
     # Member Functions :: Methods
     # =================================================
     # =================================================
-
-
-    #region Constructor Functions
-
-    # Default Constructor
-    ProjectInformation()
-    {
-        # Project Name
-        $this.__projectName             = $null;
-
-        # Code Name
-        $this.__codeName                = $null;
-
-        # Compile Version
-        $this.__compilerVersion         = $null;
-
-        # File Name
-        $this.__fileName                = $null;
-
-        # Website URL
-        $this.__urlWebsite              = $null;
-
-        # Wiki URL
-        $this.__urlWiki                 = $null;
-
-        # Source Repository URL
-        $this.__urlSource               = $null;
-
-        # Project Loaded
-        $this.__projectLoaded           = $false;
-
-        # Project Path
-        $this.__projectPath             = $null;
-
-        # Project Installation Path
-        $this.__projectInstallationPath = $null;
-
-        # Project Meta Filename
-        $this.__projectMetaFileName     = $null;
-    } # Default Constructor
-
-
-
-
-    # Project Information : On-Demand
-    ProjectInformation([string] $projectName,       `   # Project's full name
-                        [string] $codeName,         `   # Project's Codename (or version codename)
-                        [string] $CompilerVersion,  `   # Project's Compiler Version
-                        [string] $fileName,         `   # Project's Filename (compiled name)
-                        [string] $urlWebsite,       `   # Project's Website Link
-                        [string] $urlWiki,          `   # Project's Wiki Link
-                        [string] $urlSource,        `   # Project's Source Line
-                        [string] $projectPath,      `   # Project's Source files; local filesystem path.
-                        [string] $installPath,      `   # Project's Install Path
-                        [string] $metaFileName)         # Project's Meta filename
-    {
-        # Project Name
-        $this.__projectName             = $projectName;
-
-        # Code Name
-        $this.__codeName                = $codeName;
-
-        # Compile Version
-        $this.__compilerVersion         = $compilerVersion;
-
-        # File Name
-        $this.__fileName                = $fileName;
-
-        # Website URL
-        $this.__urlWebsite              = $urlWebsite;
-
-        # Wiki URL
-        $this.__urlWiki                 = $urlWiki;
-
-        # Source Repository URL
-        $this.__urlSource               = $urlSource;
-
-        # Project Loaded
-        $this.__projectLoaded           = $true;
-
-        # Project Path
-        $this.__projectPath             = $projectPath;
-
-        # Project Installation Path
-        $this.__projectInstallationPath = $installPath;
-
-        # Project Meta Filename
-        $this.__projectMetaFileName     = $metaFileName;
-    } # Project Information Constructor
 
 
 
@@ -338,97 +135,52 @@ class ProjectInformation
     #   The value of the 'Project Name'.
     # -------------------------------
     #>
-    [String] GetProjectName() { return $this.__projectName; }
+    Static [String] GetProjectName() { return [ProjectInformation]::__projectName; }
 
 
 
 
-   <# Get Code Name
+   <# Get Project Website
     # -------------------------------
     # Documentation:
-    #  Returns the value of the 'Code Name' variable.
+    #  Returns the value of the 'Project Website' variable.
     # -------------------------------
     # Output:
-    #  [String] Code Name
-    #   The value of the 'Code Name'.
+    #  [String] Project Website
+    #   The value of the 'Project Website'.
     # -------------------------------
     #>
-    [String] GetCodeName() { return $this.__codeName; }
+    Static [String] GetProjectWebsite() { return [ProjectInformation]::__projectWebsite; }
 
 
 
 
-   <# Get Compiler Version
+   <# Get Output Name
     # -------------------------------
     # Documentation:
-    #  Returns the value of the 'Compiler Version' variable.
+    #  Returns the value of the 'Output Name' variable.
     # -------------------------------
     # Output:
-    #  [String] Compiler Version
-    #   The value of the 'Compiler Version'.
+    #  [String] Output Name
+    #   The value of the 'Output Name'.
     # -------------------------------
     #>
-    [String] GetCompilerVersion() { return $this.__compilerVersion; }
+    Static [String] GetOutputName() { return [ProjectInformation]::__outputName; }
 
 
 
 
-   <# Get File Name
+   <# Get Source Path
     # -------------------------------
     # Documentation:
-    #  Returns the value of the 'File Name' variable.
+    #  Returns the value of the 'Source Path' variable.
     # -------------------------------
     # Output:
-    #  [String] File Name
-    #   The value of the 'File Name'.
+    #  [String] Source Path
+    #   The value of the 'Source Path'.
     # -------------------------------
     #>
-    [String] GetFileName() { return $this.__fileName; }
-
-
-
-
-   <# Get Website URL
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'Website URL' variable.
-    # -------------------------------
-    # Output:
-    #  [String] Website URL
-    #   The value of the 'Website URL'.
-    # -------------------------------
-    #>
-    [String] GetURLWebsite() { return $this.__urlWebsite; }
-
-
-
-
-   <# Get Wiki URL
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'Wiki URL' variable.
-    # -------------------------------
-    # Output:
-    #  [String] Wiki URL
-    #   The value of the 'Wiki URL'.
-    # -------------------------------
-    #>
-    [String] GetURLWiki() { return $this.__urlWiki; }
-
-
-
-
-   <# Get Source URL
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'Source URL' variable.
-    # -------------------------------
-    # Output:
-    #  [String] Source URL
-    #   The value of the 'Source URL'.
-    # -------------------------------
-    #>
-    [String] GetURLSource() { return $this.__urlSource; }
+    Static [String] GetSourcePath() { return [ProjectInformation]::__sourcePath; }
 
 
 
@@ -439,558 +191,298 @@ class ProjectInformation
     #  Returns the value of the 'Project Loaded' variable.
     # -------------------------------
     # Output:
-    #  [Bool] Project Loaded
+    #  [String] Project Loaded
     #   The value of the 'Project Loaded'.
     # -------------------------------
     #>
-    [Bool] GetProjectLoaded() { return $this.__projectLoaded; }
-
-
-
-
-   <# Determine Assigned: Website
-    # -------------------------------
-    # Documentation:
-    #  This determines if the 'Website URL' variable had been populated
-    # -------------------------------
-    # Output:
-    #  [Bool] Determines if URL was Provided
-    #   True  = Website URL had been provided.
-    #   False = Website URL had NOT been provided.
-    # -------------------------------
-    #>
-    [Bool] DetermineAssignedWebsite()
-    {
-        if ([CommonIO]::IsStringEmpty($this.__urlWebsite))
-        {
-            # Website was not provided.
-            return $false;
-        } # if : No Website Provided
-
-
-        # If we made it here, then the Website URL had been provided.
-        return $true;
-    } # DetermineAssignedWebsite()
-
-
-
-
-   <# Get Project Path
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'Project Path' variable.
-    # -------------------------------
-    # Output:
-    #  [String] Project Path
-    #   The value of the 'Project Path'.
-    # -------------------------------
-    #>
-    [String] GetProjectPath() { return $this.__projectPath; }
-
-
-
-
-   <# Get Project Installation Path
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'Project Installation Path' variable.
-    # -------------------------------
-    # Output:
-    #  [String] Project Installation Path
-    #   The value of the 'Project Installation Path'.
-    # -------------------------------
-    #>
-    [String] GetProjectInstallationPath() { return $this.__projectInstallationPath; }
-
-
-
-
-   <# Get Project Meta Filename
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the 'Project Meta Filename' variable.
-    # -------------------------------
-    # Output:
-    #  [String] Project Meta Filename
-    #   The value of the 'Project Meta Filename'.
-    # -------------------------------
-    #>
-    [String] GetProjectMetaFileName() { return $this.__projectMetaFileName; }
+    Static [bool] GetIsLoaded () { return [ProjectInformation]::__isLoaded; }
 
     #endregion
 
 
 
 
-    #region Setter Functions
-
-   <# Set Project Name
+   <# Load Procedure
     # -------------------------------
     # Documentation:
-    #  Sets a new value for the 'Project Name' variable.
-    # -------------------------------
-    # Input:
-    #  [string] Project Name
-    #   Defines the Project's Name variable.
+    #   This function will guide the user into loading the project's meta-data into the environment,
+    #   which will ultimately help aid the program during the compiling process.
     # -------------------------------
     # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
+    #  [Bool] Operation Code
+    #   Determines if a project had been successfully loaded into the environment.
+    #       $true   = Project's meta data had been collected successfully
+    #       $false  = Project's meta data was not collected; user canceled; error was reached.
     # -------------------------------
     #>
-    [bool] SetProjectName([string] $newVal)
+    Static [Bool] Load ()
     {
-        # Insure that the provided value is not null.
-        # If it is null, we cannot accept the change as it is a mandatory value.
-        if ([CommonIO]::IsStringEmpty($newVal)) { return $false; }
-
-
-        # Set the Project Name as requested.
-        $this.__projectName = $newVal;
-
-
-        # Finished!
-        return $true;
-    } # SetProjectName()
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This string will provide the absolute path to the Project File
+        [string] $projectFilePath = $NULL;
+        # ----------------------------------------
 
 
 
-
-   <# Set Project's Code Name
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Code Name' variable.
-    # -------------------------------
-    # Input:
-    #  [string] Code Name
-    #   Defines the Project's Code Name variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetCodeName([string] $newVal)
-    {
-        # Insure that the provided value is not null.
-        # If it is null, we cannot accept the change as it is a mandatory value.
-        if ([CommonIO]::IsStringEmpty($newVal)) { return $false; }
-
-
-        # Set the Project's Code Name as requested.
-        $this.__codeName = $newVal;
-
-
-        # Finished!
-        return $true;
-    } # SetCodeName()
-
-
-
-
-   <# Set Compiler Version
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Compiler Version' variable.
-    # -------------------------------
-    # Input:
-    #  [string] Compiler Version
-    #   Defines the Project's Compiler Version variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetCompilerVersion([string] $newVal)
-    {
-        # Insure that the provided value is not null.
-        # If it is null, we cannot accept the change as it is a mandatory value.
-        if ([CommonIO]::IsStringEmpty($newVal)) { return $false; }
-
-
-        # Set the Project's Compiler Version as requested.
-        $this.__compilerVersion = $newVal;
-
-
-        # Finished!
-        return $true;
-    } # SetCompilerVersion()
-
-
-
-
-   <# Set File Name
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'File Name' variable.
-    # -------------------------------
-    # Input:
-    #  [string] File Name
-    #   Defines the File Name variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetFileName([string] $newVal)
-    {
-        # Insure that the provided value is not null.
-        # If it is null, we cannot accept the change as it is a mandatory value.
-        if ([CommonIO]::IsStringEmpty($newVal)) { return $false; }
-
-
-        # Set the File Name as requested.
-        $this.__fileName = $newVal;
-
-
-        # Finished!
-        return $true;
-    } # SetFileName()
-
-
-
-
-   <# Set Website URL
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Website URL' variable.
-    # -------------------------------
-    # Input:
-    #  [string] Website URL
-    #   Defines the Website URL variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetURLWebsite([string] $newVal)
-    {
-        # Set the URL Website as requested.
-        $this.__urlWebsite = $newVal;
-
-
-        # Finished!
-        return $true;
-    } # SetURLWebsite()
-
-
-
-
-   <# Set Wiki URL
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Wiki URL' variable.
-    # -------------------------------
-    # Input:
-    #  [string] Wiki URL
-    #   Defines the Wiki URL variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetURLWiki([string] $newVal)
-    {
-        # Set the URL Wiki as requested.
-        $this.__urlWiki = $newVal;
-
-
-        # Finished!
-        return $true;
-    } # SetURLWiki()
-
-
-
-
-   <# Set Source URL
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Source URL' variable.
-    # -------------------------------
-    # Input:
-    #  [string] Source URL
-    #   Defines the Source URL variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetURLSource([string] $newVal)
-    {
-        # Set the URL Source as requested.
-        $this.__urlSource = $newVal;
-
-
-        # Finished!
-        return $true;
-    } # SetURLSource()
-
-
-
-
-   <# Set Project Loaded
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Project Loaded' variable.
-    # -------------------------------
-    # Input:
-    #  [Bool] Project Loaded
-    #   Changes the state of the 'Project Loaded' variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetProjectLoaded([bool] $newVal)
-    {
-        # Change the state of the Project Loaded variable.
-        $this.__projectLoaded = $newVal;
-
-
-        # Finished!
-        return $true;
-    } # SetProjectLoaded()
-
-
-
-
-   <# Set Project Path
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Project Path' variable.
-    # -------------------------------
-    # Input:
-    #  [string] Project Path
-    #   Defines the Project Path variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetProjectPath([string] $newVal)
-    {
-        # Inspect to see if the path
-        if ([CommonIO]::CheckPathExists($newVal, $true))
+        # Open the folder browser, allowing the user to select the project's source directory.
         {
-            # Path exists; use it as requested.
-            $this.__projectPath = $newVal;
+            [string] $instructions = "Select the project that you want to compile.";
+            if ([CommonGUI]::BrowseDirectory($instructions, [BrowserInterfaceStyle]::Modern, [ref] [ProjectInformation]::__sourcePath) -eq $false)
+            {
+
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = "User had canceled the operation to find a Project to load!";
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = $NULL;
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                            $logAdditionalMSG, `            # Additional information
+                                            [LogMessageLevel]::Verbose);    # Message level
+
+                # * * * * * * * * * * * * * * * * * * *
 
 
-            # Finished successfully
-            return $true;
-        } # if : Path Exists
-
-
-        # Failure; Path did not exist.
-        return $false;
-    } # SetProjectPath()
+                # Because the user had canceled the operation, abort the entire operation.
+                return $false;
+            } # if : User Aborts from Directory Browser
+        } # block - Select Project's Directory
 
 
 
+        # Assign the Project File variable to make our lives easier.
+        $projectFilePath = [ProjectInformation]::__sourcePath + "\" + [ProjectInformation]::__projectFileName;
 
-   <# Set Project Installation Path
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Project Installation Path' variable.
-    # -------------------------------
-    # Input:
-    #  [string] Project Installation Path
-    #   Defines the Project Installation Path variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetProjectInstallationPath([string] $newVal)
-    {
-        # Inspect to see if the path exists
-        if ([CommonIO]::CheckPathExists($newVal, $true))
+
+        # Try to find the Project File with the path given by the user.
+        if ([CommonIO]::CheckPathExists($projectFilePath, $true))
         {
-            # Path exists; use it as requested.
-            $this.__projectInstallationPath = $newVal;
+            # Declarations and Initializations
+            # ----------------------------------------
+            # Load the Project File in a list, so we can parse through it - line by line.
+            [System.Collections.ArrayList] $projectFile = $(Get-Content -LiteralPath $projectFilePath);
+
+            # Hash Table to help us fetch the data easily from the Project File
+            $projectFileStrings = @{};
+
+            # This will contain the contents from the Project File as-is, but new-lines being attached.
+            #  Mainly for logging purposes for when things go horribly wrong.
+            [string] $projectFileFormatString = $NULL;
+
+            # Get Directory Info., which will be used for logging purposes.
+            [System.IO.DirectoryInfo] $directoryInfo = [ProjectInformation]::__sourcePath;
+            # ----------------------------------------
 
 
-            # Finished successfully
-            return $true;
-        } # if : Path Exists
+            # Because the Project File exists, we will try to obtain all of the necessary known strings from
+            #   the Project File so that we can properly handle the data.
+            foreach ($line in $projectFile)
+            {
+                # Also capture the line into a formatted string
+                $projectFileFormatString += $line + "`r`n";
 
 
-        # Failure; Path did not exist.
-        return $false;
-    } # SetProjectInstallationPath()
+                # Line is a comment
+                if ($line.Trim()[0] -eq [ProjectInformation]::__projectMetaDataCommentToken)
+                { continue; }
+
+
+                # Empty line
+                if ([CommonIO]::IsStringEmpty($line))
+                { continue; }
+
+
+                # Project Name
+                if ($line.Contains([ProjectInformation]::__projectFileVariable_ProjectName))
+                { $projectFileStrings.Add([ProjectInformation]::__projectFileVariable_ProjectName, $line.Trim()); }
+
+
+                # Project Website
+                if ($line.Contains([ProjectInformation]::__projectFileVariable_ProjectWebsite))
+                { $projectFileStrings.Add([ProjectInformation]::__projectFileVariable_ProjectWebsite, $line.Trim()); }
+
+
+                # Project Output FileName
+                if ($line.Contains([ProjectInformation]::__projectFileVariable_OutputFileName, $line))
+                { $projectFileStrings.Add([ProjectInformation]::__projectFileVariable_OutputFileName, $line.Trim()); }
+            } # foreach : Parse through Project File
+
+
+            # Try to assign the values to their respective variables
+            try
+            {
+                # Project's Name
+                [ProjectInformation]::__projectName     = [string] ($projectFileStrings[[ProjectInformation]::__projectFileVariable_ProjectName]);
+
+
+                # Project's Associated Website
+                [ProjectInformation]::__projectWebsite  = [string] ($projectFileStrings[[ProjectInformation]::__projectFileVariable_ProjectWebsite]);
+
+
+                # Compiled Output File Name for the Project.
+                [ProjectInformation]::__outputName      = [string] ($projectFileStrings[[ProjectInformation]::__projectFileVariable_OutputFileName]);
+            } # try : Assigning Values
+
+            # Failed to set one of the values
+            catch
+            {
+                # * * * * * * * * * * * * * * * * * * *
+                # Debugging
+                # --------------
+
+                # Generate the initial message
+                [string] $logMessage = ("Unable to properly read the," + [ProjectInformation]::__projectFileName + `
+                                        ", Project File from " + $directoryInfo.Name + "!");
+
+                # Generate any additional information that might be useful
+                [string] $logAdditionalMSG = (  "Project Source Directory was:`r`n" + `
+                                                "`t`t" + [ProjectInformation]::__sourcePath + "`r`n" + `
+                                                "`tProject File to Read was:`r`n" + `
+                                                "`t`t" + $projectFilePath + "`r`n" + `
+                                                "`tObtained Variable Values from Project File:`r`n" + `
+                                                "`t`t - Project Name: "     + [ProjectInformation]::__projectName       + "`r`n" + `
+                                                "`t`t - Project Website: "  + [ProjectInformation]::__projectWebsite    + "`r`n" + `
+                                                "`t`t - Output Filename: "  + [ProjectInformation]::__outputName        + "`r`n" + `
+                                                "`tProject File Contents Contains:`r`n" + `
+                                                $projectFileFormatString);
+
+                # Pass the information to the logging system
+                [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                            $logAdditionalMSG, `        # Additional information
+                                            [LogMessageLevel]::Error);  # Message level
+
+                # Display a message to the user that something went horribly wrong
+                #  and log that same message for referencing purpose.
+                [Logging]::DisplayMessage($logMessage, `            # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+                # Alert the user through a message box as well that an issue had occurred;
+                #   the message will be brief as the full details remain within the terminal.
+                [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
+                # * * * * * * * * * * * * * * * * * * *
+
+
+                # Abort the operation
+                return $false;
+            } # Catch : Abort Operation
 
 
 
+            # Now that we have the strings we need, we must remove the 'variable' + 'assignment delimiter',
+            #   removing those two tokens, it leaves us with the value that we desire.
+            # For example: AreYouCoolQuestion = IamAKoolCat_With_A_K
+            #               We want "IamAKoolCat_With_A_K", removing everything before it.
+            for([byte] $i = 0; $i -le $projectFileStrings.Count; $i++)
+            {
+                # Delimiter String Index Position
+                [Int32] $indexPosition = 0;
 
-   <# Set Project Meta Filename
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the 'Project Meta Filename' variable.
-    # -------------------------------
-    # Input:
-    #  [string] Project Meta Filename
-    #   Defines the Project Meta Filename variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetProjectMetaFileName([string] $newVal)
-    {
-        # Assure that the filename is not empty.
-        if ([CommonIO]::IsStringEmpty($newVal)) { return $false; }
+                # Determine what string we want to change
+                switch($i)
+                {
+                    # Project Name
+                    0
+                    {
+                        # Get the position of the delimiter.
+                        $indexPosition = [ProjectInformation]::__projectName.IndexOf([ProjectInformation]::__projectFileAssignmentDelimiter);
 
-        # Filename given; use it as requested.
-        $this.__projectMetaFileName = $newVal;
+                        # Get the assigned value, removing everything before the value.
+                        [ProjectInformation]::__projectName = [ProjectInformation]::__projectName.Substring($indexPosition + 1).Trim();
 
-        # Finished successfully
+                        # Move on to the next string
+                        break;
+                    } # Project Name
+
+                    # Project Website
+                    1
+                    {
+                        # Get the position of the delimiter.
+                        $indexPosition = [ProjectInformation]::__projectWebsite.IndexOf([ProjectInformation]::__projectFileAssignmentDelimiter);
+
+                        # Get the assigned value, removing everything before the value.
+                        [ProjectInformation]::__projectWebsite = [ProjectInformation]::__projectWebsite.Substring($indexPosition + 1).Trim();
+
+                        # Move on to the next string
+                        break;
+                    } # Project Website
+
+                    # Output Filename
+                    2
+                    {
+                        # Get the position of the delimiter.
+                        $indexPosition = [ProjectInformation]::__outputName.IndexOf([ProjectInformation]::__projectFileAssignmentDelimiter);
+
+                        # Get the assigned value, removing everything before the value.
+                        [ProjectInformation]::__outputName = [ProjectInformation]::__outputName.Substring($indexPosition + 1).Trim();
+
+                        # Move on to the next string
+                        break;
+                    } # Output Filename
+                } # Determine What String to Alter
+            } # for : Get Assignment Values
+        } # if : Project File was Found
+
+        else
+        {
+            # Because the Project File was not found, we will populate only a few variables with what we have,
+            #   which is only the directory name of the project.
+
+
+            # Declarations and Initializations
+            # ----------------------------------------
+            # We will use this to obtain the Project Name from the Directory Name.
+            [System.IO.DirectoryInfo] $directoryInfo = [ProjectInformation]::__sourcePath;
+            # ----------------------------------------
+
+
+
+            # Provide the Project Name
+            [ProjectInformation]::__projectName = $directoryInfo.Name.ToString();
+
+            # Provide the Output File Name
+            [ProjectInformation]::__outputName = [ProjectInformation]::__projectName;
+
+            # All other details is merely unknown to us.
+            [ProjectInformation]::__projectWebsite = $NULL;
+        } # else : Project File was not Found
+
+
+
+        # Raise the flag signifying that a project had been loaded into the environment.
+        if ([ProjectInformation]::__isLoaded -eq $false) { [ProjectInformation]::__isLoaded = $true; }
+
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        [string] $logMessage = "Project has been successfully loaded into the environment!";
+
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = (  "Project Name is: "                 + [ProjectInformation]::__projectName       + "`r`n" + `
+                                        "Project Website is: "              + [ProjectInformation]::__projectWebsite    + "`r`n" + `
+                                        "Project Output Filename is: "      + [ProjectInformation]::__outputName        + "`r`n" + `
+                                        "Project Source Files Located at: " + [ProjectInformation]::__sourcePath        + "`r`n" + `
+                                        "Project Is Loaded Flag is: "       + [ProjectInformation]::__isLoaded          + "`r`n");
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
+
+
+        # Finished with the operation
         return $true;
-    } # SetProjectMetaFileName()
-
-    #endregion
-
-
-
-
-   <# Clear Project Information
-    # -------------------------------
-    # Documentation:
-    #  This function will clear all information provided for the project, and the 'Project Loaded'
-    #   attribute will marked as $false.
-    # -------------------------------
-    #>
-    [void] Clear()
-    {
-        $this.__projectName             = $null;    # Project Name
-        $this.__codeName                = $null;    # Code Name
-        $this.__compilerVersion         = $null;    # Compile Version
-        $this.__fileName                = $null;    # File Name
-        $this.__urlWebsite              = $null;    # Website URL
-        $this.__urlWiki                 = $null;    # Wiki URL
-        $this.__urlSource               = $null;    # Source Repository URL
-        $this.__projectPath             = $null;    # Project Path
-        $this.__projectLoaded           = $false;   # Project Loaded
-        $this.__projectInstallationPath = $null;    # Project Installation Path
-        $this.__projectMetaFileName     = $null;    # Project Meta Filename
-    } # Clear()
-
-
-
-
-   <# Show Project Information
-    # -------------------------------
-    # Documentation:
-    #  This function will show the current information regarding the project that is presently loaded within
-    #   this object's instance.
-    # -------------------------------
-    # Input:
-    #  [ProjectInformationShowDetail] Information Detail
-    #   Specifies how much information will be provided to the calling function.
-    #  [string] {REFERENCE} Project Information
-    #   When this function return's true, this string will contain all available information regarding the
-    #   project that is presently loaded within this object's instance.
-    # -------------------------------
-    # Output:
-    #  [bool] Project Loaded
-    #     $false = Project is not loaded.
-    #     $true  = Project is loaded.
-    # -------------------------------
-    #>
-    [bool] Show([ProjectInformationShowDetail] $informationDetail,  `   # How much detail to give
-                [ref] $projectInformationStr)                           # Project Information String
-    {
-        # Is a project presently loaded?
-        if ($this.__projectLoaded -eq $false)
-        { return $false; }
-
-
-        # Project is loaded, craft the string:
-        if (($informationDetail -eq [ProjectInformationShowDetail]::Full) -or `
-            ($informationDetail -eq [ProjectInformationShowDetail]::Basic))
-        {
-            # Project Name
-            if (($NULL -ne $this.__projectName) -and ($this.__projectName -ne ""))
-            { $projectInformationStr.Value = "Project Name: " + $this.__projectName + "`r`n"; }
-
-            # Code Name
-            if (($NULL -ne $this.__codeName) -and ($this.__codeName -ne ""))
-            { $projectInformationStr.Value += "Code Name: " + $this.__codeName + "`r`n"; }
-
-            # Compiler Version
-            if (($NULL -ne $this.__compilerVersion) -and ($this.__compilerVersion -ne ""))
-            { $projectInformationStr.Value += "Compiler Version: " + $this.__compilerVersion + "`r`n"; }
-        } # Basic Detail Information
-
-
-        if ($informationDetail -eq [ProjectInformationShowDetail]::Full)
-        {
-            # File Name
-            if (($NULL -ne $this.__fileName) -and ($this.__fileName -ne ""))
-            { $projectInformationStr.Value += "Output File Name: " + $this.__fileName + "`r`n"; }
-
-            # Website URL
-            if (($NULL -ne $this.__urlWebsite) -and ($this.__urlWebsite -ne ""))
-            { $projectInformationStr.Value += "Website Link: " + $this.__urlWebsite + "`r`n"; }
-
-            # Wiki URL
-            if (($NULL -ne $this.__urlWiki) -and ($this.__urlWiki -ne ""))
-            { $projectInformationStr.Value += "Wiki Link: " + $this.__urlWiki + "`r`n"; }
-
-            # Source URL
-            if (($NULL -ne $this.__urlSource) -and ($this.__urlSource -ne ""))
-            { $projectInformationStr.Value += "Source Code Link: " + $this.__urlSource + "`r`n"; }
-
-            # Project Path
-            if (($NULL -ne $this.__projectPath) -and ($this.__projectPath -ne ""))
-            { $projectInformationStr.Value += "Local Working Copy Path: " + $this.__projectPath + "`r`n"; }
-
-            # Project Installation Path
-            if (($NULL -ne $this.__projectInstallationPath) -and ($this.__projectInstallationPath -ne ""))
-            { $projectInformationStr.Value += "Installation Path: " + $this.__projectInstallationPath + "`r`n"; }
-
-            # Project Meta Filename
-            if (($NULL -ne $this.__projectMetaFileName) -and ($this.__projectMetaFileName -ne ""))
-            { $projectInformationStr.Value += "Meta Filename: " + $this.__projectMetaFileName + "`r`n"; }
-        } # Full Detail Information
-
-
-        # Finished
-        return $true;
-    } # Show()
+    } # Load()
 } # ProjectInformation
-
-
-
-
-<# Project Information Show Detail [ENUM]
- # -------------------------------
- # Amount of detail Shown in Project Information
- # Provides how much detail will be provided when wanting to obtain information regarding the project that
- #  is presently loaded within the program's environment.
- # -------------------------------
- #>
-enum ProjectInformationShowDetail
-{
-    Basic;
-    Full;
-} # ProjectInformationShowDetail
