@@ -226,33 +226,31 @@ class ProjectInformation
 
 
         # Open the folder browser, allowing the user to select the project's source directory.
+        if ([CommonGUI]::BrowseDirectory("Select a project that you want to build.", `
+                                        [BrowserInterfaceStyle]::Modern, `
+                                        [ref] [ProjectInformation]::__sourcePath) -eq $false)
         {
-            [string] $instructions = "Select the project that you want to compile.";
-            if ([CommonGUI]::BrowseDirectory($instructions, [BrowserInterfaceStyle]::Modern, [ref] [ProjectInformation]::__sourcePath) -eq $false)
-            {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
 
-                # * * * * * * * * * * * * * * * * * * *
-                # Debugging
-                # --------------
+            # Generate the initial message
+            [string] $logMessage = "User had canceled the operation to find a Project to load!";
 
-                # Generate the initial message
-                [string] $logMessage = "User had canceled the operation to find a Project to load!";
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = $NULL;
 
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = $NULL;
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
 
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity($logMessage, `                # Initial message
-                                            $logAdditionalMSG, `            # Additional information
-                                            [LogMessageLevel]::Verbose);    # Message level
-
-                # * * * * * * * * * * * * * * * * * * *
+            # * * * * * * * * * * * * * * * * * * *
 
 
-                # Because the user had canceled the operation, abort the entire operation.
-                return $false;
-            } # if : User Aborts from Directory Browser
-        } # block - Select Project's Directory
+            # Because the user had canceled the operation, abort the entire operation.
+            return $false;
+        } # if : User Aborts from Directory Browser
 
 
 
