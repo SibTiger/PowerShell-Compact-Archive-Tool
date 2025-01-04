@@ -326,123 +326,47 @@ class MainMenu
    <# Draw Menu: Determine Hidden Menus
     # -------------------------------
     # Documentation:
-    #  This function will determine what menus and options are to be displayed
-    #   to the user.  Menus can be considered hidden if a particular setting,
-    #   feature, or environment is not available to the user or is not considered
-    #   ready to be used.  This can happen if a parent feature had been disabled,
-    #   thus causes a sub-feature to be hidden from the user.
-    #  This helps to declutter the menu screen by hiding sub-menus from the user
-    #   in-which have no effect as the main feature is disabled or configured in
-    #   a way that has no real effect.
+    #  This function will determine what menu items are available to the user.
+    #   Because some options may not be available then do not present the item
+    #   to the user.
     # -------------------------------
     # Input:
-    #  [bool] (REFERENCE) Project's Homepage
-    #   Provides access to the project's Homepage.
-    #  [bool] (REFERENCE) Project's Wiki Page
-    #   Provides access to the project's Wiki page.
-    #  [bool] (REFERENCE) Project's Source Code
-    #   Provides access to the project's source code.
-    #  [bool] (REFERENCE) Build: Release
-    #   Provide access to the Build Release operation.
-    #  [bool] (REFERENCE) Build: Development
-    #   Provide access to the Build Development operation.
+    #  [bool] (REFERENCE) Show Menu Item: Compile Project
+    #   A flag that signifies if it is possible to compile the project.
+    #  [bool] (REFERENCE) Show Menu Item: Access Project's Webpage
+    #   A flag that signifies if it is possible to access the project's webpage.
     # -------------------------------
     #>
-    hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuProjectHomePage, `       # Project's Homepage
-                                                        [ref] $showMenuProjectWikiPage, `       # Project's Wiki Page
-                                                        [ref] $showMenuProjectSourceCode, `     # Project's Source Code
-                                                        [ref] $showMenuBuildRelease, `          # Build: Release
-                                                        [ref] $showMenuBuildDevelopment)        # Build: Development
+    hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuBuildProject, `       # Project's Homepage
+                                                        [ref] $showMenuProjectWebpage)       # Project's Wiki Page
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Retrieve the current instance of the Project Information object; this contains details
-        #  in regards to where the source files exists within the user's system.
-        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
-        # ----------------------------------------
-
-
-
-
-        # Check Project
-        # - - - - - -
-        # We will inspect the Project Information available to determine if it is possible
-        #  to build the project or determine if we cannot build the project due to limited
-        #  to no useful data given.
-
-
-        # Build: Release - Visible
-        if ($projectInformation.GetProjectLoaded()) { $showMenuBuildRelease.Value = $true; }
-
-        # Build Release - Hidden
-        #   Limited or No Information Available.
-        else { $showMenuBuildRelease.Value = $false; }
-
-
-
-        # Build: Development - Visible
-        if ($projectInformation.GetProjectLoaded()) { $showMenuBuildDevelopment.Value = $true; }
-
-        # Build Development - Hidden
-        #   Limited or No Information Available.
-        else { $showMenuBuildDevelopment.Value = $false; }
-
-
-
-
-        # Check URLs
-        # - - - - - -
-        # We will only be able to check if the strings are empty.  If the string is populated,
-        #   then we will be able to use the URL.
-
-
-        # Project's Homepage - Visible
-        if (($projectInformation.GetProjectLoaded()) -and `
-            ((![CommonIO]::IsStringEmpty($projectInformation.GetURLWebsite())) -and `
-             ([WebsiteResources]::CheckSiteAvailability($projectInformation.GetURLWebsite(), $true))))
+        # CHECK PROJECT VARIABLES
+        # - - - - - - - - - - - - -
+        # Is a project loaded into the environment?
+        if ([ProjectInformation]::GetIsLoaded())
         {
-            $showMenuProjectHomePage.Value = $true;
-        } # if : Project's homepage - Visible
+            # Because a project is loaded, it is possible to compile a build of the project.
+            $showMenuBuildProject.Value = $true;
 
-        # Project's Homepage - Hidden
-        #   Limited or No Information Available.
+
+            # Project's Webpage is Available - Visible
+            if (([CommonIO]::IsStringEmpty([ProjectInformation]::GetProjectWebsite()) -eq $false) -and `
+                ([WebsiteResources]::CheckSiteAvailability([ProjectInformation]::GetProjectWebsite(), $true)))
+            { $showMenuProjectWebpage.Value = $true; }
+
+            # Project's Webpage is Hidden
+            else
+            { $showMenuProjectWebpage.Value = $false; }
+        } # if : Project is Loaded
+
+        # Project is not loaded into the environment.
         else
         {
-            $showMenuProjectHomePage.Value = $false;
-        } # else : Project's Homepage - Hidden
+            # Hide the ability to compile the project.
+            $showMenuBuildProject.Value = $false;
 
-
-
-        # Project's Wiki Page - Visible
-        if (($projectInformation.GetProjectLoaded()) -and `
-            ((![CommonIO]::IsStringEmpty($projectInformation.GetURLWiki())) -and `
-             ([WebsiteResources]::CheckSiteAvailability($projectInformation.GetURLWiki(), $true))))
-        {
-            $showMenuProjectWikiPage.Value = $true;
-        } # if : Project's Wiki Page - Visible
-
-        # Project's Wiki Page - Hidden
-        #   Limited or No Information Available.
-        else
-        {
-            $showMenuProjectWikiPage.Value = $false;
-        } # else : Project's Wiki Page - Hidden
-
-
-
-        # Project's Source Code: Visible
-        if (($projectInformation.GetProjectLoaded()) -and `
-            ((![CommonIO]::IsStringEmpty($projectInformation.GetURLSource()) -and `
-             ([WebsiteResources]::CheckSiteAvailability($projectInformation.GetURLSource(), $true)))))
-        {
-            $showMenuProjectSourceCode.Value = $true;
-        } # if : Project's Source Code - Visible
-
-        # Project's Source Code: Hidden
-        #   Limited or No Information Available.
-        else
-        {
-            $showMenuProjectSourceCode.Value = $false;
-        } # else : Project's Source Code - Hidden
+            # Hide the ability to access the project's webpage.
+            $showMenuProjectWebpage.Value = $false;
+        } # else: Project is not Loaded
     } # __DrawMenuDetermineHiddenMenus()
 } # MainMenu
