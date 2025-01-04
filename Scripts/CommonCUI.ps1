@@ -70,15 +70,6 @@ class CommonCUI
     #>
     static [void] DrawProgramTitleHeader()
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Retrieve the current instance of the Project Information object; this contains details
-        #  in regards to where the source files exists within the user's system.
-        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
-        # ----------------------------------------
-
-
-
         # Display the top border
         [Logging]::DisplayMessage([CommonCUI]::__borderDashLong);
         # -------------------------------------------------------------------
@@ -99,10 +90,9 @@ class CommonCUI
 
         # Display the current loaded project and its version information to the user.
         #  However, only if the project information is available.
-        if ($projectInformation.GetProjectLoaded())
+        if ([ProjectInformation]::GetIsLoaded())
         {
-            [Logging]::DisplayMessage("Project Loaded: $($projectInformation.GetProjectName()) [$($projectInformation.GetCodeName())]");
-            [Logging]::DisplayMessage("Project Compiler Version $($projectInformation.GetCompilerVersion())");
+            [Logging]::DisplayMessage("Project Loaded: $([ProjectInformation]::GetProjectName())");
         } # if : Project is Loaded
 
 
