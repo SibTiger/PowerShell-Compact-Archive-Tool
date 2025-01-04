@@ -174,64 +174,51 @@ class MainMenu
    <# Evaluate and Execute User's Request
     # -------------------------------
     # Documentation:
-    #  This function will evaluate and execute the user's desired request in respect to
-    #   the Menu options provided.
+    #  This function will evaluate and execute the user's request in respect to
+    #   the Main Menu options provided.
     # -------------------------------
     # Input:
     #  [string] User's Request
-    #   This will provide the user's desired request to run an operation
-    #    or to access a specific functionality.
+    #   This is the user's input to interact within the Main Menu.
     # -------------------------------
     # Output:
     #  [bool] User Stays at Menu
-    #   This defines if the user is to remain at the Menu screen.
-    #   $true  = User is to remain at the Menu.
-    #   $false = User requested to leave the Menu.
+    #   This defines if the user is to remain at the Main Menu screen.
+    #   $true  = User is to remain at the Main Menu.
+    #   $false = User requested to leave the Main Menu.
     # -------------------------------
     #>
     hidden static [bool] __EvaluateExecuteUserRequest([string] $userRequest)
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Retrieve the current instance of the Project Information object; this contains details
-        #  in regards to where the source files exists within the user's system.
-        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
-
-
-        # These variables will determine what menus are to be hidden from the user,
+        # These variables will determine what menu items were hidden from the user,
         #  as the options are possibly not available.
-        [bool] $showMenuBuildRelease        = $true;    # Build: Release
-        [bool] $showMenuBuildDevelopment    = $true;    # Build: Development
-        [bool] $showMenuProjectHomePage     = $true;    # Project's Homepage
-        [bool] $showMenuProjectWikiPage     = $true;    # Project's Wiki Page
-        [bool] $showMenuProjectSourceCode   = $true;    # Project's Source Code
+        [bool] $showOptionBuild     = $false;    # Build Project
+        [bool] $showOptionWebpage   = $false;    # Project's Webpage
         # ----------------------------------------
 
 
 
-        # Determine what options are to be hidden or to be visible to the user.
-        [MainMenu]::__DrawMenuDetermineHiddenMenus([ref] $showMenuProjectHomePage, `        # Project's Homepage
-                                                    [ref] $showMenuProjectWikiPage, `       # Project's Wiki Page
-                                                    [ref] $showMenuProjectSourceCode, `     # Project's Source Code
-                                                    [ref] $showMenuBuildRelease, `          # Build: Release
-                                                    [ref] $showMenuBuildDevelopment);       # Build: Development
+        # Determine what options were hidden from the user.
+        [MainMenu]::__DrawMenuDetermineHiddenMenus( [ref] $showOptionBuild, `   # Build Project
+                                                    [ref] $showOptionWebpage);  # Project's Webpage
 
 
 
         # Determine what action was requested by the user.
         switch ($userRequest)
         {
-            # Build the desired ZDoom project
-            #  NOTE: Allow the user's request when they type: 'Build', 'Make', 'Make $project', 'Build $project', as well as 'B'.
-            {($showMenuBuildRelease) -and
+            # Build the desired project
+            {($showOptionBuild) -and
                 (($_ -eq "B") -or `
                  ($_ -eq "Build") -or `
                  ($_ -eq "Make") -or `
-                 ($_ -eq "Make $($projectInformation.GetProjectName())") -or `
-                 ($_ -eq "Build $($projectInformation.GetProjectName())"))}
+                 ($_ -eq "Make $([ProjectInformation]::GetProjectName())") -or `
+                 ($_ -eq "Build $([ProjectInformation]::GetProjectName())"))}
             {
-                # Build the desired ZDoom based Project
-                [Builder]::Build($false);
+                # Build the desired based Project
+                [Builder]::Build();
 
 
                 # Allow the user to read the results from the Builder before
@@ -241,38 +228,17 @@ class MainMenu
 
                 # Finished
                 break;
-            } # Build ZDoom Project
+            } # Build Project
 
 
-            # Build a developmental build of the desired ZDoom project
-            #  NOTE: Allow the user's request when they type: 'Dev' or 'D'.
-            {($showMenuBuildDevelopment) -and
-                (($_ -eq "D") -or `
-                 ($_ -eq "Dev"))}
-            {
-                # Build the desired ZDoom based Project
-                [Builder]::Build($true);
-
-
-                # Allow the user to read the results from the Builder before
-                #  refreshing the Main Menu screen.
-                [Logging]::GetUserEnterKey();
-
-
-                # Finished
-                break;
-            } # Build ZDoom Project
-
-
-            # Access the ZDoom project's Homepage
-            #  NOTE: Allow the user's request when they type: '$project Homepage' or 'H'.
-            {($showMenuProjectHomePage) -and `
+            # Access the project's Website
+            {($showOptionWebpage) -and `
                 (($_ -eq "H") -or `
-                 ($_ -eq "$($projectInformation.GetProjectName()) Homepage"))}
+                 ($_ -eq "$([ProjectInformation]::GetProjectName()) Webpage"))}
             {
                 # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($projectInformation.GetURLWebsite(),                 ` # Project's Homepage
-                                                            "$($projectInformation.GetProjectName()) Homepage"))    ` # Show page title
+                if (![WebsiteResources]::AccessWebSite_General([ProjectInformation]::GetProjectWebsite(),           ` # Project's Webpage
+                                                            "$([ProjectInformation]::GetProjectName()) Webpage"))   ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -281,52 +247,10 @@ class MainMenu
 
                 # Finished
                 break;
-            } # Access ZDoom project's Homepage
+            } # Access project's Webpage
 
 
-            # Access the ZDoom project's Wiki Page
-            #  NOTE: Allow the user's request when they type: '$project Wiki' or 'W'.
-            {($showMenuProjectWikiPage) -and `
-                (($_ -eq "W") -or `
-                 ($_ -eq "$($projectInformation.GetProjectName()) Wiki"))}
-            {
-                # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($projectInformation.GetURLWiki,                  ` # Project's Wiki
-                                                            "$($projectInformation.GetProjectName()) Wiki"))    ` # Show page title
-                {
-                    # Alert the user that the web functionality did not successfully work as intended.
-                    [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
-                } # If : Failed to Provide Webpage
-
-
-                # Finished
-                break;
-            } # Access ZDoom project's Wiki
-
-
-            # Access the ZDoom project's Source Code Repository
-            #  NOTE: Allow the user's request when they type: '$project Source Code', '$project Source', as well as 'S'.
-            {($showMenuProjectSourceCode) -and `
-                (($_ -eq "S") -or `
-                 ($_ -eq "$($projectInformation.GetProjectName()) Source Code") -or `
-                 ($_ -eq "$($projectInformation.GetProjectName()) Source"))}
-            {
-                # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($projectInformation.GetURLSource(),                              ` # Project's Repository
-                                                            "$($projectInformation.GetProjectName()) Source Code Repository"))  ` # Show page title
-                {
-                    # Alert the user that the web functionality did not successfully work as intended.
-                    [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
-                } # If : Failed to Provide Webpage
-
-
-                # Finished
-                break;
-            } # Access ZDoom project's Repository
-
-
-            # Access the Help Program's Documentation
-            #  NOTE: Allow the user's request when they type: 'Help', 'Helpme', 'Help me', as well as '?'.
+            # Access the Program's Help Documentation
             {($_ -eq "?") -or `
                 ($_ -eq "help") -or `
                 ($_ -eq "helpme") -or `
@@ -343,11 +267,10 @@ class MainMenu
 
                 # Finished
                 break;
-            } # Help Program's Documentation
+            } # Program's Help Documentation
 
 
             # Access the Program's Bug Tracker
-            #  NOTE: Allow the user's request when they type: 'Report' or '#'.
             {($_ -eq "#") -or `
                 ($_ -eq "Report")}
             {
@@ -362,20 +285,16 @@ class MainMenu
 
                 # Finished
                 break;
-            } # Access Help Program's Documentation
+            } # Access Program's Help Documentation
 
 
             # Exit
-            #  NOTE: Allow the user's request when they type: 'Exit', 'Quit', as well as 'X'.
-            #         This can come handy if the user is in a panic - remember that the terminal
-            #         is intimidating for some which may cause user's to panic, and this can be
-            #         helpful if user's are just used to typing 'Exit' or perhaps 'Quit'.
             {($_ -eq "X") -or `
                 ($_ -eq "Exit") -or `
                 ($_ -eq "Quit")}
             {
-                # Exit
-                [Logging]::DisplayMessage("Terminating Software...");
+                # Notify the user that the program is now terminating.
+                [Logging]::DisplayMessage("Terminating $($GLOBAL:_PROGRAMNAME_)...");
 
                 # Return back to the menu
                 return $false;
