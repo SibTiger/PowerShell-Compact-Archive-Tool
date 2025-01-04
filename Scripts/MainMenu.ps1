@@ -101,93 +101,48 @@ class MainMenu
     # -------------------------------
     # Documentation:
     #  This function will essentially draw the Main Menu list the user.  Thus this function
-    #   provides what features and options are available to the user.
+    #   provides what options are available to the user.
     # -------------------------------
     #>
     hidden static [void] __DrawMainMenu()
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Retrieve the current instance of the Project Information object; this contains details
-        #  in regards to where the source files exists within the user's system.
-        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
-
-
-        # These variables will determine what menus are to be hidden from the user,
+        # These variables will determine what menu items are to be hidden from the user,
         #  as the options are possibly not available.
-        [bool] $showMenuBuildRelease        = $true;    # Build: Release
-        [bool] $showMenuBuildDevelopment    = $true;    # Build: Development
-        [bool] $showMenuProjectHomePage     = $true;    # Project's Homepage
-        [bool] $showMenuProjectWikiPage     = $true;    # Project's Wiki Page
-        [bool] $showMenuProjectSourceCode   = $true;    # Project's Source Code
+        [bool] $showOptionBuild     = $false;    # Build Project
+        [bool] $showOptionWebpage   = $false;    # Project's Webpage
         # ----------------------------------------
 
 
 
         # Determine what options are to be hidden or to be visible to the user.
-        [MainMenu]::__DrawMenuDetermineHiddenMenus([ref] $showMenuProjectHomePage, `        # Project's Homepage
-                                                    [ref] $showMenuProjectWikiPage, `       # Project's Wiki Page
-                                                    [ref] $showMenuProjectSourceCode, `     # Project's Source Code
-                                                    [ref] $showMenuBuildRelease, `          # Build: Release
-                                                    [ref] $showMenuBuildDevelopment);       # Build: Development
-
+        [MainMenu]::__DrawMenuDetermineHiddenMenus( [ref] $showOptionBuild, `   # Build Project
+                                                    [ref] $showOptionWebpage);  # Project's Webpage
 
 
         # Display the Main Menu list
 
-        # Generate Project and View Project Information
-        if ($showMenuBuildRelease)
+        # Build Project
+        if ($showOptionBuild)
         {
             [CommonCUI]::DrawMenuItem('B', `
-                                    "Build $($projectInformation.GetProjectName())", `
-                                    "Create a new build of the $($projectInformation.GetProjectName()) ($($projectInformation.GetCodeName())) project.", `
+                                    "Build the Project, $([ProjectInformation]::GetProjectName())", `
+                                    "Create a new build of the $([ProjectInformation]::GetProjectName()) project.", `
                                     $NULL, `
                                     $true);
-        } # if : Show Build: Release
+        } # if : Show Build Project
 
 
-        # Generate Development Project and View Dev. Project Information
-        if ($showMenuBuildDevelopment)
-        {
-            [CommonCUI]::DrawMenuItem('D', `
-                                    "Build a Development Build of $($projectInformation.GetProjectName())", `
-                                    "Create a new dev. build of the $($projectInformation.GetProjectName()) ($($projectInformation.GetCodeName())) project.", `
-                                    $NULL, `
-                                    $true);
-        } # if : Show Build: Development
-
-
-        # Project's Homepage
-        if ($showMenuProjectHomePage)
+        # Project's Webpage
+        if ($showOptionWebpage)
         {
             [CommonCUI]::DrawMenuItem('H', `
-                                    "$($projectInformation.GetProjectName()) Homepage", `
-                                    "Access the $($projectInformation.GetProjectName())'s Homepage online.", `
+                                    "Access the project's, $([ProjectInformation]::GetProjectName()), webpage", `
+                                    [ProjectInformation]::GetProjectWebsite(), `
                                     $NULL, `
                                     $true);
-        } # if : Show Project's Homepage
-
-
-        # Project's Wiki
-        if ($showMenuProjectWikiPage)
-        {
-            [CommonCUI]::DrawMenuItem('W', `
-                                    "$($projectInformation.GetProjectName()) Wiki", `
-                                    "Access the $($projectInformation.GetProjectName())'s Wiki documentation online.", `
-                                    $NULL, `
-                                    $true);
-        } # if : Show Project's Wiki Page
-
-
-        # Project's Source Code
-        if ($showMenuProjectSourceCode)
-        {
-            [CommonCUI]::DrawMenuItem('S', `
-                                    "$($projectInformation.GetProjectName()) Source Code", `
-                                    "Access the $($projectInformation.GetProjectName())'s source code online.", `
-                                    $NULL, `
-                                    $true);
-        } # if : Show Project's Source Code
+        } # if : Show Project's Webpage
 
 
         # Help Documentation
