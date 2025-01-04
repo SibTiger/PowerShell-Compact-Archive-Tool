@@ -36,9 +36,8 @@ class MainMenu
    <# Main Menu Driver
     # -------------------------------
     # Documentation:
-    #   This function allows the user to see and select from all the available
-    #   options that exists within the program.  This function is essentially
-    #   a driver in which the user can perform various operations as requested.
+    #  This function will present the Main Menu to the user, where the user
+    #   can choose what the program will be doing.
     # -------------------------------
     # Output:
     #  [integer] Exit Level
