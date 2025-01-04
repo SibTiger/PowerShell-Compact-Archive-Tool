@@ -111,6 +111,10 @@ class MainMenu
         #  as the options are possibly not available.
         [bool] $showOptionBuild     = $false;    # Build Project
         [bool] $showOptionWebpage   = $false;    # Project's Webpage
+
+        # This string will show what project is presently loaded into the program's environment.
+        #   However, if and only if, a project /is/ loaded.
+        [string] $projectName       = $NULL;
         # ----------------------------------------
 
 
@@ -118,6 +122,13 @@ class MainMenu
         # Determine what options are to be hidden or to be visible to the user.
         [MainMenu]::__DrawMenuDetermineHiddenMenus( [ref] $showOptionBuild, `   # Build Project
                                                     [ref] $showOptionWebpage);  # Project's Webpage
+
+        # Show the Project Name to the user, if one is presently loaded into the program's environment.
+        if ([ProjectInformation]::GetIsLoaded())
+        { $projectName = "Project Loaded is: " + [ProjectInformation]::GetProjectName(); }
+        else
+        { $projectName = "No project is presently loaded; please select a project to continue."; }
+
 
 
         # Display the Main Menu list
@@ -142,6 +153,14 @@ class MainMenu
                                     $NULL, `
                                     $true);
         } # if : Show Project's Webpage
+
+
+        # Load a new project
+        [CommonCUI]::DrawMenuItem('L', `
+                                "Load a new project into $($GLOBAL:_PROGRAMNAME_).", `
+                                $projectName, `
+                                $NULL, `
+                                $true);
 
 
         # Help Documentation
@@ -248,6 +267,24 @@ class MainMenu
                 # Finished
                 break;
             } # Access project's Webpage
+
+
+            # Load a Project into the Program
+            {(($_ -eq "L") -or `
+                ($_ -eq "Load") -or `
+                ($_ -eq "Load Project"))}
+            {
+                # Load a new project into the program's environment.
+                [ProjectInformation]::Load();
+
+                # Allow the user to read the results from the Project Information class
+                #   before refreshing the Main Menu screen.
+                [Logging]::GetUserEnterKey();
+
+
+                # Finished
+                break;
+            } # Load Project into Program
 
 
             # Access the Program's Help Documentation
