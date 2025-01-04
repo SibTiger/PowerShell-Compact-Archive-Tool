@@ -214,17 +214,8 @@ class CommonCUI
     #>
     static [void] CompileInstructions()
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Retrieve the current instance of the Project Information object; this contains details
-        #  in regards to where the source files exists within the user's system.
-        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
-        # ----------------------------------------
-
-
-
         # Display the common menu instructions
-        [Logging]::DisplayMessage("Please wait patiently as $($projectInformation.GetProjectName()) is being compiled. . .");
+        [Logging]::DisplayMessage("Please wait patiently as $([ProjectInformation]::GetProjectName()) is being compiled. . .");
 
         # Display a border
         [Logging]::DisplayMessage([CommonCUI]::__borderDashLong);
