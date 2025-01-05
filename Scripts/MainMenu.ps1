@@ -277,6 +277,7 @@ class MainMenu
                 # Load a new project into the program's environment.
                 [ProjectInformation]::Load();
 
+
                 # Allow the user to read the results from the Project Information class
                 #   before refreshing the Main Menu screen.
                 [Logging]::GetUserEnterKey();
