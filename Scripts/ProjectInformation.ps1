@@ -470,7 +470,7 @@ class ProjectInformation
         # Declarations and Initializations
         # ----------------------------------------
         # Load the Project File in a list, so we can parse through it - line by line.
-        [System.Collections.ArrayList] $projectFile = $(Get-Content -LiteralPath [ProjectInformation]::__projectFileSourcePath);
+        [System.Collections.ArrayList] $projectFile = $(Get-Content -LiteralPath $([ProjectInformation]::__projectFileSourcePath));
 
         # Hash Table to help us fetch the data easily from the Project File
         $projectFileStrings = @{};
