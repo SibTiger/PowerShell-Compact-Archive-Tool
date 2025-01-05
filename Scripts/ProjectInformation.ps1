@@ -484,6 +484,7 @@ class ProjectInformation
         # ----------------------------------------
 
 
+
         # Because the Project File exists, we will try to obtain all of the necessary known strings from
         #   the Project File so that we can properly handle the data.
         foreach ($line in $projectFile)
