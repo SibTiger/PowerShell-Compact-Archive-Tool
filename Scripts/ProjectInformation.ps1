@@ -225,6 +225,37 @@ class ProjectInformation
 
 
 
+        # Clear the terminal of all previous text; keep the space clean so that
+        #  it is easy for the user to read and follow along.
+        [CommonIO]::ClearBuffer();
+
+        # Draw Program Information Header
+        [CommonCUI]::DrawProgramTitleHeader();
+
+        # Show the user that they are at the Load Project section
+        [CommonCUI]::DrawSectionHeader("Load Project");
+
+
+        # Show what project is loaded into the environment, if one is already loaded.
+        if ([ProjectInformation]::GetIsLoaded())
+        { [Logging]::DisplayMessage("Project Loaded is: " + [ProjectInformation]::GetProjectName()); }
+        else
+        { [Logging]::DisplayMessage("Project Loaded is: - NO PROJECT IS YET LOADED -"); }
+
+
+        # Provide some spacing
+        [Logging]::DisplayMessage("`r`n`r`n");
+
+
+        # Provide instructions to the user.
+        [CommonCUI]::ShowInstructionHeader();
+        [Logging]::DisplayMessage(  "While using the Graphical Folder Browser, please select a directory " + `
+                                    "that contains the project's source files that you would like to " + `
+                                    "compile into a ZDoom PK3 file.`r`n" + `
+                                    "`r`n" + `
+                                    "To cancel, click the 'Cancel' button within the graphical Folder Browser.");
+
+
         # Open the folder browser, allowing the user to select the project's source directory.
         if ([CommonGUI]::BrowseDirectory("Select a project that you want to build.", `
                                         [BrowserInterfaceStyle]::Modern, `
