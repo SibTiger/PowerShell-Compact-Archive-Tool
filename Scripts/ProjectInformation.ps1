@@ -301,8 +301,8 @@ class ProjectInformation
         } # if : User Aborts from Directory Browser
 
 
-
         # Assign the Project File variable to make our lives easier.
+        [ProjectInformation]::__sourcePath = $selectedDirectoryPath;
         $projectFilePath = [ProjectInformation]::__sourcePath + "\" + [ProjectInformation]::__projectFileName;
 
 
