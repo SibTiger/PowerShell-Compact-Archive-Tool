@@ -287,9 +287,6 @@ class Builder
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Latch onto the single instance of the Zip object
-        [ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
-
         # We will use this variable to cache the detection status of a particular item that we want
         #  to check.  Instead of having to recall the exact same checking function over and over again,
         #  we will use this variable to merely cache the value as we step through each process within
@@ -457,7 +454,7 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
 
         # Check the current status of the Archive ZIP Module
-        $boolCacheValue = $archiveZip.DetectCompressModule();
+        $boolCacheValue = [ArchiveZip]::DetectCompressModule();
 
         # Make sure that the dotNET Archive Zip is available
         if ($boolCacheValue -eq $false)
@@ -663,12 +660,6 @@ class Builder
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Retrieve the current instance of the user's Archive Zip object; this contains
-        #  the user's preferences as to how the Archive ZIP module will be utilized within this
-        #  application.
-        [ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
-
-
         # Debugging Variables
         [string] $logMessage = $NULL;           # Main message regarding the logged event.
         [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
@@ -685,7 +676,7 @@ class Builder
         [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::InProgress, "Compacting using the PowerShell Archive compression built-in software. . .");
 
         # Compact the files
-        if (!$archiveZip.CreateArchive($archiveFileName, `
+        if (![ArchiveZip]::CreateArchive($archiveFileName, `
                                         $GLOBAL:_OUTPUT_BUILDS_PATH_, `
                                         $projectPath, `
                                         $filePath))
