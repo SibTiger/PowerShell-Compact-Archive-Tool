@@ -64,6 +64,12 @@ class ProjectInformation
     Static Hidden [string] $__sourcePath = $NULL;
 
 
+    # Project File's Path
+    # ---------------
+    # The absolute path to the Project File that provides Meta-Data information regarding the selected project.
+    Static Hidden [string] $__projectFileSourcePath = $NULL;
+
+
     # Project is Ready
     # ---------------
     # A flag that signifies if a project had been loaded into the environment.
@@ -247,45 +253,13 @@ class ProjectInformation
         [Logging]::DisplayMessage("`r`n`r`n");
 
 
-        # Provide instructions to the user.
-        [CommonCUI]::ShowInstructionHeader();
-        [Logging]::DisplayMessage(  "While using the Graphical Folder Browser, please select a directory " + `
-                                    "that contains the project's source files that you would like to " + `
-                                    "compile into a ZDoom PK3 file.`r`n" + `
-                                    "`r`n" + `
-                                    "To cancel, click the 'Cancel' button within the graphical Folder Browser.");
-
-
-        # Provide some spacing
-        [Logging]::DisplayMessage("`r`n`r`n");
-
-
-        [string] $selectedDirectoryPath = $NULL;
-        # Open the folder browser, allowing the user to select the project's source directory.
-        if ([CommonGUI]::BrowseDirectory("Select a project that you want to build.", `
-                                        [BrowserInterfaceStyle]::Modern, `
-                                        [ref] $selectedDirectoryPath) -eq $false)
+        # Allow the user to select a new project to load into the program's environment.
+        if ([ProjectInformation]::__SelectProjectPath() -eq $false)
         {
-            # * * * * * * * * * * * * * * * * * * *
-            # Debugging
-            # --------------
-
-            # Generate the initial message
-            [string] $logMessage = "User had canceled the operation to find a Project to load!";
-
-            # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = $NULL;
-
-            # Pass the information to the logging system
-            [Logging]::LogProgramActivity($logMessage, `                # Initial message
-                                        $logAdditionalMSG, `            # Additional information
-                                        [LogMessageLevel]::Warning);    # Message level
-
-            # * * * * * * * * * * * * * * * * * * *
-
-
             # Alert the user that the operation was aborted.
             [Logging]::DisplayMessage("Warning", [LogMessageLevel]::Warning);
+
+            # Show the user what project is loaded within the environment currently.
             if ([ProjectInformation]::GetIsLoaded())
             { [Logging]::DisplayMessage("Project Remains Loaded: " + [ProjectInformation]::GetProjectName(), [LogMessageLevel]::Warning); }
             else
@@ -298,206 +272,22 @@ class ProjectInformation
 
             # Because the user had canceled the operation, abort the entire operation.
             return $false;
-        } # if : User Aborts from Directory Browser
+        } # if : User Cancelled from Folder Browser
 
 
-        # Assign the Project File variable to make our lives easier.
-        [ProjectInformation]::__sourcePath = $selectedDirectoryPath;
-        $projectFilePath = [ProjectInformation]::__sourcePath + "\" + [ProjectInformation]::__projectFileName;
-
-
-        # Try to find the Project File with the path given by the user.
-        if ([CommonIO]::CheckPathExists($projectFilePath, $true))
-        {
-            # Declarations and Initializations
-            # ----------------------------------------
-            # Load the Project File in a list, so we can parse through it - line by line.
-            [System.Collections.ArrayList] $projectFile = $(Get-Content -LiteralPath $projectFilePath);
-
-            # Hash Table to help us fetch the data easily from the Project File
-            $projectFileStrings = @{};
-
-            # This will contain the contents from the Project File as-is, but new-lines being attached.
-            #  Mainly for logging purposes for when things go horribly wrong.
-            [string] $projectFileFormatString = $NULL;
-
-            # Get Directory Info., which will be used for logging purposes.
-            [System.IO.DirectoryInfo] $directoryInfo = [ProjectInformation]::__sourcePath;
-            # ----------------------------------------
-
-
-            # Because the Project File exists, we will try to obtain all of the necessary known strings from
-            #   the Project File so that we can properly handle the data.
-            foreach ($line in $projectFile)
-            {
-                # Also capture the line into a formatted string
-                $projectFileFormatString += $line + "`r`n";
-
-
-                # Line is a comment
-                if ($line.Trim()[0] -eq [ProjectInformation]::__projectMetaDataCommentToken)
-                { continue; }
-
-
-                # Empty line
-                if ([CommonIO]::IsStringEmpty($line))
-                { continue; }
-
-
-                # Project Name
-                if ($line.Contains([ProjectInformation]::__projectFileVariable_ProjectName))
-                { $projectFileStrings.Add([ProjectInformation]::__projectFileVariable_ProjectName, $line.Trim()); }
-
-
-                # Project Website
-                if ($line.Contains([ProjectInformation]::__projectFileVariable_ProjectWebsite))
-                { $projectFileStrings.Add([ProjectInformation]::__projectFileVariable_ProjectWebsite, $line.Trim()); }
-
-
-                # Project Output FileName
-                if ($line.Contains([ProjectInformation]::__projectFileVariable_OutputFileName, $line))
-                { $projectFileStrings.Add([ProjectInformation]::__projectFileVariable_OutputFileName, $line.Trim()); }
-            } # foreach : Parse through Project File
-
-
-            # Try to assign the values to their respective variables
-            try
-            {
-                # Project's Name
-                [ProjectInformation]::__projectName     = [string] ($projectFileStrings[[ProjectInformation]::__projectFileVariable_ProjectName]);
-
-
-                # Project's Associated Website
-                [ProjectInformation]::__projectWebsite  = [string] ($projectFileStrings[[ProjectInformation]::__projectFileVariable_ProjectWebsite]);
-
-
-                # Compiled Output File Name for the Project.
-                [ProjectInformation]::__outputName      = [string] ($projectFileStrings[[ProjectInformation]::__projectFileVariable_OutputFileName]);
-            } # try : Assigning Values
-
-            # Failed to set one of the values
-            catch
-            {
-                # * * * * * * * * * * * * * * * * * * *
-                # Debugging
-                # --------------
-
-                # Generate the initial message
-                [string] $logMessage = ("Unable to properly read the," + [ProjectInformation]::__projectFileName + `
-                                        ", Project File from " + $directoryInfo.Name + "!");
-
-                # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = (  "Project Source Directory was:`r`n" + `
-                                                "`t`t" + [ProjectInformation]::__sourcePath + "`r`n" + `
-                                                "`tProject File to Read was:`r`n" + `
-                                                "`t`t" + $projectFilePath + "`r`n" + `
-                                                "`tObtained Variable Values from Project File:`r`n" + `
-                                                "`t`t - Project Name: "     + [ProjectInformation]::__projectName       + "`r`n" + `
-                                                "`t`t - Project Website: "  + [ProjectInformation]::__projectWebsite    + "`r`n" + `
-                                                "`t`t - Output Filename: "  + [ProjectInformation]::__outputName        + "`r`n" + `
-                                                "`tProject File Contents Contains:`r`n" + `
-                                                $projectFileFormatString);
-
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                            $logAdditionalMSG, `        # Additional information
-                                            [LogMessageLevel]::Error);  # Message level
-
-                # Display a message to the user that something went horribly wrong
-                #  and log that same message for referencing purpose.
-                [Logging]::DisplayMessage($logMessage, `            # Message to display
-                                        [LogMessageLevel]::Error);  # Message level
-
-                # Alert the user through a message box as well that an issue had occurred;
-                #   the message will be brief as the full details remain within the terminal.
-                [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
-
-                # * * * * * * * * * * * * * * * * * * *
-
-
-                # Abort the operation
-                return $false;
-            } # Catch : Abort Operation
+        # Show the path that was selected by the user on the terminal.
+        [Logging]::DisplayMessage("Project Path that was Selected:`r`n" + `
+                                    "`t" + [ProjectInformation]::__sourcePath);
 
 
 
-            # Now that we have the strings we need, we must remove the 'variable' + 'assignment delimiter',
-            #   removing those two tokens, it leaves us with the value that we desire.
-            # For example: AreYouCoolQuestion = IamAKoolCat_With_A_K
-            #               We want "IamAKoolCat_With_A_K", removing everything before it.
-            for([byte] $i = 0; $i -le $projectFileStrings.Count; $i++)
-            {
-                # Delimiter String Index Position
-                [Int32] $indexPosition = 0;
+        # Check to see if the Project File is available within the project source files.
+        if ([ProjectInformation]::__CheckProjectFile() -and `   # Does the Project File exist?
+            [ProjectInformation]::__ProcessProjectFile())       # Can we process the Project File correctly?
+        {;}
 
-                # Determine what string we want to change
-                switch($i)
-                {
-                    # Project Name
-                    0
-                    {
-                        # Get the position of the delimiter.
-                        $indexPosition = [ProjectInformation]::__projectName.IndexOf([ProjectInformation]::__projectFileAssignmentDelimiter);
-
-                        # Get the assigned value, removing everything before the value.
-                        [ProjectInformation]::__projectName = [ProjectInformation]::__projectName.Substring($indexPosition + 1).Trim();
-
-                        # Move on to the next string
-                        break;
-                    } # Project Name
-
-                    # Project Website
-                    1
-                    {
-                        # Get the position of the delimiter.
-                        $indexPosition = [ProjectInformation]::__projectWebsite.IndexOf([ProjectInformation]::__projectFileAssignmentDelimiter);
-
-                        # Get the assigned value, removing everything before the value.
-                        [ProjectInformation]::__projectWebsite = [ProjectInformation]::__projectWebsite.Substring($indexPosition + 1).Trim();
-
-                        # Move on to the next string
-                        break;
-                    } # Project Website
-
-                    # Output Filename
-                    2
-                    {
-                        # Get the position of the delimiter.
-                        $indexPosition = [ProjectInformation]::__outputName.IndexOf([ProjectInformation]::__projectFileAssignmentDelimiter);
-
-                        # Get the assigned value, removing everything before the value.
-                        [ProjectInformation]::__outputName = [ProjectInformation]::__outputName.Substring($indexPosition + 1).Trim();
-
-                        # Move on to the next string
-                        break;
-                    } # Output Filename
-                } # Determine What String to Alter
-            } # for : Get Assignment Values
-        } # if : Project File was Found
-
-        else
-        {
-            # Because the Project File was not found, we will populate only a few variables with what we have,
-            #   which is only the directory name of the project.
-
-
-            # Declarations and Initializations
-            # ----------------------------------------
-            # We will use this to obtain the Project Name from the Directory Name.
-            [System.IO.DirectoryInfo] $directoryInfo = [ProjectInformation]::__sourcePath;
-            # ----------------------------------------
-
-
-
-            # Provide the Project Name
-            [ProjectInformation]::__projectName = $directoryInfo.Name.ToString();
-
-            # Provide the Output File Name
-            [ProjectInformation]::__outputName = [ProjectInformation]::__projectName;
-
-            # All other details is merely unknown to us.
-            [ProjectInformation]::__projectWebsite = $NULL;
-        } # else : Project File was not Found
+        # Collect what information we can without the Project File
+        else { [ProjectInformation]::__ProcessWithoutProjectFile(); }
 
 
 
@@ -531,4 +321,351 @@ class ProjectInformation
         # Finished with the operation
         return $true;
     } # Load()
+
+
+
+
+   <# Select Project Path
+    # -------------------------------
+    # Documentation:
+    #  This function will guide the user into selecting a directory that contains the Project Source files.
+    #   If the user selects a directory, this function will return $true signifying that a path had been given.
+    #   Otherwise, $false will be returned instead - cancelling the operation.
+    # -------------------------------
+    # Output:
+    #  [Bool] Path Selected
+    #   A flag that states if the user had selected a path to a project's source files.
+    #       $true   = A path had been provided by the user.
+    #       $false  = No path had been provided by the user.
+    # -------------------------------
+    #>
+    Hidden Static [Bool] __SelectProjectPath()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This string will contain the project path provided by the user through the Windows Graphical
+        #   Folder Browser
+        [string] $projectPath = $NULL;
+        # ----------------------------------------
+
+
+
+        # Provide instructions to the user.
+        [CommonCUI]::ShowInstructionHeader();
+        [Logging]::DisplayMessage(  "While using the Graphical Folder Browser, please select a directory " + `
+                                    "that contains the project's source files that you would like to " + `
+                                    "compile into a ZDoom PK3 file.`r`n" + `
+                                    "`r`n" + `
+                                    "To cancel, click the 'Cancel' button within the graphical Folder Browser.");
+
+
+        # Provide some spacing
+        [Logging]::DisplayMessage("`r`n`r`n");
+
+
+        # Open the folder browser, allowing the user to select the project's source directory.
+        if ([CommonGUI]::BrowseDirectory("Select a project that you want to build", `
+                                        [BrowserInterfaceStyle]::Modern, `
+                                        [ref] $projectPath) -eq $false)
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "User had canceled the operation to find a Project to load!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = "Current Project Loaded is: " + [ProjectInformation]::GetProjectName();
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # User had requested to cancel the operation.
+            return $false;
+        } # if : User Cancelled from Folder Browser
+
+
+
+        # User had selected a project to load.
+
+        # Save the path returned by the Folder Browser.
+        [ProjectInformation]::__sourcePath = $projectPath;
+
+
+        # Continue to the next step in the process.
+        return $true;
+    } # __SelectProjectPath()
+
+
+
+
+   <# Check Project File
+    # -------------------------------
+    # Documentation:
+    #  This function will determine if the project selected by the user contains a Project File, that
+    #   is readable by this program.  If a Project File was found, this function will return $true.
+    #   Otherwise, $false will be returned instead.
+    # -------------------------------
+    # Output:
+    #  [Bool] Project File Found Flag
+    #   This flag will state if the Project File was detected by this function.
+    #       $true   = Project File was found.
+    #       $false  = Project File was not found.
+    # -------------------------------
+    #>
+    Hidden Static [Bool] __CheckProjectFile()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # This string will provide the path of where the Project File is expected to be located.
+        [string] $projectFilePath = [ProjectInformation]::__sourcePath + `
+                                    "\" + `
+                                    [ProjectInformation]::__projectFileName;
+        # ----------------------------------------
+
+
+
+        # Try to look for the Project File within the project source files that this program process.
+        if ([CommonIO]::CheckPathExists($projectFilePath, $true))
+        {
+            # Because the Project File was found, store the path to the Project File within this
+            #   class for later.
+            [ProjectInformation]::__projectFileSourcePath = $projectFilePath;
+
+            # Project File was found.
+            return $true;
+        } # if : Found the Project File
+
+
+        # Project File was not found.
+        return $false;
+    } # __CheckProjectFile()
+
+
+
+
+   <# Process Project File
+    # -------------------------------
+    # Documentation:
+    #  This function will try to parse and process the Project File that was found within the project
+    #   source files given by the user.  To parse and process the Project File, we will try to manually
+    #   scan through the entries for variables that we recognize.  If we recognize the variable then the
+    #   value will be captured and assigned respectively in this class.
+    # -------------------------------
+    # Output:
+    #  [Bool] Exit State
+    #   A flag that denotes if the operation was successful or had failed.
+    #       $true   = Operation was Successful.
+    #       $false  = Operation had failed.
+    # -------------------------------
+    #>
+    Hidden Static [Bool] __ProcessProjectFile()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Load the Project File in a list, so we can parse through it - line by line.
+        [System.Collections.ArrayList] $projectFile = $(Get-Content -LiteralPath [ProjectInformation]::__projectFileSourcePath);
+
+        # Hash Table to help us fetch the data easily from the Project File
+        $projectFileStrings = @{};
+
+        # This will contain the contents from the Project File as-is, but new-lines being attached.
+        #  Mainly for logging purposes for when things go horribly wrong.
+        [string] $projectFileFormatString = $NULL;
+
+        # Get Directory Info., which will be used for logging purposes.
+        [System.IO.DirectoryInfo] $directoryInfo = [ProjectInformation]::__sourcePath;
+        # ----------------------------------------
+
+
+        # Because the Project File exists, we will try to obtain all of the necessary known strings from
+        #   the Project File so that we can properly handle the data.
+        foreach ($line in $projectFile)
+        {
+            # Also capture the line into a formatted string
+            $projectFileFormatString += $line + "`r`n";
+
+
+            # Line is a comment
+            if ($line.Trim()[0] -eq [ProjectInformation]::__projectMetaDataCommentToken)
+            { continue; }
+
+
+            # Empty line
+            if ([CommonIO]::IsStringEmpty($line))
+            { continue; }
+
+
+            # Project Name
+            if ($line.Contains([ProjectInformation]::__projectFileVariable_ProjectName))
+            { $projectFileStrings.Add([ProjectInformation]::__projectFileVariable_ProjectName, $line.Trim()); }
+
+
+            # Project Website
+            if ($line.Contains([ProjectInformation]::__projectFileVariable_ProjectWebsite))
+            { $projectFileStrings.Add([ProjectInformation]::__projectFileVariable_ProjectWebsite, $line.Trim()); }
+
+
+            # Project Output FileName
+            if ($line.Contains([ProjectInformation]::__projectFileVariable_OutputFileName, $line))
+            { $projectFileStrings.Add([ProjectInformation]::__projectFileVariable_OutputFileName, $line.Trim()); }
+        } # foreach : Parse through Project File
+
+
+        # Try to assign the values to their respective variables
+        try
+        {
+            # Project's Name
+            [ProjectInformation]::__projectName     = [string] ($projectFileStrings[[ProjectInformation]::__projectFileVariable_ProjectName]);
+
+
+            # Project's Associated Website
+            [ProjectInformation]::__projectWebsite  = [string] ($projectFileStrings[[ProjectInformation]::__projectFileVariable_ProjectWebsite]);
+
+
+            # Compiled Output File Name for the Project.
+            [ProjectInformation]::__outputName      = [string] ($projectFileStrings[[ProjectInformation]::__projectFileVariable_OutputFileName]);
+        } # try : Assigning Values
+
+        # Failed to set one of the values
+        catch
+        {
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = ("Unable to properly read the," + [ProjectInformation]::__projectFileName + `
+                                    ", Project File from " + $directoryInfo.Name + "!");
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = (  "Project Source Directory was:`r`n" + `
+                                            "`t`t" + [ProjectInformation]::__sourcePath + "`r`n" + `
+                                            "`tProject File to Read was:`r`n" + `
+                                            "`t`t" + [ProjectInformation]::__projectFileSourcePath + "`r`n" + `
+                                            "`tObtained Variable Values from Project File:`r`n" + `
+                                            "`t`t - Project Name: "     + [ProjectInformation]::__projectName       + "`r`n" + `
+                                            "`t`t - Project Website: "  + [ProjectInformation]::__projectWebsite    + "`r`n" + `
+                                            "`t`t - Output Filename: "  + [ProjectInformation]::__outputName        + "`r`n" + `
+                                            "`tProject File Contents Contains:`r`n" + `
+                                            $projectFileFormatString);
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($logMessage, `            # Message to display
+                                    [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Abort the operation
+            return $false;
+        } # Catch : Abort Operation
+
+
+
+        # Now that we have the strings we need, we must remove the 'variable' + 'assignment delimiter',
+        #   removing those two tokens, it leaves us with the value that we desire.
+        # For example: AreYouCoolQuestion = IamAKoolCat_With_A_K
+        #               We want "IamAKoolCat_With_A_K", removing everything before it.
+        for([byte] $i = 0; $i -le $projectFileStrings.Count; $i++)
+        {
+            # Delimiter String Index Position
+            [Int32] $indexPosition = 0;
+
+            # Determine what string we want to change
+            switch($i)
+            {
+                # Project Name
+                0
+                {
+                    # Get the position of the delimiter.
+                    $indexPosition = [ProjectInformation]::__projectName.IndexOf([ProjectInformation]::__projectFileAssignmentDelimiter);
+
+                    # Get the assigned value, removing everything before the value.
+                    [ProjectInformation]::__projectName = [ProjectInformation]::__projectName.Substring($indexPosition + 1).Trim();
+
+                    # Move on to the next string
+                    break;
+                } # Project Name
+
+                # Project Website
+                1
+                {
+                    # Get the position of the delimiter.
+                    $indexPosition = [ProjectInformation]::__projectWebsite.IndexOf([ProjectInformation]::__projectFileAssignmentDelimiter);
+
+                    # Get the assigned value, removing everything before the value.
+                    [ProjectInformation]::__projectWebsite = [ProjectInformation]::__projectWebsite.Substring($indexPosition + 1).Trim();
+
+                    # Move on to the next string
+                    break;
+                } # Project Website
+
+                # Output Filename
+                2
+                {
+                    # Get the position of the delimiter.
+                    $indexPosition = [ProjectInformation]::__outputName.IndexOf([ProjectInformation]::__projectFileAssignmentDelimiter);
+
+                    # Get the assigned value, removing everything before the value.
+                    [ProjectInformation]::__outputName = [ProjectInformation]::__outputName.Substring($indexPosition + 1).Trim();
+
+                    # Move on to the next string
+                    break;
+                } # Output Filename
+            } # Determine What String to Alter
+        } # for : Get Assignment Values
+
+
+        # Operation was successful
+        return $true;
+    } # __ProcessProjectFile()
+
+
+
+
+   <# Process Without Project File
+    # -------------------------------
+    # Documentation:
+    #  This function will try to populate the Project Variables with what information is possible to
+    #   collect without having to resort to the Project File.  This option will come in handy when
+    #   a Project File is not readable and when a Project File is not present within the project's
+    #   source files.
+    # -------------------------------
+    #>
+    Hidden Static [void] __ProcessWithoutProjectFile()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # We will use this to obtain the Project Name from the Directory Name.
+        [System.IO.DirectoryInfo] $directoryInfo = [ProjectInformation]::__sourcePath;
+        # ----------------------------------------
+
+
+
+        # Provide the Project Name
+        [ProjectInformation]::__projectName = $directoryInfo.Name.ToString();
+
+        # Provide the Output File Name
+        [ProjectInformation]::__outputName = [ProjectInformation]::__projectName;
+
+        # All other details is merely unknown to us.
+        [ProjectInformation]::__projectWebsite = $NULL;
+    } # __ProcessWithoutProjectFile()
 } # ProjectInformation
