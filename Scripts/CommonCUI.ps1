@@ -201,6 +201,25 @@ class CommonCUI
 
 
 
+   <# Show Instruction Header
+    # -------------------------------
+    # Documentation:
+    #  This function will display the 'Instruction' header to the user, showing that
+    #   the information coming after will be important when interacting with the program.
+    # -------------------------------
+    #>
+    static [void] ShowInstructionHeader()
+    {
+        # Display the word 'Instructions'.
+        [Logging]::DisplayMessage("Instructions:");
+
+        # Display a border
+        [Logging]::DisplayMessage([CommonCUI]::__borderDashLong);
+    } # ShowInstructionHeader()
+
+
+
+
    <# Compile Instructions
     # -------------------------------
     # Documentation:
