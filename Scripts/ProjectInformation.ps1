@@ -513,7 +513,7 @@ class ProjectInformation
 
 
             # Project Output FileName
-            if ($line.Contains([ProjectInformation]::__projectFileVariable_OutputFileName, $line))
+            if ($line.Contains([ProjectInformation]::__projectFileVariable_OutputFileName))
             { $projectFileStrings.Add([ProjectInformation]::__projectFileVariable_OutputFileName, $line.Trim()); }
         } # foreach : Parse through Project File
 
