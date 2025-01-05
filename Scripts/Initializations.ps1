@@ -87,7 +87,7 @@ function InitializationProgramIdentity()
     # Version
     Set-Variable `
         -Name "_VERSION_" `
-        -Value "1.2.0 [Alpha]" `
+        -Value "1.2.0 [Beta]" `
         -Scope Global `
         -Option ReadOnly `
         -Visibility Public `
