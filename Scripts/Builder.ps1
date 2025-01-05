@@ -66,10 +66,6 @@ class Builder
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Retrieve the current instance of the Project Information object; this contains details
-        #  in regards to where the source files exists within the user's system.
-        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
-
         # Archive datafile's final destination path
         [string] $compiledBuildPath = $null;
 
@@ -92,7 +88,7 @@ class Builder
 
 
         # Show the user that they are at the Main Menu
-        [CommonCUI]::DrawSectionHeader("Compiling the $($projectInformation.GetProjectName()) [$($projectInformation.GetCodeName())] Project");
+        [CommonCUI]::DrawSectionHeader("Compiling Project: $([ProjectInformation]::GetProjectName())");
 
 
         # Display the instructions
@@ -291,10 +287,6 @@ class Builder
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Retrieve the current instance of the Project Information object; this contains details
-        #  in regards to where the source files exists within the user's system.
-        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
-
         # Latch onto the single instance of the Zip object
         [ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
 
@@ -324,7 +316,7 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
 
         # Check the current status of the Project Path
-        $boolCacheValue = [CommonIO]::CheckPathExists($projectInformation.GetProjectPath(), $true);
+        $boolCacheValue = [CommonIO]::CheckPathExists([ProjectInformation]::GetSourcePath(), $true);
 
         # Can we find the project's source files?
         if ($boolCacheValue -eq $false)
@@ -336,7 +328,7 @@ class Builder
 
 
             # Show that the Project's source files could not be found.
-            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find $($projectInformation.GetProjectName()) source files!");
+            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find $([ProjectInformation]::GetProjectName()) source files!");
             [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please reconfigure the program settings!");
             [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
 
@@ -347,17 +339,17 @@ class Builder
             # --------------
 
             # Generate a message to display to the user.
-            [string] $displayErrorMessage = ("I am unable to find the $($projectInformation.GetProjectName()) source files!`r`n" + `
-                                            "Please reconfigure the path for the $($projectInformation.GetProjectName()) project!`r`n" + `
-                                            "`t- $($projectInformation.GetProjectName()) Project Path is presently: $($projectInformation.GetProjectPath())`r`n" + `
+            [string] $displayErrorMessage = ("I am unable to find the $([ProjectInformation]::GetProjectName()) source files!`r`n" + `
+                                            "Please reconfigure the path for the $([ProjectInformation]::GetProjectName()) project!`r`n" + `
+                                            "`t- $([ProjectInformation]::GetProjectName()) Project Path is presently: $([ProjectInformation]::GetSourcePath())`r`n" + `
                                             "`t- Path Exists Detection Status: $([string]$boolCacheValue)");
 
             # Generate the initial message
-            $logMessage = "Unable to find the $($projectInformation.GetProjectName()) project's source files!";
+            $logMessage = "Unable to find the $([ProjectInformation]::GetProjectName()) project's source files!";
 
             # Generate any additional information that might be useful
-            $logAdditionalMSG = ("Please reconfigure the location of the $($projectInformation.GetProjectName()) Project's Source.`r`n" + `
-                                "`tProject Source Location is: $($projectInformation.GetProjectPath())`r`n" + `
+            $logAdditionalMSG = ("Please reconfigure the location of the $([ProjectInformation]::GetProjectName()) Project's Source.`r`n" + `
+                                "`tProject Source Location is: $([ProjectInformation]::GetSourcePath())`r`n" + `
                                 "`tProject Source Path Exists: $([string]$boolCacheValue)");
 
             # Pass the information to the logging system
@@ -384,7 +376,7 @@ class Builder
 
 
         # Successfully found project files
-        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Successful, "Found the $($projectInformation.GetProjectName()) source files!");
+        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Successful, "Found the $([ProjectInformation]::GetProjectName()) source files!");
 
 
 
@@ -542,7 +534,7 @@ class Builder
 
         # Generate the initial message
         $logMessage = ("The Prerequisite Check had determined that we have all of the required" + `
-                        "resources necessary to compile the $($projectInformation.GetProjectName()) project!");
+                        "resources necessary to compile the $([ProjectInformation]::GetProjectName()) project!");
 
         # Generate any additional information that might be useful
         $logAdditionalMSG = "Prerequisite Check had successfully passed!";
@@ -584,10 +576,6 @@ class Builder
         # ----------------------------------------
         # This will hold the filename for the archive data file
         [string] $archiveFileName = $null;
-
-        # Retrieve the current instance of the Project Information object; this contains details
-        #  in regards to where the source files exists within the user's system.
-        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
         # ----------------------------------------
 
 
@@ -598,7 +586,7 @@ class Builder
 
 
         # Apply the core filename of the archive datafile
-        $archiveFileName = $projectInformation.GetFileName();
+        $archiveFileName = [ProjectInformation]::GetOutputName();
 
 
 
@@ -680,10 +668,6 @@ class Builder
         #  application.
         [ArchiveZip] $archiveZip = [ArchiveZip]::GetInstance();
 
-        # Retrieve the current instance of the Project Information object; this contains details
-        #  in regards to where the source files exists within the user's system.
-        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
-
 
         # Debugging Variables
         [string] $logMessage = $NULL;           # Main message regarding the logged event.
@@ -693,8 +677,8 @@ class Builder
 
 
         # Show that we are about to compact the project's source files into an archive datafile.
-        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Compile $($projectInformation.GetProjectName())");
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Compiling $($projectInformation.GetProjectName()). . .");
+        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Compile $([ProjectInformation]::GetProjectName())");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Compiling $([ProjectInformation]::GetProjectName()). . .");
 
 
         # Show that we are using the Archive ZIP Module
@@ -713,7 +697,7 @@ class Builder
 
 
             # An error had been reached while compacting the project's files.
-            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "An error occurred while compiling $($projectInformation.GetProjectName())!");
+            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "An error occurred while compiling $([ProjectInformation]::GetProjectName())!");
             [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please review the logs for more information!");
             [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
 
@@ -724,11 +708,11 @@ class Builder
             # --------------
 
             # Generate a message to display to the user.
-            [string] $displayErrorMessage = ("Failed to compile $($projectInformation.GetProjectName())!`r`n" + `
+            [string] $displayErrorMessage = ("Failed to compile $([ProjectInformation]::GetProjectName())!`r`n" + `
                                             "Please inspect the logs for what could had caused the problem.");
 
             # Generate the initial message
-            $logMessage = "An error had been reached while compiling $($projectInformation.GetProjectName())!";
+            $logMessage = "An error had been reached while compiling $([ProjectInformation]::GetProjectName())!";
 
             # Generate any additional information that might be useful
             $logAdditionalMSG = ("Compression Tool: Archive Module [Default]`r`n" + `
@@ -761,7 +745,7 @@ class Builder
 
 
         # If we made it this far, that means that the operation was successful!
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully compiled $($projectInformation.GetProjectName())!");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully compiled $([ProjectInformation]::GetProjectName())!");
 
 
 
@@ -770,7 +754,7 @@ class Builder
         # --------------
 
         # Generate the initial message
-        $logMessage = "Successfully compiled the $($projectInformation.GetProjectName()) project!";
+        $logMessage = "Successfully compiled the $([ProjectInformation]::GetProjectName()) project!";
 
         # Generate any additional information that might be useful
         $logAdditionalMSG = ("Archive File Name Requested: $($archiveFileName)`r`n" + `
@@ -821,10 +805,6 @@ class Builder
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Retrieve the current instance of the Project Information object; this contains details
-        #  in regards to where the source files exists within the user's system.
-        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
-
         # This variable will provide the key term of the temporary directory to be created.
         [string] $directoryKeyTerm = $null;
 
@@ -841,7 +821,7 @@ class Builder
 
 
         # Generate the Key Term of the Temporary Directory
-        $directoryKeyTerm = "Compile_" + $projectInformation.GetFileName();
+        $directoryKeyTerm = "Compile_" + [ProjectInformation]::GetOutputName();
 
 
         # Create the temporary directory
@@ -866,7 +846,7 @@ class Builder
                                             "Please make sure that you have the sufficient privileges to create a temporary directory.");
 
             # Generate the initial message
-            $logMessage = "Unable to create a temporary directory for the $($projectInformation.GetProjectName()) source files!";
+            $logMessage = "Unable to create a temporary directory for the $([ProjectInformation]::GetProjectName()) source files!";
 
             # Generate any additional information that might be useful
             $logAdditionalMSG = ("Please assure that you have sufficient privileges to create a temporary directory.`r`n" + `
@@ -909,7 +889,7 @@ class Builder
         # --------------
 
         # Generate the initial message
-        $logMessage = "Successfully created a temporary directory for the $($projectInformation.GetProjectName()) source files!";
+        $logMessage = "Successfully created a temporary directory for the $([ProjectInformation]::GetProjectName()) source files!";
 
         # Generate any additional information that might be useful
         $logAdditionalMSG = ("Temporary Directory Root Location: $($env:TEMP)`r`n" + `
@@ -954,11 +934,6 @@ class Builder
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Retrieve the current instance of the Project Information object; this contains details
-        #  in regards to where the source files exists within the user's system.
-        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
-
-
         # Debugging Variables
         [string] $logMessage = $NULL;           # Main message regarding the logged event.
         [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
@@ -966,13 +941,13 @@ class Builder
 
 
         # Show that we are about to duplicate the project's source files.
-        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Duplicating $($projectInformation.GetProjectName()) source files. . .");
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Source: $($projectInformation.GetProjectPath())");
+        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Duplicating $([ProjectInformation]::GetProjectName()) source files. . .");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Source: $([ProjectInformation]::GetSourcePath())");
         [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Destination $($projectTemporaryPath)");
 
 
         # Try to duplicate the files
-        if (![CommonIO]::CopyDirectory("$($projectInformation.GetProjectPath())\*",    # Source Directory
+        if (![CommonIO]::CopyDirectory("$([ProjectInformation]::GetSourcePath())\*",    # Source Directory
                                         $projectTemporaryPath))                     # Destination Directory
         {
             # Alert the user that an error had been reached
@@ -988,16 +963,16 @@ class Builder
             # --------------
 
             # Generate a message to display to the user.
-            [string] $displayErrorMessage = ("I was not able to duplicate $($projectInformation.GetProjectName()) assets to the temporary directory!");
+            [string] $displayErrorMessage = ("I was not able to duplicate $([ProjectInformation]::GetProjectName()) assets to the temporary directory!");
 
             # Generate the initial message
-            $logMessage = "Unable to duplicate $($projectInformation.GetProjectName()) assets to the temporary directory.";
+            $logMessage = "Unable to duplicate $([ProjectInformation]::GetProjectName()) assets to the temporary directory.";
 
             # Generate any additional information that might be useful
             $logAdditionalMSG = ("Directories:`r`n" + `
                                 "`tTemporary Directory Root Location: $($env:TEMP)`r`n" + `
                                 "`tTemporary Directory Location: $($projectTemporaryPath)`r`n" + `
-                                "`t$($projectInformation.GetProjectName()) Source Location: $($projectInformation.GetProjectPath())");
+                                "`t$([ProjectInformation]::GetProjectName()) Source Location: $([ProjectInformation]::GetSourcePath())");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -1021,7 +996,7 @@ class Builder
 
 
         # Successfully created the temporary directory
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully duplicated $($projectInformation.GetProjectName()) assets!");
+        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully duplicated $([ProjectInformation]::GetProjectName()) assets!");
 
 
 
@@ -1030,13 +1005,13 @@ class Builder
         # --------------
 
         # Generate the initial message
-        $logMessage = "Successfully duplicated $($projectInformation.GetProjectName()) assets!";
+        $logMessage = "Successfully duplicated $([ProjectInformation]::GetProjectName()) assets!";
 
         # Generate any additional information that might be useful
         $logAdditionalMSG = ("Directories:`r`n" + `
                             "`tTemporary Directory Root Location: $($env:TEMP)`r`n" + `
                             "`tTemporary Directory Location: $($projectTemporaryPath)`r`n" + `
-                            "`t$($projectInformation.GetProjectName()) Source Location: $($projectInformation.GetProjectPath())");
+                            "`t$([ProjectInformation]::GetProjectName()) Source Location: $([ProjectInformation]::GetSourcePath())");
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity($logMessage, `                # Initial message
