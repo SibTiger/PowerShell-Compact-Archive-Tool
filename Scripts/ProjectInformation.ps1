@@ -256,6 +256,10 @@ class ProjectInformation
                                     "To cancel, click the 'Cancel' button within the graphical Folder Browser.");
 
 
+        # Provide some spacing
+        [Logging]::DisplayMessage("`r`n`r`n");
+
+
         # Open the folder browser, allowing the user to select the project's source directory.
         if ([CommonGUI]::BrowseDirectory("Select a project that you want to build.", `
                                         [BrowserInterfaceStyle]::Modern, `
