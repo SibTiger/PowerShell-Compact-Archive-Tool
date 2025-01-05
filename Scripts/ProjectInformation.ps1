@@ -260,10 +260,11 @@ class ProjectInformation
         [Logging]::DisplayMessage("`r`n`r`n");
 
 
+        [string] $selectedDirectoryPath = $NULL;
         # Open the folder browser, allowing the user to select the project's source directory.
         if ([CommonGUI]::BrowseDirectory("Select a project that you want to build.", `
                                         [BrowserInterfaceStyle]::Modern, `
-                                        [ref] [ProjectInformation]::__sourcePath) -eq $false)
+                                        [ref] $selectedDirectoryPath) -eq $false)
         {
             # * * * * * * * * * * * * * * * * * * *
             # Debugging
