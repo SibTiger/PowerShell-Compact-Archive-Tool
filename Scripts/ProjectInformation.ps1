@@ -283,6 +283,18 @@ class ProjectInformation
             # * * * * * * * * * * * * * * * * * * *
 
 
+            # Alert the user that the operation was aborted.
+            [Logging]::DisplayMessage("Warning", [LogMessageLevel]::Warning);
+            if ([ProjectInformation]::GetIsLoaded())
+            { [Logging]::DisplayMessage("Project Remains Loaded: " + [ProjectInformation]::GetProjectName(), [LogMessageLevel]::Warning); }
+            else
+            { [Logging]::DisplayMessage("No Project is loaded!", [LogMessageLevel]::Warning); }
+
+
+            # Show a message box showing that no project was selected
+            [CommonGUI]::MessageBox("No project was selected!", [System.Windows.MessageBoxImage]::Asterisk);
+
+
             # Because the user had canceled the operation, abort the entire operation.
             return $false;
         } # if : User Aborts from Directory Browser
