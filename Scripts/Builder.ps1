@@ -194,8 +194,7 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
 
-        # Try to delete the temporary directory that was previously created, as
-        #  we no longer require that resource anymore for this operation.
+        # Delete the temporary directory as we no longer need this anymore.
         if (![Builder]::__DeleteProjectTemporaryDirectory($projectTemporaryPath))
         {
             # Because there was an error while trying to delete the temporary directory,
@@ -213,20 +212,21 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
 
-        # Now that we are finished, show the user where their compiled build
-        #  is within the host's filesystem.
+        # Now that we are finished compiling the project, show the user where they can find their compiled build.
         [Builder]::__ShowProjectLocation($compiledBuildPath);
 
 
 
 
 
-        # Alert the user that the operation had finished
+        # Alert the user that the operation was successful.
         [NotificationAudible]::Notify([NotificationAudibleEventType]::Success);
 
 
         # Show that the compiling operation was successful.
-        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Operation had been completed!");
+        [Builder]::__DisplayBulletListMessage(0, `
+                                            [FormattedListBuilder]::Parent, `
+                                            [ProjectInformation]::GetProjectName() + " Had been compiled successfully!");
 
 
         # Operation was successful!
@@ -1151,36 +1151,35 @@ class Builder
    <# Delete Project Temporary Directory
     # -------------------------------
     # Documentation:
-    #  This function will delete the temporary directory that was previously
-    #   created in order to compile the project with special instructions,
-    #   in which does not effect the original project source files.
+    #  This function will delete the temporary directory that was used to compile the project's source
+    #   files into a archive data file.
+    #
+    # NOTE:
+    #   If incase this function returns an error, the Windows Operating System will automatically delete the
+    #   folder in a later date by default.
     # -------------------------------
     # Input:
     #  [string] Temporary Directory Path
-    #   This provides the temporary directory path that is to be expunged.
+    #   This provides the temporary directory path that is to be deleted.
     # -------------------------------
     # Output:
     #  [bool] Exit code
-    #   $false = Failed to delete the temporary directory.
     #   $true  = Successfully deleted the temporary directory.
+    #   $false = Failed to delete the temporary directory.
     # -------------------------------
     #>
     hidden static [bool] __DeleteProjectTemporaryDirectory([string] $projectTemporaryPath)
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Debugging Variables
-        [string] $logMessage = $NULL;           # Main message regarding the logged event.
-        [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
-        # ----------------------------------------
-
-
-
         # Show that we trying to delete the temporary directory
-        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Deleting temporary directory. . .");
+        [Builder]::__DisplayBulletListMessage(0, `
+                                            [FormattedListBuilder]::Parent, `
+                                            "Deleting the temporary directory. . .");
+        [Builder]::__DisplayBulletListMessage(1, `
+                                            [FormattedListBuilder]::InProgress, `
+                                            "Deleting Folder: " + $projectTemporaryPath)
 
 
-        # Try to delete the temporary directory and all of the data within.
+        # Delete the temporary directory and all of the data within.
         if (![CommonIO]::DeleteDirectory($projectTemporaryPath))
         {
             # Failed to delete the temporary directory
@@ -1191,7 +1190,9 @@ class Builder
 
 
             # Show the user than an error had been reached while deleting the temporary directory.
-            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Warning, "Unable to delete the temporary directory!");
+            [Builder]::__DisplayBulletListMessage(2, `
+                                                [FormattedListBuilder]::Warning, `
+                                                "Unable to delete the temporary directory!");
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1200,16 +1201,20 @@ class Builder
 
             # Generate a message to display to the user.
             [string] $displayErrorMessage = ("I was unable to delete the project's temporary directory.`r`n" + `
-                                            "Make sure that you have sufficient privileges to delete the temporary directory.");
+                                            "Make sure that you have sufficient privileges to delete the temporary directory.`r`n" + `
+                                            "The Windows Operating System will automatically delete this folder in a later date.");
 
             # Generate the initial message
-            $logMessage = "Unable to delete the temporary directory!";
+            [string] $logMessage = "Unable to delete the temporary directory!";
 
             # Generate any additional information that might be useful
-            $logAdditionalMSG = ("Please assure that you have sufficient privileges to delete a temporary directory.`r`n" + `
-                                "If the directory cannot be discarded, then the Operating System may do so automatically in a later time.`r`n" + `
-                                "`tTemporary Directory Root Location: $($env:TEMP)`r`n" + `
-                                "`tTemporary Directory Location: $($projectTemporaryPath)");
+            [string] $logAdditionalMSG = ("Please assure that you have sufficient privileges to delete a temporary directory.`r`n" + `
+                                        "`tIf the directory cannot be discarded, then the Windows Operating System may do so " + `
+                                            "automatically at a later time.`r`n" + `
+                                        "`tTemporary Directory Root Location:`r`n" + `
+                                        "`t`t" + $env:TEMP + "`r`n" + `
+                                        "`tTemporary Directory Location:`r`n" + `
+                                        "`t`t" + $projectTemporaryPath);
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -1235,9 +1240,10 @@ class Builder
 
 
 
-        # Successfully created the temporary directory
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully deleted the temporary directory!");
-        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "Temporary Directory Path that was Deleted: " + $projectTemporaryPath);
+        # Successfully deleted the temporary directory
+        [Builder]::__DisplayBulletListMessage(1, `
+                                            [FormattedListBuilder]::Successful, `
+                                            "Successfully deleted the temporary directory!");
 
 
 
@@ -1246,11 +1252,13 @@ class Builder
         # --------------
 
         # Generate the initial message
-        $logMessage = "Successfully deleted the temporary directory!";
+        [string] $logMessage = "Successfully deleted the temporary directory!";
 
         # Generate any additional information that might be useful
-        $logAdditionalMSG = ("Temporary Directory Root Location: $($env:TEMP)`r`n" + `
-                            "`tTemporary Directory Location: $($projectTemporaryPath)");
+        [string] $logAdditionalMSG = ("`tTemporary Directory Root Location:`r`n" + `
+                                        "`t`t" + $ENV:TEMP + "`r`n" + `
+                                        "`tTemporary Directory Location:`r`n" + `
+                                        "`t`t" + $projectTemporaryPath);
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -1507,7 +1515,7 @@ class Builder
    <# Show Project Location
     # -------------------------------
     # Documentation:
-    #  This function will merely show where the project is located within the host's filesystem.
+    #  This function will present, to the user, where the compiled build of the project had been stored.
     # -------------------------------
     # Input:
     #  [string] Project Path
@@ -1516,13 +1524,15 @@ class Builder
     #>
     hidden static [void] __ShowProjectLocation([string] $projectPath)
     {
-        # Let the user know that we are about to show them the path to their newly generated compiled build.
-        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "You will find `"$([System.IO.Path]::GetFileName($projectPath))`" in this location:");
+        # Present the location of the compiled build to the user.
+        [Builder]::__DisplayBulletListMessage(0, `
+                                            [FormattedListBuilder]::Parent, `
+                                            "You will find `"$([System.IO.Path]::GetFileName($projectPath))`" in this location:");
+        [Builder]::__DisplayBulletListMessage(1, `
+                                            [FormattedListBuilder]::Child, `
+                                            $projectPath);
 
-        # Show the path
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Child, $projectPath);
-
-        # Reveal the project to the user using their preferred GUI Shell
+        # Reveal the compiled build to the user by using the Windows File Explorer.
         [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($projectPath), `
                                     [System.IO.Path]::GetFileName($projectPath));
     } # __ShowProjectLocation()
