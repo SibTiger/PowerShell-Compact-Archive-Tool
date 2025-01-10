@@ -128,16 +128,10 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
 
-        # Try to create a new temporary directory, such that we may manipulate or
-        #  alter the files if necessary - without having to change the state or
-        #  lose files within the user's local copy of the project.
-        if (![Builder]::__CreateProjectTemporaryDirectory([ref] $projectTemporaryPath))
-        {
-            # Because there was an error while to create a new unique temporary directory,
-            #  we cannot proceed forward with this operation.  Thus, we will have to abort
-            #  the procedure.
-            return $false;
-        } # if : Cannot Create Temporary Directory
+        # Create a new temporary directory so we can duplicate the project's source files in this directory.
+        #   We will later remove junk files\folders that we do not want in the final solution.
+        # If we cannot create a temporary directory, then abort this operation.
+        if (![Builder]::__CreateProjectTemporaryDirectory([ref] $projectTemporaryPath)) { return $false; }
 
 
 
@@ -598,8 +592,12 @@ class Builder
 
 
         # Show the filename that has been generated.
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully generated the filename!");
-        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "File Name is `"$($fileName.Value)`".");
+        [Builder]::__DisplayBulletListMessage(1, `
+                                            [FormattedListBuilder]::Successful, `
+                                            "Successfully generated the filename!");
+        [Builder]::__DisplayBulletListMessage(2, `
+                                            [FormattedListBuilder]::Child, `
+                                            "File Name is `"$($fileName.Value)`".");
     } # __GenerateArchiveFileName()
 
 
@@ -647,10 +645,10 @@ class Builder
 
 
             # Show that we could not create the output directory for this project.
-            [Builder]::__DisplayBulletListMessage(2, `
+            [Builder]::__DisplayBulletListMessage(1, `
                                                 [FormattedListBuilder]::Failure, `
                                                 "Unable to create the Output Directory for " + [ProjectInformation]::GetProjectName() + "!");
-            [Builder]::__DisplayBulletListMessage(3, `
+            [Builder]::__DisplayBulletListMessage(2, `
                                                 [FormattedListBuilder]::NoSymbol, `
                                                 "Tried to create the directory: " + $compileOutputPath.Value);
             [Builder]::__DisplayBulletListMessage(3, `
@@ -872,14 +870,9 @@ class Builder
    <# Create Project Temporary Directory
     # -------------------------------
     # Documentation:
-    #  This function will try to assure that a new temporary directory
-    #   had been created successfully.  This temporary directory is
-    #   critical to the compiling process, as this will allow us the
-    #   ability to modify the project files such that it will have no
-    #   effect to original project files.
-    #  Thus, if we need to alter the state of the project files,
-    #   manipulate, configure, or remove certain files, we may do so
-    #   while NOT changing the original source.
+    #  This function will create a new temporary directory, which can then be used during the
+    #   compiling process.  Where we can then duplicate the project's source files into this
+    #   directory and provide any changes as necessary in the final solution.
     # -------------------------------
     # Input:
     #  [string] (REFERENCE) Temporary Directory Path
@@ -887,31 +880,24 @@ class Builder
     # -------------------------------
     # Output:
     #  [bool] Exit code
-    #   $false = Failed to create the temporary directory.
     #   $true  = Successfully created the temporary directory.
+    #   $false = Failed to create the temporary directory.
     # -------------------------------
     #>
     hidden static [bool] __CreateProjectTemporaryDirectory([ref] $directoryPath)
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # This variable will provide the key term of the temporary directory to be created.
-        [string] $directoryKeyTerm = $null;
-
-        # Debugging Variables
-        [string] $logMessage = $NULL;           # Main message regarding the logged event.
-        [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
+        # This variable will provide the key term of the temporary directory we want create.
+        [string] $directoryKeyTerm = "Compile_" + [ProjectInformation]::GetOutputName();
         # ----------------------------------------
 
 
 
-
         # Show that we trying to create a temporary directory
-        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Creating a new temporary directory. . .");
-
-
-        # Generate the Key Term of the Temporary Directory
-        $directoryKeyTerm = "Compile_" + [ProjectInformation]::GetOutputName();
+        [Builder]::__DisplayBulletListMessage(0, `
+                                            [FormattedListBuilder]::Parent, `
+                                            "Creating a new temporary directory. . .");
 
 
         # Create the temporary directory
@@ -924,7 +910,9 @@ class Builder
 
 
             # Show the user that an error had been reached while creating the temporary directory.
-            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to create the temporary directory!");
+            [Builder]::__DisplayBulletListMessage(1, `
+                                                [FormattedListBuilder]::Failure, `
+                                                "Unable to create the temporary directory!");
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -932,16 +920,23 @@ class Builder
             # --------------
 
             # Generate a message to display to the user.
-            [string] $displayErrorMessage = ("I was unable to create the temporary directory.`r`n" + `
-                                            "Please make sure that you have the sufficient privileges to create a temporary directory.");
+            [string] $displayErrorMessage = ("I was unable to create the temporary directory!`r`n" + `
+                                            "Please make sure that you have the sufficient privileges to " + `
+                                                "create a temporary directory in:`r`n" + `
+                                            "`t" + $ENV:TEMP);
 
             # Generate the initial message
-            $logMessage = "Unable to create a temporary directory for the $([ProjectInformation]::GetProjectName()) source files!";
+            [string] $logMessage = "Unable to create a temporary directory!";
 
             # Generate any additional information that might be useful
-            $logAdditionalMSG = ("Please assure that you have sufficient privileges to create a temporary directory.`r`n" + `
-                                "`tTemporary Directory Root Location: $($env:TEMP)`r`n" + `
-                                "`tTemporary Directory Key Term: $($directoryKeyTerm)");
+            [string] $logAdditionalMSG = ("Please assure that you have sufficient privileges to create a " + `
+                                            "temporary directory.`r`n" + `
+                                        "`tTemporary Directory Root Location:`r`n" + `
+                                        "`t`t" + $ENV:TEMP + "`r`n" + `
+                                        "`tTemporary Directory Key Term:`r`n" + `
+                                        "`t`t" + $directoryKeyTerm + "`r`n" + `
+                                        "`tProject Name:`r`n" + `
+                                        "`t`t" + [ProjectInformation]::GetProjectName());
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -969,8 +964,12 @@ class Builder
 
 
         # Successfully created the temporary directory
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully created a temporary directory!");
-        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "Temporary Directory Path is: " + $directoryPath.Value);
+        [Builder]::__DisplayBulletListMessage(1, `
+                                            [FormattedListBuilder]::Successful, `
+                                            "Successfully created a temporary directory!");
+        [Builder]::__DisplayBulletListMessage(2, `
+                                            [FormattedListBuilder]::Child, `
+                                            "Path to the Temporary Directory is: " + $directoryPath.Value);
 
 
 
@@ -979,11 +978,15 @@ class Builder
         # --------------
 
         # Generate the initial message
-        $logMessage = "Successfully created a temporary directory for the $([ProjectInformation]::GetProjectName()) source files!";
+        [string] $logMessage = "Successfully created a temporary directory!";
 
         # Generate any additional information that might be useful
-        $logAdditionalMSG = ("Temporary Directory Root Location: $($env:TEMP)`r`n" + `
-                            "`tTemporary Directory Key Term: $($directoryKeyTerm)");
+        [string] $logAdditionalMSG = ("Project Name:`r`n" + `
+                                    "`t`t" + [ProjectInformation]::GetProjectName() + "`r`n" + `
+                                    "`tTemporary Directory Root Location:`r`n" + `
+                                    "`t`t" + $ENV:TEMP + "`r`n" + `
+                                    "`tTemporary Directory Key Term:`r`n" + `
+                                    "`t`t" + $directoryKeyTerm);
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity($logMessage, `                # Initial message
