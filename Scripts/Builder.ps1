@@ -58,8 +58,8 @@ class Builder
     # -------------------------------
     # Output:
     #  [bool] Exit code
-    #   $false = The Project Build had reached an error.
-    #   $true = The Project Build had successfully been created.
+    #   $true   = The project had been compiled successfully.
+    #   $false  = The project could not be compiled.
     # -------------------------------
     #>
     static [bool] Build()
@@ -72,14 +72,13 @@ class Builder
         # The file name for the archive datafile.
         [string] $fileName = $null;
 
-        # The Temporary Directory path that will hold the
-        #  project's contents.
+        # The Temporary Directory path that will hold the project's contents.
         [string] $projectTemporaryPath = $null;
         # ----------------------------------------
 
 
-        # Clear the terminal of all previous text; keep the space clean so that
-        #  it is easy for the user to read and follow along.
+        # Clear the terminal of all previous text; keep the space clean so that it is easy for the user to
+        #   read and follow along.
         [CommonIO]::ClearBuffer();
 
 
@@ -102,18 +101,9 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
 
-        # Make sure that we have all of the resources that we are going to
-        #  need in order to successfully compile this project.
-        if (![Builder]::__PrerequisiteCheck())
-        {
-            # Because we are lacking a required resource, we cannot proceed with
-            #  this process.
-            return $false;
-        } # if : Evaluate Prerequisite Check
-
-
-        # Because we have all of the resources that we need - in order to compile
-        #  this project, we can proceed to the next step!
+        # Make sure that we have all of the resources needed in order to compile the project.
+        #   If the prerequisite check were to fail, then it is not possible to compile the project.
+        if (![Builder]::__PrerequisiteCheck()) { return $false; }
 
 
 
@@ -122,10 +112,10 @@ class Builder
         #        Generate Output Directory
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
-        # Determine and generate the output directory in which this compiled
-        #  build will be stored.
 
-        $compiledBuildPath = [Builder]::__GenerateOutputPath();
+        # Create the Output Directory and get the Output Path for where the compiled build will be stored.
+        #   If the directory could not be created, then we will abort the operation.
+         if (![Builder]::__GenerateOutputPath([ref] $compiledBuildPath)) { return $false; }
 
 
 
@@ -135,10 +125,8 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
 
-        # We will need to know the file name that will identify archive datafile,
-        #  as well as the file extension that will help to classify the archive
-        #  datafile's data structure.
-        $fileName = [Builder]::__GenerateArchiveFileName();
+        # Get the filename that we will use for the compiled build of this project.
+        [Builder]::__GenerateArchiveFileName([ref] $fileName);
 
 
 
@@ -270,41 +258,26 @@ class Builder
    <# Prerequisite Check
     # -------------------------------
     # Documentation:
-    #  This function performs a validation check to assure that all
-    #   of the required resources are available for the compiling
-    #   process.  If incase we found one or more resources - that
-    #   is imperative for the entire operation to work correctly -
-    #   then we may ultimately abruptly abort the entire compile
-    #   operation.
+    #  This function performs a validation check to assure that all of the required resources are available
+    #   for the compiling process.  If there some validation check fails within this function, than the
+    #   entire prerequisite check will ultimately fail.
     # -------------------------------
     # Output:
     #  [bool] Exit code
-    #   $false = One or more resources were missing but required.
-    #   $true = All of the resources were accounted for and ready.
+    #   $true   = All prerequisites had been satisfied.
+    #   $false  = A required prerequisite had failed.
     # -------------------------------
     #>
     hidden static [bool] __PrerequisiteCheck()
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # We will use this variable to cache the detection status of a particular item that we want
-        #  to check.  Instead of having to recall the exact same checking function over and over again,
-        #  we will use this variable to merely cache the value as we step through each process within
-        #  the checking procedure.
-        [bool] $boolCacheValue = $false;
-
-
-        # Debugging Variables
-        [string] $logMessage = $NULL;           # Main message regarding the logged event.
-        [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
-        # ----------------------------------------
-
-
-
-
         # Show that the Prerequisite functionality is presently active
-        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Prerequisite Check");
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Performing a Prerequisite Check. . .");
+        [Builder]::__DisplayBulletListMessage(0, `
+                                            [FormattedListBuilder]::Parent, `
+                                            "Prerequisite Check");
+        [Builder]::__DisplayBulletListMessage(1, `
+                                            [FormattedListBuilder]::InProgress, `
+                                            "Performing a Prerequisite Check. . .");
+
 
 
 
@@ -312,11 +285,10 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
 
-        # Check the current status of the Project Path
-        $boolCacheValue = [CommonIO]::CheckPathExists([ProjectInformation]::GetSourcePath(), $true);
+
 
         # Can we find the project's source files?
-        if ($boolCacheValue -eq $false)
+        if (![CommonIO]::CheckPathExists([ProjectInformation]::GetSourcePath(), $true))
         {
             # Unable to find the project's source files; unable to continue.
 
@@ -325,9 +297,15 @@ class Builder
 
 
             # Show that the Project's source files could not be found.
-            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find $([ProjectInformation]::GetProjectName()) source files!");
-            [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please reconfigure the program settings!");
-            [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
+            [Builder]::__DisplayBulletListMessage(2, `
+                                                [FormattedListBuilder]::Failure, `
+                                                "Unable to find $([ProjectInformation]::GetProjectName()) source files!");
+            [Builder]::__DisplayBulletListMessage(3, `
+                                                [FormattedListBuilder]::NoSymbol, `
+                                                "Please load a project into $($GLOBAL:_PROGRAMNAMESHORT_)!");
+            [Builder]::__DisplayBulletListMessage(3, `
+                                                [FormattedListBuilder]::NoSymbol, `
+                                                "Unable to compile $([ProjectInformation]::GetProjectName()) at this time.");
 
 
 
@@ -336,18 +314,23 @@ class Builder
             # --------------
 
             # Generate a message to display to the user.
-            [string] $displayErrorMessage = ("I am unable to find the $([ProjectInformation]::GetProjectName()) source files!`r`n" + `
-                                            "Please reconfigure the path for the $([ProjectInformation]::GetProjectName()) project!`r`n" + `
-                                            "`t- $([ProjectInformation]::GetProjectName()) Project Path is presently: $([ProjectInformation]::GetSourcePath())`r`n" + `
-                                            "`t- Path Exists Detection Status: $([string]$boolCacheValue)");
+            [string] $displayErrorMessage = ("I am unable to find $([ProjectInformation]::GetProjectName()) source files!`r`n" + `
+                                            "Please make sure that the project, $([ProjectInformation]::GetProjectName()), " + `
+                                                "source files exists within the given path:`r`n" + `
+                                            "`t$([ProjectInformation]::GetSourcePath())");
 
             # Generate the initial message
-            $logMessage = "Unable to find the $([ProjectInformation]::GetProjectName()) project's source files!";
+            [string] $logMessage = "Unable to find the project, $([ProjectInformation]::GetProjectName()), source files!";
 
             # Generate any additional information that might be useful
-            $logAdditionalMSG = ("Please reconfigure the location of the $([ProjectInformation]::GetProjectName()) Project's Source.`r`n" + `
-                                "`tProject Source Location is: $([ProjectInformation]::GetSourcePath())`r`n" + `
-                                "`tProject Source Path Exists: $([string]$boolCacheValue)");
+            [string] $logAdditionalMSG = ("Project Name:`r`n" + `
+                                        "`t`t" + [ProjectInformation]::GetProjectName() + "`r`n" + `
+                                        "`tProject Path:`r`n" + `
+                                        "`t`t" + [ProjectInformation]::GetSourcePath() + "`r`n" + `
+                                        "`tPowerShell Core Version:`r`n" + `
+                                        "`t`t" + [SystemInformation]::PowerShellVersion() + "`r`n" + `
+                                        "`tOperating System:`r`n" + `
+                                        "`t`t" + [SystemInformation]::OperatingSystem());
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -373,7 +356,14 @@ class Builder
 
 
         # Successfully found project files
-        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Successful, "Found the $([ProjectInformation]::GetProjectName()) source files!");
+        [Builder]::__DisplayBulletListMessage(2, `
+                                            [FormattedListBuilder]::Successful, `
+                                            "Found $([ProjectInformation]::GetProjectName()) source files!");
+
+        # Show the path to the project's source files
+        [Builder]::__DisplayBulletListMessage(3, `
+                                            [FormattedListBuilder]::NoSymbol, `
+                                            [ProjectInformation]::GetSourcePath());
 
 
 
@@ -382,11 +372,10 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
 
-        # Check the current status of the Output Path
-        $boolCacheValue = [CommonIO]::CheckPathExists($GLOBAL:_OUTPUT_BUILDS_PATH_, $true);
+
 
         # Can we find the output path?
-        if ($boolCacheValue -eq $false)
+        if (![CommonIO]::CheckPathExists($GLOBAL:_OUTPUT_BUILDS_PATH_, $true))
         {
             # Unable to find the output path directory; unable to continue.
 
@@ -395,9 +384,15 @@ class Builder
 
 
             # Show that the Output Directory could not be found.
-            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find the Output Directory!");
-            [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please reconfigure the Program's Generalized Settings!");
-            [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
+            [Builder]::__DisplayBulletListMessage(2, `
+                                                [FormattedListBuilder]::Failure, `
+                                                "Unable to find the Output Directory!");
+            [Builder]::__DisplayBulletListMessage(3, `
+                                                [FormattedListBuilder]::NoSymbol, `
+                                                "It seems $($GLOBAL:_PROGRAMNAMESHORT_) couldn't create $($GLOBAL:_OUTPUT_BUILDS_PATH_)....");
+            [Builder]::__DisplayBulletListMessage(3, `
+                                                [FormattedListBuilder]::NoSymbol, `
+                                                "Unable to compile $([ProjectInformation]::GetProjectName()) at this time.");
 
 
 
@@ -407,17 +402,29 @@ class Builder
 
             # Generate a message to display to the user.
             [string] $displayErrorMessage = ("I cannot find the folder to store any new compiled builds!`r`n" + `
-                                            "Please reconfigure the Output Path in the program's general settings!`r`n" + `
-                                            "`t- Output Path is presently: $($GLOBAL:_OUTPUT_BUILDS_PATH_)`r`n" + `
-                                            "`t- Path Exists Detection Status: $([string]$boolCacheValue)");
+                                            "$($GLOBAL:_PROGRAMNAMESHORT_) usually creates this for you, but " + `
+                                                "it seems that the directory does not exist.`r`n" + `
+                                            "To circumvent this error, you can try to create this folder:`r`n" + `
+                                            "`t$($GLOBAL:_OUTPUT_BUILDS_PATH_)");
 
             # Generate the initial message
-            $logMessage = "Unable to find the Output Directory!";
+            [string] $logMessage = "Unable to find the Output Directory!";
 
             # Generate any additional information that might be useful
-            $logAdditionalMSG = ("Please reconfigure the location of the Output Directory.`r`n" + `
-                                "`tOutput Directory Location is: $($GLOBAL:_OUTPUT_BUILDS_PATH_)`r`n" + `
-                                "`tOutput Directory Path Found: $([string]$boolCacheValue)");
+            [string] $logAdditionalMSG = ("The Output Directory does not seem to exist....`r`n" + `
+                                        "`tPlease make sure that you have the sufficient privileges to create " + `
+                                            "folders in:`r`n" + `
+                                        "`t`t" + $(FetchPathUserDocuments) + "`r`n" + `
+                                        "`tOutput Path is:`r`n" + `
+                                        "`t`t" + $GLOBAL:_OUTPUT_BUILDS_PATH_ + "`r`n" + `
+                                        "`tPowerShell Core Version:`r`n" + `
+                                        "`t`t" + [SystemInformation]::PowerShellVersion() + "`r`n" + `
+                                        "`tOperating System:`r`n" + `
+                                        "`t`t" + [SystemInformation]::OperatingSystem() + "`r`n" + `
+                                        "`tProject Name:`r`n" + `
+                                        "`t`t" + [ProjectInformation]::GetProjectName() + "`r`n" + `
+                                        "`tProject Path:`r`n" + `
+                                        "`t`t" + [ProjectInformation]::GetSourcePath());
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -436,15 +443,22 @@ class Builder
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because we cannot find the output directory, we have no place to place the
-            #  compiled build.  We cannot continue this operation.
+            # Because we cannot find the output directory, we have no place to store the compile build.
+            #   We cannot continue this operation.
             return $false;
         } # if : Check Output Path exists
 
 
 
         # Successfully found output directory
-        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Successful, "Found the Output Directory!");
+        [Builder]::__DisplayBulletListMessage(2, `
+                                            [FormattedListBuilder]::Successful, `
+                                            "Found the Output Directory!");
+
+        # Show the path of the output directory path.
+        [Builder]::__DisplayBulletListMessage(3, `
+                                            [FormattedListBuilder]::NoSymbol, `
+                                            $GLOBAL:_OUTPUT_BUILDS_PATH_);
 
 
 
@@ -453,22 +467,27 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
 
-        # Check the current status of the Archive ZIP Module
-        $boolCacheValue = [ArchiveZip]::DetectCompressModule();
 
-        # Make sure that the dotNET Archive Zip is available
-        if ($boolCacheValue -eq $false)
+
+        # Make sure that the Compression POSH Module exists.
+        if (![ArchiveZip]::DetectCompressModule())
         {
-            # Unable to find the dotNET Archive Zip
+            # Unable to find the compression POSH module
 
             # Alert the user that an error had been reached.
             [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
 
 
-            # Show that this program cannot detect the dotNET Core Archive ZIP functionality.
-            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to find native support with Default ZIP functionality");
-            [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please assure that you are using the latest version of PowerShell Core!");
-            [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
+            # Show that this program cannot detect the compression PowerShell Module.
+            [Builder]::__DisplayBulletListMessage(2, `
+                                                [FormattedListBuilder]::Failure, `
+                                                "Unable to find the Compression PowerShell Module!");
+            [Builder]::__DisplayBulletListMessage(3, `
+                                                [FormattedListBuilder]::NoSymbol, `
+                                                "Please make sure that you have the latest version of PowerShell Core.");
+            [Builder]::__DisplayBulletListMessage(3, `
+                                                [FormattedListBuilder]::NoSymbol, `
+                                                "Unable to compile $([ProjectInformation]::GetProjectName()) at this time.");
 
 
 
@@ -477,23 +496,23 @@ class Builder
             # --------------
 
             # Generate a message to display to the user.
-            [string] $displayErrorMessage = ("I am unable to find support for ZIP in this version of PowerShell!`r`n" + `
-                                            "Please make sure that you are using the latest version of PowerShell Core!`r`n" + `
-                                            "`t- You are currently using PowerShell Core Version: $([SystemInformation]::PowerShellVersion())`r`n" + `
-                                            "`t- ZIP Archive Module Detection Status: $([string]$boolCacheValue)`r`n" + `
-                                            "`t- You may check out any new releases of the PowerShell Core at GitHub!`r`n" + `
-                                            "`t`thttps://github.com/PowerShell/PowerShell/releases");
+            [string] $displayErrorMessage = ("I am unable to find the Compression PowerShell Module within the current session!`r`n" + `
+                                            "Please make sure that you have the latest version of PowerShell Core:`r`n" + `
+                                            "`thttps://github.com/PowerShell/PowerShell/releases`r`n" + `
+                                            "Your version of PowerShell Core is:`r`n" + `
+                                            "`t" + [SystemInformation]::PowerShellVersion());
 
             # Generate the initial message
-            $logMessage = "Unable to find the dotNET Archive Zip Module!";
+            [string] $logMessage = "Unable to find the Compression PowerShell Module!";
 
             # Generate any additional information that might be useful
-            $logAdditionalMSG = ("Please assure that you are currently using the latest version of PowerShell Core!`r`n" + `
-                                "`tArchive ZIP Module Detection reported: $([string]$boolCacheValue)`r`n" + `
-                                "`tPowerShell Version: $([SystemInformation]::PowerShellVersion())`r`n" + `
-                                "`tOperating System: $([String][SystemInformation]::OperatingSystem())`r`n" + `
-                                "`tCheck for new versions of PowerShell Core at the provided official website:`r`n" + `
-                                "`t`thttps://github.com/PowerShell/PowerShell/releases");
+            [string] $logAdditionalMSG = ("Please make sure you have the latest version of PowerShell Core installed.`r`n" + `
+                                        "`tPowerShell Core Version:`r`n" + `
+                                        "`t`t" + [SystemInformation]::PowerShellVersion() + "`r`n" + `
+                                        "`tOperation System:`r`n" + `
+                                        "`t`t" + [SystemInformation]::OperatingSystem() + "`r`n" + `
+                                        "`tPowerShell Core Release Page on GitHub:`r`n" + `
+                                        "`t`thttps://github.com/PowerShell/PowerShell/releases");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -512,15 +531,17 @@ class Builder
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because we cannot find the default internal Archive Module within PowerShell, we
+            # Because we cannot find the Compression PowerShell Module within the current session, we
             #  cannot proceed forward with the compiling phase.
             return $false;
-        } # if : Check if dotNET Archive Zip Exists
+        } # if : Check if the Compression POSH Module Exists
 
 
 
-        # Show that the Perquisite Check had passed!
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully found all the required resources!");
+        # If we made it this far, than we found everything we need to do compile this project!
+        [Builder]::__DisplayBulletListMessage(1, `
+                                            [FormattedListBuilder]::Successful, `
+                                            "Successfully found all of the required resources!");
 
 
 
@@ -530,11 +551,19 @@ class Builder
         # --------------
 
         # Generate the initial message
-        $logMessage = ("The Prerequisite Check had determined that we have all of the required" + `
-                        "resources necessary to compile the $([ProjectInformation]::GetProjectName()) project!");
+        [string] $logMessage = ("All of the prerequisites needed to compile $([ProjectInformation]::GetProjectName()) were found!");
 
         # Generate any additional information that might be useful
-        $logAdditionalMSG = "Prerequisite Check had successfully passed!";
+        [string] $logAdditionalMSG = ("Project Name:`r`n" + `
+                                    "`t`t" + [ProjectInformation]::GetProjectName() + "`r`n" + `
+                                    "`tProject Path:`r`n" + `
+                                    "`t`t" + [ProjectInformation]::GetSourcePath() + "`r`n" + `
+                                    "`tOutput Path:`r`n" + `
+                                    "`t`t" + $GLOBAL:_OUTPUT_BUILDS_PATH_ + `
+                                    "`tPowerShell Core Version:`r`n" + `
+                                    "`t`t" + [SystemInformation]::PowerShellVersion() + "`r`n" + `
+                                    "`tOperating System:`r`n" + `
+                                    "`t`t" + [SystemInformation]::OperatingSystem());
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -544,8 +573,7 @@ class Builder
         # * * * * * * * * * * * * * * * * * * *
 
 
-        # If we made it to this point, then we have all of the resources
-        #  that we need to compile this project!
+        # Prerequisite check passed!
         return $true;
     } # __PrerequisiteCheck()
 
@@ -556,45 +584,30 @@ class Builder
    <# Generate Archive Filename
     # -------------------------------
     # Documentation:
-    #  This function will allow the ability to automatically generate
-    #   the archive filename.
+    #  This function will generate the project's compiled filename.
     # -------------------------------
     # Input:
-    #   [void] None
-    # -------------------------------
-    # Output:
-    #   [string] Archive Datafile Name
+    #   [string] (REFERENCE) Filename of the compiled build
     #       The name of the archive datafile that will be generated.
     # -------------------------------
     #>
-    hidden static [string] __GenerateArchiveFileName()
+    hidden static [void] __GenerateArchiveFileName([ref] $fileName)
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # This will hold the filename for the archive data file
-        [string] $archiveFileName = $null;
-        # ----------------------------------------
+        # Show that we are generating the filename for the compiled build.
+        [Builder]::__DisplayBulletListMessage(0, `
+                                            [FormattedListBuilder]::Parent, `
+                                            "Generating the output filename for $([ProjectInformation]::GetProjectName()). . .");
 
 
 
-        # Show that we gathering filename information
-        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Gathering filename information. . .");
-
-
-
-        # Apply the core filename of the archive datafile
-        $archiveFileName = [ProjectInformation]::GetOutputName();
+        # Assign the filename of the build
+        $fileName.Value = [ProjectInformation]::GetOutputName();
 
 
 
         # Show the filename that has been generated.
         [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully generated the filename!");
-        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "File Name is `"$($archiveFileName)`".");
-
-
-
-        # Return the full archive data file
-        return $archiveFileName;
+        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Child, "File Name is `"$($fileName.Value)`".");
     } # __GenerateArchiveFileName()
 
 
@@ -605,25 +618,119 @@ class Builder
    <# Generate Output Path
     # -------------------------------
     # Documentation:
-    #  This function will determine the final location as to where the compiled build will be
-    #   located in the user's systems.  This will assure that development builds and production
-    #   builds are not combined and mixed into one directory.  As such, this will help to keep
-    #   the builds organized and prevent some human errors when trying to look for a particular
-    #   build or version.
+    #  This function will determine where the compiled build will be stored within the host system's
+    #   filesystem.  We will want to place the builds in their respective project names.
+    # -------------------------------
+    # Input:
+    #  [string] (REFERENCE) Compile Output Path
+    #   The location where the compiled build will be stored.
+    # -------------------------------
+    # Output: 
+    #  [bool] Exit code
+    #   $true   = Operation was successful.
+    #   $false  = Failed to create the directory.
     # -------------------------------
     #>
-    hidden static [string] __GenerateOutputPath()
+    hidden static [bool] __GenerateOutputPath([ref] $compileOutputPath)
     {
         # Show that we determining the final output location
-        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Determining the Output Directory. . .");
+        [Builder]::__DisplayBulletListMessage(0, `
+                                            [FormattedListBuilder]::Parent, `
+                                            "Create the Output Directory for $([ProjectInformation]::GetProjectName()). . .");
 
 
-        # Show that we had concluded the output directory and everything is finished!
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "The compiled build will be stored under `"$($GLOBAL:_OUTPUT_BUILDS_PATH_)`"");
+        # Assign the new path that relates to the project we want to compile.
+        $compileOutputPath.Value = $GLOBAL:_OUTPUT_BUILDS_PATH_ + "/" + [ProjectInformation]::GetProjectName();
 
 
-        # We will store the archive file in the output directory as-is
-        return $GLOBAL:_OUTPUT_BUILDS_PATH_;
+        # Create the directory, if it doesn't already exists within the filesystem.
+        #   If we are unable to create the directory, then report back that an error had occurred.
+        if (([CommonIO]::CheckPathExists($compileOutputPath.Value, $true)   -eq $false) -and `  # Directory does not exist
+            ([CommonIO]::MakeDirectory($compileOutputPath.Value)            -eq $false))        # Unable to create the directory
+        {
+            # Unable to create the output directory needed to store builds from this project.
+
+            # Alert the user that an error had been reached.
+            [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
+
+
+            # Show that we could not create the output directory for this project.
+            [Builder]::__DisplayBulletListMessage(2, `
+                                                [FormattedListBuilder]::Failure, `
+                                                "Unable to create the Output Directory for " + [ProjectInformation]::GetProjectName() + "!");
+            [Builder]::__DisplayBulletListMessage(3, `
+                                                [FormattedListBuilder]::NoSymbol, `
+                                                "Tried to create the directory: " + $compileOutputPath.Value);
+            [Builder]::__DisplayBulletListMessage(3, `
+                                                [FormattedListBuilder]::NoSymbol, `
+                                                "Unable to compile $([ProjectInformation]::GetProjectName()) at this time.");
+
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate a message to display to the user.
+            [string] $displayErrorMessage = ("I am unable to create the output directory for $([ProjectInformation]::GetProjectName())!`r`n" + `
+                                            "To circumvent this error, you can try to create this folder:`r`n" + `
+                                            "`t" + $compileOutputPath.Value);
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to create the Output Directory for this project, " + [ProjectInformation]::GetProjectName();
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Project Name:`r`n" + `
+                                        "`t`t" + [ProjectInformation]::GetProjectName() + "`r`n" + `
+                                        "`tProject Path:`r`n" + `
+                                        "`t`t" + [ProjectInformation]::GetSourcePath() + "`r`n" + `
+                                        "`tOutput Path:`r`n" + `
+                                        "`t`t" + $GLOBAL:_OUTPUT_BUILDS_PATH_ + "`r`n" + `
+                                        "`tOutput Path for this Project:`r`n" + `
+                                        "`t`t" + $compileOutputPath.Value + "`r`n" + `
+                                        "`tPowerShell Core Version:`r`n" + `
+                                        "`t`t" + [SystemInformation]::PowerShellVersion() + "`r`n" + `
+                                        "`tOperating System:`r`n" + `
+                                        "`t`t" + [SystemInformation]::OperatingSystem());
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                        $logAdditionalMSG, `        # Additional information
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Display a message to the user that something went horribly wrong
+            #  and log that same message for referencing purpose.
+            [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                        [LogMessageLevel]::Error);  # Message level
+
+            # Alert the user through a message box as well that an issue had occurred;
+            #   the message will be brief as the full details remain within the terminal.
+            [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Because we could not create the output directory for this project, return back when an error.
+            return $false;
+        } # if : Unable to Create Output Directory for this Project
+
+
+
+        # Show that we are finished.
+        [Builder]::__DisplayBulletListMessage(1, `
+                                            [FormattedListBuilder]::Successful, `
+                                            "Successfully created the Output Directory for" + [ProjectInformation]::GetProjectName() + "!");
+        [Builder]::__DisplayBulletListMessage(2, `
+                                            [FormattedListBuilder]::Child, `
+                                            "Output Directory for " + [ProjectInformation]::GetProjectName());
+        [Builder]::__DisplayBulletListMessage(3, `
+                                            [FormattedListBuilder]::NoSymbol, `
+                                            $compileOutputPath.Value);
+
+
+
+        # Operation was successful
+        return $true;
     } # __GenerateOutputPath()
 
 
