@@ -175,10 +175,11 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
 
-        # Try to compact the project files into an archive datafile.
+        # Create a compiled build of the project into a single archive data file.
         if (![Builder]::__CompileProject($fileName, `               # Archive filename
-                                        [ref]$compiledBuildPath, `  # Archive file location (output file)
-                                        $projectTemporaryPath))     # Project's absolute path
+                                        $projectTemporaryPath, `    # Project's Temporary Directory Path
+                                        $compiledBuildPath, `       # Output for the compiled build
+                                        [ref]$compiledBuildPath))   # Archive file location (output file)
         {
             # Because there was an error while compiling the project's source
             #  files, we will have to abort at this point.
@@ -725,50 +726,53 @@ class Builder
    <# Compile Project
     # -------------------------------
     # Documentation:
-    #  This function will try to compile the project's files into
-    #   one archive datafile.  This will make it possible to easily
-    #   distribute the project files to other users as well as
-    #   make it available onto servers.
+    #  This function will compile the project source files at a designated path into a single archive data
+    #   file, the compiled build.  The compiled build will be stored in the output directory specified.
+    #
+    # NOTE:
+    #   The final filename of the archive file may diff if additional builds exists within the same output
+    #   directory.
     # -------------------------------
     # Input:
-    #  [string] Archive File Name
-    #   The requested name of the archive data file that is going to be created.
+    #  [string] Archive Filename
+    #   The requested filename of the archive data file that is going to be created.
+    #  [string] Project's Directory
+    #   This provides the location of where the project source files are located.
+    #  [string] Output Directory
+    #   This is the directory where the project's compiled build will be stored.
     #  [string] (REFERENCE) File Path
-    #   The final absolute path of the archive datafile.
-    #  [string] Project Directory
-    #   This provides the location of where the project files are located, this
-    #   is usually in a unique temporary directory.
+    #   The final absolute path to the archive datafile within the filesystem.
     # -------------------------------
     # Output:
     #  [bool] Exit code
-    #   $false = Unable to compact the project files into an archive datafile.
-    #   $true = Successfully compacted the project files into an archive datafile.
+    #   $true   = Successfully compiled the project.
+    #   $false  = Failed to compile the project.
     # -------------------------------
     #>
-    hidden static [bool] __CompileProject([string] $archiveFileName, `      # Requested archive datafile
-                                            [ref] $filePath, `              # Absolute Path of the Archive datafile
-                                            [string] $projectPath)          # Absolute Path of the Temporary Directory Project location
+    hidden static [bool] __CompileProject([string] $archiveFileName, `  # Requested archive datafile
+                                        [string] $projectPath, `        # Absolute Path of the Temporary Directory Project location
+                                        [string] $outputPath, `         # Output of where the compiled build will be stored.
+                                        [ref] $filePath)                # Absolute Path of the Archive datafile
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Debugging Variables
-        [string] $logMessage = $NULL;           # Main message regarding the logged event.
-        [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
-        # ----------------------------------------
-
-
-
         # Show that we are about to compact the project's source files into an archive datafile.
-        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Compile $([ProjectInformation]::GetProjectName())");
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Compiling $([ProjectInformation]::GetProjectName()). . .");
+        [Builder]::__DisplayBulletListMessage(0, `
+                                            [FormattedListBuilder]::Parent, `
+                                            "Compile the $([ProjectInformation]::GetProjectName()) project");
+        [Builder]::__DisplayBulletListMessage(1, `
+                                            [FormattedListBuilder]::InProgress, `
+                                            "Compiling $([ProjectInformation]::GetProjectName()). . .");
 
 
-        # Show that we are using the Archive ZIP Module
-        [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::InProgress, "Compacting using the PowerShell Archive compression built-in software. . .");
+        # Show that we are using the Compression PowerShell Module
+        #   NOTE: The Module is hardcoded and I don't want to expose it in ArchiveZip class - because POSH
+        #           does not have a way to make it unmutable without using the 'Set-Variable' CMDLet.
+        [Builder]::__DisplayBulletListMessage(2, `
+                                            [FormattedListBuilder]::InProgress, `
+                                            "NOTE: Compressing Files using the Microsoft.PowerShell.Archive Built-in PowerShell Module. . .");
 
         # Compact the files
         if (![ArchiveZip]::CreateArchive($archiveFileName, `
-                                        $GLOBAL:_OUTPUT_BUILDS_PATH_, `
+                                        $outputPath, `
                                         $projectPath, `
                                         $filePath))
         {
@@ -779,9 +783,15 @@ class Builder
 
 
             # An error had been reached while compacting the project's files.
-            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "An error occurred while compiling $([ProjectInformation]::GetProjectName())!");
-            [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Please review the logs for more information!");
-            [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Unable to compile this project at this time.");
+            [Builder]::__DisplayBulletListMessage(2, `
+                                                [FormattedListBuilder]::Failure, `
+                                                "An error had occurred while compiling $([ProjectInformation]::GetProjectName())!");
+            [Builder]::__DisplayBulletListMessage(3, `
+                                                [FormattedListBuilder]::NoSymbol, `
+                                                "Please review the logfiles for more information!");
+            [Builder]::__DisplayBulletListMessage(3, `
+                                                [FormattedListBuilder]::NoSymbol, `
+                                                "Unable to compile $([ProjectInformation]::GetProjectName()) at this time.");
 
 
 
@@ -791,17 +801,22 @@ class Builder
 
             # Generate a message to display to the user.
             [string] $displayErrorMessage = ("Failed to compile $([ProjectInformation]::GetProjectName())!`r`n" + `
-                                            "Please inspect the logs for what could had caused the problem.");
+                                            "Please inspect the logfile for what had caused the problem to occur.");
 
             # Generate the initial message
             $logMessage = "An error had been reached while compiling $([ProjectInformation]::GetProjectName())!";
 
             # Generate any additional information that might be useful
-            $logAdditionalMSG = ("Compression Tool: Archive Module [Default]`r`n" + `
-                                "`tArchive File Name Requested: $($archiveFileName)`r`n" + `
-                                "`tOutput Path: $($GLOBAL:_OUTPUT_BUILDS_PATH_)`r`n" + `
-                                "`tProject Path: $($projectPath)`r`n" + `
-                                "`tEntire Path (Optional): $($filePath.Value)");
+            $logAdditionalMSG = ("Compression Tool:`r`n" + `
+                                "`t`tMicrosoft.PowerShell.Archive [Built-in]`r`n" + `
+                                "`tArchive File Name Requested:`r`n" + `
+                                "`t`t" + $archiveFileName + "`r`n" + `
+                                "`tOutput Path:`r`n" + `
+                                "`t`t" + $outputPath + "`r`n" + `
+                                "`tProject Path:`r`n" + `
+                                "`t`t" + $projectPath + "`r`n" + `
+                                "`tEntire Path (Optional):`r`n" + `
+                                "`t`t" + $filePath.Value);
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -820,14 +835,19 @@ class Builder
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because the compiling process had reached an error, return a failure signal back.
+            # Because the compiling process had reached an error, return a failure signal.
             return $false;
         } # If : Compiling Project Reached an Error
 
 
 
         # If we made it this far, that means that the operation was successful!
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully compiled $([ProjectInformation]::GetProjectName())!");
+        [Builder]::__DisplayBulletListMessage(1, `
+                                            [FormattedListBuilder]::Successful, `
+                                            "Successfully compiled $([ProjectInformation]::GetProjectName())!");
+        [Builder]::__DisplayBulletListMessage(2, `
+                                            [FormattedListBuilder]::Child, `
+                                            "Compiled Build Path is: " + $filePath.Value);
 
 
 
@@ -839,10 +859,16 @@ class Builder
         $logMessage = "Successfully compiled the $([ProjectInformation]::GetProjectName()) project!";
 
         # Generate any additional information that might be useful
-        $logAdditionalMSG = ("Archive File Name Requested: $($archiveFileName)`r`n" + `
-                            "`tOutput Path: $($GLOBAL:_OUTPUT_BUILDS_PATH_)`r`n" + `
-                            "`tProject Path: $($projectPath)" + `
-                            "`tEntire Path: $($filePath.Value)");
+        $logAdditionalMSG = ("Compression Tool:`r`n" + `
+                                "`t`tMicrosoft.PowerShell.Archive [Built-in]`r`n" + `
+                                "`tArchive File Name Requested:`r`n" + `
+                                "`t`t" + $archiveFileName + "`r`n" + `
+                                "`tOutput Path:`r`n" + `
+                                "`t`t" + $outputPath + "`r`n" + `
+                                "`tProject Path:`r`n" + `
+                                "`t`t" + $projectPath + "`r`n" + `
+                                "`tEntire Path:`r`n" + `
+                                "`t`t" + $filePath.Value);
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity($logMessage, `                # Initial message
