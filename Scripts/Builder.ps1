@@ -141,13 +141,9 @@ class Builder
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
 
-        # Duplicate the project's source files to the temporary directory location.
-        if (![Builder]::__DuplicateSourceToTemporaryDirectory($projectTemporaryPath))
-        {
-            # Because we were unable to duplicate the files, we are unable to proceed
-            #  with the operation.
-            return $false;
-        } # if: Cannot Duplicate Source Files
+        # Duplicate the project's source files into the temporary directory.
+        #   If we are unable to perform this action successfully, then we must stop the operation.
+        if (![Builder]::__DuplicateSourceToTemporaryDirectory($projectTemporaryPath)) { return $false; }
 
 
 
@@ -161,15 +157,13 @@ class Builder
         #  We are not interested in any fluff, as that can enlarge the final compile build.
         if (![Builder]::__ExpungeExtraneousResources($projectTemporaryPath))
         {
-            # Because we could not delete the superfluous assets, we could not continue this
-            #  operation.  Now, with that, it could be possible to continue the operation as
-            #  normal - having the extra assets that is unrelated to the game files or project
-            #  in itself is not such a big deal, HOWEVER, it could be an issue if there are
-            #  sensitive information that is not meant to be visible to other users -
-            #  regardless where or what.
+            # Because we could not delete the superfluous assets, we could not continue this operation.
+            #  Now, with that, it could be possible to continue the operation as normal - having the extra
+            #  assets that is unrelated to the game files or project in itself is not such a big deal,
+            #  HOWEVER, it could be an issue if there are sensitive information that is not meant to be
+            #  visible to other users - regardless where or what.
 
-            # Thus, if we cannot expunge any of the superfluous data, then return an error
-            #  signal.
+            # Thus, if we cannot expunge any of the superfluous data, then return an error signal.
             return $false;
         } # Could not Delete Superfluous Files
 
@@ -1008,47 +1002,44 @@ class Builder
    <# Duplicate Source Files to Temporary Directory.
     # -------------------------------
     # Documentation:
-    #  This function will duplicate the project's source files from the user's
-    #   specified location to the temporary directory.
-    #  We will need to perform this operation such that we may configure the
-    #   source files as needed - for whatever reason.
+    #  This function will duplicate the project's source files in to the temporary directory.
     # -------------------------------
     # Input:
     #  [string] Temporary Directory Path
-    #   This provides the destination path that will have the source files.
+    #   This contains the destination path that will have the source files.
     # -------------------------------
     # Output:
     #  [bool] Exit code
-    #   $false = Failed to duplicate the project's contents.
     #   $true  = Successfully duplicated the project's contents.
+    #   $false = Failed to duplicate the project's contents.
     # -------------------------------
     #>
     static hidden [bool] __DuplicateSourceToTemporaryDirectory([string] $projectTemporaryPath)
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Debugging Variables
-        [string] $logMessage = $NULL;           # Main message regarding the logged event.
-        [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
-        # ----------------------------------------
-
-
-        # Show that we are about to duplicate the project's source files.
-        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Duplicating $([ProjectInformation]::GetProjectName()) source files. . .");
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Source: $([ProjectInformation]::GetSourcePath())");
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Child, "Destination $($projectTemporaryPath)");
+        # Show that we are about to duplicate the project's source files to the temp. directory.
+        [Builder]::__DisplayBulletListMessage(0, `
+                                            [FormattedListBuilder]::Parent, `
+                                            "Duplicating $([ProjectInformation]::GetProjectName()) source files. . .");
+        [Builder]::__DisplayBulletListMessage(1, `
+                                            [FormattedListBuilder]::Child, `
+                                            "Source: $([ProjectInformation]::GetSourcePath())");
+        [Builder]::__DisplayBulletListMessage(1, `
+                                            [FormattedListBuilder]::Child, `
+                                            "Destination: $($projectTemporaryPath)");
 
 
         # Try to duplicate the files
         if (![CommonIO]::CopyDirectory("$([ProjectInformation]::GetSourcePath())\*",    # Source Directory
-                                        $projectTemporaryPath))                     # Destination Directory
+                                        $projectTemporaryPath))                         # Destination Directory
         {
             # Alert the user that an error had been reached
             [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
 
 
-            # Show the user that an error had been reached while creating the temporary directory.
-            [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Failed to duplicate the project's resources!");
+            # Show the user that an error had been reached while duplicating the project's files.
+            [Builder]::__DisplayBulletListMessage(1, `
+                                                [FormattedListBuilder]::Failure, `
+                                                "Failed to duplicate the project's resources!");
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1059,13 +1050,16 @@ class Builder
             [string] $displayErrorMessage = ("I was not able to duplicate $([ProjectInformation]::GetProjectName()) assets to the temporary directory!");
 
             # Generate the initial message
-            $logMessage = "Unable to duplicate $([ProjectInformation]::GetProjectName()) assets to the temporary directory.";
+            [string] $logMessage = "Unable to duplicate $([ProjectInformation]::GetProjectName()) assets to the temporary directory!";
 
             # Generate any additional information that might be useful
-            $logAdditionalMSG = ("Directories:`r`n" + `
-                                "`tTemporary Directory Root Location: $($env:TEMP)`r`n" + `
-                                "`tTemporary Directory Location: $($projectTemporaryPath)`r`n" + `
-                                "`t$([ProjectInformation]::GetProjectName()) Source Location: $([ProjectInformation]::GetSourcePath())");
+            [string] $logAdditionalMSG = ("Directories:`r`n" + `
+                                        "`tTemporary Directory Root Location:`r`n" + `
+                                        "`t`t" + $ENV:TEMP + "`r`n" + `
+                                        "`tTemporary Directory Location:`r`n" + `
+                                        "`t`t" + $projectTemporaryPath + "`r`n" + `
+                                        "`t" + [ProjectInformation]::GetProjectName() + " Source Location:`r`n" + `
+                                        "`t`t" + [ProjectInformation]::GetSourcePath());
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -1088,8 +1082,10 @@ class Builder
         } # if : Failed to duplicate resources
 
 
-        # Successfully created the temporary directory
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully duplicated $([ProjectInformation]::GetProjectName()) assets!");
+        # Successfully duplicated the project's resources
+        [Builder]::__DisplayBulletListMessage(1, `
+                                            [FormattedListBuilder]::Successful, `
+                                            "Successfully duplicated " + [ProjectInformation]::GetProjectName() + " assets!");
 
 
 
@@ -1098,13 +1094,16 @@ class Builder
         # --------------
 
         # Generate the initial message
-        $logMessage = "Successfully duplicated $([ProjectInformation]::GetProjectName()) assets!";
+        [string] $logMessage = "Successfully duplicated $([ProjectInformation]::GetProjectName()) assets!";
 
         # Generate any additional information that might be useful
-        $logAdditionalMSG = ("Directories:`r`n" + `
-                            "`tTemporary Directory Root Location: $($env:TEMP)`r`n" + `
-                            "`tTemporary Directory Location: $($projectTemporaryPath)`r`n" + `
-                            "`t$([ProjectInformation]::GetProjectName()) Source Location: $([ProjectInformation]::GetSourcePath())");
+        [string] $logAdditionalMSG = ("Directories:`r`n" + `
+                                    "`tTemporary Directory Root Location:`r`n" + `
+                                    "`t`t" + $ENV:TEMP + "`r`n" + `
+                                    "`tTemporary Directory Location:`r`n" + `
+                                    "`t`t" + $projectTemporaryPath + "`r`n" + `
+                                    "`t" + [ProjectInformation]::GetProjectName() + " Source Location:`r`n" + `
+                                    "`t`t" + [ProjectInformation]::GetSourcePath());
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -1247,37 +1246,26 @@ class Builder
    <# Expunge Extraneous Resources
     # -------------------------------
     # Documentation:
-    #  This function provides the ability to remove files and directories
-    #   that are not meant to be part of the compiled build.  Thus, special
-    #   files and directories that meant for git or for other tools, will
-    #   be removed by this function.
+    #  This function will delete files and folders that are deemed unnecessary.  These can range from
+    #   Git SCM, Subversion, Operating System Shell [Desktop.ini, etc], etc. files and folders.
     # -------------------------------
     # Input:
     #  [string] Temporary Directory Path
-    #   This provides the temporary directory that contains the files
-    #    that are to be removed.
+    #   This provides the temporary directory location that we want to expunge superfluous files and folders.
     # -------------------------------
     # Output:
     #  [bool] Exit code
-    #   $false = Failed to expunge the superfluous files
-    #   $true  = Successfully expunged the superfluous files.
+    #   $true  = Successfully expunged the superfluous files and folders.
+    #   $false = Failed to expunge the superfluous files and\or folders
     # -------------------------------
     #>
     hidden static [bool] __ExpungeExtraneousResources([string] $temporaryDirectoryPath)
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Superfluous assets to be discarded
-        #  This will provide a list of directories that are to be expunged.
-        [System.Collections.ArrayList] $foldersToDelete = [System.Collections.ArrayList]@();
-
-        #  This will provide a list of files that are to be expunged.
-        [System.Collections.ArrayList] $filesToDelete = [System.Collections.ArrayList]@();
-
-
-        # Debugging Variables
-        [string] $logMessage = $NULL;           # Main message regarding the logged event.
-        [string] $logAdditionalMSG = $NULL;     # Additional information about the event.
+        # Known list of files and folders that are to be removed.
+        [System.Collections.ArrayList] $foldersToDelete = [System.Collections.ArrayList] @();
+        [System.Collections.ArrayList] $filesToDelete   = [System.Collections.ArrayList] @();
         # ----------------------------------------
 
 
@@ -1287,34 +1275,33 @@ class Builder
         # = = = = = = = = = = = = = = = = = = = = = = = = =
         # Directories to Remove
         # - - - -
-        $foldersToDelete.Add("$($temporaryDirectoryPath)\.git");            # SCM Git
-        $foldersToDelete.Add("$($temporaryDirectoryPath)\TEMP");            # Temporary Directory
-        $foldersToDelete.Add("$($temporaryDirectoryPath)\Temporary");       # Temporary Directory
-        $foldersToDelete.Add("$($temporaryDirectoryPath)\Tools");           # Tools Directory
-        $foldersToDelete.Add("$($temporaryDirectoryPath)\Github Services"); # Github Services; usually wiki
-        $foldersToDelete.Add("$($temporaryDirectoryPath)\Github");          # Github Resources
+        $foldersToDelete.Add("$($temporaryDirectoryPath)\.git");    # SCM Git
+        $foldersToDelete.Add("$($temporaryDirectoryPath)\.svn");    # SCM Subversion
+
 
         # Files to Remove
         # - - - -
-        $filesToDelete.Add(".gitattributes");                       # Repository File Attributes and Behavior
-        $filesToDelete.Add(".gitignore");                           # Ignore specific files within Local Repository
-        $filesToDelete.Add("*.md");                                 # GitHub's Services; GitHub specific files
+        $filesToDelete.Add(".gitattributes");                       # File Attributes and Behavior for a Git Repo
+        $filesToDelete.Add(".gitignore");                           # Ignore specific files and folders within a Git Repo
+        $filesToDelete.Add("*.md");                                 # GitHub Markdown files, such as readme.md
         $filesToDelete.Add("Thumb.dbs");                            # WINDOWS: Picture thumbnail database
-        $filesToDelete.Add("desktop.ini");                          # WINDOWS: Explorer Properties for WD
+        $filesToDelete.Add("desktop.ini");                          # WINDOWS: Explorer Properties for a specific folder
 
 
 
 
         # Show that we are about to expunge superfluous files and directories.
-        [Builder]::__DisplayBulletListMessage(0, [FormattedListBuilder]::Parent, "Deleting unnecessary assets. . .");
-
-
+        [Builder]::__DisplayBulletListMessage(0, `
+                                            [FormattedListBuilder]::Parent, `
+                                            "Deleting unnecessary files and folders. . .");
 
         # Show that we are trying to delete unnecessary directories
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Deleting unnecessary directories. . .");
+        [Builder]::__DisplayBulletListMessage(1, `
+                                            [FormattedListBuilder]::InProgress,
+                                            "Deleting unnecessary folders. . .");
 
 
-        # Try to delete directories that we do not want.
+        # Scan through all directories in the list
         foreach($i in $foldersToDelete)
         {
             # Delete the desired directory
@@ -1327,8 +1314,9 @@ class Builder
 
 
                 # Show that the directory could not be deleted.
-                [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to delete folder $($i)!");
-                [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "The folder could not be removed.");
+                [Builder]::__DisplayBulletListMessage(2, `
+                                                    [FormattedListBuilder]::Failure, `
+                                                    "Unable to delete folder: $($i)!");
 
 
 
@@ -1337,16 +1325,16 @@ class Builder
                 # --------------
 
                 # Generate a message to display to the user.
-                [string] $displayErrorMessage = ("Unable to delete a redundant folder: ($($i))`r`n" + `
-                                                "Please inspect the logs for what could had caused the problem.");
+                [string] $displayErrorMessage = ("Unable to delete a redundant folder: $($i)`r`n" + `
+                                                "Please inspect the logfile for what had caused the problem to occur.");
 
                 # Generate the initial message
-                $logMessage = "An error had been reached while removing superfluous directories!";
+                [string] $logMessage = "An error had been reached while removing superfluous directories!";
 
                 # Generate any additional information that might be useful
-                $logAdditionalMSG = ("Unable to delete directory: $($i)`r`n" + `
-                                    "Additional directories to be removed:`r`n" + `
-                                    "`t - $($foldersToDelete -join "`r`n`t - ")");
+                [string] $logAdditionalMSG = ("Unable to delete directory: $($i)`r`n" + `
+                                                "`tAdditional directories to be removed:`r`n" + `
+                                                "`t`t - $($foldersToDelete -join "`r`n`t`t - ")");
 
                 # Pass the information to the logging system
                 [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -1369,70 +1357,95 @@ class Builder
                 # Because we cannot delete the requested directory, we have to abort the operation.
                 return $false;
             } # If : Failed to delete directory
+
+
+            # Show what directory had been removed.
+            [Builder]::__DisplayBulletListMessage(2, `
+                                                [FormattedListBuilder]::Child,
+                                                "Deleted Folder: " + $i);
         } # Foreach: Delete Directories
 
 
 
+        # - - - - - -
+
+
+
         # Show that we are trying to delete unnecessary files
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::InProgress, "Deleting unnecessary files. . .");
+        [Builder]::__DisplayBulletListMessage(1, `
+                                            [FormattedListBuilder]::InProgress, `
+                                            "Deleting unnecessary files. . .");
 
 
-        # Delete the desired file(s) - using the Recursive flag
-        if (![CommonIO]::DeleteFile($temporaryDirectoryPath, $filesToDelete.ToArray(), $true))
+        # Scan through all files in the list
+        foreach($i in $filesToDelete)
         {
-                # Unable to delete the desired files
+            # Delete the desired file(s) - using the Recursive flag
+            if (![CommonIO]::DeleteFile($temporaryDirectoryPath, $i, $true))
+            {
+                    # Unable to delete the desired file
+    
+                    # Alert the user that an error had been reached.
+                    [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
+    
+    
+                    # Show that the file could not be deleted.
+                    [Builder]::__DisplayBulletListMessage(2, `
+                                                        [FormattedListBuilder]::Failure, `
+                                                        "Unable to delete file: $($i)");    
+    
+    
+                    # * * * * * * * * * * * * * * * * * * *
+                    # Debugging
+                    # --------------
+    
+                    # Generate a message to display to the user.
+                    [string] $displayErrorMessage = ("Unable to delete a redundant file: $($i)`r`n" + `
+                                                    "Please inspect the logfile for what had caused the problem to occur.");
+    
+                    # Generate the initial message
+                    [string] $logMessage = "An error had been reached while removing superfluous files!";
+    
+                    # Generate any additional information that might be useful
+                    [string] $logAdditionalMSG = ("Unable to delete file: $($i)`r`n" + `
+                                                    "`tAdditional files to be removed:`r`n" + `
+                                                    "`t`t - $($filesToDelete -join "`r`n`t`t - ")");
+    
+                    # Pass the information to the logging system
+                    [Logging]::LogProgramActivity($logMessage, `            # Initial message
+                                                $logAdditionalMSG, `        # Additional information
+                                                [LogMessageLevel]::Error);  # Message level
+    
+                    # Display a message to the user that something went horribly wrong
+                    #  and log that same message for referencing purpose.
+                    [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
+                                                [LogMessageLevel]::Error);  # Message level
+    
+                    # Alert the user through a message box as well that an issue had occurred;
+                    #   the message will be brief as the full details remain within the terminal.
+                    [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
+    
+                    # * * * * * * * * * * * * * * * * * * *
+    
+    
+    
+                    # Because we cannot delete the requested file, we have to abort the operation.
+                    return $false;
+            } # If : Failed to delete file(s) - with Recursive Flag
 
-                # Alert the user that an error had been reached.
-                [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
 
-
-                # Show that the files could not be deleted.
-                [Builder]::__DisplayBulletListMessage(2, [FormattedListBuilder]::Failure, "Unable to delete the files!");
-                [Builder]::__DisplayBulletListMessage(3, [FormattedListBuilder]::NoSymbol, "Files to be removed: `r`n`t - $($filesToDelete -join "`r`n`t - ")");
-
-
-
-                # * * * * * * * * * * * * * * * * * * *
-                # Debugging
-                # --------------
-
-                # Generate a message to display to the user.
-                [string] $displayErrorMessage = ("Unable to delete redundant files that were not needed for the compiled build.`r`n" + `
-                                                "Please inspect the logs for what could had caused the problem.");
-
-                # Generate the initial message
-                $logMessage = "An error had been reached while removing superfluous files!";
-
-                # Generate any additional information that might be useful
-                $logAdditionalMSG = ("Files to be removed:`r`n" + `
-                                    "`t - $($filesToDelete -join "`r`n`t - ")");
-
-                # Pass the information to the logging system
-                [Logging]::LogProgramActivity($logMessage, `            # Initial message
-                                            $logAdditionalMSG, `        # Additional information
-                                            [LogMessageLevel]::Error);  # Message level
-
-                # Display a message to the user that something went horribly wrong
-                #  and log that same message for referencing purpose.
-                [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
-                                            [LogMessageLevel]::Error);  # Message level
-
-                # Alert the user through a message box as well that an issue had occurred;
-                #   the message will be brief as the full details remain within the terminal.
-                [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
-
-                # * * * * * * * * * * * * * * * * * * *
-
-
-
-                # Because we cannot delete the requested file, we have to abort the operation.
-                return $false;
-        } # If : Failed to delete file(s) - with Recursive Flag
+            # Show what file had been removed.
+            [Builder]::__DisplayBulletListMessage(2, `
+                                                [FormattedListBuilder]::Child,
+                                                "Deleted File: " + $i);
+        } # Foreach: Delete Files
 
 
 
         # Successfully deleted unnecessary resources
-        [Builder]::__DisplayBulletListMessage(1, [FormattedListBuilder]::Successful, "Successfully deleted unnecessary assets!");
+        [Builder]::__DisplayBulletListMessage(1, `
+                                            [FormattedListBuilder]::Successful, `
+                                            "Successfully deleted unnecessary files and folders!");
 
 
 
@@ -1441,13 +1454,13 @@ class Builder
         # --------------
 
         # Generate the initial message
-        $logMessage = "Successfully removed unnecessary files and directories!";
+        [string] $logMessage = "Successfully removed unnecessary files and directories!";
 
         # Generate any additional information that might be useful
-        $logAdditionalMSG = ("Files Removed:`r`n" + `
-                            "`t`t - $($foldersToDelete -join "`r`n`t`t - ")`r`n" + `
-                            "`tDirectories Removed: `r`n" + `
-                            "`t`t - $($filesToDelete -join "`r`n`t`t - ")");
+        [string] $logAdditionalMSG = ("Files that were removed:`r`n" + `
+                                    "`t`t - $($foldersToDelete -join "`r`n`t`t - ")`r`n" + `
+                                    "`tDirectories that were removed: `r`n" + `
+                                    "`t`t - $($filesToDelete -join "`r`n`t`t - ")");
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity($logMessage, `                # Initial message
