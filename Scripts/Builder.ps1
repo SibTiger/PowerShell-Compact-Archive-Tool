@@ -1544,16 +1544,15 @@ class Builder
    <# Display Bullet List Message
     # -------------------------------
     # Documentation:
-    #  This function will act as a gateway into accessing the Formatted List.
+    #  This function will present status message to the user as the Builder performs the compiling operation.
     # -------------------------------
     # Input:
     #  [unsigned int] Message Position
-    #   The position of the message that is to be displayed.  The position entails
-    #       as to how many indentions are required before displaying the message.
+    #   The position of the message that is to be displayed.  The position entails as to how many indentions
+    #       are required before displaying the message.
     #  [FormattedListBuilder] Message Type
-    #   The type of message that is to be presented to the user.  This usually could
-    #       be a simple bullet list or provides a unique character for the message based
-    #       on certain events.
+    #   The type of message that is to be presented to the user.  This usually could be a simple bullet list
+    #       or provide a unique character for the message based on certain events.
     #  [string] Message String
     #   The message that will be displayed to the user.
     # -------------------------------
@@ -1564,8 +1563,8 @@ class Builder
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # This will hold the desired bullet point symbol or any special symbol
-        #  that matches with the type of the message.
+        # This will hold the desired bullet point symbol or any special symbol that matches with the type of
+        #   the message.
         [char] $bulletCharacter = $null;
 
         # Symbols that will be used when providing a list.
@@ -1682,8 +1681,8 @@ class Builder
 
 <# Builder Formatted List [ENUM]
  # -------------------------------
- # This will allow the ability to organize the type of messages that will be
- #  used within the Builder.
+ # This will give the ability to organize the type of messages that will be presented to the user
+ #  from the Builder.
  # -------------------------------
  #>
 enum FormattedListBuilder
