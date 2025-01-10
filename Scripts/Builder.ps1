@@ -236,6 +236,7 @@ class Builder
 
 
 
+
    <# Prerequisite Check
     # -------------------------------
     # Documentation:
@@ -599,7 +600,6 @@ class Builder
 
 
 
-
    <# Generate Output Path
     # -------------------------------
     # Documentation:
@@ -717,7 +717,6 @@ class Builder
         # Operation was successful
         return $true;
     } # __GenerateOutputPath()
-
 
 
 
