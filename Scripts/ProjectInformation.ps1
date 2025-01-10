@@ -223,14 +223,6 @@ class ProjectInformation
     #>
     Static [Bool] Load ()
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # This string will provide the absolute path to the Project File
-        [string] $projectFilePath = $NULL;
-        # ----------------------------------------
-
-
-
         # Clear the terminal of all previous text; keep the space clean so that
         #  it is easy for the user to read and follow along.
         [CommonIO]::ClearBuffer();
