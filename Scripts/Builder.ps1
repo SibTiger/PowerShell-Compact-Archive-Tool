@@ -22,12 +22,20 @@
  # ------------------------------
  # ==============================
  # ==============================
- # This class provides the ability to compile the project's assets into a single archive data file.
- #  This builder, has the ability to perform various tasks, such as:
- #      - Updating the project's resources to the latest revision based on the Remote Repository.
- #      - Assure the necessary dependencies are available and active.
- #      - Validate the integrity of the newly compiled build.
- #      - Generate any documentation as requested.
+ # This class will provide the ability to compile a project that had been loaded within the
+ #  program's environment into an archive compressed file that can be loaded into the ZDoom
+ #  based port, such as GZDoom, Zandronum, etc.
+ #
+ # Process of Compiling:
+ #  1) Perform the prerequisite check
+ #  2) Create the Output Directory for the Project
+ #  3) Determine the Archive Filename
+ #  4) Create a new temporary directory
+ #  5) Duplicate the Project's Source Files into the newly created Temporary Directory
+ #  6) Remove superfluous files and folders from the project's source files stored in the temporary directory.
+ #  7) Compile the project's source files within the temporary directory.
+ #  8) Delete the temporary directory
+ #  9) - DONE -
  #>
 
 
