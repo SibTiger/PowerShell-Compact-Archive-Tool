@@ -604,6 +604,9 @@ class Builder
         [Builder]::__DisplayBulletListMessage(0, `
                                             [FormattedListBuilder]::Parent, `
                                             "Generating the output filename for $([ProjectInformation]::GetProjectName()). . .");
+        [Builder]::__DisplayBulletListMessage(1, `
+                                            [FormattedListBuilder]::InProgress, `
+                                            "Creating the output file name. . .");
 
 
 
@@ -613,12 +616,12 @@ class Builder
 
 
         # Show the filename that has been generated.
+        [Builder]::__DisplayBulletListMessage(2, `
+                                            [FormattedListBuilder]::Child, `
+                                            "Output Filename will be: `"$($fileName.Value)`".");
         [Builder]::__DisplayBulletListMessage(1, `
                                             [FormattedListBuilder]::Successful, `
                                             "Successfully generated the filename!");
-        [Builder]::__DisplayBulletListMessage(2, `
-                                            [FormattedListBuilder]::Child, `
-                                            "File Name is `"$($fileName.Value)`".");
     } # __GenerateArchiveFileName()
 
 
