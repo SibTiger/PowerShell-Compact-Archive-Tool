@@ -269,6 +269,16 @@ class Builder
 
 
 
+        # Show that the Project's Source Path is being checked.
+        [Builder]::__DisplayBulletListMessage(2, `
+                                            [FormattedListBuilder]::InProgress, `
+                                            "Looking for the Project Path:");
+        [Builder]::__DisplayBulletListMessage(3, `
+                                            [FormattedListBuilder]::NoSymbol, `
+                                            [ProjectInformation]::GetSourcePath());
+
+
+
         # Can we find the project's source files?
         if (![CommonIO]::CheckPathExists([ProjectInformation]::GetSourcePath(), $true))
         {
@@ -281,13 +291,10 @@ class Builder
             # Show that the Project's source files could not be found.
             [Builder]::__DisplayBulletListMessage(2, `
                                                 [FormattedListBuilder]::Failure, `
-                                                "Unable to find $([ProjectInformation]::GetProjectName()) source files!");
-            [Builder]::__DisplayBulletListMessage(3, `
-                                                [FormattedListBuilder]::NoSymbol, `
-                                                "Please load a project into $($GLOBAL:_PROGRAMNAMESHORT_)!");
-            [Builder]::__DisplayBulletListMessage(3, `
-                                                [FormattedListBuilder]::NoSymbol, `
-                                                "Unable to compile $([ProjectInformation]::GetProjectName()) at this time.");
+                                                "Unable to find the Project Path!");
+            [Builder]::__DisplayBulletListMessage(2, `
+                                                [FormattedListBuilder]::Failure, `
+                                                "Unable to compile $([ProjectInformation]::GetProjectName())!");
 
 
 
@@ -340,12 +347,7 @@ class Builder
         # Successfully found project files
         [Builder]::__DisplayBulletListMessage(2, `
                                             [FormattedListBuilder]::Successful, `
-                                            "Found $([ProjectInformation]::GetProjectName()) source files!");
-
-        # Show the path to the project's source files
-        [Builder]::__DisplayBulletListMessage(3, `
-                                            [FormattedListBuilder]::NoSymbol, `
-                                            [ProjectInformation]::GetSourcePath());
+                                            "Found the Project Path!");
 
 
 
@@ -356,25 +358,32 @@ class Builder
 
 
 
-        # Can we find the output path?
+        # Show that the Parent Output Path is being checked.
+        [Builder]::__DisplayBulletListMessage(2, `
+                                            [FormattedListBuilder]::InProgress, `
+                                            "Looking for the Parent Output Path:");
+        [Builder]::__DisplayBulletListMessage(3, `
+                                            [FormattedListBuilder]::NoSymbol, `
+                                            $GLOBAL:_OUTPUT_BUILDS_PATH_);
+
+
+
+        # Can we find the Parent output path?
         if (![CommonIO]::CheckPathExists($GLOBAL:_OUTPUT_BUILDS_PATH_, $true))
         {
-            # Unable to find the output path directory; unable to continue.
+            # Unable to find the Parent output path directory; unable to continue.
 
             # Alert the user that an error had been reached.
             [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
 
 
-            # Show that the Output Directory could not be found.
+            # Show that the Parent Output Directory could not be found.
             [Builder]::__DisplayBulletListMessage(2, `
                                                 [FormattedListBuilder]::Failure, `
-                                                "Unable to find the Output Directory!");
-            [Builder]::__DisplayBulletListMessage(3, `
-                                                [FormattedListBuilder]::NoSymbol, `
-                                                "It seems $($GLOBAL:_PROGRAMNAMESHORT_) couldn't create $($GLOBAL:_OUTPUT_BUILDS_PATH_)....");
-            [Builder]::__DisplayBulletListMessage(3, `
-                                                [FormattedListBuilder]::NoSymbol, `
-                                                "Unable to compile $([ProjectInformation]::GetProjectName()) at this time.");
+                                                "Unable to find the Parent Output Path!");
+            [Builder]::__DisplayBulletListMessage(2, `
+                                                [FormattedListBuilder]::Failure, `
+                                                "Unable to compile $([ProjectInformation]::GetProjectName())!");
 
 
 
@@ -390,14 +399,14 @@ class Builder
                                             "`t$($GLOBAL:_OUTPUT_BUILDS_PATH_)");
 
             # Generate the initial message
-            [string] $logMessage = "Unable to find the Output Directory!";
+            [string] $logMessage = "Unable to find the Parent Output Directory!";
 
             # Generate any additional information that might be useful
-            [string] $logAdditionalMSG = ("The Output Directory does not seem to exist....`r`n" + `
+            [string] $logAdditionalMSG = ("The Parent Output Directory does not seem to exist....`r`n" + `
                                         "`tPlease make sure that you have the sufficient privileges to create " + `
                                             "folders in:`r`n" + `
                                         "`t`t" + $(FetchPathUserDocuments) + "`r`n" + `
-                                        "`tOutput Path is:`r`n" + `
+                                        "`tParent Output Path is:`r`n" + `
                                         "`t`t" + $GLOBAL:_OUTPUT_BUILDS_PATH_ + "`r`n" + `
                                         "`tPowerShell Core Version:`r`n" + `
                                         "`t`t" + [SystemInformation]::PowerShellVersion() + "`r`n" + `
@@ -425,22 +434,17 @@ class Builder
             # * * * * * * * * * * * * * * * * * * *
 
 
-            # Because we cannot find the output directory, we have no place to store the compile build.
+            # Because we cannot find the Parent output directory, we have no place to store the compile build.
             #   We cannot continue this operation.
             return $false;
-        } # if : Check Output Path exists
+        } # if : Check Parent Output Path exists
 
 
 
-        # Successfully found output directory
+        # Successfully found Parent output directory
         [Builder]::__DisplayBulletListMessage(2, `
                                             [FormattedListBuilder]::Successful, `
-                                            "Found the Output Directory!");
-
-        # Show the path of the output directory path.
-        [Builder]::__DisplayBulletListMessage(3, `
-                                            [FormattedListBuilder]::NoSymbol, `
-                                            $GLOBAL:_OUTPUT_BUILDS_PATH_);
+                                            "Found the Parent Output Path!");
 
 
 
@@ -448,6 +452,16 @@ class Builder
         #            Compression Tool
         # * * * * * * * * * * * * * * * * * * * *
         # * * * * * * * * * * * * * * * * * * * *
+
+
+
+        # Show that the Compression PowerShell Module is being checked.
+        [Builder]::__DisplayBulletListMessage(2, `
+                                            [FormattedListBuilder]::InProgress, `
+                                            "Detecting the Compression PowerShell Module:");
+        [Builder]::__DisplayBulletListMessage(3, `
+                                            [FormattedListBuilder]::NoSymbol, `
+                                            "Microsoft.PowerShell.Archive");
 
 
 
@@ -463,13 +477,10 @@ class Builder
             # Show that this program cannot detect the compression PowerShell Module.
             [Builder]::__DisplayBulletListMessage(2, `
                                                 [FormattedListBuilder]::Failure, `
-                                                "Unable to find the Compression PowerShell Module!");
-            [Builder]::__DisplayBulletListMessage(3, `
-                                                [FormattedListBuilder]::NoSymbol, `
-                                                "Please make sure that you have the latest version of PowerShell Core.");
-            [Builder]::__DisplayBulletListMessage(3, `
-                                                [FormattedListBuilder]::NoSymbol, `
-                                                "Unable to compile $([ProjectInformation]::GetProjectName()) at this time.");
+                                                "Unable to detect the Compression PowerShell Module!");
+            [Builder]::__DisplayBulletListMessage(2, `
+                                                [FormattedListBuilder]::Failure, `
+                                                "Unable to compile $([ProjectInformation]::GetProjectName())!");
 
 
 
@@ -517,6 +528,20 @@ class Builder
             #  cannot proceed forward with the compiling phase.
             return $false;
         } # if : Check if the Compression POSH Module Exists
+
+
+
+        # Successfully detected the Compression PowerShell Module
+        [Builder]::__DisplayBulletListMessage(2, `
+                                            [FormattedListBuilder]::Successful, `
+                                            "Detected the Compression PowerShell Module!");
+
+
+
+
+        #                Finished
+        # * * * * * * * * * * * * * * * * * * * *
+        # * * * * * * * * * * * * * * * * * * * *
 
 
 
