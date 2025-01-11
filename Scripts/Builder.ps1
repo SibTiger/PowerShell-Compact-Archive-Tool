@@ -649,7 +649,10 @@ class Builder
         # Show that we determining the final output location
         [Builder]::__DisplayBulletListMessage(0, `
                                             [FormattedListBuilder]::Parent, `
-                                            "Create the Output Directory for $([ProjectInformation]::GetProjectName()). . .");
+                                            "Finding the Output Directory for $([ProjectInformation]::GetProjectName()). . .");
+        [Builder]::__DisplayBulletListMessage(1, `
+                                            [FormattedListBuilder]::InProgress, `
+                                            "Creating or Checking if the Output Directory exists. . .");
 
 
         # Assign the new path that relates to the project we want to compile.
@@ -674,9 +677,9 @@ class Builder
             [Builder]::__DisplayBulletListMessage(2, `
                                                 [FormattedListBuilder]::NoSymbol, `
                                                 "Tried to create the directory: " + $compileOutputPath.Value);
-            [Builder]::__DisplayBulletListMessage(3, `
-                                                [FormattedListBuilder]::NoSymbol, `
-                                                "Unable to compile $([ProjectInformation]::GetProjectName()) at this time.");
+            [Builder]::__DisplayBulletListMessage(1, `
+                                                [FormattedListBuilder]::Failure, `
+                                                "Unable to compile $([ProjectInformation]::GetProjectName())!");
 
 
 
@@ -730,15 +733,15 @@ class Builder
 
 
         # Show that we are finished.
-        [Builder]::__DisplayBulletListMessage(1, `
-                                            [FormattedListBuilder]::Successful, `
-                                            "Successfully created the Output Directory for" + [ProjectInformation]::GetProjectName() + "!");
         [Builder]::__DisplayBulletListMessage(2, `
                                             [FormattedListBuilder]::Child, `
-                                            "Output Directory for " + [ProjectInformation]::GetProjectName());
+                                            "Output Directory for " + [ProjectInformation]::GetProjectName() + " is:");
         [Builder]::__DisplayBulletListMessage(3, `
                                             [FormattedListBuilder]::NoSymbol, `
                                             $compileOutputPath.Value);
+        [Builder]::__DisplayBulletListMessage(1, `
+                                            [FormattedListBuilder]::Successful, `
+                                            "Found the Output Directory!");
 
 
 
