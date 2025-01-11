@@ -603,10 +603,10 @@ class Builder
         # Show that we are generating the filename for the compiled build.
         [Builder]::__DisplayBulletListMessage(0, `
                                             [FormattedListBuilder]::Parent, `
-                                            "Generating the output filename for $([ProjectInformation]::GetProjectName()). . .");
+                                            "Create the Output filename for $([ProjectInformation]::GetProjectName())");
         [Builder]::__DisplayBulletListMessage(1, `
                                             [FormattedListBuilder]::InProgress, `
-                                            "Creating the output file name. . .");
+                                            "Creating the output filename. . .");
 
 
 
@@ -621,7 +621,7 @@ class Builder
                                             "Output Filename will be: `"$($fileName.Value)`".");
         [Builder]::__DisplayBulletListMessage(1, `
                                             [FormattedListBuilder]::Successful, `
-                                            "Successfully generated the filename!");
+                                            "Successfully created the filename!");
     } # __GenerateArchiveFileName()
 
 
@@ -649,7 +649,7 @@ class Builder
         # Show that we determining the final output location
         [Builder]::__DisplayBulletListMessage(0, `
                                             [FormattedListBuilder]::Parent, `
-                                            "Finding the Output Directory for $([ProjectInformation]::GetProjectName()). . .");
+                                            "Locating the Output Directory for $([ProjectInformation]::GetProjectName())");
         [Builder]::__DisplayBulletListMessage(1, `
                                             [FormattedListBuilder]::InProgress, `
                                             "Creating or Checking if the Output Directory exists. . .");
@@ -947,6 +947,9 @@ class Builder
         # Show that we trying to create a temporary directory
         [Builder]::__DisplayBulletListMessage(0, `
                                             [FormattedListBuilder]::Parent, `
+                                            "Create a temporary directory");
+        [Builder]::__DisplayBulletListMessage(1, `
+                                            [FormattedListBuilder]::InProgress, `
                                             "Creating a new temporary directory. . .");
 
 
@@ -1014,12 +1017,16 @@ class Builder
 
 
         # Successfully created the temporary directory
+        [Builder]::__DisplayBulletListMessage(2, `
+                                            [FormattedListBuilder]::Child, `
+                                            "Path to the Temporary Directory is:");
+        [Builder]::__DisplayBulletListMessage(3, `
+                                            [FormattedListBuilder]::NoSymbol, `
+                                            $directoryPath.Value);
         [Builder]::__DisplayBulletListMessage(1, `
                                             [FormattedListBuilder]::Successful, `
                                             "Successfully created a temporary directory!");
-        [Builder]::__DisplayBulletListMessage(2, `
-                                            [FormattedListBuilder]::Child, `
-                                            "Path to the Temporary Directory is: " + $directoryPath.Value);
+
 
 
 
@@ -1075,17 +1082,26 @@ class Builder
         # Show that we are about to duplicate the project's source files to the temp. directory.
         [Builder]::__DisplayBulletListMessage(0, `
                                             [FormattedListBuilder]::Parent, `
-                                            "Duplicating $([ProjectInformation]::GetProjectName()) source files. . .");
+                                            "Copy $([ProjectInformation]::GetProjectName()) Source Files to Temporary Directory");
         [Builder]::__DisplayBulletListMessage(1, `
-                                            [FormattedListBuilder]::Child, `
-                                            "Source: $([ProjectInformation]::GetSourcePath())");
-        [Builder]::__DisplayBulletListMessage(1, `
-                                            [FormattedListBuilder]::Child, `
-                                            "Destination: $($projectTemporaryPath)");
+                                            [FormattedListBuilder]::InProgress, `
+                                            "Copying $([ProjectInformation]::GetProjectName()) source files. . .");
+        [Builder]::__DisplayBulletListMessage(2, `
+                                            [FormattedListBuilder]::NoSymbol, `
+                                            "Source:");
+        [Builder]::__DisplayBulletListMessage(3, `
+                                            [FormattedListBuilder]::NoSymbol, `
+                                            [ProjectInformation]::GetSourcePath());
+        [Builder]::__DisplayBulletListMessage(2, `
+                                            [FormattedListBuilder]::NoSymbol, `
+                                            "Destination:");
+        [Builder]::__DisplayBulletListMessage(3, `
+                                            [FormattedListBuilder]::NoSymbol, `
+                                            $projectTemporaryPath);
 
 
         # Try to duplicate the files
-        if (![CommonIO]::CopyDirectory("$([ProjectInformation]::GetSourcePath())\*",    # Source Directory
+        if ([CommonIO]::CopyDirectory("$([ProjectInformation]::GetSourcePath())\*",    # Source Directory
                                         $projectTemporaryPath))                         # Destination Directory
         {
             # Alert the user that an error had been reached
@@ -1096,6 +1112,9 @@ class Builder
             [Builder]::__DisplayBulletListMessage(1, `
                                                 [FormattedListBuilder]::Failure, `
                                                 "Failed to duplicate the project's resources!");
+            [Builder]::__DisplayBulletListMessage(1, `
+                                                [FormattedListBuilder]::Failure, `
+                                                "Unable to compile $([ProjectInformation]::GetProjectName())!");
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1141,7 +1160,7 @@ class Builder
         # Successfully duplicated the project's resources
         [Builder]::__DisplayBulletListMessage(1, `
                                             [FormattedListBuilder]::Successful, `
-                                            "Successfully duplicated " + [ProjectInformation]::GetProjectName() + " assets!");
+                                            "Successfully copied " + [ProjectInformation]::GetProjectName() + " assets!");
 
 
 
@@ -1357,7 +1376,7 @@ class Builder
         # Show that we are about to expunge superfluous files and directories.
         [Builder]::__DisplayBulletListMessage(0, `
                                             [FormattedListBuilder]::Parent, `
-                                            "Deleting unnecessary files and folders. . .");
+                                            "Delete unnecessary files and folders");
 
         # Show that we are trying to delete unnecessary directories
         [Builder]::__DisplayBulletListMessage(1, `
@@ -1426,7 +1445,10 @@ class Builder
             # Show what directory had been removed.
             [Builder]::__DisplayBulletListMessage(2, `
                                                 [FormattedListBuilder]::Child,
-                                                "Deleted Folder: " + $i);
+                                                "Deleted Folder:");
+            [Builder]::__DisplayBulletListMessage(3, `
+                                                [FormattedListBuilder]::NoSymbol,
+                                                $i);
         } # Foreach: Delete Directories
 
 
