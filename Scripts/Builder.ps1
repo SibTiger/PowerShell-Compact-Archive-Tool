@@ -541,7 +541,7 @@ class Builder
                                     "`tProject Path:`r`n" + `
                                     "`t`t" + [ProjectInformation]::GetSourcePath() + "`r`n" + `
                                     "`tOutput Path:`r`n" + `
-                                    "`t`t" + $GLOBAL:_OUTPUT_BUILDS_PATH_ + `
+                                    "`t`t" + $GLOBAL:_OUTPUT_BUILDS_PATH_ + "`r`n" + `
                                     "`tPowerShell Core Version:`r`n" + `
                                     "`t`t" + [SystemInformation]::PowerShellVersion() + "`r`n" + `
                                     "`tOperating System:`r`n" + `
