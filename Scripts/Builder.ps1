@@ -143,7 +143,14 @@ class Builder
 
         # Duplicate the project's source files into the temporary directory.
         #   If we are unable to perform this action successfully, then we must stop the operation.
-        if (![Builder]::__DuplicateSourceToTemporaryDirectory($projectTemporaryPath)) { return $false; }
+        if (![Builder]::__DuplicateSourceToTemporaryDirectory($projectTemporaryPath))
+        {
+            # Remove the temporary directory.
+            [void] [Builder]::__DeleteProjectTemporaryDirectory($projectTemporaryPath);
+
+            # Return with an error.
+            return $false;
+        } # if : Failed to Duplicate Project Files
 
 
 
@@ -163,9 +170,14 @@ class Builder
             #  HOWEVER, it could be an issue if there are sensitive information that is not meant to be
             #  visible to other users - regardless where or what.
 
-            # Thus, if we cannot expunge any of the superfluous data, then return an error signal.
+
+            # Remove the temporary directory.
+            [void] [Builder]::__DeleteProjectTemporaryDirectory($projectTemporaryPath);
+
+
+            # Because we cannot expunge any of the superfluous data, then return an error signal.
             return $false;
-        } # Could not Delete Superfluous Files
+        } # if : Could not Delete Superfluous Files
 
 
 
@@ -183,8 +195,15 @@ class Builder
         {
             # Because there was an error while compiling the project's source
             #  files, we will have to abort at this point.
+
+
+            # Remove the temporary directory.
+            [void] [Builder]::__DeleteProjectTemporaryDirectory($projectTemporaryPath);
+
+
+            # Return with an error signifying that an error had occurred.
             return $false;
-        } # if : Compile Project
+        } # if : Failed to Compile Project
 
 
 
