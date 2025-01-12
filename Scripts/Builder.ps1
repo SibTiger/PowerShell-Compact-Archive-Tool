@@ -676,7 +676,10 @@ class Builder
                                                 "Unable to create the Output Directory for " + [ProjectInformation]::GetProjectName() + "!");
             [Builder]::__DisplayBulletListMessage(2, `
                                                 [FormattedListBuilder]::NoSymbol, `
-                                                "Tried to create the directory: " + $compileOutputPath.Value);
+                                                "Tried to create the directory:");
+            [Builder]::__DisplayBulletListMessage(3, `
+                                                [FormattedListBuilder]::NoSymbol, `
+                                                $compileOutputPath.Value);
             [Builder]::__DisplayBulletListMessage(1, `
                                                 [FormattedListBuilder]::Failure, `
                                                 "Unable to compile $([ProjectInformation]::GetProjectName())!");
