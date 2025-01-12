@@ -219,16 +219,6 @@ class Builder
 
 
 
-        # Alert the user that the operation was successful.
-        [NotificationAudible]::Notify([NotificationAudibleEventType]::Success);
-
-
-        # Show that the compiling operation was successful.
-        [Builder]::__DisplayBulletListMessage(0, `
-                                            [FormattedListBuilder]::Parent, `
-                                            [ProjectInformation]::GetProjectName() + " Had been compiled successfully!");
-
-
         # Operation was successful!
         return $true;
     } # Build()
@@ -1642,6 +1632,10 @@ class Builder
     #>
     hidden static [void] __ShowProjectLocation([string] $projectPath)
     {
+        # Alert the user that the operation was successful.
+        [NotificationAudible]::Notify([NotificationAudibleEventType]::Success);
+
+
         # Present the location of the compiled build to the user.
         [Builder]::__DisplayBulletListMessage(0, `
                                             [FormattedListBuilder]::Parent, `
