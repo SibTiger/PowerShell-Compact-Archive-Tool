@@ -593,7 +593,7 @@ class Builder
         # Show that we are generating the filename for the compiled build.
         [Builder]::__DisplayBulletListMessage(0, `
                                             [FormattedListBuilder]::Parent, `
-                                            "Create the Output filename for $([ProjectInformation]::GetProjectName())");
+                                            "Create the Output Filename for $([ProjectInformation]::GetProjectName())");
         [Builder]::__DisplayBulletListMessage(1, `
                                             [FormattedListBuilder]::InProgress, `
                                             "Creating the output filename. . .");
@@ -827,7 +827,7 @@ class Builder
         # Show that we are about to compact the project's source files into an archive datafile.
         [Builder]::__DisplayBulletListMessage(0, `
                                             [FormattedListBuilder]::Parent, `
-                                            "Compile the $([ProjectInformation]::GetProjectName()) project");
+                                            "Compile the $([ProjectInformation]::GetProjectName()) Project");
         [Builder]::__DisplayBulletListMessage(1, `
                                             [FormattedListBuilder]::InProgress, `
                                             "Compiling $([ProjectInformation]::GetProjectName()). . .");
@@ -980,7 +980,7 @@ class Builder
         # Show that we trying to create a temporary directory
         [Builder]::__DisplayBulletListMessage(0, `
                                             [FormattedListBuilder]::Parent, `
-                                            "Create a temporary directory");
+                                            "Create the Temporary Directory");
         [Builder]::__DisplayBulletListMessage(1, `
                                             [FormattedListBuilder]::InProgress, `
                                             "Creating a new temporary directory. . .");
@@ -1265,7 +1265,7 @@ class Builder
         # Show that we trying to delete the temporary directory
         [Builder]::__DisplayBulletListMessage(0, `
                                             [FormattedListBuilder]::Parent, `
-                                            "Deleting the temporary directory");
+                                            "Deleting the Temporary Directory");
         [Builder]::__DisplayBulletListMessage(1, `
                                             [FormattedListBuilder]::InProgress, `
                                             "Deleting Folder:");
@@ -1418,7 +1418,7 @@ class Builder
         # Show that we are about to expunge superfluous files and directories.
         [Builder]::__DisplayBulletListMessage(0, `
                                             [FormattedListBuilder]::Parent, `
-                                            "Delete unnecessary files and folders");
+                                            "Delete Unnecessary Files and Folders");
 
         # Show that we are trying to delete unnecessary directories
         [Builder]::__DisplayBulletListMessage(1, `
