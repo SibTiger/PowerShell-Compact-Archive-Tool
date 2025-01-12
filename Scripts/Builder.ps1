@@ -618,7 +618,10 @@ class Builder
         # Show the filename that has been generated.
         [Builder]::__DisplayBulletListMessage(2, `
                                             [FormattedListBuilder]::Child, `
-                                            "Output Filename will be: `"$($fileName.Value)`".");
+                                            "Output Filename will be:");
+        [Builder]::__DisplayBulletListMessage(3, `
+                                            [FormattedListBuilder]::NoSymbol, `
+                                            $fileName.Value);
         [Builder]::__DisplayBulletListMessage(1, `
                                             [FormattedListBuilder]::Successful, `
                                             "Successfully created the filename!");
@@ -795,14 +798,6 @@ class Builder
                                             [FormattedListBuilder]::InProgress, `
                                             "Compiling $([ProjectInformation]::GetProjectName()). . .");
 
-
-        # Show that we are using the Compression PowerShell Module
-        #   NOTE: The Module is hardcoded and I don't want to expose it in ArchiveZip class - because POSH
-        #           does not have a way to make it unmutable without using the 'Set-Variable' CMDLet.
-        [Builder]::__DisplayBulletListMessage(2, `
-                                            [FormattedListBuilder]::InProgress, `
-                                            "NOTE: Compressing Files using the Microsoft.PowerShell.Archive Built-in PowerShell Module. . .");
-
         # Compact the files
         if (![ArchiveZip]::CreateArchive($archiveFileName, `
                                         $outputPath, `
@@ -816,15 +811,12 @@ class Builder
 
 
             # An error had been reached while compacting the project's files.
-            [Builder]::__DisplayBulletListMessage(2, `
+            [Builder]::__DisplayBulletListMessage(1, `
                                                 [FormattedListBuilder]::Failure, `
                                                 "An error had occurred while compiling $([ProjectInformation]::GetProjectName())!");
-            [Builder]::__DisplayBulletListMessage(3, `
-                                                [FormattedListBuilder]::NoSymbol, `
-                                                "Please review the logfiles for more information!");
-            [Builder]::__DisplayBulletListMessage(3, `
-                                                [FormattedListBuilder]::NoSymbol, `
-                                                "Unable to compile $([ProjectInformation]::GetProjectName()) at this time.");
+            [Builder]::__DisplayBulletListMessage(1, `
+                                                [FormattedListBuilder]::Failure, `
+                                                "Unable to compile $([ProjectInformation]::GetProjectName())!");
 
 
 
@@ -875,12 +867,16 @@ class Builder
 
 
         # If we made it this far, that means that the operation was successful!
+        [Builder]::__DisplayBulletListMessage(2, `
+                                            [FormattedListBuilder]::Child, `
+                                            "Compiled Build Path is:");
+        [Builder]::__DisplayBulletListMessage(3, `
+                                            [FormattedListBuilder]::NoSymbol, `
+                                            $filePath.Value);
         [Builder]::__DisplayBulletListMessage(1, `
                                             [FormattedListBuilder]::Successful, `
                                             "Successfully compiled $([ProjectInformation]::GetProjectName())!");
-        [Builder]::__DisplayBulletListMessage(2, `
-                                            [FormattedListBuilder]::Child, `
-                                            "Compiled Build Path is: " + $filePath.Value);
+
 
 
 
@@ -968,7 +964,17 @@ class Builder
             # Show the user that an error had been reached while creating the temporary directory.
             [Builder]::__DisplayBulletListMessage(1, `
                                                 [FormattedListBuilder]::Failure, `
+                                                "Tried to create temporary folder:");
+            [Builder]::__DisplayBulletListMessage(2, `
+                                                [FormattedListBuilder]::NoSymbol, `
+                                                $directoryPath.Value);
+            [Builder]::__DisplayBulletListMessage(1, `
+                                                [FormattedListBuilder]::Failure, `
                                                 "Unable to create the temporary directory!");
+            [Builder]::__DisplayBulletListMessage(1, `
+                                                [FormattedListBuilder]::Failure, `
+                                                "Unable to compile $([ProjectInformation]::GetProjectName())!");
+
 
 
             # * * * * * * * * * * * * * * * * * * *
@@ -1163,7 +1169,7 @@ class Builder
         # Successfully duplicated the project's resources
         [Builder]::__DisplayBulletListMessage(1, `
                                             [FormattedListBuilder]::Successful, `
-                                            "Successfully copied " + [ProjectInformation]::GetProjectName() + " assets!");
+                                            "Successfully copied " + [ProjectInformation]::GetProjectName() + " source files!");
 
 
 
@@ -1225,10 +1231,13 @@ class Builder
         # Show that we trying to delete the temporary directory
         [Builder]::__DisplayBulletListMessage(0, `
                                             [FormattedListBuilder]::Parent, `
-                                            "Deleting the temporary directory. . .");
+                                            "Deleting the temporary directory");
         [Builder]::__DisplayBulletListMessage(1, `
                                             [FormattedListBuilder]::InProgress, `
-                                            "Deleting Folder: " + $projectTemporaryPath)
+                                            "Deleting Folder:");
+        [Builder]::__DisplayBulletListMessage(2, `
+                                            [FormattedListBuilder]::NoSymbol, `
+                                            $projectTemporaryPath);
 
 
         # Delete the temporary directory and all of the data within.
@@ -1242,7 +1251,7 @@ class Builder
 
 
             # Show the user than an error had been reached while deleting the temporary directory.
-            [Builder]::__DisplayBulletListMessage(2, `
+            [Builder]::__DisplayBulletListMessage(1, `
                                                 [FormattedListBuilder]::Warning, `
                                                 "Unable to delete the temporary directory!");
 
@@ -1402,7 +1411,13 @@ class Builder
                 # Show that the directory could not be deleted.
                 [Builder]::__DisplayBulletListMessage(2, `
                                                     [FormattedListBuilder]::Failure, `
-                                                    "Unable to delete folder: $($i)!");
+                                                    "Unable to delete folder:");
+                [Builder]::__DisplayBulletListMessage(3, `
+                                                    [FormattedListBuilder]::NoSymbol, `
+                                                    $i);
+                [Builder]::__DisplayBulletListMessage(2, `
+                                                    [FormattedListBuilder]::Failure, `
+                                                    "Unable to compile $([ProjectInformation]::GetProjectName())!");
 
 
 
@@ -1481,7 +1496,13 @@ class Builder
                     # Show that the file could not be deleted.
                     [Builder]::__DisplayBulletListMessage(2, `
                                                         [FormattedListBuilder]::Failure, `
-                                                        "Unable to delete file: $($i)");    
+                                                        "Unable to delete file:");
+                    [Builder]::__DisplayBulletListMessage(3, `
+                                                        [FormattedListBuilder]::NoSymbol, `
+                                                        $i);
+                    [Builder]::__DisplayBulletListMessage(2, `
+                                                        [FormattedListBuilder]::Failure, `
+                                                        "Unable to compile $([ProjectInformation]::GetProjectName())!");
     
     
                     # * * * * * * * * * * * * * * * * * * *
@@ -1582,10 +1603,14 @@ class Builder
         # Present the location of the compiled build to the user.
         [Builder]::__DisplayBulletListMessage(0, `
                                             [FormattedListBuilder]::Parent, `
-                                            "You will find `"$([System.IO.Path]::GetFileName($projectPath))`" in this location:");
+                                            [ProjectInformation]::GetProjectName() + " Had been Successfully Compiled!");
         [Builder]::__DisplayBulletListMessage(1, `
                                             [FormattedListBuilder]::Child, `
+                                            "You will find `"$([System.IO.Path]::GetFileName($projectPath))`" in this location:");
+        [Builder]::__DisplayBulletListMessage(2, `
+                                            [FormattedListBuilder]::NoSymbol, `
                                             $projectPath);
+
 
         # Reveal the compiled build to the user by using the Windows File Explorer.
         [CommonIO]::AccessDirectory([System.IO.Path]::GetDirectoryName($projectPath), `
