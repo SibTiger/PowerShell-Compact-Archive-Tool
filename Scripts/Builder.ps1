@@ -993,12 +993,14 @@ class Builder
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Please assure that you have sufficient privileges to create a " + `
                                             "temporary directory.`r`n" + `
+                                        "`tProject Name:`r`n" + `
+                                        "`t`t" + [ProjectInformation]::GetProjectName() + "`r`n" + `
                                         "`tTemporary Directory Root Location:`r`n" + `
                                         "`t`t" + $ENV:TEMP + "`r`n" + `
                                         "`tTemporary Directory Key Term:`r`n" + `
                                         "`t`t" + $directoryKeyTerm + "`r`n" + `
-                                        "`tProject Name:`r`n" + `
-                                        "`t`t" + [ProjectInformation]::GetProjectName());
+                                        "`tTemporary Directory:`r`n" + `
+                                        "`t`t" + $directoryPath.Value);
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -1052,7 +1054,9 @@ class Builder
                                     "`tTemporary Directory Root Location:`r`n" + `
                                     "`t`t" + $ENV:TEMP + "`r`n" + `
                                     "`tTemporary Directory Key Term:`r`n" + `
-                                    "`t`t" + $directoryKeyTerm);
+                                    "`t`t" + $directoryKeyTerm + "`r`n" + `
+                                    "`tTemporary Directory:`r`n" + `
+                                    "`t`t" + $directoryPath.Value);
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -1138,12 +1142,10 @@ class Builder
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = ("Directories:`r`n" + `
-                                        "`tTemporary Directory Root Location:`r`n" + `
-                                        "`t`t" + $ENV:TEMP + "`r`n" + `
-                                        "`tTemporary Directory Location:`r`n" + `
-                                        "`t`t" + $projectTemporaryPath + "`r`n" + `
-                                        "`t" + [ProjectInformation]::GetProjectName() + " Source Location:`r`n" + `
-                                        "`t`t" + [ProjectInformation]::GetSourcePath());
+                                        "`t`t[Source] " + [ProjectInformation]::GetProjectName() + " Source Location:`r`n" + `
+                                        "`t`t`t" + [ProjectInformation]::GetSourcePath() + "`r`n" + `
+                                        "`t`t[Destination] Temporary Directory Location:`r`n" + `
+                                        "`t`t`t" + $projectTemporaryPath);
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -1178,16 +1180,14 @@ class Builder
         # --------------
 
         # Generate the initial message
-        [string] $logMessage = "Successfully duplicated $([ProjectInformation]::GetProjectName()) assets!";
+        [string] $logMessage = "Successfully duplicated $([ProjectInformation]::GetProjectName()) source files!";
 
         # Generate any additional information that might be useful
         [string] $logAdditionalMSG = ("Directories:`r`n" + `
-                                    "`tTemporary Directory Root Location:`r`n" + `
-                                    "`t`t" + $ENV:TEMP + "`r`n" + `
-                                    "`tTemporary Directory Location:`r`n" + `
-                                    "`t`t" + $projectTemporaryPath + "`r`n" + `
-                                    "`t" + [ProjectInformation]::GetProjectName() + " Source Location:`r`n" + `
-                                    "`t`t" + [ProjectInformation]::GetSourcePath());
+                                    "`t`t[Source] " + [ProjectInformation]::GetProjectName() + " Source Location:`r`n" + `
+                                    "`t`t`t" + [ProjectInformation]::GetSourcePath() + "`r`n" + `
+                                    "`t`t[Destination] Temporary Directory Location:`r`n" + `
+                                    "`t`t`t" + $projectTemporaryPath);
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity($logMessage, `                # Initial message
@@ -1272,8 +1272,6 @@ class Builder
             [string] $logAdditionalMSG = ("Please assure that you have sufficient privileges to delete a temporary directory.`r`n" + `
                                         "`tIf the directory cannot be discarded, then the Windows Operating System may do so " + `
                                             "automatically at a later time.`r`n" + `
-                                        "`tTemporary Directory Root Location:`r`n" + `
-                                        "`t`t" + $env:TEMP + "`r`n" + `
                                         "`tTemporary Directory Location:`r`n" + `
                                         "`t`t" + $projectTemporaryPath);
 
@@ -1316,10 +1314,8 @@ class Builder
         [string] $logMessage = "Successfully deleted the temporary directory!";
 
         # Generate any additional information that might be useful
-        [string] $logAdditionalMSG = ("`tTemporary Directory Root Location:`r`n" + `
-                                        "`t`t" + $ENV:TEMP + "`r`n" + `
-                                        "`tTemporary Directory Location:`r`n" + `
-                                        "`t`t" + $projectTemporaryPath);
+        [string] $logAdditionalMSG = ("Temporary Directory Location:`r`n" + `
+                                    "`t`t" + $projectTemporaryPath);
 
         # Pass the information to the logging system
         [Logging]::LogProgramActivity($logMessage, `            # Initial message
@@ -1433,7 +1429,8 @@ class Builder
                 [string] $logMessage = "An error had been reached while removing superfluous directories!";
 
                 # Generate any additional information that might be useful
-                [string] $logAdditionalMSG = ("Unable to delete directory: $($i)`r`n" + `
+                [string] $logAdditionalMSG = ("Unable to delete directory:`r`n" + `
+                                                "`t`t" + $i + "`r`n" + `
                                                 "`tAdditional directories to be removed:`r`n" + `
                                                 "`t`t - $($foldersToDelete -join "`r`n`t`t - ")");
 
@@ -1517,7 +1514,8 @@ class Builder
                     [string] $logMessage = "An error had been reached while removing superfluous files!";
     
                     # Generate any additional information that might be useful
-                    [string] $logAdditionalMSG = ("Unable to delete file: $($i)`r`n" + `
+                    [string] $logAdditionalMSG = ("Unable to delete file:`r`n" + `
+                                                    "`t`t" + $i + "`r`n" + `
                                                     "`tAdditional files to be removed:`r`n" + `
                                                     "`t`t - $($filesToDelete -join "`r`n`t`t - ")");
     
