@@ -625,6 +625,28 @@ class Builder
         [Builder]::__DisplayBulletListMessage(1, `
                                             [FormattedListBuilder]::Successful, `
                                             "Successfully created the filename!");
+
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        [string] $logMessage = "Generated the output filename for $([ProjectInformation]::GetProjectName())";
+
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = ("Project Name:`r`n" + `
+                                    "`t`t" + [ProjectInformation]::GetProjectName() + "`r`n" + `
+                                    "`tOutput Filename:`r`n" + `
+                                    "`t`t" + $fileName.Value);
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
     } # __GenerateArchiveFileName()
 
 
