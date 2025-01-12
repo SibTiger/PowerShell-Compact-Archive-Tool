@@ -773,6 +773,28 @@ class Builder
 
 
 
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        [string] $logMessage = ("Successfully found the output path!");
+
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = ("Project Name:`r`n" + `
+                                    "`t`t" + [ProjectInformation]::GetProjectName() + "`r`n" + `
+                                    "`tOutput Path:`r`n" + `
+                                    "`t`t" + $compileOutputPath.Value);
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
+
+
+
         # Operation was successful
         return $true;
     } # __GenerateOutputPath()
