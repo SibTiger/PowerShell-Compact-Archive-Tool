@@ -1456,7 +1456,8 @@ class Builder
                 # --------------
 
                 # Generate a message to display to the user.
-                [string] $displayErrorMessage = ("Unable to delete a redundant folder: $($i)`r`n" + `
+                [string] $displayErrorMessage = ("Unable to delete a redundant folder:`r`n" + `
+                                                "`t" + $i + "`r`n" + `
                                                 "Please inspect the logfile for what had caused the problem to occur.");
 
                 # Generate the initial message
@@ -1541,7 +1542,8 @@ class Builder
                     # --------------
     
                     # Generate a message to display to the user.
-                    [string] $displayErrorMessage = ("Unable to delete a redundant file: $($i)`r`n" + `
+                    [string] $displayErrorMessage = ("Unable to delete a redundant file:`r`n" + `
+                                                    "`t" + $i + "`r`n" + `
                                                     "Please inspect the logfile for what had caused the problem to occur.");
     
                     # Generate the initial message
