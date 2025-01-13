@@ -461,6 +461,31 @@ class ProjectInformation
         } # if : Found the Project File
 
 
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        [string] $logMessage = "Unable to locate the Project File!";
+
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = ("Project File Filename:`r`n" + `
+                                    "`t`t" + [ProjectInformation]::__projectFileName + "`r`n" + `
+                                    "`tProject Path:`r`n" + `
+                                    "`t`t" + [ProjectInformation]::__sourcePath + "`r`n" + `
+                                    "`tExpected to Find the Project File Path:`r`n" + `
+                                    "`t`t" + $projectFilePath);
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Warning);    # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
+
+
+
         # Project File was not found.
         return $false;
     } # __CheckProjectFile()
