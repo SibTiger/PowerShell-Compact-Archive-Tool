@@ -812,6 +812,58 @@ class ProjectInformation
 
 
 
+        # Project Name : String is too large
+        if ([ProjectInformation]::__projectName.Length -gt 32)
+        {
+            # Because the Project Name field is too large, we cannot use it.
+
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to use Project Name Value from Project File, because it was too large!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = (  "Project Name Size Limit is:`r`n" + `
+                                            "`t`t32`r`n" + `
+                                            "`tProject Source Directory was:`r`n" + `
+                                            "`t`t" + [ProjectInformation]::__sourcePath + "`r`n" + `
+                                            "`tProject File to Read was:`r`n" + `
+                                            "`t`t" + [ProjectInformation]::__projectFileSourcePath + "`r`n" + `
+                                            "`tObtained Variable Values from Project File:`r`n" + `
+                                            "`t`t - Project Name: "     + [ProjectInformation]::__projectName       + "`r`n" + `
+                                            "`t`t - Project Website: "  + [ProjectInformation]::__projectWebsite    + "`r`n" + `
+                                            "`t`t - Output Filename: "  + [ProjectInformation]::__outputName        + "`r`n" + `
+                                            "`tProject File Contents Contains:`r`n" + `
+                                            "- - - - - - - - - - -`r`n" + `
+                                            $projectFileFormatString + `
+                                            "- - - - - - - - - - -");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+
+            # Clear out any variables we had set before the error was triggered:
+            [ProjectInformation]::__projectName     = $NULL;
+            [ProjectInformation]::__projectWebsite  = $NULL;
+            [ProjectInformation]::__outputName      = $NULL;
+
+
+
+            # We cannot continue with this Project File; do not continue to use it.
+            return $false;
+        } # if : Project Name Value is Greater than Expected
+
+
+
         # * * * * * * * * * * * * * * * * * * *
         # Debugging
         # --------------
