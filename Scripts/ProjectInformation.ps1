@@ -524,6 +524,9 @@ class ProjectInformation
 
         # Get Directory Info., which will be used for logging purposes.
         [System.IO.DirectoryInfo] $directoryInfo = [ProjectInformation]::__sourcePath;
+
+        # Filename Size Character Limit
+        [UInt16] $filenameSizeLimit = 32;
         # ----------------------------------------
 
 
@@ -813,7 +816,7 @@ class ProjectInformation
 
 
         # Project Name : String is too large
-        if ([ProjectInformation]::__projectName.Length -gt 32)
+        if ([ProjectInformation]::__projectName.Length -gt $filenameSizeLimit)
         {
             # Because the Project Name field is too large, we cannot use it.
 
@@ -828,7 +831,7 @@ class ProjectInformation
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = (  "Project Name Size Limit is:`r`n" + `
-                                            "`t`t32`r`n" + `
+                                            "`t`t" + $filenameSizeLimit + "`r`n" + `
                                             "`tProject Source Directory was:`r`n" + `
                                             "`t`t" + [ProjectInformation]::__sourcePath + "`r`n" + `
                                             "`tProject File to Read was:`r`n" + `
@@ -907,7 +910,7 @@ class ProjectInformation
 
 
         # Output Filename : String is too large
-        if ([ProjectInformation]::__outputName.Length -gt 32)
+        if ([ProjectInformation]::__outputName.Length -gt $filenameSizeLimit)
         {
             # Because the Output Filename is greater than expected, we will use the Project Name instead.
 
@@ -922,7 +925,7 @@ class ProjectInformation
 
             # Generate any additional information that might be useful
             [string] $logAdditionalMSG = (  "Output Filename Size Limit is:`r`n" + `
-                                            "`t`t32`r`n" + `
+                                            "`t`t" + $filenameSizeLimit + "`r`n" + `
                                             "`tProject Source Directory was:`r`n" + `
                                             "`t`t" + [ProjectInformation]::__sourcePath + "`r`n" + `
                                             "`tProject File to Read was:`r`n" + `
