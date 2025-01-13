@@ -626,6 +626,32 @@ class ProjectInformation
         } # for : Get Assignment Values
 
 
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        [string] $logMessage = "Project Information has been collected Using the Project File!";
+
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = ("Project Information that was Collected:`r`n" + `
+                                    "`t`tProject Name:`r`n" + `
+                                    "`t`t`t" + [ProjectInformation]::__projectName + "`r`n" + `
+                                    "`t`tOutput Filename:`r`n" +  `
+                                    "`t`t`t" + [ProjectInformation]::__outputName + "`r`n" + `
+                                    "`t`tProject Website:`r`n" +  `
+                                    "`t`t`t" + [ProjectInformation]::__projectWebsite);
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
+
+
+
         # Operation was successful
         return $true;
     } # __ProcessProjectFile()
