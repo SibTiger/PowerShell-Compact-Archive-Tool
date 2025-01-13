@@ -599,6 +599,44 @@ class ProjectInformation
 
 
 
+        # Were we able to find the Project Name within the Project File?
+        if (!$projectFileStrings.ContainsKey([ProjectInformation]::__projectFileVariable_ProjectName))
+        {
+            # Because the Project Name was not found, then we cannot use this Project File's contents.
+            #   Project Name is a mandatory field.
+
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Project File is missing Project Name field!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("The Following Hash Keys were Collected:`r`n" + `
+                                            "`t`t- $($projectFileStrings.Keys -Join "`r`n`t`t- ")`r`n" + `
+                                            "`tProject File Contents Contains:`r`n" + `
+                                            "- - - - - - - - - - -`r`n" + `
+                                            $projectFileFormatString  + `
+                                            "- - - - - - - - - - -");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+
+            # Do not bother with the Project File, abort processing the Project File within this project.
+            return $false;
+        } # if : Project File does NOT Contain Project Name
+
+
+
         # Try to assign the values to their respective variables
         try
         {
