@@ -864,6 +864,48 @@ class ProjectInformation
 
 
 
+        # Output Filename : String is Empty after Sanitization
+        if ([CommonIO]::IsStringEmpty([ProjectInformation]::__outputName))
+        {
+            # We can use the Project Name as the Output Filename
+
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to use Output Filename from Project File, because it was empty!  Using Project Name Instead.";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = (  "`tProject Source Directory was:`r`n" + `
+                                            "`t`t" + [ProjectInformation]::__sourcePath + "`r`n" + `
+                                            "`tProject File to Read was:`r`n" + `
+                                            "`t`t" + [ProjectInformation]::__projectFileSourcePath + "`r`n" + `
+                                            "`tObtained Variable Values from Project File:`r`n" + `
+                                            "`t`t - Project Name: "     + [ProjectInformation]::__projectName       + "`r`n" + `
+                                            "`t`t - Project Website: "  + [ProjectInformation]::__projectWebsite    + "`r`n" + `
+                                            "`t`t - Output Filename: "  + [ProjectInformation]::__outputName        + "`r`n" + `
+                                            "`tProject File Contents Contains:`r`n" + `
+                                            "- - - - - - - - - - -`r`n" + `
+                                            $projectFileFormatString + `
+                                            "- - - - - - - - - - -");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+            # Use the Project Name instead
+            [ProjectInformation]::__outputName = [ProjectInformation]::__projectName;
+        } # if : Output Filename String is Empty
+
+
+
         # * * * * * * * * * * * * * * * * * * *
         # Debugging
         # --------------
