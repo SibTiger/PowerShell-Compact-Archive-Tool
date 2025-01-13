@@ -430,6 +430,32 @@ class ProjectInformation
             #   class for later.
             [ProjectInformation]::__projectFileSourcePath = $projectFilePath;
 
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Successfully located the Project File!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("Project File Filename:`r`n" + `
+                                        "`t`t" + [ProjectInformation]::__projectFileName + "`r`n" + `
+                                        "`tProject Path:`r`n" + `
+                                        "`t`t" + [ProjectInformation]::__sourcePath + "`r`n" + `
+                                        "`tProject File Path:`r`n" + `
+                                        "`t`t" + $projectFilePath);
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+
             # Project File was found.
             return $true;
         } # if : Found the Project File
