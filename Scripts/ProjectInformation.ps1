@@ -660,5 +660,30 @@ class ProjectInformation
 
         # All other details is merely unknown to us.
         [ProjectInformation]::__projectWebsite = $NULL;
+
+
+
+        # * * * * * * * * * * * * * * * * * * *
+        # Debugging
+        # --------------
+
+        # Generate the initial message
+        [string] $logMessage = "Project Information has been collected WITHOUT Project File!";
+
+        # Generate any additional information that might be useful
+        [string] $logAdditionalMSG = ("Project Information that was Collected:`r`n" + `
+                                    "`t`tProject Name:`r`n" + `
+                                    "`t`t`t" + [ProjectInformation]::__projectName + "`r`n" + `
+                                    "`t`tOutput Filename:`r`n" +  `
+                                    "`t`t`t" + [ProjectInformation]::__outputName + "`r`n" + `
+                                    "`t`tProject Website:`r`n" +  `
+                                    "`t`t`t" + [ProjectInformation]::__projectWebsite);
+
+        # Pass the information to the logging system
+        [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                    $logAdditionalMSG, `            # Additional information
+                                    [LogMessageLevel]::Verbose);    # Message level
+
+        # * * * * * * * * * * * * * * * * * * *
     } # __ProcessWithoutProjectFile()
 } # ProjectInformation
