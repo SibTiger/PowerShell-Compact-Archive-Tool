@@ -562,6 +562,43 @@ class ProjectInformation
         } # foreach : Parse through Project File
 
 
+
+        # If we didn't find anything, then we cannot use the Project File.
+        if ($projectFileStrings.Count -eq 0)
+        {
+            # Because there was nothing meaningful to take from the Project File, there's really nothing we
+            #   can do with it.
+
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Project Information was processed, but no data was useful!";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = ("The following was read from " + [ProjectInformation]::__projectFileName + ":`r`n" + `
+                                            "- - - - - - - - - - -`r`n" + `
+                                            $projectFileFormatString + `
+                                            "- - - - - - - - - - -");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Verbose);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+
+            # Return with a failure as there's nothing we can take from the Project File.
+            return $false;
+        } # if : Project File does not have Useful Data
+
+
+
         # Try to assign the values to their respective variables
         try
         {
