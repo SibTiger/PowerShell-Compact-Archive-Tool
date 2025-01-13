@@ -635,7 +635,9 @@ class ProjectInformation
                                             "`t`t - Project Website: "  + [ProjectInformation]::__projectWebsite    + "`r`n" + `
                                             "`t`t - Output Filename: "  + [ProjectInformation]::__outputName        + "`r`n" + `
                                             "`tProject File Contents Contains:`r`n" + `
-                                            $projectFileFormatString);
+                                            "- - - - - - - - - - -`r`n" + `
+                                            $projectFileFormatString + "`r`n" + `
+                                            "- - - - - - - - - - -");
 
             # Pass the information to the logging system
             [Logging]::LogProgramActivity($logMessage, `            # Initial message
