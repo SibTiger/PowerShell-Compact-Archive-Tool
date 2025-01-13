@@ -906,6 +906,53 @@ class ProjectInformation
 
 
 
+        # Output Filename : String is too large
+        if ([ProjectInformation]::__outputName.Length -gt 32)
+        {
+            # Because the Output Filename is greater than expected, we will use the Project Name instead.
+
+
+
+            # * * * * * * * * * * * * * * * * * * *
+            # Debugging
+            # --------------
+
+            # Generate the initial message
+            [string] $logMessage = "Unable to use Output Filename Value from Project File, because it was too large!  Using Project Name Instead";
+
+            # Generate any additional information that might be useful
+            [string] $logAdditionalMSG = (  "Output Filename Size Limit is:`r`n" + `
+                                            "`t`t32`r`n" + `
+                                            "`tProject Source Directory was:`r`n" + `
+                                            "`t`t" + [ProjectInformation]::__sourcePath + "`r`n" + `
+                                            "`tProject File to Read was:`r`n" + `
+                                            "`t`t" + [ProjectInformation]::__projectFileSourcePath + "`r`n" + `
+                                            "`tObtained Variable Values from Project File:`r`n" + `
+                                            "`t`t - Project Name: "     + [ProjectInformation]::__projectName       + "`r`n" + `
+                                            "`t`t - Project Website: "  + [ProjectInformation]::__projectWebsite    + "`r`n" + `
+                                            "`t`t - Output Filename: "  + [ProjectInformation]::__outputName        + "`r`n" + `
+                                            "`tProject File Contents Contains:`r`n" + `
+                                            "- - - - - - - - - - -`r`n" + `
+                                            $projectFileFormatString + "`r`n" + `
+                                            "- - - - - - - - - - -");
+
+            # Pass the information to the logging system
+            [Logging]::LogProgramActivity($logMessage, `                # Initial message
+                                        $logAdditionalMSG, `            # Additional information
+                                        [LogMessageLevel]::Warning);    # Message level
+
+            # * * * * * * * * * * * * * * * * * * *
+
+
+
+            # Use the Project Name instead
+            [ProjectInformation]::__outputName = [ProjectInformation]::__projectName;
+        } # Output Filename Value is Greater than Expected!
+
+
+
+
+
         # * * * * * * * * * * * * * * * * * * *
         # Debugging
         # --------------
