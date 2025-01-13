@@ -656,6 +656,12 @@ class ProjectInformation
             # * * * * * * * * * * * * * * * * * * *
 
 
+            # Clear out any variables we had set before the error was triggered:
+            [ProjectInformation]::__projectName     = $NULL;
+            [ProjectInformation]::__projectWebsite  = $NULL;
+            [ProjectInformation]::__outputName      = $NULL;
+
+
             # Abort the operation
             return $false;
         } # Catch : Abort Operation
