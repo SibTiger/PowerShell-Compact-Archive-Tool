@@ -301,24 +301,6 @@ function InitializationDirectoryPaths()
 
 
     # ----
-    # Program Data [Roaming AppData]
-
-
-    # Program-Data Parent Directory Path
-    # ---------------
-    # The root directory where program-data will be stored.
-    Set-Variable `
-        -Name "_PROGRAMDATA_ROAMING_ROOT_PATH_" `
-        -Value "$(FetchPathAppDataRoaming)\$($GLOBAL:_PROGRAMNAME_)" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "Holds the root path in which the program data will be stored, but can be moved around within a Roaming Profile environment.";
-
-
-
-    # ----
     # Output Directories
 
 

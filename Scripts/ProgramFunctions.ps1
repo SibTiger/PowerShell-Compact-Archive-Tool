@@ -75,8 +75,7 @@ function CreateDirectories()
     # Because one or more directories did not exist, then we must find it and create them.
     return (([CommonIO]::MakeDirectory($GLOBAL:_USERDATA_ROOT_PATH_)                        -eq $true)  -and `      # The Program Root Directory
             ([CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_LOCAL_ROOT_PATH_)               -eq $true)  -and `      # The Program Data Root [Local]
-            ([CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_)       -eq $true)  -and `      # The Program Data Logs [Local]
-            ([CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_ROAMING_ROOT_PATH_)             -eq $true));            # The Program Data Root [Roaming]
+            ([CommonIO]::MakeDirectory($GLOBAL:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_)       -eq $true));            # The Program Data Logs [Local]
 } # CreateDirectories()
 
 
@@ -110,8 +109,8 @@ function CheckProgramDirectories()
 {
     return (([CommonIO]::CheckPathExists($GLOBAL:_USERDATA_ROOT_PATH_, $true) -eq $true)                        -and `      # The Program Root Directory
             ([CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_LOCAL_ROOT_PATH_, $true)              -eq $true)  -and `      # The Program Data Root [Local]
-            ([CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_, $true)      -eq $true)  -and `      # The Program Data Logs [Local]
-            ([CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_ROAMING_ROOT_PATH_, $true)            -eq $true));            # The Program Data Root [Roaming]
+            ([CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_, $true)      -eq $true));            # The Program Data Logs [Local]
+            
 } # CheckProgramDirectories()
 
 
