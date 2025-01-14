@@ -96,10 +96,6 @@ function clean()
     [CommonIO]::SetTerminalWindowTitle("$($Global:_PROGRAMNAME_) (Version $($Global:_VERSION_)) - Clean Mode");
 
 
-    # Load the user's configurations, if available.
-    $loadSaveUserConfiguration.Load();
-
-
     # Let the user know that the application is preparing to perform an action
     [CommonIO]::WriteToBuffer("Preparing Operation: ", + `
                             [LogMessageLevel]::Standard, + `
