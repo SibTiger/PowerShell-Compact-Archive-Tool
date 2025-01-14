@@ -30,8 +30,8 @@
 ; Product Information
 #define public _PRODUCT_NAME_FULL_                      "PowerShell Compact-Archive Tool"
 #define public _PRODUCT_NAME_SHORT_                     "PSCAT"
-#define public _PRODUCT_VERSION_                        "1.2.0-Beta"
-#define public _PRODUCT_VERSION_CODENAME_               "Cordis"
+#define public _PRODUCT_VERSION_                        "1.2.0"
+#define public _PRODUCT_VERSION_CODENAME_               "Cordis [Beta]"
 #define public _PRODUCT_VERSION_DATE_                   "18.01.2025"
 #define public _PRODUCT_WEBSITE_HOMEPAGE_               "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool"
 #define public _PRODUCT_WEBSITE_SUPPORT_                "https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/wiki"
