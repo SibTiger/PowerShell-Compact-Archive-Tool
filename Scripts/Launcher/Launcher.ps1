@@ -63,7 +63,7 @@
 
 .EXAMPLE
     .\Launcher.ps1 (-ProgramMode n)
-        Where n, can be [0, 1, 2]
+        Where n, can be [0, 1]
         Please see Inputs for Program Mode options.
         Note that the -ProgramMode argument is optional.
         Example is: .\Launcher.ps1 -ProgramMode 0
