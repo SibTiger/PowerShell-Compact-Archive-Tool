@@ -40,10 +40,10 @@ function main()
 
     # Verbose     [6]
     [Logging]::DisplayMessage("VERBOSE MESSAGE`r`nThis is the message that would appear for text that is in this block.", "Verbose");
-    
+
     # Default     [UNKNOWN]
     [Logging]::DisplayMessage("DEFAULT MESSAGE`r`nThis is the message that would appear for text that is in this block.", "UNKNOWN");
-    
+
     # User Input - THIS SHOULD FAIL!
     [Logging]::DisplayMessage("USER INPUT MESSAGE`r`nThis is a message that would not appear as it is user input - seriously this should fail!", "UserInput");
     # Get Input
@@ -84,7 +84,7 @@ function main()
                  "www.facebook.com");
     foreach ($item in $webList)
     {
-        Write-Host "Trying Website: $($item)" 
+        Write-Host "Trying Website: $($item)"
                    "   Webpage Access Status: $([IOCommon]::AccessWebpage("$($item)"))";
     } # Website List
     #>

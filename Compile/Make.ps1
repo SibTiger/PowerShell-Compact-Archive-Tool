@@ -155,7 +155,7 @@ function Printf
             $msgForeColor = "Green";
             Break;
         } # Successful
-        
+
         # --------------
 
         # Error
@@ -685,7 +685,7 @@ function Inspector
 
     # Display our table
     Printf 3 ($inspectorTable | Format-Table -AutoSize | Out-String);
-    
+
     # Tell the user how many Global Vars exists
     Printf 3 "Global Variables in use: $($inspectorTable.Count)";
 
@@ -798,7 +798,7 @@ function main
     {
         Printf 3 "Checking for existing $($GLOBAL:SCRIPTFILENAME) and thrashing it. . .";
     } # DEBUG MODE
-    
+
     # Check for existing script and delete it - if it exists
     if(ExistingFileProtocol)
     {

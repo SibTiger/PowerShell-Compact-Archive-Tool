@@ -672,7 +672,7 @@ class Builder
     #  [string] (REFERENCE) Compile Output Path
     #   The location where the compiled build will be stored.
     # -------------------------------
-    # Output: 
+    # Output:
     #  [bool] Exit code
     #   $true   = Operation was successful.
     #   $false  = Failed to create the directory.
@@ -1539,11 +1539,11 @@ class Builder
             if (![CommonIO]::DeleteFile($temporaryDirectoryPath, $i, $true))
             {
                     # Unable to delete the desired file
-    
+
                     # Alert the user that an error had been reached.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
-    
-    
+
+
                     # Show that the file could not be deleted.
                     [Builder]::__DisplayBulletListMessage(2, `
                                                         [FormattedListBuilder]::Failure, `
@@ -1554,44 +1554,44 @@ class Builder
                     [Builder]::__DisplayBulletListMessage(2, `
                                                         [FormattedListBuilder]::Failure, `
                                                         "Unable to compile $([ProjectInformation]::GetProjectName())!");
-    
-    
+
+
                     # * * * * * * * * * * * * * * * * * * *
                     # Debugging
                     # --------------
-    
+
                     # Generate a message to display to the user.
                     [string] $displayErrorMessage = ("Unable to delete a redundant file:`r`n" + `
                                                     "`t" + $i + "`r`n" + `
                                                     "Please inspect the logfile for what had caused the problem to occur.");
-    
+
                     # Generate the initial message
                     [string] $logMessage = "An error had been reached while removing superfluous files!";
-    
+
                     # Generate any additional information that might be useful
                     [string] $logAdditionalMSG = ("Unable to delete file:`r`n" + `
                                                     "`t`t" + $i + "`r`n" + `
                                                     "`tAdditional files to be removed:`r`n" + `
                                                     "`t`t - $($filesToDelete -join "`r`n`t`t - ")");
-    
+
                     # Pass the information to the logging system
                     [Logging]::LogProgramActivity($logMessage, `            # Initial message
                                                 $logAdditionalMSG, `        # Additional information
                                                 [LogMessageLevel]::Error);  # Message level
-    
+
                     # Display a message to the user that something went horribly wrong
                     #  and log that same message for referencing purpose.
                     [Logging]::DisplayMessage($displayErrorMessage, `       # Message to display
                                                 [LogMessageLevel]::Error);  # Message level
-    
+
                     # Alert the user through a message box as well that an issue had occurred;
                     #   the message will be brief as the full details remain within the terminal.
                     [CommonGUI]::MessageBox($logMessage, [System.Windows.MessageBoxImage]::Hand) | Out-Null;
-    
+
                     # * * * * * * * * * * * * * * * * * * *
-    
-    
-    
+
+
+
                     # Because we cannot delete the requested file, we have to abort the operation.
                     return $false;
             } # If : Failed to delete file(s) - with Recursive Flag
