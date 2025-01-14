@@ -1430,6 +1430,7 @@ class Builder
         $filesToDelete.Add("*.md");                                 # GitHub Markdown files, such as readme.md
         $filesToDelete.Add("Thumb.dbs");                            # WINDOWS: Picture thumbnail database
         $filesToDelete.Add("desktop.ini");                          # WINDOWS: Explorer Properties for a specific folder
+        $filesToDelete.Add("PSCAT.Proj");                           # Remove the Project File from the source file
 
 
 
