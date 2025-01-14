@@ -23,19 +23,12 @@
  # ==============================
  # ==============================
  # This source file will allow the ability to cleanup all files and directories that are associated with the software.
- #  With this functionality, the user can merely clean their filesystem by removing compiled builds, logs, reports,
- #  and their configuration files with ease.
+ #  With this functionality, the user can merely clean their filesystem by removing compiled builds and logs
  # The following is supported:
  #  - Cleanup
  #      Removes the following:
  #      - Compiled Builds
  #      - Log files
- #      - Report files
- #  - Deep Cleanup
- #      - Compiled Builds
- #      - Log files
- #      - Report files
- #      - User Configuration Files
  # ----------------------------
  # Exit Codes:
  # 0 = Successfully
@@ -48,20 +41,12 @@
 # Cleanup Entry Point
 # --------------------------
 # Documentation:
-#  This function is a sub-entry point of the program, which is invoked by setting the Program Mode to either '1' or '2'.
+#  This function is a sub-entry point of the program, which is invoked by setting the Program Mode to '1'.
 #   This functionality is not driven by the main driver and will not use the main driver afterwards, as such this function
 #   is a stand-alone.
 # --------------------------
 function clean()
 {
-    param(
-        # Deletes all builds, logs, report files, and user configuration.
-        [Parameter(Mandatory=$true)]
-        [ValidateRange(1, 2)]
-        [byte]$programMode
-    )
-
-
     # Declarations and Initializations
     # ----------------------------------------
     # This variable will hold our return code.
@@ -102,28 +87,10 @@ function clean()
                             $true);
 
 
-    # Show that the program is about to perform the following actions:
-    switch ($programMode)
-    {
-        # Clean Up Mode
-        {($_ -eq [CleanUpModeType]::CleanUp)}
-        {
-            # Let the user know that the application is performing a clean up.
-            [CommonIO]::WriteToBuffer("Cleaning Up`r`n`r`n", + `
-                                        [LogMessageLevel]::Warning, + `
-                                        $false);
-        } # Clean Up Mode
-
-
-        # Deep Clean Up Mode
-        {($_ -eq [CleanUpModeType]::DeepCleanUp)}
-        {
-            # Let the user know that the application is performing a deep cleanup.
-            [CommonIO]::WriteToBuffer("Deep Clean Up`r`n`r`n", + `
-                                        [LogMessageLevel]::Warning, + `
-                                        $false);
-        } # Deep Clean Up Mode
-    } # switch : Program Mode
+    # Let the user know that the application is performing a clean up.
+    [CommonIO]::WriteToBuffer("Cleaning Up`r`n`r`n", + `
+                                [LogMessageLevel]::Warning, + `
+                                $false);
 
 
     # Disable the logging functionality
@@ -163,7 +130,7 @@ function clean()
     # -----------
 
 
-    # Delete all of the log\report files and directories
+    # Delete all of the logfiles and directories
     [CommonIO]::WriteToBuffer("`tLog Files`r`n`t`t$GLOBAL:_PROGRAMDATA_LOCAL_ROOT_PATH_", + `
                                 [LogMessageLevel]::Warning, + `
                                 $false);
@@ -181,39 +148,7 @@ function clean()
         [CommonIO]::WriteToBuffer("`t`tFailed!", + `
                                     [LogMessageLevel]::Error, + `
                                     $false);
-    } # if : Failed to Delete Directory - Logs\Reports
-
-
-
-    # User Configuration
-    #        AND
-    # Installed Projects
-    # -----------
-    # -----------
-
-
-    # Delete the user configuration AND installed projects
-    if ($programMode -eq [CleanUpModeType]::DeepCleanUp)
-    {
-        [CommonIO]::WriteToBuffer("`tUser Configuration and Installed Projects`r`n`t`t$GLOBAL:_PROGRAMDATA_ROAMING_ROOT_PATH_", + `
-                                    [LogMessageLevel]::Warning, + `
-                                    $false);
-
-
-        if (![CommonIO]::DeleteDirectory($GLOBAL:_PROGRAMDATA_ROAMING_ROOT_PATH_))
-        {
-            # Raise the error flag
-            if (!$errorFlag) {$errorFlag = $true;}
-
-            # Include the directory path.
-            $messageBoxError += "`r`n>>> $($GLOBAL:_PROGRAMDATA_ROAMING_ROOT_PATH_)";
-
-            # Show that the directory could not be removed.
-            [CommonIO]::WriteToBuffer("`t`tFailed!", + `
-                                        [LogMessageLevel]::Error, + `
-                                        $false);
-        } # if : Failed to Delete Directory - User Configuration\Installed Projects
-    } # if : Deep Clean Up
+    } # if : Failed to Delete Directory - Logs
 
 
 
@@ -288,18 +223,3 @@ function clean()
     # Operation had been finished, return the main operation return code.
     return $exitLevel;
 } # clean()
-
-
-
-
-<# Clean Up Mode Type [ENUM]
- # -------------------------------
- # This provides specific cleanup types that can be handled within the clean functionality.
- # -------------------------------
- #>
-enum CleanUpModeType
-{
-    Nothing     = 0;        # No cleaning is required
-    CleanUp     = 1;        # Standard Cleanup Operation
-    DeepCleanUp = 2;        # Deep Cleanup Operation
-} # CleanUpModeType

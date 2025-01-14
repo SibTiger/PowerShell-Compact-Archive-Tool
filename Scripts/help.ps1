@@ -49,7 +49,6 @@
     Program Mode [integer value]
         0 = Normal mode; compile projects (Default)
         1 = Clean up mode; remove some generated data
-        2 = Deep clean up mode; removes all generated data
 
 .OUTPUTS
     Operation Return Code

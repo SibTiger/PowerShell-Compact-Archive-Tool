@@ -123,12 +123,11 @@ CreateDirectories | Out-Null;
 
 
 
-# Should the program launch in (Deep) Clean-Up mode?
-if (($programMode -gt 0) -and `
-    ($programMode -le 2))
+# Should the program launch in Clean-Up mode?
+if ($programMode -eq 1)
 {
-    # Launch the (deep) cleanup mode.
-    $returnState = clean -programMode $programMode;
+    # Launch the cleanup mode.
+    $returnState = clean;
 } # Clean-Up Mode
 
 # Run the application normally
