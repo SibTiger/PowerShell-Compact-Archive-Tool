@@ -110,7 +110,6 @@ function CheckProgramDirectories()
     return (([CommonIO]::CheckPathExists($GLOBAL:_USERDATA_ROOT_PATH_, $true) -eq $true)                        -and `      # The Program Root Directory
             ([CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_LOCAL_ROOT_PATH_, $true)              -eq $true)  -and `      # The Program Data Root [Local]
             ([CommonIO]::CheckPathExists($GLOBAL:_PROGRAMDATA_LOCAL_PROGRAM_LOGS_PATH_, $true)      -eq $true));            # The Program Data Logs [Local]
-            
 } # CheckProgramDirectories()
 
 
