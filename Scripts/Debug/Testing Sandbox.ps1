@@ -9,14 +9,7 @@ function main()
     Initializations;
 
     # Initialize the objects
-    [UserPreferences] $userPref = [UserPreferences]::GetInstance();
-
-    [DefaultCompress] $psArchive = [DefaultCompress]::new(0, `     # Compression Level
-                                                          $true, ` # Verify Build
-                                                          $true);  # Generate Report
-    
-    [LoadSaveUserConfiguration] $loadSaveConfigs = `
-                [LoadSaveUserConfiguration]::new("$($Global:_PROGRAMDATA_CONFIGS_PATH_)");
+    [ArchiveZip] $psArchive = [ArchiveZip]::new();
 
 
     # Check Special Directories
@@ -47,10 +40,10 @@ function main()
 
     # Verbose     [6]
     [Logging]::DisplayMessage("VERBOSE MESSAGE`r`nThis is the message that would appear for text that is in this block.", "Verbose");
-    
+
     # Default     [UNKNOWN]
     [Logging]::DisplayMessage("DEFAULT MESSAGE`r`nThis is the message that would appear for text that is in this block.", "UNKNOWN");
-    
+
     # User Input - THIS SHOULD FAIL!
     [Logging]::DisplayMessage("USER INPUT MESSAGE`r`nThis is a message that would not appear as it is user input - seriously this should fail!", "UserInput");
     # Get Input
@@ -73,69 +66,12 @@ function main()
     #>
 
 
-    # Save\Load Functionality
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    #Write-Host "Load Configuration Status: $($loadSaveConfigs.Load($userPref, $psArchive))`r`n";
-    
-    #Write-Host "Saved Configuration Status: $($loadSaveConfigs.Save($userPref, $psArchive))`r`n";
-    #>
-
-
-    # IOCommon - Rename
-   <# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    #Write-Host "Renamed Directory Status: $([IOCommon]::RenameItem("F:\POSH Dev\powershit\files\play.txt", "MyPlayground.txt2"))";
-    #Write-Host "Renamed DIrectory Status [Bad Path]: $([IOCommon]::RenameItem("F:\POSH Dev\powershit\files\play.txt", "MyPlayground.txt2"))";
-    #Write-Host "Renamed DIrectory Status [No Name]: $([IOCommon]::RenameItem("F:\POSH Dev\powershit\files\play.txt", "$($null)"))";
-    #>
-
-
-    # IOCommon - Move Directory
-    <# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Write-Host "Moved Directory Status: $([IOCommon]::MoveDirectory("C:\Users\Nicholas\Desktop\test", "C:\Users\Nicholas\Desktop\House"))";
-    Write-Host "Moved Directory Status [Bad Target]: $([IOCommon]::MoveDirectory("C:\Users\Nicholas\Desktop\house\test1", "C:\Users\Nicholas\Desktop"))";
-    Write-Host "Moved Directory Status [Bad Destination]: $([IOCommon]::MoveDirectory("C:\Users\Nicholas\Desktop\test", "C:\Users\Nicholas\Desktop\House1"))";
-    Write-Host "Moved Directory Status [Bad Permissions]: $([IOCommon]::MoveDirectory("C:\Users\Nicholas\Desktop\testBadPermissions", "C:\Users\Nicholas\Desktop\House"))";
-    #>
-
-
-    # IOCommon - Move Files
-    <# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    [string[]] $fileMoveList = @("*.txt", "New Microsoft Word Document (3).docx");
-    Write-Host "Moved Files Status: $([IOCommon]::MoveFile("C:\Users\Nicholas\Desktop\test", "C:\Users\Nicholas\Desktop\House", $fileMoveList))";
-    Write-Host "Moved Directory Status [Bad Target]: $([IOCommon]::MoveFile("C:\Users\Nicholas\Desktop\house\test1", "C:\Users\Nicholas\Desktop", $fileMoveList))";
-    Write-Host "Moved Directory Status [Bad Destination]: $([IOCommon]::MoveFile("C:\Users\Nicholas\Desktop\test", "C:\Users\Nicholas\Desktop\House1", $fileMoveList))";
-    Write-Host "Moved Directory Status [Bad Permissions]: $([IOCommon]::MoveFile("C:\Users\Nicholas\Desktop\testBadPermissions", "C:\Users\Nicholas\Desktop\House", $fileMoveList))";
-    #>
-
-
     # IOCommon - Copy Directory
     <# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Write-Host "Copied Directory Status: $([IOCommon]::CopyDirectory("C:\Users\Nicholas\Desktop\test", "C:\Users\Nicholas\Desktop\house"))";
     Write-Host "Copied Directory Status [Bad Target]: $([IOCommon]::CopyDirectory("C:\Users\Nicholas\Desktop\test1", "C:\Users\Nicholas\Desktop\house"))";
     Write-Host "Copied Directory Status [Bad Destination]: $([IOCommon]::CopyDirectory("C:\Users\Nicholas\Desktop\test", "C:\Users\Nicholas\Desktop\house1"))";
     Write-Host "Copied Directory Status [Bad Permissions]: $([IOCommon]::CopyDirectory("C:\Users\Nicholas\Desktop\testBadPermissions", "C:\Users\Nicholas\Desktop\house"))";
-    #>
-
-
-    # IOCommon - Copy Files
-    <# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    [string[]] $fileCopyList = @("*.txt", "New Microsoft Word Document (3).docx");
-    Write-Host "Copied Directory Status: $([IOCommon]::CopyFile("C:\Users\Nicholas\Desktop\test", "C:\Users\Nicholas\Desktop\house", $fileCopyList))";
-    Write-Host "Copied Directory Status [Bad Target]: $([IOCommon]::CopyFile("C:\Users\Nicholas\Desktop\test1", "C:\Users\Nicholas\Desktop\house", $fileCopyList))";
-    Write-Host "Copied Directory Status [Bad Destination]: $([IOCommon]::CopyFile("C:\Users\Nicholas\Desktop\test", "C:\Users\Nicholas\Desktop\house1", $fileCopyList))";
-    Write-Host "Copied Directory Status [Bad Permissions]: $([IOCommon]::CopyFile("C:\Users\Nicholas\Desktop\testBadPermissions", "C:\Users\Nicholas\Desktop\house", $fileCopyList))";
-    #>
-
-
-
-    # IOCommon - Search Item (Search Depth)
-    <# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    [System.IO.FileSystemInfo[]] $results = $([IOCommon]::SearchFile("E:\", "*Links*.*"));
-    Write-Host "Found the following hits: $($results.Count)";
-    Foreach ($item in $results)
-    {
-        write-host "`t>> $($item.FullName)";
-    }
     #>
 
 
@@ -148,7 +84,7 @@ function main()
                  "www.facebook.com");
     foreach ($item in $webList)
     {
-        Write-Host "Trying Website: $($item)" 
+        Write-Host "Trying Website: $($item)"
                    "   Webpage Access Status: $([IOCommon]::AccessWebpage("$($item)"))";
     } # Website List
     #>
@@ -158,7 +94,7 @@ function main()
     # PowerShell Archive
     <# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Delete all logs and reports
-    Write-Host "Deleting logs and reports status: $($psArchive.ThrashLogs($true))";
+    Write-Host "Deleting logs and reports status: $($psArchive.DeleteLogs($true))";
 
     # Detect PowerShell Archive
     Write-Host "Archive Module Detection status: $($psArchive.DetectCompressModule())";
@@ -168,32 +104,10 @@ function main()
     Write-Host "Created %TEMP% Directory Status: $([IOCommon]::MakeTempDirectory("Test", [ref] $TempDir))";
     Write-Host "  Directory Path is: $($TempDir)";
 
-    # Verify Archive File - CORRUPTED TEST
-    Write-Host "Archive File Test [Corrupted] Status: $($psArchive.VerifyArchive("F:\POSH Dev\powershit\files\corrupted-deflate.zip"))";
-
-    # Verify Archive File
-    Write-Host "Archive File Test Status: $($psArchive.VerifyArchive("F:\POSH Dev\powershit\files\tgrdm3-deflate.zip"))";
-
-    # List of Files
-    [string] $fileList = "$($psArchive.ListFiles("F:\POSH Dev\powershit\files\tgrdm3-deflate.zip", $true))";
-    [string] $fileList = "$($psArchive.ListFiles("F:\POSH Dev\powershit\files\corrupted-deflate.zip", $true))";
-    Write-Host "Archive File List:`r`n$($fileList)";
-
-    # Extract files
-    [string] $extractOutput = $null;
-    Write-Host "Extract Status: $($psArchive.ExtractArchive("F:\POSH Dev\powershit\files\tgrdm3-deflate.zip", "F:\POSH Dev\powershit\files\extract", [ref] $extractOutput))";
-    Write-Host "  Directory Path is: $($extractOutput)";
-
-    Write-Host "Extract Status [1]: $($psArchive.ExtractArchive("F:\POSH Dev\powershit\files\corrupted-deflate.zip", "F:\POSH Dev\powershit\files\extract", [ref] $extractOutput))";
-    Write-Host "  Directory Path is [1]: $($extractOutput)";
-
     # Create Archivefile
     [string] $archiveOutput = $null;
     Write-Host "Create Archive File Status: $($psArchive.CreateArchive("NewTestBuild", "F:\POSH Dev\powershit\files\extract", "C:\Users\Nicholas\AppData\Local\Programs\GZDoom*", [ref] $archiveOutput))";
     Write-Host "  Archive Path is: $($archiveOutput)";
-
-    # Generate a Report
-    Write-Host "Generate Report Status: $($psArchive.CreateNewReport("F:\POSH Dev\powershit\files\tgrdm3-deflate.zip", $true))";
     #>
 
 
@@ -210,16 +124,6 @@ function main()
 
 # Flush the terminal's buffer.
 [IOCommon]::ClearBuffer();
-
-
-
-# User Preferences
-$userPreferences = [UserPreferences]::GetInstance(0, `                                                         # Compression
-                                    "$($env:HOMEDRIVE)$($env:HOMEPATH)\Projects\ZDoom WADs\Alphecca\Source", ` # Project Path
-                                    "$($global:_USERDATA_BUILDS_PATH_)", `                                     # Output
-                                    $true, `                                                                   # Use Explorer.exe?
-                                    $true, `                                                                   # Use Bell?
-                                    0);
 #Write-Host ("PARENT User Preference GUID is: $($userPreferences.GetObjectGUID())`r`n");
 # Start the program
 main;

@@ -40,10 +40,8 @@ param(
     #   0 = Normal Mode (Default)
     #       Software runs normally, no changes.
     #   1 = Clean Up Mode
-    #       Deletes all builds, logs, and report files.
-    #   2 = Deep Clean Up Mode
-    #       Deletes all builds, logs, report files, and user configuration.
+    #       Deletes all builds and logs.
     [Parameter(Mandatory=$false)]
-    [ValidateRange(0, 2)]
+    [ValidateRange(0, 1)]
     [byte]$programMode = 0
 ) # Startup Arguments

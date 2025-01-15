@@ -64,7 +64,7 @@ function main()
     Set-Variable -Name "share" -Value "None" `
         -Scope Local;
     # ---------------------------------
-    
+
     # Check if the file exists and then execute the appropriate statements.
     if (Test-Path -Path $path)
     {
@@ -88,7 +88,7 @@ function main()
         # Warn the user that the file was not found
         Write-Host "<!> Unable to find $($fileName) <!>";
         write-Host "Assure that the $($fileName) exists within the root of the project source.";
-        
+
         # Close with a failure signal
         return 1;
     } # File does not exist

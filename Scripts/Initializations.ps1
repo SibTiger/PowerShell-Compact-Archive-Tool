@@ -40,89 +40,15 @@ function Initializations()
     # Program Data and Internal Mutable Data
     InitializationProgramData;
 
-    # Directory Paths - Program
-    __Initialization_DirectorySetupDriver([InitializationsDirectoryChoice]::Program);
+    # Directory Paths
+    InitializationDirectoryPaths
 
     # Program environment
     InitializationEnvironment;
 
-    # Project Manager Manager
-    __InitializationProjectManager;
-
-    # Project User Configuration
-    __InitializationProjectUserConfiguration;
-
     # Generalized Variables
-    __GeneralizedVariables;
+    GeneralizedVariables;
 } # Initializations()
-
-
-
-
-<# Initializations - Update Project Paths
- # -------------------------------
- # Documentation:
- #  This function, when called, will update the project path global variables.  This is useful
- #   for when a project had been loaded after the initialization ritual, but we need to have the
- #   paths updated.
- #  Thus, when we need to load-in a new project into the environment, then we also need to update
- #   the project paths as well.  This is where this function comes into play.
- #
- # NOTE: This function is NOT intended to be loaded before the main Initialization function driver.
- # -------------------------------
- #>
-function Initializations_UpdateProjectPaths()
-{
-    # Directory Paths - Project Environment
-    __Initialization_DirectorySetupDriver([InitializationsDirectoryChoice]::Project);
-} # Initializations_UpdateProjectPaths()
-
-
-
-
-<# Initializations - Directory Driver
- # -------------------------------
- # Documentation:
- #  This function will provide a gateway into initializing the desired directory global variables.
- #
- # NOTE:
- #  It is strongly recommended to initialize the Program directories before initializing any other
- #   directory variables!
- # -------------------------------
- # Input:
- #  [InitializationsDirectoryChoice] Directory Setup
- #   This will determine what directory variables are to be initialized or re-assigned.
- # -------------------------------
-#>
-function __Initialization_DirectorySetupDriver([InitializationsDirectoryChoice] $directorySetup)
-{
-    # Determine what directory variables to initialize
-    switch ($directorySetup)
-    {
-        # Program Directories
-        ([InitializationsDirectoryChoice]::Program)
-        {
-            # Setup the Program's directories
-            InitializationDirectoryPaths_Program;
-
-
-            # Finished!
-            break;
-        } # Program Directories
-
-
-        # Project Directories
-        ([InitializationsDirectoryChoice]::Project)
-        {
-            # Setup the Loaded Project's directories
-            InitializationDirectoryPaths_Project;
-
-
-            # Finished!
-            break;
-        } # Project Directories
-    } # switch : Determine Directory Initializations
-} # __Initialization_DirectorySetupDriver()
 
 
 
@@ -161,7 +87,7 @@ function InitializationProgramIdentity()
     # Version
     Set-Variable `
         -Name "_VERSION_" `
-        -Value "1.2.0 [Alpha]" `
+        -Value "1.2.0 [Beta]" `
         -Scope Global `
         -Option ReadOnly `
         -Visibility Public `
@@ -184,7 +110,7 @@ function InitializationProgramIdentity()
     # Date Format: DD.MM.YYYY with leading zeros
     Set-Variable `
         -Name "_RELEASEDATE_" `
-        -Value "DD.MM.2025" `
+        -Value "18.01.2025" `
         -Scope Global `
         -Option ReadOnly `
         -Visibility Public `
@@ -284,17 +210,6 @@ function InitializationProgramSites()
  #>
 function InitializationProgramData()
 {
-    # Debug Logging functionality
-    Set-Variable `
-        -Name "_DEBUGLOGGING_" `
-        -Value $true `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "Allows control to either enable or disable the program's logging functionalities.";
-
-
     # Splash Screen Hold Timer (Seconds)
     #  How many seconds the splash screen will remain visible to the user, yet locking the
     #  program from proceeding onwards.
@@ -311,14 +226,14 @@ function InitializationProgramData()
 
 
 
-<# Initialization Directory Paths - Program Paths
+<# Initialization Directory Paths
  # -------------------------------
  # Documentation:
  #  This function will initialize variables that will provide the directory paths used
  #   for the program's needs within the host system.
  # -------------------------------
  #>
-function InitializationDirectoryPaths_Program()
+function InitializationDirectoryPaths()
 {
     # Script Absolute Script Path
     # ---------------
@@ -384,241 +299,23 @@ function InitializationDirectoryPaths_Program()
         -Description "Contains the program's main logfile regarding every action and output.";
 
 
-    # Program-Data Program Art Image Path
-    # ---------------
-    # The directory that will contain the program's images that will be visible using Windows' Toast Notifications.
-    Set-Variable `
-        -Name "_PROGRAMDATA_LOCAL_IMAGES_PATH_" `
-        -Value "$($GLOBAL:_PROGRAMDATA_LOCAL_ROOT_PATH_)\Images" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -Force `
-        -ErrorAction SilentlyContinue `
-        -Description "Holds the path for the program's art pieces, such as logo and banner images.";
-
-
-    # Program-Data Program Logo Image Path
-    # ---------------
-    # The program's logo image that will be shown within the Windows Toast Notifications
-    Set-Variable `
-        -Name "_PROGRAMDATA_LOCAL_IMAGES_LOGO_PATH_" `
-        -Value "$($GLOBAL:_PROGRAMDATA_LOCAL_IMAGES_PATH_)\Logo.png" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -Force `
-        -ErrorAction SilentlyContinue `
-        -Description "Holds the path of the program's logo image that will be visible in Windows Toast Notifications.";
-
-
-    # Program-Data Program Banner Image Path
-    # ---------------
-    # The program's banner image (formally known as a Hero Image) that will be shown within the Windows Toast Notifications
-    Set-Variable `
-    -Name "_PROGRAMDATA_LOCAL_IMAGES_BANNER_PATH_" `
-        -Value "$($GLOBAL:_PROGRAMDATA_LOCAL_IMAGES_PATH_)\Banner.png" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -Force `
-        -ErrorAction SilentlyContinue `
-        -Description "Holds the path of the program's banner image that will be visible in Windows Toast Notifications.";
-
-
 
     # ----
-    # Program Data [Roaming AppData]
+    # Output Directories
 
 
-    # Program-Data Parent Directory Path
+    # Output Builds Directory Path
     # ---------------
-    # The root directory where program-data will be stored.
+    # The compiled builds directory path
     Set-Variable `
-        -Name "_PROGRAMDATA_ROAMING_ROOT_PATH_" `
-        -Value "$(FetchPathAppDataRoaming)\$($GLOBAL:_PROGRAMNAME_)" `
+        -Name "_OUTPUT_BUILDS_PATH_" `
+        -Value "$(FetchPathUserDocuments)\$($GLOBAL:_PROGRAMNAME_)" `
         -Scope Global `
         -Option ReadOnly `
         -Visibility Public `
         -ErrorAction SilentlyContinue `
-        -Description "Holds the root path in which the program data will be stored, but can be moved around within a Roaming Profile environment.";
-
-
-    # User Data (Configuration)
-    # ---------------
-    # This directory will hold the user's configurations.
-    Set-Variable `
-        -Name "_PROGRAMDATA_ROAMING_USERCONFIG_PATH_" `
-        -Value "$($GLOBAL:_PROGRAMDATA_ROAMING_ROOT_PATH_)\Configs" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "Holds the parent path in which holds the user's configurations.";
-
-
-    # User Data (Project Installation Path)
-    # ---------------
-    # This directory will hold the user's installed projects.
-    Set-Variable `
-        -Name "_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_" `
-        -Value "$($GLOBAL:_PROGRAMDATA_ROAMING_ROOT_PATH_)\Projects" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "Holds the parent path in which contains the user's installed projects.";
-} # InitializationDirectoryPaths_Program()
-
-
-
-
-<# Initialization Directory Paths - Project Paths
- # -------------------------------
- # Documentation:
- #  This function will initialize variables that will provide the directory paths used
- #   for loaded projects within the host system.
- # -------------------------------
- #>
-function InitializationDirectoryPaths_Project()
-{
-    # ----
-    # User Data
-
-
-    # User-Data Project Parent Project Directory Path
-    # ---------------
-    # The project's parent directory where the user's data will be stored.
-    Set-Variable `
-        -Name "_USERDATA_PROJECT_PATH_" `
-        -Value "$($GLOBAL:_USERDATA_ROOT_PATH_)\$([ProjectInformation]::projectName)" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -Force `
-        -ErrorAction SilentlyContinue `
-        -Description "Provides the project's directory to help separate from other potential projects.";
-
-
-    # Output Parent Directory Path
-    # ---------------
-    # The root directory that the builds reside.
-    Set-Variable `
-        -Name "_USERDATA_PROJECT_BUILDS_PATH_" `
-        -Value "$($GLOBAL:_USERDATA_PROJECT_PATH_)\Builds" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -Force `
-        -ErrorAction SilentlyContinue `
-        -Description "Holds the parent path in which all complied builds will be stored.";
-
-
-    # Output Release Directory Path
-    # ---------------
-    # The directory that holds the 'Release' builds.
-    Set-Variable `
-        -Name "_USERDATA_PROJECT_BUILDS_RELEASE_PATH_" `
-        -Value "$($GLOBAL:_USERDATA_PROJECT_BUILDS_PATH_)\Release" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -Force `
-        -ErrorAction SilentlyContinue `
-        -Description "Holds the path for all released compiled builds that will be stored.";
-
-
-    # Output Development Directory Path
-    # ---------------
-    # The directory that holds the 'Development' builds.
-    Set-Variable `
-        -Name "_USERDATA_PROJECT_BUILDS_DEVELOPMENT_PATH_" `
-        -Value "$($GLOBAL:_USERDATA_PROJECT_BUILDS_PATH_)\Development" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -Force `
-        -ErrorAction SilentlyContinue `
-        -Description "Holds the path for all developmental compiled builds that will be stored.";
-
-
-    # ----
-    # Program Data [Local AppData]
-
-
-    # Program-Data Project Parent Directory Path
-    # ---------------
-    # The project parent directory where program-data will be stored.
-    Set-Variable `
-        -Name "_PROGRAMDATA_LOCAL_PROJECT_PATH_" `
-        -Value "$($GLOBAL:_PROGRAMDATA_LOCAL_ROOT_PATH_)\$([ProjectInformation]::projectName)" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -Force `
-        -ErrorAction SilentlyContinue `
-        -Description "This will contain the path as to where all related data of a loaded project will be stored.";
-
-
-    # Log Directory for Projects Path
-    # ---------------
-    # The directory that will contain the log-files regarding activity that occurs while a project is loaded, such as operations.
-    Set-Variable `
-        -Name "_PROGRAMDATA_LOCAL_PROJECT_LOGS_PATH_" `
-        -Value "$($GLOBAL:_PROGRAMDATA_LOCAL_PROJECT_PATH_)\Logs" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -Force `
-        -ErrorAction SilentlyContinue `
-        -Description "This will hold the logfiles regarding each operation taken place within the loaded project.";
-
-
-    # ----
-    # Program Data [Roaming AppData]
-
-
-    # Project Art Directory Path
-    # ---------------
-    # The directory that will contain the project's images that will be visible using Windows' Toast Notifications.
-    Set-Variable `
-        -Name "_PROGRAMDATA_ROAMING_PROJECT_ART_PATH_" `
-        -Value "$($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_HOME_PATH_)\$([ProjectInformation]::projectName)\Art" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -Force `
-        -ErrorAction SilentlyContinue `
-        -Description "Holds the path for the project's art pieces, such as logo and banner images.";
-
-
-    # Project Logo Art
-    # ---------------
-    # The project's logo image that will be shown within the Windows Toast Notifications.
-    Set-Variable `
-        -Name "_PROGRAMDATA_ROAMING_PROJECT_ART_LOGO_PATH_" `
-        -Value "$($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_ART_PATH_)\Logo.png" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -Force `
-        -ErrorAction SilentlyContinue `
-        -Description "Holds the path of the project's logo image that will be visible in Windows Toast Notifications.";
-
-
-    # Project Banner Art
-    # ---------------
-    # The project's banner image (also known as Hero Image) that will be shown within the Windows Toast Notifications.
-    Set-Variable `
-        -Name "_PROGRAMDATA_ROAMING_PROJECT_ART_BANNER_PATH_" `
-        -Value "$($GLOBAL:_PROGRAMDATA_ROAMING_PROJECT_ART_PATH_)\Banner.png" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -Force `
-        -ErrorAction SilentlyContinue `
-        -Description "Holds the path of the project's banner image that will be visible in Windows Toast Notifications.";
-} # InitializationDirectoryPaths_Project()
+        -Description "Contains the parent path where the compiled builds will be stored.";
+} # InitializationDirectoryPaths()
 
 
 
@@ -652,7 +349,7 @@ function InitializationEnvironment()
  #  This function will initialize generalized variables that can be used within the program.
  # -------------------------------
  #>
-function __GeneralizedVariables()
+function GeneralizedVariables()
 {
     # Default GUID
     Set-Variable `
@@ -663,194 +360,7 @@ function __GeneralizedVariables()
         -Visibility Public `
         -ErrorAction SilentlyContinue `
         -Description "Provides a zero filled GUID that will act as a temporary default.";
-} # __GeneralizedVariables()
-
-
-
-
-<# Initialization: Project User Configuration
- # -------------------------------
- # Documentation:
- #  This function will initialize the variables that will be used within the Project User Configuration Functionality.
- # -------------------------------
- #>
-function __InitializationProjectUserConfiguration()
-{
-    # Project User Configuration Filename
-    Set-Variable `
-        -Name "_PROJECT_USERCONFIG_FILENAME_" `
-        -Value "userconfig" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "Provides the filename of the user's Project User Configuration file.";
-
-
-    # Required User Config. string data (Natural Numbers)
-    Set-Variable `
-        -Name "_PROJECT_USERCONFIG_REQUIRED_NUMBER_OF_STRINGS_" `
-        -Value 1 `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "The required number of strings that must be obtained from the User Config. file.";
-
-
-    # User Configuration Value Delimiter
-    Set-Variable `
-        -Name "_PROJECT_USERCONFIG_VALUE_DELIMITER_" `
-        -Value "=" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "This defines the delimiter that marks the value of a variable within the User Config. file.";
-
-
-    # User Configuration Game Project Source Path
-    Set-Variable `
-        -Name "_PROJECT_USERCONFIG_STRING_SOURCE_PATH_" `
-        -Value "GameProjectSourcePath" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "A string within the User Configuration file that contains a path to the Source directory.";
-} # __InitializationProjectUserConfiguration()
-
-
-
-
-<# Initialization: Project Manager
- # -------------------------------
- # Documentation:
- #  This function will initialize the variables that will be used within the Project Manager functionality.
- # -------------------------------
- #>
-function __InitializationProjectManager()
-{
-    # Project's Meta Filename
-    Set-Variable `
-        -Name "_META_FILENAME_" `
-        -Value "meta" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "Provides the filename of the project's meta file.";
-
-
-    # Required meta string data (Natural Numbers)
-    Set-Variable `
-        -Name "_META_REQUIRED_NUMBER_OF_STRINGS_" `
-        -Value 8 `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "The required number of strings that must be obtained from the Meta file.";
-
-
-    # Meta Value Delimiter
-    Set-Variable `
-        -Name "_META_VALUE_DELIMITER_" `
-        -Value "=" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "This defines the delimiter that marks the value of a variable within the meta file.";
-
-
-    # Meta string for 'Project Name' found within the project's meta file.
-    Set-Variable `
-        -Name "_META_STRING_PROJECT_NAME_" `
-        -Value "Project_Name" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "A string within the project's meta file that contains the Project's Name.";
-
-
-    # Meta string for 'Project Code Name' found within the project's meta file.
-    Set-Variable `
-        -Name "_META_STRING_PROJECT_CODE_NAME_" `
-        -Value "Project_CodeName" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "A string within the project's meta file that contains the Project's Code Name.";
-
-
-    # Meta string for 'Project Revision' found within the project's meta file.
-    Set-Variable `
-        -Name "_META_STRING_PROJECT_REVISION_" `
-        -Value "Project_Revision" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "A string within the project's meta file that contains the Project's Revision.";
-
-
-    # Meta string for 'Project Output File Name' found within the project's meta file.
-    Set-Variable `
-        -Name "_META_STRING_PROJECT_OUTPUT_FILENAME_" `
-        -Value "Project_OutputFileName" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "A string within the project's meta file that contains the Project's Output File Name.";
-
-
-    # Meta string for 'Project Website URL' found within the project's meta file.
-    Set-Variable `
-        -Name "_META_STRING_PROJECT_URL_WEBSITE_" `
-        -Value "Project_WebsiteURL" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "A string within the project's meta file that contains the Project's Website URL.";
-
-
-    # Meta string for 'Project Wiki URL' found within the project's meta file.
-    Set-Variable `
-        -Name "_META_STRING_PROJECT_URL_WIKI_" `
-        -Value "Project_WikiURL" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "A string within the project's meta file that contains the Project's Wiki URL.";
-
-
-    # Meta string for 'Project Source Code URL' found within the project's meta file.
-    Set-Variable `
-        -Name "_META_STRING_PROJECT_URL_SOURCE_CODE_" `
-        -Value "Project_SourceCodeURL" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "A string within the project's meta file that contains the Project's Source Code URL.";
-
-
-    # Meta string for 'Project Signature' found within the project's meta file.
-    Set-Variable `
-        -Name "_META_STRING_PROJECT_SIGNATURE_" `
-        -Value "Project_Signature" `
-        -Scope Global `
-        -Option ReadOnly `
-        -Visibility Public `
-        -ErrorAction SilentlyContinue `
-        -Description "A string within the project's meta file that contains the Project's Signature.";
-} # __InitializationProjectManager()
+} # GeneralizedVariables()
 
 
 
@@ -899,18 +409,3 @@ function FetchPathAppDataRoaming() { return $env:APPDATA; }
  # -------------------------------
  #>
 function FetchPathUserDocuments() { return "$($env:HOMEDRIVE)$($env:HOMEPATH)\Documents"; }
-
-
-
-
-<# Initialize Directory Choice [ENUM]
- # -------------------------------
- # Provides a readability aid as to what directories are to be
- #  initialized or re-assigned if necessary.
- # -------------------------------
- #>
-enum InitializationsDirectoryChoice
-{
-    Program     = 0;    # Program Directories
-    Project     = 1;    # Project Directories
-} # InitializationsDirectoryChoice

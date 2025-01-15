@@ -25,11 +25,7 @@
  # This class allows the ability for the user to interact with the application and to
  #  access the functionality that is available within the program.  Thus, the main menu
  #  provides a way for the user to perform any essential task possible within the
- #  application.  If the main menu object where to fail, for any reason at-all, then
- #  the user cannot perform any meaningful tasks within application.  The Main Menu
- #  will allow the user to perform requests to configure the application's settings,
- #  compile the desired project, or to perform miscellaneous operations that are
- #  available by the program's Main Menu.
+ #  application.
  #>
 
 
@@ -40,9 +36,8 @@ class MainMenu
    <# Main Menu Driver
     # -------------------------------
     # Documentation:
-    #   This function allows the user to see and select from all the available
-    #   options that exists within the program.  This function is essentially
-    #   a driver in which the user can perform various operations as requested.
+    #  This function will present the Main Menu to the user, where the user
+    #   can choose what the program will be doing.
     # -------------------------------
     # Output:
     #  [integer] Exit Level
@@ -105,107 +100,65 @@ class MainMenu
     # -------------------------------
     # Documentation:
     #  This function will essentially draw the Main Menu list the user.  Thus this function
-    #   provides what features and options are available to the user.
+    #   provides what options are available to the user.
     # -------------------------------
     #>
     hidden static [void] __DrawMainMenu()
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Retrieve the current instance of the Project Information object; this contains details
-        #  in regards to where the source files exists within the user's system.
-        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
-
-
-        # These variables will determine what menus are to be hidden from the user,
+        # These variables will determine what menu items are to be hidden from the user,
         #  as the options are possibly not available.
-        [bool] $showMenuBuildRelease        = $true;    # Build: Release
-        [bool] $showMenuBuildDevelopment    = $true;    # Build: Development
-        [bool] $showMenuProjectHomePage     = $true;    # Project's Homepage
-        [bool] $showMenuProjectWikiPage     = $true;    # Project's Wiki Page
-        [bool] $showMenuProjectSourceCode   = $true;    # Project's Source Code
+        [bool] $showOptionBuild     = $false;    # Build Project
+        [bool] $showOptionWebpage   = $false;    # Project's Webpage
+
+        # This string will show what project is presently loaded into the program's environment.
+        #   However, if and only if, a project /is/ loaded.
+        [string] $projectName       = $NULL;
         # ----------------------------------------
 
 
 
         # Determine what options are to be hidden or to be visible to the user.
-        [MainMenu]::__DrawMenuDetermineHiddenMenus([ref] $showMenuProjectHomePage, `        # Project's Homepage
-                                                    [ref] $showMenuProjectWikiPage, `       # Project's Wiki Page
-                                                    [ref] $showMenuProjectSourceCode, `     # Project's Source Code
-                                                    [ref] $showMenuBuildRelease, `          # Build: Release
-                                                    [ref] $showMenuBuildDevelopment);       # Build: Development
+        [MainMenu]::__DrawMenuDetermineHiddenMenus( [ref] $showOptionBuild, `   # Build Project
+                                                    [ref] $showOptionWebpage);  # Project's Webpage
+
+        # Show the Project Name to the user, if one is presently loaded into the program's environment.
+        if ([ProjectInformation]::GetIsLoaded())
+        { $projectName = "Project Loaded is: " + [ProjectInformation]::GetProjectName(); }
+        else
+        { $projectName = "No project is presently loaded; please select a project to continue."; }
 
 
 
         # Display the Main Menu list
 
-        # Generate Project and View Project Information
-        if ($showMenuBuildRelease)
+        # Build Project
+        if ($showOptionBuild)
         {
             [CommonCUI]::DrawMenuItem('B', `
-                                    "Build $($projectInformation.GetProjectName())", `
-                                    "Create a new build of the $($projectInformation.GetProjectName()) ($($projectInformation.GetCodeName())) project.", `
+                                    "Build the Project, $([ProjectInformation]::GetProjectName())", `
+                                    "Create a new build of the $([ProjectInformation]::GetProjectName()) project.", `
                                     $NULL, `
                                     $true);
-        } # if : Show Build: Release
+        } # if : Show Build Project
 
 
-        # Generate Development Project and View Dev. Project Information
-        if ($showMenuBuildDevelopment)
-        {
-            [CommonCUI]::DrawMenuItem('D', `
-                                    "Build a Development Build of $($projectInformation.GetProjectName())", `
-                                    "Create a new dev. build of the $($projectInformation.GetProjectName()) ($($projectInformation.GetCodeName())) project.", `
-                                    $NULL, `
-                                    $true);
-        } # if : Show Build: Development
-
-
-        # Project's Homepage
-        if ($showMenuProjectHomePage)
+        # Project's Webpage
+        if ($showOptionWebpage)
         {
             [CommonCUI]::DrawMenuItem('H', `
-                                    "$($projectInformation.GetProjectName()) Homepage", `
-                                    "Access the $($projectInformation.GetProjectName())'s Homepage online.", `
+                                    "Access the project's, $([ProjectInformation]::GetProjectName()), webpage", `
+                                    [ProjectInformation]::GetProjectWebsite(), `
                                     $NULL, `
                                     $true);
-        } # if : Show Project's Homepage
+        } # if : Show Project's Webpage
 
 
-        # Project's Wiki
-        if ($showMenuProjectWikiPage)
-        {
-            [CommonCUI]::DrawMenuItem('W', `
-                                    "$($projectInformation.GetProjectName()) Wiki", `
-                                    "Access the $($projectInformation.GetProjectName())'s Wiki documentation online.", `
-                                    $NULL, `
-                                    $true);
-        } # if : Show Project's Wiki Page
-
-
-        # Project's Source Code
-        if ($showMenuProjectSourceCode)
-        {
-            [CommonCUI]::DrawMenuItem('S', `
-                                    "$($projectInformation.GetProjectName()) Source Code", `
-                                    "Access the $($projectInformation.GetProjectName())'s source code online.", `
-                                    $NULL, `
-                                    $true);
-        } # if : Show Project's Source Code
-
-
-        # Project Installer
-        [CommonCUI]::DrawMenuItem('I', `
-                                "Install Projects into $($GLOBAL:_PROGRAMNAMESHORT_)", `
-                                "Install or Update projects into $($GLOBAL:_PROGRAMNAME_)", `
-                                $NULL, `
-                                $true);
-
-
-        # Preferences
-        [CommonCUI]::DrawMenuItem('P', `
-                                "Preferences", `
-                                "Configure how $($GLOBAL:_PROGRAMNAME_) works within your desired environment.", `
+        # Load a new project
+        [CommonCUI]::DrawMenuItem('L', `
+                                "Load a new project into $($GLOBAL:_PROGRAMNAME_).", `
+                                $projectName, `
                                 $NULL, `
                                 $true);
 
@@ -240,64 +193,51 @@ class MainMenu
    <# Evaluate and Execute User's Request
     # -------------------------------
     # Documentation:
-    #  This function will evaluate and execute the user's desired request in respect to
-    #   the Menu options provided.
+    #  This function will evaluate and execute the user's request in respect to
+    #   the Main Menu options provided.
     # -------------------------------
     # Input:
     #  [string] User's Request
-    #   This will provide the user's desired request to run an operation
-    #    or to access a specific functionality.
+    #   This is the user's input to interact within the Main Menu.
     # -------------------------------
     # Output:
     #  [bool] User Stays at Menu
-    #   This defines if the user is to remain at the Menu screen.
-    #   $true  = User is to remain at the Menu.
-    #   $false = User requested to leave the Menu.
+    #   This defines if the user is to remain at the Main Menu screen.
+    #   $true  = User is to remain at the Main Menu.
+    #   $false = User requested to leave the Main Menu.
     # -------------------------------
     #>
     hidden static [bool] __EvaluateExecuteUserRequest([string] $userRequest)
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Retrieve the current instance of the Project Information object; this contains details
-        #  in regards to where the source files exists within the user's system.
-        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
-
-
-        # These variables will determine what menus are to be hidden from the user,
+        # These variables will determine what menu items were hidden from the user,
         #  as the options are possibly not available.
-        [bool] $showMenuBuildRelease        = $true;    # Build: Release
-        [bool] $showMenuBuildDevelopment    = $true;    # Build: Development
-        [bool] $showMenuProjectHomePage     = $true;    # Project's Homepage
-        [bool] $showMenuProjectWikiPage     = $true;    # Project's Wiki Page
-        [bool] $showMenuProjectSourceCode   = $true;    # Project's Source Code
+        [bool] $showOptionBuild     = $false;    # Build Project
+        [bool] $showOptionWebpage   = $false;    # Project's Webpage
         # ----------------------------------------
 
 
 
-        # Determine what options are to be hidden or to be visible to the user.
-        [MainMenu]::__DrawMenuDetermineHiddenMenus([ref] $showMenuProjectHomePage, `        # Project's Homepage
-                                                    [ref] $showMenuProjectWikiPage, `       # Project's Wiki Page
-                                                    [ref] $showMenuProjectSourceCode, `     # Project's Source Code
-                                                    [ref] $showMenuBuildRelease, `          # Build: Release
-                                                    [ref] $showMenuBuildDevelopment);       # Build: Development
+        # Determine what options were hidden from the user.
+        [MainMenu]::__DrawMenuDetermineHiddenMenus( [ref] $showOptionBuild, `   # Build Project
+                                                    [ref] $showOptionWebpage);  # Project's Webpage
 
 
 
         # Determine what action was requested by the user.
         switch ($userRequest)
         {
-            # Build the desired ZDoom project
-            #  NOTE: Allow the user's request when they type: 'Build', 'Make', 'Make $project', 'Build $project', as well as 'B'.
-            {($showMenuBuildRelease) -and
+            # Build the desired project
+            {($showOptionBuild) -and
                 (($_ -eq "B") -or `
                  ($_ -eq "Build") -or `
                  ($_ -eq "Make") -or `
-                 ($_ -eq "Make $($projectInformation.GetProjectName())") -or `
-                 ($_ -eq "Build $($projectInformation.GetProjectName())"))}
+                 ($_ -eq "Make $([ProjectInformation]::GetProjectName())") -or `
+                 ($_ -eq "Build $([ProjectInformation]::GetProjectName())"))}
             {
-                # Build the desired ZDoom based Project
-                [Builder]::Build($false);
+                # Build the desired based Project
+                [Builder]::Build();
 
 
                 # Allow the user to read the results from the Builder before
@@ -307,38 +247,17 @@ class MainMenu
 
                 # Finished
                 break;
-            } # Build ZDoom Project
+            } # Build Project
 
 
-            # Build a developmental build of the desired ZDoom project
-            #  NOTE: Allow the user's request when they type: 'Dev' or 'D'.
-            {($showMenuBuildDevelopment) -and
-                (($_ -eq "D") -or `
-                 ($_ -eq "Dev"))}
-            {
-                # Build the desired ZDoom based Project
-                [Builder]::Build($true);
-
-
-                # Allow the user to read the results from the Builder before
-                #  refreshing the Main Menu screen.
-                [Logging]::GetUserEnterKey();
-
-
-                # Finished
-                break;
-            } # Build ZDoom Project
-
-
-            # Access the ZDoom project's Homepage
-            #  NOTE: Allow the user's request when they type: '$project Homepage' or 'H'.
-            {($showMenuProjectHomePage) -and `
+            # Access the project's Website
+            {($showOptionWebpage) -and `
                 (($_ -eq "H") -or `
-                 ($_ -eq "$($projectInformation.GetProjectName()) Homepage"))}
+                 ($_ -eq "$([ProjectInformation]::GetProjectName()) Webpage"))}
             {
                 # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($projectInformation.GetURLWebsite(),                 ` # Project's Homepage
-                                                            "$($projectInformation.GetProjectName()) Homepage"))    ` # Show page title
+                if (![WebsiteResources]::AccessWebSite_General([ProjectInformation]::GetProjectWebsite(),           ` # Project's Webpage
+                                                            "$([ProjectInformation]::GetProjectName()) Webpage"))   ` # Show page title
                 {
                     # Alert the user that the web functionality did not successfully work as intended.
                     [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
@@ -347,86 +266,29 @@ class MainMenu
 
                 # Finished
                 break;
-            } # Access ZDoom project's Homepage
+            } # Access project's Webpage
 
 
-            # Access the ZDoom project's Wiki Page
-            #  NOTE: Allow the user's request when they type: '$project Wiki' or 'W'.
-            {($showMenuProjectWikiPage) -and `
-                (($_ -eq "W") -or `
-                 ($_ -eq "$($projectInformation.GetProjectName()) Wiki"))}
+            # Load a Project into the Program
+            {(($_ -eq "L") -or `
+                ($_ -eq "Load") -or `
+                ($_ -eq "Load Project"))}
             {
-                # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($projectInformation.GetURLWiki,                  ` # Project's Wiki
-                                                            "$($projectInformation.GetProjectName()) Wiki"))    ` # Show page title
-                {
-                    # Alert the user that the web functionality did not successfully work as intended.
-                    [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
-                } # If : Failed to Provide Webpage
+                # Load a new project into the program's environment.
+                [ProjectInformation]::Load();
+
+
+                # Allow the user to read the results from the Project Information class
+                #   before refreshing the Main Menu screen.
+                [Logging]::GetUserEnterKey();
 
 
                 # Finished
                 break;
-            } # Access ZDoom project's Wiki
+            } # Load Project into Program
 
 
-            # Access the ZDoom project's Source Code Repository
-            #  NOTE: Allow the user's request when they type: '$project Source Code', '$project Source', as well as 'S'.
-            {($showMenuProjectSourceCode) -and `
-                (($_ -eq "S") -or `
-                 ($_ -eq "$($projectInformation.GetProjectName()) Source Code") -or `
-                 ($_ -eq "$($projectInformation.GetProjectName()) Source"))}
-            {
-                # Open the webpage as requested
-                if (![WebsiteResources]::AccessWebSite_General($projectInformation.GetURLSource(),                              ` # Project's Repository
-                                                            "$($projectInformation.GetProjectName()) Source Code Repository"))  ` # Show page title
-                {
-                    # Alert the user that the web functionality did not successfully work as intended.
-                    [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
-                } # If : Failed to Provide Webpage
-
-
-                # Finished
-                break;
-            } # Access ZDoom project's Repository
-
-
-            # Project Installer
-            #  NOTE: Allow the user's request when they type: 'Installer', 'Install', 'Project Installer',
-            #       'Install Project' as well as 'I'
-            {($_ -eq "Installer") -or `
-                ($_ -eq "Install") -or `
-                ($_ -eq "Project Installer") -or `
-                ($_ -eq "Project Install") -or `
-                ($_ -eq "Install Project") -or `
-                ($_ -eq "I")}
-                {
-                    # Open the Project Installer through the Project Manager
-                    [ProjectManager]::Main([ProjectManagerOperationRequest]::ShowMenu);
-
-
-                    # Finished
-                    break;
-                } # Install \ Update PSCAT Project
-
-
-            # Configure User Preferences
-            #  NOTE: Allow the user's request when they type: 'Settings', 'Preferences', as well as 'P'.
-            {($_ -eq "P") -or `
-                ($_ -eq "Settings") -or `
-                ($_ -eq "Preferences")}
-            {
-                # Open the Preferences Main Menu
-                [Settings]::Main();
-
-
-                # Finished
-                break;
-            } # Configure User Preferences
-
-
-            # Access the Help Program's Documentation
-            #  NOTE: Allow the user's request when they type: 'Help', 'Helpme', 'Help me', as well as '?'.
+            # Access the Program's Help Documentation
             {($_ -eq "?") -or `
                 ($_ -eq "help") -or `
                 ($_ -eq "helpme") -or `
@@ -443,11 +305,10 @@ class MainMenu
 
                 # Finished
                 break;
-            } # Help Program's Documentation
+            } # Program's Help Documentation
 
 
             # Access the Program's Bug Tracker
-            #  NOTE: Allow the user's request when they type: 'Report' or '#'.
             {($_ -eq "#") -or `
                 ($_ -eq "Report")}
             {
@@ -462,20 +323,16 @@ class MainMenu
 
                 # Finished
                 break;
-            } # Access Help Program's Documentation
+            } # Access Program's Help Documentation
 
 
             # Exit
-            #  NOTE: Allow the user's request when they type: 'Exit', 'Quit', as well as 'X'.
-            #         This can come handy if the user is in a panic - remember that the terminal
-            #         is intimidating for some which may cause user's to panic, and this can be
-            #         helpful if user's are just used to typing 'Exit' or perhaps 'Quit'.
             {($_ -eq "X") -or `
                 ($_ -eq "Exit") -or `
                 ($_ -eq "Quit")}
             {
-                # Exit
-                [Logging]::DisplayMessage("Terminating Software...");
+                # Notify the user that the program is now terminating.
+                [Logging]::DisplayMessage("Terminating $($GLOBAL:_PROGRAMNAME_)...");
 
                 # Return back to the menu
                 return $false;
@@ -507,123 +364,47 @@ class MainMenu
    <# Draw Menu: Determine Hidden Menus
     # -------------------------------
     # Documentation:
-    #  This function will determine what menus and options are to be displayed
-    #   to the user.  Menus can be considered hidden if a particular setting,
-    #   feature, or environment is not available to the user or is not considered
-    #   ready to be used.  This can happen if a parent feature had been disabled,
-    #   thus causes a sub-feature to be hidden from the user.
-    #  This helps to declutter the menu screen by hiding sub-menus from the user
-    #   in-which have no effect as the main feature is disabled or configured in
-    #   a way that has no real effect.
+    #  This function will determine what menu items are available to the user.
+    #   Because some options may not be available then do not present the item
+    #   to the user.
     # -------------------------------
     # Input:
-    #  [bool] (REFERENCE) Project's Homepage
-    #   Provides access to the project's Homepage.
-    #  [bool] (REFERENCE) Project's Wiki Page
-    #   Provides access to the project's Wiki page.
-    #  [bool] (REFERENCE) Project's Source Code
-    #   Provides access to the project's source code.
-    #  [bool] (REFERENCE) Build: Release
-    #   Provide access to the Build Release operation.
-    #  [bool] (REFERENCE) Build: Development
-    #   Provide access to the Build Development operation.
+    #  [bool] (REFERENCE) Show Menu Item: Compile Project
+    #   A flag that signifies if it is possible to compile the project.
+    #  [bool] (REFERENCE) Show Menu Item: Access Project's Webpage
+    #   A flag that signifies if it is possible to access the project's webpage.
     # -------------------------------
     #>
-    hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuProjectHomePage, `       # Project's Homepage
-                                                        [ref] $showMenuProjectWikiPage, `       # Project's Wiki Page
-                                                        [ref] $showMenuProjectSourceCode, `     # Project's Source Code
-                                                        [ref] $showMenuBuildRelease, `          # Build: Release
-                                                        [ref] $showMenuBuildDevelopment)        # Build: Development
+    hidden static [void] __DrawMenuDetermineHiddenMenus([ref] $showMenuBuildProject, `       # Project's Homepage
+                                                        [ref] $showMenuProjectWebpage)       # Project's Wiki Page
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Retrieve the current instance of the Project Information object; this contains details
-        #  in regards to where the source files exists within the user's system.
-        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
-        # ----------------------------------------
-
-
-
-
-        # Check Project
-        # - - - - - -
-        # We will inspect the Project Information available to determine if it is possible
-        #  to build the project or determine if we cannot build the project due to limited
-        #  to no useful data given.
-
-
-        # Build: Release - Visible
-        if ($projectInformation.GetProjectLoaded()) { $showMenuBuildRelease.Value = $true; }
-
-        # Build Release - Hidden
-        #   Limited or No Information Available.
-        else { $showMenuBuildRelease.Value = $false; }
-
-
-
-        # Build: Development - Visible
-        if ($projectInformation.GetProjectLoaded()) { $showMenuBuildDevelopment.Value = $true; }
-
-        # Build Development - Hidden
-        #   Limited or No Information Available.
-        else { $showMenuBuildDevelopment.Value = $false; }
-
-
-
-
-        # Check URLs
-        # - - - - - -
-        # We will only be able to check if the strings are empty.  If the string is populated,
-        #   then we will be able to use the URL.
-
-
-        # Project's Homepage - Visible
-        if (($projectInformation.GetProjectLoaded()) -and `
-            ((![CommonIO]::IsStringEmpty($projectInformation.GetURLWebsite())) -and `
-             ([WebsiteResources]::CheckSiteAvailability($projectInformation.GetURLWebsite(), $true))))
+        # CHECK PROJECT VARIABLES
+        # - - - - - - - - - - - - -
+        # Is a project loaded into the environment?
+        if ([ProjectInformation]::GetIsLoaded())
         {
-            $showMenuProjectHomePage.Value = $true;
-        } # if : Project's homepage - Visible
+            # Because a project is loaded, it is possible to compile a build of the project.
+            $showMenuBuildProject.Value = $true;
 
-        # Project's Homepage - Hidden
-        #   Limited or No Information Available.
+
+            # Project's Webpage is Available - Visible
+            if (([CommonIO]::IsStringEmpty([ProjectInformation]::GetProjectWebsite()) -eq $false) -and `
+                ([WebsiteResources]::CheckSiteAvailability([ProjectInformation]::GetProjectWebsite(), $true)))
+            { $showMenuProjectWebpage.Value = $true; }
+
+            # Project's Webpage is Hidden
+            else
+            { $showMenuProjectWebpage.Value = $false; }
+        } # if : Project is Loaded
+
+        # Project is not loaded into the environment.
         else
         {
-            $showMenuProjectHomePage.Value = $false;
-        } # else : Project's Homepage - Hidden
+            # Hide the ability to compile the project.
+            $showMenuBuildProject.Value = $false;
 
-
-
-        # Project's Wiki Page - Visible
-        if (($projectInformation.GetProjectLoaded()) -and `
-            ((![CommonIO]::IsStringEmpty($projectInformation.GetURLWiki())) -and `
-             ([WebsiteResources]::CheckSiteAvailability($projectInformation.GetURLWiki(), $true))))
-        {
-            $showMenuProjectWikiPage.Value = $true;
-        } # if : Project's Wiki Page - Visible
-
-        # Project's Wiki Page - Hidden
-        #   Limited or No Information Available.
-        else
-        {
-            $showMenuProjectWikiPage.Value = $false;
-        } # else : Project's Wiki Page - Hidden
-
-
-
-        # Project's Source Code: Visible
-        if (($projectInformation.GetProjectLoaded()) -and `
-            ((![CommonIO]::IsStringEmpty($projectInformation.GetURLSource()) -and `
-             ([WebsiteResources]::CheckSiteAvailability($projectInformation.GetURLSource(), $true)))))
-        {
-            $showMenuProjectSourceCode.Value = $true;
-        } # if : Project's Source Code - Visible
-
-        # Project's Source Code: Hidden
-        #   Limited or No Information Available.
-        else
-        {
-            $showMenuProjectSourceCode.Value = $false;
-        } # else : Project's Source Code - Hidden
+            # Hide the ability to access the project's webpage.
+            $showMenuProjectWebpage.Value = $false;
+        } # else: Project is not Loaded
     } # __DrawMenuDetermineHiddenMenus()
 } # MainMenu

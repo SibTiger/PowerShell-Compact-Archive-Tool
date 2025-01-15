@@ -155,7 +155,7 @@ function Printf
             $msgForeColor = "Green";
             Break;
         } # Successful
-        
+
         # --------------
 
         # Error
@@ -288,31 +288,13 @@ function MakeCompilerDriver
                         "CommonCUI.ps1", `
                         "CommonGUI.ps1", `
                         "UserExperience.ps1", `
-                        "CommonPowerShell.ps1", `
                         "ProgramFunctions.ps1", `
-                        "DefaultCompress.ps1", `
+                        "ArchiveZip.ps1", `
                         "ProjectInformation.ps1", `
-                        "UserPreferences.ps1", `
-                        "LoadSaveUserConfigs.ps1", `
                         "Logging.ps1", `
                         "SystemInformation.ps1", `
                         "WebsiteResources.ps1", `
                         "NotificationAudible.ps1", `
-                        "NotificationVisual.ps1", `
-                        "Settings.ps1", `
-                        "SettingsZip.ps1", `
-                        "SettingsProjectUserConfig.ps1", `
-                        "ProjectManager.ps1", `
-                        "ProjectManagerInstallation.ps1", `
-                        "ProjectManagerLoadProject.ps1", `
-                        "ProjectManagerCommon.ps1", `
-                        "ProjectManagerUninstall.ps1", `
-                        "ProjectManagerShowProjects.ps1", `
-                        "ProjectMetaData.ps1", `
-                        "ProjectUserConfig.ps1", `
-                        "ProjectUserConfigLoadSave.ps1", `
-                        "ProjectUserConfigSettings.ps1", `
-                        "BurntToast.ps1", `
                         "MainMenu.ps1", `
                         "Builder.ps1", `
                         "Clean.ps1", `
@@ -703,7 +685,7 @@ function Inspector
 
     # Display our table
     Printf 3 ($inspectorTable | Format-Table -AutoSize | Out-String);
-    
+
     # Tell the user how many Global Vars exists
     Printf 3 "Global Variables in use: $($inspectorTable.Count)";
 
@@ -816,7 +798,7 @@ function main
     {
         Printf 3 "Checking for existing $($GLOBAL:SCRIPTFILENAME) and thrashing it. . .";
     } # DEBUG MODE
-    
+
     # Check for existing script and delete it - if it exists
     if(ExistingFileProtocol)
     {

@@ -61,7 +61,7 @@ function main()
             {
                 # Change to the requested trace
                 $optTrace = 1;
-                
+
                 # Leave
                 Break;
             } # Trace: Statements
@@ -206,12 +206,12 @@ function Initialize()
     {
         # Turn off the PSDebug
         Set-PSDebug -Off;
-        
+
         # Leave the function
         return;
     } # If : PSDebug Disabled
 
-    
+
     # Is step enabled?
     if ($valueStep -eq $true)
     {

@@ -1,0 +1,89 @@
+# -------------------------------------------------------
+#             PowerShell Compact-Archive Tool
+#                      Project File
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Add this file to the root of your project source files.  With the fields populated below, you can unlock
+# features that are available in PSCAT.  Using a Project File is completely optional, but recommended to use
+# it as it gives more control to the developers and how the project will be compiled.
+#
+#
+# How this Works:
+#   - '#' at the start of each line marks as comment.  You are free to add comments into this file.
+#   - You will see variables like 'Project_Name_String=TGRDM3'.  The 'Project_Name_String' is a variable
+#       and the value is after the equal '=' sign.  PSCAT will read in those values and process them
+#       accordingly.
+#   - Some variables may have a 'Mandatory' flag, where they MUST be present and have a value.  Other
+#       variables may not be mandatory - making them purely optional.
+#   - Also, variables can be commented out.  Feel free to uncomment them and populate your own values.
+#       The values used in this file are purely for example sakes.
+#
+#
+# When a Project File is not found within the project's source files, PSCAT will auto assume the:
+#   - Project Name
+#   - Project Build Name
+# will be the same name as the directory that the project's source files resides.  For example:
+#   C:\Users\Admin\My_Projects\GZDoom\TGRDM3
+# Then both of the Project Name and Build Name will be 'TGRDM3' as that is the folder name containing the
+#   project's source files.
+#
+#
+# Cautionary Note:
+#   - PSCAT will ignore the Project File when:
+#       - It does not exist
+#       - Lacks a mandatory field with a value
+#       - Cannot be accessed or read properly
+#       - Project Name contains 33 characters or more
+#     When this happens, the directory name will instead be the Project Name as well as the Build Name.
+# -------------------------------------------------------
+
+
+
+
+# Project Name
+# ------------------
+# Type: String
+# Mandatory: Yes
+# Restrictions:
+#   - Must be populated
+#   - Must be 32 characters or less.
+# - - - - - - - - - -
+# This defines the project's name and will be shown in PSCAT.
+#   If a Build Name variable is missing or does not have value, then Build Name will
+#   carry the same name as the Project Name.
+#Project_Name_String=TGRDM3
+
+
+
+
+# Project Webpage
+# ------------------
+# Type: String
+# Mandatory: No
+# Restrictions:
+#   - None
+# - - - - - - - - - -
+# This will define the project's webpage and will be visible for the user to access through the PSCAT Main
+#   Menu after loading the project's source files.
+# This link will only work when:
+#   - The URL is valid
+#   - The user has a stable connection to the Wide-Area-Network (WAN) \ Internet
+#   - The site is accessible to the user.
+# If at least one of the conditions are not met, then the webpage link in the Main Menu will be hidden.
+#
+# This can be useful if you want to direct the maintainer, developer, or user to the project's release page
+#   or the location where it's source files are hosted on the internet, such as GitHub.
+#Project_Website_String=https://github.com/SibTiger/TGRDM3
+
+
+
+
+# Project Build Name
+# ------------------
+# Type: String
+# Mandatory: No
+# Restrictions:
+#   - Must be 32 characters or less.
+# - - - - - - - - - -
+# This will define the project's compiled filename.  If the filename is not given OR if the filename is 33
+# characters or more, than the 'Project Name' will be used instead.
+#Project_BuildName_String=TGRDM3

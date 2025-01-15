@@ -52,7 +52,6 @@
     Program Mode [integer value]
         0 = Normal mode; compile projects (Default)
         1 = Clean up mode; remove some generated data
-        2 = Deep clean up mode; removes all generated data
 
 .OUTPUTS
     Operation Return Code
@@ -64,7 +63,7 @@
 
 .EXAMPLE
     .\Launcher.ps1 (-ProgramMode n)
-        Where n, can be [0, 1, 2]
+        Where n, can be [0, 1]
         Please see Inputs for Program Mode options.
         Note that the -ProgramMode argument is optional.
         Example is: .\Launcher.ps1 -ProgramMode 0
@@ -111,10 +110,8 @@ param(
     #       Software runs normally, no changes.
     #   1 = Clean Up Mode
     #       Deletes all builds, logs, and report files.
-    #   2 = Deep Clean Up Mode
-    #       Deletes all builds, logs, report files, and user configuration.
     [Parameter(Mandatory=$false)]
-    [ValidateRange(0, 2)]
+    [ValidateRange(0, 1)]
     [byte]$programMode = 0
 ) # Startup Arguments
 

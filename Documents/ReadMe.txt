@@ -43,16 +43,6 @@ b. General Requirements
 
 
 
-c. Optional Requirements
-- - - - - - - - - - - -
-    1. BurntToast: 0.8.5
-                Provides Toast Notifications to the user.
-                    Webpage:    https://github.com/Windos/BurntToast
-                    License:    MIT
-                    Cost:       Free
-
-
-
 
 2) What is PowerShell Compact-Archive Tool
 --------------------------------------------------------------------
@@ -78,13 +68,12 @@ retained when the user returns back to the program.
 
 a. Compile the project's assets from the standard folder hierarchy into ZDoom's PK3 standard structure.
 b. Allow the ability to customize the archive data file attributes and compression level.
-c. Thoroughly verify the compiled file for potential issues.
-d. Capable of compiling developmental builds, to help differentiate between standard builds
+c. Capable of compiling developmental builds, to help differentiate between standard builds
     and development builds.
-e. Ability to generate reports of the project's repository and\or the compiled build
+d. Ability to generate reports of the project's repository and\or the compiled build
     providing detailed information.
-f. Simple integrations with the Windows Operating System environment.
-g. Using PowerShell Core's modern technologies and functionalities.
+e. Simple integrations with the Windows Operating System environment.
+f. Using PowerShell Core's modern technologies and functionalities.
 
 
 

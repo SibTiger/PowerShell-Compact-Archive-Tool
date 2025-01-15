@@ -5,7 +5,7 @@
 ;                                   |___| |_| \_| |_| \_|  \___/    |____/   \___|  \__|  \__,_| | .__/
 ;                                                                                                |_|
 ;   ____                    __   _                                  _     _                     ____           _
-;  / ___|   ___    _ __    / _| (_)   __ _   _   _   _ __    __ _  | |_  (_)   ___    _ __     |  _ \   _ __  (_) __   __   ___   _ __ 
+;  / ___|   ___    _ __    / _| (_)   __ _   _   _   _ __    __ _  | |_  (_)   ___    _ __     |  _ \   _ __  (_) __   __   ___   _ __
 ; | |      / _ \  | '_ \  | |_  | |  / _` | | | | | | '__|  / _` | | __| | |  / _ \  | '_ \    | | | | | '__| | | \ \ / /  / _ \ | '__|
 ; | |___  | (_) | | | | | |  _| | | | (_| | | |_| | | |    | (_| | | |_  | | | (_) | | | | |   | |_| | | |    | |  \ V /  |  __/ | |
 ;  \____|  \___/  |_| |_| |_|   |_|  \__, |  \__,_| |_|     \__,_|  \__| |_|  \___/  |_| |_|   |____/  |_|    |_|   \_/    \___| |_|
@@ -144,9 +144,6 @@
 
 ; Ask user to Create Desktop Shortcut
 #include ".\Scripts\Tasks\Desktop Shortcut.iss"
-
-; Ask user to Download Optional Dependencies
-#include ".\Scripts\Tasks\Optional Downloads.iss"
 
 ; Check for PowerShell Core Dependency
 #include ".\Scripts\Tasks\Check POSHCore.iss"

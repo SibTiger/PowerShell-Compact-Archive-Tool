@@ -1,4 +1,4 @@
-﻿<# PowerShell Compact-Archive Tool
+<# PowerShell Compact-Archive Tool
  # Copyright (C) 2025
  #
  # This program is free software: you can redistribute it and/or modify
@@ -674,27 +674,6 @@ class Logging
     #region Public Functions
 
 
-   <# Get Restrict Logging Functionality Controller
-    # -------------------------------
-    # Documentation:
-    #  This function will return the current value of the Restrict Logging Functionality
-    #   variable.  This will variable dictates if the logging features are to function
-    #   at the present time.
-    # -------------------------------
-    # Output:
-    #   [bool] Restrict Logging
-    #       $true = All logging functionalities are currently disabled.
-    #       $false = All logging functionalities are currently enabled.
-    # -------------------------------
-    #>
-    Static [bool] GetRestrictLogging()
-    {
-        return [Logging]::RestrictLogging;
-    } # GetRestrictLogging()
-
-
-
-
    <# Set Restrict Logging Functionality Controller
     # -------------------------------
     # Documentation:
@@ -838,110 +817,6 @@ class Logging
 
 
 
-   <# Allow Logging
-    # -------------------------------
-    # Documentation:
-    #  This function will provide the current status if the logging functionality, which
-    #   could be either enabled or disabled.
-    # -------------------------------
-    # Output:
-    #  [bool] Logging State
-    #   $false = Logging is currently disabled
-    #   $true = Logging is currently enabled
-    # -------------------------------
-    #>
-    static [bool] DebugLoggingState()
-    {
-        return $Global:_DEBUGLOGGING_;
-    } # DebugLoggingState()
-
-
-
-
-   <# Thrash Logs and Reports
-    # -------------------------------
-    # Documentation:
-    #  This function will expunge the log files that are currently present within the logging
-    #   directory.
-    # -------------------------------
-    # Output:
-    #  [bool] Exit code
-    #   $false = One or more operations failed.
-    #   $true = Successfully expunged the files.
-    #           OR
-    #           Logging directory was not found.
-    # -------------------------------
-    #>
-    Static [bool] ThrashLogs()
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [string[]] $extLogs     = @('*.log');   # Array of log extensions
-        [bool] $exitCode        = $false;       # Provides the exit code of the operation performed
-                                                #  within the function.
-        [bool] $controlLockKey  = $false;       # This will help to determine the lock status; wither
-                                                #  the 'Logging Lock Key' is being controlled by any of
-                                                #  the outside functions.
-        # ----------------------------------------
-
-
-        # Determine if the logging lock key had already been set by another function.
-        if ([Logging]::__GetLoggingLockKey())
-        {
-            # Another function had already placed a logging lock, do not manipulate the main lock.
-            $controlLockKey = $false;
-        } # if : Logging lock key controlled outside
-
-        # The logging lock is presently not locked; this function may control it.
-        else
-        {
-            # This function may control the logging lock.
-            $controlLockKey = $true;
-
-            # Lock the Logging functionality; this is required to avoid recursive calls.
-            [Logging]::__SetLoggingLockKey($true);
-        } # else : Logging lock key is controlled by this function
-
-
-        # First, make sure that the log directory exists.
-        #  If the directory is not available, then there is nothing that can be done.
-        if ([Logging]::__CheckRequiredDirectories() -eq $false)
-        {
-            # This is not really an error, however the logging directory simply does not
-            #  exist -- nothing can be done.
-            $exitCode = $false;
-        } # IF : Required Directory Exist
-
-
-        # Because the logging directory exist, lets try to thrash the log files.
-        elseif ([CommonIO]::DeleteFile([Logging]::ProgramLogPath, $extLogs) -eq $false)
-        {
-            # Failure to remove the requested files
-            $exitCode = $false;
-        } # Else-If : Failure to delete Program Logs
-
-        # The deletion operation was successful
-        else
-        {
-            # If we made it here, then everything went okay!
-            $exitCode = $true;
-        } # Else : Successfully deleted the files
-
-
-        # If this function is controlling the Logging Lock Key, unlock it now - before leaving.
-        if($controlLockKey)
-        {
-            # Because this function has the Logging Lock Key controlled, unlock it now to avoid conflicts.
-            [Logging]::__SetLoggingLockKey($false);
-        } # If : This function controls the logging lock key
-
-
-        return $exitCode;
-    } # ThrashLogs()
-
-
-
-
    <# Display Message
     # -------------------------------
     # Documentation:
@@ -968,13 +843,8 @@ class Logging
         [CommonIO]::WriteToBuffer($msg, $msgLevel, $false);
 
 
-        # Is the Debugging Functionality active?
-        #  If the functionality is deactivated - then we'ire finished at this point, otherwise proceed onwards by logging the message.
-        if ([Logging]::DebugLoggingState() -eq $true)
-        {
-            # Log the message to the logfile.
-            [Logging]::__FormatLogMessage($msgLevel, $msg, $null) | Out-Null;
-        } # IF : Debug Functionality Active
+        # Log the message to the logfile.
+        [Logging]::__FormatLogMessage($msgLevel, $msg, $null) | Out-Null;
     } # DisplayMessage()
 
 
@@ -1077,15 +947,6 @@ class Logging
                                     [string] $additionalInformation, `      # Additional information to be recorded
                                     [LogMessageLevel] $messageLevel)        # Severity of the message
     {
-        # Is the Debugging Functionality active?
-        #  If the functionality is deactivated - then abort any further actions, otherwise proceed onwards with the debugging procedure.
-        if ([Logging]::DebugLoggingState() -eq $false)
-        {
-            # Logging is presently deactivated; do not perform any debug operations.
-            return;
-        } # IF : Abort Debug Feature
-
-
         # Because we have the information already provided for us, we will merely pass the
         #  data to the appropriate functions to properly record it in the logfile.
         [Logging]::__FormatLogMessage($messageLevel, `
@@ -1114,12 +975,8 @@ class Logging
     static [void] WriteToLogFile([string] $filePath, `      # The absolute path of the logfile
                                 [ref] $msg)                 # The message to be written
     {
-        # If the logging functionality is enabled, write the information as requested.
-        if ([Logging]::DebugLoggingState())
-        {
-            # Logging is available presently, write the file as requested.
-            [CommonIO]::WriteToFile($filePath, $msg.Value.ToString()) | Out-Null;
-        } # If : Logging is enabled & available
+        # Logging is available presently, write the file as requested.
+        [CommonIO]::WriteToFile($filePath, $msg.Value.ToString()) | Out-Null;
     } # WriteToLogFile()
 
 
@@ -1147,7 +1004,8 @@ class Logging
                             "`t`tSYSTEM INFORMATION`r`n" + `
                             "==================================`r`n" + `
                             "Operating System: ---- $([SystemInformation]::OperatingSystem())`r`n" + `
-                            "PowerShell Edition: -- $([SystemInformation]::PowerShellEdition())`r`n" + `
+                            "Multiple Threads: ---- $([SystemInformation]::SupportMultipleThreads())`r`n" + `
+                            "PowerShell Version: -- $([SystemInformation]::PowerShellVersion())`r`n" + `
                             "Application PID: ----- $([SystemInformation]::ProcessID())`r`n" + `
                             "Working Directory: --- $([SystemInformation]::WorkingDirectoryPath())`r`n" + `
                             "Output Encoding: ----- $([SystemInformation]::OutputEncoding())");

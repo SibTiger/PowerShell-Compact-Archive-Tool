@@ -1,4 +1,4 @@
-﻿<# PowerShell Compact-Archive Tool
+<# PowerShell Compact-Archive Tool
  # Copyright (C) 2025
  #
  # This program is free software: you can redistribute it and/or modify
@@ -71,8 +71,8 @@ function main()
     [CommonIO]::SetTerminalWindowTitle("$($Global:_PROGRAMNAME_) (Version $($Global:_VERSION_))");
 
 
-    # Load the user's configurations, if available.
-    $loadSaveUserConfiguration.Load();
+    # Provide System and Environment Details
+    [Logging]::WriteSystemInformation();
 
 
     # Delay the program momentarily so the user can see the splash screen.
@@ -85,10 +85,6 @@ function main()
 
     # Execute the Main Menu; from here - the program will be entirely driven by User Interactions.
     $exitLevel = [MainMenu]::Main();
-
-
-    # Save the user's configurations before terminating the program.
-    $loadSaveUserConfiguration.Save();
 
 
     # Restore the Window Title back to it's state.
@@ -115,30 +111,6 @@ CreateDirectories | Out-Null;
 
 
 
-#region Instantiate Singletons
-
-# Initialize the User Preference object.
-[UserPreferences] $userPreferences = [UserPreferences]::GetInstance();
-
-
-# Initialize the dotNet Core Zip Archive object
-[DefaultCompress] $defaultCompress = [DefaultCompress]::GetInstance();
-
-
-# Initialize the Loading and Saving of User Configurations
-[LoadSaveUserConfiguration] $loadSaveUserConfiguration = `
-                                [LoadSaveUserConfiguration]::GetInstance();
-
-
-# Initialize the main Project Information object
-[ProjectInformation] $projectInformation = `
-                                [ProjectInformation]::GetInstance();
-
-#endregion
-
-
-
-
 #region Special Program Variables
 
 # This will contain all of the information stored within the pipe.  Now, I am using this
@@ -151,12 +123,11 @@ CreateDirectories | Out-Null;
 
 
 
-# Should the program launch in (Deep) Clean-Up mode?
-if (($programMode -gt 0) -and `
-    ($programMode -le 2))
+# Should the program launch in Clean-Up mode?
+if ($programMode -eq 1)
 {
-    # Launch the (deep) cleanup mode.
-    $returnState = clean -programMode $programMode;
+    # Launch the cleanup mode.
+    $returnState = clean;
 } # Clean-Up Mode
 
 # Run the application normally

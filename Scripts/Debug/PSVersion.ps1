@@ -99,7 +99,7 @@ function PSProcessWidthDisplay([Bool]$psWordWidth)
     # Used for displaying the results nicely to the user.
     Set-Variable -Name "detectedProcessNice";
     # -----------------------------------
-    
+
     # With the environment detected, determine the process environment
     #  and prepare to show the results to the user.
     if ($psWordWidth)

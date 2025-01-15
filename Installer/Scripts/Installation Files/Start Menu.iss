@@ -31,9 +31,6 @@ Name: "{group}\{#_PRODUCT_NAME_SHORT_}\{#_PRODUCT_NAME_FULL_}";              \
 Name: "{group}\{#_PRODUCT_NAME_SHORT_}\{#_PRODUCT_NAME_FULL_} - Clean";      \
     Filename: "{app}\Bootstrap\Clean.bat";
 
-Name: "{group}\{#_PRODUCT_NAME_SHORT_}\{#_PRODUCT_NAME_FULL_} - Deep Clean"; \
-    Filename: "{app}\Bootstrap\Deep Clean.bat";
-
 
 
 

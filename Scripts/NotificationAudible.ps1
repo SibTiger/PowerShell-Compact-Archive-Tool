@@ -230,30 +230,6 @@ class NotificationAudible
         # Try to play or provide the sound as necessary
         [System.Media.SystemSounds]::Hand.Play();
     } # __PlaySoundHand()
-
-
-
-
-
-   <# PLAY: Question Sound
-    # -------------------------------
-    # Documentation:
-    #  This will function will play the 'Question' notification provided by the
-    #   Operating System, if supported.
-    #
-    # Ideally to be played when a 'Question' had arisen to the user.
-    # Developer Note:
-    #  I do not think this is being used presently?  As of writing this function,
-    #   it really does virtually nothing useful.  Think of this as a Pointless Button
-    #   from the ASDF Movie on YouTube, it is exactly that.  Hmm
-    #   https://youtu.be/4aK3P-n1aWk
-    # -------------------------------
-    #>
-    static hidden [void] __PlaySoundQuestion()
-    {
-        # Try to play or provide the sound as necessary
-        [System.Media.SystemSounds]::Question.Play();
-    } # __PlaySoundQuestion()
 } # NotificationAudible
 
 

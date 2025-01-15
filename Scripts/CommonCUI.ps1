@@ -70,15 +70,6 @@ class CommonCUI
     #>
     static [void] DrawProgramTitleHeader()
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Retrieve the current instance of the Project Information object; this contains details
-        #  in regards to where the source files exists within the user's system.
-        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
-        # ----------------------------------------
-
-
-
         # Display the top border
         [Logging]::DisplayMessage([CommonCUI]::__borderDashLong);
         # -------------------------------------------------------------------
@@ -99,10 +90,9 @@ class CommonCUI
 
         # Display the current loaded project and its version information to the user.
         #  However, only if the project information is available.
-        if ($projectInformation.GetProjectLoaded())
+        if ([ProjectInformation]::GetIsLoaded())
         {
-            [Logging]::DisplayMessage("Project Loaded: $($projectInformation.GetProjectName()) [$($projectInformation.GetCodeName())]");
-            [Logging]::DisplayMessage("Project Compiler Version $($projectInformation.GetCompilerVersion())");
+            [Logging]::DisplayMessage("Project Loaded: $([ProjectInformation]::GetProjectName())");
         } # if : Project is Loaded
 
 
@@ -211,6 +201,25 @@ class CommonCUI
 
 
 
+   <# Show Instruction Header
+    # -------------------------------
+    # Documentation:
+    #  This function will display the 'Instruction' header to the user, showing that
+    #   the information coming after will be important when interacting with the program.
+    # -------------------------------
+    #>
+    static [void] ShowInstructionHeader()
+    {
+        # Display the word 'Instructions'.
+        [Logging]::DisplayMessage("Instructions:");
+
+        # Display a border
+        [Logging]::DisplayMessage([CommonCUI]::__borderDashLong);
+    } # ShowInstructionHeader()
+
+
+
+
    <# Compile Instructions
     # -------------------------------
     # Documentation:
@@ -224,17 +233,8 @@ class CommonCUI
     #>
     static [void] CompileInstructions()
     {
-        # Declarations and Initializations
-        # ----------------------------------------
-        # Retrieve the current instance of the Project Information object; this contains details
-        #  in regards to where the source files exists within the user's system.
-        [ProjectInformation] $projectInformation = [ProjectInformation]::GetInstance();
-        # ----------------------------------------
-
-
-
         # Display the common menu instructions
-        [Logging]::DisplayMessage("Please wait patiently as $($projectInformation.GetProjectName()) is being compiled. . .");
+        [Logging]::DisplayMessage("Please wait patiently as $([ProjectInformation]::GetProjectName()) is being compiled. . .");
 
         # Display a border
         [Logging]::DisplayMessage([CommonCUI]::__borderDashLong);
@@ -465,66 +465,6 @@ class CommonCUI
         # Program's Version Release Date
         [Logging]::DisplayMessage("Version Released Date:`r`n`t$($Global:_RELEASEDATE_)");
     } # DrawUpdateProgramInformation()
-
-
-
-
-   <# Draw Program About Information
-    # -------------------------------
-    # Documentation:
-    #  This function will provide basic information regarding the program.  This may prove to
-    #   be useful if the user would like to view the information if wanting to know:
-    #   - Program Name
-    #   - Program Version
-    #   - License
-    #   - Release Date
-    #   - Website Links
-    # -------------------------------
-    #>
-    static [void] DrawProgramAboutInformation()
-    {
-        # Clear the Terminal's output buffer
-        [CommonIO]::ClearBuffer();
-
-        # Display the Program Title
-        [CommonCUI]::DrawProgramTitleHeader();
-
-
-        # Show the user that they are at the Program's About Section
-        [CommonCUI]::DrawSectionHeader("About $($Global:_PROGRAMNAME_)");
-
-
-        # Display the information to the user
-        # Main Author and Developer of the Program
-        [Logging]::DisplayMessage("Main Author and Developer:`r`n`tNicholas Gautier - Nicholas.Gautier@Outlook.com");
-
-        # Name of the program
-        [Logging]::DisplayMessage("Program Name:`r`n`t$($Global:_PROGRAMNAME_)");
-
-        # Program's Version information
-        [Logging]::DisplayMessage("Program Version:`r`n`t$($Global:_VERSION_) - (Version Name: $($Global:_VERSIONNAME_))");
-
-        # Program's Version Release Date
-        [Logging]::DisplayMessage("Version Released Date:`r`n`t$($Global:_RELEASEDATE_)");
-
-        # Program's License
-        [Logging]::DisplayMessage("License:`r`n`t$($Global:_LICENSE_)");
-
-        # Program's Homepage
-        [Logging]::DisplayMessage("Homepage:`r`n`t$($Global:_PROGRAMSITEHOMEPAGE_)");
-
-        # Program's Source Code Repository
-        [Logging]::DisplayMessage("Source Code:`r`n`t$($Global:_PROGRAMSITESOURCEREPOSITORY_)");
-
-        # Program's Release Page
-        [Logging]::DisplayMessage("Downloads:`r`n`t$($Global:_PROGRAMSITEDOWNLOADS_)");
-
-        # Program's Wiki Page
-        [Logging]::DisplayMessage("Documentation:`r`n`t$($Global:_PROGRAMSITEWIKI_)");
-
-        # Install Path
-        [Logging]::DisplayMessage("Installation Path:`r`n`t$($Global:_SCRIPTPATH_)");
-    } # DrawProgramAbout()
 
 
 
