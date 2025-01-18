@@ -148,7 +148,7 @@ class MainMenu
         if ($showOptionWebpage)
         {
             [CommonCUI]::DrawMenuItem('H', `
-                                    "Access the project's, $([ProjectInformation]::GetProjectName()), webpage", `
+                                    "Access the project's, $([ProjectInformation]::GetProjectName()), webpage.", `
                                     [ProjectInformation]::GetProjectWebsite(), `
                                     $NULL, `
                                     $true);
@@ -173,7 +173,7 @@ class MainMenu
 
         # Help Documentation
         [CommonCUI]::DrawMenuItem('?', `
-                                "Help Documentation", `
+                                "Help documentation", `
                                 "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Wiki documentation online.", `
                                 $NULL, `
                                 $true);
