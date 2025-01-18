@@ -148,7 +148,7 @@ class MainMenu
         if ($showOptionWebpage)
         {
             [CommonCUI]::DrawMenuItem('H', `
-                                    "Access the project's, $([ProjectInformation]::GetProjectName()), webpage", `
+                                    "Access the project's, $([ProjectInformation]::GetProjectName()), webpage.", `
                                     [ProjectInformation]::GetProjectWebsite(), `
                                     $NULL, `
                                     $true);
@@ -163,9 +163,17 @@ class MainMenu
                                 $true);
 
 
+        # Update Program
+        [CommonCUI]::DrawMenuItem('U', `
+                                "Check for $($GLOBAL:_PROGRAMNAME_) updates.", `
+                                $GLOBAL:_PROGRAMSITEDOWNLOADS_, `
+                                $NULL, `
+                                $true);
+
+
         # Help Documentation
         [CommonCUI]::DrawMenuItem('?', `
-                                "Help Documentation", `
+                                "Help documentation", `
                                 "Access the $($GLOBAL:_PROGRAMNAMESHORT_) Wiki documentation online.", `
                                 $NULL, `
                                 $true);
@@ -286,6 +294,26 @@ class MainMenu
                 # Finished
                 break;
             } # Load Project into Program
+
+
+            # Check for program updates
+            {($_ -eq "U") -or `
+                ($_ -eq "Update") -or `
+                ($_ -eq "Update $($GLOBAL:_PROGRAMNAME_)") -or `
+                ($_ -eq "Update $($GLOBAL:_PROGRAMNAMESHORT_)")}
+            {
+                # Initiate the Update Protocol
+                if (![WebsiteResources]::AccessWebSite_Update($GLOBAL:_PROGRAMSITEDOWNLOADS_, `         # Program's Release Page
+                                                            "$($GLOBAL:_PROGRAMNAME_) Update Page"))    # Show Page Title
+                {
+                    # Alert the user that the web functionality did not successfully work as intended.
+                    [NotificationAudible]::Notify([NotificationAudibleEventType]::Error);
+                } # if : Failed to Open Webpage
+
+
+                # Finished
+                break;
+            } # Update Program
 
 
             # Access the Program's Help Documentation
