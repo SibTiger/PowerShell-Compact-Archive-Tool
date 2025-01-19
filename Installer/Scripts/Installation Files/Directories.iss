@@ -34,22 +34,6 @@ Name: "{localappdata}\{#_PRODUCT_NAME_FULL_}";          \
 
 
 
-; User's %AppData%
-; - - - - - - - - -
-; Contains application data that can be, within a domain infrastructure, transported from one system to another.
-;   Thus, allowing the user's data to be movable with the user needs as they see fit.
-Name: "{userappdata}\{#_PRODUCT_NAME_FULL_}";           \
-    flags: uninsalwaysuninstall;
-
-Name: "{userappdata}\{#_PRODUCT_NAME_FULL_}\Configs";   \
-    flags: uninsalwaysuninstall;
-
-Name: "{userappdata}\{#_PRODUCT_NAME_FULL_}\Projects";  \
-    flags: uninsalwaysuninstall;
-
-
-
-
 ; User's %UserProfile%\My Documents
 ; - - - - - - - - - - - - - - - - -
 ; All compiled builds will be stored within this location, given the user the fastest possible way to accessing
