@@ -1,5 +1,5 @@
 PowerShell Compact-Archive Tool (PSCAT)
-                 ReadMe
+                ReadMe
 =======================================
 ---------------------------------------
 
@@ -31,6 +31,10 @@ a. System Requirements
                             merely obituary.
                             ----
     3. Storage:             10 MB
+                            This is only dependent on the project that is being compiled.
+                            Some may require more resources than others, while others may
+                            only need far less.  As such, this suggested requirement is
+                            merely obituary.
     4. Video:               N\A
     4. Audio:               Preferred for notifications
 
@@ -48,16 +52,24 @@ b. General Requirements
 --------------------------------------------------------------------
 --------------------------------------------------------------------
 
-The PowerShell Compact-Archive Tool is a front-end tool that empowers the users to
-expeditiously compile their favorite ZDoom based mods from their respective repositories.
-While using this tool, the user can freely customize their settings that works for all
-possible projects -- no more needing to reconfigure their settings for multiple projects
-when instead their settings can be centralized. The user can save time and easily get
-their favorite project's compiled into their preferred compressed archive files. Further,
-this program allows the user to compile their favorite projects into PK3 (ZIP Format).
-Moreover, these options and more - are completely customizable to the user. Each setting
-and functionality is fully changeable within the Settings Menu of the program and are
-retained when the user returns back to the program.
+
+The PowerShell Compact-Archive Tool is a lightweight utility that allows any game designers to quickly
+compile their (G)ZDoom-based projects into a single PK3 compressed file, streamlining the packaging process
+and making it easier to distribute their hard work. This tool eliminates the need for game developers to
+manually create and manage complex build scripts for their projects.
+
+With just a few clicks from the Windows Start Menu to launch the tool, users can select their project,
+compile the project's assets into a PK3 file, and share their creation with the world. This tool is designed
+to be simple and efficient, making it ideal for both solo game designers and collaborative teams.
+
+One of the key features of the PowerShell Compact-Archive Tool is its "One Install for Many Projects"
+functionality. Meaning that once installed, this tool can compile any (G)ZDoom-based project, as long as the
+project's resources adhere to the ZDoom PK3 filesystem structure. No additional installations or
+modifications are required.
+
+By reducing the setup time and eliminating the need for custom compilers, the PowerShell Compact-Archive Tool
+empowers the game designers to focus on what matters most: creating really cool stuff and sharing their
+creations and ideas to the world.
 
 
 
@@ -66,14 +78,15 @@ retained when the user returns back to the program.
 --------------------------------------------------------------------
 --------------------------------------------------------------------
 
-a. Compile the project's assets from the standard folder hierarchy into ZDoom's PK3 standard structure.
-b. Allow the ability to customize the archive data file attributes and compression level.
-c. Capable of compiling developmental builds, to help differentiate between standard builds
-    and development builds.
-d. Ability to generate reports of the project's repository and\or the compiled build
-    providing detailed information.
-e. Simple integrations with the Windows Operating System environment.
-f. Using PowerShell Core's modern technologies and functionalities.
+
+a. Compile any (G)ZDoom-based game project into a single PK3 compressed file.
+b. Only need to install one version of PSCAT and can compile any (G)ZDoom-based project.
+c. Each project's can define its own special attributes by using a Project File.
+d. Terminal based program, which offers a lightweight experience.
+e. Using PowerShell Core's functionalities, requiring no additional external dependencies.
+f. Ability to use the Windows Graphical User Interface for some activities.
+g. Using PowerShell Core's built-in Microsoft.PowerShell.Archive to generate PK3 files.
+
 
 
 

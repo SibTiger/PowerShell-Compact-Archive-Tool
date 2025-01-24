@@ -3,37 +3,37 @@
 #                      Project File
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Add this file to the root of your project source files.  With the fields populated below, you can unlock
-# features that are available in PSCAT.  Using a Project File is completely optional, but recommended to use
-# it as it gives more control to the developers and how the project will be compiled.
+# features available in PSCAT.  Using a Project File is optional, but recommended, as it gives game designers
+# more control over how the project is compiled.
 #
 #
 # How this Works:
-#   - '#' at the start of each line marks as comment.  You are free to add comments into this file.
-#   - You will see variables like 'Project_Name_String=TGRDM3'.  The 'Project_Name_String' is a variable
-#       and the value is after the equal '=' sign.  PSCAT will read in those values and process them
-#       accordingly.
-#   - Some variables may have a 'Mandatory' flag, where they MUST be present and have a value.  Other
-#       variables may not be mandatory - making them purely optional.
-#   - Also, variables can be commented out.  Feel free to uncomment them and populate your own values.
-#       The values used in this file are purely for example sakes.
+#   - The '#' at the start of each line marks it as a comment.  You are free to add comments to this file.
+#   - You will see variables like Project_Name_String=TGRDM3.  The Project_Name_String is the variable,
+#       and the value appears after the '=' sign.  PSCAT will read these values and process them accordingly.
+#   - Some variables may have a 'Mandatory' flag, meaning they must be present and have a value.  Other
+#       variables are optional and can be left out.
+#   - Variables can also be commented out.  Feel free to uncomment them and populate them with your own
+#       values.  The values shown in this file are only examples.
 #
 #
-# When a Project File is not found within the project's source files, PSCAT will auto assume the:
-#   - Project Name
-#   - Project Build Name
-# will be the same name as the directory that the project's source files resides.  For example:
-#   C:\Users\Admin\My_Projects\GZDoom\TGRDM3
-# Then both of the Project Name and Build Name will be 'TGRDM3' as that is the folder name containing the
-#   project's source files.
+# When a Project File is not found in the project's source files, PSCAT will automatically assume that:
+#   - The Project Name
+#   - The Project Build Name
+# Will be the same as the directory name containing the project's source files.
+#   For example:
+#       C:\Users\Admin\My_Projects\GZDoom\TGRDM3
+# In this case, both the Project Name and Build Name will be 'TGRDM3', as it is the name of the folder
+#   containing the project's source files.
 #
 #
 # Cautionary Note:
-#   - PSCAT will ignore the Project File when:
+#   - PSCAT will ignore the Project File if:
 #       - It does not exist
-#       - Lacks a mandatory field with a value
-#       - Cannot be accessed or read properly
-#       - Project Name contains 33 characters or more
-#     When this happens, the directory name will instead be the Project Name as well as the Build Name.
+#       - It lacks a mandatory field with a value
+#       - It cannot be accessed or read properly
+#       - The Project Name contains 33 characters or more
+#     In such cases, the directory name will be used as both the Project Name and Build Name.
 # -------------------------------------------------------
 
 
