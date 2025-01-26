@@ -1,9 +1,34 @@
-Shortcut Name,Location [Public],Location [Single User],References Target File,References Target Location
-PowerShell Compact-Archive Tool,%ProgramData%\Microsoft\Windows\Start Menu\Programs\PowerShell Compact-Archive Tool\*,%AppData%\Microsoft\Windows\Start Menu\Programs\PowerShell Compact-Archive Tool\*,PSCAT.ps1,%ProgramFiles%\PowerShell Compact-Archive Tool\*
-Clean-Up,%ProgramData%\Microsoft\Windows\Start Menu\Programs\PowerShell Compact-Archive Tool\*,%AppData%\Microsoft\Windows\Start Menu\Programs\PowerShell Compact-Archive Tool\*,Clean.ps1,%ProgramFiles%\PowerShell Compact-Archive Tool\*
-Uninstall,%ProgramData%\Microsoft\Windows\Start Menu\Programs\PowerShell Compact-Archive Tool\*,%AppData%\Microsoft\Windows\Start Menu\Programs\PowerShell Compact-Archive Tool\*,Uninstall.ps1,%ProgramFiles%\PowerShell Compact-Archive Tool\*
-PSCAT License,%ProgramData%\Microsoft\Windows\Start Menu\Programs\PowerShell Compact-Archive Tool\*,%AppData%\Microsoft\Windows\Start Menu\Programs\PowerShell Compact-Archive Tool\*,License.txt,%ProgramFiles%\PowerShell Compact-Archive Tool\*
-PSCAT Releases Webpage,%ProgramData%\Microsoft\Windows\Start Menu\Programs\PowerShell Compact-Archive Tool\*,%AppData%\Microsoft\Windows\Start Menu\Programs\PowerShell Compact-Archive Tool\*,PSCAT Releases.lnk,%ProgramFiles%\PowerShell Compact-Archive Tool\Web\*
-PSCAT Documentation,%ProgramData%\Microsoft\Windows\Start Menu\Programs\PowerShell Compact-Archive Tool\*,%AppData%\Microsoft\Windows\Start Menu\Programs\PowerShell Compact-Archive Tool\*,PSCAT Documentation.lnk,%ProgramFiles%\PowerShell Compact-Archive Tool\Web\*
-PSCAT Repository,%ProgramData%\Microsoft\Windows\Start Menu\Programs\PowerShell Compact-Archive Tool\*,%AppData%\Microsoft\Windows\Start Menu\Programs\PowerShell Compact-Archive Tool\*,PSCAT Repository.lnk,%ProgramFiles%\PowerShell Compact-Archive Tool\Web\*
-PSCAT Development Forum,%ProgramData%\Microsoft\Windows\Start Menu\Programs\PowerShell Compact-Archive Tool\*,%AppData%\Microsoft\Windows\Start Menu\Programs\PowerShell Compact-Archive Tool\*,PSCAT Development Forum.lnk,%ProgramFiles%\PowerShell Compact-Archive Tool\Web\*
+Shortcut Name,Location,References Target File,References Target Location,,,,,,,,,,,,,,,,,,,
+PowerShell Compact-Archive Tool,%AppData%\Microsoft\Windows\Start Menu\Programs\PowerShell Compact-Archive Tool\PSCAT\,Bootstrap Loader.bat,%LocalAppData%\Local\Programs\PowerShell Compact-Archive Tool\Bootstrap\,,,,,,,,,,,,,,,,,,,
+PowerShell Compact-Archive Tool – Clean,%AppData%\Microsoft\Windows\Start Menu\Programs\PowerShell Compact-Archive Tool\PSCAT\,Clean.bat,%LocalAppData%\Local\Programs\PowerShell Compact-Archive Tool\Bootstrap\,,,,,,,,,,,,,,,,,,,
+ReadMe,%AppData%\Microsoft\Windows\Start Menu\Programs\PowerShell Compact-Archive Tool\Text\,ReadMe.txt,%LocalAppData%\Local\Programs\PowerShell Compact-Archive Tool\,,,,,,,,,,,,,,,,,,,
+License,%AppData%\Microsoft\Windows\Start Menu\Programs\PowerShell Compact-Archive Tool\Text\,LICENSE.txt,%LocalAppData%\Local\Programs\PowerShell Compact-Archive Tool\,,,,,,,,,,,,,,,,,,,
+PSCAT Forum,%AppData%\Microsoft\Windows\Start Menu\Programs\PowerShell Compact-Archive Tool\Websites\,-,-,,,,,,,,,,,,,,,,,,,
+PSCAT Homepage,%AppData%\Microsoft\Windows\Start Menu\Programs\PowerShell Compact-Archive Tool\Websites\,-,-,,,,,,,,,,,,,,,,,,,
+PSCAT Updates,%AppData%\Microsoft\Windows\Start Menu\Programs\PowerShell Compact-Archive Tool\Websites\,-,-,,,,,,,,,,,,,,,,,,,
+PSCAT Wiki,%AppData%\Microsoft\Windows\Start Menu\Programs\PowerShell Compact-Archive Tool\Websites\,-,-,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,, 
