@@ -19,13 +19,6 @@ By reducing the setup time and eliminating the need for custom compilers, the _P
 
 
 
-# Minimum Requirements
-1. [Microsoft Windows 7](https://www.microsoft.com) and later
-2. [PowerShell Core](https://github.com/PowerShell/PowerShell/releases) 7.2 and later
-3. Enough System RAM and Storage Space to compile their desired projects.
-
-
-
 # Documentation and Resources
 * [PowerShell Compact-Archive Tool Wiki](https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/wiki)
     * This contains up to date documentation of how the tool works and ways to take full adventage of features available.
