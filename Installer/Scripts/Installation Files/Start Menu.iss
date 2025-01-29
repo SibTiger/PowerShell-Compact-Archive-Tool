@@ -51,7 +51,7 @@ Name: "{group}\Websites\{#_PRODUCT_NAME_SHORT_} Homepage";                   \
 Name: "{group}\Websites\{#_PRODUCT_NAME_SHORT_} Updates";                    \
     Filename: "{#_PRODUCT_WEBSITE_UPDATES_}";
 
-Name: "{group}\Websites\{#_PRODUCT_NAME_SHORT_} Forum";                      \
+Name: "{group}\Websites\{#_PRODUCT_NAME_SHORT_} Discussion Board";           \
     Filename: "{#_PRODUCT_WEBSITE_COMMUNITY_}";
 
 Name: "{group}\Websites\{#_PRODUCT_NAME_SHORT_} Wiki";                       \
