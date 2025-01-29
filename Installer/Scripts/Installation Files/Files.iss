@@ -64,17 +64,4 @@ Source: "Installer\Product Assets\Graphic - Setup\Uninstall\Uninstall Icon.ico";
     DestDir: "{app}\Icons\";                                                        \
     Flags: confirmoverwrite touch;
 
-
-
-
-; Windows Toast Notifications
-; - - - - - - - - - - - - - -
-Source: "Installer\Product Assets\Windows Toast Notification\Logo.png";             \
-    DestDir: "{app}\Toast Notification\";                                           \
-    Flags: confirmoverwrite touch;
-
-Source: "Installer\Product Assets\Windows Toast Notification\Banner.png";           \
-    DestDir: "{app}\Toast Notification\";                                           \
-    Flags: confirmoverwrite touch;
-
 [/Files]
