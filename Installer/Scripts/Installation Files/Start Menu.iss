@@ -38,6 +38,9 @@ Name: "{group}\{#_PRODUCT_NAME_SHORT_}\{#_PRODUCT_NAME_FULL_} - Clean";      \
 Name: "{group}\Text\ReadMe";                                                 \
     Filename: "{app}\ReadMe.txt";
 
+Name: "{group}\Text\License";                                               \
+    Filename: "{app}\License.txt";
+
 
 
 

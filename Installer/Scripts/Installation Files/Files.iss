@@ -51,6 +51,11 @@ Source: "Documents\ReadMe.txt";     \
     DestDir: "{app}\";              \
     Flags: confirmoverwrite touch;
 
+Source: "LICENSE";                  \
+    DestDir: "{app}\";              \
+    DestName: "License.txt";        \
+    Flags: confirmoverwrite touch;
+
 
 
 
