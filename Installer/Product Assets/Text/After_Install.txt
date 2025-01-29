@@ -11,5 +11,5 @@ If help is required, check out the PowerShell Compact-Archive Tool's Wiki for fu
 
 
 If, however, a specific situation is not covered and requiring more technical assistance,
-    please try reaching out through the forums:
+    please try reaching out through the Discussion Board:
     - https://github.com/SibTiger/PowerShell-Compact-Archive-Tool/discussions/categories/q-a
