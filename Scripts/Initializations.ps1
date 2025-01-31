@@ -87,7 +87,7 @@ function InitializationProgramIdentity()
     # Version
     Set-Variable `
         -Name "_VERSION_" `
-        -Value "1.2.0 [Beta]" `
+        -Value "1.2.0" `
         -Scope Global `
         -Option ReadOnly `
         -Visibility Public `
@@ -110,7 +110,7 @@ function InitializationProgramIdentity()
     # Date Format: DD.MM.YYYY with leading zeros
     Set-Variable `
         -Name "_RELEASEDATE_" `
-        -Value "18.01.2025" `
+        -Value "31.01.2025" `
         -Scope Global `
         -Option ReadOnly `
         -Visibility Public `
